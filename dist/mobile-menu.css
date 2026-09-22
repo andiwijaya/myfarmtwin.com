@@ -1,0 +1,7 @@
+.menu-toggle{display:none;border:1px solid var(--line);background:transparent;border-radius:999px;width:42px;height:42px;padding:0;place-items:center}
+.hamburger{display:grid;gap:4px;width:17px}
+.hamburger i{display:block;height:1.5px;width:100%;background:var(--ink);transition:transform .2s,opacity .2s}
+.menu-toggle[aria-expanded="true"] .hamburger i:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
+.menu-toggle[aria-expanded="true"] .hamburger i:nth-child(2){opacity:0}
+.menu-toggle[aria-expanded="true"] .hamburger i:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
+@media(max-width:800px){.menu-toggle{display:grid}}
