@@ -286,7 +286,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 ### M0 — Audit, branch safety dan acceptance baseline (6)
 
 - [x] **M0-F01** — Audit live/remote/local branch; catat commit, perubahan uncommitted, deployment, baseline save dan cara rollback. Jangan menimpa pekerjaan lain.
-- [ ] **M0-F02** — Petakan engine tick/commands, renderer world, Market, Inventory, ledger, missions dan save validator agar Chicken memakai core yang sama.
+- [x] **M0-F02** — Petakan engine tick/commands, renderer world, Market, Inventory, ledger, missions dan save validator agar Chicken memakai core yang sama.
 - [ ] **M0-F03** — Jalankan semua baseline checks existing (`lint`, `typecheck`, `test`, `build`, `e2e`, dll. yang tersedia); dokumentasikan failures existing vs regresi.
 - [ ] **M0-F04** — Buat checkpoint/working branch aman dan fixtures sanitasi `saveVersion=1`; catat hash/config terkait data pengguna tanpa menyalin data asli pribadi.
 - [ ] **M0-F05** — Putuskan layout area Chicken Yard dan visual low-cost yang konsisten; siapkan asset inventory/licensing dan uji dukungan mobile.
