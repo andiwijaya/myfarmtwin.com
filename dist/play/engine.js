@@ -72,7 +72,7 @@ export function dispatch(input,command){
   case 'water':{
    const plot=state.plots.find(p=>p.id===command.plot);if(!plot)return reject('invalidPlot');if(plot.lastWaterTick===state.tick)return reject('alreadyWatered');if(plot.soilWaterMm/plot.soilCapacityMm>=.9)return reject('alreadyWet');
    const amount=Math.min(WATER.amountMm,plot.soilCapacityMm-plot.soilWaterMm),cost=state.careCredits>0?0:WATER.coinCost;if(state.water<amount)return reject('noWater');if(state.coins<cost)return reject('noCoins');
-   if(state.careCredits>0)state.careCredits--;plot.soilWaterMm+=amount;plot.waterAppliedMm+=amount;plot.careCost+=cost;plot.lastWaterTick=state.tick;state.water-=amount;transact(state,'water_cost',-cost,command.id+':water');state.stats.watered++;if(plot.crop)state.stats.cared++;events.push({type:'watered',plot:plot.id,amount});break;
+   if(state.careCredits>0)state.careCredits--;plot.soilWaterMm+=amount;plot.waterAppliedMm+=amount;plot.careCost+=cost;plot.lastWaterTick=state.tick;state.water-=amount;transact(state,'water_cost',-cost,command.id+':water');state.stats.watered++;if(plot.crop){state.stats.cared++;if(state.weather==='hot')state.stats.hotCare++;}events.push({type:'watered',plot:plot.id,amount});break;
   }
   case 'plant':{
    const plot=state.plots.find(p=>p.id===command.plot);if(!plot)return reject('invalidPlot');if(plot.crop)return reject('occupied');

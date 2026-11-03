@@ -145,3 +145,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M4-F05 | PASS | 36/59 (61.0%)
 
 2026-11-03T06:43:27+00:00 — Three persistent feasible orders consume exact portions and pay market+bonus once; locked/missing/repeated/invalid paths tested; browser second crop delivers salad order on desktop/mobile.
+
+## M4-F06 | PASS | 37/59 (62.7%)
+
+2026-11-03T06:45:22+00:00 — Optional current-weather advice explains actual rain/hot effects and selects a relevant bed; hot-care counts only real watering; desktop/mobile and full slice/order regression pass.
