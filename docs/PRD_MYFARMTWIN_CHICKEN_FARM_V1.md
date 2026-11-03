@@ -303,7 +303,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 - [x] **M1-F05** — Tambahkan feeder, drinker, dan titik cleanup yang bisa dipilih; fokus/label konsisten.
 - [x] **M1-F06** — Bangun panel tindakan kontekstual `Feed`, `Water`, `Clean`, `Collect Eggs` dengan state disabled + alasan yang benar.
 - [x] **M1-F07** — Implement dan uji view Chicken ↔ Field, rotate, zoom, pan dan Reset View sesuai §2.2 pada desktop, keyboard dan touch mobile <=390px/landscape; picking dan build crop/Chicken tetap akurat, save aman.
-- [ ] **M1-F08** — Localize seluruh alur Chicken (EN/ID), fallback bahasa, screen reader labels, helpful empty states.
+- [x] **M1-F08** — Localize seluruh alur Chicken (EN/ID), fallback bahasa, screen reader labels, helpful empty states.
 
 **M1 gate:** area dapat dibuka & ditutup, ayam/objek terlihat, tombol bisa dipilih; belum boleh mengklaim produksi telur berjalan.
 

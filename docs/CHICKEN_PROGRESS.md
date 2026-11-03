@@ -53,3 +53,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M1-F07 | PASS | 13/58 (22.4%)
 
 2026-11-03T13:45:22+00:00 — Per-area4-angle rotation/zoom/pan/reset, keyboard+real CDP touch+landscape EN-ID pass; camera save exact; crop picking/paid expansion atall4 angles pass.49 units+full crop/data regression pass; depth/input/mobile occlusion fixes reviewed.
+
+## M1-F08 | PASS | 14/58 (24.1%)
+
+2026-11-03T14:01:03+00:00 — All Chicken UI/ARIA/empty/camera/weather hints EN-ID; preference reload and invalid-language fallback pass.320/390/1440+landscape8 surfaces including all-angle touch picking pass; exact save preserved. M1 presentation gate complete, no production change.

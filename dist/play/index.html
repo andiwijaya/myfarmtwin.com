@@ -10,7 +10,7 @@
  <script type="module" src="./main.js"></script>
 </head>
 <body>
- <a class="skip-link" href="#farm">Skip to farm</a>
+ <a class="skip-link" href="#farm" data-i18n="skipFarm">Skip to farm</a>
  <header class="game-header">
   <a class="brand" href="/" aria-label="MyFarmTwin home"><span class="brand-leaf" aria-hidden="true">✦</span>My<span>Farm</span>Twin</a>
   <span class="edition" data-i18n="edition">THE LITTLE FARM</span>
@@ -41,7 +41,7 @@
    <button id="close-plot" class="close-panel" type="button" data-i18n="close">Close</button>
   </section>
   <section id="chicken-panel" class="chicken-panel" aria-labelledby="chicken-heading" hidden><div class="chicken-panel-heading"><h2 id="chicken-heading"></h2><button id="close-chicken" class="close-panel" type="button" data-i18n="close">Close</button></div><dl id="chicken-status" class="chicken-status"></dl><div id="chicken-actions" class="chicken-actions"></div></section>
-  <div class="game-settings"><button id="graphics" type="button" aria-pressed="false" data-i18n="lowGraphics">Low graphics</button><span data-i18n="mapHint">Tap a bed, or use the plot buttons. Drag to explore.</span></div>
+  <div class="game-settings"><button id="graphics" type="button" aria-pressed="false" data-i18n="lowGraphics">Low graphics</button><span id="map-hint" data-i18n="mapHint">Tap a bed, or use the plot buttons. Drag to explore.</span></div>
   <p class="local-note" data-i18n="local">No account. Just you, a little land, and a fresh start.</p>
   <p id="save-status" class="save-status" role="status"></p>
   <details id="data-tools" class="data-tools"><summary data-i18n="saveTools">Save & data</summary><div class="data-actions"><button id="export-save" class="action-button" type="button" data-i18n="exportSave">Export save</button><label class="action-button file-button"><span data-i18n="importSave">Import save</span><input id="import-save" class="sr-only" type="file" accept=".json,application/json" aria-label="Import save"></label><button id="restore-backup" class="action-button" type="button" data-i18n="restoreBackup" hidden>Restore backup</button><button id="reset-save" class="action-button" type="button" data-i18n="resetFarm">Reset farm</button><button id="export-original" class="action-button" type="button" data-i18n="exportOriginal" hidden>Export stored original</button></div><p id="data-message" role="status"></p></details>
@@ -50,5 +50,5 @@
  <dialog id="market-dialog" aria-labelledby="market-heading"><div class="dialog-heading"><div><p class="eyebrow" data-i18n="farmToMarket">FROM FARM TO MARKET</p><h2 id="market-heading" data-i18n="marketTitle">Market</h2></div><button id="close-market" type="button" class="close-panel" data-i18n="close">Close</button></div><p class="market-note" data-i18n="gamePrices">Fictional game Coins. Your care shapes harvest value.</p><div id="market-lots"></div><div id="market-orders"></div><div id="market-shop"></div></dialog>
  <dialog id="data-confirm" aria-labelledby="data-confirm-title"><h2 id="data-confirm-title"></h2><p id="data-confirm-copy"></p><div class="data-actions"><button id="data-cancel" class="action-button" type="button" autofocus data-i18n="cancel">Cancel</button><button id="data-apply" class="action-button primary" type="button" data-i18n="confirmReplace">Replace farm</button></div></dialog>
  <dialog id="inspect-dialog" aria-labelledby="inspect-heading"><div class="dialog-heading"><div><p class="eyebrow" data-i18n="engineeringLab">ENGINEERING LAB</p><h2 id="inspect-heading">Plot 1</h2></div><button id="close-inspect" type="button" class="close-panel" data-i18n="close">Close</button></div><p class="market-note" data-i18n="inGameEstimate">In-game estimates at current conditions; weather and soil will change.</p><dl id="inspect-values" class="inspect-values"></dl><h3 class="inspect-subtitle" data-i18n="whyThisHappens">Why this happens</h3><ul id="inspect-reasons" class="inspect-reasons"></ul><details id="inspect-trend-panel" class="inspect-details"><summary data-i18n="recentTrends">Recent trends</summary><div id="inspect-trends"></div></details><details id="model-disclosure" class="inspect-details"><summary data-i18n="aboutModel">About this model</summary><p data-i18n="modelLimits"></p><p data-i18n="modelUnits"></p><p data-i18n="modelBalance"></p><p data-i18n="modelAssumptions"></p></details></dialog>
- <noscript>This farm needs JavaScript. You can still <a href="/">explore the journal</a>.</noscript>
+ <noscript>This farm needs JavaScript / Farm ini membutuhkan JavaScript. <a href="/">Home / Beranda</a>.</noscript>
 </body></html>
