@@ -73,3 +73,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M2-F04 | PASS | 18/58 (31.0%)
 
 2026-11-03T14:26:42+00:00 — 57 tests, typecheck and build pass; shared-tank fractional transfers conserve water, replay/full/empty guards are atomic.
+
+## M2-F05 | PASS | 19/58 (32.8%)
+
+2026-11-03T14:27:51+00:00 — 59 tests, typecheck/build pass; hourly grams/litres, heat/shade, empty stocks, pause and 24-tick equivalence preserve crop RNG.
