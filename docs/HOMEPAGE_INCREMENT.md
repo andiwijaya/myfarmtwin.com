@@ -1,6 +1,6 @@
-# Single live-game card — local follow-on
+# Single live-game card — production follow-on
 
-Status: locally implemented and verified; not pushed or deployed. Branch `homepage-live-game`, based on completed release/report main `ddec51008a1fba48fb014744d525743a78cd01d3`. V1 was completed and publicly verified before this increment began. Publication of this follow-on remains pending an explicit decision.
+Status: published and live-tested after the user's explicit deployment approval. The tested `homepage-live-game` candidate `def03f2846301d184691caefd73906e3ae90749a` was fast-forwarded into clean, synchronized main and pushed without force. V1 was completed and publicly verified before this follow-on began. The previous release/report main was `ddec51008a1fba48fb014744d525743a78cd01d3`.
 
 ## Result
 
@@ -26,8 +26,18 @@ The entire card is one accessible link, usable by touch, mouse and keyboard. All
 
 Current evidence outside Git: `task-2/qa/homepage-card/homepage.json`, `home-{en,id}-{390,1440}.png`, `regression/latest.json` and `regression/seo-regression.json`. The original live audit is `task-2/qa/homepage/live-before.json`. No QA screenshots/cache are committed.
 
-## Review and publication boundary
+## Production publication and live tests
 
-Run `npm run preview` in `C:\MyFarmTwin` and open http://127.0.0.1:4177/. Automated preview servers stop after verification. All changes are committed locally on `homepage-live-game`. Production remains the verified V1 source `c900724` / deployment `d364b762-306e-4503-b73b-c733b333e550`, with remote main at report-only `ddec510`.
+Live URL: https://myfarmtwin.com/. Exact canonical production source: `def03f2846301d184691caefd73906e3ae90749a`. Cloudflare deployment: `fb9344f5-49a4-4284-ba96-42260809534d`, successful 2026-11-03 09:05:50 UTC / 16:05:50 WIB. Immutable URL: https://fb9344f5.myfarmtwin-com.pages.dev/.
 
-The prior request for deployment approval has not been answered. The user's refinement requested a simpler card; it did not approve publishing. No homepage push/deployment has been attempted. There is no technical blocker. To return to the published source locally, switch to clean `main`; browser saves remain independent and are retained.
+Live Chromium checks passed at desktop 1440×1000 and touch-mobile 390×844 in EN and ID. Exactly one card/game link/image; no FarmGirl markup, metadata or network request from the homepage; no overflow; play action above the fold; browser locale preference switch/reload; mouse/touch and keyboard entry; visible game scene; planted farm save byte-identical through homepage, language changes, reload, game re-entry and return home. Zero uncaught errors. These use new isolated browser contexts, never the user's real browser profile or stored farm.
+
+All 37 public production resource bodies match the exact Git candidate. Nine routes, canonical/OG/sitemap/internal links, new social PNG and 15 homepage/editorial layout/navigation surfaces pass. The game security policy remains unchanged and active: actual headers and no-transform present; zero external game requests or policy errors; core actions/Inspect work; malicious import is rejected with existing save retained. Full production desktop/mobile game/save/recovery/data/black-box regression passed after this deployment. Physical Android/human timing remain unmeasured; mobile results are Chromium touch emulation.
+
+Production evidence outside Git: `task-2/qa/homepage-live/homepage-live.json`, `desktop-{en,id}.png`, `mobile-{en,id}.png`, `deployment.json`, and `regression/{live-integrity,seo-regression,security,latest,vertical-slice}.json`. Public screenshots were visually reviewed. No user data, QA screenshots or caches are committed.
+
+This rollout used the existing GitHub main → Cloudflare Pages pipeline with no GitHub Actions, force push, nameserver, hosting/account/security-setting change or additional runtime dependency. Final report-only synchronization uses the documented `[CF-Pages-Skip]` commit prefix and changes no production assets; it does not redeploy the site. There are no remaining technical blockers.
+
+Rollback target: prior verified production `d364b762-306e-4503-b73b-c733b333e550` / source `c90072450cca37d7dbcff6bc53b0265da6e01236`, or revert homepage presentation files and deploy through the existing pipeline. Browser saves remain separate and must be retained.
+
+For local review, run `npm run preview` in `C:\MyFarmTwin` and open http://127.0.0.1:4177/. Automated preview servers are stopped after verification.
