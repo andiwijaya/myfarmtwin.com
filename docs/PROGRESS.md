@@ -49,3 +49,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M1-F06 | PASS | 12/59 (20.3%)
 
 2026-11-03T05:58:09+00:00 — Bilingual Day/Coins/Water/Mission/Inventory HUD and time controls visible; starter inventory opens/closes desktop/mobile without overflow; all checks pass.
+
+## M1-F07 | PASS | 13/59 (22.0%)
+
+2026-11-03T05:59:11+00:00 — Approved FarmGirl portrait loads, concise guide can hide/reopen without blocking plot input; EN/ID and desktop/mobile regression/typecheck/build pass.

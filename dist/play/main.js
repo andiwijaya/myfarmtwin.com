@@ -5,6 +5,9 @@ import {STARTER} from './config.js';
 const language=/** @type {HTMLSelectElement} */(document.querySelector('#language'));
 const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
 /** @type {number|null} */let selected=null;
+let guideExpanded=true;
+function renderGuide(){el('mission-detail').hidden=!guideExpanded;el('guide-portrait').hidden=!guideExpanded;el('guide-toggle').textContent=t(guideExpanded?'hideGuide':'showGuide');el('guide-toggle').setAttribute('aria-expanded',String(guideExpanded));}
+el('guide-toggle').addEventListener('click',()=>{guideExpanded=!guideExpanded;renderGuide();});
 function renderSelection(){
  panel.hidden=selected===null;
  document.querySelectorAll('[data-plot]').forEach(p=>{const active=Number(p.getAttribute('data-plot'))===selected;p.classList.toggle('selected',active);p.setAttribute('aria-pressed',String(active));});
@@ -18,7 +21,7 @@ document.addEventListener('plotselect',event=>{const id=/** @type {CustomEvent<n
 el('close-plot').addEventListener('click',closePlot);
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closePlot();});
 language.value=getLocale();
-language.addEventListener('change',()=>{setLocale(language.value);translate();renderWorld();renderSelection();});
+language.addEventListener('change',()=>{setLocale(language.value);translate();renderWorld();renderSelection();renderGuide();});
 translate();
 renderWorld();
 el('hud-coins').textContent=String(STARTER.coins);el('hud-water').textContent=String(STARTER.water);el('hud-seeds').textContent=String(STARTER.seeds);

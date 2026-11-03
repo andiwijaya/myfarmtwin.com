@@ -40,6 +40,7 @@ try{
    }
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);report.checks.push({device:name,gameEntry:true,localeResume:true});
    if(await page.locator('.hud').count()){assert.equal(await page.locator('#hud-coins').innerText(),'120');await page.locator('.inventory summary').click();assert.equal(await page.locator('#hud-seeds').innerText(),'3');await page.locator('.inventory summary').click();assert.equal(await page.locator('#mission-title').isVisible(),true);}
+   if(await page.locator('#guide-toggle').count()){assert.equal(await page.locator('#guide-portrait').evaluate(i=>i.complete&&i.naturalWidth>0),true);await page.locator('#guide-toggle').click();assert.equal(await page.locator('#mission-detail').isVisible(),false);await page.locator('[data-choose-plot="0"]').click();assert.equal(await page.locator('#plot-panel').isVisible(),true);await page.locator('#guide-toggle').click();assert.equal(await page.locator('#mission-detail').isVisible(),true);}
   }
   await page.screenshot({path:join(qa,name+'-latest.png'),fullPage:true});
   report.checks.push({device:name,homepage:true,editorialRoutes:9,overflow:false});await context.close();
