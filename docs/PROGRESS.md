@@ -185,3 +185,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M6-F01 | PASS | 46/59 (78.0%)
 
 2026-11-03T07:14:43+00:00 — Optional Inspect shows actual moisture/mm/weather/growth/quality/applied water/allocated care and labelled snapshot estimates; cost allocation/estimate tests and modal Escape desktop/mobile pass with full regression.
+
+## M6-F02 | PASS | 47/59 (79.7%)
+
+2026-11-03T07:17:38+00:00 — ID/EN causal copy follows actual soil/rain/heat/pump range/ON/OFF/efficiency; headless scenarios and bilingual Inspect browser checks pass with full regression.
