@@ -1,7 +1,8 @@
 import {getLocale,setLocale,translate,t} from './locales.js';
 import {renderWorld,initialPlots} from './world.js';
 import {el} from './dom.js';
-import {STARTER} from './config.js';
+import {createState,dispatch} from './engine.js';
+/** @type {import('./engine.js').State} */let state=createState();
 const language=/** @type {HTMLSelectElement} */(document.querySelector('#language'));
 const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
 /** @type {number|null} */let selected=null;
@@ -20,12 +21,15 @@ function renderSelection(){
  el('plot-status').textContent=t('emptyBed');
 }
 function closePlot(){const old=selected;selected=null;renderSelection();if(old!==null){const button=/** @type {HTMLButtonElement|null} */(document.querySelector(`[data-choose-plot="${old}"]`));button?.focus();}}
-document.addEventListener('plotselect',event=>{const id=/** @type {CustomEvent<number>} */(event).detail;if(!Number.isInteger(id)||!initialPlots.some(p=>p.id===id))return;selected=id;renderSelection();});
+document.addEventListener('plotselect',event=>{const id=/** @type {CustomEvent<number>} */(event).detail;if(!Number.isInteger(id)||!state.plots.some(p=>p.id===id))return;selected=id;renderSelection();});
 el('close-plot').addEventListener('click',closePlot);
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closePlot();});
 language.value=getLocale();
-language.addEventListener('change',()=>{setLocale(language.value);translate();renderWorld();renderSelection();renderGuide();});
-translate();
-renderWorld();
-renderGraphics();
-el('hud-coins').textContent=String(STARTER.coins);el('hud-water').textContent=String(STARTER.water);el('hud-seeds').textContent=String(STARTER.seeds);
+language.addEventListener('change',()=>{setLocale(language.value);render();});
+function render(){translate();renderWorld(state.plots);renderSelection();renderGuide();renderGraphics();el('hud-day').textContent=String(Math.floor(state.tick/24)+1);el('hud-coins').textContent=String(state.coins);el('hud-water').textContent=String(state.water);el('hud-seeds').textContent=String(state.seeds.lettuce+state.seeds.tomato);el('pause').textContent=t(state.paused?'playClock':'pause');el('speed').textContent=state.speed+'×';}
+/** @param {import('./engine.js').CommandType} type */
+function send(type){const result=dispatch(state,{id:state.revision+1,type});if(result.ok){state=result.state;render();}else el('notice').textContent=t(result.error);}
+el('next-day').addEventListener('click',()=>send('nextDay'));el('pause').addEventListener('click',()=>send('pause'));el('speed').addEventListener('click',()=>send('speed'));
+setInterval(()=>{if(!state.paused&&!document.hidden){for(let i=0;i<state.speed;i++)send('tick');}},3000);
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&!state.paused)send('pause');});
+render();

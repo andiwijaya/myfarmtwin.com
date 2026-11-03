@@ -57,3 +57,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M1-F08 | PASS | 14/59 (23.7%)
 
 2026-11-03T06:00:03+00:00 — Low mode toggles/persists and keeps plot actions usable; Chromium launched with WebGL disabled still renders/selects farm on desktop/mobile; all checks pass.
+
+## M2-F01 | PASS | 15/59 (25.4%)
+
+2026-11-03T06:03:07+00:00 — Headless seeded 480-hour replay identical, immutable input/stale command/pause tests pass; desktop/mobile Next Day updates HUD and clock/speed controls; full checks pass.

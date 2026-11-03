@@ -1,5 +1,6 @@
 import {t} from './locales.js';
 import {bindCamera} from './camera.js';
+import {INITIAL_PLOTS} from './config.js';
 const NS='http://www.w3.org/2000/svg';
 /** @param {number} x @param {number} y */
 export const iso=(x,y)=>({x:450+(x-y)*44,y:82+(x+y)*22});
@@ -8,9 +9,9 @@ function node(name,attrs,parent){const el=document.createElementNS(NS,name);for(
 /** @param {number} x @param {number} y @param {number} w @param {number} h */
 const diamond=(x,y,w=43,h=21)=>`${x},${y-h} ${x+w},${y} ${x},${y+h} ${x-w},${y}`;
 /** @typedef {{id:number,x:number,y:number}} WorldPlot */
-/** @type {WorldPlot[]} */
-export const initialPlots=[{id:0,x:2,y:3},{id:1,x:3,y:3},{id:2,x:4,y:3}];
-/** @param {WorldPlot[]} [plots] */
+/** @type {readonly WorldPlot[]} */
+export const initialPlots=INITIAL_PLOTS;
+/** @param {readonly WorldPlot[]} [plots] */
 export function renderWorld(plots=initialPlots){
  const host=/** @type {HTMLElement} */(document.querySelector('#world'));host.replaceChildren();
  const svg=node('svg',{viewBox:'0 0 900 540',class:'farm-scene',role:'img','aria-label':t('farmMap')},host);
