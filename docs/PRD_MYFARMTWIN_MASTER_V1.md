@@ -207,7 +207,7 @@ myfarmtwin.com/
 ### M0 — Audit, baseline, dan safety gate
 
 - [x] **M0-F01 — Audit repo local + remote.** Verifikasi path local yang benar, branch, status Git, README, struktur, scripts, dependensi, serta deploy config; catat keputusan di `docs/M0_AUDIT.md`.
-- [ ] **M0-F02 — Audit production dan rute.** Screenshot homepage desktop+mobile; uji semua navigasi existing; catat canonical/sitemap/robots/GA4/asset dan baseline console errors tanpa mengubahnya.
+- [x] **M0-F02 — Audit production dan rute.** Screenshot homepage desktop+mobile; uji semua navigasi existing; catat canonical/sitemap/robots/GA4/asset dan baseline console errors tanpa mengubahnya.
 - [ ] **M0-F03 — Safe build/publish plan.** Buktikan build game terisolasi tidak menghapus/mengganti `dist/index.html`, `dist/styles.css`, atau rute konten. Tes dengan snapshot/hashes atau integration test.
 - [ ] **M0-F04 — Engineering ADR.** Pilih sub-app framework/build dan render fallback yang paling sederhana setelah audit; tulis trade-off, ukuran bundle budget, dan browser target.
 - [ ] **M0-F05 — Baseline test harness.** Buat scripts local untuk lint/typecheck/build/unit/e2e/smoke (sesuai stack) tanpa membutuhkan GitHub Actions minutes.

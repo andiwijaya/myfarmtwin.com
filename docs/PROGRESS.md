@@ -5,3 +5,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M0-F01 | PASS | 1/59 (1.7%)
 
 2026-11-03T05:44:55+00:00 — Repository/remote/readme/deployment audit recorded in M0_AUDIT.md; no UI changes, browser N/A.
+
+## M0-F02 | PASS | 2/59 (3.4%)
+
+2026-11-03T05:46:06+00:00 — Production Chromium desktop/touch-mobile baseline: 10 routes HTTP 200, menu opens, zero page errors/overflow; canonical anomaly recorded.
