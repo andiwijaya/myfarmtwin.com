@@ -45,3 +45,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M1-F05 | PASS | 11/58 (19.0%)
 
 2026-11-03T13:18:45+00:00 — Coop/nest/feeder/drinker/cleanup have SVG picking and five44px labelled HTML shortcuts; desktop keyboard and390px touch EN-ID select correctly without crop/save mutations. Typecheck/build and4 surfaces pass.
+
+## M1-F06 | PASS | 12/58 (20.7%)
+
+2026-11-03T13:22:29+00:00 — Contextual Feed/Water/Clean/Collect panel projects statuses and correct disabled reasons; four action events/UI boundary,44px controls,Escape focus and exact save preservation pass4 EN-ID desktop/touch cases. Mechanics remain M2.
