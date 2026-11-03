@@ -121,3 +121,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M3-F06 | PASS | 30/58 (51.7%)
 
 2026-11-03T14:44:00+00:00 — 73 tests, typecheck/build and four UI loops pass; Chapter1 grants20 once under chicken.chapter1, exact151 Coins; crop grants unchanged.
+
+## M3-F07 | PASS | 31/58 (53.4%)
+
+2026-11-03T14:46:50+00:00 — 74 tests/typecheck/build/lint and four UI loops pass; paid90 expands room2to4, stores3000g/8L, actual world level1 and exact61 Coins.

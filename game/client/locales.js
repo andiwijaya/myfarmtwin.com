@@ -75,6 +75,7 @@ Object.assign(messages.id,{chickenMission0:'Kunjungi Halaman Ayam',chickenDetail
 Object.assign(messages.en,{buyFeed:'Buy feed bag'});Object.assign(messages.id,{buyFeed:'Beli pakan'});
 Object.assign(messages.en,{eggs:'Eggs',grade:'Grade',egg_sale:'Egg sale',noEggLot:'That egg lot has already been sold or is unavailable.',chickenEggsSold:'Egg lot sold.'});Object.assign(messages.id,{eggs:'Telur',grade:'Grade',egg_sale:'Penjualan telur',noEggLot:'Lot telur sudah terjual atau tidak tersedia.',chickenEggsSold:'Lot telur terjual.'});
 Object.assign(messages.en,{hensCount:'Hens',comfort:'Comfort',whyChicken:'Why?'});Object.assign(messages.id,{hensCount:'Ayam',comfort:'Kenyamanan',whyChicken:'Kenapa?'});
+Object.assign(messages.en,{coopRoom:'Hen capacity',upgradeCoop:'Expand coop',coopMax:'Coop expanded',chickenSellFirst:'Finish the first egg sale first.',coop_upgrade:'Coop upgrade',chickenCoopUpgraded:'Coop expanded. More space, feed and drinking capacity.'});Object.assign(messages.id,{coopRoom:'Kapasitas ayam',upgradeCoop:'Perluas kandang',coopMax:'Kandang diperluas',chickenSellFirst:'Selesaikan penjualan telur pertama dahulu.',coop_upgrade:'Upgrade kandang',chickenCoopUpgraded:'Kandang diperluas. Kapasitas ruang, pakan, dan minum bertambah.'});
 try{locale=localStorage.getItem('myfarmtwin.locale')||(navigator.language.startsWith('id')?'id':'en');}catch{locale=navigator.language.startsWith('id')?'id':'en';}
 if(!messages[locale])locale='en';
 /** @param {string} key */
