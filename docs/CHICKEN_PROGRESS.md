@@ -89,3 +89,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M2-F08 | PASS | 22/58 (37.9%)
 
 2026-11-03T14:30:37+00:00 — 65 tests and typecheck/build pass; seeded once-per-hen/day integer eggs, causal grades, bounded nests/history, crop RNG untouched; repeated resolution exact.
+
+## M2-F09 | PASS | 23/58 (39.7%)
+
+2026-11-03T14:32:41+00:00 — 67 tests, typecheck/build and four EN/ID desktop/touch visual checks pass; graded atomic collection, replay/full guards, real nest count.

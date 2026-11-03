@@ -3,6 +3,7 @@ import {renderWorld} from './world.js';
 import {renderChickenWorld} from './chicken-view.js';
 import {FEATURES} from './features.js';
 import {renderChickenPanel} from './chicken-panel.js';
+import {chickenSnapshot} from './chicken-snapshot.js';
 import {el} from './dom.js';
 import {createState,dispatch,forecastWeather,pumpCovers} from './engine.js';
 import {CROPS,CROP_IDS,STAGE_KEYS,WATER} from './config.js';
@@ -25,7 +26,7 @@ let guideExpanded=true;
 let celebrationDismissed=false;
 let activeArea='field';
 let selectedChicken='';
-function yardSnapshot(){return {level:0,doorOpen:true,pendingEggs:0,feedG:0,waterL:0,cleanliness:100,storeFeedG:0,tankWaterL:state.water,coins:state.coins};}
+function yardSnapshot(){return chickenSnapshot(state)||{level:0,doorOpen:true,pendingEggs:0,feedG:0,waterL:0,cleanliness:100,storeFeedG:0,tankWaterL:state.water,coins:state.coins};}
 function renderChickenSelection(){el('world').dataset.selectedChicken=selectedChicken;document.querySelectorAll('[data-chicken-object]').forEach(p=>{const active=p.getAttribute('data-chicken-object')===selectedChicken;p.classList.toggle('chicken-selected',active);p.setAttribute('aria-pressed',String(active));});document.querySelectorAll('[data-choose-chicken]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-choose-chicken')===selectedChicken)));renderChickenPanel(yardSnapshot(),selectedChicken);}
 document.addEventListener('chickenobjectselect',event=>{const id=/** @type {CustomEvent<string>} */(event).detail;if(activeArea==='chicken'&&['coop','nest','feeder','drinker','clean'].includes(id)){selectedChicken=id;renderChickenSelection();}});
 document.addEventListener('camerachanged',()=>{if(activeArea==='chicken')renderChickenSelection();else renderSelection();});
