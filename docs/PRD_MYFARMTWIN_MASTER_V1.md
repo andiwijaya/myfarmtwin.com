@@ -211,7 +211,7 @@ myfarmtwin.com/
 - [x] **M0-F03 — Safe build/publish plan.** Buktikan build game terisolasi tidak menghapus/mengganti `dist/index.html`, `dist/styles.css`, atau rute konten. Tes dengan snapshot/hashes atau integration test.
 - [x] **M0-F04 — Engineering ADR.** Pilih sub-app framework/build dan render fallback yang paling sederhana setelah audit; tulis trade-off, ukuran bundle budget, dan browser target.
 - [x] **M0-F05 — Baseline test harness.** Buat scripts local untuk lint/typecheck/build/unit/e2e/smoke (sesuai stack) tanpa membutuhkan GitHub Actions minutes.
-- [ ] **M0-F06 — Safety checkpoint.** Commit lokal bersih, rollback plan, ignore build/cache/QA garbage, pastikan repo growth terkendali dan file media penting tidak dihapus.
+- [x] **M0-F06 — Safety checkpoint.** Commit lokal bersih, rollback plan, ignore build/cache/QA garbage, pastikan repo growth terkendali dan file media penting tidak dihapus.
 
 ### M1 — Entry point & playable farm world
 

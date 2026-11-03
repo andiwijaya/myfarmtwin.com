@@ -5,3 +5,10 @@ node_modules/
 .sites-runtime/
 publish.zip
 .DS_Store
+.wrangler/
+qa-artifacts/
+test-results/
+playwright-report/
+coverage/
+*.log
+*.tsbuildinfo
