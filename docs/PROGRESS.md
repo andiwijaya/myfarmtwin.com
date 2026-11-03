@@ -201,3 +201,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M6-F05 | PASS | 50/59 (84.7%)
 
 2026-11-03T07:24:53+00:00 — Same-seed fixed-sunny comparison: dry 10d/35%/1 unit/6 Coins vs watered 3d/100%/3 units/48 Coins at 50L/4 care cost; deterministic and bounded; full browser regression pass.
+
+## M7-F01 | PASS | 51/59 (86.4%)
+
+2026-11-03T07:27:20+00:00 — Black-box new/return/invalid/no-funds aid/double-water/offline-loaded actions/real pause and stale-tab protection pass desktop/mobile; blocked storage remains playable; full core/save regression passes.
