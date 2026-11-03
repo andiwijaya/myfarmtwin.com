@@ -205,3 +205,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M7-F01 | PASS | 51/59 (86.4%)
 
 2026-11-03T07:27:20+00:00 — Black-box new/return/invalid/no-funds aid/double-water/offline-loaded actions/real pause and stale-tab protection pass desktop/mobile; blocked storage remains playable; full core/save regression passes.
+
+## M7-F02 | PASS | 52/59 (88.1%)
+
+2026-11-03T07:30:29+00:00 — White-box matrix plus 2500 seeded mixed/invalid commands checks immutable inputs, bounds/ledger/replay/save invariants; all unit/integration and full desktop/mobile regression passes.

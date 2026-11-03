@@ -278,7 +278,7 @@ myfarmtwin.com/
 ### M7 — QA, performance, SEO, production release
 
 - [x] **M7-F01 — Black-box QA.** Jalankan skenario pengguna baru, pemain kembali, invalid input, no funds, double-tap, break/resume di desktop dan Android Chrome atau ekuivalen.
-- [ ] **M7-F02 — White-box QA.** Unit/integration tests untuk tick, water balance, growth, transactions, missions, RNG, save migration, boundary conditions; hasil disertakan.
+- [x] **M7-F02 — White-box QA.** Unit/integration tests untuk tick, water balance, growth, transactions, missions, RNG, save migration, boundary conditions; hasil disertakan.
 - [ ] **M7-F03 — Dead-code/dependency audit.** Buang unused code, asset tak dipakai, debug logs, QA artifacts, dan dependency berat; jangan menghapus aset media future use milik user.
 - [ ] **M7-F04 — Cross-browser & accessibility.** Chrome Android/mobile, Chrome/Edge desktop dan browser kedua yang tersedia; touch targets, readable text, keyboard, contrast, reduced-motion.
 - [ ] **M7-F05 — Performance budget.** Target rata-rata ≥30 FPS pada Android menengah yang tersedia dan ≥50 desktop di scene awal; catat hardware, metode dan deviasi. Jika tidak tercapai, optimasi dan low-mode. Verifikasi bundle/asset size realistis dan first-interaction load time.
