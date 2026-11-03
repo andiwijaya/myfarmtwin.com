@@ -177,3 +177,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M5-F06 | PASS | 44/59 (74.6%)
 
 2026-11-03T07:07:40+00:00 — Exact export, invalid/cancelled import preservation, confirmed import/reset and backup restore verified desktop/mobile; replacements preserve valid/corrupt originals and refuse stale writes; full tests pass.
+
+## M5-F07 | PASS | 45/59 (76.3%)
+
+2026-11-03T07:11:53+00:00 — 90 days/1172 commands/234 rejected replays, daily exact save reload, all missions/orders/8 beds, min52 Coins/85KB peak save; full 90-day farm import works desktop/mobile; full checks pass.
