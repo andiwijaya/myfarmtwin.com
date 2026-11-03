@@ -1,4 +1,5 @@
-import {CHICKEN,COOP_LEVELS} from './chicken-config.js';
+import {CHICKEN,COOP_LEVELS,WELFARE} from './chicken-config.js';
+import {chickenWelfare} from './chicken-welfare.js';
 /** One existing farm hour; no wall clock and no additional random stream. @param {import('./engine.js').State} state */
 export function tickChicken(state){
  const c=state.chicken,coop=c?.coop;if(!c?.visited||!coop)return;
@@ -6,6 +7,8 @@ export function tickChicken(state){
  const feed=Math.min(coop.feedG,feedNeed),water=Math.min(coop.waterL,waterNeed);
  coop.feedG=Math.max(0,coop.feedG-feed);coop.waterL=Math.max(0,coop.waterL-water);c.stats.feedUsedG+=feed;c.stats.waterUsedL+=water;coop.dayFeedUsedG+=feed;coop.dayWaterUsedL+=water;
  coop.cleanliness=Math.max(0,coop.cleanliness-c.hens.length*CHICKEN.soilPerHenDay/24);
+ coop.feedCare+=(feed/feedNeed-coop.feedCare)*WELFARE.recovery;coop.waterCare+=(water/waterNeed-coop.waterCare)*WELFARE.recovery;
+ const welfare=chickenWelfare(state);if(welfare.score>=WELFARE.healthy&&welfare.feed>=WELFARE.healthy&&welfare.water>=WELFARE.healthy)coop.healthyHours=Math.min(24,coop.healthyHours+1);
 }
 /** @typedef {(state:import('./engine.js').State,type:string,amount:number,id:string)=>void} Transaction */
 /** Headless commands run only on the existing dispatch clone, using its shared ledger. */

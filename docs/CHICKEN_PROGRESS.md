@@ -81,3 +81,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M2-F06 | PASS | 20/58 (34.5%)
 
 2026-11-03T14:28:48+00:00 — 61 tests, typecheck/build pass; hourly soiling, 1-Coin care ledger, six-hour cooldown, replay/funds guards and no reward spam.
+
+## M2-F07 | PASS | 21/58 (36.2%)
+
+2026-11-03T14:29:57+00:00 — 63 tests, typecheck/build pass; configured derived welfare, heat/shade/space factors and gradual tick-only recovery without offline loss.

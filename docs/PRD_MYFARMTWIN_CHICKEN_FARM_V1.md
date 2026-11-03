@@ -315,7 +315,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 - [x] **M2-F04** — Implement drinker (L) dan refill yang mengurangi farm tank dalam jumlah sama; water conservation.
 - [x] **M2-F05** — Implement tick consumption pakan/air per hen, dengan weather multiplier dari weather existing, seeded test.
 - [x] **M2-F06** — Implement `cleanliness`, aksi cleaning, biaya/aturan interval yang teruji; tidak ada reward-farming lewat spam.
-- [ ] **M2-F07** — Implement comfort/welfare derived score berbasis faktor real dan recovery bertahap; no offline depletion/death.
+- [x] **M2-F07** — Implement comfort/welfare derived score berbasis faktor real dan recovery bertahap; no offline depletion/death.
 - [ ] **M2-F08** — Implement per-hen per-day egg laying (seeded deterministic, max satu telur per adult hen/day) dan grade berdasarkan state; no rooster required.
 - [ ] **M2-F09** — Implement nest capacity, pending eggs, atomic collection ke inventory, visual egg-ready; double tap/reload aman.
 - [ ] **M2-F10** — Headless controlled comparisons: ideal vs thirsty vs underfed vs dirty vs overcrowded/hot weather; assert causal ordering dan semua bounds.
