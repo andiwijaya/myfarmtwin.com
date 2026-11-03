@@ -177,3 +177,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M5-F04 | PASS | 44/58 (75.9%)
 
 2026-11-03T23:50:20+00:00 — 88 tests/typecheck/build and EN/ID desktop/actual-touch pass; paid shade visibly installs and reduces two-hen hot-day water0.9Lto0.66L with better comfort.
+
+## M5-F05 | PASS | 45/58 (77.6%)
+
+2026-11-03T23:52:25+00:00 — 89 tests/typecheck/build and four actual EN/ID UI flows pass; four-egg FIFO order pays grade value+12 once, no expiry, crop totals preserved and reload exact.
