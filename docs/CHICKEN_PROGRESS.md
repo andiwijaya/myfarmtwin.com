@@ -181,3 +181,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M5-F05 | PASS | 45/58 (77.6%)
 
 2026-11-03T23:52:25+00:00 — 89 tests/typecheck/build and four actual EN/ID UI flows pass; four-egg FIFO order pays grade value+12 once, no expiry, crop totals preserved and reload exact.
+
+## M5-F06 | PASS | 46/58 (79.3%)
+
+2026-11-03T23:55:11+00:00 — 90 tests/typecheck/build and four EN/ID actual UI flows pass; Healthy Hens/Bigger Coop use real care/space progress,15-Coin namespaced rewards once and resume safe.
