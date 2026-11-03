@@ -173,3 +173,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M5-F03 | PASS | 43/58 (74.1%)
 
 2026-11-03T23:48:09+00:00 — 87 tests/typecheck/build and four actual UI flows pass; optional feeder uses purchased stock only, paid bounded service, on/off/empty/funds guards and exact save.
+
+## M5-F04 | PASS | 44/58 (75.9%)
+
+2026-11-03T23:50:20+00:00 — 88 tests/typecheck/build and EN/ID desktop/actual-touch pass; paid shade visibly installs and reduces two-hen hot-day water0.9Lto0.66L with better comfort.
