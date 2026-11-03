@@ -93,3 +93,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M2-F09 | PASS | 23/58 (39.7%)
 
 2026-11-03T14:32:41+00:00 — 67 tests, typecheck/build and four EN/ID desktop/touch visual checks pass; graded atomic collection, replay/full guards, real nest count.
+
+## M2-F10 | PASS | 24/58 (41.4%)
+
+2026-11-03T14:33:52+00:00 — 69 tests and typecheck/build pass; 40 seeds x 6 conditions x 14 days prove causal eggs/grades, heat/shade demand, capacity guards and all bounds.
