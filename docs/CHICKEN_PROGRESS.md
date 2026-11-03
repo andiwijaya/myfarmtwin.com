@@ -77,3 +77,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M2-F05 | PASS | 19/58 (32.8%)
 
 2026-11-03T14:27:51+00:00 — 59 tests, typecheck/build pass; hourly grams/litres, heat/shade, empty stocks, pause and 24-tick equivalence preserve crop RNG.
+
+## M2-F06 | PASS | 20/58 (34.5%)
+
+2026-11-03T14:28:48+00:00 — 61 tests, typecheck/build pass; hourly soiling, 1-Coin care ledger, six-hour cooldown, replay/funds guards and no reward spam.
