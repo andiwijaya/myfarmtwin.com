@@ -1,6 +1,6 @@
 # MyFarmTwin V1 release report
 
-Status: local release gates complete; production deployment and smoke checks pending.
+Status: local release gates complete; first production core smoke passed. A game-only Cloudflare beacon-injection header fix is being reverified before final release closure.
 
 ## Delivered
 
