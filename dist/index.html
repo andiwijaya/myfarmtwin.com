@@ -3,59 +3,40 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MyFarmTwin — Your little browser farm</title>
-  <meta name="description" content="Play MyFarmTwin, a little browser farm. Plant, water, harvest and grow with FarmGirl. Free to play, no account needed. Available in English and Indonesian.">
+  <title>MyFarmTwin — Play Farm</title>
+  <meta name="description" content="Play MyFarmTwin in your browser. Plant, water, harvest and grow your little farm. Free, no account needed. Available in English and Indonesian.">
   <link rel="canonical" href="https://myfarmtwin.com/">
-  <meta property="og:title" content="MyFarmTwin — Your little browser farm">
-  <meta property="og:description" content="Start with a seed. Grow your little farm with FarmGirl, right in your browser.">
+  <meta property="og:title" content="MyFarmTwin — Play Farm">
+  <meta property="og:description" content="Plant, water, harvest. Grow your own little farm in your browser.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://myfarmtwin.com/">
-  <meta property="og:image" content="https://myfarmtwin.com/assets/myfarmtwin-farmgirl.png">
+  <meta property="og:image" content="https://myfarmtwin.com/assets/farm-preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/mobile-menu.css">
   <link rel="stylesheet" href="/home.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VXB9Q1DG4W"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-VXB9Q1DG4W');</script>
   <script src="/home.js" defer></script>
 </head>
 <body>
-  <a class="skip-link" href="#main" data-home="skip">Skip to content</a>
+  <a class="skip-link" href="#main" data-home="skip">Skip to game</a>
   <header class="site-header">
     <a class="brand" href="/" aria-label="MyFarmTwin"><span class="brand-mark" aria-hidden="true">✦</span><span>My<span>Farm</span>Twin</span></a>
-    <div class="header-actions">
-      <nav id="site-nav" class="site-nav" aria-label="Primary navigation" data-home-label="navigation">
-        <a href="#how-to-play" data-home="howLink">How to play</a>
-        <a class="nav-play" href="/play/" data-home="play">Play Farm</a>
-      </nav>
-      <label class="locale-label"><span class="sr-only" data-home="language">Language</span><select id="home-language"><option value="en" lang="en">EN</option><option value="id" lang="id">ID</option></select></label>
-      <button class="menu-toggle" aria-label="Open navigation menu" aria-controls="site-nav" aria-expanded="false"><span class="hamburger" aria-hidden="true"><i></i><i></i><i></i></span></button>
-    </div>
+    <label class="locale-label"><span class="sr-only" data-home="language">Language</span><select id="home-language"><option value="en" lang="en">EN</option><option value="id" lang="id">ID</option></select></label>
   </header>
   <main id="main" class="home-main">
-    <section class="game-hero" aria-labelledby="hero-title">
-      <div>
-        <p class="live-tag"><span class="live-dot" aria-hidden="true"></span><span data-home="live">The little farm · Play now</span></p>
-        <h1 id="hero-title" class="hero-heading"><span data-home="title">A little land.</span><br><em data-home="titleEnd">A lot to grow.</em></h1>
-        <p class="home-lede" data-home="intro">Plant your first seed, care for your crops, and build a farm of your own. A little world to grow in, right in your browser.</p>
-        <a class="home-play" href="/play/"><span data-home="play">Play Farm</span><span aria-hidden="true">↗</span></a>
-        <p class="play-note" data-home="note">Free to play · No account · On mobile and desktop</p>
-        <div class="guide-note"><img src="/play/assets/farmgirl-guide.webp" width="42" height="54" alt="FarmGirl"><p><strong data-home="guideName">Meet FarmGirl</strong><span data-home="guide">A friendly guide from your first seed to your first harvest.</span></p></div>
+    <a class="game-card" href="/play/" aria-labelledby="game-title">
+      <div class="card-preview"><img src="/assets/farm-preview.svg" width="740" height="510" alt="A little isometric farm with planted beds, trees, a well and an irrigation pump." data-home-alt="previewAlt" fetchpriority="high"></div>
+      <div class="card-content">
+        <p class="live-tag"><span class="live-dot" aria-hidden="true"></span><span data-home="live">Live</span></p>
+        <h1 id="game-title" data-home="play">Play Farm</h1>
+        <p class="card-description" data-home="description">Plant, water, harvest. Grow your own little farm.</p>
+        <div class="card-bottom"><span class="play-note" data-home="note">Free · No account</span><span class="card-action"><span data-home="enter">Play now</span><span aria-hidden="true">↗</span></span></div>
       </div>
-      <figure class="preview"><span class="preview-label" data-home="previewLabel">A glimpse of your farm</span><img src="/assets/farm-preview.svg" width="740" height="510" alt="An isometric farm with three planted beds, trees, a well, a market and a small irrigation pump." data-home-alt="previewAlt" fetchpriority="high"><figcaption data-home="previewCaption">Start with three beds. See what you can grow.</figcaption></figure>
-    </section>
-    <section id="how-to-play" class="how-to" aria-labelledby="how-title">
-      <p class="section-kicker" data-home="howKicker">One seed at a time</p>
-      <h2 id="how-title" data-home="howTitle">Small steps. A growing farm.</h2>
-      <ol class="steps">
-        <li><span class="step-number" aria-hidden="true">01</span><h3 data-home="step1Title">Plant &amp; care</h3><p data-home="step1">Choose lettuce or tomatoes. Keep an eye on the weather and give your crops the water they need.</p></li>
-        <li><span class="step-number" aria-hidden="true">02</span><h3 data-home="step2Title">Harvest &amp; sell</h3><p data-home="step2">Pick your produce when it is ready. Sell at the market and fill neighbourhood orders.</p></li>
-        <li><span class="step-number" aria-hidden="true">03</span><h3 data-home="step3Title">Build &amp; grow</h3><p data-home="step3">Earn Coins for more beds and a small irrigation pump. Grow your farm at your own pace.</p></li>
-      </ol>
-    </section>
-    <section class="closing" aria-labelledby="closing-title"><div><h2 id="closing-title" data-home="closingTitle">Your next harvest starts here.</h2><p data-home="saveNote">Your farm saves in this browser. Come back when you like — no damage while you are away.</p></div><a class="home-play" href="/play/"><span data-home="play">Play Farm</span><span aria-hidden="true">↗</span></a></section>
+    </a>
   </main>
-  <footer class="home-footer"><p data-home="copyright">© 2026 MyFarmTwin. A little space to grow.</p><a href="/play/" data-home="footerPlay">Enter your farm →</a></footer>
 </body>
 </html>

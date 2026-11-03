@@ -19,7 +19,7 @@ try{
   const page=await context.newPage();page.on('pageerror',e=>report.errors.push(e.message));
   const response=await page.goto(base+'/',{waitUntil:'networkidle'});assert.equal(response.status(),200);
   assert.equal(await page.locator('link[rel=canonical]').getAttribute('href'),'https://myfarmtwin.com/');
-  if(name==='mobile'){await page.locator('.menu-toggle').click();assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'),'true');}
+  if(name==='mobile'&&await page.locator('.menu-toggle').count()){await page.locator('.menu-toggle').click();assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'),'true');}
   for(const route of ['/learn/','/grow/','/farm/','/kitchen/','/projects/','/gear/','/about/','/robots.txt','/sitemap.xml']) assert.equal((await page.request.get(base+route)).status(),200,route);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   const game=await page.request.get(base+'/play/');
