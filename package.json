@@ -19,7 +19,8 @@
     "seo": "node tools/seo-e2e.mjs",
     "security": "node tools/security-e2e.mjs",
     "integrity": "node tools/live-integrity.mjs",
-    "homepage": "node --check dist/home.js && node tools/homepage-e2e.mjs"
+    "homepage": "node --check dist/home.js && node tools/homepage-e2e.mjs",
+    "chicken": "node tools/chicken-e2e.mjs"
   },
   "engines": {
     "node": ">=22"

@@ -296,7 +296,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 
 ### M1 — Chicken Yard dan interaksi visual (8)
 
-- [ ] **M1-F01** — Tambahkan entry `Chicken Yard` pada Play Farm, tanpa mengganggu crop mission/tutorial; accessible touch/keyboard.
+- [x] **M1-F01** — Tambahkan entry `Chicken Yard` pada Play Farm, tanpa mengganggu crop mission/tutorial; accessible touch/keyboard.
 - [ ] **M1-F02** — Render satu area halaman kandang/fence/ramp tanpa overlap grid crop; world navigation/focus terkontrol.
 - [ ] **M1-F03** — Tambahkan visual kandang dengan status pintu dan sarang (empty/egg-ready), mengikuti state.
 - [ ] **M1-F04** — Render dua ayam dewasa dengan idle/walk/peck animasi ringan; reduced-motion fallback yang setara secara fungsional.

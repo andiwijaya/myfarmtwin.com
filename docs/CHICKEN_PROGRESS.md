@@ -25,3 +25,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M0-F06 | PASS | 6/58 (10.3%)
 
 2026-11-03T13:02:25+00:00 — PRD506lines preserved, state/API/test-ID contracts and immutable internal feature switch added; lint/typecheck+3 preservation/layout tests pass; no production change. M0 gate passed.
+
+## M1-F01 | PASS | 7/58 (12.1%)
+
+2026-11-03T13:04:30+00:00 — Localized44px Field/Yard entry works by desktop keyboard and390px touch EN/ID; one active guide, crop mission and planted save byte-identical after switching; typecheck/build and4 browser surfaces pass.

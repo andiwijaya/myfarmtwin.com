@@ -1,5 +1,7 @@
 import {getLocale,setLocale,translate,t} from './locales.js';
 import {renderWorld} from './world.js';
+import {renderChickenWorld} from './chicken-view.js';
+import {FEATURES} from './features.js';
 import {el} from './dom.js';
 import {createState,dispatch,forecastWeather,pumpCovers} from './engine.js';
 import {CROPS,CROP_IDS,STAGE_KEYS,WATER} from './config.js';
@@ -20,6 +22,9 @@ const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
 /** @type {import('./engine.js').CropId} */let chosenCrop='lettuce';
 let guideExpanded=true;
 let celebrationDismissed=false;
+let activeArea='field';
+el('area-field').addEventListener('click',()=>{activeArea='field';render();});
+el('area-chicken').addEventListener('click',()=>{if(FEATURES.chicken){activeArea='chicken';render();}});
 el('continue-farm').addEventListener('click',()=>{celebrationDismissed=true;chosenCrop='tomato';const empty=state.plots.find(p=>!p.crop);if(empty)selected=empty.id;render();});
 el('resume-continue').addEventListener('click',()=>{resumeVisible=false;render();});
 /** @type {ReturnType<typeof setTimeout>|undefined} */let noticeTimer;
@@ -56,7 +61,7 @@ language.value=getLocale();
 language.addEventListener('change',()=>{setLocale(language.value);render();});
 function renderMission(){const step=state.mission.step,copy=currentObjective(state);el('mission-title').textContent=t(copy[0]);el('mission-detail').textContent=t(copy[1]);el('guide-chapter').textContent=t(step<7?'firstHarvest':'nextChapter');el('mission-progress').style.width=100*step/7+'%';el('mission-track').setAttribute('aria-valuenow',String(step));el('celebration').hidden=step<7||celebrationDismissed;document.querySelectorAll('.mission-target').forEach(e=>e.classList.remove('mission-target'));const next=FOLLOWUPS.find(q=>!state.followups[q.id]);const target=step<7?['.plot-shortcuts','#plant','#water','#next-day','#harvest','#market-open','#buy-pump'][step]:next?.id==='hotCare'?'#weather-name':next?'#market-open':null;if(target)document.querySelector(target)?.classList.add('mission-target');el('followup-missions').hidden=step<7;const list=el('followup-list');list.replaceChildren();for(const quest of FOLLOWUPS){const item=document.createElement('li');item.dataset.quest=quest.id;item.dataset.done=String(state.followups[quest.id]);item.textContent=(state.followups[quest.id]?'✓ ':'○ ')+t(quest.title);list.append(item);}}
 function render(){
- translate();renderWorld(state.plots,state.tick,state.pump);renderSelection();renderGuide();renderGraphics();renderMarket(state,send);renderOrders(state,send);renderShop(state,send);renderMission();renderData(saveSession);renderInspect(state,selected);renderReasons(state,selected);renderTrends(state,selected);
+ translate();if(activeArea==='chicken')renderChickenWorld();else renderWorld(state.plots,state.tick,state.pump);renderSelection();renderGuide();renderGraphics();renderMarket(state,send);renderOrders(state,send);renderShop(state,send);renderMission();renderData(saveSession);renderInspect(state,selected);renderReasons(state,selected);renderTrends(state,selected);
  el('hud-day').textContent=String(Math.floor(state.tick/24)+1);el('hud-coins').textContent=String(state.coins);el('hud-water').textContent=String(Math.floor(state.water));el('hud-seeds').textContent=String(state.seeds.lettuce+state.seeds.tomato);
  el('inventory-harvest').textContent=state.inventory.length?state.inventory.map(lot=>t(lot.type)+' ×'+lot.quantity+' · '+Math.round(lot.quality*100)+'% '+t('quality')).join(' | '):t('noHarvest');
  el('pause').textContent=t(state.paused?'playClock':'pause');el('speed').textContent=state.speed+'×';el('weather-name').textContent=t(state.weather);el('weather-forecast').textContent=t('forecast')+': '+t(forecastWeather(state));
@@ -65,6 +70,8 @@ function render(){
  el('save-status').textContent=t(saveStatus);el('save-status').classList.toggle('save-warning',!['saveSaved','saveResumed'].includes(saveStatus));
  el('resume-summary').hidden=!resumeVisible;el('resume-stats').textContent=t('day')+' '+(Math.floor(state.tick/24)+1)+' · '+state.coins+' '+t('coins')+' · '+state.plots.filter(p=>p.crop).length+' '+t('growingCrops');el('resume-next').textContent=t('nextObjective')+': '+t(currentObjective(state)[0])+' '+t('noOfflineDamage');
  el('pump-panel').hidden=!state.pump.built;el('pump-status').textContent=t(state.pump.on?'pumpRunning':'pumpStopped')+(state.pump.stopReason?' · '+t(state.pump.stopReason):'');el('pump-coverage').textContent=state.plots.filter(pumpCovers).length+' '+t('coveredBeds');el('quick-pump').textContent=t(state.pump.on?'turnPumpOff':'turnPumpOn');el('quick-pump').setAttribute('aria-pressed',String(state.pump.on));
+ el('farm-areas').hidden=!FEATURES.chicken;el('farm-areas').setAttribute('aria-label',t('farmAreas'));el('area-field').setAttribute('aria-pressed',String(activeArea==='field'));el('area-chicken').setAttribute('aria-pressed',String(activeArea==='chicken'));el('world').dataset.area=activeArea;el('weather-care').hidden=activeArea==='chicken';
+ if(activeArea==='chicken'){panel.hidden=true;el('pump-panel').hidden=true;el('mission-track').hidden=true;el('followup-missions').hidden=true;el('celebration').hidden=true;el('guide-chapter').textContent=t('chickenArea');el('mission-title').textContent=t('yardWelcome');el('mission-detail').textContent=t('yardIntro');el('world').setAttribute('aria-label',t('chickenArea'));}else el('mission-track').hidden=false;
 }
 /** @param {import('./engine.js').CommandType} type @param {Partial<import('./engine.js').Command>} [extra] */
 function send(type,extra={}){if(externalChange){notify(t('saveConflict'));return;}const result=dispatch(state,{...extra,id:state.revision+1,type});if(result.ok){state=result.state;resumeVisible=false;try{saveSession.save(state);saveStatus='saveSaved';}catch(error){const prior=saveStatus;saveStatus=error instanceof Error&&['saveConflict','saveCorrupt'].includes(error.message)?error.message:'saveUnavailable';if(saveStatus==='saveCorrupt'&&['saveNewer','saveRecoveryPreview'].includes(prior))saveStatus=prior;if(saveStatus==='saveConflict')externalChange=true;}const reward=result.events.find(e=>e.type==='missionReward');notify((result.events.length?t(result.events[0].type):'')+(reward?' +'+reward.amount+' '+t('coins')+' · '+t('mission_reward'):''));render();}else notify(t(result.error));}
