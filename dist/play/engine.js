@@ -52,7 +52,7 @@ export function dispatch(input,command){
  const state=structuredClone(input);
  /** @type {DomainEvent[]} */
  const events=[];
- if(isChickenCommand(command.type)){const error=applyChickenCommand(state,command,events);if(error)return reject(error);}else switch(command.type){
+ if(isChickenCommand(command.type)){const error=applyChickenCommand(state,command,events,transact);if(error)return reject(error);}else switch(command.type){
   case 'upgradeEfficiency':if(!state.pump.built)return reject('noPump');if(state.mission.step<7)return reject('ordersLocked');if(state.pump.efficient)return reject('efficiencyExists');if(state.coins<PUMP.efficientPrice)return reject('noCoins');transact(state,'facility_purchase',-PUMP.efficientPrice,command.id+':efficientMotor');state.pump.efficient=true;events.push({type:'efficiencyUpgraded'});break;
   case 'expand':{
    if(state.mission.step<7)return reject('ordersLocked');if(state.plots.length>=LIMITS.plots)return reject('farmFull');const price=expansionPrice(state);if(state.coins<price)return reject('noCoins');const cell=EXPANSION.cells[state.plots.length-INITIAL_PLOTS.length];if(!cell)return reject('farmFull');
