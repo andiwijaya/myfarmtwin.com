@@ -85,3 +85,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M2-F07 | PASS | 21/59 (35.6%)
 
 2026-11-03T06:12:02+00:00 — Seeded forecast matches next day without mutation; 4 weather types replay, rain/hot change actual mm/growth rationally; desktop/mobile forecast and full checks pass.
+
+## M2-F08 | PASS | 22/59 (37.3%)
+
+2026-11-03T06:13:27+00:00 — Harvest creates quality/quantity lot once and frees bed; premature/full-inventory/invalid/double harvest rejected without loss; desktop/mobile inventory feedback and all checks pass.

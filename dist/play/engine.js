@@ -1,4 +1,4 @@
-import {STARTER,INITIAL_PLOTS,CROP_IDS,CROPS,WATER,WEATHER} from './config.js';
+import {STARTER,INITIAL_PLOTS,CROP_IDS,CROPS,WATER,WEATHER,LIMITS} from './config.js';
 import {waterBalance} from './water.js';
 /** @typedef {'sunny'|'cloudy'|'rainy'|'hot'} Weather */
 /** @typedef {'lettuce'|'tomato'} CropId */
@@ -33,6 +33,11 @@ export function dispatch(input,command){
  if(!command||!Number.isSafeInteger(command.id)||command.id!==input.revision+1)return reject('staleCommand');
  const state=structuredClone(input);/** @type {DomainEvent[]} */const events=[];
  switch(command.type){
+  case 'harvest':{
+   const plot=state.plots.find(p=>p.id===command.plot);if(!plot)return reject('invalidPlot');if(!plot.crop)return reject('noCrop');if(plot.crop.progress<1)return reject('notReady');
+   const crop=plot.crop,quantity=Math.max(1,Math.floor(CROPS[crop.type].yield*crop.quality));if(state.inventory.reduce((sum,lot)=>sum+lot.quantity,0)+quantity>LIMITS.inventory)return reject('inventoryFull');
+   state.inventory.push({id:state.nextLot++,type:crop.type,quantity,quality:crop.quality});plot.crop=null;state.stats.harvested+=quantity;events.push({type:'harvested',plot:plot.id,amount:quantity});break;
+  }
   case 'water':{
    const plot=state.plots.find(p=>p.id===command.plot);if(!plot)return reject('invalidPlot');if(plot.lastWaterTick===state.tick)return reject('alreadyWatered');if(plot.soilWaterMm/plot.soilCapacityMm>=.9)return reject('alreadyWet');
    const amount=Math.min(WATER.amountMm,plot.soilCapacityMm-plot.soilWaterMm);if(state.water<amount)return reject('noWater');if(state.coins<WATER.coinCost)return reject('noCoins');
