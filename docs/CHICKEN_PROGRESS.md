@@ -117,3 +117,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M3-F05 | PASS | 29/58 (50.0%)
 
 2026-11-03T14:42:42+00:00 — 72 tests, typecheck/build and four real EN/ID desktop/touch tutorial loops pass in1.4-1.6s; 2 eggs sell12, tank114, causal care feedback.
+
+## M3-F06 | PASS | 30/58 (51.7%)
+
+2026-11-03T14:44:00+00:00 — 73 tests, typecheck/build and four UI loops pass; Chapter1 grants20 once under chicken.chapter1, exact151 Coins; crop grants unchanged.
