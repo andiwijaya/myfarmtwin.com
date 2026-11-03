@@ -352,7 +352,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 
 - [x] **M5-F01** — Unlock upgrade kandang kapasitas dari config, terlihat di world, buy atomic, tidak boleh melebihi grid/capacity.
 - [x] **M5-F02** — Pembelian ayam petelur ketiga (adult hen) dengan capacity/Coins checks dan unique IDs; no cloning dupe.
-- [ ] **M5-F03** — Auto-feeder upgrade opsional dengan refill dari stok yang sudah dibeli, bukan pakan gratis; ada on/off dan biaya relevan.
+- [x] **M5-F03** — Auto-feeder upgrade opsional dengan refill dari stok yang sudah dibeli, bukan pakan gratis; ada on/off dan biaya relevan.
 - [ ] **M5-F04** — Waterer upgrade atau shade/ventilation yang memberi trade-off nyata pada kebutuhan air/welfare (pilih satu lebih dahulu sesuai minimal diff).
 - [ ] **M5-F05** — Market egg order pertama dengan target yang achievable, expiry non-punitive, reward exactly once.
 - [ ] **M5-F06** — Missions Healthy Hens dan Bigger Coop; progress memberi tujuan tanpa forced daily login.

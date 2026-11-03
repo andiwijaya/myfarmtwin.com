@@ -9,11 +9,12 @@ function node(name,attrs,parent){const el=document.createElementNS(NS,name);for(
 /** @param {{x:number,y:number,w:number,d:number}} box */
 function footprint(box){return [iso(box.x-.5,box.y-.5),iso(box.x+box.w-.5,box.y-.5),iso(box.x+box.w-.5,box.y+box.d-.5),iso(box.x-.5,box.y+box.d-.5)].map(p=>p.x+','+p.y).join(' ');}
 /** @typedef {{id:string,activity:'idle'|'walk'|'peck'|'drink'|'roost'}} HenView */
-/** @typedef {{level:number,doorOpen:boolean,pendingEggs:number,hens?:HenView[],feedG?:number,waterL?:number,cleanliness?:number}} YardSnapshot */
+/** @typedef {{level:number,doorOpen:boolean,pendingEggs:number,autoFeeder?:boolean,autoOn?:boolean,hens?:HenView[],feedG?:number,waterL?:number,cleanliness?:number}} YardSnapshot */
 /** @param {Element} camera @param {YardSnapshot} snapshot @param {'feeder'|'drinker'|'clean'} kind */
 function careStations(camera,snapshot,kind){
  if(kind==='feeder'){
  const f=iso(YARD_OBJECTS.feeder.x,YARD_OBJECTS.feeder.y),feeder=node('g',{'data-chicken-object':'feeder','aria-label':t('feeder')},camera);node('ellipse',{cx:f.x,cy:f.y+4,rx:24,ry:11,fill:'#9caf70',opacity:'.5'},feeder);node('path',{d:`M${f.x-22},${f.y-15} v17 q22,13 44,0 v-17 Z`,fill:'#b38d53',stroke:'#987642','stroke-width':2},feeder);node('ellipse',{cx:f.x,cy:f.y-15,rx:22,ry:10,fill:'#dbc39a',stroke:'#987642','stroke-width':2},feeder);if((snapshot.feedG||0)>0)for(const dx of [-9,0,9])node('circle',{cx:f.x+dx,cy:f.y-15,r:3,fill:'#d8ad4b'},feeder);
+ if(snapshot.autoFeeder){const auto=node('g',{'data-auto-feeder':snapshot.autoOn?'on':'off'},feeder);node('path',{d:`M${f.x-10},${f.y-23} v-17 h20 v17`,fill:'#a2af8a',stroke:'#708562','stroke-width':2},auto);node('circle',{cx:f.x,cy:f.y-33,r:4,fill:snapshot.autoOn?'#466f4c':'#c7c8ac'},auto);}
  }else if(kind==='drinker'){
  const w=iso(YARD_OBJECTS.drinker.x,YARD_OBJECTS.drinker.y),drinker=node('g',{'data-chicken-object':'drinker','aria-label':t('drinker')},camera);node('path',{d:`M${w.x-20},${w.y-10} v13 q20,15 40,0 v-13 Z`,fill:'#96b6af',stroke:'#6a928c','stroke-width':2},drinker);node('ellipse',{cx:w.x,cy:w.y-10,rx:20,ry:10,fill:(snapshot.waterL||0)>0?'#75adba':'#d4ded1',stroke:'#6a928c','stroke-width':2},drinker);node('path',{d:`M${w.x-9},${w.y-12} q8,-4 17,0`,fill:'none',stroke:'#e8f1d9','stroke-width':2},drinker);
  }else{
