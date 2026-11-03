@@ -264,7 +264,7 @@ myfarmtwin.com/
 - [x] **M5-F03 — Corrupted/old save recovery.** Validasi, migration untuk schema berikutnya, backup aman/default fresh game dengan pesan jelas; no white screen.
 - [x] **M5-F04 — Session progress.** Farm summary dan next mission pada return, tanpa offline damage/punishment.
 - [x] **M5-F05 — Multiple missions.** Sedikitnya 3 mission setelah first harvest: penuhi order, rawat saat panas, upgrade efisiensi.
-- [ ] **M5-F06 — Accessible reset/export.** Reset dengan konfirmasi; bila biaya kecil, sediakan export/import JSON agar data tidak mudah hilang dan QA reproducible.
+- [x] **M5-F06 — Accessible reset/export.** Reset dengan konfirmasi; bila biaya kecil, sediakan export/import JSON agar data tidak mudah hilang dan QA reproducible.
 - [ ] **M5-F07 — Long-session balance test.** Simulasi ≥30 in-game days: tanpa softlock, crash, currency exploit, negative values atau farm state tidak masuk akal.
 
 ### M6 — Engineering depth tanpa merusak fun

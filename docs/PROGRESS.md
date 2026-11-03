@@ -173,3 +173,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M5-F05 | PASS | 43/59 (72.9%)
 
 2026-11-03T07:03:43+00:00 — Three post-tutorial missions deliver order/care in heat/upgrade motor once; motor halves energy with same water; desktop/mobile complete all three and reload exact flags/rewards; full checks pass.
+
+## M5-F06 | PASS | 44/59 (74.6%)
+
+2026-11-03T07:07:40+00:00 — Exact export, invalid/cancelled import preservation, confirmed import/reset and backup restore verified desktop/mobile; replacements preserve valid/corrupt originals and refuse stale writes; full tests pass.
