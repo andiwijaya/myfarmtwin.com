@@ -325,7 +325,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 ### M3 — Full gameplay vertical slice, mission & economy (9)
 
 - [x] **M3-F01** — One-time starter kit (coop + 2 mature hens + supplies) saat first entry yang idempotent; preserves existing Coins/crop state.
-- [ ] **M3-F02** — Misi Chapter 1 bersama FarmGirl, satu objective aktif, progress terhubung state/actions, tidak mengganggu crop guide.
+- [x] **M3-F02** — Misi Chapter 1 bersama FarmGirl, satu objective aktif, progress terhubung state/actions, tidak mengganggu crop guide.
 - [ ] **M3-F03** — Integrasikan pembelian feed bag ke Market existing; saldo Coins/ledger dan inventory supply atomik.
 - [ ] **M3-F04** — Integrasikan telur grades A/B/C ke inventory/Market, harga config dan transaksi `egg_sale` tepat satu kali.
 - [ ] **M3-F05** — Implement tutorial `Feed → Water → Care → Next Day → Collect → Sell` dengan feedback singkat dan tidak softlock.

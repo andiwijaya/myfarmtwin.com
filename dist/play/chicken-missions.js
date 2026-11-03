@@ -1,0 +1,4 @@
+/** @param {import('./engine.js').State} state */
+export function advanceChickenMission(state){const c=state.chicken;if(!c?.visited||!c.coop)return;const done=[true,c.stats.feedActions>0,c.stats.waterActions>0,c.stats.cleaned>0,c.stats.laid>0,c.stats.collected>0,c.stats.sold>0,c.coop.level>=1];while(c.mission.step<8&&done[c.mission.step])c.mission.step++;}
+/** One active objective shared by panel and guide. @param {import('./engine.js').State} state */
+export function chickenObjective(state){const step=state.chicken?.mission.step||0;return {step,title:'chickenMission'+step,detail:'chickenDetail'+step,target:['#area-chicken','[data-choose-chicken=feeder]','[data-choose-chicken=drinker]','[data-choose-chicken=clean]','#next-day','[data-choose-chicken=nest]','#market-open','#market-open',''][step]};}

@@ -101,3 +101,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M3-F01 | PASS | 25/58 (43.1%)
 
 2026-11-03T14:35:35+00:00 — 70 tests, typecheck/build pass; first entry grants kit once with stable IDs, existing crop/Coins/ledger exact; V2 persistence remains M4 gate.
+
+## M3-F02 | PASS | 26/58 (44.8%)
+
+2026-11-03T14:37:07+00:00 — 71 tests, typecheck/build pass; one bilingual Chicken objective follows real actions, catches up safely, and preserves crop guide/rewards.
