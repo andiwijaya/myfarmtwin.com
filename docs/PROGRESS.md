@@ -213,3 +213,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M7-F03 | PASS | 53/59 (89.8%)
 
 2026-11-03T07:35:32+00:00 — Unused scaffolding/exports/CSS removed, strict unused checks pass; client has zero runtime imports/debug logs, EN/ID key parity; npm audit 0 vulnerabilities, original media hash intact; full regression passes.
+
+## M7-F04 | PASS | 54/59 (91.5%)
+
+2026-11-03T07:45:02+00:00 — Chromium 12 size/locale surfaces pass 44px targets/contrast/action labels/no overflow; keyboard/reduced-motion pass; Firefox155 full loop/orders/missions/save pass; physical Android explicitly unavailable.

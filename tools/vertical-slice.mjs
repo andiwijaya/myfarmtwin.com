@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';import {join} from 'node:path';import {writeFile} from 'node:fs/promises';
-export async function runVerticalSlice(base,browser,qa){
+export async function runVerticalSlice(base,browser,qa,devices=[['desktop',1440,1000],['mobile',390,844]]){
  const results=[];
- for(const [device,width,height]of [['desktop',1440,1000],['mobile',390,844]]){
+ for(const [device,width,height]of devices){
   const context=await browser.newContext({viewport:{width,height},isMobile:device==='mobile',hasTouch:device==='mobile',locale:'en-US'});const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));const start=performance.now();
   try{
    await page.goto(base+'/play/',{waitUntil:'networkidle'});assert.equal(await page.locator('#hud-coins').innerText(),'120');

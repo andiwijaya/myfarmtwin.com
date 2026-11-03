@@ -21,3 +21,9 @@ First-harvest sale + pump is instrumented under 180 seconds in fresh contexts (n
 ## Dead-code / dependency checkpoint
 
 Removed the unused initial type scaffold, internal-only renderer/camera exports, obsolete mission-number CSS and unused pending-dialog data. Enabled TypeScript noUnusedLocals/noUnusedParameters. Client audit checks debug statements, external runtime imports and referenced EN/ID key parity. Runtime dependencies remain zero; fixed development tools are Playwright 1.64.1 and TypeScript 7.0.2. `npm audit` reported 0 vulnerabilities across all severities. Original approved FarmGirl PNG Git blob remains `14c39ccbe566ef666fb8f6e3fb5527e545da619c`, matching baseline 31bbced. Local Git objects ~4.19 MiB at this checkpoint; no QA screenshots/cache or node_modules tracked. Existing publish.zip is user-owned/ignored and retained.
+
+## Compatibility / accessibility
+
+Chromium 153.0.8010.12: widths 320, 360, 390, 768, 1024, 1440 in EN and ID (12 surfaces), zero horizontal overflow. Automated visible HTML action audit: accessible names, ≥44 CSS px targets, action text ≥11 px, normal text contrast ≥4.5:1 against computed backgrounds. Small journal/tip text and speed-button width were found and fixed. Isometric SVG hit areas also have labelled 44 px HTML plot alternatives. Keyboard plot select/Inspect/Escape focus restoration and reduced-motion removal of pump animation passed, including an eight-bed farm. These targeted checks are not a claim of a full WCAG certification.
+
+Firefox 155.0 (existing matching Playwright 1.63 driver/binary) passed the full desktop loop, exact ledger/sale/upgrade, order, expansion, three follow-up missions, reload/reopen and future-clock no-penalty tests. Physical Android hardware is unavailable in this environment; touch/mobile Chromium emulation is the explicit fallback. Evidence: task-2/qa/compatibility.json and Firefox screenshots outside Git.

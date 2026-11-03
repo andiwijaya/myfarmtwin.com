@@ -60,6 +60,7 @@ function render(){
  el('hud-day').textContent=String(Math.floor(state.tick/24)+1);el('hud-coins').textContent=String(state.coins);el('hud-water').textContent=String(Math.floor(state.water));el('hud-seeds').textContent=String(state.seeds.lettuce+state.seeds.tomato);
  el('inventory-harvest').textContent=state.inventory.length?state.inventory.map(lot=>t(lot.type)+' ×'+lot.quantity+' · '+Math.round(lot.quality*100)+'% '+t('quality')).join(' | '):t('noHarvest');
  el('pause').textContent=t(state.paused?'playClock':'pause');el('speed').textContent=state.speed+'×';el('weather-name').textContent=t(state.weather);el('weather-forecast').textContent=t('forecast')+': '+t(forecastWeather(state));
+ el('speed').setAttribute('aria-label',t('clockSpeed'));el('world').setAttribute('aria-label',t('farmMap'));document.querySelector('.hud')?.setAttribute('aria-label',t('farmResources'));el('mission-track').setAttribute('aria-label',t('firstHarvest'));
  el('weather-advice').textContent=t('weather_'+state.weather);
  el('save-status').textContent=t(saveStatus);el('save-status').classList.toggle('save-warning',!['saveSaved','saveResumed'].includes(saveStatus));
  el('resume-summary').hidden=!resumeVisible;el('resume-stats').textContent=t('day')+' '+(Math.floor(state.tick/24)+1)+' · '+state.coins+' '+t('coins')+' · '+state.plots.filter(p=>p.crop).length+' '+t('growingCrops');el('resume-next').textContent=t('nextObjective')+': '+t(currentObjective(state)[0])+' '+t('noOfflineDamage');
