@@ -53,3 +53,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M1-F07 | PASS | 13/59 (22.0%)
 
 2026-11-03T05:59:11+00:00 — Approved FarmGirl portrait loads, concise guide can hide/reopen without blocking plot input; EN/ID and desktop/mobile regression/typecheck/build pass.
+
+## M1-F08 | PASS | 14/59 (23.7%)
+
+2026-11-03T06:00:03+00:00 — Low mode toggles/persists and keeps plot actions usable; Chromium launched with WebGL disabled still renders/selects farm on desktop/mobile; all checks pass.

@@ -6,6 +6,9 @@ const language=/** @type {HTMLSelectElement} */(document.querySelector('#languag
 const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
 /** @type {number|null} */let selected=null;
 let guideExpanded=true;
+let lowGraphics=false;try{lowGraphics=localStorage.getItem('myfarmtwin.graphics')==='low';}catch{/* Optional preference. */}
+function renderGraphics(){document.body.classList.toggle('low-graphics',lowGraphics);el('graphics').setAttribute('aria-pressed',String(lowGraphics));}
+el('graphics').addEventListener('click',()=>{lowGraphics=!lowGraphics;renderGraphics();try{localStorage.setItem('myfarmtwin.graphics',lowGraphics?'low':'full');}catch{/* Optional preference. */}});
 function renderGuide(){el('mission-detail').hidden=!guideExpanded;el('guide-portrait').hidden=!guideExpanded;el('guide-toggle').textContent=t(guideExpanded?'hideGuide':'showGuide');el('guide-toggle').setAttribute('aria-expanded',String(guideExpanded));}
 el('guide-toggle').addEventListener('click',()=>{guideExpanded=!guideExpanded;renderGuide();});
 function renderSelection(){
@@ -24,4 +27,5 @@ language.value=getLocale();
 language.addEventListener('change',()=>{setLocale(language.value);translate();renderWorld();renderSelection();renderGuide();});
 translate();
 renderWorld();
+renderGraphics();
 el('hud-coins').textContent=String(STARTER.coins);el('hud-water').textContent=String(STARTER.water);el('hud-seeds').textContent=String(STARTER.seeds);
