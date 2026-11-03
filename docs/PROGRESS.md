@@ -25,3 +25,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M0-F06 | PASS | 6/59 (10.2%)
 
 2026-11-03T05:49:58+00:00 — Safety checkpoint: original editorial/media preserved, local rollback documented, cache/QA/build garbage ignored, clean checkpoint created.
+
+## M1-F01 | PASS | 7/59 (11.9%)
+
+2026-11-03T05:52:05+00:00 — Direct /play/ and refresh pass desktop/touch mobile; EN/ID preference resumes, home backlink/editorial routes intact; isolated build/typecheck/unit pass.

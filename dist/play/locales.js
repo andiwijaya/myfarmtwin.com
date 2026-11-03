@@ -1,0 +1,14 @@
+/** @type {Record<string,Record<string,string>>} */
+export const messages={
+ en:{edition:'THE LITTLE FARM',journal:'Back to journal',eyebrow:'GROW SOMETHING GOOD',title:'A little land. A lot to grow.',intro:'Your own small corner of the world. Start with a seed.',ready:'Welcome to your little farm.',local:'No account. Just you, a little land, and a fresh start.'},
+ id:{edition:'KEBUN KECIL KITA',journal:'Kembali ke jurnal',eyebrow:'TUMBUHKAN HAL BAIK',title:'Lahan kecil. Harapan besar.',intro:'Sudut kecil dunia milikmu. Mulai dari sebutir benih.',ready:'Selamat datang di kebun kecilmu.',local:'Tanpa akun. Hanya kamu, sebidang tanah, dan awal yang baru.'}
+};
+let locale='en';
+try{locale=localStorage.getItem('myfarmtwin.locale')||(navigator.language.startsWith('id')?'id':'en');}catch{locale=navigator.language.startsWith('id')?'id':'en';}
+if(!messages[locale])locale='en';
+/** @param {string} key */
+export const t=key=>messages[locale][key]||messages.en[key]||key;
+export const getLocale=()=>locale;
+/** @param {string} next */
+export function setLocale(next){locale=messages[next]?next:'en';try{localStorage.setItem('myfarmtwin.locale',locale);}catch{/* Optional preference storage unavailable. */}document.documentElement.lang=locale;}
+export function translate(){document.documentElement.lang=locale;document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t(el.getAttribute('data-i18n')||'');});}

@@ -18,6 +18,13 @@ try{
   if(name==='mobile'){await page.locator('.menu-toggle').click();assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'),'true');}
   for(const route of ['/learn/','/grow/','/farm/','/kitchen/','/projects/','/gear/','/about/','/robots.txt','/sitemap.xml']) assert.equal((await page.request.get(base+route)).status(),200,route);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+  const game=await page.request.get(base+'/play/');
+  if(game.status()===200){
+   await page.goto(base+'/play/',{waitUntil:'networkidle'});await page.locator('#language').selectOption('id');assert.equal(await page.locator('html').getAttribute('lang'),'id');
+   await page.reload({waitUntil:'networkidle'});assert.equal(await page.locator('#language').inputValue(),'id');await page.locator('#language').selectOption('en');
+   assert.equal(await page.locator('link[rel=canonical]').getAttribute('href'),'https://myfarmtwin.com/play/');
+   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);report.checks.push({device:name,gameEntry:true,localeResume:true});
+  }
   await page.screenshot({path:join(qa,name+'-latest.png'),fullPage:true});
   report.checks.push({device:name,homepage:true,editorialRoutes:9,overflow:false});await context.close();
  }
