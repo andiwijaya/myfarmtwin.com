@@ -13,3 +13,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M0-F03 | PASS | 3/59 (5.1%)
 
 2026-11-03T05:46:52+00:00 — Isolated builder integration test passed twice; homepage/styles/category/retained asset bytes unchanged; BUILD_SAFETY.md records rollback.
+
+## M0-F04 | PASS | 4/59 (6.8%)
+
+2026-11-03T05:47:36+00:00 — ADR_001 records zero-runtime-dependency SVG isometric architecture, typed headless engine, budgets/fallback/browser targets; documentation review passed.
