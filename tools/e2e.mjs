@@ -1,3 +1,4 @@
+import {settledPage} from './settled-page.mjs';
 import {chromium} from 'playwright';
 import assert from 'node:assert/strict';
 import {startServer} from './serve.mjs';
@@ -16,7 +17,7 @@ const report={at:new Date().toISOString(),base,checks:[],errors:[]};
 try{
  for(const [name,width,height]of [['desktop',1440,1000],['mobile',390,844]]){
   const context=await browser.newContext({viewport:{width,height},isMobile:name==='mobile',hasTouch:name==='mobile'});
-  const page=await context.newPage();page.on('pageerror',e=>report.errors.push(e.message));
+  const page=settledPage(await context.newPage());page.on('pageerror',e=>report.errors.push(e.message));
   const response=await page.goto(base+'/',{waitUntil:'networkidle'});assert.equal(response.status(),200);
   assert.equal(await page.locator('link[rel=canonical]').getAttribute('href'),'https://myfarmtwin.com/');
   if(name==='mobile'&&await page.locator('.menu-toggle').count()){await page.locator('.menu-toggle').click();assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'),'true');}

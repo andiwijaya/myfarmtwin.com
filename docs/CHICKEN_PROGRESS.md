@@ -157,3 +157,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M4-F06 | PASS | 39/58 (67.2%)
 
 2026-11-03T15:21:22+00:00 — 82 tests/lint/typecheck/build plus eight real tab races, quota/blocked/no-lock/rejected-lock, logical/hidden clock and EN/ID actual-touch data/save/cross-crop regressions pass.
+
+## M4-F07 | PASS | 40/58 (69.0%)
+
+2026-11-03T23:41:32+00:00 — CRITICAL GATE PASS: 83 tests and full crop/save/data/black-box browser suite; paid35/31-day mixed farms exact autosave/replay, min53/54 Coins, zero duplicates/drift.

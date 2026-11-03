@@ -1,9 +1,10 @@
+import {settledPage} from './settled-page.mjs';
 import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import {createState,dispatch} from '../game/client/engine.js';import {serialize,deserialize} from '../game/client/save-schema.js';
 import {runLongSession} from './long-session.mjs';
 export async function runDataTests(base,browser){
  const results=[],longState=runLongSession(90).state;
  for(const mobile of [false,true]){
-  const context=await browser.newContext({viewport:{width:mobile?390:1440,height:mobile?844:1000},isMobile:mobile,hasTouch:mobile,acceptDownloads:true});const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
+  const context=await browser.newContext({viewport:{width:mobile?390:1440,height:mobile?844:1000},isMobile:mobile,hasTouch:mobile,acceptDownloads:true});const page=settledPage(await context.newPage()),errors=[];page.on('pageerror',e=>errors.push(e.message));
   try{
    await page.goto(base+'/play/',{waitUntil:'networkidle'});await page.locator('[data-choose-plot="0"]').click();await page.locator('#plant').click();const original=await page.evaluate(()=>localStorage.getItem('myfarmtwin.save.v1'));await page.locator('#data-tools summary').click();
    const waiting=page.waitForEvent('download');await page.locator('#export-save').click();const download=await waiting,exported=await readFile(await download.path(),'utf8');assert.deepEqual(deserialize(exported),JSON.parse(original).state);
