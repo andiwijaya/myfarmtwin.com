@@ -14,7 +14,8 @@
     "compat": "node tools/compat-e2e.mjs",
     "audit:client": "node tools/audit-client.mjs",
     "balance": "node tools/balance.mjs",
-    "endurance": "node tools/long-session.mjs"
+    "endurance": "node tools/long-session.mjs",
+    "performance": "node tools/performance.mjs"
   },
   "engines": {
     "node": ">=22"

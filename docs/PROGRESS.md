@@ -217,3 +217,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M7-F04 | PASS | 54/59 (91.5%)
 
 2026-11-03T07:45:02+00:00 — Chromium 12 size/locale surfaces pass 44px targets/contrast/action labels/no overflow; keyboard/reduced-motion pass; Firefox155 full loop/orders/missions/save pass; physical Android explicitly unavailable.
+
+## M7-F05 | PASS | 55/59 (93.2%)
+
+2026-11-03T07:51:56+00:00 — Measured 60 desktop FPS, 44.3 mobile4x proxy/50.4 low; cold interaction240/1668ms, game+thumb137608B; original PNG retained; asset decode/build/full regression pass; physical Android limit documented.

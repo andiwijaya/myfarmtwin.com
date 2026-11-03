@@ -12,7 +12,7 @@ export async function build(root=process.cwd()) {
       const from=join(src,entry.name),to=join(dst,entry.name);
       if((await lstat(from)).isSymbolicLink()) throw new Error('Symlinks are not build inputs');
       if(entry.isDirectory()) await copy(from,to);
-      else if(/\.(html|css|js|svg|json)$/.test(entry.name)) await copyFile(from,to);
+      else if(/\.(html|css|js|svg|json|webp)$/.test(entry.name)) await copyFile(from,to);
     }
   }
   await copy(source,target);
