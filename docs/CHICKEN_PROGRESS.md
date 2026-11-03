@@ -165,3 +165,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M5-F01 | PASS | 41/58 (70.7%)
 
 2026-11-03T23:43:59+00:00 — 84 tests/typecheck/build and EN/ID desktop/actual-touch pass; final160-Coin tier expands6 hens/4000g/10L, visible roof, atomic guards and exact reload.
+
+## M5-F02 | PASS | 42/58 (72.4%)
+
+2026-11-03T23:46:16+00:00 — 85 tests/typecheck/build and four EN/ID desktop/actual-touch checks pass; paid adult hens use unique IDs, capacity/funds/replay guards and six safe positions.
