@@ -149,3 +149,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M4-F04 | PASS | 37/58 (63.8%)
 
 2026-11-03T15:02:36+00:00 — V2 exact pending/collection/sale/upgrade reload and new-context EN/ID desktop/actual-touch pass; clock shift causes no penalty; established V1 migration/entry exact.
+
+## M4-F05 | PASS | 38/58 (65.5%)
+
+2026-11-03T15:07:11+00:00 — 82 tests/typecheck/build and EN/ID desktop/actual-touch data flows pass; exact export/import/cancel/reset/backup, no ghost yard, corrupt+archive originals preserved/exportable.
