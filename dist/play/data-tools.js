@@ -6,9 +6,9 @@ export function renderData(session){el('export-original').hidden=!session.origin
 /** @param {{getState:()=>import('./engine.js').State,replace:(state:import('./engine.js').State)=>void,session:import('./storage.js').SaveSession}} options */
 export function setupData({getState,replace,session}){
  const dialog=/** @type {HTMLDialogElement} */(el('data-confirm')),input=/** @type {HTMLInputElement} */(el('import-save'));
- /** @type {{state:import('./engine.js').State,kind:string}|null} */let pending=null;
+ /** @type {{state:import('./engine.js').State}|null} */let pending=null;
  /** @param {import('./engine.js').State} state @param {string} kind */
- function confirm(state,kind){pending={state,kind};el('data-confirm-title').textContent=t(kind==='reset'?'resetQuestion':'importQuestion');el('data-confirm-copy').textContent=t('replaceWarning')+' '+t('day')+' '+(Math.floor(state.tick/24)+1)+' · '+state.coins+' '+t('coins')+' · '+state.plots.length+' '+t('bedsBuilt');dialog.showModal();}
+ function confirm(state,kind){pending={state};el('data-confirm-title').textContent=t(kind==='reset'?'resetQuestion':'importQuestion');el('data-confirm-copy').textContent=t('replaceWarning')+' '+t('day')+' '+(Math.floor(state.tick/24)+1)+' · '+state.coins+' '+t('coins')+' · '+state.plots.length+' '+t('bedsBuilt');dialog.showModal();}
  el('export-save').addEventListener('click',()=>{try{download(serialize(getState()),'myfarmtwin-save.json');el('data-message').textContent=t('saveExported');}catch{el('data-message').textContent=t('invalidSave');}});
  el('export-original').addEventListener('click',()=>{const raw=session.original();if(raw)download(raw,'myfarmtwin-stored-original.json');});
  input.addEventListener('change',async()=>{const file=input.files?.[0];if(!file)return;try{if(file.size>MAX_SAVE_BYTES)throw new Error('large');const state=deserialize(await file.text());confirm(state,'import');}catch{el('data-message').textContent=t('invalidSave');input.value='';}});

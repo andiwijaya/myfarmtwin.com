@@ -1,5 +1,5 @@
 import {t} from './locales.js';
-export const view={x:0,y:0,scale:1};
+const view={x:0,y:0,scale:1};
 const clamp=(/** @type {number} */n,/** @type {number} */min,/** @type {number} */max)=>Math.max(min,Math.min(max,n));
 function apply(){document.querySelector('#map-camera')?.setAttribute('transform',`translate(${view.x} ${view.y}) translate(450 270) scale(${view.scale}) translate(-450 -270)`);}
 /** @param {number} id */

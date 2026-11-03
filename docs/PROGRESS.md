@@ -209,3 +209,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M7-F02 | PASS | 52/59 (88.1%)
 
 2026-11-03T07:30:29+00:00 — White-box matrix plus 2500 seeded mixed/invalid commands checks immutable inputs, bounds/ledger/replay/save invariants; all unit/integration and full desktop/mobile regression passes.
+
+## M7-F03 | PASS | 53/59 (89.8%)
+
+2026-11-03T07:35:32+00:00 — Unused scaffolding/exports/CSS removed, strict unused checks pass; client has zero runtime imports/debug logs, EN/ID key parity; npm audit 0 vulnerabilities, original media hash intact; full regression passes.

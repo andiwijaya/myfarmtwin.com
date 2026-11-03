@@ -1,20 +1,18 @@
 import {t} from './locales.js';
 import {bindCamera} from './camera.js';
-import {INITIAL_PLOTS,PUMP} from './config.js';
+import {PUMP} from './config.js';
 import {pumpCovers} from './engine.js';
 import {condition} from './care.js';
 const NS='http://www.w3.org/2000/svg';
 /** @param {number} x @param {number} y */
-export const iso=(x,y)=>({x:450+(x-y)*44,y:82+(x+y)*22});
+const iso=(x,y)=>({x:450+(x-y)*44,y:82+(x+y)*22});
 /** @param {string} name @param {Record<string,string|number>} attrs @param {Element} parent */
 function node(name,attrs,parent){const el=document.createElementNS(NS,name);for(const [key,val]of Object.entries(attrs))el.setAttribute(key,String(val));parent.append(el);return el;}
 /** @param {number} x @param {number} y @param {number} w @param {number} h */
 const diamond=(x,y,w=43,h=21)=>`${x},${y-h} ${x+w},${y} ${x},${y+h} ${x-w},${y}`;
 /** @typedef {{id:number,x:number,y:number,crop?:import('./engine.js').Crop|null,soilWaterMm?:number,soilCapacityMm?:number,lastWaterTick?:number}} WorldPlot */
-/** @type {readonly WorldPlot[]} */
-export const initialPlots=INITIAL_PLOTS;
-/** @param {readonly WorldPlot[]} [plots] @param {number} [tick] @param {{built:boolean,on:boolean,efficient?:boolean}} [pump] */
-export function renderWorld(plots=initialPlots,tick=0,pump={built:false,on:false}){
+/** @param {readonly WorldPlot[]} plots @param {number} [tick] @param {{built:boolean,on:boolean,efficient?:boolean}} [pump] */
+export function renderWorld(plots,tick=0,pump={built:false,on:false}){
  const host=/** @type {HTMLElement} */(document.querySelector('#world'));host.replaceChildren();
  const svg=node('svg',{viewBox:'0 0 900 540',class:'farm-scene',role:'img','aria-label':t('farmMap')},host);
  const title=node('title',{},svg);title.textContent=t('farmMap');
