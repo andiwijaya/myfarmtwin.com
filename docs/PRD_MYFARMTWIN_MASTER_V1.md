@@ -285,7 +285,7 @@ myfarmtwin.com/
 - [x] **M7-F06 — SEO/navigation regression.** Homepage, existing routes, canonical, OG, sitemap, robots, GA4 yang sudah ada tetap bekerja; game link no 404 dan link balik home ada.
 - [x] **M7-F07 — Data/privacy/security.** Tidak ada key di frontend, insecure HTML injection, insecure external script, dependency vulnerability kritis, atau data PII dalam telemetry; save parse tervalidasi.
 - [x] **M7-F08 — Deploy & production smoke.** Jalankan local build/test, commit lokal, push/deploy aman setelah release gate. Verifikasi URL live desktop+mobile dan rollback siap. Jangan memakai GitHub Actions berulang (kuota terbatas).
-- [ ] **M7-F09 — Release report & handoff.** `docs/RELEASE_REPORT_V1.md`: fitur, test & screenshot evidence, commit, live URL yang benar-benar diverifikasi, known issues, backlog dan prosentase checklist final.
+- [x] **M7-F09 — Release report & handoff.** `docs/RELEASE_REPORT_V1.md`: fitur, test & screenshot evidence, commit, live URL yang benar-benar diverifikasi, known issues, backlog dan prosentase checklist final.
 
 **Urutan wajib:** M0 → M1 → M2 → M3 (vertical-slice gate) → M4 → M5 → M6 → M7. **Jangan menambah dekorasi, artikel, hewan, greenhouse, banyak crops, atau AI sebelum M3-F08 lulus.** Dot dapat memecah subtask lebih kecil, tetapi jangan melewati acceptance gate.
 

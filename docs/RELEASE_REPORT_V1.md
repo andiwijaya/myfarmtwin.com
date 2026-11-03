@@ -1,6 +1,6 @@
 # MyFarmTwin V1 release report
 
-Status: local release gates complete; first production core smoke passed. A game-only Cloudflare beacon-injection header fix is being reverified before final release closure.
+Status: V1 complete, all 59 micro-features verified. Production https://myfarmtwin.com/play/ is live and the post-deploy release checks passed. The requested homepage cleanup is a separate subsequent local increment.
 
 ## Delivered
 
@@ -18,14 +18,20 @@ EN/ID isometric browser farm at /play/ alongside the retained editorial site. Th
 
 ## Publication
 
-Candidate commit, deployment ID, verified live URL and production evidence will be recorded after the authorized one-code-release push. Public hosting: Cloudflare Pages myfarmtwin-com, GitHub main, dist, no remote build command. No GitHub Actions, nameserver or audience change.
+Final production source: `c90072450cca37d7dbcff6bc53b0265da6e01236`. Cloudflare canonical production deployment: `d364b762-306e-4503-b73b-c733b333e550`, successful 2026-11-03 08:24:45 UTC (15:24:45 WIB). Live URL: https://myfarmtwin.com/play/; immutable deployment URL: https://d364b762.myfarmtwin-com.pages.dev/play/.
+
+The initial source e621c5b38b7c17a9561fcebcbb9ba69544869860 deployed as a0893aa5-370d-4982-8e7e-fc3998200346. The live core loop passed, but edge-injected analytics caused a CSP violation. A documented game-only no-transform cache header fixed it without relaxing CSP or changing analytics/account settings elsewhere. Two code deployments were needed; final report/checklist-only commits use Cloudflare's documented `[CF-Pages-Skip]` prefix. No production assets change in those commits.
+
+Public hosting: Cloudflare Pages myfarmtwin-com, GitHub main, dist, empty build command. No GitHub Actions, nameserver or audience change. Existing private Sites registration was audited but is not the live serving origin and was not published.
+
+Post-fix public checks: 33 resource bodies exactly match Git source; nine routes, canonical/OG/sitemap/internal links and 15 editorial layout/menu surfaces pass. Desktop/touch-mobile game entry, both languages, full tutorial loop, order, expansion, all three follow-up missions, exact resume, corrupt/old/future saves, imports/exports/reset and black-box safety paths pass. First automated sale plus upgrade: 2.645 seconds desktop / 2.502 seconds mobile, three game days. These are automation timings, not human completion claims. Firefox 155 production full slice also passes (4.622 seconds to automated sale/upgrade). Actual game headers, no-transform, zero external requests, zero CSP/page errors, malicious import rejection and exact existing-save preservation pass on desktop/mobile.
 
 Rollback: previous production deployment 6475a81e-aedb-4ccb-8b05-0a48c8287514 / source 31bbcedcc4a314c0562b2df0e08b0b58d4a53f13, or revert the release source and deploy dist again. Browser saves are separate local data and must be retained.
 
 ## Evidence / known limits
 
-Local evidence outside Git: task-2/qa/latest.json, vertical-slice.json, compatibility.json, performance.json, seo-regression.json, security.json and desktop/mobile/Firefox screenshots. No QA screenshots/cache/node_modules are committed.
+Evidence outside Git: task-2/qa local reports and task-2/qa/live/latest.json, vertical-slice.json, security.json, seo-regression.json, live-integrity.json, firefox/result.json and desktop/mobile/Firefox screenshots. Screenshots were visually reviewed. No QA screenshots/cache/node_modules are committed.
 
 Physical Android performance, physical touch hardware and human enjoyment/completion timing remain unmeasured; automated Chromium touch emulation is the documented fallback. Model is educational, weather/prices are fictional, no offline simulation/PWA/backend/login. Editorial category copy remains an existing placeholder backlog. No known blocking issue in tested scenarios.
 
-Final checklist and repository state will be recorded after production verification and cleanup.
+Checklist: 59/59 (100%). Each micro-feature has a local commit and evidence in PROGRESS.md. Owned failed-transfer helper/cache and empty scratch directory were removed; original PRD source, QA evidence and user files were retained. Main is synchronized to origin after report-only completion; production remains the verified c900724 source. Follow-on homepage work, if prepared, is isolated locally and is not included in this release or publication authorization.
