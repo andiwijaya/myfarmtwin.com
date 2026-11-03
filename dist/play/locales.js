@@ -15,6 +15,7 @@ Object.assign(messages.id,{day:'Hari',coins:'Koin',waterStock:'Air',inventory:'I
 Object.assign(messages.en,{hideGuide:'Hide guide',showGuide:'Show guide'});Object.assign(messages.id,{hideGuide:'Tutup tips',showGuide:'Buka tips'});
 Object.assign(messages.en,{lowGraphics:'Low graphics',mapHint:'Tap a bed, or use the plot buttons. Drag to explore.'});Object.assign(messages.id,{lowGraphics:'Grafis ringan',mapHint:'Ketuk petak atau gunakan tombol petak. Geser untuk menjelajah.'});
 Object.assign(messages.en,{playClock:'Play clock',paused:'Clock is paused.',staleCommand:'That action was already handled.',unknownCommand:'That action is not available.'});Object.assign(messages.id,{playClock:'Jalankan waktu',paused:'Waktu sedang dijeda.',staleCommand:'Aksi itu sudah diproses.',unknownCommand:'Aksi itu belum tersedia.'});
+Object.assign(messages.en,{lettuce:'Lettuce',tomato:'Tomato',chooseCrop:'Choose a crop',gameDays:'game days',seed:'seed'});Object.assign(messages.id,{lettuce:'Selada',tomato:'Tomat',chooseCrop:'Pilih tanaman',gameDays:'hari game',seed:'benih'});
 try{locale=localStorage.getItem('myfarmtwin.locale')||(navigator.language.startsWith('id')?'id':'en');}catch{locale=navigator.language.startsWith('id')?'id':'en';}
 if(!messages[locale])locale='en';
 /** @param {string} key */

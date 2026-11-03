@@ -2,10 +2,12 @@ import {getLocale,setLocale,translate,t} from './locales.js';
 import {renderWorld,initialPlots} from './world.js';
 import {el} from './dom.js';
 import {createState,dispatch} from './engine.js';
+import {CROPS,CROP_IDS} from './config.js';
 /** @type {import('./engine.js').State} */let state=createState();
 const language=/** @type {HTMLSelectElement} */(document.querySelector('#language'));
 const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
 /** @type {number|null} */let selected=null;
+/** @type {import('./engine.js').CropId} */let chosenCrop='lettuce';
 let guideExpanded=true;
 let lowGraphics=false;try{lowGraphics=localStorage.getItem('myfarmtwin.graphics')==='low';}catch{/* Optional preference. */}
 function renderGraphics(){document.body.classList.toggle('low-graphics',lowGraphics);el('graphics').setAttribute('aria-pressed',String(lowGraphics));}
@@ -19,6 +21,9 @@ function renderSelection(){
  if(selected===null)return;
  el('plot-heading').textContent=t('plot')+' '+(selected+1);
  el('plot-status').textContent=t('emptyBed');
+ const actions=el('plot-actions');actions.replaceChildren();const label=document.createElement('label');label.className='crop-picker';label.textContent=t('chooseCrop');const picker=document.createElement('select');picker.id='crop-choice';picker.setAttribute('aria-label',t('chooseCrop'));
+ for(const id of CROP_IDS){const option=document.createElement('option');option.value=id;option.textContent=t(id);picker.append(option);}picker.value=chosenCrop;picker.addEventListener('change',()=>{chosenCrop=/** @type {import('./engine.js').CropId} */(picker.value);renderSelection();});label.append(picker);actions.append(label);
+ const info=document.createElement('p');info.id='crop-info';const c=CROPS[chosenCrop];info.textContent=`${c.hours/24} ${t('gameDays')} · ${c.waterPerDayMm} mm/${t('day').toLowerCase()} · ${c.seedPrice} ${t('coins')}/${t('seed')}`;actions.append(info);
 }
 function closePlot(){const old=selected;selected=null;renderSelection();if(old!==null){const button=/** @type {HTMLButtonElement|null} */(document.querySelector(`[data-choose-plot="${old}"]`));button?.focus();}}
 document.addEventListener('plotselect',event=>{const id=/** @type {CustomEvent<number>} */(event).detail;if(!Number.isInteger(id)||!state.plots.some(p=>p.id===id))return;selected=id;renderSelection();});

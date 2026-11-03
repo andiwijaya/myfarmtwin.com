@@ -61,3 +61,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M2-F01 | PASS | 15/59 (25.4%)
 
 2026-11-03T06:03:07+00:00 — Headless seeded 480-hour replay identical, immutable input/stale command/pause tests pass; desktop/mobile Next Day updates HUD and clock/speed controls; full checks pass.
+
+## M2-F02 | PASS | 16/59 (27.1%)
+
+2026-11-03T06:04:06+00:00 — Data-driven lettuce/tomato duration/water/seed/yield/price/stages validated; crop selector and ID/EN descriptions verified desktop/mobile; full checks pass.
