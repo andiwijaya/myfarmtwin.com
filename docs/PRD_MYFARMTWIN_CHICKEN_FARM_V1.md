@@ -312,7 +312,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 - [x] **M2-F01** — Definisikan `ChickenYard/Coop/Hen/EggLot` config dan types/invariants; stable IDs tanpa bentrok dengan crop.
 - [x] **M2-F02** — Implement command factory/validator Chicken memakai revision + idempotency engine existing, tidak mutate DOM sebagai source.
 - [x] **M2-F03** — Implement kapasitas & stok pakan (g), purchase-to-store dan transfer-to-feeder; tidak boleh feed negatif/duplikasi.
-- [ ] **M2-F04** — Implement drinker (L) dan refill yang mengurangi farm tank dalam jumlah sama; water conservation.
+- [x] **M2-F04** — Implement drinker (L) dan refill yang mengurangi farm tank dalam jumlah sama; water conservation.
 - [ ] **M2-F05** — Implement tick consumption pakan/air per hen, dengan weather multiplier dari weather existing, seeded test.
 - [ ] **M2-F06** — Implement `cleanliness`, aksi cleaning, biaya/aturan interval yang teruji; tidak ada reward-farming lewat spam.
 - [ ] **M2-F07** — Implement comfort/welfare derived score berbasis faktor real dan recovery bertahap; no offline depletion/death.

@@ -69,3 +69,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M2-F03 | PASS | 17/58 (29.3%)
 
 2026-11-03T14:18:16+00:00 — Feed bag purchase uses shared Coins/ledger and bounded store; transfer conserves grams including fractions. Full/empty/no-funds/replay guards atomic;55 total tests,typecheck/build and exact crop replay pass.
+
+## M2-F04 | PASS | 18/58 (31.0%)
+
+2026-11-03T14:26:42+00:00 — 57 tests, typecheck and build pass; shared-tank fractional transfers conserve water, replay/full/empty guards are atomic.
