@@ -1,4 +1,4 @@
-import {STARTER,INITIAL_PLOTS,CROP_IDS,CROPS,WATER,WEATHER,LIMITS,MISSION_REWARDS,PUMP,ORDERS} from './config.js';
+import {STARTER,INITIAL_PLOTS,CROP_IDS,CROPS,WATER,WEATHER,LIMITS,MISSION_REWARDS,PUMP,ORDERS,EXPANSION} from './config.js';
 import {waterBalance,clamp} from './water.js';
 import {advanceMission} from './missions.js';
 import {assertInvariants} from './invariants.js';
@@ -16,6 +16,8 @@ import {assertInvariants} from './invariants.js';
 export function createState(seed=6321){return {saveVersion:1,revision:0,tick:0,seed:seed>>>0,rng:seed>>>0,weather:'sunny',paused:true,speed:1,coins:STARTER.coins,water:STARTER.water,careCredits:0,seeds:{lettuce:STARTER.seeds,tomato:0},plots:INITIAL_PLOTS.map(p=>({...p,soilWaterMm:12,soilCapacityMm:50,crop:null,waterAppliedMm:0,careCost:0,lastWaterTick:-1,history:[]})),inventory:[],ledger:[],mission:{step:0,rewards:[]},pump:{built:false,on:false,runHours:0,stopReason:''},stats:{planted:0,watered:0,cared:0,harvested:0,sold:0,hotCare:0,orders:0},completedOrders:[],nextLot:1};}
 /** @param {State} state */
 export const recoveryAvailable=state=>state.coins<CROPS.lettuce.seedPrice&&state.seeds.lettuce+state.seeds.tomato===0&&state.inventory.length===0&&!state.plots.some(p=>p.crop);
+/** @param {State} state */
+export const expansionPrice=state=>EXPANSION.price+EXPANSION.increment*(state.plots.length-INITIAL_PLOTS.length);
 /** @param {{x:number,y:number}} plot */
 export const pumpCovers=plot=>Math.abs(plot.x-PUMP.x)+Math.abs(plot.y-PUMP.y)<=PUMP.range;
 /** @param {State} state */
@@ -45,6 +47,10 @@ export function dispatch(input,command){
  if(!command||!Number.isSafeInteger(command.id)||command.id!==input.revision+1)return reject('staleCommand');
  const state=structuredClone(input);/** @type {DomainEvent[]} */const events=[];
  switch(command.type){
+  case 'expand':{
+   if(state.mission.step<7)return reject('ordersLocked');if(state.plots.length>=LIMITS.plots)return reject('farmFull');const price=expansionPrice(state);if(state.coins<price)return reject('noCoins');const cell=EXPANSION.cells[state.plots.length-INITIAL_PLOTS.length];if(!cell)return reject('farmFull');
+   state.plots.push({id:state.plots.length,...cell,soilWaterMm:12,soilCapacityMm:50,crop:null,waterAppliedMm:0,careCost:0,lastWaterTick:-1,history:[]});transact(state,'facility_purchase',-price,command.id+':expand');events.push({type:'expanded'});break;
+  }
   case 'order':{
    const order=ORDERS.find(o=>o.id===command.order);if(!order)return reject('invalidOrder');if(state.mission.step<7)return reject('ordersLocked');if(state.completedOrders.includes(order.id))return reject('orderDone');
    for(const crop of CROP_IDS)if(state.inventory.filter(l=>l.type===crop).reduce((n,l)=>n+l.quantity,0)<(order.needs[crop]||0))return reject('orderMissing');

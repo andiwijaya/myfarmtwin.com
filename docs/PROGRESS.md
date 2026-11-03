@@ -149,3 +149,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M4-F06 | PASS | 37/59 (62.7%)
 
 2026-11-03T06:45:22+00:00 — Optional current-weather advice explains actual rain/hot effects and selects a relevant bed; hot-care counts only real watering; desktop/mobile and full slice/order regression pass.
+
+## M4-F07 | PASS | 38/59 (64.4%)
+
+2026-11-03T06:47:09+00:00 — Expansion charges bounded scaling costs, unique grid cells and max8; roundtrip retains farm; desktop/mobile build fourth bed and plant it; full slice/order regression pass (browser save in M5).

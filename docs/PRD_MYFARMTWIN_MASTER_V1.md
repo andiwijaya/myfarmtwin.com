@@ -255,7 +255,7 @@ myfarmtwin.com/
 - [x] **M4-F04 — Second crop balancing.** Perbedaan nyata selada dan tomat (durasi, kebutuhan air, nilai jual); tidak ada strategi dominan yang merusak loop.
 - [x] **M4-F05 — Market orders.** 2–3 order sederhana yang feasible dengan unlock; reward dibayar sekali; refresh deterministik/terkendali.
 - [x] **M4-F06 — Weather mini-events.** Hujan/panas memicu pilihan care dan info, bukan random penalty tak terduga.
-- [ ] **M4-F07 — Build/expansion visibility.** Bed/fasilitas baru tampil tepat pada grid dan bertahan setelah load; batas grid/petak valid.
+- [x] **M4-F07 — Build/expansion visibility.** Bed/fasilitas baru tampil tepat pada grid dan bertahan setelah load; batas grid/petak valid.
 
 ### M5 — Save, return visit, dan progression
 
