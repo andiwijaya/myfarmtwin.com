@@ -343,7 +343,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 - [x] **M4-F03** — Pastikan legacy migration chain yang didukung tidak rusak; explicit future-version rejection dan rollback data policy.
 - [x] **M4-F04** — Autosave/reload/resume: egg day boundary tidak menghasilkan extra eggs, grants tidak berulang, UI world cocok snapshot.
 - [x] **M4-F05** — Export/import save, cancel/invalid import, confirmed reset, backup & corrupt quarantine mencakup Chicken state.
-- [ ] **M4-F06** — Two-tabs/stale revisions, paused/hidden tab, `Next Day` vs regular ticks, system clock changes, storage blocked/quota errors: fail safely.
+- [x] **M4-F06** — Two-tabs/stale revisions, paused/hidden tab, `Next Day` vs regular ticks, system clock changes, storage blocked/quota errors: fail safely.
 - [ ] **M4-F07** — Endurance 30+ game days mixed farm: crop+chicken+shared water+economy, save roundtrips each day, zero negative/duplicate.
 
 **M4 release-critical gate:** aman bagi pemain yang sudah punya farm; exact resume, import/export, backup and concurrency valid. **M0–M4 = MVP release gate.**

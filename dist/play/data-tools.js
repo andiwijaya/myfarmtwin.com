@@ -3,7 +3,7 @@ import {el} from './dom.js';import {t} from './locales.js';import {serialize,des
 function download(text,name){const url=URL.createObjectURL(new Blob([text],{type:'application/json'}));const link=document.createElement('a');link.href=url;link.download=name;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 /** @param {import('./storage.js').SaveSession} session */
 export function renderData(session){el('export-original').hidden=!session.original();const archive=session.migrationOriginal();el('export-pre-chicken').hidden=!archive||archive===session.original();el('restore-backup').hidden=!session.backup();/** @type {HTMLInputElement} */(el('import-save')).setAttribute('aria-label',t('importSave'));}
-/** @param {{getState:()=>import('./engine.js').State,replace:(state:import('./engine.js').State)=>void,session:import('./storage.js').SaveSession}} options */
+/** @param {{getState:()=>import('./engine.js').State,replace:(state:import('./engine.js').State)=>void|Promise<void>,session:import('./storage.js').SaveSession}} options */
 export function setupData({getState,replace,session}){
  const dialog=/** @type {HTMLDialogElement} */(el('data-confirm')),input=/** @type {HTMLInputElement} */(el('import-save'));
  /** @type {{state:import('./engine.js').State}|null} */let pending=null;
@@ -16,5 +16,5 @@ export function setupData({getState,replace,session}){
  el('reset-save').addEventListener('click',()=>confirm(createState(),'reset'));
  el('restore-backup').addEventListener('click',()=>{const backup=session.backup();if(backup)confirm(backup,'backup');else el('data-message').textContent=t('invalidSave');});
  el('data-cancel').addEventListener('click',()=>{pending=null;input.value='';dialog.close();});dialog.addEventListener('cancel',()=>{pending=null;input.value='';});
- el('data-apply').addEventListener('click',()=>{if(!pending)return;try{replace(pending.state);el('data-message').textContent=t('saveReplaced');}catch(error){el('data-message').textContent=t(error instanceof Error&&['saveConflict','savePreserveFirst'].includes(error.message)?error.message:'saveUnavailable');}pending=null;input.value='';dialog.close();renderData(session);});
+ el('data-apply').addEventListener('click',async()=>{if(!pending)return;const replacement=pending;pending=null;const apply=/** @type {HTMLButtonElement} */(el('data-apply'));apply.disabled=true;try{await replace(replacement.state);el('data-message').textContent=t('saveReplaced');}catch(error){el('data-message').textContent=t(error instanceof Error&&['saveConflict','savePreserveFirst'].includes(error.message)?error.message:'saveUnavailable');}finally{apply.disabled=false;input.value='';dialog.close();renderData(session);}});
 }

@@ -153,3 +153,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M4-F05 | PASS | 38/58 (65.5%)
 
 2026-11-03T15:07:11+00:00 — 82 tests/typecheck/build and EN/ID desktop/actual-touch data flows pass; exact export/import/cancel/reset/backup, no ghost yard, corrupt+archive originals preserved/exportable.
+
+## M4-F06 | PASS | 39/58 (67.2%)
+
+2026-11-03T15:21:22+00:00 — 82 tests/lint/typecheck/build plus eight real tab races, quota/blocked/no-lock/rejected-lock, logical/hidden clock and EN/ID actual-touch data/save/cross-crop regressions pass.

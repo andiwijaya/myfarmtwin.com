@@ -12,13 +12,17 @@ import {currentObjective,FOLLOWUPS} from './missions.js';
 import {setupMarket,renderMarket,renderShop,renderOrders} from './market.js';
 import {condition,causality} from './care.js';
 import {SaveSession,browserStorage,SAVE_KEY} from './storage.js';
+import {withSaveLock,writeLockAvailable} from './save-lock.js';
 import {setupData,renderData} from './data-tools.js';
 import {setupInspect,showInspect,renderInspect,renderReasons,renderTrends} from './inspect.js';
-const saveSession=new SaveSession(browserStorage()),loaded=saveSession.load();
+let saveSession=new SaveSession(browserStorage(writeLockAvailable()));
+function openSession(){const result=saveSession.load();if(result.status==='saveReady'){try{saveSession.save(createState());result.status='saveSaved';}catch{result.status='saveUnavailable';}}else if(!writeLockAvailable()&&result.status==='saveResumed')result.status='saveUnavailable';return result;}
+/** @type {ReturnType<SaveSession['load']>} */
+let loaded;try{loaded=await withSaveLock(openSession);}catch{saveSession=new SaveSession(browserStorage(false));loaded=openSession();if(loaded.status==='saveResumed')loaded.status='saveUnavailable';}
 /** @type {import('./engine.js').State} */let state=loaded.state||createState();
 let saveStatus=loaded.status,externalChange=false;
 let resumeVisible=!!loaded.state;
-if(loaded.status==='saveReady'){try{saveSession.save(state);saveStatus='saveSaved';}catch{saveStatus='saveUnavailable';}}
+
 const language=/** @type {HTMLSelectElement} */(document.querySelector('#language'));
 const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
 /** @type {number|null} */let selected=null;
@@ -35,7 +39,7 @@ document.addEventListener('camerachanged',()=>{if(activeArea==='chicken')renderC
 function closeChicken(){const old=selectedChicken;selectedChicken='';renderChickenSelection();/** @type {HTMLButtonElement|null} */(document.querySelector('[data-choose-chicken='+old+']'))?.focus();}
 el('close-chicken').addEventListener('click',closeChicken);
 el('area-field').addEventListener('click',()=>{clearNotice();activeArea='field';render();});
-el('area-chicken').addEventListener('click',()=>{if(FEATURES.chicken){clearNotice();activeArea='chicken';if(!state.chicken?.visited)send('enterYard');else render();}});
+el('area-chicken').addEventListener('click',()=>{if(FEATURES.chicken){clearNotice();if(!state.chicken?.visited&&externalChange){notify(t('saveConflict'));return;}activeArea='chicken';if(!state.chicken?.visited)send('enterYard');else render();}});
 el('continue-farm').addEventListener('click',()=>{celebrationDismissed=true;chosenCrop='tomato';const empty=state.plots.find(p=>!p.crop);if(empty)selected=empty.id;render();});
 el('resume-continue').addEventListener('click',()=>{resumeVisible=false;render();});
 /** @type {ReturnType<typeof setTimeout>|undefined} */let noticeTimer;
@@ -88,12 +92,20 @@ function render(){
  el('map-hint').textContent=t(activeArea==='chicken'?'yardMapHint':'fieldMapHint');if(activeArea==='chicken')el('weather-advice').textContent=t('yardWeather_'+state.weather);
  if(activeArea==='chicken'){renderChickenSelection();panel.hidden=true;el('pump-panel').hidden=true;el('mission-track').hidden=false;el('followup-missions').hidden=true;el('celebration').hidden=true;el('guide-chapter').textContent=t('chickenArea');const objective=chickenObjective(state);el('mission-title').textContent=t(objective.title);el('mission-detail').textContent=t(objective.detail);el('mission-track').setAttribute('aria-valuemax','8');el('mission-track').setAttribute('aria-valuenow',String(objective.step));el('mission-track').setAttribute('aria-label',t('chickenArea'));el('mission-progress').style.width=100*objective.step/8+'%';document.querySelectorAll('.mission-target').forEach(e=>e.classList.remove('mission-target'));if(objective.target)document.querySelector(objective.target)?.classList.add('mission-target');el('world').setAttribute('aria-label',t('chickenArea'));}else{el('mission-track').hidden=false;el('mission-track').setAttribute('aria-valuemax','7');el('chicken-panel').hidden=true;}
 }
+let writeQueue=Promise.resolve();
+/** @param {()=>void|Promise<void>} action */
+function queueSave(action){const next=writeQueue.then(()=>withSaveLock(action));writeQueue=next.catch(()=>{});return next;}
 /** @param {import('./engine.js').CommandType} type @param {Partial<import('./engine.js').Command>} [extra] */
-function send(type,extra={}){if(externalChange){notify(t('saveConflict'));return;}const result=dispatch(state,{...extra,id:state.revision+1,type});if(result.ok){state=result.state;resumeVisible=false;try{saveSession.save(state);saveStatus='saveSaved';}catch(error){const prior=saveStatus;saveStatus=error instanceof Error&&['saveConflict','saveCorrupt'].includes(error.message)?error.message:'saveUnavailable';if(saveStatus==='saveCorrupt'&&['saveNewer','saveRecoveryPreview','saveMigrationPreview'].includes(prior))saveStatus=prior;if(saveStatus==='saveConflict')externalChange=true;}const reward=result.events.find(e=>e.type==='missionReward');notify((result.events.length?t(result.events[0].type):'')+(reward?' +'+reward.amount+' '+t('coins')+' · '+t('mission_reward'):''));render();}else notify(t(result.error));}
+function send(type,extra={}){return queueSave(()=>{
+ if(type==='tick'&&document.hidden)return;if(externalChange){notify(t('saveConflict'));return;}
+ const result=dispatch(state,{...extra,id:state.revision+1,type});if(!result.ok){notify(t(result.error));return;}
+ try{saveSession.save(result.state);saveStatus='saveSaved';}catch(error){const prior=saveStatus;saveStatus=error instanceof Error&&['saveConflict','saveCorrupt'].includes(error.message)?error.message:'saveUnavailable';if(saveStatus==='saveCorrupt'&&['saveNewer','saveRecoveryPreview','saveMigrationPreview'].includes(prior))saveStatus=prior;if(saveStatus==='saveConflict'){externalChange=true;notify(t('saveConflict'));render();return;}}
+ state=result.state;resumeVisible=false;const reward=result.events.find(e=>e.type==='missionReward');notify((result.events.length?t(result.events[0].type):'')+(reward?' +'+reward.amount+' '+t('coins')+' · '+t('mission_reward'):''));render();
+}).catch(()=>{saveStatus='saveUnavailable';notify(t('saveUnavailable'));render();});}
 el('next-day').addEventListener('click',()=>send('nextDay'));el('pause').addEventListener('click',()=>send('pause'));el('speed').addEventListener('click',()=>send('speed'));
 el('quick-pump').addEventListener('click',()=>send('togglePump'));
 el('weather-care').addEventListener('click',()=>{const plots=[...state.plots].sort((a,b)=>Number(!!b.crop)-Number(!!a.crop)||a.soilWaterMm-b.soilWaterMm);selected=plots[0].id;send('select',{plot:selected});});
 setInterval(()=>{if(!state.paused&&!document.hidden&&!externalChange){for(let i=0;i<state.speed;i++)send('tick');}},3000);
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&!state.paused)send('pause');});
-window.addEventListener('storage',event=>{if(event.key===SAVE_KEY&&event.newValue!==saveSession.raw){externalChange=true;saveStatus='saveConflict';notify(t('saveConflict'));render();}});
-setupMarket();setupInspect();setupData({getState:()=>state,replace:next=>{saveSession.replace(next);state=next;selected=null;selectedChicken='';activeArea='field';resumeVisible=false;celebrationDismissed=false;saveStatus='saveSaved';externalChange=false;render();},session:saveSession});render();
+window.addEventListener('storage',event=>{if(event.key!==SAVE_KEY)return;let changed=true;try{changed=saveSession.storage?.getItem(SAVE_KEY)!==saveSession.raw;}catch{/* Unreadable current storage cannot be treated as current. */}if(changed){externalChange=true;saveStatus='saveConflict';notify(t('saveConflict'));render();}});
+setupMarket();setupInspect();setupData({getState:()=>state,replace:next=>queueSave(()=>{saveSession.replace(next);state=next;selected=null;selectedChicken='';activeArea='field';resumeVisible=false;celebrationDismissed=false;saveStatus='saveSaved';externalChange=false;render();}),session:saveSession});render();

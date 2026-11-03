@@ -27,5 +27,5 @@ export class SaveSession{
  migrationOriginal(){try{return this.storage?.getItem(PRE_V2_KEY)||null;}catch{return null;}}
  backup(){try{const raw=this.storage?.getItem(BACKUP_KEY);return raw?deserialize(raw):null;}catch{return null;}}
 }
-/** @returns {Store|null} */
-export function browserStorage(){try{return window.localStorage;}catch{return null;}}
+/** @param {boolean} [allowWrite] @returns {Store|null} */
+export function browserStorage(allowWrite=true){try{const storage=window.localStorage;if(allowWrite)return storage;return {getItem:key=>storage.getItem(key),setItem:()=>{throw Error('saveUnavailable');},removeItem:()=>{throw Error('saveUnavailable');}};}catch{return null;}}
