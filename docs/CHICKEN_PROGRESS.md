@@ -17,3 +17,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M0-F04 | PASS | 4/58 (6.9%)
 
 2026-11-03T12:58:08+00:00 — Safe branch/checkpoints plus immutable synthetic fresh/mixed12day/legacy saves and11 exact command replay hashes; 2 fixture tests pass, original game/dist unchanged, no personal data.
+
+## M0-F05 | PASS | 5/58 (8.6%)
+
+2026-11-03T13:01:03+00:00 — Separate8x8 Yard layout chosen; all coop tiers/fixtures/hen paths in bounds without overlap, layout unit/typecheck pass; baseline mobile SVG proven; original asset/licensing and camera approach documented.
