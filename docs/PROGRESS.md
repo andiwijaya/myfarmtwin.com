@@ -117,3 +117,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M3-F06 | PASS | 29/59 (49.2%)
 
 2026-11-03T06:27:12+00:00 — Zero-resource aid restores seed/water/one care voucher without cash or immediate repeat; one wasted purchase still reaches pump; objective catch-up and browser aid restrictions pass.
+
+## M3-F07 | PASS | 30/59 (50.8%)
+
+2026-11-03T06:28:39+00:00 — Chapter completion celebrates without modal/login, shows reward and actionable tomato objective; dismiss continues play without extra reward; desktop/mobile/full checks pass.
