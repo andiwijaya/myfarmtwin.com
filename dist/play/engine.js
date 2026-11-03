@@ -1,4 +1,4 @@
-import {STARTER,INITIAL_PLOTS,CROP_IDS,CROPS,WATER,WEATHER,LIMITS,MISSION_REWARDS,PUMP} from './config.js';
+import {STARTER,INITIAL_PLOTS,CROP_IDS,CROPS,WATER,WEATHER,LIMITS,MISSION_REWARDS,PUMP,ORDERS} from './config.js';
 import {waterBalance,clamp} from './water.js';
 import {advanceMission} from './missions.js';
 import {assertInvariants} from './invariants.js';
@@ -8,12 +8,12 @@ import {assertInvariants} from './invariants.js';
 /** @typedef {{id:number,x:number,y:number,soilWaterMm:number,soilCapacityMm:number,crop:Crop|null,waterAppliedMm:number,careCost:number,lastWaterTick:number,history:{tick:number,water:number,growth:number}[]}} Plot */
 /** @typedef {{id:string,tick:number,type:string,amount:number,balance:number}} LedgerEntry */
 /** @typedef {{id:number,type:CropId,quantity:number,quality:number}} Lot */
-/** @typedef {{saveVersion:number,revision:number,tick:number,seed:number,rng:number,weather:Weather,paused:boolean,speed:number,coins:number,water:number,careCredits:number,seeds:Record<CropId,number>,plots:Plot[],inventory:Lot[],ledger:LedgerEntry[],mission:{step:number,rewards:number[]},pump:{built:boolean,on:boolean,runHours:number,stopReason:string},stats:{planted:number,watered:number,cared:number,harvested:number,sold:number,hotCare:number,orders:number},nextLot:number}} State */
+/** @typedef {{saveVersion:number,revision:number,tick:number,seed:number,rng:number,weather:Weather,paused:boolean,speed:number,coins:number,water:number,careCredits:number,seeds:Record<CropId,number>,plots:Plot[],inventory:Lot[],ledger:LedgerEntry[],mission:{step:number,rewards:number[]},pump:{built:boolean,on:boolean,runHours:number,stopReason:string},stats:{planted:number,watered:number,cared:number,harvested:number,sold:number,hotCare:number,orders:number},completedOrders:string[],nextLot:number}} State */
 /** @typedef {'select'|'tick'|'nextDay'|'pause'|'speed'|'plant'|'water'|'harvest'|'sell'|'buySeed'|'buyPump'|'togglePump'|'refill'|'recovery'|'expand'|'order'} CommandType */
-/** @typedef {{id:number,type:CommandType,plot?:number,crop?:CropId,lot?:number}} Command */
+/** @typedef {{id:number,type:CommandType,plot?:number,crop?:CropId,lot?:number,order?:string}} Command */
 /** @typedef {{type:string,plot?:number,amount?:number}} DomainEvent */
 /** @param {number} [seed] @returns {State} */
-export function createState(seed=6321){return {saveVersion:1,revision:0,tick:0,seed:seed>>>0,rng:seed>>>0,weather:'sunny',paused:true,speed:1,coins:STARTER.coins,water:STARTER.water,careCredits:0,seeds:{lettuce:STARTER.seeds,tomato:0},plots:INITIAL_PLOTS.map(p=>({...p,soilWaterMm:12,soilCapacityMm:50,crop:null,waterAppliedMm:0,careCost:0,lastWaterTick:-1,history:[]})),inventory:[],ledger:[],mission:{step:0,rewards:[]},pump:{built:false,on:false,runHours:0,stopReason:''},stats:{planted:0,watered:0,cared:0,harvested:0,sold:0,hotCare:0,orders:0},nextLot:1};}
+export function createState(seed=6321){return {saveVersion:1,revision:0,tick:0,seed:seed>>>0,rng:seed>>>0,weather:'sunny',paused:true,speed:1,coins:STARTER.coins,water:STARTER.water,careCredits:0,seeds:{lettuce:STARTER.seeds,tomato:0},plots:INITIAL_PLOTS.map(p=>({...p,soilWaterMm:12,soilCapacityMm:50,crop:null,waterAppliedMm:0,careCost:0,lastWaterTick:-1,history:[]})),inventory:[],ledger:[],mission:{step:0,rewards:[]},pump:{built:false,on:false,runHours:0,stopReason:''},stats:{planted:0,watered:0,cared:0,harvested:0,sold:0,hotCare:0,orders:0},completedOrders:[],nextLot:1};}
 /** @param {State} state */
 export const recoveryAvailable=state=>state.coins<CROPS.lettuce.seedPrice&&state.seeds.lettuce+state.seeds.tomato===0&&state.inventory.length===0&&!state.plots.some(p=>p.crop);
 /** @param {{x:number,y:number}} plot */
@@ -45,6 +45,12 @@ export function dispatch(input,command){
  if(!command||!Number.isSafeInteger(command.id)||command.id!==input.revision+1)return reject('staleCommand');
  const state=structuredClone(input);/** @type {DomainEvent[]} */const events=[];
  switch(command.type){
+  case 'order':{
+   const order=ORDERS.find(o=>o.id===command.order);if(!order)return reject('invalidOrder');if(state.mission.step<7)return reject('ordersLocked');if(state.completedOrders.includes(order.id))return reject('orderDone');
+   for(const crop of CROP_IDS)if(state.inventory.filter(l=>l.type===crop).reduce((n,l)=>n+l.quantity,0)<(order.needs[crop]||0))return reject('orderMissing');
+   let revenue=0,quantity=0;for(const crop of CROP_IDS){let need=order.needs[crop]||0;for(const lot of state.inventory.filter(l=>l.type===crop)){const take=Math.min(need,lot.quantity);if(take){revenue+=saleValue({...lot,quantity:take});lot.quantity-=take;need-=take;quantity+=take;}}}
+   state.inventory=state.inventory.filter(l=>l.quantity>0);transact(state,'sale_revenue',revenue,command.id+':orderSale');transact(state,'mission_reward',order.bonus,command.id+':orderBonus');state.completedOrders.push(order.id);state.stats.orders++;state.stats.sold+=quantity;events.push({type:'orderFilled',amount:revenue+order.bonus});break;
+  }
   case 'recovery':if(!recoveryAvailable(state))return reject('recoveryUnavailable');state.seeds.lettuce=1;state.water=Math.max(50,state.water);state.careCredits=1;events.push({type:'recovered'});break;
   case 'buyPump':if(state.pump.built)return reject('pumpExists');if(state.stats.sold<1)return reject('sellFirst');if(state.coins<PUMP.price)return reject('noCoins');transact(state,'facility_purchase',-PUMP.price,command.id+':pumpBuild');state.pump.built=true;events.push({type:'pumpBuilt'});break;
   case 'togglePump':if(!state.pump.built)return reject('noPump');if(!state.pump.on&&state.water<state.plots.filter(pumpCovers).length*PUMP.mmHour)return reject('noWater');if(!state.pump.on&&state.coins<PUMP.energyCoins)return reject('noCoins');state.pump.on=!state.pump.on;state.pump.stopReason='';events.push({type:state.pump.on?'pumpOn':'pumpOff'});break;

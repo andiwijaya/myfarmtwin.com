@@ -20,6 +20,11 @@ export async function runVerticalSlice(base,browser,qa){
    await page.locator('#market-open').click();await page.locator('.ledger summary').click();const balance=Number(await page.locator('#hud-coins').innerText());assert.match(await page.locator('#ledger-balance').innerText(),new RegExp(String(balance)));assert.match(await page.locator('.ledger').innerText(),/Farm upgrade -60/);await page.locator('#close-market').click();
    assert.deepEqual(errors,[]);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);await page.screenshot({path:join(qa,device+'-vertical-slice.png'),fullPage:true});
    results.push({device,secondsToSaleAndUpgrade:seconds,tutorialDays:days,firstSale:sale,finalCoins:balance,ledgerMatches:true,pumpCoverage:2,uncaughtErrors:errors.length});
+   if(await page.locator('#market-orders').count()){
+    await page.locator('#quick-pump').click();await page.locator('#plant').click();
+    for(let day=0;day<6&&await page.locator('#harvest').isDisabled();day++){if(Number(await page.locator('[data-plot="0"]').getAttribute('data-moisture'))<40){if(Number(await page.locator('#hud-water').innerText())<25){await page.locator('#market-open').click();await page.locator('#refill').click();await page.locator('#close-market').click();}await page.locator('#water').click();}await page.locator('#next-day').click();}
+    await page.locator('#harvest').click();await page.locator('#market-open').click();assert.equal(await page.locator('[data-order]').count(),3);const coins=Number(await page.locator('#hud-coins').innerText());await page.locator('[data-order=salad]').click();assert.equal(await page.locator('[data-order=salad]').isDisabled(),true);assert.match(await page.locator('[data-order=salad]').innerText(),/Completed/);assert.ok(Number(await page.locator('#hud-coins').innerText())>coins);await page.screenshot({path:join(qa,device+'-orders.png')});await page.locator('#close-market').click();results.at(-1).orderDelivered=true;assert.deepEqual(errors,[]);
+   }
   }finally{await context.close();}
  }
  await writeFile(join(qa,'vertical-slice.json'),JSON.stringify(results,null,2));console.log('VERTICAL SLICE PASS '+JSON.stringify(results));return results;
