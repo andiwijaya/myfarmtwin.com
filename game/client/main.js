@@ -8,7 +8,7 @@ import {setupMarket,renderMarket,renderShop,renderOrders} from './market.js';
 import {condition,causality} from './care.js';
 import {SaveSession,browserStorage,SAVE_KEY} from './storage.js';
 import {setupData,renderData} from './data-tools.js';
-import {setupInspect,showInspect,renderInspect,renderReasons} from './inspect.js';
+import {setupInspect,showInspect,renderInspect,renderReasons,renderTrends} from './inspect.js';
 const saveSession=new SaveSession(browserStorage()),loaded=saveSession.load();
 /** @type {import('./engine.js').State} */let state=loaded.state||createState();
 let saveStatus=loaded.status,externalChange=false;
@@ -56,7 +56,7 @@ language.value=getLocale();
 language.addEventListener('change',()=>{setLocale(language.value);render();});
 function renderMission(){const step=state.mission.step,copy=currentObjective(state);el('mission-title').textContent=t(copy[0]);el('mission-detail').textContent=t(copy[1]);el('guide-chapter').textContent=t(step<7?'firstHarvest':'nextChapter');el('mission-progress').style.width=100*step/7+'%';el('mission-track').setAttribute('aria-valuenow',String(step));el('celebration').hidden=step<7||celebrationDismissed;document.querySelectorAll('.mission-target').forEach(e=>e.classList.remove('mission-target'));const next=FOLLOWUPS.find(q=>!state.followups[q.id]);const target=step<7?['.plot-shortcuts','#plant','#water','#next-day','#harvest','#market-open','#buy-pump'][step]:next?.id==='hotCare'?'#weather-name':next?'#market-open':null;if(target)document.querySelector(target)?.classList.add('mission-target');el('followup-missions').hidden=step<7;const list=el('followup-list');list.replaceChildren();for(const quest of FOLLOWUPS){const item=document.createElement('li');item.dataset.quest=quest.id;item.dataset.done=String(state.followups[quest.id]);item.textContent=(state.followups[quest.id]?'✓ ':'○ ')+t(quest.title);list.append(item);}}
 function render(){
- translate();renderWorld(state.plots,state.tick,state.pump);renderSelection();renderGuide();renderGraphics();renderMarket(state,send);renderOrders(state,send);renderShop(state,send);renderMission();renderData(saveSession);renderInspect(state,selected);renderReasons(state,selected);
+ translate();renderWorld(state.plots,state.tick,state.pump);renderSelection();renderGuide();renderGraphics();renderMarket(state,send);renderOrders(state,send);renderShop(state,send);renderMission();renderData(saveSession);renderInspect(state,selected);renderReasons(state,selected);renderTrends(state,selected);
  el('hud-day').textContent=String(Math.floor(state.tick/24)+1);el('hud-coins').textContent=String(state.coins);el('hud-water').textContent=String(Math.floor(state.water));el('hud-seeds').textContent=String(state.seeds.lettuce+state.seeds.tomato);
  el('inventory-harvest').textContent=state.inventory.length?state.inventory.map(lot=>t(lot.type)+' ×'+lot.quantity+' · '+Math.round(lot.quality*100)+'% '+t('quality')).join(' | '):t('noHarvest');
  el('pause').textContent=t(state.paused?'playClock':'pause');el('speed').textContent=state.speed+'×';el('weather-name').textContent=t(state.weather);el('weather-forecast').textContent=t('forecast')+': '+t(forecastWeather(state));

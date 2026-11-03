@@ -189,3 +189,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M6-F02 | PASS | 47/59 (79.7%)
 
 2026-11-03T07:17:38+00:00 — ID/EN causal copy follows actual soil/rain/heat/pump range/ON/OFF/efficiency; headless scenarios and bilingual Inspect browser checks pass with full regression.
+
+## M6-F03 | PASS | 48/59 (81.4%)
+
+2026-11-03T07:19:44+00:00 — Two optional 0-100% trend charts use 48 real hourly samples; latest water/growth/tick match engine exactly and history stays bounded; desktop/mobile chart and full regressions pass.
