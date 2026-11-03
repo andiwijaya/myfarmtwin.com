@@ -21,3 +21,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M0-F05 | PASS | 5/58 (8.6%)
 
 2026-11-03T13:01:03+00:00 — Separate8x8 Yard layout chosen; all coop tiers/fixtures/hen paths in bounds without overlap, layout unit/typecheck pass; baseline mobile SVG proven; original asset/licensing and camera approach documented.
+
+## M0-F06 | PASS | 6/58 (10.3%)
+
+2026-11-03T13:02:25+00:00 — PRD506lines preserved, state/API/test-ID contracts and immutable internal feature switch added; lint/typecheck+3 preservation/layout tests pass; no production change. M0 gate passed.
