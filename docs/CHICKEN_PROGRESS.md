@@ -133,3 +133,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M3-F09 | PASS | 33/58 (56.9%)
 
 2026-11-03T14:51:59+00:00 — VERTICAL SLICE PASS: four EN/ID desktop/touch full Chicken+cross-crop loops under2.1s; full legacy crop/save/data/offline/stale-tab e2e passes.
+
+## M4-F01 | PASS | 34/58 (58.6%)
+
+2026-11-03T14:54:01+00:00 — 78 tests/typecheck/build pass; complete strict V2 roundtrip preserves Chicken history/grants/mission/economy, rejects malformed/unknown/oversized payloads.
