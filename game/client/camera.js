@@ -7,16 +7,17 @@ function select(id){document.dispatchEvent(new CustomEvent('plotselect',{detail:
 /** @param {HTMLElement} host */
 export function bindCamera(host){
  const svg=/** @type {SVGSVGElement} */(host.querySelector('svg'));svg.setAttribute('role','group');
- /** @type {{x:number,y:number,id:number,plot:number|null,moved:boolean}|null} */let start=null;
+ /** @type {{x:number,y:number,id:number,plot:number|null,market:boolean,moved:boolean}|null} */let start=null;
  svg.style.touchAction='none';
  svg.addEventListener('pointerdown',e=>{
   if(e.button!==0||!e.isPrimary)return;
   const target=/** @type {Element} */(e.target);const p=target.closest('[data-plot]');
-  start={x:e.clientX,y:e.clientY,id:e.pointerId,plot:p?Number(p.getAttribute('data-plot')):null,moved:false};svg.setPointerCapture(e.pointerId);
+  start={x:e.clientX,y:e.clientY,id:e.pointerId,plot:p?Number(p.getAttribute('data-plot')):null,market:!!target.closest('[data-facility="market"]'),moved:false};svg.setPointerCapture(e.pointerId);
  });
  svg.addEventListener('pointermove',e=>{if(!start||start.id!==e.pointerId)return;const dx=e.clientX-start.x,dy=e.clientY-start.y;if(Math.abs(dx)+Math.abs(dy)>7||start.moved){start.moved=true;view.x=clamp(view.x+dx*900/svg.getBoundingClientRect().width,-180,180);view.y=clamp(view.y+dy*540/svg.getBoundingClientRect().height,-100,100);start.x=e.clientX;start.y=e.clientY;apply();}});
- svg.addEventListener('pointerup',e=>{if(!start||start.id!==e.pointerId)return;const s=start;start=null;if(!s.moved&&s.plot!==null)select(s.plot);if(svg.hasPointerCapture(e.pointerId))svg.releasePointerCapture(e.pointerId);});
+ svg.addEventListener('pointerup',e=>{if(!start||start.id!==e.pointerId)return;const s=start;start=null;if(!s.moved&&s.plot!==null)select(s.plot);if(!s.moved&&s.market)document.dispatchEvent(new Event('marketopen'));if(svg.hasPointerCapture(e.pointerId))svg.releasePointerCapture(e.pointerId);});
  svg.addEventListener('pointercancel',()=>{start=null;});
+ const market=host.querySelector('[data-facility="market"]');if(market){market.setAttribute('role','button');market.setAttribute('tabindex','0');market.setAttribute('aria-label',t('marketTitle'));market.addEventListener('keydown',e=>{if(['Enter',' '].includes(/** @type {KeyboardEvent} */(e).key)){e.preventDefault();document.dispatchEvent(new Event('marketopen'));}});}
  host.querySelectorAll('[data-plot]').forEach(p=>{p.setAttribute('tabindex','0');p.setAttribute('role','button');p.setAttribute('aria-label',t('plot')+' '+(Number(p.getAttribute('data-plot'))+1));p.addEventListener('keydown',e=>{const key=/** @type {KeyboardEvent} */(e).key;if(key==='Enter'||key===' '){e.preventDefault();select(Number(p.getAttribute('data-plot')));}});});
  const controls=document.createElement('div');controls.className='camera-controls';
  for(const [label,title,action]of [['−',t('zoomOut'),'out'],['+',t('zoomIn'),'in'],['↺',t('resetView'),'reset']]){

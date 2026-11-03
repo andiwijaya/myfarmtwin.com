@@ -240,7 +240,7 @@ myfarmtwin.com/
 
 - [x] **M3-F01 — Guided tutorial missions.** Urutan plant → water → grow → harvest → sell dengan highlight kontekstual; selesai secara normal ≤3 menit pada test scenario.
 - [x] **M3-F02 — Idempotent mission engine.** Misi bereaksi pada domain events sekali saja; reload/replay/rapid click tidak menggandakan hadiah.
-- [ ] **M3-F03 — Market selling.** Sale inventory valid → Coins bertambah → inventory berkurang → feedback jelas.
+- [x] **M3-F03 — Market selling.** Sale inventory valid → Coins bertambah → inventory berkurang → feedback jelas.
 - [ ] **M3-F04 — Ledger & balance.** Semua revenue/cost/reward tercatat; sum ledger konsisten dengan saldo; tak ada inventory/Coins negatif.
 - [ ] **M3-F05 — First build/upgrade.** Pendapatan pertama dapat dibelanjakan untuk bed tambahan atau irrigation facility yang benar-benar berfungsi; bukan dekorasi terkunci.
 - [ ] **M3-F06 — Anti-softlock.** Recovery seed, order feasible, fallback bila kehabisan Coins; test skenario pemain melakukan satu kesalahan.

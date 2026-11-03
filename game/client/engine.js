@@ -28,12 +28,17 @@ function hour(state){
 }
 /** @param {State} state @param {string} type @param {number} amount @param {string} id */
 function transact(state,type,amount,id){state.coins+=amount;state.ledger.push({id,tick:state.tick,type,amount,balance:state.coins});}
+/** @param {Lot} lot */
+export const saleValue=lot=>Math.max(1,Math.round(lot.quantity*CROPS[lot.type].price*lot.quality));
 /** @param {State} input @param {Command} command @returns {{state:State,ok:boolean,error:string,events:DomainEvent[]}} */
 export function dispatch(input,command){
  const reject=(/** @type {string} */error)=>({state:input,ok:false,error,events:[]});
  if(!command||!Number.isSafeInteger(command.id)||command.id!==input.revision+1)return reject('staleCommand');
  const state=structuredClone(input);/** @type {DomainEvent[]} */const events=[];
  switch(command.type){
+  case 'sell':{
+   const index=state.inventory.findIndex(lot=>lot.id===command.lot);if(index<0)return reject('noProduce');const lot=state.inventory[index],revenue=saleValue(lot);state.inventory.splice(index,1);transact(state,'sale_revenue',revenue,command.id+':sale');state.stats.sold+=lot.quantity;events.push({type:'sold',amount:revenue});break;
+  }
   case 'select':if(!state.plots.some(p=>p.id===command.plot))return reject('invalidPlot');events.push({type:'selected',plot:command.plot});break;
   case 'harvest':{
    const plot=state.plots.find(p=>p.id===command.plot);if(!plot)return reject('invalidPlot');if(!plot.crop)return reject('noCrop');if(plot.crop.progress<1)return reject('notReady');

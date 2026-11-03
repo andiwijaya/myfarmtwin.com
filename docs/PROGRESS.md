@@ -101,3 +101,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M3-F02 | PASS | 25/59 (42.4%)
 
 2026-11-03T06:18:14+00:00 — Mission rewards ledgered once with unique transaction IDs; replay/JSON-roundtrip/rapid repeat selection cannot duplicate Coins; browser/regression/headless checks pass.
+
+## M3-F03 | PASS | 26/59 (44.1%)
+
+2026-11-03T06:20:11+00:00 — Market sale removes one lot and adds quality-weighted ledger revenue exactly once; invalid/repeated sale rejected; desktop/mobile harvest-to-sale dialog/HUD/mission checks pass.
