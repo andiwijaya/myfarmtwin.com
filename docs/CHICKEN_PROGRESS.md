@@ -49,3 +49,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M1-F06 | PASS | 12/58 (20.7%)
 
 2026-11-03T13:22:29+00:00 — Contextual Feed/Water/Clean/Collect panel projects statuses and correct disabled reasons; four action events/UI boundary,44px controls,Escape focus and exact save preservation pass4 EN-ID desktop/touch cases. Mechanics remain M2.
+
+## M1-F07 | PASS | 13/58 (22.4%)
+
+2026-11-03T13:45:22+00:00 — Per-area4-angle rotation/zoom/pan/reset, keyboard+real CDP touch+landscape EN-ID pass; camera save exact; crop picking/paid expansion atall4 angles pass.49 units+full crop/data regression pass; depth/input/mobile occlusion fixes reviewed.
