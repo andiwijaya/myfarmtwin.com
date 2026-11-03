@@ -69,3 +69,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M2-F03 | PASS | 17/59 (28.8%)
 
 2026-11-03T06:05:21+00:00 — Plant consumes one seed and renders sprout; invalid bed/crop/no-seed/occupied cases rejected headless; browser no-seed message and successful plant verified desktop/mobile.
+
+## M2-F04 | PASS | 18/59 (30.5%)
+
+2026-11-03T06:06:28+00:00 — Fixed ticks progress seedling/growing/mature stages with bounded progress; crop geometry/stage labels update from state on desktop/mobile; all tests/typecheck/build pass.

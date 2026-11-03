@@ -1,4 +1,4 @@
-import {STARTER,INITIAL_PLOTS,CROP_IDS} from './config.js';
+import {STARTER,INITIAL_PLOTS,CROP_IDS,CROPS} from './config.js';
 /** @typedef {'sunny'|'cloudy'|'rainy'|'hot'} Weather */
 /** @typedef {'lettuce'|'tomato'} CropId */
 /** @typedef {{type:CropId,progress:number,quality:number,stage:number,plantedTick:number}} Crop */
@@ -14,7 +14,7 @@ export function createState(seed=6321){return {saveVersion:1,revision:0,tick:0,s
 /** @param {State} state */
 function nextWeather(state){state.rng=(Math.imul(1664525,state.rng)+1013904223)>>>0;const names=/** @type {Weather[]} */(['sunny','cloudy','rainy','hot']);state.weather=names[(state.rng>>>16)%names.length];}
 /** @param {State} state */
-function hour(state){state.tick++;if(state.tick%24===0)nextWeather(state);}
+function hour(state){for(const plot of state.plots){if(plot.crop){const crop=plot.crop,config=CROPS[crop.type];crop.progress=Math.min(1,crop.progress+1/config.hours);crop.stage=config.stages.filter(threshold=>crop.progress>=threshold).length-1;}}state.tick++;if(state.tick%24===0)nextWeather(state);}
 /** @param {State} input @param {Command} command @returns {{state:State,ok:boolean,error:string,events:DomainEvent[]}} */
 export function dispatch(input,command){
  const reject=(/** @type {string} */error)=>({state:input,ok:false,error,events:[]});
