@@ -12,5 +12,11 @@
     "smoke": "node tools/e2e.mjs smoke",
     "preview": "node tools/serve.mjs"
   },
-  "engines": {"node": ">=22"}
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "playwright": "1.64.1",
+    "typescript": "7.0.2"
+  }
 }
