@@ -1,6 +1,8 @@
 import {STARTER,LIMITS,WATER,CROP_IDS} from './config.js';
+import {validateChicken} from './chicken-state.js';
 /** @param {import('./engine.js').State} state */
 export function assertInvariants(state){
+ if(state.chicken!==undefined)validateChicken(state.chicken,state.tick);
  if(!Number.isSafeInteger(state.coins)||state.coins<0||!Number.isSafeInteger(state.revision)||state.revision<0||!Number.isSafeInteger(state.tick)||state.tick<0)throw new Error('Invalid economy/time');
  if(!Number.isFinite(state.water)||state.water<0||state.water>WATER.tankCapacity)throw new Error('Invalid tank');
  if(((state.pump.on||state.pump.efficient)&&!state.pump.built)||!Number.isSafeInteger(state.pump.runHours)||state.pump.runHours<0||!Number.isInteger(state.careCredits)||state.careCredits<0||state.careCredits>1)throw new Error('Invalid facility/care state');

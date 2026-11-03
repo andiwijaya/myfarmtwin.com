@@ -309,7 +309,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 
 ### M2 — Headless care & deterministic egg simulation (10)
 
-- [ ] **M2-F01** — Definisikan `ChickenYard/Coop/Hen/EggLot` config dan types/invariants; stable IDs tanpa bentrok dengan crop.
+- [x] **M2-F01** — Definisikan `ChickenYard/Coop/Hen/EggLot` config dan types/invariants; stable IDs tanpa bentrok dengan crop.
 - [ ] **M2-F02** — Implement command factory/validator Chicken memakai revision + idempotency engine existing, tidak mutate DOM sebagai source.
 - [ ] **M2-F03** — Implement kapasitas & stok pakan (g), purchase-to-store dan transfer-to-feeder; tidak boleh feed negatif/duplikasi.
 - [ ] **M2-F04** — Implement drinker (L) dan refill yang mengurangi farm tank dalam jumlah sama; water conservation.

@@ -1,0 +1,9 @@
+# Chicken domain and game balance
+
+All values are fictional game balance, not husbandry guidance. The additive model is in chicken-state.js and config in chicken-config.js. There is one coop, stable namespaced adult-hen/egg/lot IDs, bounded supplies/nests/inventory/history, unique grants and independent chicken mission/stats. The global farm still owns time, weather RNG, tank, Coins and ledger. Unvisited state is empty and grants nothing; actual starter entry is introduced in M3.
+
+Configured coop tiers: capacity2/4/6, nests4/6/8, feeder2000/3000/4000g and drinker6/8/10L. Tier costs0/90/160 Coins. Initial capacity2 deliberately differs from the PRD's illustrative4: the first upgrade creates real room for a third hen, and all tiers fit the audited footprint. Crop prices/starting resources are unchanged. Other initial values follow the PRD placeholders:110g and0.3L per hen/game-day, feed bag2000g/24Coins, eggs A6/B4/C3, adult hen45, optional auto feeder140 and shade70. They remain subject to the mandated multi-day balance gate.
+
+Domain validation enforces exact known object fields, finite bounded quantities, valid IDs, adult layers, per-hen day markers, configured capacity, unique grants/lots/eggs, no extra prototype fields, sequential IDs and chronological bounded history. Feed granted+bought equals stored+feeder+consumed; water transferred equals drinker+consumed; eggs laid=collected+nest and collected=sold+inventory. Chicken counters never change crop totals. The V2 codec will reuse this validator after explicit migration; it is not yet integrated with V1 persistence at M2-F01.
+
+Model tests reject invalid/negative/nonfinite supplies, duplicate hens/grants, capacity errors, unknown fields, invalid upgrades and conservation drift. All51 unit/integration tests including the exact frozen crop replay pass. No personal save or production setting is changed.

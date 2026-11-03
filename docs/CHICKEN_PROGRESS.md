@@ -57,3 +57,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M1-F08 | PASS | 14/58 (24.1%)
 
 2026-11-03T14:01:03+00:00 — All Chicken UI/ARIA/empty/camera/weather hints EN-ID; preference reload and invalid-language fallback pass.320/390/1440+landscape8 surfaces including all-angle touch picking pass; exact save preserved. M1 presentation gate complete, no production change.
+
+## M2-F01 | PASS | 15/58 (25.9%)
+
+2026-11-03T14:09:48+00:00 — Strict additive Chicken/Coop/Hen/EggLot config/types/IDs/conservation validated;51 total tests and exact frozen crop replay pass; original crop state/economy unchanged. Supply defaults and capacity tuning documented.
