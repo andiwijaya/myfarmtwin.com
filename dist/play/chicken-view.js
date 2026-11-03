@@ -1,13 +1,21 @@
 import {t} from './locales.js';
 import {iso,diamond} from './isometric.js';
-import {YARD,YARD_OBJECTS,coopFootprint} from './chicken-layout.js';
+import {YARD,YARD_OBJECTS,HEN_PATH,coopFootprint} from './chicken-layout.js';
 import {bindCamera} from './camera.js';
 const NS='http://www.w3.org/2000/svg';
 /** @param {string} name @param {Record<string,string|number>} attrs @param {Element} parent */
 function node(name,attrs,parent){const el=document.createElementNS(NS,name);for(const [key,value]of Object.entries(attrs))el.setAttribute(key,String(value));parent.append(el);return el;}
 /** @param {{x:number,y:number,w:number,d:number}} box */
 function footprint(box){return [iso(box.x-.5,box.y-.5),iso(box.x+box.w-.5,box.y-.5),iso(box.x+box.w-.5,box.y+box.d-.5),iso(box.x-.5,box.y+box.d-.5)].map(p=>p.x+','+p.y).join(' ');}
-/** @typedef {{level:number,doorOpen:boolean,pendingEggs:number}} YardSnapshot */
+/** @typedef {{id:string,activity:'idle'|'walk'|'peck'|'drink'|'roost'}} HenView */
+/** @typedef {{level:number,doorOpen:boolean,pendingEggs:number,hens?:HenView[]}} YardSnapshot */
+/** @param {Element} parent @param {HenView} hen @param {number} index */
+function drawHen(parent,hen,index){
+ const spot=HEN_PATH[index%HEN_PATH.length],p=iso(spot.x,spot.y),base=node('g',{transform:`translate(${p.x} ${p.y})`,'data-hen':hen.id,'data-adult-layer':'true','aria-label':t('adultHen')},parent);node('ellipse',{cx:0,cy:4,rx:15,ry:7,fill:'#81995b',opacity:'.3'},base);
+ const motion=node('g',{class:'hen-motion','data-activity':hen.activity},base);node('path',{d:'M-6,0 v7 l-5,2 M6,0 v7 l5,2',stroke:'#b58b35','stroke-width':2,'stroke-linecap':'round'},motion);
+ node('path',{d:'M-12,-7 l-10,-10 l4,14 Z',fill:'#c8ae76'},motion);node('ellipse',{cx:0,cy:-7,rx:16,ry:11,fill:index%2?'#d9b583':'#fff2cd',stroke:'#a78d5a','stroke-width':1},motion);node('ellipse',{cx:-3,cy:-7,rx:10,ry:6,fill:index%2?'#bc915e':'#ddcc9c'},motion);
+ const head=node('g',{class:'hen-head'},motion);node('circle',{cx:12,cy:-19,r:8,fill:index%2?'#e4c797':'#fff2cd'},head);node('path',{d:'M9,-26 q0,-8 4,-3 q6,-8 6,2',fill:'#bd6249'},head);node('polygon',{points:'19,-20 27,-17 19,-14',fill:'#ce9c3d'},head);node('circle',{cx:15,cy:-21,r:1.8,fill:'#304634'},head);node('ellipse',{cx:17,cy:-12,rx:3,ry:4,fill:'#bd6249'},head);
+}
 /** @param {Element} camera @param {YardSnapshot} snapshot */
 function coop(camera,snapshot){
  const box=coopFootprint(snapshot.level),a=iso(box.x-.5,box.y-.5),b=iso(box.x+box.w-.5,box.y-.5),c=iso(box.x+box.w-.5,box.y+box.d-.5),d=iso(box.x-.5,box.y+box.d-.5),h=60;
@@ -37,5 +45,6 @@ export function renderChickenWorld(snapshot={level:0,doorOpen:true,pendingEggs:0
  const ramp=YARD_OBJECTS.ramp;node('polygon',{points:footprint(ramp),fill:'#b99968',stroke:'#967a51','stroke-width':2,'data-yard-ramp':''},camera);
  for(let i=0;i<4;i++){const a=iso(ramp.x-.4+i*.2,ramp.y-.5),b=iso(ramp.x-.4+i*.2,ramp.y+.5);node('path',{d:`M${a.x},${a.y} L${b.x},${b.y}`,stroke:'#d9be8a','stroke-width':2},camera);}
  coop(camera,snapshot);
+ const hens=snapshot.hens||[{id:'chicken.preview.1',activity:'walk'},{id:'chicken.preview.2',activity:'peck'}];for(const [index,hen]of hens.entries())drawHen(camera,/** @type {HenView} */(hen),index);
  const caption=document.createElement('p');caption.className='world-caption';caption.textContent=t('chickenArea');host.append(caption);bindCamera(host);
 }

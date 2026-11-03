@@ -37,3 +37,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M1-F03 | PASS | 9/58 (15.5%)
 
 2026-11-03T13:10:41+00:00 — Coop roof/door/nest renders snapshot status; empty vs2eggs and dooropen/closed verified in4 desktop/mobile EN-ID surfaces with save exact. Visual review fixed stale crop notice occlusion; retest passes.
+
+## M1-F04 | PASS | 10/58 (17.2%)
+
+2026-11-03T13:14:14+00:00 — Two unique adult-hen snapshots render native walk/peck/idle shapes; reduced-motion and low mode keep hens visible with animationoff. Four EN-ID desktop/touch cases, exact save preservation and visual review pass.
