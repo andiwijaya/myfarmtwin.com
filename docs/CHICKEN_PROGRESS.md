@@ -85,3 +85,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M2-F07 | PASS | 21/58 (36.2%)
 
 2026-11-03T14:29:57+00:00 — 63 tests, typecheck/build pass; configured derived welfare, heat/shade/space factors and gradual tick-only recovery without offline loss.
+
+## M2-F08 | PASS | 22/58 (37.9%)
+
+2026-11-03T14:30:37+00:00 — 65 tests and typecheck/build pass; seeded once-per-hen/day integer eggs, causal grades, bounded nests/history, crop RNG untouched; repeated resolution exact.
