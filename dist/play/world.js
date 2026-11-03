@@ -1,6 +1,7 @@
 import {t} from './locales.js';
 import {bindCamera} from './camera.js';
-import {INITIAL_PLOTS} from './config.js';
+import {INITIAL_PLOTS,PUMP} from './config.js';
+import {pumpCovers} from './engine.js';
 const NS='http://www.w3.org/2000/svg';
 /** @param {number} x @param {number} y */
 export const iso=(x,y)=>({x:450+(x-y)*44,y:82+(x+y)*22});
@@ -11,8 +12,8 @@ const diamond=(x,y,w=43,h=21)=>`${x},${y-h} ${x+w},${y} ${x},${y+h} ${x-w},${y}`
 /** @typedef {{id:number,x:number,y:number,crop?:import('./engine.js').Crop|null,soilWaterMm?:number,soilCapacityMm?:number,lastWaterTick?:number}} WorldPlot */
 /** @type {readonly WorldPlot[]} */
 export const initialPlots=INITIAL_PLOTS;
-/** @param {readonly WorldPlot[]} [plots] @param {number} [tick] */
-export function renderWorld(plots=initialPlots,tick=0){
+/** @param {readonly WorldPlot[]} [plots] @param {number} [tick] @param {{built:boolean,on:boolean}} [pump] */
+export function renderWorld(plots=initialPlots,tick=0,pump={built:false,on:false}){
  const host=/** @type {HTMLElement} */(document.querySelector('#world'));host.replaceChildren();
  const svg=node('svg',{viewBox:'0 0 900 540',class:'farm-scene',role:'img','aria-label':t('farmMap')},host);
  const title=node('title',{},svg);title.textContent=t('farmMap');
@@ -23,6 +24,7 @@ export function renderWorld(plots=initialPlots,tick=0){
  for(let y=0;y<8;y++)for(let x=0;x<8;x++){
   const p=iso(x,y);node('polygon',{points:diamond(p.x,p.y),fill:(x+y)%3===0?'#bfce8a':'#b7cb80','data-tile':y*8+x,stroke:'#a6bd70','stroke-width':'.5'},camera);
  }
+ if(pump.built)for(const p of plots.filter(pumpCovers)){const c=iso(p.x,p.y);node('polygon',{points:diamond(c.x,c.y,44,22),fill:'none',stroke:'#589ca6','stroke-width':3,'stroke-dasharray':'5 4','data-irrigation-range':p.id},camera);}
  for(const [x,y]of [[1,0],[6,0],[0,5],[7,6],[1,7]]){
   const p=iso(x,y),g=node('g',{'data-decoration':'tree'},camera);
   node('ellipse',{cx:p.x,cy:p.y+5,rx:22,ry:10,fill:'#6e935e',opacity:'.3'},g);
@@ -57,8 +59,9 @@ export function renderWorld(plots=initialPlots,tick=0){
  node('path',{d:`M${m.x-25},${m.y} v-52 m50,52 v-52`,stroke:'#94774e','stroke-width':5},market);
  node('rect',{x:m.x-43,y:m.y-76,width:86,height:48,rx:5,fill:'#365c43',stroke:'#d1b77c','stroke-width':5},market);
  const label=node('text',{x:m.x,y:m.y-47,'text-anchor':'middle',fill:'#fff8dc','font-size':14,'font-weight':700},market);label.textContent=t('market');
- const bed=iso(5,4);node('polygon',{points:diamond(bed.x,bed.y,37,18),fill:'none',stroke:'#7e9c65','stroke-width':2,'stroke-dasharray':'5 5'},camera);
- const plus=node('text',{x:bed.x,y:bed.y+6,'text-anchor':'middle',fill:'#71905e','font-size':24},camera);plus.textContent='+';
+ const bed=iso(PUMP.x,PUMP.y);
+ if(pump.built){const g=node('g',{'data-facility':'pump','data-on':String(pump.on)},camera);node('path',{d:`M${bed.x},${bed.y} l-42,-21 l-44,-22`,fill:'none',stroke:pump.on?'#619eb0':'#8c9a92','stroke-width':5,'stroke-dasharray':pump.on?'6 4':'none',class:pump.on?'pump-flow':''},g);node('polygon',{points:diamond(bed.x,bed.y,25,12),fill:'#a6b7a8'},g);node('rect',{x:bed.x-14,y:bed.y-28,width:28,height:27,rx:5,fill:'#6c9c9f',stroke:'#476f75','stroke-width':2},g);node('ellipse',{cx:bed.x,cy:bed.y-28,rx:14,ry:7,fill:'#c3ded6'},g);node('circle',{cx:bed.x+10,cy:bed.y-10,r:4,fill:pump.on?'#d8eb8c':'#778b83'},g);}
+ else{node('polygon',{points:diamond(bed.x,bed.y,37,18),fill:'none',stroke:'#7e9c65','stroke-width':2,'stroke-dasharray':'5 5'},camera);const plus=node('text',{x:bed.x,y:bed.y+6,'text-anchor':'middle',fill:'#71905e','font-size':24},camera);plus.textContent='+';}
  const caption=document.createElement('p');caption.className='world-caption';caption.textContent=t('farmMap');host.append(caption);
  bindCamera(host);
 }

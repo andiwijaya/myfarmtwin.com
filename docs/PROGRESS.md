@@ -109,3 +109,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M3-F04 | PASS | 27/59 (45.8%)
 
 2026-11-03T06:22:21+00:00 — All costs/revenue/rewards reconcile to Coins via unique ledger IDs; seed/refill bounds/no-funds/drift tests pass; shop and visible balance verified desktop/mobile; all checks pass.
+
+## M3-F05 | PASS | 28/59 (47.5%)
+
+2026-11-03T06:24:59+00:00 — First sale unlocks 60-Coin pump; builds once, visible range and ON/OFF affect covered soil/tank/energy ledger; desktop/mobile end-to-end upgrade and all tests pass.
