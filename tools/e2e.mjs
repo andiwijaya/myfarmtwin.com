@@ -4,6 +4,7 @@ import {startServer} from './serve.mjs';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
+import {runVerticalSlice} from './vertical-slice.mjs';
 const server=process.env.BASE_URL?null:await startServer(0);
 const base=process.env.BASE_URL||'http://127.0.0.1:'+server.address().port;
 const qa=process.env.QA_DIR||join(tmpdir(),'myfarmtwin-qa');await mkdir(qa,{recursive:true});
@@ -58,5 +59,5 @@ try{
   await page.screenshot({path:join(qa,name+'-latest.png'),fullPage:true});
   report.checks.push({device:name,homepage:true,editorialRoutes:9,overflow:false});await context.close();
  }
- assert.deepEqual(report.errors,[]);console.log(JSON.stringify(report));
+ report.verticalSlice=await runVerticalSlice(base,browser,qa);assert.deepEqual(report.errors,[]);console.log(JSON.stringify(report));
 }finally{await browser.close();if(server)await new Promise(r=>server.close(r));await writeFile(join(qa,'latest.json'),JSON.stringify(report,null,2));}

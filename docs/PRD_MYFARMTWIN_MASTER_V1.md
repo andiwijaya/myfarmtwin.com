@@ -245,7 +245,7 @@ myfarmtwin.com/
 - [x] **M3-F05 — First build/upgrade.** Pendapatan pertama dapat dibelanjakan untuk bed tambahan atau irrigation facility yang benar-benar berfungsi; bukan dekorasi terkunci.
 - [x] **M3-F06 — Anti-softlock.** Recovery seed, order feasible, fallback bila kehabisan Coins; test skenario pemain melakukan satu kesalahan.
 - [x] **M3-F07 — Mission complete celebration.** Reward, animasi ringan, next objective yang jelas; tidak perlu modal atau login.
-- [ ] **M3-F08 — E2E VERTICAL SLICE.** Browser desktop+HP: open `/play/` → plant → water → next day → harvest → market sale → upgrade. Simulasi, UI, ledger cocok. **STOP & FIX** semua issue sebelum melanjutkan.
+- [x] **M3-F08 — E2E VERTICAL SLICE.** Browser desktop+HP: open `/play/` → plant → water → next day → harvest → market sale → upgrade. Simulasi, UI, ledger cocok. **STOP & FIX** semua issue sebelum melanjutkan.
 
 ### M4 — Farm care yang terasa hidup
 

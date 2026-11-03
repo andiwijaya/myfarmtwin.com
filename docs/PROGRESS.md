@@ -121,3 +121,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M3-F07 | PASS | 30/59 (50.8%)
 
 2026-11-03T06:28:39+00:00 — Chapter completion celebrates without modal/login, shows reward and actionable tomato objective; dismiss continues play without extra reward; desktop/mobile/full checks pass.
+
+## M3-F08 | PASS | 31/59 (52.5%)
+
+2026-11-03T06:32:56+00:00 — VERTICAL SLICE PASS: desktop 1.297s/mobile 1.280s automated sale+upgrade, 3 game days, sale48/final140, ledger matches, pump2 beds, 0 errors; 24 tests and screenshots reviewed.

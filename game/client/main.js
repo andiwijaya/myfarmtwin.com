@@ -1,5 +1,5 @@
 import {getLocale,setLocale,translate,t} from './locales.js';
-import {renderWorld,initialPlots} from './world.js';
+import {renderWorld} from './world.js';
 import {el} from './dom.js';
 import {createState,dispatch,forecastWeather} from './engine.js';
 import {CROPS,CROP_IDS,STAGE_KEYS,WATER} from './config.js';
@@ -44,7 +44,12 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closePlot();});
 language.value=getLocale();
 language.addEventListener('change',()=>{setLocale(language.value);render();});
 function renderMission(){const step=state.mission.step,copy=MISSION_STEPS[step];el('mission-title').textContent=t(copy[0]);el('mission-detail').textContent=t(copy[1]);el('mission-progress').style.width=100*step/7+'%';el('mission-track').setAttribute('aria-valuenow',String(step));el('celebration').hidden=step<7||celebrationDismissed;document.querySelectorAll('.mission-target').forEach(e=>e.classList.remove('mission-target'));const target=['.plot-shortcuts','#plant','#water','#next-day','#harvest','#market-open','#buy-pump'][step];if(target)document.querySelector(target)?.classList.add('mission-target');}
-function render(){translate();renderWorld(state.plots,state.tick,state.pump);renderSelection();renderGuide();renderGraphics();renderMission();renderMarket(state,send);renderShop(state,send);el('hud-day').textContent=String(Math.floor(state.tick/24)+1);el('hud-coins').textContent=String(state.coins);el('hud-water').textContent=String(Math.floor(state.water));el('hud-seeds').textContent=String(state.seeds.lettuce+state.seeds.tomato);el('inventory-harvest').textContent=state.inventory.length?state.inventory.map(lot=>t(lot.type)+' ×'+lot.quantity+' · '+Math.round(lot.quality*100)+'% '+t('quality')).join(' | '):t('noHarvest');el('pause').textContent=t(state.paused?'playClock':'pause');el('speed').textContent=state.speed+'×';el('weather-name').textContent=t(state.weather);el('weather-forecast').textContent=t('forecast')+': '+t(forecastWeather(state));}
+function render(){
+ translate();renderWorld(state.plots,state.tick,state.pump);renderSelection();renderGuide();renderGraphics();renderMarket(state,send);renderShop(state,send);renderMission();
+ el('hud-day').textContent=String(Math.floor(state.tick/24)+1);el('hud-coins').textContent=String(state.coins);el('hud-water').textContent=String(Math.floor(state.water));el('hud-seeds').textContent=String(state.seeds.lettuce+state.seeds.tomato);
+ el('inventory-harvest').textContent=state.inventory.length?state.inventory.map(lot=>t(lot.type)+' ×'+lot.quantity+' · '+Math.round(lot.quality*100)+'% '+t('quality')).join(' | '):t('noHarvest');
+ el('pause').textContent=t(state.paused?'playClock':'pause');el('speed').textContent=state.speed+'×';el('weather-name').textContent=t(state.weather);el('weather-forecast').textContent=t('forecast')+': '+t(forecastWeather(state));
+}
 /** @param {import('./engine.js').CommandType} type @param {Partial<import('./engine.js').Command>} [extra] */
 function send(type,extra={}){const result=dispatch(state,{...extra,id:state.revision+1,type});if(result.ok){state=result.state;const reward=result.events.find(e=>e.type==='missionReward');notify((result.events.length?t(result.events[0].type):'')+(reward?' +'+reward.amount+' '+t('coins')+' · '+t('mission_reward'):''));render();}else notify(t(result.error));}
 el('next-day').addEventListener('click',()=>send('nextDay'));el('pause').addEventListener('click',()=>send('pause'));el('speed').addEventListener('click',()=>send('speed'));
