@@ -19,6 +19,11 @@
  <main id="farm" tabindex="-1">
   <section class="welcome"><p class="eyebrow" data-i18n="eyebrow">GROW SOMETHING GOOD</p><h1 data-i18n="title">A little land. A lot to grow.</h1><p data-i18n="intro">Your own small corner of the world. Start with a seed.</p></section>
   <section id="world" class="world" aria-label="Your farm"><p class="world-placeholder" data-i18n="ready">Welcome to your little farm.</p></section>
+  <section id="plot-panel" class="plot-panel" aria-labelledby="plot-heading" hidden>
+   <div><p class="eyebrow" data-i18n="selectedBed">YOUR GROWING SPACE</p><h2 id="plot-heading">Plot 1</h2><p id="plot-status"></p></div>
+   <div id="plot-actions" class="plot-actions"></div>
+   <button id="close-plot" class="close-panel" type="button" data-i18n="close">Close</button>
+  </section>
   <p class="local-note" data-i18n="local">No account. Just you, a little land, and a fresh start.</p>
  </main>
  <div id="notice" class="notice" role="status" aria-live="polite"></div>

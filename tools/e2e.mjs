@@ -30,6 +30,13 @@ try{
     await page.locator('[data-choose-plot="0"]').click();assert.equal(await page.evaluate(()=>window.selectionCount),1);
     await page.locator('[data-camera=in]').click();assert.match(await page.locator('#map-camera').getAttribute('transform'),/scale\(1.15\)/);
     await page.locator('[data-camera=reset]').click();assert.match(await page.locator('#map-camera').getAttribute('transform'),/scale\(1\)/);
+    if(await page.locator('#plot-panel').count()){
+     assert.equal(await page.locator('#plot-panel').isVisible(),true);assert.equal(await page.locator('#plot-heading').innerText(),'Plot 1');
+     await page.locator('#close-plot').click();assert.equal(await page.locator('#plot-panel').isVisible(),false);
+     await page.locator('[data-plot="1"]').focus();await page.keyboard.press('Enter');assert.equal(await page.locator('#plot-heading').innerText(),'Plot 2');
+     await page.keyboard.press('Escape');assert.equal(await page.locator('#plot-panel').isVisible(),false);
+     await page.evaluate(()=>document.dispatchEvent(new CustomEvent('plotselect',{detail:999})));assert.equal(await page.locator('#plot-panel').isVisible(),false);
+    }
    }
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);report.checks.push({device:name,gameEntry:true,localeResume:true});
   }

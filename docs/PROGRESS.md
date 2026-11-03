@@ -41,3 +41,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M1-F04 | PASS | 10/59 (16.9%)
 
 2026-11-03T05:55:28+00:00 — Pointer/keyboard plot selection fires once, zoom/reset transform verified desktop/touch-mobile, bounded pan and 44px alternate plot controls; full checks pass.
+
+## M1-F05 | PASS | 11/59 (18.6%)
+
+2026-11-03T05:56:57+00:00 — Plot selection/empty status, close/Escape and keyboard reopen verified desktop/mobile; invalid plot 999 ignored; full regression/typecheck/build pass.
