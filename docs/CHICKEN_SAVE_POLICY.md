@@ -1,0 +1,9 @@
+# Chicken save and rollback policy
+
+V2 retains the existing primary key myfarmtwin.save.v1, preserving cross-version detection. New farms have empty unvisited Chicken data; loading V1 or supported V0 adds that empty subtree and changes only schema version. Crop values, ledger, RNG, resource balances and revision are preserved. First-yard entry remains the only starter-grant action.
+
+Before automatic migration writes the primary, the original bytes must be preserved at myfarmtwin.save.before-chicken.v1, plus the ordinary rolling backup. The pre-Chicken archive is immutable across later autosaves. If preserving it fails or an unrelated original already occupies the archive, return a blocked migration preview: retain the primary/archive unchanged, permit export, and require an explicit existing data replacement flow rather than overwrite. The UI explains the preservation state. Corrupt quarantine and rolling backup remain separate.
+
+Future schema envelopes are rejected with saveNewer before backup recovery. Do not reset or downgrade V2 to run older code. A code rollback may pause access to the newer farm; restore forward-compatible code to resume it. Restoring an old farm is an explicit data action after export, never an automatic downgrade. Feature-flag rollback must retain the V2 reader and Chicken data while disabling commands/simulation/UI.
+
+Test-only V1 reader fixtures are exact source bytes from deployed commit def03f2846301d184691caefd73906e3ae90749a: save-schema.js SHA256 c14a998824604dfa2468c5478d9a0937609ca3f5244e99ffded369fadb45766c; storage.js SHA256 09389e5f363181f05a18601f2eca22e010ee0aedae99e51118dbe788dcf56e72. Tests only adjust module import locations in memory. The actual old SaveSession sees V2 as future data and preserves both primary and V1 backup. These fixtures are not served to browsers.

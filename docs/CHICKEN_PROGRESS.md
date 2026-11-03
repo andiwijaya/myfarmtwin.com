@@ -141,3 +141,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M4-F02 | PASS | 35/58 (60.3%)
 
 2026-11-03T14:56:41+00:00 — 79 tests/typecheck/build pass; V1 fixtures migrate with exact crop/RNG/ledger and zero grants, original backup retained; frozen11-command crop replay exact.
+
+## M4-F03 | PASS | 36/58 (62.1%)
+
+2026-11-03T14:59:31+00:00 — 82 tests/typecheck/build pass; legacy chain and immutable pre-V2 bytes survive autosaves; deployed V1 reader refuses V2 without downgrade; quota/collision fail closed.
