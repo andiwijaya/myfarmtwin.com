@@ -35,7 +35,7 @@ export function renderWorld(plots=initialPlots){
   node('polygon',{points:diamond(c.x,c.y,40,19),fill:'#775238',stroke:'#bd9464','stroke-width':4},g);
   for(let row=-1;row<=1;row++)node('path',{d:`M${c.x-24+row*8},${c.y+row*4-9} l35,17`,stroke:'#936744','stroke-width':3,'stroke-linecap':'round'},g);
   if(p.crop){
-   const stage=p.crop.stage,crop=node('g',{'data-crop':p.crop.type,'data-stage':stage},g),scale=.55+stage*.24;
+   const stage=p.crop.stage,crop=node('g',{'data-crop':p.crop.type,'data-stage':stage,'data-growth':Math.floor(p.crop.progress*100)},g),scale=.55+stage*.24;
    if(stage===3)node('ellipse',{cx:c.x,cy:c.y+1,rx:26,ry:12,fill:'none',stroke:'#f4d576','stroke-width':3,class:'harvest-ring'},crop);
    for(const [dx,dy]of [[-15,-5],[0,3],[15,-4]]){
     const x=c.x+dx,y=c.y+dy,plant=node('g',{transform:`translate(${x} ${y}) scale(${scale})`},crop);

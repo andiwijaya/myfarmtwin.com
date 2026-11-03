@@ -73,3 +73,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M2-F04 | PASS | 18/59 (30.5%)
 
 2026-11-03T06:06:28+00:00 — Fixed ticks progress seedling/growing/mature stages with bounded progress; crop geometry/stage labels update from state on desktop/mobile; all tests/typecheck/build pass.
+
+## M2-F05 | PASS | 19/59 (32.2%)
+
+2026-11-03T06:09:05+00:00 — Millimetre water balance dry/wet/overflow/invalid-unit bounds and dry-vs-watered growth tests pass; moisture/state-driven stages visible desktop/mobile; full checks pass.
