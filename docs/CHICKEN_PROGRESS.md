@@ -129,3 +129,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M3-F08 | PASS | 32/58 (55.2%)
 
 2026-11-03T14:49:10+00:00 — 76 tests/typecheck/build and four real stockout/recovery UI runs pass; bounded220g/6L once, no Coins, no lost hens, crop income restores paid feed.
+
+## M3-F09 | PASS | 33/58 (56.9%)
+
+2026-11-03T14:51:59+00:00 — VERTICAL SLICE PASS: four EN/ID desktop/touch full Chicken+cross-crop loops under2.1s; full legacy crop/save/data/offline/stale-tab e2e passes.

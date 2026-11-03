@@ -332,7 +332,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 - [x] **M3-F06** — Chapter 1 completion reward exactly-once; mission IDs namespace Chicken, tidak memicu reward crop berulang.
 - [x] **M3-F07** — Tambahkan satu **coop upgrade nyata** (capacity atau efisiensi) dengan perubahan world + engine dan harga wajar.
 - [x] **M3-F08** — Emergency/recovery route jika pemain kehabisan Coins/feed/water; tidak mencetak keuntungan gratis berulang.
-- [ ] **M3-F09** — **VERTICAL-SLICE GATE:** browser desktop dan touch mobile menyelesaikan first entry → feed → water → egg → collect → sell → upgrade dalam target automation 180 detik; saldo/inventory exact; crop loop baseline tetap lulus.
+- [x] **M3-F09** — **VERTICAL-SLICE GATE:** browser desktop dan touch mobile menyelesaikan first entry → feed → water → egg → collect → sell → upgrade dalam target automation 180 detik; saldo/inventory exact; crop loop baseline tetap lulus.
 
 **M3 gate:** game Chicken sudah playable end-to-end dalam satu sesi. **JANGAN** lanjut penambahan fitur kalau M3-F09 gagal. Namun **BELUM** boleh rilis sebelum persistence M4.
 

@@ -1,0 +1,7 @@
+# M3 one-session vertical slice
+
+2026-11-03 UTC. All four surfaces (1440px desktop and390px touch, EN/ID) complete first entry, feed, shared-tank drinking water, paid cleaning, Next Day, two seeded grade-A eggs, collection, sale, one-time chapter reward and real coop expansion in1.9–2.1 seconds including a subsequent cross-area crop harvest/sale. The180-second automation target passes. Chicken-only checkpoint:61Coins,114L shared tank,2hens,level1capacity4,mission8. Crop harvest afterward sells48Coins plus its existing10Coin sale reward; Chicken progress/herd remains intact.
+
+Commands: npm run lint; node tools/chicken-flow-e2e.mjs slice; npm run e2e. All76 headless tests/typecheck/build passed before the gate. Full existing desktop/touch crop regression passes: tutorial, pump/expansion/order/followups, exact reload/reopen, no future-clock penalty, backup/corrupt/legacy/future saves, export/import/cancel/reset/restore, offline actions, clock pause, stale-tab protection and blocked storage. No uncaught errors. QA reports/screenshots remain outside Git under task-2/qa/chicken/m3.
+
+This is not the release persistence gate. At this checkpoint the V1 codec deliberately refuses new Chicken payloads, preserving existing saved bytes and showing the storage warning. Chicken gameplay is verified within one active session; V2 autosave/export/reload/migration is the next M4 work. Do not publish until M4 and the later production gates pass. The source branch has not been pushed or deployed.
