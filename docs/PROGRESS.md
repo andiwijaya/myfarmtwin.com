@@ -77,3 +77,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M2-F05 | PASS | 19/59 (32.2%)
 
 2026-11-03T06:09:05+00:00 — Millimetre water balance dry/wet/overflow/invalid-unit bounds and dry-vs-watered growth tests pass; moisture/state-driven stages visible desktop/mobile; full checks pass.
+
+## M2-F06 | PASS | 20/59 (33.9%)
+
+2026-11-03T06:10:36+00:00 — Water applies 25mm/25L, debits 2 Coins once and darkens actual soil; duplicate-hour/no-water/no-Coins/wet/invalid-bed tests pass; desktop/mobile feedback and full checks pass.

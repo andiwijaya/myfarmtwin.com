@@ -8,11 +8,11 @@ export const iso=(x,y)=>({x:450+(x-y)*44,y:82+(x+y)*22});
 function node(name,attrs,parent){const el=document.createElementNS(NS,name);for(const [key,val]of Object.entries(attrs))el.setAttribute(key,String(val));parent.append(el);return el;}
 /** @param {number} x @param {number} y @param {number} w @param {number} h */
 const diamond=(x,y,w=43,h=21)=>`${x},${y-h} ${x+w},${y} ${x},${y+h} ${x-w},${y}`;
-/** @typedef {{id:number,x:number,y:number,crop?:import('./engine.js').Crop|null}} WorldPlot */
+/** @typedef {{id:number,x:number,y:number,crop?:import('./engine.js').Crop|null,soilWaterMm?:number,soilCapacityMm?:number,lastWaterTick?:number}} WorldPlot */
 /** @type {readonly WorldPlot[]} */
 export const initialPlots=INITIAL_PLOTS;
-/** @param {readonly WorldPlot[]} [plots] */
-export function renderWorld(plots=initialPlots){
+/** @param {readonly WorldPlot[]} [plots] @param {number} [tick] */
+export function renderWorld(plots=initialPlots,tick=0){
  const host=/** @type {HTMLElement} */(document.querySelector('#world'));host.replaceChildren();
  const svg=node('svg',{viewBox:'0 0 900 540',class:'farm-scene',role:'img','aria-label':t('farmMap')},host);
  const title=node('title',{},svg);title.textContent=t('farmMap');
@@ -31,8 +31,8 @@ export function renderWorld(plots=initialPlots){
   node('polygon',{points:`${p.x},${p.y-92} ${p.x},${p.y-16} ${p.x-29},${p.y-29}`,fill:'#3f7047'},g);
  }
  for(const p of plots){
-  const c=iso(p.x,p.y),g=node('g',{'data-plot':p.id,class:'plot'},camera);
-  node('polygon',{points:diamond(c.x,c.y,40,19),fill:'#775238',stroke:'#bd9464','stroke-width':4},g);
+  const moisture=100*(p.soilWaterMm??12)/(p.soilCapacityMm??50),c=iso(p.x,p.y),g=node('g',{'data-plot':p.id,'data-moisture':Math.round(moisture),class:'plot'},camera);
+  node('polygon',{points:diamond(c.x,c.y,40,19),fill:moisture>=40?'#614d38':'#92704a',stroke:'#bd9464','stroke-width':4},g);
   for(let row=-1;row<=1;row++)node('path',{d:`M${c.x-24+row*8},${c.y+row*4-9} l35,17`,stroke:'#936744','stroke-width':3,'stroke-linecap':'round'},g);
   if(p.crop){
    const stage=p.crop.stage,crop=node('g',{'data-crop':p.crop.type,'data-stage':stage,'data-growth':Math.floor(p.crop.progress*100)},g),scale=.55+stage*.24;
@@ -44,6 +44,7 @@ export function renderWorld(plots=initialPlots){
    }
   }
   else{const n=node('text',{x:c.x,y:c.y+5,'text-anchor':'middle',class:'bed-number'},g);n.textContent=String(p.id+1);}
+  if(p.lastWaterTick===tick){const splash=node('text',{x:c.x+22,y:c.y-24,fill:'#387f9b','font-size':22,class:'water-splash','aria-hidden':'true'},g);splash.textContent='◆';}
  }
  const w=iso(1,2),well=node('g',{'data-facility':'well'},camera);
  node('ellipse',{cx:w.x,cy:w.y+6,rx:27,ry:13,fill:'#819a68',opacity:'.4'},well);

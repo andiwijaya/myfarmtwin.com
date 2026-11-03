@@ -2,7 +2,7 @@ import {getLocale,setLocale,translate,t} from './locales.js';
 import {renderWorld,initialPlots} from './world.js';
 import {el} from './dom.js';
 import {createState,dispatch} from './engine.js';
-import {CROPS,CROP_IDS,STAGE_KEYS} from './config.js';
+import {CROPS,CROP_IDS,STAGE_KEYS,WATER} from './config.js';
 /** @type {import('./engine.js').State} */let state=createState();
 const language=/** @type {HTMLSelectElement} */(document.querySelector('#language'));
 const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
@@ -21,7 +21,9 @@ function renderSelection(){
  if(selected===null)return;
  el('plot-heading').textContent=t('plot')+' '+(selected+1);
  el('plot-status').textContent=t('emptyBed');
- const actions=el('plot-actions');actions.replaceChildren();const plot=state.plots.find(p=>p.id===selected);if(!plot)return;const moisture=Math.round(100*plot.soilWaterMm/plot.soilCapacityMm)+'% '+t('moisture');if(plot.crop){el('plot-status').textContent=t(plot.crop.type)+' · '+t(STAGE_KEYS[plot.crop.stage])+' · '+Math.floor(plot.crop.progress*100)+'% · '+moisture;return;}
+ const actions=el('plot-actions');actions.replaceChildren();const plot=state.plots.find(p=>p.id===selected);if(!plot)return;
+ const water=document.createElement('button');water.type='button';water.id='water';water.className='action-button';water.textContent=t('waterAction')+' · '+WATER.coinCost+' '+t('coins');water.addEventListener('click',()=>{if(selected!==null)send('water',{plot:selected});});actions.append(water);
+ const moisture=Math.round(100*plot.soilWaterMm/plot.soilCapacityMm)+'% '+t('moisture');if(plot.crop){el('plot-status').textContent=t(plot.crop.type)+' · '+t(STAGE_KEYS[plot.crop.stage])+' · '+Math.floor(plot.crop.progress*100)+'% · '+moisture;return;}
  el('plot-status').textContent=t('emptyBed')+' '+moisture;
  const label=document.createElement('label');label.className='crop-picker';label.textContent=t('chooseCrop');const picker=document.createElement('select');picker.id='crop-choice';picker.setAttribute('aria-label',t('chooseCrop'));
  for(const id of CROP_IDS){const option=document.createElement('option');option.value=id;option.textContent=t(id);picker.append(option);}picker.value=chosenCrop;picker.addEventListener('change',()=>{chosenCrop=/** @type {import('./engine.js').CropId} */(picker.value);renderSelection();});label.append(picker);actions.append(label);
@@ -34,7 +36,7 @@ el('close-plot').addEventListener('click',closePlot);
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closePlot();});
 language.value=getLocale();
 language.addEventListener('change',()=>{setLocale(language.value);render();});
-function render(){translate();renderWorld(state.plots);renderSelection();renderGuide();renderGraphics();el('hud-day').textContent=String(Math.floor(state.tick/24)+1);el('hud-coins').textContent=String(state.coins);el('hud-water').textContent=String(state.water);el('hud-seeds').textContent=String(state.seeds.lettuce+state.seeds.tomato);el('pause').textContent=t(state.paused?'playClock':'pause');el('speed').textContent=state.speed+'×';}
+function render(){translate();renderWorld(state.plots,state.tick);renderSelection();renderGuide();renderGraphics();el('hud-day').textContent=String(Math.floor(state.tick/24)+1);el('hud-coins').textContent=String(state.coins);el('hud-water').textContent=String(Math.floor(state.water));el('hud-seeds').textContent=String(state.seeds.lettuce+state.seeds.tomato);el('pause').textContent=t(state.paused?'playClock':'pause');el('speed').textContent=state.speed+'×';}
 /** @param {import('./engine.js').CommandType} type @param {Partial<import('./engine.js').Command>} [extra] */
 function send(type,extra={}){const result=dispatch(state,{...extra,id:state.revision+1,type});if(result.ok){state=result.state;el('notice').textContent=result.events.length?t(result.events[0].type):'';render();}else el('notice').textContent=t(result.error);}
 el('next-day').addEventListener('click',()=>send('nextDay'));el('pause').addEventListener('click',()=>send('pause'));el('speed').addEventListener('click',()=>send('speed'));
