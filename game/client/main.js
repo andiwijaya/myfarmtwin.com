@@ -23,13 +23,14 @@ const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
 let guideExpanded=true;
 let celebrationDismissed=false;
 let activeArea='field';
-el('area-field').addEventListener('click',()=>{activeArea='field';render();});
-el('area-chicken').addEventListener('click',()=>{if(FEATURES.chicken){activeArea='chicken';render();}});
+el('area-field').addEventListener('click',()=>{clearNotice();activeArea='field';render();});
+el('area-chicken').addEventListener('click',()=>{if(FEATURES.chicken){clearNotice();activeArea='chicken';render();}});
 el('continue-farm').addEventListener('click',()=>{celebrationDismissed=true;chosenCrop='tomato';const empty=state.plots.find(p=>!p.crop);if(empty)selected=empty.id;render();});
 el('resume-continue').addEventListener('click',()=>{resumeVisible=false;render();});
 /** @type {ReturnType<typeof setTimeout>|undefined} */let noticeTimer;
 /** @param {string} text */
 function notify(text){if(noticeTimer)clearTimeout(noticeTimer);el('notice').textContent=text;noticeTimer=setTimeout(()=>{el('notice').textContent='';},4500);}
+function clearNotice(){if(noticeTimer)clearTimeout(noticeTimer);el('notice').textContent='';}
 let lowGraphics=false;try{lowGraphics=localStorage.getItem('myfarmtwin.graphics')==='low';}catch{/* Optional preference. */}
 function renderGraphics(){document.body.classList.toggle('low-graphics',lowGraphics);el('graphics').setAttribute('aria-pressed',String(lowGraphics));}
 el('graphics').addEventListener('click',()=>{lowGraphics=!lowGraphics;renderGraphics();try{localStorage.setItem('myfarmtwin.graphics',lowGraphics?'low':'full');}catch{/* Optional preference. */}});

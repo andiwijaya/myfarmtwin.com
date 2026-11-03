@@ -33,3 +33,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M1-F02 | PASS | 8/58 (13.8%)
 
 2026-11-03T13:07:04+00:00 — Native SVG Yard64tiles/four fence edges/ramp renders separately from crops;4 desktop/touch EN-ID browser cases preserve planted save/mission and return picking; strict types/build pass.
+
+## M1-F03 | PASS | 9/58 (15.5%)
+
+2026-11-03T13:10:41+00:00 — Coop roof/door/nest renders snapshot status; empty vs2eggs and dooropen/closed verified in4 desktop/mobile EN-ID surfaces with save exact. Visual review fixed stale crop notice occlusion; retest passes.
