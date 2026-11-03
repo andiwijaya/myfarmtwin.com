@@ -216,7 +216,7 @@ myfarmtwin.com/
 ### M1 — Entry point & playable farm world
 
 - [x] **M1-F01 — `/play/` tersedia.** Halaman game dapat dibuka langsung maupun dari homepage, refresh tetap valid; semua rute editorial masih bekerja.
-- [ ] **M1-F02 — CTA homepage/nav.** Tambah `Play Farm / Mainkan Farm` tanpa menghilangkan brand FarmGirl, struktur navigasi, atau SEO metadata.
+- [x] **M1-F02 — CTA homepage/nav.** Tambah `Play Farm / Mainkan Farm` tanpa menghilangkan brand FarmGirl, struktur navigasi, atau SEO metadata.
 - [ ] **M1-F03 — Scene farm minimum.** Dunia low-poly/isometric dengan 3 petak aktif, sumur, Market board, dan ruang kosong; render di desktop dan mobile tanpa blank screen.
 - [ ] **M1-F04 — Kamera & input.** Tap/click pilih petak, pan/zoom aman, Reset View; pointer events tidak memicu dua aksi.
 - [ ] **M1-F05 — Select/inspect plot.** Tooltip/panel petak valid, status awal jelas; close/back bekerja di HP.

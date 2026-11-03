@@ -29,3 +29,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M1-F01 | PASS | 7/59 (11.9%)
 
 2026-11-03T05:52:05+00:00 — Direct /play/ and refresh pass desktop/touch mobile; EN/ID preference resumes, home backlink/editorial routes intact; isolated build/typecheck/unit pass.
+
+## M1-F02 | PASS | 8/59 (13.6%)
+
+2026-11-03T05:53:00+00:00 — Homepage Play Farm CTA and all editorial nav links open /play/ on desktop/mobile; original brand/content/metadata preserved; full local checks pass.
