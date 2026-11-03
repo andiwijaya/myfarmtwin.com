@@ -81,3 +81,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M2-F06 | PASS | 20/59 (33.9%)
 
 2026-11-03T06:10:36+00:00 — Water applies 25mm/25L, debits 2 Coins once and darkens actual soil; duplicate-hour/no-water/no-Coins/wet/invalid-bed tests pass; desktop/mobile feedback and full checks pass.
+
+## M2-F07 | PASS | 21/59 (35.6%)
+
+2026-11-03T06:12:02+00:00 — Seeded forecast matches next day without mutation; 4 weather types replay, rain/hot change actual mm/growth rationally; desktop/mobile forecast and full checks pass.

@@ -22,6 +22,7 @@ Object.assign(messages.en,{sprout:'Sprout',growing:'Growing',readyHarvest:'Ready
 Object.assign(messages.en,{moisture:'soil moisture'});Object.assign(messages.id,{moisture:'kelembapan tanah'});
 Object.assign(messages.en,{waterAction:'Water',watered:'Water applied. Watch the darker soil.',alreadyWatered:'Already watered this hour. Advance time before watering again.',alreadyWet:'This bed has enough water for now.',noWater:'Not enough water in the tank.',noCoins:'Not enough Coins.',waterStock:'Water · L'});
 Object.assign(messages.id,{waterAction:'Siram',watered:'Air diberikan. Tanah terlihat lebih gelap.',alreadyWatered:'Sudah disiram pada jam ini. Majukan waktu sebelum menyiram lagi.',alreadyWet:'Air petak ini sudah cukup.',noWater:'Air di tandon tidak cukup.',noCoins:'Koin tidak cukup.',waterStock:'Air · L'});
+Object.assign(messages.en,{sunny:'☀ Sunny',cloudy:'☁ Cloudy',rainy:'☂ Rainy',hot:'☀ Hot',forecast:'Next day'});Object.assign(messages.id,{sunny:'☀ Cerah',cloudy:'☁ Mendung',rainy:'☂ Hujan',hot:'☀ Panas',forecast:'Besok'});
 try{locale=localStorage.getItem('myfarmtwin.locale')||(navigator.language.startsWith('id')?'id':'en');}catch{locale=navigator.language.startsWith('id')?'id':'en';}
 if(!messages[locale])locale='en';
 /** @param {string} key */

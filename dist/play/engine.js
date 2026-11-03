@@ -1,4 +1,4 @@
-import {STARTER,INITIAL_PLOTS,CROP_IDS,CROPS,WATER} from './config.js';
+import {STARTER,INITIAL_PLOTS,CROP_IDS,CROPS,WATER,WEATHER} from './config.js';
 import {waterBalance} from './water.js';
 /** @typedef {'sunny'|'cloudy'|'rainy'|'hot'} Weather */
 /** @typedef {'lettuce'|'tomato'} CropId */
@@ -14,12 +14,14 @@ import {waterBalance} from './water.js';
 export function createState(seed=6321){return {saveVersion:1,revision:0,tick:0,seed:seed>>>0,rng:seed>>>0,weather:'sunny',paused:true,speed:1,coins:STARTER.coins,water:STARTER.water,seeds:{lettuce:STARTER.seeds,tomato:0},plots:INITIAL_PLOTS.map(p=>({...p,soilWaterMm:12,soilCapacityMm:50,crop:null,waterAppliedMm:0,careCost:0,lastWaterTick:-1,history:[]})),inventory:[],ledger:[],mission:{step:0,rewards:[]},pump:{built:false,on:false},stats:{planted:0,watered:0,harvested:0,sold:0,hotCare:0,orders:0},nextLot:1};}
 /** @param {State} state */
 function nextWeather(state){state.rng=(Math.imul(1664525,state.rng)+1013904223)>>>0;const names=/** @type {Weather[]} */(['sunny','cloudy','rainy','hot']);state.weather=names[(state.rng>>>16)%names.length];}
+/** @param {State} state @returns {Weather} */
+export function forecastWeather(state){const next=structuredClone(state);nextWeather(next);return next.weather;}
 /** @param {State} state */
 function hour(state){
  for(const plot of state.plots){
-  const crop=plot.crop,config=crop?CROPS[crop.type]:null;
-  const balance=waterBalance({waterMm:plot.soilWaterMm,capacityMm:plot.soilCapacityMm,etMm:config?config.waterPerDayMm/24:.15});plot.soilWaterMm=balance.waterMm;
-  if(crop&&config){crop.progress=Math.min(1,crop.progress+balance.waterFactor/config.hours);crop.stage=config.stages.filter(threshold=>crop.progress>=threshold).length-1;}
+  const crop=plot.crop,config=crop?CROPS[crop.type]:null,weather=WEATHER[state.weather];
+  const balance=waterBalance({waterMm:plot.soilWaterMm,capacityMm:plot.soilCapacityMm,rainMm:weather.rainMmDay/24,etMm:(config?config.waterPerDayMm/24:.15)*weather.et});plot.soilWaterMm=balance.waterMm;
+  if(crop&&config){crop.progress=Math.min(1,crop.progress+balance.waterFactor*weather.growth/config.hours);crop.stage=config.stages.filter(threshold=>crop.progress>=threshold).length-1;}
   plot.history.push({tick:state.tick+1,water:plot.soilWaterMm,growth:crop?.progress||0});if(plot.history.length>48)plot.history.shift();
  }state.tick++;if(state.tick%24===0)nextWeather(state);
 }

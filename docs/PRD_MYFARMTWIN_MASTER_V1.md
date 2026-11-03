@@ -232,7 +232,7 @@ myfarmtwin.com/
 - [x] **M2-F04 — Visible growth stages.** Seed/sprout/growing/mature berbeda terlihat setelah tick; tidak ada progress yang melompat tanpa update engine.
 - [x] **M2-F05 — Soil water model.** Neraca air mm/petak, batas kapasitas dan moisture % valid; test dry/wet/boundary.
 - [x] **M2-F06 — Manual watering.** Player bisa menyiram sekali per command, efek air dan feedback visual sesuai model; no double cost.
-- [ ] **M2-F07 — Weather effect.** Cuaca seeded sunny/cloudy/rainy/hot mengubah air/growth; dapat dibuktikan dengan scenario deterministic tests.
+- [x] **M2-F07 — Weather effect.** Cuaca seeded sunny/cloudy/rainy/hot mengubah air/growth; dapat dibuktikan dengan scenario deterministic tests.
 - [ ] **M2-F08 — Harvest & inventory.** Tanaman matang dipanen, jumlah/quality terhitung, item masuk inventory, petak kembali usable; tidak bisa double harvest.
 - [ ] **M2-F09 — Crop health & recovery.** Kekeringan/genangan perlahan memengaruhi quality, bisa dipulihkan; care terasa bermakna tanpa game-over tak adil.
 

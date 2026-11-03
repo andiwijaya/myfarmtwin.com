@@ -1,7 +1,7 @@
 import {getLocale,setLocale,translate,t} from './locales.js';
 import {renderWorld,initialPlots} from './world.js';
 import {el} from './dom.js';
-import {createState,dispatch} from './engine.js';
+import {createState,dispatch,forecastWeather} from './engine.js';
 import {CROPS,CROP_IDS,STAGE_KEYS,WATER} from './config.js';
 /** @type {import('./engine.js').State} */let state=createState();
 const language=/** @type {HTMLSelectElement} */(document.querySelector('#language'));
@@ -36,7 +36,7 @@ el('close-plot').addEventListener('click',closePlot);
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closePlot();});
 language.value=getLocale();
 language.addEventListener('change',()=>{setLocale(language.value);render();});
-function render(){translate();renderWorld(state.plots,state.tick);renderSelection();renderGuide();renderGraphics();el('hud-day').textContent=String(Math.floor(state.tick/24)+1);el('hud-coins').textContent=String(state.coins);el('hud-water').textContent=String(Math.floor(state.water));el('hud-seeds').textContent=String(state.seeds.lettuce+state.seeds.tomato);el('pause').textContent=t(state.paused?'playClock':'pause');el('speed').textContent=state.speed+'×';}
+function render(){translate();renderWorld(state.plots,state.tick);renderSelection();renderGuide();renderGraphics();el('hud-day').textContent=String(Math.floor(state.tick/24)+1);el('hud-coins').textContent=String(state.coins);el('hud-water').textContent=String(Math.floor(state.water));el('hud-seeds').textContent=String(state.seeds.lettuce+state.seeds.tomato);el('pause').textContent=t(state.paused?'playClock':'pause');el('speed').textContent=state.speed+'×';el('weather-name').textContent=t(state.weather);el('weather-forecast').textContent=t('forecast')+': '+t(forecastWeather(state));}
 /** @param {import('./engine.js').CommandType} type @param {Partial<import('./engine.js').Command>} [extra] */
 function send(type,extra={}){const result=dispatch(state,{...extra,id:state.revision+1,type});if(result.ok){state=result.state;el('notice').textContent=result.events.length?t(result.events[0].type):'';render();}else el('notice').textContent=t(result.error);}
 el('next-day').addEventListener('click',()=>send('nextDay'));el('pause').addEventListener('click',()=>send('pause'));el('speed').addEventListener('click',()=>send('speed'));
