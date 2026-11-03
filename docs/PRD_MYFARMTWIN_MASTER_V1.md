@@ -282,7 +282,7 @@ myfarmtwin.com/
 - [x] **M7-F03 — Dead-code/dependency audit.** Buang unused code, asset tak dipakai, debug logs, QA artifacts, dan dependency berat; jangan menghapus aset media future use milik user.
 - [x] **M7-F04 — Cross-browser & accessibility.** Chrome Android/mobile, Chrome/Edge desktop dan browser kedua yang tersedia; touch targets, readable text, keyboard, contrast, reduced-motion.
 - [x] **M7-F05 — Performance budget.** Target rata-rata ≥30 FPS pada Android menengah yang tersedia dan ≥50 desktop di scene awal; catat hardware, metode dan deviasi. Jika tidak tercapai, optimasi dan low-mode. Verifikasi bundle/asset size realistis dan first-interaction load time.
-- [ ] **M7-F06 — SEO/navigation regression.** Homepage, existing routes, canonical, OG, sitemap, robots, GA4 yang sudah ada tetap bekerja; game link no 404 dan link balik home ada.
+- [x] **M7-F06 — SEO/navigation regression.** Homepage, existing routes, canonical, OG, sitemap, robots, GA4 yang sudah ada tetap bekerja; game link no 404 dan link balik home ada.
 - [ ] **M7-F07 — Data/privacy/security.** Tidak ada key di frontend, insecure HTML injection, insecure external script, dependency vulnerability kritis, atau data PII dalam telemetry; save parse tervalidasi.
 - [ ] **M7-F08 — Deploy & production smoke.** Jalankan local build/test, commit lokal, push/deploy aman setelah release gate. Verifikasi URL live desktop+mobile dan rollback siap. Jangan memakai GitHub Actions berulang (kuota terbatas).
 - [ ] **M7-F09 — Release report & handoff.** `docs/RELEASE_REPORT_V1.md`: fitur, test & screenshot evidence, commit, live URL yang benar-benar diverifikasi, known issues, backlog dan prosentase checklist final.

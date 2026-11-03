@@ -8,3 +8,5 @@
 
 .hero-actions{flex-wrap:wrap;gap:16px}.site-nav{gap:20px}.play-farm{background:#2f6b4d}.site-nav a{min-height:44px;display:inline-flex;align-items:center}
 @media(min-width:801px)and(max-width:1100px){.site-header{padding-left:20px;padding-right:20px}.site-nav{gap:12px;font-size:12px}}
+
+.menu-toggle{width:44px;height:44px}

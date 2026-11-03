@@ -221,3 +221,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M7-F05 | PASS | 55/59 (93.2%)
 
 2026-11-03T07:51:56+00:00 — Measured 60 desktop FPS, 44.3 mobile4x proxy/50.4 low; cold interaction240/1668ms, game+thumb137608B; original PNG retained; asset decode/build/full regression pass; physical Android limit documented.
+
+## M7-F06 | PASS | 56/59 (94.9%)
+
+2026-11-03T07:56:14+00:00 — Nine routes/canonical/OG/sitemap/internal links pass; 15 editorial layouts/menu tests pass, category metadata/mobile-nav fixed; main copy/protected assets/GA4 preserved by baseline comparisons.

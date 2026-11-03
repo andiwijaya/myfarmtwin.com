@@ -14,3 +14,5 @@
 ## Production baseline (M0-F02)
 
 Automated Chromium 1.63 driver / Chromium 1243 on this Windows laptop, desktop 1440×1000 and touch mobile emulation 390×844. Homepage HTTP 200, correct homepage canonical, no horizontal overflow or uncaught page errors. Mobile navigation expanded successfully. All seven category routes, sitemap, robots and approved FarmGirl PNG returned 200. Category canonicals incorrectly all point at /learn/; preserve as recorded baseline until small safe SEO correction. Homepage retains GA4 G-VXB9Q1DG4W and existing OG metadata. Production screenshot evidence outside Git: task-2/qa/desktop-baseline.png and mobile-baseline.png; machine-readable route evidence baseline.json. These are emulation checks, not a physical Android test.
+
+M7-F06 resolution: category canonical/title/description/OG corrected to their own routes and mobile menus repaired, while baseline main content and protected styles/robots/favicon/original image remain unchanged. Local route/link/layout tests pass; production verification follows deployment.
