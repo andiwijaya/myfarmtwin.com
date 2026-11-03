@@ -129,3 +129,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M4-F01 | PASS | 32/59 (54.2%)
 
 2026-11-03T06:34:32+00:00 — Actual-moisture care badges and Why explanations cover dry/thirsty/good/wet bounds; desktop/mobile optional panel and full vertical-slice regression pass.
+
+## M4-F02 | PASS | 33/59 (55.9%)
+
+2026-11-03T06:35:56+00:00 — Farm-level manual pump ON/OFF/status and exact covered-bed count verified desktop/mobile; existing range/resource/energy tests and full vertical-slice regression pass.

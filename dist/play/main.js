@@ -1,7 +1,7 @@
 import {getLocale,setLocale,translate,t} from './locales.js';
 import {renderWorld} from './world.js';
 import {el} from './dom.js';
-import {createState,dispatch,forecastWeather} from './engine.js';
+import {createState,dispatch,forecastWeather,pumpCovers} from './engine.js';
 import {CROPS,CROP_IDS,STAGE_KEYS,WATER} from './config.js';
 import {MISSION_STEPS} from './missions.js';
 import {setupMarket,renderMarket,renderShop} from './market.js';
@@ -51,10 +51,12 @@ function render(){
  el('hud-day').textContent=String(Math.floor(state.tick/24)+1);el('hud-coins').textContent=String(state.coins);el('hud-water').textContent=String(Math.floor(state.water));el('hud-seeds').textContent=String(state.seeds.lettuce+state.seeds.tomato);
  el('inventory-harvest').textContent=state.inventory.length?state.inventory.map(lot=>t(lot.type)+' ×'+lot.quantity+' · '+Math.round(lot.quality*100)+'% '+t('quality')).join(' | '):t('noHarvest');
  el('pause').textContent=t(state.paused?'playClock':'pause');el('speed').textContent=state.speed+'×';el('weather-name').textContent=t(state.weather);el('weather-forecast').textContent=t('forecast')+': '+t(forecastWeather(state));
+ el('pump-panel').hidden=!state.pump.built;el('pump-status').textContent=t(state.pump.on?'pumpRunning':'pumpStopped')+(state.pump.stopReason?' · '+t(state.pump.stopReason):'');el('pump-coverage').textContent=state.plots.filter(pumpCovers).length+' '+t('coveredBeds');el('quick-pump').textContent=t(state.pump.on?'turnPumpOff':'turnPumpOn');el('quick-pump').setAttribute('aria-pressed',String(state.pump.on));
 }
 /** @param {import('./engine.js').CommandType} type @param {Partial<import('./engine.js').Command>} [extra] */
 function send(type,extra={}){const result=dispatch(state,{...extra,id:state.revision+1,type});if(result.ok){state=result.state;const reward=result.events.find(e=>e.type==='missionReward');notify((result.events.length?t(result.events[0].type):'')+(reward?' +'+reward.amount+' '+t('coins')+' · '+t('mission_reward'):''));render();}else notify(t(result.error));}
 el('next-day').addEventListener('click',()=>send('nextDay'));el('pause').addEventListener('click',()=>send('pause'));el('speed').addEventListener('click',()=>send('speed'));
+el('quick-pump').addEventListener('click',()=>send('togglePump'));
 setInterval(()=>{if(!state.paused&&!document.hidden){for(let i=0;i<state.speed;i++)send('tick');}},3000);
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&!state.paused)send('pause');});
 setupMarket();render();

@@ -250,7 +250,7 @@ myfarmtwin.com/
 ### M4 — Farm care yang terasa hidup
 
 - [x] **M4-F01 — Farm condition feedback.** Warna/tanda tanah, crop health, growth dan water status terlihat; tooltip “Kenapa?” menggunakan model aktual.
-- [ ] **M4-F02 — Manual small pump.** Upgrade pompa ON/OFF memengaruhi petak dalam range yang jelas; resource & biaya terdebit.
+- [x] **M4-F02 — Manual small pump.** Upgrade pompa ON/OFF memengaruhi petak dalam range yang jelas; resource & biaya terdebit.
 - [ ] **M4-F03 — Pump interlock.** Pump tidak bisa berjalan tanpa air/fasilitas valid; edge cases tidak crash.
 - [ ] **M4-F04 — Second crop balancing.** Perbedaan nyata selada dan tomat (durasi, kebutuhan air, nilai jual); tidak ada strategi dominan yang merusak loop.
 - [ ] **M4-F05 — Market orders.** 2–3 order sederhana yang feasible dengan unlock; reward dibayar sekali; refresh deterministik/terkendali.
