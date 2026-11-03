@@ -261,7 +261,7 @@ myfarmtwin.com/
 
 - [x] **M5-F01 — Versioned save schema.** `saveVersion`, world/plots/crops, economy ledger, inventory, missions, weather seed/tick, unlocks tersimpan.
 - [x] **M5-F02 — Autosave + resume.** State kembali identik setelah reload/close/reopen; tidak ada reward, crop atau sale yang terduplikasi.
-- [ ] **M5-F03 — Corrupted/old save recovery.** Validasi, migration untuk schema berikutnya, backup aman/default fresh game dengan pesan jelas; no white screen.
+- [x] **M5-F03 — Corrupted/old save recovery.** Validasi, migration untuk schema berikutnya, backup aman/default fresh game dengan pesan jelas; no white screen.
 - [ ] **M5-F04 — Session progress.** Farm summary dan next mission pada return, tanpa offline damage/punishment.
 - [ ] **M5-F05 — Multiple missions.** Sedikitnya 3 mission setelah first harvest: penuhi order, rawat saat panas, upgrade efisiensi.
 - [ ] **M5-F06 — Accessible reset/export.** Reset dengan konfirmasi; bila biaya kecil, sediakan export/import JSON agar data tidak mudah hilang dan QA reproducible.

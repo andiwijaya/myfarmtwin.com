@@ -161,3 +161,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M5-F02 | PASS | 40/59 (67.8%)
 
 2026-11-03T06:53:08+00:00 — Autosave/rolling backup roundtrip and stale-tab/quota/corrupt-preservation tests pass; desktop/mobile reload+reopen retain complete expanded farm/ledger/mission/weather/produce identically without duplicate rewards.
+
+## M5-F03 | PASS | 41/59 (69.5%)
+
+2026-11-03T06:56:38+00:00 — Corrupt-primary backup recovery preserves exact original; missing backup/future saves remain untouched; known v0 migrates once with backup; 8 desktop/mobile recovery cases and full regression pass.

@@ -32,4 +32,8 @@ export function validateState(value){
 /** @param {import('./engine.js').State} state */
 export function serialize(state){validateState(state);const text=JSON.stringify({format:'MyFarmTwin',saveVersion:SAVE_VERSION,state});if(new TextEncoder().encode(text).length>MAX_SAVE_BYTES)throw new Error('Save too large');return text;}
 /** @param {string} text @returns {import('./engine.js').State} */
-export function deserialize(text){if(typeof text!=='string'||new TextEncoder().encode(text).length>MAX_SAVE_BYTES)throw new Error('Save too large');const envelope=object(JSON.parse(text),['format','saveVersion','state']);if(envelope.format!=='MyFarmTwin'||envelope.saveVersion!==SAVE_VERSION)throw new Error('Unsupported save version');return validateState(envelope.state);}
+export function deserialize(text){
+ if(typeof text!=='string'||new TextEncoder().encode(text).length>MAX_SAVE_BYTES)throw new Error('Save too large');const envelope=object(JSON.parse(text),['format','saveVersion','state']);if(envelope.format!=='MyFarmTwin')throw new Error('Unsupported save format');
+ if(envelope.saveVersion===0){const legacy=structuredClone(envelope.state);if(!legacy||legacy.saveVersion!==0||!Array.isArray(legacy.plots))throw new Error('Invalid legacy save');for(const plot of legacy.plots){object(plot,['id','x','y','soilWaterMm','soilCapacityMm','crop','waterAppliedMm','careCost','lastWaterTick']);plot.history=[];}legacy.saveVersion=SAVE_VERSION;return validateState(legacy);}
+ if(typeof envelope.saveVersion==='number'&&envelope.saveVersion>SAVE_VERSION)throw new Error('saveNewer');if(envelope.saveVersion!==SAVE_VERSION)throw new Error('Unsupported save version');return validateState(envelope.state);
+}
