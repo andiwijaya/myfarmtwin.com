@@ -228,7 +228,7 @@ myfarmtwin.com/
 
 - [x] **M2-F01 — Game state & tick.** Implement deterministic headless state, commands, seeded weather, fixed logical tick, pause/Next Day; unit test replay identik.
 - [x] **M2-F02 — Crop config.** Selada + tomat data-driven: bibit, durasi hari-game, kebutuhan air, stages, yield; lokalisasi ID/EN.
-- [ ] **M2-F03 — Plant action.** Bibit berkurang tepat satu; plot kosong berubah planted; invalid action menampilkan alasan.
+- [x] **M2-F03 — Plant action.** Bibit berkurang tepat satu; plot kosong berubah planted; invalid action menampilkan alasan.
 - [ ] **M2-F04 — Visible growth stages.** Seed/sprout/growing/mature berbeda terlihat setelah tick; tidak ada progress yang melompat tanpa update engine.
 - [ ] **M2-F05 — Soil water model.** Neraca air mm/petak, batas kapasitas dan moisture % valid; test dry/wet/boundary.
 - [ ] **M2-F06 — Manual watering.** Player bisa menyiram sekali per command, efek air dan feedback visual sesuai model; no double cost.

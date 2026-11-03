@@ -8,7 +8,7 @@ export const iso=(x,y)=>({x:450+(x-y)*44,y:82+(x+y)*22});
 function node(name,attrs,parent){const el=document.createElementNS(NS,name);for(const [key,val]of Object.entries(attrs))el.setAttribute(key,String(val));parent.append(el);return el;}
 /** @param {number} x @param {number} y @param {number} w @param {number} h */
 const diamond=(x,y,w=43,h=21)=>`${x},${y-h} ${x+w},${y} ${x},${y+h} ${x-w},${y}`;
-/** @typedef {{id:number,x:number,y:number}} WorldPlot */
+/** @typedef {{id:number,x:number,y:number,crop?:import('./engine.js').Crop|null}} WorldPlot */
 /** @type {readonly WorldPlot[]} */
 export const initialPlots=INITIAL_PLOTS;
 /** @param {readonly WorldPlot[]} [plots] */
@@ -34,7 +34,8 @@ export function renderWorld(plots=initialPlots){
   const c=iso(p.x,p.y),g=node('g',{'data-plot':p.id,class:'plot'},camera);
   node('polygon',{points:diamond(c.x,c.y,40,19),fill:'#775238',stroke:'#bd9464','stroke-width':4},g);
   for(let row=-1;row<=1;row++)node('path',{d:`M${c.x-24+row*8},${c.y+row*4-9} l35,17`,stroke:'#936744','stroke-width':3,'stroke-linecap':'round'},g);
-  const n=node('text',{x:c.x,y:c.y+5,'text-anchor':'middle',class:'bed-number'},g);n.textContent=String(p.id+1);
+  if(p.crop){const crop=node('g',{'data-crop':p.crop.type,'data-stage':p.crop.stage},g);node('path',{d:`M${c.x},${c.y} v-14`,stroke:'#386740','stroke-width':3},crop);node('ellipse',{cx:c.x-5,cy:c.y-12,rx:7,ry:3,fill:'#74a348',transform:`rotate(25 ${c.x-5} ${c.y-12})`},crop);node('ellipse',{cx:c.x+6,cy:c.y-17,rx:8,ry:4,fill:'#8db653',transform:`rotate(-30 ${c.x+6} ${c.y-17})`},crop);}
+  else{const n=node('text',{x:c.x,y:c.y+5,'text-anchor':'middle',class:'bed-number'},g);n.textContent=String(p.id+1);}
  }
  const w=iso(1,2),well=node('g',{'data-facility':'well'},camera);
  node('ellipse',{cx:w.x,cy:w.y+6,rx:27,ry:13,fill:'#819a68',opacity:'.4'},well);

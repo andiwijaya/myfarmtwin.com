@@ -1,4 +1,4 @@
-import {STARTER,INITIAL_PLOTS} from './config.js';
+import {STARTER,INITIAL_PLOTS,CROP_IDS} from './config.js';
 /** @typedef {'sunny'|'cloudy'|'rainy'|'hot'} Weather */
 /** @typedef {'lettuce'|'tomato'} CropId */
 /** @typedef {{type:CropId,progress:number,quality:number,stage:number,plantedTick:number}} Crop */
@@ -21,6 +21,11 @@ export function dispatch(input,command){
  if(!command||!Number.isSafeInteger(command.id)||command.id!==input.revision+1)return reject('staleCommand');
  const state=structuredClone(input);/** @type {DomainEvent[]} */const events=[];
  switch(command.type){
+  case 'plant':{
+   const plot=state.plots.find(p=>p.id===command.plot);if(!plot)return reject('invalidPlot');if(plot.crop)return reject('occupied');
+   if(!command.crop||!CROP_IDS.includes(command.crop))return reject('invalidCrop');if(state.seeds[command.crop]<1)return reject('noSeeds');
+   state.seeds[command.crop]--;plot.crop={type:command.crop,progress:0,quality:1,stage:0,plantedTick:state.tick};state.stats.planted++;events.push({type:'planted',plot:plot.id});break;
+  }
   case 'nextDay':for(let i=0;i<24;i++)hour(state);events.push({type:'timeAdvanced',amount:24});break;
   case 'tick':if(state.paused)return reject('paused');hour(state);break;
   case 'pause':state.paused=!state.paused;break;

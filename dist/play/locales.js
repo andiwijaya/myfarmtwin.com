@@ -16,6 +16,8 @@ Object.assign(messages.en,{hideGuide:'Hide guide',showGuide:'Show guide'});Objec
 Object.assign(messages.en,{lowGraphics:'Low graphics',mapHint:'Tap a bed, or use the plot buttons. Drag to explore.'});Object.assign(messages.id,{lowGraphics:'Grafis ringan',mapHint:'Ketuk petak atau gunakan tombol petak. Geser untuk menjelajah.'});
 Object.assign(messages.en,{playClock:'Play clock',paused:'Clock is paused.',staleCommand:'That action was already handled.',unknownCommand:'That action is not available.'});Object.assign(messages.id,{playClock:'Jalankan waktu',paused:'Waktu sedang dijeda.',staleCommand:'Aksi itu sudah diproses.',unknownCommand:'Aksi itu belum tersedia.'});
 Object.assign(messages.en,{lettuce:'Lettuce',tomato:'Tomato',chooseCrop:'Choose a crop',gameDays:'game days',seed:'seed'});Object.assign(messages.id,{lettuce:'Selada',tomato:'Tomat',chooseCrop:'Pilih tanaman',gameDays:'hari game',seed:'benih'});
+Object.assign(messages.en,{plant:'Plant',seeds:'seeds',seedling:'Seedling',planted:'A little seed, a fresh start!',invalidPlot:'Choose a valid bed.',occupied:'This bed already has a crop.',invalidCrop:'Choose lettuce or tomato.',noSeeds:'No seeds for this crop. Choose a crop with seeds in your inventory.'});
+Object.assign(messages.id,{plant:'Tanam',seeds:'benih',seedling:'Bibit',planted:'Benih kecil, awal yang baru!',invalidPlot:'Pilih petak yang valid.',occupied:'Petak ini sudah ditanami.',invalidCrop:'Pilih selada atau tomat.',noSeeds:'Benih tanaman ini habis. Pilih tanaman yang benihnya tersedia.'});
 try{locale=localStorage.getItem('myfarmtwin.locale')||(navigator.language.startsWith('id')?'id':'en');}catch{locale=navigator.language.startsWith('id')?'id':'en';}
 if(!messages[locale])locale='en';
 /** @param {string} key */

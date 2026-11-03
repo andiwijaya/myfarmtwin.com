@@ -65,3 +65,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M2-F02 | PASS | 16/59 (27.1%)
 
 2026-11-03T06:04:06+00:00 — Data-driven lettuce/tomato duration/water/seed/yield/price/stages validated; crop selector and ID/EN descriptions verified desktop/mobile; full checks pass.
+
+## M2-F03 | PASS | 17/59 (28.8%)
+
+2026-11-03T06:05:21+00:00 — Plant consumes one seed and renders sprout; invalid bed/crop/no-seed/occupied cases rejected headless; browser no-seed message and successful plant verified desktop/mobile.
