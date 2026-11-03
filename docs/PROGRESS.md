@@ -133,3 +133,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M4-F02 | PASS | 33/59 (55.9%)
 
 2026-11-03T06:35:56+00:00 — Farm-level manual pump ON/OFF/status and exact covered-bed count verified desktop/mobile; existing range/resource/energy tests and full vertical-slice regression pass.
+
+## M4-F03 | PASS | 34/59 (57.6%)
+
+2026-11-03T06:36:55+00:00 — Missing-pump/empty/partial-water/no-energy interlocks stop safely without negative resources or extra costs; desktop/mobile depletion shows exact reason and rejects restart; full checks pass.

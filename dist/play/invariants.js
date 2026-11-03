@@ -3,6 +3,7 @@ import {STARTER,LIMITS,WATER,CROP_IDS} from './config.js';
 export function assertInvariants(state){
  if(!Number.isSafeInteger(state.coins)||state.coins<0||!Number.isSafeInteger(state.revision)||state.revision<0||!Number.isSafeInteger(state.tick)||state.tick<0)throw new Error('Invalid economy/time');
  if(!Number.isFinite(state.water)||state.water<0||state.water>WATER.tankCapacity)throw new Error('Invalid tank');
+ if((state.pump.on&&!state.pump.built)||!Number.isSafeInteger(state.pump.runHours)||state.pump.runHours<0||!Number.isInteger(state.careCredits)||state.careCredits<0||state.careCredits>1)throw new Error('Invalid facility/care state');
  for(const crop of CROP_IDS)if(!Number.isSafeInteger(state.seeds[crop])||state.seeds[crop]<0||state.seeds[crop]>99)throw new Error('Invalid seeds');
  if(state.inventory.reduce((n,l)=>n+l.quantity,0)>LIMITS.inventory)throw new Error('Inventory capacity');
  for(const l of state.inventory)if(!CROP_IDS.includes(l.type)||!Number.isSafeInteger(l.quantity)||l.quantity<1||!Number.isFinite(l.quality)||l.quality<.35||l.quality>1)throw new Error('Invalid produce');
