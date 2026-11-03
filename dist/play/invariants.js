@@ -3,7 +3,7 @@ import {STARTER,LIMITS,WATER,CROP_IDS} from './config.js';
 export function assertInvariants(state){
  if(!Number.isSafeInteger(state.coins)||state.coins<0||!Number.isSafeInteger(state.revision)||state.revision<0||!Number.isSafeInteger(state.tick)||state.tick<0)throw new Error('Invalid economy/time');
  if(!Number.isFinite(state.water)||state.water<0||state.water>WATER.tankCapacity)throw new Error('Invalid tank');
- if((state.pump.on&&!state.pump.built)||!Number.isSafeInteger(state.pump.runHours)||state.pump.runHours<0||!Number.isInteger(state.careCredits)||state.careCredits<0||state.careCredits>1)throw new Error('Invalid facility/care state');
+ if(((state.pump.on||state.pump.efficient)&&!state.pump.built)||!Number.isSafeInteger(state.pump.runHours)||state.pump.runHours<0||!Number.isInteger(state.careCredits)||state.careCredits<0||state.careCredits>1)throw new Error('Invalid facility/care state');
  for(const crop of CROP_IDS)if(!Number.isSafeInteger(state.seeds[crop])||state.seeds[crop]<0||state.seeds[crop]>99)throw new Error('Invalid seeds');
  if(state.plots.length<3||state.plots.length>LIMITS.plots||new Set(state.plots.map(p=>p.id)).size!==state.plots.length||new Set(state.plots.map(p=>p.x+','+p.y)).size!==state.plots.length||state.plots.some(p=>!Number.isInteger(p.x)||!Number.isInteger(p.y)||p.x<0||p.x>=8||p.y<0||p.y>=8))throw new Error('Invalid farm grid');
  if(state.inventory.reduce((n,l)=>n+l.quantity,0)>LIMITS.inventory)throw new Error('Inventory capacity');

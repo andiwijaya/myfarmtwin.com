@@ -169,3 +169,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M5-F04 | PASS | 42/59 (71.2%)
 
 2026-11-03T07:00:13+00:00 — Returning players see saved farm totals and next objective, dismiss without reward/state changes; reload/reopen with future device clock retains identical state/no offline costs on desktop/mobile.
+
+## M5-F05 | PASS | 43/59 (72.9%)
+
+2026-11-03T07:03:43+00:00 — Three post-tutorial missions deliver order/care in heat/upgrade motor once; motor halves energy with same water; desktop/mobile complete all three and reload exact flags/rewards; full checks pass.

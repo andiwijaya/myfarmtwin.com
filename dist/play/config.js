@@ -7,7 +7,8 @@ export const WATER=Object.freeze({amountMm:25,coinCost:2,tankCapacity:240,refill
 export const WEATHER=Object.freeze({sunny:{rainMmDay:0,et:1,growth:1},cloudy:{rainMmDay:0,et:.75,growth:.95},rainy:{rainMmDay:20,et:.6,growth:.85},hot:{rainMmDay:0,et:1.5,growth:.85}});
 export const LIMITS=Object.freeze({inventory:80,plots:8});
 export const MISSION_REWARDS=Object.freeze([0,0,5,0,0,10,10,15]);
-export const PUMP=Object.freeze({price:60,x:5,y:4,range:3,mmHour:.75,energyCoins:1,energyHours:6});
+export const PUMP=Object.freeze({price:60,x:5,y:4,range:3,mmHour:.75,energyCoins:1,energyHours:6,efficientPrice:80,efficientEnergyHours:12});
+export const FOLLOWUP_REWARDS=Object.freeze({order:10,hotCare:10,efficiency:15});
 /** @type {readonly {id:string,needs:Partial<Record<'lettuce'|'tomato',number>>,bonus:number}[]} */
 export const ORDERS=Object.freeze([{id:'salad',needs:{lettuce:2},bonus:8},{id:'tomatoBox',needs:{tomato:2},bonus:14},{id:'mixedBasket',needs:{lettuce:1,tomato:1},bonus:18}]);
 export const EXPANSION=Object.freeze({price:45,increment:15,cells:[{x:2,y:4},{x:3,y:4},{x:4,y:4},{x:2,y:5},{x:3,y:5}]});
