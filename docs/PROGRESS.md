@@ -113,3 +113,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M3-F05 | PASS | 28/59 (47.5%)
 
 2026-11-03T06:24:59+00:00 — First sale unlocks 60-Coin pump; builds once, visible range and ON/OFF affect covered soil/tank/energy ledger; desktop/mobile end-to-end upgrade and all tests pass.
+
+## M3-F06 | PASS | 29/59 (49.2%)
+
+2026-11-03T06:27:12+00:00 — Zero-resource aid restores seed/water/one care voucher without cash or immediate repeat; one wasted purchase still reaches pump; objective catch-up and browser aid restrictions pass.

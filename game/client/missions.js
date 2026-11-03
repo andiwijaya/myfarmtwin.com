@@ -5,7 +5,7 @@ export function advanceMission(state,events){
  const has=(/** @type {string} */type)=>events.some(e=>e.type===type);
  let changed=true;
  while(changed){changed=false;const step=state.mission.step;
-  const advance=(step===0&&(has('selected')||has('planted')))||(step===1&&has('planted'))||(step===2&&events.some(e=>e.type==='watered'&&state.plots.find(p=>p.id===e.plot)?.crop))||(step===3&&state.plots.some(p=>p.crop&&p.crop.progress>=1))||(step===4&&has('harvested'))||(step===5&&has('sold'))||(step===6&&has('pumpBuilt'));
+  const advance=(step===0&&(has('selected')||state.stats.planted>0))||(step===1&&state.stats.planted>0)||(step===2&&state.stats.cared>0)||(step===3&&(state.stats.harvested>0||state.plots.some(p=>p.crop&&p.crop.progress>=1)))||(step===4&&state.stats.harvested>0)||(step===5&&state.stats.sold>0)||(step===6&&state.pump.built);
   if(advance){state.mission.step++;advanced.push(state.mission.step);changed=true;}
  }
  return advanced;
