@@ -35,12 +35,12 @@ export function renderWorld(plots=initialPlots,tick=0){
   node('polygon',{points:diamond(c.x,c.y,40,19),fill:moisture>=40?'#614d38':'#92704a',stroke:'#bd9464','stroke-width':4},g);
   for(let row=-1;row<=1;row++)node('path',{d:`M${c.x-24+row*8},${c.y+row*4-9} l35,17`,stroke:'#936744','stroke-width':3,'stroke-linecap':'round'},g);
   if(p.crop){
-   const stage=p.crop.stage,crop=node('g',{'data-crop':p.crop.type,'data-stage':stage,'data-growth':Math.floor(p.crop.progress*100)},g),scale=.55+stage*.24;
+   const stage=p.crop.stage,crop=node('g',{'data-crop':p.crop.type,'data-stage':stage,'data-growth':Math.floor(p.crop.progress*100),'data-quality':Math.round(p.crop.quality*100)},g),scale=.55+stage*.24,leafDark=p.crop.quality<.65?'#8b8644':'#5d964c',leafLight=p.crop.quality<.65?'#b6ac66':'#8ab455';
    if(stage===3)node('ellipse',{cx:c.x,cy:c.y+1,rx:26,ry:12,fill:'none',stroke:'#f4d576','stroke-width':3,class:'harvest-ring'},crop);
    for(const [dx,dy]of [[-15,-5],[0,3],[15,-4]]){
     const x=c.x+dx,y=c.y+dy,plant=node('g',{transform:`translate(${x} ${y}) scale(${scale})`},crop);
     if(p.crop.type==='tomato'&&stage>1){node('path',{d:'M0,1 V-38 M0,-20 L-12,-27 M0,-27 L12,-35',stroke:'#487748','stroke-width':3},plant);for(const [tx,ty]of [[-10,-25],[10,-33],[3,-17]]){node('ellipse',{cx:tx,cy:ty,rx:8,ry:4,fill:'#61914e'},plant);node('circle',{cx:tx-2,cy:ty+6,r:5,fill:stage===3?'#d57945':'#9db663'},plant);}}
-    else{node('path',{d:'M0,0 V-12',stroke:'#487748','stroke-width':3},plant);node('ellipse',{cx:-5,cy:-9,rx:8,ry:5,fill:'#5d964c',transform:'rotate(25 -5 -9)'},plant);node('ellipse',{cx:6,cy:-14,rx:9,ry:5,fill:'#8ab455',transform:'rotate(-30 6 -14)'},plant);if(stage>0){node('ellipse',{cx:0,cy:-13,rx:5,ry:10,fill:'#aad26a'},plant);node('ellipse',{cx:0,cy:-7,rx:7,ry:5,fill:'#79aa4d'},plant);}}
+    else{node('path',{d:'M0,0 V-12',stroke:'#487748','stroke-width':3},plant);node('ellipse',{cx:-5,cy:-9,rx:8,ry:5,fill:leafDark,transform:'rotate(25 -5 -9)'},plant);node('ellipse',{cx:6,cy:-14,rx:9,ry:5,fill:leafLight,transform:'rotate(-30 6 -14)'},plant);if(stage>0){node('ellipse',{cx:0,cy:-13,rx:5,ry:10,fill:leafLight},plant);node('ellipse',{cx:0,cy:-7,rx:7,ry:5,fill:leafDark},plant);}}
    }
   }
   else{const n=node('text',{x:c.x,y:c.y+5,'text-anchor':'middle',class:'bed-number'},g);n.textContent=String(p.id+1);}

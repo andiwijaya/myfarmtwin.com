@@ -1,5 +1,5 @@
 import {STARTER,INITIAL_PLOTS,CROP_IDS,CROPS,WATER,WEATHER,LIMITS} from './config.js';
-import {waterBalance} from './water.js';
+import {waterBalance,clamp} from './water.js';
 /** @typedef {'sunny'|'cloudy'|'rainy'|'hot'} Weather */
 /** @typedef {'lettuce'|'tomato'} CropId */
 /** @typedef {{type:CropId,progress:number,quality:number,stage:number,plantedTick:number}} Crop */
@@ -21,7 +21,7 @@ function hour(state){
  for(const plot of state.plots){
   const crop=plot.crop,config=crop?CROPS[crop.type]:null,weather=WEATHER[state.weather];
   const balance=waterBalance({waterMm:plot.soilWaterMm,capacityMm:plot.soilCapacityMm,rainMm:weather.rainMmDay/24,etMm:(config?config.waterPerDayMm/24:.15)*weather.et});plot.soilWaterMm=balance.waterMm;
-  if(crop&&config){crop.progress=Math.min(1,crop.progress+balance.waterFactor*weather.growth/config.hours);crop.stage=config.stages.filter(threshold=>crop.progress>=threshold).length-1;}
+  if(crop&&config){crop.progress=Math.min(1,crop.progress+balance.waterFactor*weather.growth/config.hours);crop.stage=config.stages.filter(threshold=>crop.progress>=threshold).length-1;crop.quality=clamp(crop.quality+(balance.moisturePercent<20||balance.moisturePercent>90?-.004:.003),.35,1);}
   plot.history.push({tick:state.tick+1,water:plot.soilWaterMm,growth:crop?.progress||0});if(plot.history.length>48)plot.history.shift();
  }state.tick++;if(state.tick%24===0)nextWeather(state);
 }

@@ -89,3 +89,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M2-F08 | PASS | 22/59 (37.3%)
 
 2026-11-03T06:13:27+00:00 — Harvest creates quality/quantity lot once and frees bed; premature/full-inventory/invalid/double harvest rejected without loss; desktop/mobile inventory feedback and all checks pass.
+
+## M2-F09 | PASS | 23/59 (39.0%)
+
+2026-11-03T06:14:54+00:00 — Dry/waterlogged quality degrades gradually and recovers, never kills crop; 100-day bounds test passes; actual quality shown visually/textually; full desktop/mobile checks pass.
