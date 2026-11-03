@@ -61,3 +61,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M2-F01 | PASS | 15/58 (25.9%)
 
 2026-11-03T14:09:48+00:00 — Strict additive Chicken/Coop/Hen/EggLot config/types/IDs/conservation validated;51 total tests and exact frozen crop replay pass; original crop state/economy unchanged. Supply defaults and capacity tuning documented.
+
+## M2-F02 | PASS | 16/58 (27.6%)
+
+2026-11-03T14:14:40+00:00 — Chicken command factory/shape validator now shares engine clone/revision/flag/invariant routing; malformed args and replay reject without mutation.53 tests+typecheck/build pass; entry test uses existing synthetic kit, real grant remains M3.
