@@ -145,3 +145,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M4-F03 | PASS | 36/58 (62.1%)
 
 2026-11-03T14:59:31+00:00 — 82 tests/typecheck/build pass; legacy chain and immutable pre-V2 bytes survive autosaves; deployed V1 reader refuses V2 without downgrade; quota/collision fail closed.
+
+## M4-F04 | PASS | 37/58 (63.8%)
+
+2026-11-03T15:02:36+00:00 — V2 exact pending/collection/sale/upgrade reload and new-context EN/ID desktop/actual-touch pass; clock shift causes no penalty; established V1 migration/entry exact.
