@@ -24,6 +24,7 @@ try{
    await page.goto(base+'/play/',{waitUntil:'networkidle'});await page.locator('#language').selectOption('id');assert.equal(await page.locator('html').getAttribute('lang'),'id');
    await page.reload({waitUntil:'networkidle'});assert.equal(await page.locator('#language').inputValue(),'id');await page.locator('#language').selectOption('en');
    assert.equal(await page.locator('link[rel=canonical]').getAttribute('href'),'https://myfarmtwin.com/play/');
+   if(await page.locator('.farm-scene').count()){assert.equal(await page.locator('[data-tile]').count(),64);assert.equal(await page.locator('[data-plot]').count(),3);assert.equal(await page.locator('[data-facility]').count(),2);}
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);report.checks.push({device:name,gameEntry:true,localeResume:true});
   }
   await page.screenshot({path:join(qa,name+'-latest.png'),fullPage:true});

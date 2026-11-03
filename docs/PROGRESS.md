@@ -33,3 +33,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M1-F02 | PASS | 8/59 (13.6%)
 
 2026-11-03T05:53:00+00:00 — Homepage Play Farm CTA and all editorial nav links open /play/ on desktop/mobile; original brand/content/metadata preserved; full local checks pass.
+
+## M1-F03 | PASS | 9/59 (15.3%)
+
+2026-11-03T05:54:16+00:00 — 64-tile low-poly isometric scene renders 3 beds, well, Market and expansion space; desktop/touch-mobile scene/locale/regression checks pass with no page errors.

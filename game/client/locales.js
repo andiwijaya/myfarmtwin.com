@@ -4,6 +4,8 @@ export const messages={
  id:{edition:'KEBUN KECIL KITA',journal:'Kembali ke jurnal',eyebrow:'TUMBUHKAN HAL BAIK',title:'Lahan kecil. Harapan besar.',intro:'Sudut kecil dunia milikmu. Mulai dari sebutir benih.',ready:'Selamat datang di kebun kecilmu.',local:'Tanpa akun. Hanya kamu, sebidang tanah, dan awal yang baru.'}
 };
 let locale='en';
+Object.assign(messages.en,{farmMap:'Your little farm · 8 × 8',market:'MARKET'});
+Object.assign(messages.id,{farmMap:'Kebun kecilmu · 8 × 8',market:'PASAR'});
 try{locale=localStorage.getItem('myfarmtwin.locale')||(navigator.language.startsWith('id')?'id':'en');}catch{locale=navigator.language.startsWith('id')?'id':'en';}
 if(!messages[locale])locale='en';
 /** @param {string} key */
