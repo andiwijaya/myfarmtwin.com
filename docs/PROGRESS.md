@@ -153,3 +153,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M4-F07 | PASS | 38/59 (64.4%)
 
 2026-11-03T06:47:09+00:00 — Expansion charges bounded scaling costs, unique grid cells and max8; roundtrip retains farm; desktop/mobile build fourth bed and plant it; full slice/order regression pass (browser save in M5).
+
+## M5-F01 | PASS | 39/59 (66.1%)
+
+2026-11-03T06:50:15+00:00 — Complete versioned state JSON roundtrips identically after 30 days; strict untrusted schema/size/prototype/bounds/ledger/grid validation rejects corrupt inputs; existing UI/slice/order/expansion pass.
