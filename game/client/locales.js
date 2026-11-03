@@ -6,6 +6,8 @@ export const messages={
 let locale='en';
 Object.assign(messages.en,{farmMap:'Your little farm · 8 × 8',market:'MARKET'});
 Object.assign(messages.id,{farmMap:'Kebun kecilmu · 8 × 8',market:'PASAR'});
+Object.assign(messages.en,{plot:'Plot',choosePlot:'Choose a plot',zoomOut:'Zoom out',zoomIn:'Zoom in',resetView:'Reset view'});
+Object.assign(messages.id,{plot:'Petak',choosePlot:'Pilih petak',zoomOut:'Perkecil',zoomIn:'Perbesar',resetView:'Atur ulang tampilan'});
 try{locale=localStorage.getItem('myfarmtwin.locale')||(navigator.language.startsWith('id')?'id':'en');}catch{locale=navigator.language.startsWith('id')?'id':'en';}
 if(!messages[locale])locale='en';
 /** @param {string} key */

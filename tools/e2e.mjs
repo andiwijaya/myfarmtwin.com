@@ -25,6 +25,12 @@ try{
    await page.reload({waitUntil:'networkidle'});assert.equal(await page.locator('#language').inputValue(),'id');await page.locator('#language').selectOption('en');
    assert.equal(await page.locator('link[rel=canonical]').getAttribute('href'),'https://myfarmtwin.com/play/');
    if(await page.locator('.farm-scene').count()){assert.equal(await page.locator('[data-tile]').count(),64);assert.equal(await page.locator('[data-plot]').count(),3);assert.equal(await page.locator('[data-facility]').count(),2);}
+   if(await page.locator('[data-camera]').count()){
+    await page.evaluate(()=>{window.selectionCount=0;document.addEventListener('plotselect',()=>window.selectionCount++);});
+    await page.locator('[data-choose-plot="0"]').click();assert.equal(await page.evaluate(()=>window.selectionCount),1);
+    await page.locator('[data-camera=in]').click();assert.match(await page.locator('#map-camera').getAttribute('transform'),/scale\(1.15\)/);
+    await page.locator('[data-camera=reset]').click();assert.match(await page.locator('#map-camera').getAttribute('transform'),/scale\(1\)/);
+   }
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);report.checks.push({device:name,gameEntry:true,localeResume:true});
   }
   await page.screenshot({path:join(qa,name+'-latest.png'),fullPage:true});

@@ -37,3 +37,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M1-F03 | PASS | 9/59 (15.3%)
 
 2026-11-03T05:54:16+00:00 — 64-tile low-poly isometric scene renders 3 beds, well, Market and expansion space; desktop/touch-mobile scene/locale/regression checks pass with no page errors.
+
+## M1-F04 | PASS | 10/59 (16.9%)
+
+2026-11-03T05:55:28+00:00 — Pointer/keyboard plot selection fires once, zoom/reset transform verified desktop/touch-mobile, bounded pan and 44px alternate plot controls; full checks pass.

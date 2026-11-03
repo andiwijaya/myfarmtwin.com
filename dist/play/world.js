@@ -1,4 +1,5 @@
 import {t} from './locales.js';
+import {bindCamera} from './camera.js';
 const NS='http://www.w3.org/2000/svg';
 /** @param {number} x @param {number} y */
 export const iso=(x,y)=>({x:450+(x-y)*44,y:82+(x+y)*22});
@@ -48,4 +49,5 @@ export function renderWorld(plots=initialPlots){
  const bed=iso(5,4);node('polygon',{points:diamond(bed.x,bed.y,37,18),fill:'none',stroke:'#7e9c65','stroke-width':2,'stroke-dasharray':'5 5'},camera);
  const plus=node('text',{x:bed.x,y:bed.y+6,'text-anchor':'middle',fill:'#71905e','font-size':24},camera);plus.textContent='+';
  const caption=document.createElement('p');caption.className='world-caption';caption.textContent=t('farmMap');host.append(caption);
+ bindCamera(host);
 }
