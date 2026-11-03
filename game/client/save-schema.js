@@ -1,6 +1,7 @@
+import {CURRENT_SAVE_VERSION} from './config.js';import {createChickenState} from './chicken-state.js';
 import {assertInvariants} from './invariants.js';import {INITIAL_PLOTS,EXPANSION,CROP_IDS,CROPS,ORDERS,WEATHER} from './config.js';
 const COST_TYPES=['seed_purchase','water_cost','facility_purchase','feed_purchase','care_cost','coop_upgrade','hen_purchase','feeder_upgrade','feeder_service','shade_purchase'];const REVENUE_TYPES=['sale_revenue','mission_reward','egg_sale'];const CHICKEN_TYPES=['feed_purchase','care_cost','coop_upgrade','hen_purchase','feeder_upgrade','feeder_service','shade_purchase','egg_sale'];
-export const SAVE_VERSION=1;export const MAX_SAVE_BYTES=2_000_000;
+export const SAVE_VERSION=CURRENT_SAVE_VERSION;export const MAX_SAVE_BYTES=2_000_000;
 /** @param {unknown} value @param {string[]} keys @returns {Record<string,any>} */
 function object(value,keys){if(!value||typeof value!=='object'||Array.isArray(value)||Object.getPrototypeOf(value)!==Object.prototype)throw new Error('Invalid save object');const v=/** @type {Record<string,any>} */(value);if(Object.keys(v).length!==keys.length||keys.some(k=>!Object.hasOwn(v,k)))throw new Error('Unknown or missing save fields');return v;}
 /** @param {unknown} value @param {number} [min] @param {number} [max] */
@@ -33,17 +34,14 @@ function validateVersion(value,version){
 }
 /** @param {unknown} value @returns {import('./engine.js').State} */
 export function validateState(value){return validateVersion(value,SAVE_VERSION);}
-/** @param {unknown} value @returns {import('./engine.js').State} */
-export function validateStateV2(value){return validateVersion(value,2);}
-/** @param {import('./engine.js').State} state */
-export function serializeV2(state){validateStateV2(state);const text=JSON.stringify({format:'MyFarmTwin',saveVersion:2,state});if(new TextEncoder().encode(text).length>MAX_SAVE_BYTES)throw new Error('Save too large');return text;}
-/** @param {string} text */
-export function deserializeV2(text){if(typeof text!=='string'||new TextEncoder().encode(text).length>MAX_SAVE_BYTES)throw new Error('Save too large');const e=object(JSON.parse(text),['format','saveVersion','state']);if(e.format!=='MyFarmTwin'||e.saveVersion!==2)throw new Error('Unsupported save version');return validateStateV2(e.state);}
+/** V1 was strictly validated before this additive migration. @param {import('./engine.js').State} state */
+function migrateV1(state){return validateState({...state,saveVersion:SAVE_VERSION,chicken:createChickenState()});}
 /** @param {import('./engine.js').State} state */
 export function serialize(state){validateState(state);const text=JSON.stringify({format:'MyFarmTwin',saveVersion:SAVE_VERSION,state});if(new TextEncoder().encode(text).length>MAX_SAVE_BYTES)throw new Error('Save too large');return text;}
 /** @param {string} text @returns {import('./engine.js').State} */
 export function deserialize(text){
  if(typeof text!=='string'||new TextEncoder().encode(text).length>MAX_SAVE_BYTES)throw new Error('Save too large');const envelope=object(JSON.parse(text),['format','saveVersion','state']);if(envelope.format!=='MyFarmTwin')throw new Error('Unsupported save format');
- if(envelope.saveVersion===0){const legacy=structuredClone(envelope.state);if(!legacy||legacy.saveVersion!==0||!Array.isArray(legacy.plots))throw new Error('Invalid legacy save');for(const plot of legacy.plots){object(plot,['id','x','y','soilWaterMm','soilCapacityMm','crop','waterAppliedMm','careCost','lastWaterTick']);plot.history=[];}legacy.saveVersion=SAVE_VERSION;return validateState(legacy);}
+ if(envelope.saveVersion===0){const legacy=structuredClone(envelope.state);if(!legacy||legacy.saveVersion!==0||!Array.isArray(legacy.plots))throw new Error('Invalid legacy save');for(const plot of legacy.plots){object(plot,['id','x','y','soilWaterMm','soilCapacityMm','crop','waterAppliedMm','careCost','lastWaterTick']);plot.history=[];}legacy.saveVersion=1;return migrateV1(validateVersion(legacy,1));}
+ if(envelope.saveVersion===1)return migrateV1(validateVersion(envelope.state,1));
  if(typeof envelope.saveVersion==='number'&&envelope.saveVersion>SAVE_VERSION)throw new Error('saveNewer');if(envelope.saveVersion!==SAVE_VERSION)throw new Error('Unsupported save version');return validateState(envelope.state);
 }

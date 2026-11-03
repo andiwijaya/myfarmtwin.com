@@ -1,10 +1,11 @@
-import {STARTER,INITIAL_PLOTS,CROP_IDS,CROPS,WATER,WEATHER,LIMITS,MISSION_REWARDS,PUMP,ORDERS,EXPANSION,FOLLOWUP_REWARDS} from './config.js';
+import {CURRENT_SAVE_VERSION,STARTER,INITIAL_PLOTS,CROP_IDS,CROPS,WATER,WEATHER,LIMITS,MISSION_REWARDS,PUMP,ORDERS,EXPANSION,FOLLOWUP_REWARDS} from './config.js';
 import {waterBalance,clamp} from './water.js';
 import {advanceMission} from './missions.js';
 import {assertInvariants} from './invariants.js';
 import {FEATURES} from './features.js';
 import {isChickenCommand,validateChickenCommand} from './chicken-commands.js';
 import {applyChickenCommand,tickChicken} from './chicken-runtime.js';
+import {createChickenState} from './chicken-state.js';
 import {advanceChickenMission,awardChickenChapter} from './chicken-missions.js';
 /** @typedef {'sunny'|'cloudy'|'rainy'|'hot'} Weather */
 /** @typedef {'lettuce'|'tomato'} CropId */
@@ -17,7 +18,7 @@ import {advanceChickenMission,awardChickenChapter} from './chicken-missions.js';
 /** @typedef {{id:number,type:CommandType,plot?:number,crop?:CropId,lot?:number,order?:string,eggLot?:string}} Command */
 /** @typedef {{type:string,plot?:number,amount?:number}} DomainEvent */
 /** @param {number} [seed] @returns {State} */
-export function createState(seed=6321){return {saveVersion:1,revision:0,tick:0,seed:seed>>>0,rng:seed>>>0,weather:'sunny',paused:true,speed:1,coins:STARTER.coins,water:STARTER.water,careCredits:0,seeds:{lettuce:STARTER.seeds,tomato:0},plots:INITIAL_PLOTS.map(p=>({...p,soilWaterMm:12,soilCapacityMm:50,crop:null,waterAppliedMm:0,careCost:0,lastWaterTick:-1,history:[]})),inventory:[],ledger:[],mission:{step:0,rewards:[]},pump:{built:false,on:false,efficient:false,runHours:0,stopReason:''},stats:{planted:0,watered:0,cared:0,harvested:0,sold:0,hotCare:0,orders:0},completedOrders:[],followups:{order:false,hotCare:false,efficiency:false},nextLot:1};}
+export function createState(seed=6321){return {saveVersion:CURRENT_SAVE_VERSION,revision:0,tick:0,seed:seed>>>0,rng:seed>>>0,weather:'sunny',paused:true,speed:1,coins:STARTER.coins,water:STARTER.water,careCredits:0,seeds:{lettuce:STARTER.seeds,tomato:0},plots:INITIAL_PLOTS.map(p=>({...p,soilWaterMm:12,soilCapacityMm:50,crop:null,waterAppliedMm:0,careCost:0,lastWaterTick:-1,history:[]})),inventory:[],ledger:[],mission:{step:0,rewards:[]},pump:{built:false,on:false,efficient:false,runHours:0,stopReason:''},stats:{planted:0,watered:0,cared:0,harvested:0,sold:0,hotCare:0,orders:0},completedOrders:[],followups:{order:false,hotCare:false,efficiency:false},nextLot:1,chicken:createChickenState()};}
 /** @param {State} state */
 export const recoveryAvailable=state=>state.coins<CROPS.lettuce.seedPrice&&state.seeds.lettuce+state.seeds.tomato===0&&state.inventory.length===0&&!state.plots.some(p=>p.crop);
 /** @param {State} state */

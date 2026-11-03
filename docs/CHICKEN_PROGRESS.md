@@ -137,3 +137,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M4-F01 | PASS | 34/58 (58.6%)
 
 2026-11-03T14:54:01+00:00 — 78 tests/typecheck/build pass; complete strict V2 roundtrip preserves Chicken history/grants/mission/economy, rejects malformed/unknown/oversized payloads.
+
+## M4-F02 | PASS | 35/58 (60.3%)
+
+2026-11-03T14:56:41+00:00 — 79 tests/typecheck/build pass; V1 fixtures migrate with exact crop/RNG/ledger and zero grants, original backup retained; frozen11-command crop replay exact.

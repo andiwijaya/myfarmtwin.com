@@ -339,7 +339,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 ### M4 — Save V2, migration & recovery (7)
 
 - [x] **M4-F01** — Tambahkan schema V2 dengan Chicken state lengkap, history/events/mission/grants, invariant validasi dan batas size.
-- [ ] **M4-F02** — Migrasi fixture V1→V2 tanpa mengubah crop state/ledger/Coins/RNG secara semantik; exact crop replay comparison.
+- [x] **M4-F02** — Migrasi fixture V1→V2 tanpa mengubah crop state/ledger/Coins/RNG secara semantik; exact crop replay comparison.
 - [ ] **M4-F03** — Pastikan legacy migration chain yang didukung tidak rusak; explicit future-version rejection dan rollback data policy.
 - [ ] **M4-F04** — Autosave/reload/resume: egg day boundary tidak menghasilkan extra eggs, grants tidak berulang, UI world cocok snapshot.
 - [ ] **M4-F05** — Export/import save, cancel/invalid import, confirmed reset, backup & corrupt quarantine mencakup Chicken state.
