@@ -33,7 +33,7 @@ document.addEventListener('camerachanged',()=>{if(activeArea==='chicken')renderC
 function closeChicken(){const old=selectedChicken;selectedChicken='';renderChickenSelection();/** @type {HTMLButtonElement|null} */(document.querySelector('[data-choose-chicken='+old+']'))?.focus();}
 el('close-chicken').addEventListener('click',closeChicken);
 el('area-field').addEventListener('click',()=>{clearNotice();activeArea='field';render();});
-el('area-chicken').addEventListener('click',()=>{if(FEATURES.chicken){clearNotice();activeArea='chicken';render();}});
+el('area-chicken').addEventListener('click',()=>{if(FEATURES.chicken){clearNotice();activeArea='chicken';if(!state.chicken?.visited)send('enterYard');else render();}});
 el('continue-farm').addEventListener('click',()=>{celebrationDismissed=true;chosenCrop='tomato';const empty=state.plots.find(p=>!p.crop);if(empty)selected=empty.id;render();});
 el('resume-continue').addEventListener('click',()=>{resumeVisible=false;render();});
 /** @type {ReturnType<typeof setTimeout>|undefined} */let noticeTimer;

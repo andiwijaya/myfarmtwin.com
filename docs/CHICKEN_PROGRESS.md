@@ -97,3 +97,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M2-F10 | PASS | 24/58 (41.4%)
 
 2026-11-03T14:33:52+00:00 — 69 tests and typecheck/build pass; 40 seeds x 6 conditions x 14 days prove causal eggs/grades, heat/shade demand, capacity guards and all bounds.
+
+## M3-F01 | PASS | 25/58 (43.1%)
+
+2026-11-03T14:35:35+00:00 — 70 tests, typecheck/build pass; first entry grants kit once with stable IDs, existing crop/Coins/ledger exact; V2 persistence remains M4 gate.
