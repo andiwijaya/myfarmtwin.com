@@ -161,3 +161,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M4-F07 | PASS | 40/58 (69.0%)
 
 2026-11-03T23:41:32+00:00 — CRITICAL GATE PASS: 83 tests and full crop/save/data/black-box browser suite; paid35/31-day mixed farms exact autosave/replay, min53/54 Coins, zero duplicates/drift.
+
+## M5-F01 | PASS | 41/58 (70.7%)
+
+2026-11-03T23:43:59+00:00 — 84 tests/typecheck/build and EN/ID desktop/actual-touch pass; final160-Coin tier expands6 hens/4000g/10L, visible roof, atomic guards and exact reload.
