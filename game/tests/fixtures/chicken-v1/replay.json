@@ -1,0 +1,94 @@
+[
+  {
+    "command": {
+      "type": "nextDay"
+    },
+    "ok": true,
+    "error": "",
+    "sha256": "7883542a4d12b695ce6a7a89f12ac9ed971a55fe00b9ab3f9f0a5bae92a7dbb7"
+  },
+  {
+    "command": {
+      "type": "harvest",
+      "plot": 0
+    },
+    "ok": true,
+    "error": "",
+    "sha256": "79c39ae4ca2defa374ece8399253a47822f89fe2a2feac5a761837f24635755c"
+  },
+  {
+    "command": {
+      "type": "water",
+      "plot": 1
+    },
+    "ok": true,
+    "error": "",
+    "sha256": "4a5bab0edec2d37d21cb2c94f901b7c1dd65d0fed1fe5c2cd37e0462260552eb"
+  },
+  {
+    "command": {
+      "type": "buySeed",
+      "crop": "lettuce"
+    },
+    "ok": true,
+    "error": "",
+    "sha256": "f187a87354b8e1ce78c94b5f08c42457a832e0273bce99e2a7d992e5207bca63"
+  },
+  {
+    "command": {
+      "type": "nextDay"
+    },
+    "ok": true,
+    "error": "",
+    "sha256": "2baa3d6ecb1c6046822b891b0550957597f9eb7c88022003c3b2c90dde3e61e0"
+  },
+  {
+    "command": {
+      "type": "sell",
+      "lot": 1
+    },
+    "ok": false,
+    "error": "noProduce",
+    "sha256": "2baa3d6ecb1c6046822b891b0550957597f9eb7c88022003c3b2c90dde3e61e0"
+  },
+  {
+    "command": {
+      "type": "togglePump"
+    },
+    "ok": true,
+    "error": "",
+    "sha256": "b1d1f39a019e24d82f13e91c62986561ff166dd5d33902a9144f4af95551a5c2"
+  },
+  {
+    "command": {
+      "type": "nextDay"
+    },
+    "ok": true,
+    "error": "",
+    "sha256": "b971fa033542620010237492f302266798f3ec24498e65762213782f85068641"
+  },
+  {
+    "command": {
+      "type": "pause"
+    },
+    "ok": true,
+    "error": "",
+    "sha256": "9fd8f50124b890f7d4b890c8a4c7ad98793e633f38f11e80ba26387499a925b9"
+  },
+  {
+    "command": {
+      "type": "tick"
+    },
+    "ok": true,
+    "error": "",
+    "sha256": "8c0f4b32d36b289d72b836a5f117f28c9792f594329f61ddb28d74e6478b0da2"
+  },
+  {
+    "command": {
+      "type": "pause"
+    },
+    "ok": true,
+    "error": "",
+    "sha256": "80f798e2d1165cda8bfec636a884c87ae06e6ef4eb8a7d8c4dc95d76d7a83042"
+  }
+]

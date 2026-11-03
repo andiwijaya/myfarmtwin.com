@@ -1,0 +1,23 @@
+{
+  "source": "131133ba4597e4c4a031317dc9b1b679275a6110",
+  "synthetic": true,
+  "files": {
+    "fresh.json": {
+      "bytes": 965,
+      "sha256": "e6a725a0edf732c1fbb85a89e05814a59e303f34769ea07a4dd667327a5aa8d9"
+    },
+    "mixed.json": {
+      "bytes": 20252,
+      "sha256": "55831bf1c48c1e335f81f39f74228bf14ba1424071dabdf04285b8fa784b5b75"
+    },
+    "legacy.json": {
+      "bytes": 926,
+      "sha256": "357f97671742bd7a2a5b3cd3c37d1d8e2b094582d0b5faec81745160b2afbf2c"
+    }
+  },
+  "sourceHashes": {
+    "engine.js": "c9fdeeabd830d14717c1c9cde2ade3cbb80823056bb8239f8af8b474ab749401",
+    "config.js": "00166026ad97eed6814f914f79c3fabb10fb8d18d4f15ae5146fadcbce785ffe",
+    "save-schema.js": "c14a998824604dfa2468c5478d9a0937609ca3f5244e99ffded369fadb45766c"
+  }
+}
