@@ -125,3 +125,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M3-F08 | PASS | 31/59 (52.5%)
 
 2026-11-03T06:32:56+00:00 — VERTICAL SLICE PASS: desktop 1.297s/mobile 1.280s automated sale+upgrade, 3 game days, sale48/final140, ledger matches, pump2 beds, 0 errors; 24 tests and screenshots reviewed.
+
+## M4-F01 | PASS | 32/59 (54.2%)
+
+2026-11-03T06:34:32+00:00 — Actual-moisture care badges and Why explanations cover dry/thirsty/good/wet bounds; desktop/mobile optional panel and full vertical-slice regression pass.

@@ -2,6 +2,7 @@ import {t} from './locales.js';
 import {bindCamera} from './camera.js';
 import {INITIAL_PLOTS,PUMP} from './config.js';
 import {pumpCovers} from './engine.js';
+import {condition} from './care.js';
 const NS='http://www.w3.org/2000/svg';
 /** @param {number} x @param {number} y */
 export const iso=(x,y)=>({x:450+(x-y)*44,y:82+(x+y)*22});
@@ -47,6 +48,7 @@ export function renderWorld(plots=initialPlots,tick=0,pump={built:false,on:false
   }
   else{const n=node('text',{x:c.x,y:c.y+5,'text-anchor':'middle',class:'bed-number'},g);n.textContent=String(p.id+1);}
   if(p.lastWaterTick===tick){const splash=node('text',{x:c.x+22,y:c.y-24,fill:'#387f9b','font-size':22,class:'water-splash','aria-hidden':'true'},g);splash.textContent='◆';}
+  if(p.crop){const status=condition({soilWaterMm:p.soilWaterMm??12,soilCapacityMm:p.soilCapacityMm??50});const text=node('text',{x:c.x,y:c.y+31,'text-anchor':'middle','font-size':9,'font-weight':700,fill:status==='dry'?'#8a4f30':'#345840','data-care':status},g);text.textContent=t(p.crop.stage===3?'readyBadge':'soil_'+status);}
  }
  const w=iso(1,2),well=node('g',{'data-facility':'well'},camera);
  node('ellipse',{cx:w.x,cy:w.y+6,rx:27,ry:13,fill:'#819a68',opacity:'.4'},well);

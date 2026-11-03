@@ -5,6 +5,7 @@ import {createState,dispatch,forecastWeather} from './engine.js';
 import {CROPS,CROP_IDS,STAGE_KEYS,WATER} from './config.js';
 import {MISSION_STEPS} from './missions.js';
 import {setupMarket,renderMarket,renderShop} from './market.js';
+import {condition} from './care.js';
 /** @type {import('./engine.js').State} */let state=createState();
 const language=/** @type {HTMLSelectElement} */(document.querySelector('#language'));
 const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
@@ -29,6 +30,7 @@ function renderSelection(){
  el('plot-heading').textContent=t('plot')+' '+(selected+1);
  el('plot-status').textContent=t('emptyBed');
  const actions=el('plot-actions');actions.replaceChildren();const plot=state.plots.find(p=>p.id===selected);if(!plot)return;
+ el('care-feedback').textContent=t('care_'+condition(plot));el('care-feedback').dataset.condition=condition(plot);
  const water=document.createElement('button');water.type='button';water.id='water';water.className='action-button';water.textContent=t('waterAction')+' · '+(state.careCredits>0?0:WATER.coinCost)+' '+t('coins');water.addEventListener('click',()=>{if(selected!==null)send('water',{plot:selected});});actions.append(water);
  const moisture=Math.round(100*plot.soilWaterMm/plot.soilCapacityMm)+'% '+t('moisture');if(plot.crop){el('plot-status').textContent=t(plot.crop.type)+' · '+t(STAGE_KEYS[plot.crop.stage])+' · '+Math.floor(plot.crop.progress*100)+'% · '+moisture+' · '+Math.round(plot.crop.quality*100)+'% '+t('quality');const harvest=document.createElement('button');harvest.id='harvest';harvest.type='button';harvest.className='action-button primary';harvest.textContent=t('harvest');harvest.disabled=plot.crop.progress<1;harvest.title=t(plot.crop.progress<1?'notReady':'readyHarvest');harvest.addEventListener('click',()=>{if(selected!==null)send('harvest',{plot:selected});});actions.append(harvest);return;}
  el('plot-status').textContent=t('emptyBed')+' '+moisture;
