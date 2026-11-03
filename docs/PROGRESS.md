@@ -97,3 +97,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M3-F01 | PASS | 24/59 (40.7%)
 
 2026-11-03T06:17:00+00:00 — Guided objectives/highlights advance select-plant-water-grow-harvest to Sell; unrelated actions do not skip steps; headless and desktop/mobile paths pass (full sell gate M3-F08 pending). 
+
+## M3-F02 | PASS | 25/59 (42.4%)
+
+2026-11-03T06:18:14+00:00 — Mission rewards ledgered once with unique transaction IDs; replay/JSON-roundtrip/rapid repeat selection cannot duplicate Coins; browser/regression/headless checks pass.

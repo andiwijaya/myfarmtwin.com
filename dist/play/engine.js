@@ -1,4 +1,4 @@
-import {STARTER,INITIAL_PLOTS,CROP_IDS,CROPS,WATER,WEATHER,LIMITS} from './config.js';
+import {STARTER,INITIAL_PLOTS,CROP_IDS,CROPS,WATER,WEATHER,LIMITS,MISSION_REWARDS} from './config.js';
 import {waterBalance,clamp} from './water.js';
 import {advanceMission} from './missions.js';
 /** @typedef {'sunny'|'cloudy'|'rainy'|'hot'} Weather */
@@ -56,5 +56,6 @@ export function dispatch(input,command){
   case 'speed':state.speed=state.speed===1?2:1;break;
   default:return reject('unknownCommand');
  }
- advanceMission(state,events);state.revision=command.id;return {state,ok:true,error:'',events};
+ for(const step of advanceMission(state,events)){const reward=MISSION_REWARDS[step];if(reward&&!state.mission.rewards.includes(step)){state.mission.rewards.push(step);transact(state,'mission_reward',reward,command.id+':mission:'+step);events.push({type:'missionReward',amount:reward});}}
+ state.revision=command.id;return {state,ok:true,error:'',events};
 }
