@@ -137,3 +137,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M4-F03 | PASS | 34/59 (57.6%)
 
 2026-11-03T06:36:55+00:00 — Missing-pump/empty/partial-water/no-energy interlocks stop safely without negative resources or extra costs; desktop/mobile depletion shows exact reason and rejects restart; full checks pass.
+
+## M4-F04 | PASS | 35/59 (59.3%)
+
+2026-11-03T06:40:47+00:00 — Four 60-day strategies show tomato profit/water/capital trade-off and lettuce winning limited water; no negative/softlock/extreme returns; base-care labels and full browser regression pass.

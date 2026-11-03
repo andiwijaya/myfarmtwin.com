@@ -36,7 +36,7 @@ function renderSelection(){
  el('plot-status').textContent=t('emptyBed')+' '+moisture;
  const label=document.createElement('label');label.className='crop-picker';label.textContent=t('chooseCrop');const picker=document.createElement('select');picker.id='crop-choice';picker.setAttribute('aria-label',t('chooseCrop'));
  for(const id of CROP_IDS){const option=document.createElement('option');option.value=id;option.textContent=t(id);picker.append(option);}picker.value=chosenCrop;picker.addEventListener('change',()=>{chosenCrop=/** @type {import('./engine.js').CropId} */(picker.value);renderSelection();});label.append(picker);actions.append(label);
- const info=document.createElement('p');info.id='crop-info';const c=CROPS[chosenCrop];info.textContent=`${c.hours/24} ${t('gameDays')} · ${c.waterPerDayMm} mm/${t('day').toLowerCase()} · ${c.seedPrice} ${t('coins')}/${t('seed')}`;actions.append(info);
+ const info=document.createElement('p');info.id='crop-info';const c=CROPS[chosenCrop];info.textContent=`${c.hours/24} ${t('gameDays')} (${t('idealCare')}) · ${c.waterPerDayMm} mm/${t('day').toLowerCase()} · ${c.seedPrice} ${t('coins')}/${t('seed')}`;actions.append(info);
  const plant=document.createElement('button');plant.type='button';plant.id='plant';plant.className='action-button primary';plant.textContent=t('plant')+' '+t(chosenCrop)+' · '+state.seeds[chosenCrop]+' '+t('seeds');plant.addEventListener('click',()=>{if(selected!==null)send('plant',{plot:selected,crop:chosenCrop});});actions.append(plant);
 }
 function closePlot(){const old=selected;selected=null;renderSelection();if(old!==null){const button=/** @type {HTMLButtonElement|null} */(document.querySelector(`[data-choose-plot="${old}"]`));button?.focus();}}
