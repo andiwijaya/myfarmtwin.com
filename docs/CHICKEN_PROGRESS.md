@@ -105,3 +105,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M3-F02 | PASS | 26/58 (44.8%)
 
 2026-11-03T14:37:07+00:00 — 71 tests, typecheck/build pass; one bilingual Chicken objective follows real actions, catches up safely, and preserves crop guide/rewards.
+
+## M3-F03 | PASS | 27/58 (46.6%)
+
+2026-11-03T14:38:54+00:00 — 71 tests, typecheck/build and desktop/touch EN/ID Market pass; feed purchase debits24 once, stores4000g and preserves crop guide.

@@ -326,7 +326,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 
 - [x] **M3-F01** — One-time starter kit (coop + 2 mature hens + supplies) saat first entry yang idempotent; preserves existing Coins/crop state.
 - [x] **M3-F02** — Misi Chapter 1 bersama FarmGirl, satu objective aktif, progress terhubung state/actions, tidak mengganggu crop guide.
-- [ ] **M3-F03** — Integrasikan pembelian feed bag ke Market existing; saldo Coins/ledger dan inventory supply atomik.
+- [x] **M3-F03** — Integrasikan pembelian feed bag ke Market existing; saldo Coins/ledger dan inventory supply atomik.
 - [ ] **M3-F04** — Integrasikan telur grades A/B/C ke inventory/Market, harga config dan transaksi `egg_sale` tepat satu kali.
 - [ ] **M3-F05** — Implement tutorial `Feed → Water → Care → Next Day → Collect → Sell` dengan feedback singkat dan tidak softlock.
 - [ ] **M3-F06** — Chapter 1 completion reward exactly-once; mission IDs namespace Chicken, tidak memicu reward crop berulang.
