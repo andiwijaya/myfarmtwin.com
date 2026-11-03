@@ -185,3 +185,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M5-F06 | PASS | 46/58 (79.3%)
 
 2026-11-03T23:55:11+00:00 — 90 tests/typecheck/build and four EN/ID actual UI flows pass; Healthy Hens/Bigger Coop use real care/space progress,15-Coin namespaced rewards once and resume safe.
+
+## M5-F07 | PASS | 47/58 (81.0%)
+
+2026-11-03T23:58:15+00:00 — 91 tests/typecheck/build and four EN/ID actual UI Lab checks pass; actual factors/rates/probability/history/ledger, bounded lazy UI and inspection leaves save unchanged.
