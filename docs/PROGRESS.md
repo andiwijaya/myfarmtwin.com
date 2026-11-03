@@ -45,3 +45,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M1-F05 | PASS | 11/59 (18.6%)
 
 2026-11-03T05:56:57+00:00 — Plot selection/empty status, close/Escape and keyboard reopen verified desktop/mobile; invalid plot 999 ignored; full regression/typecheck/build pass.
+
+## M1-F06 | PASS | 12/59 (20.3%)
+
+2026-11-03T05:58:09+00:00 — Bilingual Day/Coins/Water/Mission/Inventory HUD and time controls visible; starter inventory opens/closes desktop/mobile without overflow; all checks pass.

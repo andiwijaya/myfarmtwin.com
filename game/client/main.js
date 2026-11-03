@@ -1,6 +1,7 @@
 import {getLocale,setLocale,translate,t} from './locales.js';
 import {renderWorld,initialPlots} from './world.js';
 import {el} from './dom.js';
+import {STARTER} from './config.js';
 const language=/** @type {HTMLSelectElement} */(document.querySelector('#language'));
 const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
 /** @type {number|null} */let selected=null;
@@ -20,3 +21,4 @@ language.value=getLocale();
 language.addEventListener('change',()=>{setLocale(language.value);translate();renderWorld();renderSelection();});
 translate();
 renderWorld();
+el('hud-coins').textContent=String(STARTER.coins);el('hud-water').textContent=String(STARTER.water);el('hud-seeds').textContent=String(STARTER.seeds);

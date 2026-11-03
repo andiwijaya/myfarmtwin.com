@@ -10,6 +10,8 @@ Object.assign(messages.en,{plot:'Plot',choosePlot:'Choose a plot',zoomOut:'Zoom 
 Object.assign(messages.id,{plot:'Petak',choosePlot:'Pilih petak',zoomOut:'Perkecil',zoomIn:'Perbesar',resetView:'Atur ulang tampilan'});
 Object.assign(messages.en,{selectedBed:'YOUR GROWING SPACE',emptyBed:'Empty bed · Ready for your first seed.',close:'Close'});
 Object.assign(messages.id,{selectedBed:'TEMPAT TUMBUHMU',emptyBed:'Petak kosong · Siap untuk benih pertamamu.',close:'Tutup'});
+Object.assign(messages.en,{day:'Day',coins:'Coins',waterStock:'Water',inventory:'Inventory',starterSeeds:'Starter seeds',noHarvest:'No harvest yet.',pause:'Pause',nextDay:'Next day →',firstHarvest:'FIRST HARVEST',selectMission:'Choose a plot to begin.',selectTip:'Three empty beds. One fresh start. Tap a plot below.'});
+Object.assign(messages.id,{day:'Hari',coins:'Koin',waterStock:'Air',inventory:'Inventori',starterSeeds:'Benih awal',noHarvest:'Belum ada panen.',pause:'Jeda',nextDay:'Hari berikutnya →',firstHarvest:'PANEN PERTAMA',selectMission:'Pilih petak untuk memulai.',selectTip:'Tiga petak kosong. Satu awal baru. Ketuk petak di bawah.'});
 try{locale=localStorage.getItem('myfarmtwin.locale')||(navigator.language.startsWith('id')?'id':'en');}catch{locale=navigator.language.startsWith('id')?'id':'en';}
 if(!messages[locale])locale='en';
 /** @param {string} key */

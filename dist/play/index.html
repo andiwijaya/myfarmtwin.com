@@ -18,6 +18,14 @@
  </header>
  <main id="farm" tabindex="-1">
   <section class="welcome"><p class="eyebrow" data-i18n="eyebrow">GROW SOMETHING GOOD</p><h1 data-i18n="title">A little land. A lot to grow.</h1><p data-i18n="intro">Your own small corner of the world. Start with a seed.</p></section>
+  <section class="hud" aria-label="Farm resources">
+   <div class="stat"><span class="stat-icon sun" aria-hidden="true">☀</span><div><span data-i18n="day">Day</span><strong id="hud-day">1</strong></div></div>
+   <div class="stat"><span class="stat-icon coin" aria-hidden="true">●</span><div><span data-i18n="coins">Coins</span><strong id="hud-coins">120</strong></div></div>
+   <div class="stat"><span class="stat-icon water" aria-hidden="true">◆</span><div><span data-i18n="waterStock">Water</span><strong id="hud-water">120</strong></div></div>
+   <details class="inventory"><summary data-i18n="inventory">Inventory</summary><p><span data-i18n="starterSeeds">Starter seeds</span>: <strong id="hud-seeds">3</strong></p><p id="inventory-harvest" data-i18n="noHarvest">No harvest yet.</p></details>
+   <div class="time-controls"><button id="pause" type="button" disabled data-i18n="pause">Pause</button><button id="next-day" type="button" disabled data-i18n="nextDay">Next day →</button></div>
+  </section>
+  <section class="mission-bar" aria-labelledby="mission-title"><span class="mission-number" aria-hidden="true">01</span><div><p class="eyebrow" data-i18n="firstHarvest">FIRST HARVEST</p><h2 id="mission-title" data-i18n="selectMission">Choose a plot to begin.</h2><p id="mission-detail" data-i18n="selectTip">Three empty beds. One fresh start. Tap a plot below.</p></div></section>
   <section id="world" class="world" aria-label="Your farm"><p class="world-placeholder" data-i18n="ready">Welcome to your little farm.</p></section>
   <section id="plot-panel" class="plot-panel" aria-labelledby="plot-heading" hidden>
    <div><p class="eyebrow" data-i18n="selectedBed">YOUR GROWING SPACE</p><h2 id="plot-heading">Plot 1</h2><p id="plot-status"></p></div>

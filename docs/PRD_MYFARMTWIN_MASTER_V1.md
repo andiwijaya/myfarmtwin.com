@@ -220,7 +220,7 @@ myfarmtwin.com/
 - [x] **M1-F03 — Scene farm minimum.** Dunia low-poly/isometric dengan 3 petak aktif, sumur, Market board, dan ruang kosong; render di desktop dan mobile tanpa blank screen.
 - [x] **M1-F04 — Kamera & input.** Tap/click pilih petak, pan/zoom aman, Reset View; pointer events tidak memicu dua aksi.
 - [x] **M1-F05 — Select/inspect plot.** Tooltip/panel petak valid, status awal jelas; close/back bekerja di HP.
-- [ ] **M1-F06 — HUD minimum.** Day, Coins, Mission, Inventory dan kontrol waktu terlihat dengan layout mobile legible.
+- [x] **M1-F06 — HUD minimum.** Day, Coins, Mission, Inventory dan kontrol waktu terlihat dengan layout mobile legible.
 - [ ] **M1-F07 — FarmGirl guide.** Pemandu dengan dialog singkat, bisa ditutup; reuse aset approved; tidak memblok input.
 - [ ] **M1-F08 — Graphics fallback.** Low mode/fallback sederhana; jika WebGL tidak tersedia, tunjukkan pesan dan alternatif interaksi yang tetap berguna, bukan halaman putih.
 
