@@ -8,4 +8,5 @@
 .crop-picker{display:flex;flex-direction:column;gap:6px;font-size:10px;color:var(--muted);min-width:140px}.crop-picker select{font-size:13px}.plot-actions>p{align-self:end;max-width:180px;font-size:10px!important;line-height:1.6}.plot-actions{align-items:end}@media(max-width:700px){.crop-picker{min-width:125px}.plot-actions>p{max-width:140px}}
 @keyframes water-drop{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}.water-splash{animation:water-drop .5s ease-out;pointer-events:none}
 .weather-strip{display:flex;justify-content:space-between;padding:0 4px 10px;font-size:11px;color:var(--muted)}.weather-strip>span:first-child{color:var(--ink);font-weight:650}
+.mission-track{height:4px;border-radius:8px;background:#e1e7d5;margin:-7px 4px 16px;overflow:hidden}.mission-track>span{display:block;height:100%;background:#628848;transition:width .3s}.mission-target{box-shadow:0 0 0 3px #d4b85c!important}.mission-target.plot-shortcuts{border-radius:14px}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}

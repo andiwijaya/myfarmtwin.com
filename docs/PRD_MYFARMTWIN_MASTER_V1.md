@@ -238,7 +238,7 @@ myfarmtwin.com/
 
 ### M3 — Misi & ekonomi satu loop lengkap (**vertical-slice gate**)
 
-- [ ] **M3-F01 — Guided tutorial missions.** Urutan plant → water → grow → harvest → sell dengan highlight kontekstual; selesai secara normal ≤3 menit pada test scenario.
+- [x] **M3-F01 — Guided tutorial missions.** Urutan plant → water → grow → harvest → sell dengan highlight kontekstual; selesai secara normal ≤3 menit pada test scenario.
 - [ ] **M3-F02 — Idempotent mission engine.** Misi bereaksi pada domain events sekali saja; reload/replay/rapid click tidak menggandakan hadiah.
 - [ ] **M3-F03 — Market selling.** Sale inventory valid → Coins bertambah → inventory berkurang → feedback jelas.
 - [ ] **M3-F04 — Ledger & balance.** Semua revenue/cost/reward tercatat; sum ledger konsisten dengan saldo; tak ada inventory/Coins negatif.

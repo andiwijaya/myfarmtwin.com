@@ -1,5 +1,6 @@
 import {STARTER,INITIAL_PLOTS,CROP_IDS,CROPS,WATER,WEATHER,LIMITS} from './config.js';
 import {waterBalance,clamp} from './water.js';
+import {advanceMission} from './missions.js';
 /** @typedef {'sunny'|'cloudy'|'rainy'|'hot'} Weather */
 /** @typedef {'lettuce'|'tomato'} CropId */
 /** @typedef {{type:CropId,progress:number,quality:number,stage:number,plantedTick:number}} Crop */
@@ -7,7 +8,7 @@ import {waterBalance,clamp} from './water.js';
 /** @typedef {{id:string,tick:number,type:string,amount:number,balance:number}} LedgerEntry */
 /** @typedef {{id:number,type:CropId,quantity:number,quality:number}} Lot */
 /** @typedef {{saveVersion:number,revision:number,tick:number,seed:number,rng:number,weather:Weather,paused:boolean,speed:number,coins:number,water:number,seeds:Record<CropId,number>,plots:Plot[],inventory:Lot[],ledger:LedgerEntry[],mission:{step:number,rewards:number[]},pump:{built:boolean,on:boolean},stats:{planted:number,watered:number,harvested:number,sold:number,hotCare:number,orders:number},nextLot:number}} State */
-/** @typedef {'tick'|'nextDay'|'pause'|'speed'|'plant'|'water'|'harvest'|'sell'|'buySeed'|'buyPump'|'togglePump'|'refill'|'recovery'|'expand'|'order'} CommandType */
+/** @typedef {'select'|'tick'|'nextDay'|'pause'|'speed'|'plant'|'water'|'harvest'|'sell'|'buySeed'|'buyPump'|'togglePump'|'refill'|'recovery'|'expand'|'order'} CommandType */
 /** @typedef {{id:number,type:CommandType,plot?:number,crop?:CropId,lot?:number}} Command */
 /** @typedef {{type:string,plot?:number,amount?:number}} DomainEvent */
 /** @param {number} [seed] @returns {State} */
@@ -33,6 +34,7 @@ export function dispatch(input,command){
  if(!command||!Number.isSafeInteger(command.id)||command.id!==input.revision+1)return reject('staleCommand');
  const state=structuredClone(input);/** @type {DomainEvent[]} */const events=[];
  switch(command.type){
+  case 'select':if(!state.plots.some(p=>p.id===command.plot))return reject('invalidPlot');events.push({type:'selected',plot:command.plot});break;
   case 'harvest':{
    const plot=state.plots.find(p=>p.id===command.plot);if(!plot)return reject('invalidPlot');if(!plot.crop)return reject('noCrop');if(plot.crop.progress<1)return reject('notReady');
    const crop=plot.crop,quantity=Math.max(1,Math.floor(CROPS[crop.type].yield*crop.quality));if(state.inventory.reduce((sum,lot)=>sum+lot.quantity,0)+quantity>LIMITS.inventory)return reject('inventoryFull');
@@ -54,5 +56,5 @@ export function dispatch(input,command){
   case 'speed':state.speed=state.speed===1?2:1;break;
   default:return reject('unknownCommand');
  }
- state.revision=command.id;return {state,ok:true,error:'',events};
+ advanceMission(state,events);state.revision=command.id;return {state,ok:true,error:'',events};
 }
