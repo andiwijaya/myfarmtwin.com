@@ -41,3 +41,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M1-F04 | PASS | 10/58 (17.2%)
 
 2026-11-03T13:14:14+00:00 — Two unique adult-hen snapshots render native walk/peck/idle shapes; reduced-motion and low mode keep hens visible with animationoff. Four EN-ID desktop/touch cases, exact save preservation and visual review pass.
+
+## M1-F05 | PASS | 11/58 (19.0%)
+
+2026-11-03T13:18:45+00:00 — Coop/nest/feeder/drinker/cleanup have SVG picking and five44px labelled HTML shortcuts; desktop keyboard and390px touch EN-ID select correctly without crop/save mutations. Typecheck/build and4 surfaces pass.

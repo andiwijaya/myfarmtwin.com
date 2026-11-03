@@ -8,7 +8,13 @@ function node(name,attrs,parent){const el=document.createElementNS(NS,name);for(
 /** @param {{x:number,y:number,w:number,d:number}} box */
 function footprint(box){return [iso(box.x-.5,box.y-.5),iso(box.x+box.w-.5,box.y-.5),iso(box.x+box.w-.5,box.y+box.d-.5),iso(box.x-.5,box.y+box.d-.5)].map(p=>p.x+','+p.y).join(' ');}
 /** @typedef {{id:string,activity:'idle'|'walk'|'peck'|'drink'|'roost'}} HenView */
-/** @typedef {{level:number,doorOpen:boolean,pendingEggs:number,hens?:HenView[]}} YardSnapshot */
+/** @typedef {{level:number,doorOpen:boolean,pendingEggs:number,hens?:HenView[],feedG?:number,waterL?:number,cleanliness?:number}} YardSnapshot */
+/** @param {Element} camera @param {YardSnapshot} snapshot */
+function careStations(camera,snapshot){
+ const f=iso(YARD_OBJECTS.feeder.x,YARD_OBJECTS.feeder.y),feeder=node('g',{'data-chicken-object':'feeder','aria-label':t('feeder')},camera);node('ellipse',{cx:f.x,cy:f.y+4,rx:24,ry:11,fill:'#9caf70',opacity:'.5'},feeder);node('path',{d:`M${f.x-22},${f.y-15} v17 q22,13 44,0 v-17 Z`,fill:'#b38d53',stroke:'#987642','stroke-width':2},feeder);node('ellipse',{cx:f.x,cy:f.y-15,rx:22,ry:10,fill:'#dbc39a',stroke:'#987642','stroke-width':2},feeder);if((snapshot.feedG||0)>0)for(const dx of [-9,0,9])node('circle',{cx:f.x+dx,cy:f.y-15,r:3,fill:'#d8ad4b'},feeder);
+ const w=iso(YARD_OBJECTS.drinker.x,YARD_OBJECTS.drinker.y),drinker=node('g',{'data-chicken-object':'drinker','aria-label':t('drinker')},camera);node('path',{d:`M${w.x-20},${w.y-10} v13 q20,15 40,0 v-13 Z`,fill:'#96b6af',stroke:'#6a928c','stroke-width':2},drinker);node('ellipse',{cx:w.x,cy:w.y-10,rx:20,ry:10,fill:(snapshot.waterL||0)>0?'#75adba':'#d4ded1',stroke:'#6a928c','stroke-width':2},drinker);node('path',{d:`M${w.x-9},${w.y-12} q8,-4 17,0`,fill:'none',stroke:'#e8f1d9','stroke-width':2},drinker);
+ const c=iso(YARD_OBJECTS.clean.x,YARD_OBJECTS.clean.y),clean=node('g',{'data-chicken-object':'clean','aria-label':t('cleanStation')},camera);node('ellipse',{cx:c.x,cy:c.y+4,rx:18,ry:9,fill:'#d7c38a'},clean);node('path',{d:`M${c.x-4},${c.y+3} l21,-39`,stroke:'#9a7a4f','stroke-width':5,'stroke-linecap':'round'},clean);node('polygon',{points:`${c.x-10},${c.y-10} ${c.x+3},${c.y-4} ${c.x-1},${c.y+9} ${c.x-19},${c.y+1}`,fill:'#d4af5d',stroke:'#b28d43','stroke-width':2},clean);
+}
 /** @param {Element} parent @param {HenView} hen @param {number} index */
 function drawHen(parent,hen,index){
  const spot=HEN_PATH[index%HEN_PATH.length],p=iso(spot.x,spot.y),base=node('g',{transform:`translate(${p.x} ${p.y})`,'data-hen':hen.id,'data-adult-layer':'true','aria-label':t('adultHen')},parent);node('ellipse',{cx:0,cy:4,rx:15,ry:7,fill:'#81995b',opacity:'.3'},base);
@@ -46,5 +52,6 @@ export function renderChickenWorld(snapshot={level:0,doorOpen:true,pendingEggs:0
  for(let i=0;i<4;i++){const a=iso(ramp.x-.4+i*.2,ramp.y-.5),b=iso(ramp.x-.4+i*.2,ramp.y+.5);node('path',{d:`M${a.x},${a.y} L${b.x},${b.y}`,stroke:'#d9be8a','stroke-width':2},camera);}
  coop(camera,snapshot);
  const hens=snapshot.hens||[{id:'chicken.preview.1',activity:'walk'},{id:'chicken.preview.2',activity:'peck'}];for(const [index,hen]of hens.entries())drawHen(camera,/** @type {HenView} */(hen),index);
+ careStations(camera,snapshot);
  const caption=document.createElement('p');caption.className='world-caption';caption.textContent=t('chickenArea');host.append(caption);bindCamera(host);
 }
