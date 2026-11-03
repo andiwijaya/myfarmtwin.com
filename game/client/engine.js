@@ -1,6 +1,7 @@
 import {STARTER,INITIAL_PLOTS,CROP_IDS,CROPS,WATER,WEATHER,LIMITS,MISSION_REWARDS} from './config.js';
 import {waterBalance,clamp} from './water.js';
 import {advanceMission} from './missions.js';
+import {assertInvariants} from './invariants.js';
 /** @typedef {'sunny'|'cloudy'|'rainy'|'hot'} Weather */
 /** @typedef {'lettuce'|'tomato'} CropId */
 /** @typedef {{type:CropId,progress:number,quality:number,stage:number,plantedTick:number}} Crop */
@@ -36,6 +37,12 @@ export function dispatch(input,command){
  if(!command||!Number.isSafeInteger(command.id)||command.id!==input.revision+1)return reject('staleCommand');
  const state=structuredClone(input);/** @type {DomainEvent[]} */const events=[];
  switch(command.type){
+  case 'buySeed':{
+   if(!command.crop||!CROP_IDS.includes(command.crop))return reject('invalidCrop');if(state.seeds[command.crop]>=99)return reject('seedCapacity');const price=CROPS[command.crop].seedPrice;if(state.coins<price)return reject('noCoins');state.seeds[command.crop]++;transact(state,'seed_purchase',-price,command.id+':seed');events.push({type:'seedBought'});break;
+  }
+  case 'refill':{
+   const litres=Math.min(WATER.refillLitres,WATER.tankCapacity-state.water);if(litres<=0)return reject('tankFull');const price=Math.ceil(litres/WATER.refillLitres*WATER.refillCost);if(state.coins<price)return reject('noCoins');state.water+=litres;transact(state,'water_cost',-price,command.id+':refill');events.push({type:'refilled',amount:litres});break;
+  }
   case 'sell':{
    const index=state.inventory.findIndex(lot=>lot.id===command.lot);if(index<0)return reject('noProduce');const lot=state.inventory[index],revenue=saleValue(lot);state.inventory.splice(index,1);transact(state,'sale_revenue',revenue,command.id+':sale');state.stats.sold+=lot.quantity;events.push({type:'sold',amount:revenue});break;
   }
@@ -62,5 +69,5 @@ export function dispatch(input,command){
   default:return reject('unknownCommand');
  }
  for(const step of advanceMission(state,events)){const reward=MISSION_REWARDS[step];if(reward&&!state.mission.rewards.includes(step)){state.mission.rewards.push(step);transact(state,'mission_reward',reward,command.id+':mission:'+step);events.push({type:'missionReward',amount:reward});}}
- state.revision=command.id;return {state,ok:true,error:'',events};
+ state.revision=command.id;assertInvariants(state);return {state,ok:true,error:'',events};
 }

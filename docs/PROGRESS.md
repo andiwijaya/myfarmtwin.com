@@ -105,3 +105,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M3-F03 | PASS | 26/59 (44.1%)
 
 2026-11-03T06:20:11+00:00 — Market sale removes one lot and adds quality-weighted ledger revenue exactly once; invalid/repeated sale rejected; desktop/mobile harvest-to-sale dialog/HUD/mission checks pass.
+
+## M3-F04 | PASS | 27/59 (45.8%)
+
+2026-11-03T06:22:21+00:00 — All costs/revenue/rewards reconcile to Coins via unique ledger IDs; seed/refill bounds/no-funds/drift tests pass; shop and visible balance verified desktop/mobile; all checks pass.
