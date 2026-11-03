@@ -229,3 +229,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M7-F07 | PASS | 57/59 (96.6%)
 
 2026-11-03T08:09:31+00:00 — Game-scoped CSP/security headers pass all core/data tests, Firefox and editorial regression; no frontend secrets/unsafe HTML/external telemetry, npm audit0; 45 tests and all local gates passed.
+
+## M7-F08 | PASS | 58/59 (98.3%)
+
+2026-11-03T08:32:55+00:00 — Canonical c900724 deployment d364b762 successful; live Chromium desktop/mobile and Firefox full loops, save recovery/data/black-box, 9-route SEO, 33-body integrity and zero CSP/external requests pass.
