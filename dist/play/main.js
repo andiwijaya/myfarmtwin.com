@@ -6,7 +6,11 @@ import {CROPS,CROP_IDS,STAGE_KEYS,WATER} from './config.js';
 import {MISSION_STEPS} from './missions.js';
 import {setupMarket,renderMarket,renderShop,renderOrders} from './market.js';
 import {condition} from './care.js';
-/** @type {import('./engine.js').State} */let state=createState();
+import {SaveSession,browserStorage,SAVE_KEY} from './storage.js';
+const saveSession=new SaveSession(browserStorage()),loaded=saveSession.load();
+/** @type {import('./engine.js').State} */let state=loaded.state||createState();
+let saveStatus=loaded.status,externalChange=false;
+if(loaded.status==='saveReady'){try{saveSession.save(state);saveStatus='saveSaved';}catch{saveStatus='saveUnavailable';}}
 const language=/** @type {HTMLSelectElement} */(document.querySelector('#language'));
 const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
 /** @type {number|null} */let selected=null;
@@ -52,13 +56,15 @@ function render(){
  el('inventory-harvest').textContent=state.inventory.length?state.inventory.map(lot=>t(lot.type)+' ×'+lot.quantity+' · '+Math.round(lot.quality*100)+'% '+t('quality')).join(' | '):t('noHarvest');
  el('pause').textContent=t(state.paused?'playClock':'pause');el('speed').textContent=state.speed+'×';el('weather-name').textContent=t(state.weather);el('weather-forecast').textContent=t('forecast')+': '+t(forecastWeather(state));
  el('weather-advice').textContent=t('weather_'+state.weather);
+ el('save-status').textContent=t(saveStatus);el('save-status').classList.toggle('save-warning',!['saveSaved','saveResumed'].includes(saveStatus));
  el('pump-panel').hidden=!state.pump.built;el('pump-status').textContent=t(state.pump.on?'pumpRunning':'pumpStopped')+(state.pump.stopReason?' · '+t(state.pump.stopReason):'');el('pump-coverage').textContent=state.plots.filter(pumpCovers).length+' '+t('coveredBeds');el('quick-pump').textContent=t(state.pump.on?'turnPumpOff':'turnPumpOn');el('quick-pump').setAttribute('aria-pressed',String(state.pump.on));
 }
 /** @param {import('./engine.js').CommandType} type @param {Partial<import('./engine.js').Command>} [extra] */
-function send(type,extra={}){const result=dispatch(state,{...extra,id:state.revision+1,type});if(result.ok){state=result.state;const reward=result.events.find(e=>e.type==='missionReward');notify((result.events.length?t(result.events[0].type):'')+(reward?' +'+reward.amount+' '+t('coins')+' · '+t('mission_reward'):''));render();}else notify(t(result.error));}
+function send(type,extra={}){if(externalChange){notify(t('saveConflict'));return;}const result=dispatch(state,{...extra,id:state.revision+1,type});if(result.ok){state=result.state;try{saveSession.save(state);saveStatus='saveSaved';}catch(error){saveStatus=error instanceof Error&&['saveConflict','saveCorrupt'].includes(error.message)?error.message:'saveUnavailable';if(saveStatus==='saveConflict')externalChange=true;}const reward=result.events.find(e=>e.type==='missionReward');notify((result.events.length?t(result.events[0].type):'')+(reward?' +'+reward.amount+' '+t('coins')+' · '+t('mission_reward'):''));render();}else notify(t(result.error));}
 el('next-day').addEventListener('click',()=>send('nextDay'));el('pause').addEventListener('click',()=>send('pause'));el('speed').addEventListener('click',()=>send('speed'));
 el('quick-pump').addEventListener('click',()=>send('togglePump'));
 el('weather-care').addEventListener('click',()=>{const plots=[...state.plots].sort((a,b)=>Number(!!b.crop)-Number(!!a.crop)||a.soilWaterMm-b.soilWaterMm);selected=plots[0].id;send('select',{plot:selected});});
-setInterval(()=>{if(!state.paused&&!document.hidden){for(let i=0;i<state.speed;i++)send('tick');}},3000);
+setInterval(()=>{if(!state.paused&&!document.hidden&&!externalChange){for(let i=0;i<state.speed;i++)send('tick');}},3000);
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&!state.paused)send('pause');});
+window.addEventListener('storage',event=>{if(event.key===SAVE_KEY&&event.newValue!==saveSession.raw){externalChange=true;saveStatus='saveConflict';notify(t('saveConflict'));render();}});
 setupMarket();render();

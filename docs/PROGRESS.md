@@ -157,3 +157,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M5-F01 | PASS | 39/59 (66.1%)
 
 2026-11-03T06:50:15+00:00 — Complete versioned state JSON roundtrips identically after 30 days; strict untrusted schema/size/prototype/bounds/ledger/grid validation rejects corrupt inputs; existing UI/slice/order/expansion pass.
+
+## M5-F02 | PASS | 40/59 (67.8%)
+
+2026-11-03T06:53:08+00:00 — Autosave/rolling backup roundtrip and stale-tab/quota/corrupt-preservation tests pass; desktop/mobile reload+reopen retain complete expanded farm/ledger/mission/weather/produce identically without duplicate rewards.
