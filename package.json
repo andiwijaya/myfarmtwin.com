@@ -16,7 +16,8 @@
     "balance": "node tools/balance.mjs",
     "endurance": "node tools/long-session.mjs",
     "performance": "node tools/performance.mjs",
-    "seo": "node tools/seo-e2e.mjs"
+    "seo": "node tools/seo-e2e.mjs",
+    "security": "node tools/security-e2e.mjs"
   },
   "engines": {
     "node": ">=22"

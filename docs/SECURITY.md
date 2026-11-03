@@ -1,0 +1,11 @@
+# V1 data/privacy/security gate
+
+Game state stays in browser storage and user-triggered JSON downloads. No account, backend, runtime API, new analytics, player identifier or personal telemetry. Existing homepage GA4 remains unchanged. Browser capture during game actions/import recorded no external requests.
+
+All mutations use validated typed commands. Save input uses strict known fields, bounded arrays/numbers, known identifiers, prototype/extra-field rejection and ledger/quantity reconciliation. Imported text never enters HTML: client source uses textContent and DOM/SVG construction, with no innerHTML/outerHTML/insertAdjacentHTML/eval paths. A malicious crop string containing HTML/event handlers was rejected on desktop/mobile and the prior save remained exact. Credential-pattern scans found no frontend keys. npm audit reported zero vulnerabilities; dependencies have not changed since that audit and runtime dependencies are zero.
+
+Cloudflare Pages `dist/_headers` scopes CSP and security headers to /play and /play/*: self-hosted scripts only, no connect/object/frame/worker/base/form destinations, no embedding, nosniff, no-referrer and disabled camera/microphone/geolocation. Inline styles remain allowed for numeric UI/SVG style updates; inline scripts and eval are not allowed. Editorial routes retain their current policy/analytics. The local preview server applies these same declared route rules for QA. [Cloudflare's documented static-header mechanism](https://developers.cloudflare.com/pages/configuration/headers/) owns production application; no Pages Functions are used.
+
+Core plant/water/time/Inspect, malicious import and state preservation passed under the policy on desktop/mobile with zero policy violations. Full release regressions, secondary browser and post-deploy header checks complete the gate. This is a bounded source/browser audit, not a claim of formal penetration testing or server anti-cheat for fictional local Coins.
+
+Local release regression completed with policy active: 45 unit/integration tests, full desktop/mobile/data/recovery/black-box paths, 12 size/language accessibility surfaces, Firefox 155 complete slice and nine-route editorial regression all passed. Production header/functionality verification follows the release push.

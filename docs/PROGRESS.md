@@ -225,3 +225,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M7-F06 | PASS | 56/59 (94.9%)
 
 2026-11-03T07:56:14+00:00 — Nine routes/canonical/OG/sitemap/internal links pass; 15 editorial layouts/menu tests pass, category metadata/mobile-nav fixed; main copy/protected assets/GA4 preserved by baseline comparisons.
+
+## M7-F07 | PASS | 57/59 (96.6%)
+
+2026-11-03T08:09:31+00:00 — Game-scoped CSP/security headers pass all core/data tests, Firefox and editorial regression; no frontend secrets/unsafe HTML/external telemetry, npm audit0; 45 tests and all local gates passed.
