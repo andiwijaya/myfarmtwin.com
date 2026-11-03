@@ -109,3 +109,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M3-F03 | PASS | 27/58 (46.6%)
 
 2026-11-03T14:38:54+00:00 — 71 tests, typecheck/build and desktop/touch EN/ID Market pass; feed purchase debits24 once, stores4000g and preserves crop guide.
+
+## M3-F04 | PASS | 28/58 (48.3%)
+
+2026-11-03T14:40:46+00:00 — 72 tests, typecheck/build and EN/ID desktop/touch graded Market checks pass; ABC sell exact26, egg_sale once, crop totals untouched.

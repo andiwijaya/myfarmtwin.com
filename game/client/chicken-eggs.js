@@ -1,4 +1,6 @@
-import {CHICKEN,COOP_LEVELS} from './chicken-config.js';import {chickenWelfare} from './chicken-welfare.js';
+import {CHICKEN,COOP_LEVELS,EGG_PRICES} from './chicken-config.js';import {chickenWelfare} from './chicken-welfare.js';
+/** @param {import('./chicken-state.js').EggLot} lot */
+export const eggSaleValue=lot=>lot.quantity*EGG_PRICES[lot.grade];
 /** Counter-based deterministic draw; independent of the crop/weather RNG. @param {number} seed @param {number} day @param {string} henId */
 export function eggDraw(seed,day,henId){let h=(seed^Math.imul(day,0x9e3779b1)^Math.imul(Number(henId.split('.').at(-1)),0x85ebca6b))>>>0;h^=h>>>16;h=Math.imul(h,0x85ebca6b);h^=h>>>13;h=Math.imul(h,0xc2b2ae35);h^=h>>>16;return(h>>>0)/4294967296;}
 /** @param {import('./engine.js').State} state */
