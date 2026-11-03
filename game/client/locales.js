@@ -1,7 +1,7 @@
 /** @type {Record<string,Record<string,string>>} */
 export const messages={
- en:{edition:'THE LITTLE FARM',journal:'Back to journal',eyebrow:'GROW SOMETHING GOOD',title:'A little land. A lot to grow.',intro:'Your own small corner of the world. Start with a seed.',ready:'Welcome to your little farm.',local:'No account. Just you, a little land, and a fresh start.'},
- id:{edition:'KEBUN KECIL KITA',journal:'Kembali ke jurnal',eyebrow:'TUMBUHKAN HAL BAIK',title:'Lahan kecil. Harapan besar.',intro:'Sudut kecil dunia milikmu. Mulai dari sebutir benih.',ready:'Selamat datang di kebun kecilmu.',local:'Tanpa akun. Hanya kamu, sebidang tanah, dan awal yang baru.'}
+ en:{edition:'THE LITTLE FARM',journal:'Back to home',eyebrow:'GROW SOMETHING GOOD',title:'A little land. A lot to grow.',intro:'Your own small corner of the world. Start with a seed.',ready:'Welcome to your little farm.',local:'No account. Just you, a little land, and a fresh start.'},
+ id:{edition:'KEBUN KECIL KITA',journal:'Kembali ke beranda',eyebrow:'TUMBUHKAN HAL BAIK',title:'Lahan kecil. Harapan besar.',intro:'Sudut kecil dunia milikmu. Mulai dari sebutir benih.',ready:'Selamat datang di kebun kecilmu.',local:'Tanpa akun. Hanya kamu, sebidang tanah, dan awal yang baru.'}
 };
 let locale='en';
 Object.assign(messages.en,{farmMap:'Your little farm · 8 × 8',market:'MARKET'});

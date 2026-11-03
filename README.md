@@ -33,3 +33,5 @@ Preview: `http://127.0.0.1:4177/play/`. The build copies only `game/client` into
 - `docs/M0_AUDIT.md`, `QA_MATRIX.md`, `SAVE_FORMAT.md`, `SIMULATION.md`, `BALANCE.md`, `PERFORMANCE.md`, `SECURITY.md`: decisions and evidence.
 
 Public hosting is the audited Cloudflare Pages `myfarmtwin-com` project, GitHub `andiwijaya/myfarmtwin.com` branch `main`, output `dist`. See M0 audit and release report for the exact published commit and rollback. No GitHub Actions workflow is required. Retain the approved original FarmGirl PNG; the game uses its small WebP derivative.
+
+The follow-on `homepage-live-game` branch prepares a game-focused EN/ID homepage locally; it is not part of the published V1. `npm run homepage` verifies its layouts, language/menu behavior, save preservation, game entry and exact retained release assets. See `docs/HOMEPAGE_INCREMENT.md` for scope, evidence and publication status.
