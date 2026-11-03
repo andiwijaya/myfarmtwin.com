@@ -165,3 +165,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M5-F03 | PASS | 41/59 (69.5%)
 
 2026-11-03T06:56:38+00:00 — Corrupt-primary backup recovery preserves exact original; missing backup/future saves remain untouched; known v0 migrates once with backup; 8 desktop/mobile recovery cases and full regression pass.
+
+## M5-F04 | PASS | 42/59 (71.2%)
+
+2026-11-03T07:00:13+00:00 — Returning players see saved farm totals and next objective, dismiss without reward/state changes; reload/reopen with future device clock retains identical state/no offline costs on desktop/mobile.

@@ -10,6 +10,7 @@ import {SaveSession,browserStorage,SAVE_KEY} from './storage.js';
 const saveSession=new SaveSession(browserStorage()),loaded=saveSession.load();
 /** @type {import('./engine.js').State} */let state=loaded.state||createState();
 let saveStatus=loaded.status,externalChange=false;
+let resumeVisible=!!loaded.state;
 if(loaded.status==='saveReady'){try{saveSession.save(state);saveStatus='saveSaved';}catch{saveStatus='saveUnavailable';}}
 const language=/** @type {HTMLSelectElement} */(document.querySelector('#language'));
 const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
@@ -18,6 +19,7 @@ const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
 let guideExpanded=true;
 let celebrationDismissed=false;
 el('continue-farm').addEventListener('click',()=>{celebrationDismissed=true;chosenCrop='tomato';const empty=state.plots.find(p=>!p.crop);if(empty)selected=empty.id;render();});
+el('resume-continue').addEventListener('click',()=>{resumeVisible=false;render();});
 /** @type {ReturnType<typeof setTimeout>|undefined} */let noticeTimer;
 /** @param {string} text */
 function notify(text){if(noticeTimer)clearTimeout(noticeTimer);el('notice').textContent=text;noticeTimer=setTimeout(()=>{el('notice').textContent='';},4500);}
@@ -57,10 +59,11 @@ function render(){
  el('pause').textContent=t(state.paused?'playClock':'pause');el('speed').textContent=state.speed+'×';el('weather-name').textContent=t(state.weather);el('weather-forecast').textContent=t('forecast')+': '+t(forecastWeather(state));
  el('weather-advice').textContent=t('weather_'+state.weather);
  el('save-status').textContent=t(saveStatus);el('save-status').classList.toggle('save-warning',!['saveSaved','saveResumed'].includes(saveStatus));
+ el('resume-summary').hidden=!resumeVisible;el('resume-stats').textContent=t('day')+' '+(Math.floor(state.tick/24)+1)+' · '+state.coins+' '+t('coins')+' · '+state.plots.filter(p=>p.crop).length+' '+t('growingCrops');el('resume-next').textContent=t('nextObjective')+': '+t(MISSION_STEPS[state.mission.step][0])+' '+t('noOfflineDamage');
  el('pump-panel').hidden=!state.pump.built;el('pump-status').textContent=t(state.pump.on?'pumpRunning':'pumpStopped')+(state.pump.stopReason?' · '+t(state.pump.stopReason):'');el('pump-coverage').textContent=state.plots.filter(pumpCovers).length+' '+t('coveredBeds');el('quick-pump').textContent=t(state.pump.on?'turnPumpOff':'turnPumpOn');el('quick-pump').setAttribute('aria-pressed',String(state.pump.on));
 }
 /** @param {import('./engine.js').CommandType} type @param {Partial<import('./engine.js').Command>} [extra] */
-function send(type,extra={}){if(externalChange){notify(t('saveConflict'));return;}const result=dispatch(state,{...extra,id:state.revision+1,type});if(result.ok){state=result.state;try{saveSession.save(state);saveStatus='saveSaved';}catch(error){saveStatus=error instanceof Error&&['saveConflict','saveCorrupt'].includes(error.message)?error.message:'saveUnavailable';if(saveStatus==='saveConflict')externalChange=true;}const reward=result.events.find(e=>e.type==='missionReward');notify((result.events.length?t(result.events[0].type):'')+(reward?' +'+reward.amount+' '+t('coins')+' · '+t('mission_reward'):''));render();}else notify(t(result.error));}
+function send(type,extra={}){if(externalChange){notify(t('saveConflict'));return;}const result=dispatch(state,{...extra,id:state.revision+1,type});if(result.ok){state=result.state;resumeVisible=false;try{saveSession.save(state);saveStatus='saveSaved';}catch(error){const prior=saveStatus;saveStatus=error instanceof Error&&['saveConflict','saveCorrupt'].includes(error.message)?error.message:'saveUnavailable';if(saveStatus==='saveCorrupt'&&['saveNewer','saveRecoveryPreview'].includes(prior))saveStatus=prior;if(saveStatus==='saveConflict')externalChange=true;}const reward=result.events.find(e=>e.type==='missionReward');notify((result.events.length?t(result.events[0].type):'')+(reward?' +'+reward.amount+' '+t('coins')+' · '+t('mission_reward'):''));render();}else notify(t(result.error));}
 el('next-day').addEventListener('click',()=>send('nextDay'));el('pause').addEventListener('click',()=>send('pause'));el('speed').addEventListener('click',()=>send('speed'));
 el('quick-pump').addEventListener('click',()=>send('togglePump'));
 el('weather-care').addEventListener('click',()=>{const plots=[...state.plots].sort((a,b)=>Number(!!b.crop)-Number(!!a.crop)||a.soilWaterMm-b.soilWaterMm);selected=plots[0].id;send('select',{plot:selected});});
