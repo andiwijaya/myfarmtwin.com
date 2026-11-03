@@ -28,7 +28,7 @@ export function forecastWeather(state){const next=structuredClone(state);nextWea
 function hour(state){
  const covered=state.plots.filter(pumpCovers),waterNeeded=covered.length*PUMP.mmHour;
  let running=state.pump.built&&state.pump.on;
- if(running){const period=state.pump.efficient?PUMP.efficientEnergyHours:PUMP.energyHours,cost=state.pump.runHours%period===0?PUMP.energyCoins:0;if(state.water<waterNeeded||state.coins<cost){state.pump.on=false;state.pump.stopReason=state.water<waterNeeded?'noWater':'noCoins';running=false;}else{state.water-=waterNeeded;if(cost)transact(state,'water_cost',-cost,(state.revision+1)+':pump:'+state.tick);state.pump.runHours++;}}
+ if(running){const period=state.pump.efficient?PUMP.efficientEnergyHours:PUMP.energyHours,cost=state.pump.runHours%period===0?PUMP.energyCoins:0;if(state.water<waterNeeded||state.coins<cost){state.pump.on=false;state.pump.stopReason=state.water<waterNeeded?'noWater':'noCoins';running=false;}else{state.water-=waterNeeded;if(cost){transact(state,'water_cost',-cost,(state.revision+1)+':pump:'+state.tick);for(const p of covered)p.careCost+=cost/covered.length;}state.pump.runHours++;}}
  for(const plot of state.plots){
   const crop=plot.crop,config=crop?CROPS[crop.type]:null,weather=WEATHER[state.weather];
   const irrigationMm=running&&pumpCovers(plot)?PUMP.mmHour:0;plot.waterAppliedMm+=irrigationMm;

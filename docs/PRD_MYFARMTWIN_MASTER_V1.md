@@ -269,7 +269,7 @@ myfarmtwin.com/
 
 ### M6 — Engineering depth tanpa merusak fun
 
-- [ ] **M6-F01 — Inspect overlay.** Klik tanaman/petak melihat moisture %, water mm, weather, growth, health/quality dan alasan kondisi sekarang.
+- [x] **M6-F01 — Inspect overlay.** Klik tanaman/petak melihat moisture %, water mm, weather, growth, health/quality dan alasan kondisi sekarang.
 - [ ] **M6-F02 — Explain causality.** UI teks ID/EN sederhana: “tanah kering → tumbuh lambat”, “hujan → hemat air”, “pompa → biaya naik, risiko kering turun”; berdasarkan state aktual.
 - [ ] **M6-F03 — Mini trends.** Tampilkan grafik ringkas moisture/growth atau event history untuk beberapa tick terakhir, bukan dashboard engineering yang mendominasi layar.
 - [ ] **M6-F04 — Simulation disclosure.** Penjelasan bahwa model adalah educational approximation, definisi satuan dan asumsi, tidak untuk rekomendasi agronomi nyata.

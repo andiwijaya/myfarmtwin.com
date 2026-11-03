@@ -8,6 +8,7 @@ import {setupMarket,renderMarket,renderShop,renderOrders} from './market.js';
 import {condition} from './care.js';
 import {SaveSession,browserStorage,SAVE_KEY} from './storage.js';
 import {setupData,renderData} from './data-tools.js';
+import {setupInspect,showInspect,renderInspect} from './inspect.js';
 const saveSession=new SaveSession(browserStorage()),loaded=saveSession.load();
 /** @type {import('./engine.js').State} */let state=loaded.state||createState();
 let saveStatus=loaded.status,externalChange=false;
@@ -37,6 +38,7 @@ function renderSelection(){
  el('plot-heading').textContent=t('plot')+' '+(selected+1);
  el('plot-status').textContent=t('emptyBed');
  const actions=el('plot-actions');actions.replaceChildren();const plot=state.plots.find(p=>p.id===selected);if(!plot)return;
+ const inspect=document.createElement('button');inspect.id='inspect';inspect.type='button';inspect.className='action-button';inspect.textContent=t('inspect');inspect.addEventListener('click',()=>showInspect(state,plot.id));actions.append(inspect);
  el('care-feedback').textContent=t('care_'+condition(plot));el('care-feedback').dataset.condition=condition(plot);
  const water=document.createElement('button');water.type='button';water.id='water';water.className='action-button';water.textContent=t('waterAction')+' · '+(state.careCredits>0?0:WATER.coinCost)+' '+t('coins');water.addEventListener('click',()=>{if(selected!==null)send('water',{plot:selected});});actions.append(water);
  const moisture=Math.round(100*plot.soilWaterMm/plot.soilCapacityMm)+'% '+t('moisture');if(plot.crop){el('plot-status').textContent=t(plot.crop.type)+' · '+t(STAGE_KEYS[plot.crop.stage])+' · '+Math.floor(plot.crop.progress*100)+'% · '+moisture+' · '+Math.round(plot.crop.quality*100)+'% '+t('quality');const harvest=document.createElement('button');harvest.id='harvest';harvest.type='button';harvest.className='action-button primary';harvest.textContent=t('harvest');harvest.disabled=plot.crop.progress<1;harvest.title=t(plot.crop.progress<1?'notReady':'readyHarvest');harvest.addEventListener('click',()=>{if(selected!==null)send('harvest',{plot:selected});});actions.append(harvest);return;}
@@ -49,12 +51,12 @@ function renderSelection(){
 function closePlot(){const old=selected;selected=null;renderSelection();if(old!==null){const button=/** @type {HTMLButtonElement|null} */(document.querySelector(`[data-choose-plot="${old}"]`));button?.focus();}}
 document.addEventListener('plotselect',event=>{const id=/** @type {CustomEvent<number>} */(event).detail;if(!Number.isInteger(id)||!state.plots.some(p=>p.id===id))return;selected=id;send('select',{plot:id});});
 el('close-plot').addEventListener('click',closePlot);
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closePlot();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!document.querySelector('dialog[open]'))closePlot();});
 language.value=getLocale();
 language.addEventListener('change',()=>{setLocale(language.value);render();});
 function renderMission(){const step=state.mission.step,copy=currentObjective(state);el('mission-title').textContent=t(copy[0]);el('mission-detail').textContent=t(copy[1]);el('guide-chapter').textContent=t(step<7?'firstHarvest':'nextChapter');el('mission-progress').style.width=100*step/7+'%';el('mission-track').setAttribute('aria-valuenow',String(step));el('celebration').hidden=step<7||celebrationDismissed;document.querySelectorAll('.mission-target').forEach(e=>e.classList.remove('mission-target'));const next=FOLLOWUPS.find(q=>!state.followups[q.id]);const target=step<7?['.plot-shortcuts','#plant','#water','#next-day','#harvest','#market-open','#buy-pump'][step]:next?.id==='hotCare'?'#weather-name':next?'#market-open':null;if(target)document.querySelector(target)?.classList.add('mission-target');el('followup-missions').hidden=step<7;const list=el('followup-list');list.replaceChildren();for(const quest of FOLLOWUPS){const item=document.createElement('li');item.dataset.quest=quest.id;item.dataset.done=String(state.followups[quest.id]);item.textContent=(state.followups[quest.id]?'✓ ':'○ ')+t(quest.title);list.append(item);}}
 function render(){
- translate();renderWorld(state.plots,state.tick,state.pump);renderSelection();renderGuide();renderGraphics();renderMarket(state,send);renderOrders(state,send);renderShop(state,send);renderMission();renderData(saveSession);
+ translate();renderWorld(state.plots,state.tick,state.pump);renderSelection();renderGuide();renderGraphics();renderMarket(state,send);renderOrders(state,send);renderShop(state,send);renderMission();renderData(saveSession);renderInspect(state,selected);
  el('hud-day').textContent=String(Math.floor(state.tick/24)+1);el('hud-coins').textContent=String(state.coins);el('hud-water').textContent=String(Math.floor(state.water));el('hud-seeds').textContent=String(state.seeds.lettuce+state.seeds.tomato);
  el('inventory-harvest').textContent=state.inventory.length?state.inventory.map(lot=>t(lot.type)+' ×'+lot.quantity+' · '+Math.round(lot.quality*100)+'% '+t('quality')).join(' | '):t('noHarvest');
  el('pause').textContent=t(state.paused?'playClock':'pause');el('speed').textContent=state.speed+'×';el('weather-name').textContent=t(state.weather);el('weather-forecast').textContent=t('forecast')+': '+t(forecastWeather(state));
@@ -71,4 +73,4 @@ el('weather-care').addEventListener('click',()=>{const plots=[...state.plots].so
 setInterval(()=>{if(!state.paused&&!document.hidden&&!externalChange){for(let i=0;i<state.speed;i++)send('tick');}},3000);
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&!state.paused)send('pause');});
 window.addEventListener('storage',event=>{if(event.key===SAVE_KEY&&event.newValue!==saveSession.raw){externalChange=true;saveStatus='saveConflict';notify(t('saveConflict'));render();}});
-setupMarket();setupData({getState:()=>state,replace:next=>{saveSession.replace(next);state=next;selected=null;resumeVisible=false;celebrationDismissed=false;saveStatus='saveSaved';externalChange=false;render();},session:saveSession});render();
+setupMarket();setupInspect();setupData({getState:()=>state,replace:next=>{saveSession.replace(next);state=next;selected=null;resumeVisible=false;celebrationDismissed=false;saveStatus='saveSaved';externalChange=false;render();},session:saveSession});render();

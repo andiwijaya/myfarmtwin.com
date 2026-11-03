@@ -181,3 +181,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M5-F07 | PASS | 45/59 (76.3%)
 
 2026-11-03T07:11:53+00:00 — 90 days/1172 commands/234 rejected replays, daily exact save reload, all missions/orders/8 beds, min52 Coins/85KB peak save; full 90-day farm import works desktop/mobile; full checks pass.
+
+## M6-F01 | PASS | 46/59 (78.0%)
+
+2026-11-03T07:14:43+00:00 — Optional Inspect shows actual moisture/mm/weather/growth/quality/applied water/allocated care and labelled snapshot estimates; cost allocation/estimate tests and modal Escape desktop/mobile pass with full regression.
