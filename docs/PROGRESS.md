@@ -193,3 +193,7 @@ All times UTC. Only PASS entries complete checklist items. Screenshots stay outs
 ## M6-F03 | PASS | 48/59 (81.4%)
 
 2026-11-03T07:19:44+00:00 — Two optional 0-100% trend charts use 48 real hourly samples; latest water/growth/tick match engine exactly and history stays bounded; desktop/mobile chart and full regressions pass.
+
+## M6-F04 | PASS | 49/59 (83.1%)
+
+2026-11-03T07:21:47+00:00 — Engineering Lab discloses educational limits, 1m2/mm/litre units, water/quality assumptions, seeded fictional weather/prices and no offline penalty; EN/ID desktop/mobile disclosure and regression pass.
