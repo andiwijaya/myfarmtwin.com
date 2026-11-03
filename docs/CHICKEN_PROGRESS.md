@@ -125,3 +125,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M3-F07 | PASS | 31/58 (53.4%)
 
 2026-11-03T14:46:50+00:00 — 74 tests/typecheck/build/lint and four UI loops pass; paid90 expands room2to4, stores3000g/8L, actual world level1 and exact61 Coins.
+
+## M3-F08 | PASS | 32/58 (55.2%)
+
+2026-11-03T14:49:10+00:00 — 76 tests/typecheck/build and four real stockout/recovery UI runs pass; bounded220g/6L once, no Coins, no lost hens, crop income restores paid feed.
