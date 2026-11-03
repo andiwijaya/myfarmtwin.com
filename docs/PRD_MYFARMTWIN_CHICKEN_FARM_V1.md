@@ -287,7 +287,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 
 - [x] **M0-F01** — Audit live/remote/local branch; catat commit, perubahan uncommitted, deployment, baseline save dan cara rollback. Jangan menimpa pekerjaan lain.
 - [x] **M0-F02** — Petakan engine tick/commands, renderer world, Market, Inventory, ledger, missions dan save validator agar Chicken memakai core yang sama.
-- [ ] **M0-F03** — Jalankan semua baseline checks existing (`lint`, `typecheck`, `test`, `build`, `e2e`, dll. yang tersedia); dokumentasikan failures existing vs regresi.
+- [x] **M0-F03** — Jalankan semua baseline checks existing (`lint`, `typecheck`, `test`, `build`, `e2e`, dll. yang tersedia); dokumentasikan failures existing vs regresi.
 - [ ] **M0-F04** — Buat checkpoint/working branch aman dan fixtures sanitasi `saveVersion=1`; catat hash/config terkait data pengguna tanpa menyalin data asli pribadi.
 - [ ] **M0-F05** — Putuskan layout area Chicken Yard dan visual low-cost yang konsisten; siapkan asset inventory/licensing dan uji dukungan mobile.
 - [ ] **M0-F06** — Tambahkan dokumen PRD ini ke `docs/`, kontrak state/API awal, test IDs, feature flag internal dan cara mematikan fitur tanpa menghapus save.

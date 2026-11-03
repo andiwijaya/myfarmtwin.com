@@ -32,3 +32,13 @@ QA evidence is outside Git at `task-2/qa/chicken/baseline/`. Production assets, 
 | data-tools.js confirms destructive import/reset; format guarded | Export/import/reset/backup must roundtrip complete V2 | Existing fixtures/replay outputs are oracles; personal storage is never used for QA |
 
 Fresh synthetic V1 baseline roundtrip: 965 UTF-8 bytes, SHA256 `e6a725a0edf732c1fbb85a89e05814a59e303f34769ea07a4dd667327a5aa8d9`. Baseline renderer has zoom/pan/reset only; rotation is new work, not an existing true 3D/WebGL claim. All camera picking is DOM/SVG geometry-based, enabling consistent hit testing after projected orientation changes.
+
+## M0-F03 — complete baseline commands and evidence
+
+All existing commands were run locally before game changes: lint, typecheck, test (45/45), build, e2e, compat, balance, endurance, audit:client, performance, seo, security, homepage; public integrity also passed (37 exact resources). Chromium 153 and Firefox 155 full crop journeys pass. Twelve game viewport/locale accessibility surfaces and 16 single-card homepage surfaces pass; protected editorial content/assets match baseline. No uncaught errors, CSP violations or external game requests; malicious imports preserve saves.
+
+Ninety-day endurance: 1,172 commands, 234 rejected replays, eight beds, all three orders/follow-ups, 528 harvested/sold, minimum52/end7649 Coins, peak85,196-byte save. Four60-day crop strategy outcomes are retained as oracles in logs. No runtime dependencies, debug statements or external module imports.
+
+Performance is environment-sensitive: the initial unchanged-source mobile4x stress run measured13.9FPS while desktop was60FPS and stopped before low-mobile. An isolated rerun after other browser work finished passed all four profiles: desktop60FPS; mobile4x full55.8 / low53.3FPS; first interaction191 /1595ms. Both reports are preserved (`performance.json` and `performance-repeat/performance.json`); the failed sample is not erased. Release performance must be measured again on the completed feature with controlled workload; physical Android remains unmeasured. No game bug or code change was used to make the rerun pass.
+
+There is no remaining baseline functional failure. QA evidence remains outside Git at `task-2/qa/chicken/baseline/`. The current public deployment remains unchanged.

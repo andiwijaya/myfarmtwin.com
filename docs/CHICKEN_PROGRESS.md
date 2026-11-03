@@ -9,3 +9,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M0-F02 | PASS | 2/58 (3.4%)
 
 2026-11-03T12:49:00+00:00 — Mapped dispatch/hour/weather, DOM-SVG camera/picking, Market/ledger/missions and strict save/storage contracts; synthetic V1 roundtrip965bytes hash recorded, no runtime changes.
+
+## M0-F03 | PASS | 3/58 (5.2%)
+
+2026-11-03T12:56:35+00:00 — All existing baseline commands completed:45 tests, Chromium/Firefox/crop/save/SEO/security/homepage pass; transient mobile perf13.9 retained, isolated rerun55.8/53.3FPS passes; no game edits.
