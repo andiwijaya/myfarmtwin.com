@@ -113,3 +113,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M3-F04 | PASS | 28/58 (48.3%)
 
 2026-11-03T14:40:46+00:00 — 72 tests, typecheck/build and EN/ID desktop/touch graded Market checks pass; ABC sell exact26, egg_sale once, crop totals untouched.
+
+## M3-F05 | PASS | 29/58 (50.0%)
+
+2026-11-03T14:42:42+00:00 — 72 tests, typecheck/build and four real EN/ID desktop/touch tutorial loops pass in1.4-1.6s; 2 eggs sell12, tank114, causal care feedback.
