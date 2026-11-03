@@ -29,3 +29,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M1-F01 | PASS | 7/58 (12.1%)
 
 2026-11-03T13:04:30+00:00 — Localized44px Field/Yard entry works by desktop keyboard and390px touch EN/ID; one active guide, crop mission and planted save byte-identical after switching; typecheck/build and4 browser surfaces pass.
+
+## M1-F02 | PASS | 8/58 (13.8%)
+
+2026-11-03T13:07:04+00:00 — Native SVG Yard64tiles/four fence edges/ramp renders separately from crops;4 desktop/touch EN-ID browser cases preserve planted save/mission and return picking; strict types/build pass.
