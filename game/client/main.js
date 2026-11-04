@@ -2,6 +2,7 @@ import {getLocale,setLocale,translate,t} from './locales.js';
 import {renderWorld} from './world.js';
 import {renderChickenWorld} from './chicken-view.js';
 import {renderGoatWorld} from './goat-view.js';
+import {renderGoatPanel,validGoatSelection} from './goat-panel.js';
 import {goatSceneSnapshot} from './goat-scene-snapshot.js';
 import {FEATURES} from './features.js';
 import {renderChickenPanel} from './chicken-panel.js';
@@ -32,12 +33,16 @@ const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
 let guideExpanded=true;
 let celebrationDismissed=false;
 let activeArea='field';
-let selectedChicken='';
+let selectedChicken='';let selectedGoat='';
+function renderGoatSelection(){document.querySelectorAll('[data-goat-object]').forEach(p=>{const active=p.getAttribute('data-goat-object')===selectedGoat;p.classList.toggle('goat-selected',active);p.setAttribute('aria-pressed',String(active));});document.querySelectorAll('[data-choose-goat]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-choose-goat')===selectedGoat)));renderGoatPanel(selectedGoat);}
+document.addEventListener('goatobjectselect',event=>{const id=/** @type {CustomEvent<string>} */(event).detail;if(activeArea==='goat'&&validGoatSelection(id)){selectedGoat=id;renderGoatSelection();}});
+function closeGoat(){const old=selectedGoat;selectedGoat='';renderGoatSelection();/** @type {HTMLButtonElement|null} */(document.querySelector('[data-choose-goat="'+old+'"]'))?.focus();}
+el('close-goat').addEventListener('click',closeGoat);
 function yardSnapshot(){return chickenSnapshot(state)||{level:0,doorOpen:true,pendingEggs:0,feedG:0,waterL:0,cleanliness:100,storeFeedG:0,tankWaterL:state.water,coins:state.coins};}
 function renderChickenSelection(){el('world').dataset.selectedChicken=selectedChicken;document.querySelectorAll('[data-chicken-object]').forEach(p=>{const active=p.getAttribute('data-chicken-object')===selectedChicken;p.classList.toggle('chicken-selected',active);p.setAttribute('aria-pressed',String(active));});document.querySelectorAll('[data-choose-chicken]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-choose-chicken')===selectedChicken)));renderChickenPanel(yardSnapshot(),selectedChicken);}
 document.addEventListener('chickenobjectselect',event=>{const id=/** @type {CustomEvent<string>} */(event).detail;if(activeArea==='chicken'&&['coop','nest','feeder','drinker','clean'].includes(id)){selectedChicken=id;renderChickenSelection();}});
 document.addEventListener('chickenaction',event=>{if(activeArea!=='chicken')return;const id=/** @type {CustomEvent<string>} */(event).detail,types=/** @type {Record<string,import('./engine.js').CommandType>} */({feed:'feedHens',water:'waterHens',clean:'cleanCoop',collect:'collectEggs'});if(Object.hasOwn(types,id))send(types[id]);});
-document.addEventListener('camerachanged',()=>{if(activeArea==='chicken')renderChickenSelection();else renderSelection();});
+document.addEventListener('camerachanged',()=>{if(activeArea==='goat')renderGoatSelection();else if(activeArea==='chicken')renderChickenSelection();else renderSelection();});
 function closeChicken(){const old=selectedChicken;selectedChicken='';renderChickenSelection();/** @type {HTMLButtonElement|null} */(document.querySelector('[data-choose-chicken='+old+']'))?.focus();}
 el('close-chicken').addEventListener('click',closeChicken);
 el('area-field').addEventListener('click',()=>{clearNotice();activeArea='field';render();});
@@ -75,7 +80,7 @@ function renderSelection(){
 function closePlot(){const old=selected;selected=null;renderSelection();if(old!==null){const button=/** @type {HTMLButtonElement|null} */(document.querySelector(`[data-choose-plot="${old}"]`));button?.focus();}}
 document.addEventListener('plotselect',event=>{const id=/** @type {CustomEvent<number>} */(event).detail;if(!Number.isInteger(id)||!state.plots.some(p=>p.id===id))return;selected=id;renderSelection();send('select',{plot:id});});
 el('close-plot').addEventListener('click',closePlot);
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!document.querySelector('dialog[open]')){if(activeArea==='chicken'&&selectedChicken)closeChicken();else closePlot();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!document.querySelector('dialog[open]')){if(activeArea==='goat'&&selectedGoat)closeGoat();else if(activeArea==='chicken'&&selectedChicken)closeChicken();else closePlot();}});
 language.value=getLocale();
 language.addEventListener('change',()=>{setLocale(language.value);render();});
 function renderMission(){const step=state.mission.step,copy=currentObjective(state);el('mission-title').textContent=t(copy[0]);el('mission-detail').textContent=t(copy[1]);el('guide-chapter').textContent=t(step<7?'firstHarvest':'nextChapter');el('mission-progress').style.width=100*step/7+'%';el('mission-track').setAttribute('aria-valuenow',String(step));el('celebration').hidden=step<7||celebrationDismissed;document.querySelectorAll('.mission-target').forEach(e=>e.classList.remove('mission-target'));const next=FOLLOWUPS.find(q=>!state.followups[q.id]);const target=step<7?['.plot-shortcuts','#plant','#water','#next-day','#harvest','#market-open','#buy-pump'][step]:next?.id==='hotCare'?'#weather-name':next?'#market-open':null;if(target)document.querySelector(target)?.classList.add('mission-target');el('followup-missions').hidden=step<7;const list=el('followup-list');list.replaceChildren();for(const quest of FOLLOWUPS){const item=document.createElement('li');item.dataset.quest=quest.id;item.dataset.done=String(state.followups[quest.id]);item.textContent=(state.followups[quest.id]?'✓ ':'○ ')+t(quest.title);list.append(item);}}
@@ -94,7 +99,7 @@ function render(redrawWorld=true){
  el('farm-areas').hidden=!FEATURES.chicken;el('farm-areas').setAttribute('aria-label',t('farmAreas'));el('area-field').setAttribute('aria-pressed',String(activeArea==='field'));el('area-chicken').setAttribute('aria-pressed',String(activeArea==='chicken'));el('world').dataset.area=activeArea;el('weather-care').hidden=activeArea!=='field';el('area-goat').setAttribute('aria-pressed',String(activeArea==='goat'));
  el('map-hint').textContent=t(activeArea==='goat'?'goatMapHint':activeArea==='chicken'?'yardMapHint':'fieldMapHint');if(activeArea==='chicken')el('weather-advice').textContent=t('yardWeather_'+state.weather);
  if(activeArea==='chicken'){renderChickenSelection();panel.hidden=true;el('pump-panel').hidden=true;el('mission-track').hidden=false;el('followup-missions').hidden=true;el('celebration').hidden=true;el('guide-chapter').textContent=t('chickenArea');const objective=chickenObjective(state);el('mission-title').textContent=t(objective.title)+(objective.progress?' · '+objective.progress:'');el('mission-detail').textContent=t(objective.detail);el('mission-track').setAttribute('aria-valuemax','8');el('mission-track').setAttribute('aria-valuenow',String(objective.step));el('mission-track').setAttribute('aria-label',t('chickenArea'));el('mission-progress').style.width=100*objective.step/8+'%';document.querySelectorAll('.mission-target').forEach(e=>e.classList.remove('mission-target'));if(objective.target)document.querySelector(objective.target)?.classList.add('mission-target');el('world').setAttribute('aria-label',t('chickenArea'));}else{el('mission-track').hidden=false;el('mission-track').setAttribute('aria-valuemax','7');el('chicken-panel').hidden=true;}
- if(activeArea==='goat'){panel.hidden=true;el('chicken-panel').hidden=true;el('pump-panel').hidden=true;el('followup-missions').hidden=true;el('celebration').hidden=true;el('mission-track').hidden=true;el('guide-chapter').textContent=t('goatArea');el('mission-title').textContent=t('goatIntro');el('mission-detail').textContent=t('goatMeet');el('world').setAttribute('aria-label',t('goatArea'));}
+ el('goat-panel').hidden=true;if(activeArea==='goat'){renderGoatSelection();panel.hidden=true;el('chicken-panel').hidden=true;el('pump-panel').hidden=true;el('followup-missions').hidden=true;el('celebration').hidden=true;el('mission-track').hidden=true;el('guide-chapter').textContent=t('goatArea');el('mission-title').textContent=t('goatIntro');el('mission-detail').textContent=t('goatMeet');el('world').setAttribute('aria-label',t('goatArea'));}
 }
 let writeQueue=Promise.resolve();
 /** @param {()=>void|Promise<void>} action */

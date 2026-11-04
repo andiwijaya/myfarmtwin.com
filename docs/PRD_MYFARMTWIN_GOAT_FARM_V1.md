@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **10/60 (16.7%)**.
+Progress: **11/60 (18.3%)**.
 
 ## Checklist
 
@@ -24,7 +24,7 @@ Progress: **10/60 (16.7%)**.
 - [x] **M1-F02** — Render enclosed yard/shelter/pasture with responsive geometry, no crop plot overlap or route split.
 - [x] **M1-F03** — Render 3 starter goats from stable state (one adult and two weaned), visually distinguishable.
 - [x] **M1-F04** — Add light state-driven idle/walk/browse/chew/climb animations and reduced-motion fallback.
-- [ ] **M1-F05** — Render/select hay rack, shared water trough, cleanable shelter, paddock and safe climb platform.
+- [x] **M1-F05** — Render/select hay rack, shared water trough, cleanable shelter, paddock and safe climb platform.
 - [ ] **M1-F06** — Add contextual actions Feed/Water/Clean/Inspect/Sell, with correct disabled state and human-readable reasons.
 - [ ] **M1-F07** — Mobile 320–390 and desktop interactions, pan/zoom/reset (rotate if applicable), keyboard/focus, low graphics.
 - [ ] **M1-F08** — EN/ID for every Goat view/control/status/error; seamless return to Crop/Chicken guide.
@@ -106,3 +106,6 @@ Three stable scene goats now visibly distinguish one large ready adult from two 
 
 ### M1-F04
 Light idle/walk/browse/chew/rest/short-climb SVG motions are derived from the shared logical tick snapshot; CSS cannot mutate growth/Coins/save. Full unit suite (97 tests), lint/typecheck/build and four EN/ID desktop/touch motion/reduced-motion/low-graphics plus exact-save regression cases PASS. Evidence: qa/goat/M1-F04/.
+
+### M1-F05
+Seven stations/shelter and three goats selectable with shared per-area camera picking and accessible shortcuts. Real SVG trough tap/click and hay keyboard picking, all shortcut selections, Escape/close focus restoration, invalid selection rejection and exact saves PASS on four EN/ID desktop/touch profiles. Fixed a real mobile overlay found by painted-object testing: Goat shortcuts now flow below SVG; non-overlap asserted. Crop/Chicken first-sale regression four profiles, lint/typecheck/build PASS. Evidence: qa/goat/M1-F05/.
