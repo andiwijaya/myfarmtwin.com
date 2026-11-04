@@ -1,0 +1,11 @@
+import {FISH} from './fish-config.js';import {fishCanStock,fishStage} from './fish-state.js';import {fishPayment} from './fish-feed.js';
+/** @param {import('./fish-state.js').FishCohort} cohort */
+export const fishGrade=cohort=>cohort.condition>=850?'A':cohort.condition>=600?'B':'C';
+/** @param {import('./fish-state.js').FishCohort} cohort @param {number} tick */
+export const fishReady=(cohort,tick)=>fishStage(cohort,tick)==='ready';
+/** Bounded display receipt; authoritative cumulative proofs stay in counters/shared ledger. @param {import('./fish-state.js').FishState} g @param {number} tick @param {import('./fish-state.js').FishReceipt['kind']} kind @param {number} pondId @param {number} [count] @param {number} [massG] @param {number} [coins] */
+export function fishReceipt(g,tick,kind,pondId,count=0,massG=0,coins=0){g.receipts.push({id:g.nextReceipt++,tick,kind,pondId,count,massG,coins});if(g.receipts.length>FISH.historyMax)g.receipts.shift();}
+/** Only internal verified recovery may call with advance; no command accepts that field. @param {import('./engine.js').State} state @param {import('./fish-state.js').FishPond} p @param {number} count @param {'purchase'|'advance'} source */
+export function addFishStock(state,p,count,source){const g=state.fish;if(!g)throw Error('fishNotVisited');p.cohorts.push({id:'fish.cohort.'+g.nextCohort++,species:'tilapia',source,acquiredTick:state.tick,count,massG:FISH.fingerlingG,condition:1000,lastFedTick:-1,growthRemainder:0});p.balance.stockCount+=count;p.balance.stockMassG+=count*FISH.fingerlingG;g.stats.stockedCount+=count;g.stats.stockedMassG+=count*FISH.fingerlingG;}
+/** Mature-mass reservation precedes any payment. @param {import('./engine.js').State} state @param {import('./engine.js').Command} command @param {import('./fish-feed.js').FishTransaction} transact @returns {string|undefined} */
+export function stockFishCommand(state,command,transact){const g=state.fish,p=g?.ponds.find(x=>x.id===command.fishPond),count=command.fishCount;if(!g||!p||!count)return 'invalidFishCommand';if(!fishCanStock(p,count))return 'fishCapacity';const price=count*FISH.fingerlingCoins;if(state.coins<price)return 'noCoins';fishPayment(state,'fish.fingerling_purchase',-price,'stock.'+p.id,transact);addFishStock(state,p,count,'purchase');fishReceipt(g,state.tick,'stock',p.id,count,count*FISH.fingerlingG,price);}
