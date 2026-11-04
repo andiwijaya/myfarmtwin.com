@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **48/64 (75.00%)**
+Progress: **49/64 (76.56%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -81,7 +81,7 @@ Progress: **48/64 (75.00%)**
 - [x] **M5-F04** — Implement milking stand sanitation upgrade/maintenance and traceable quality improvement; avoid meaningless decorative upgrades.
 - [x] **M5-F05** — Add co-op contracts by milk quantity/grade, one-time rewards, capacity-affordable objectives and no punitive real-time deadlines.
 - [x] **M5-F06** — Add `Happy Cows`, `Cool the Milk`, `Heat Wave`, `Bigger Dairy` missions/unlocks and fair resupply; implement one 2→3 barn upgrade and atomic third already-lactating cow purchase with all prerequisites.
-- [ ] **M5-F07** — Read-only Dairy Engineering Lab: water/feed trends, comfort factors, milk reservoir vs yield, grade/freshness, expenses/revenue/cost per L and model limitations.
+- [x] **M5-F07** — Read-only Dairy Engineering Lab: water/feed trends, comfort factors, milk reservoir vs yield, grade/freshness, expenses/revenue/cost per L and model limitations.
 - [ ] **M5-F08** — Balance fixed-seed 7/30/60/90 game days, dairy-only/crop/chicken/goat/mixed; grade/refrigeration/no-care strategies; detect exploit/dominant economy and tune.
 
 **M5 gate:** player decisions affect throughput, quality, operating cost and quality of life—not endless micromanagement.
@@ -260,3 +260,6 @@ Quantity/grade Co-op contracts now expose explicit unlocks and one-time bonuses 
 
 ### M5-F06
 Four causal cosmetic goals now track healthy hours, valid paid cooling, shaded heat and actual third-cow ownership.180Coin expansion alone grants no cow/goal;240Coin third adult requires24kg/135L actual capacity/supplies, preserves stock and starts empty. No fourth/resale/reset loop.260full units,4EN/ID desktop/mobile purchase/world/reload profiles and8new two-tab expansion/purchase races PASS. Evidence qa/cow/M5-F06*.
+
+### M5-F07
+Optional Dairy Engineering Lab is read-only and shows actual reservoir/produced/stored/sold/discarded volumes, causal potential,12real hourly samples and direct cash cost per litre. Shared-tank refill spending is explicit and unallocated, avoiding double-charge/full-profit claims.262full units and4EN/ID desktop320/mobile pure-view/localization/no-overflow profiles PASS; source-checked96sample ring cannot invent yield after history clear. Evidence qa/cow/M5-F07.

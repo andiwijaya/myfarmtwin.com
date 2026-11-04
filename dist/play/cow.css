@@ -6,3 +6,5 @@
 .cow-storage-choice{display:flex;gap:10px;align-items:center;flex-wrap:wrap;flex-basis:100%;font-size:13px}.cow-storage-choice select{max-width:100%}
 
 .cow-sale-lot{display:flex;align-items:flex-start;gap:.65rem;padding:.65rem 0;overflow-wrap:anywhere}.cow-sale-lot input{min-width:24px;min-height:44px;margin:0}.cow-milk-lot,.cow-station-cow{border-top:1px solid #bbcbb2;padding:.75rem 0}.cow-milk-lot button,.cow-station-cow button{margin:.25rem .25rem .25rem 0}#cow-sale-receipt{padding:.75rem;background:#e5efda;border-radius:.5rem}#cow-market p{overflow-wrap:anywhere}
+
+#cow-lab,#cow-goals{flex-basis:100%;min-width:0;max-width:100%}#cow-lab .cow-status{margin-bottom:1rem}.cow-lab-table-wrap{max-width:100%;overflow:auto;margin:1rem 0}.cow-lab-table-wrap table{border-collapse:collapse;min-width:480px;width:100%;font-size:12px}.cow-lab-table-wrap th,.cow-lab-table-wrap td{padding:.5rem;text-align:left;border-bottom:1px solid var(--line)}.cow-lab-table-wrap caption{text-align:left;padding:.5rem 0;font-weight:600}#cow-goals ul{padding-left:1.2rem}#cow-goals li{margin:.75rem 0}
