@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **36/64 (56.25%)**
+Progress: **37/64 (57.81%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -64,7 +64,7 @@ Progress: **36/64 (56.25%)**
 
 - [x] **M4-F01** — Read actual current save version, design latest→next upgrade without hardcoded version number and without losing old unknown/newer save.
 - [x] **M4-F02** — Migrate crop-only saves retaining every original crop/Coins/market/weather/ledger field semantically exact.
-- [ ] **M4-F03** — Migrate Chicken-era saves retaining hens, egg lots, orders, upgrades, histories, rewards; test chicken regression.
+- [x] **M4-F03** — Migrate Chicken-era saves retaining hens, egg lots, orders, upgrades, histories, rewards; test chicken regression.
 - [ ] **M4-F04** — Migrate Goat-era saves if implemented; if not, document applicability and ensure future Goat integration uses shared migration chain.
 - [ ] **M4-F05** — Serialize/validate cows, provenance-tagged supplies, lots, milk counters, production/sale remainders, cooling credit, recovery episodes, missions/grants, third-cow purchase, versions and ledger (§6.9).
 - [ ] **M4-F06** — Test autosave/reload/return, import/export, cancel/invalid data, confirmed reset, rolling backup, quarantine corrupt/future saves.
@@ -224,3 +224,6 @@ Actual releasedV3 discovered from immutable source and targetV4 from current con
 
 ### M4-F02
 V0/V1 crop-only migration retains every original field, exact source archives and original frozen hash/replay oracle; only legitimately absent history/modules/version are added.4 targeted crop migration/frozen replay tests PASS; malformed unknown-field/negative-soil sources stay intact and receive no replacement farm or starter. Existing full crop browser gate also passed M3.
+
+### M4-F03
+Actual V2 Chicken fresh/mixed saves retain every prior field and exact era archives. Additional real-command fully upgraded six-hen farm with feeder/shade, completed order/rewards, pending eggs and stored lots is accepted by the exact releasedV2 reader before migration and remains semantically identical afterward. Targeted migration tests PASS; full Chicken release regression passed M3.
