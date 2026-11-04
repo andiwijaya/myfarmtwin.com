@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **19/60 (31.7%)**.
+Progress: **20/60 (33.3%)**.
 
 ## Checklist
 
@@ -33,7 +33,7 @@ Progress: **19/60 (31.7%)**.
 - [x] **M2-F03** — Hay purchase/store/refill/consumption with feed conservation and accurate ledger.
 - [x] **M2-F04** — Water trough/refill/consumption from shared farm tank with volume conservation.
 - [x] **M2-F05** — Pasture biomass, browse consumption and deterministic regeneration based on shared weather.
-- [ ] **M2-F06** — Shelter cleanliness/clean action and bounded maintenance cost/effect; prevent spam exploits.
+- [x] **M2-F06** — Shelter cleanliness/clean action and bounded maintenance cost/effect; prevent spam exploits.
 - [ ] **M2-F07** — Causal nutrition/hydration/space/weather → comfort/condition with gradual recovery, no offline degradation.
 - [ ] **M2-F08** — Growth stages `weaned→growing→market-ready` using game ticks and configurable compressed duration.
 - [ ] **M2-F09** — Herd capacity and social minimum-two sale rule, with rejection messages and recovery suggestions.
@@ -133,3 +133,6 @@ Shared tank litres transfer to trough ml exactly; real shared-hour drinking cons
 
 ### M2-F05
 Actual paddock browse is consumed before hay. Bounded regrowth uses existing shared weather and resting/active grazing pressure without another RNG/clock; biomass and lifetime consumed/regrown terms conserve mass. Seeded 20-day save/replay shows overgrazing shortages without negative stocks; rain/rest/heat and cap scenarios tested. 114 full unit tests, lint/typecheck/build PASS. Earlier feed assertions now include actual browse plus hay, preserving total demand/accounting. Evidence: qa/goat/M2-F05/.
+
+### M2-F06
+Shelter use lowers cleanliness only in shared logical hours. Free cleaning improves cleanliness by at most 20, caps at 100, obeys six-game-hour cooldown and does not directly recover body condition or grant Coins/items/rewards. Pause, 30-day neglect, full shelter, cooldown and 20-click spam cases preserve bounds and atomically reject; 117 unit tests, lint/typecheck/build PASS. Evidence: qa/goat/M2-F06/.
