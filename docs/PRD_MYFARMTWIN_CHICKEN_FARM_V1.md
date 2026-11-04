@@ -371,7 +371,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 - [x] **M6-F06** — Visual review 320/360/390/768/1024/1440 widths plus landscape; no clipped coop, offscreen buttons, horizontal overflow, tiny tap targets.
 - [x] **M6-F07** — Performance test normal + low-graphics / slow-device emulation: no runaway animation/timers, bounded DOM/SVG updates, memory/save payload acceptable.
 - [x] **M6-F08** — Pre-release preservation check: homepage exactly one game card dengan ilustrasi cartoon kebun sayur, ayam, kambing, sapi, kolam ikan dan penjelasan EN/ID bahwa kambing, sapi, dan kolam ikan adalah visi masa depan, bukan fitur playable saat ini; copy EN/ID crop + Chicken Farm setelah tersedia, editorial routes/metadata, GA4, original assets, crop save/market/test output preserved.
-- [ ] **M6-F09** — Local build/test → reviewed git diff → **push/deploy with existing verified pipeline**, then **live production smoke/regression** desktop & mobile; rollback on true regression. Never force-push.
+- [x] **M6-F09** — Local build/test → reviewed git diff → **push/deploy with existing verified pipeline**, then **live production smoke/regression** desktop & mobile; rollback on true regression. Never force-push.
 - [ ] **M6-F10** — Publish final evidence report (commit, deployment ID if available, exact URLs, QA matrix, release/rollback, remaining known issues) and mark checklist complete only if proven.
 
 **M6 gate:** release-ready, tested live, not just “build succeeded”.
