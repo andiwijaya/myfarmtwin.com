@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **33/60 (55.0%)**.
+Progress: **34/60 (56.7%)**.
 
 ## Checklist
 
@@ -47,7 +47,7 @@ Progress: **33/60 (55.0%)**.
 - [x] **M3-F07** — Complete mission reward once and reveal next upgrade/goal without repeatable free grants.
 - [x] **M3-F08** — **MVP GATE:** scripted desktop+touch mobile first entry→Feed→Water→Clean→Inspect→Sell→Coins→Next Goal; target automated ≤180s and Crop/Chicken regression green.
 - [x] **M4-F01** — Audit newest real schema, implement safe `latest→next` Goat version migration (no hardcoded assumption).
-- [ ] **M4-F02** — Verify full V1 Crop save migration without altering Crop funds/history/missions/tank/ledger.
+- [x] **M4-F02** — Verify full V1 Crop save migration without altering Crop funds/history/missions/tank/ledger.
 - [ ] **M4-F03** — Verify Chicken-era save migration and exact preservation if Chicken exists; document evidence if not applicable.
 - [ ] **M4-F04** — Save/reload/import Goat herd, stock, pasture, growth, sale/grants, missions, visuals exactly.
 - [ ] **M4-F05** — Auto-save, paused/hidden tab, Next Day, system clock shifts: no phantom production or starvation.
@@ -175,3 +175,6 @@ MVP stop-and-fix gate PASS: twelve EN/ID desktop/touch new/existing/zero-wallet 
 
 ### M4-F01
 Audited actual deployed Chicken V2 to current Goat V3 chain. Focused migration and exact V2 rollback-reader tests pass: original pre-Goat archive written before primary, no starter on migration, resume idempotent; conflicting archives and archive/backup/primary quota failures preserve original bytes and block writes. Existing separate pre-Chicken archive retained.
+
+### M4-F02
+Frozen fresh and progressed V1 crop saves preserve every unaffected subtree, funds, RNG, tank, ledger, missions and irrigation through V3 migration, first Goat entry and reload. Both original archives and fixture SHA256 stay exact. Legacy V0 stays readable with only documented additive defaults. Three focused migration tests pass.
