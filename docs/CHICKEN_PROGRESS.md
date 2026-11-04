@@ -193,3 +193,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M5-F08 | PASS | 48/58 (82.8%)
 
 2026-11-04T00:04:23+00:00 — M5 GATE PASS:92 tests plus24-case7/30/60/90-day paid balance matrix; solvent cared farms, neglect plateaus at11eggs, heat/shade trade-offs, bounded saves/rewards.
+
+## M6-F01 | PASS | 49/58 (84.5%)
+
+2026-11-04T00:10:10+00:00 — Full EN/ID desktop/actual-touch Chicken+cross-crop, progression/Lab and stockout pass; fixed large-coop care occlusion; six-hen four-angle yard/crop picking+expansion pass.

@@ -363,7 +363,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 
 ### M6 — Production quality, security & release (10)
 
-- [ ] **M6-F01** — Full **black-box** regression desktop/touch mobile: whole Chicken loop, cross-area crop loop, stockout, upgrades, mission, commerce.
+- [x] **M6-F01** — Full **black-box** regression desktop/touch mobile: whole Chicken loop, cross-area crop loop, stockout, upgrades, mission, commerce.
 - [ ] **M6-F02** — Full **white-box** engine tests: invariants, seeded RNG, clock consistency, welfare causes, feed-water conservation, exact ledger, action idempotency.
 - [ ] **M6-F03** — **Dead-code / dependency audit:** remove only confirmed unused new code/assets, preserve working legacy and original media; no QA artifacts in Git.
 - [ ] **M6-F04** — Save security: malicious import/unknown fields/prototype keys, corrupt/quarantine, stale tab, future schema, no destructive reset.
