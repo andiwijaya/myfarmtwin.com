@@ -6,7 +6,7 @@ Coding-at-home session explicitly started by Product Owner. Routine local implem
 
 Publication subsequently explicitly authorized by Product Owner; first Cow deployment verified. Live gameplay and homepage gates are being completed below. The local release report is retained as the pre-publication snapshot.
 
-Progress: **61/64 (95.31%)**
+Progress: **62/64 (96.88%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -106,7 +106,7 @@ Progress: **61/64 (95.31%)**
 - [x] **M7-F01** — Run full clean build/test/lint/typecheck/e2e/chicken/other applicable suites, include scenario/balance tests and review protected-file diff.
 - [x] **M7-F02** — Verify migration compatibility and rollback that **preserves new-format save** even if previous client cannot understand it; archive release evidence outside Git.
 - [x] **M7-F03** — Push/deploy through currently audited GitHub→Cloudflare Pages pipeline after all gates; no force-push/GitHub Actions routine QA.
-- [ ] **M7-F04** — Live smoke desktop/mobile using isolated test browser profile: first dairy sale + save/reload + all old area checks + no uncaught exceptions.
+- [x] **M7-F04** — Live smoke desktop/mobile using isolated test browser profile: first dairy sale + save/reload + all old area checks + no uncaught exceptions.
 - [ ] **M7-F05** — Update homepage **existing single card** promotional copy/alt text/SEO EN/ID from “cows not playable” to accurate status **only after dairy is verified live**; preserve unfinished goat/fish disclaimers; retest.
 - [ ] **M7-F06** — Final report with commit, tested deployment link/ID, performance/security/QA evidence, remaining risks, rollback and 64/64 checklist only if each done.
 
@@ -301,3 +301,6 @@ Actual V3 rollback readers refuse advanced/active-job V4 and preserve all bytes;
 
 ### M7-F03
 Authorized non-force5189b54main push and exact Cloudflare deployment8d46fcf6terminal success verified;115public assets matchGit, zero mismatch. Existing pipeline/permissions untouched. Live QA target support linted without client changes; gameplay gate pending.
+
+### M7-F04
+84Cow live profiles/17suites PASS at exact5189b54; native first-sale2ticks, care/milk/sales/contracts/cooling/upgrades/third-cow/Lab/reload verified.8mixed old-area and8Cow data profiles, full crop E2E and live security PASS; owner save untouched.
