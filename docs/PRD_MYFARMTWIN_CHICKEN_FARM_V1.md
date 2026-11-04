@@ -365,7 +365,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 
 - [x] **M6-F01** — Full **black-box** regression desktop/touch mobile: whole Chicken loop, cross-area crop loop, stockout, upgrades, mission, commerce.
 - [x] **M6-F02** — Full **white-box** engine tests: invariants, seeded RNG, clock consistency, welfare causes, feed-water conservation, exact ledger, action idempotency.
-- [ ] **M6-F03** — **Dead-code / dependency audit:** remove only confirmed unused new code/assets, preserve working legacy and original media; no QA artifacts in Git.
+- [x] **M6-F03** — **Dead-code / dependency audit:** remove only confirmed unused new code/assets, preserve working legacy and original media; no QA artifacts in Git.
 - [ ] **M6-F04** — Save security: malicious import/unknown fields/prototype keys, corrupt/quarantine, stale tab, future schema, no destructive reset.
 - [ ] **M6-F05** — Cross-browser/cross-locale regression EN/ID, Chromium + Firefox if runners available, keyboard/ARIA/reduced-motion/accessible touch targets.
 - [ ] **M6-F06** — Visual review 320/360/390/768/1024/1440 widths plus landscape; no clipped coop, offscreen buttons, horizontal overflow, tiny tap targets.

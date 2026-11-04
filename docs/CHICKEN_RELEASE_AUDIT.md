@@ -1,0 +1,7 @@
+# Release dependency and code audit
+
+Runtime dependencies remain zero. Only the existing pinned Playwright/TypeScript development tools are used; no3D/rendering framework, runtime CDN import, audio or external game connection was added. Native SVG and shared DOM/engine code implement the yard/camera. All new command types have handlers; resources, grades and upgrade pricing come from config. Lab projection uses the actual engine/ledger and bounds its displayed history to7days.
+
+The obsolete presentation-only Chicken runner is replaced by a release suite covering real gameplay, paid progression, stockouts, six-hen camera picking/field expansion and optional save/data/concurrency checks. Removed the obsolete preview-hen fallback: rendered hens now come from the real snapshot. The command factory and layout constants remain used public/headless test contracts. Legacy crop modules, editorial content and original FarmGirl media remain intact.
+
+Audit checks: no debug statements or unsafe dynamic HTML/eval, no external runtime imports, equal EN/ID locale key sets and all static references translated. New tests and rollback-reader fixtures live outside served game/client; build still copies only that isolated directory into dist/play and never empties dist. QA screenshots/logs, caches, node_modules and local helpers are not tracked. Original FarmGirl PNG is compared byte-for-byte to the deployed source. No dependency or hosting/security setting changes.

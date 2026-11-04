@@ -201,3 +201,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M6-F02 | PASS | 50/58 (86.2%)
 
 2026-11-04T00:12:08+00:00 — 94 tests/lint/typecheck pass;3000 mixed valid/invalid commands preserve immutable inputs, stock/ledger/replay/V2 bounds; isolated feature-off keeps Chicken bytes and exact crop behavior.
+
+## M6-F03 | PASS | 51/58 (87.9%)
+
+2026-11-04T00:14:08+00:00 — Runtime/dead-code audit passes: zero runtime deps/debug/external imports, EN/ID keys match, obsolete prototype runner/preview fallback removed, build isolated and original FarmGirl PNG byte-identical.

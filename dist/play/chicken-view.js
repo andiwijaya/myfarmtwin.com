@@ -54,7 +54,7 @@ export function renderChickenWorld(snapshot={level:0,doorOpen:true,pendingEggs:0
  const ramp=YARD_OBJECTS.ramp;node('polygon',{points:footprint(ramp),fill:'#b99968',stroke:'#967a51','stroke-width':2,'data-yard-ramp':''},camera);
  for(let i=0;i<4;i++){const a=iso(ramp.x-.4+i*.2,ramp.y-.5),b=iso(ramp.x-.4+i*.2,ramp.y+.5);node('path',{d:`M${a.x},${a.y} L${b.x},${b.y}`,stroke:'#d9be8a','stroke-width':2},camera);}
  const box=coopFootprint(snapshot.level),depth=Math.max(...[[box.x-.5,box.y-.5],[box.x+box.w-.5,box.y-.5],[box.x+box.w-.5,box.y+box.d-.5],[box.x-.5,box.y+box.d-.5]].map(([x,y])=>iso(x,y).y));
- const jobs=[{depth,draw:()=>coop(camera,snapshot)}],hens=snapshot.hens||[{id:'chicken.preview.1',activity:'walk'},{id:'chicken.preview.2',activity:'peck'}];for(const [index,hen]of hens.entries()){const p=HEN_PATH[index%HEN_PATH.length];jobs.push({depth:iso(p.x,p.y).y,draw:()=>drawHen(camera,/** @type {HenView} */(hen),index)});}
+ const jobs=[{depth,draw:()=>coop(camera,snapshot)}],hens=snapshot.hens||[];for(const [index,hen]of hens.entries()){const p=HEN_PATH[index%HEN_PATH.length];jobs.push({depth:iso(p.x,p.y).y,draw:()=>drawHen(camera,/** @type {HenView} */(hen),index)});}
  for(const id of /** @type {('feeder'|'drinker'|'clean')[]} */(['feeder','drinker','clean'])){const p=YARD_OBJECTS[id];jobs.push({depth:iso(p.x,p.y).y,draw:()=>careStations(camera,snapshot,id)});}for(const job of jobs.sort((a,b)=>a.depth-b.depth))job.draw();for(const edge of edges.slice(2))fence(camera,edge);
  const caption=document.createElement('p');caption.className='world-caption';caption.textContent=t('chickenArea');host.append(caption);bindCamera(host,{area:'chicken',redraw:()=>renderChickenWorld(snapshot)});
 }
