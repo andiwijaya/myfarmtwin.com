@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **30/60 (50.0%)**.
+Progress: **31/60 (51.7%)**.
 
 ## Checklist
 
@@ -44,7 +44,7 @@ Progress: **30/60 (50.0%)**.
 - [x] **M3-F04** — Integrate live-goat sale quote/contract into the **same** Market as crops/eggs.
 - [x] **M3-F05** — Atomic sale ready adult → remove goat once, credit Coins/ledger once, leave two goats together.
 - [x] **M3-F06** — Allow purchasing a weaned goat (capacity + Coins checks) and a viable non-exploitable recovery path.
-- [ ] **M3-F07** — Complete mission reward once and reveal next upgrade/goal without repeatable free grants.
+- [x] **M3-F07** — Complete mission reward once and reveal next upgrade/goal without repeatable free grants.
 - [ ] **M3-F08** — **MVP GATE:** scripted desktop+touch mobile first entry→Feed→Water→Clean→Inspect→Sell→Coins→Next Goal; target automated ≤180s and Crop/Chicken regression green.
 - [ ] **M4-F01** — Audit newest real schema, implement safe `latest→next` Goat version migration (no hardcoded assumption).
 - [ ] **M4-F02** — Verify full V1 Crop save migration without altering Crop funds/history/missions/tank/ledger.
@@ -166,3 +166,6 @@ Quote-checked atomic live adult sale removes one goat, credits one shared ledger
 
 ### M3-F06
 Paid weaned-goat restocking and hay Market shop preserve the shared wallet and old farm. Capacity/no-Coins/replay checks, double-click guard, four distinct stable sprites, immature-sale rejection and exact reload pass. 144 unit tests, lint/typecheck/build and four EN/ID desktop/touch browser profiles pass. Evidence: qa/goat/M3-F06/.
+
+### M3-F07
+One-time 20-Coin chapter reward shares the atomic sale transaction and persists a unique grant/ledger row. Reload/replay/inspection cannot repeat it; next restocking goal unlocks and completed investment reaches step eight. 146 unit tests, lint/typecheck/build and twelve new/existing/zero-wallet desktop/touch EN/ID sales pass. Evidence: qa/goat/M3-F07/.

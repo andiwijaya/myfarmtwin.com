@@ -1,4 +1,8 @@
+import {GOAT_REWARDS} from './goat-config.js';
 /** Progress is written only by accepted engine commands, never by reading/rendering a guide. @param {import('./engine.js').State} state */
 export function advanceGoatMission(state){const g=state.goat;if(!g?.visited)return;const checks=[g.visited,g.stats.feedActions>0,g.stats.waterActions>0,g.stats.cleaned>0,g.mission.inspectedAdult,g.stats.sold>0,g.grants.includes('goat.chapter1'),g.stats.bought>0||(g.shelter?.level||0)>0];while(g.mission.step<checks.length&&checks[g.mission.step])g.mission.step++;}
 /** @param {import('./engine.js').State} state */
 export function goatObjective(state){const g=state.goat,step=g?.mission.step||0,adult=g?.herd.find(h=>h.growth===1)?.id||g?.herd[0]?.id||'',targets=['#area-goat','[data-choose-goat=hay]','[data-choose-goat=water]','[data-choose-goat=clean]','[data-choose-goat="'+adult+'"]','#market-open','#market-open','#market-open',''];return {step,title:'goatMission'+step,detail:'goatDetail'+step,target:targets[step]||''};}
+
+/** One real chapter award, sharing the existing transaction/revision boundary. @param {import('./engine.js').State} state @param {import('./engine.js').DomainEvent[]} events @param {import('./chicken-runtime.js').Transaction} transact @param {number} commandId */
+export function awardGoatRewards(state,events,transact,commandId){const g=state.goat;if(!g?.visited||g.mission.step<6||g.grants.includes('goat.chapter1'))return;g.grants.push('goat.chapter1');transact(state,'mission_reward',GOAT_REWARDS['goat.chapter1'],commandId+':goat.chapter1');events.push({type:'missionReward',amount:GOAT_REWARDS['goat.chapter1']});advanceGoatMission(state);}

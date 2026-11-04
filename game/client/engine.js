@@ -9,7 +9,7 @@ import {createChickenState} from './chicken-state.js';
 import {createGoatState} from './goat-state.js';
 import {isGoatCommand,validateGoatCommand} from './goat-commands.js';
 import {applyGoatCommand,tickGoat} from './goat-runtime.js';
-import {advanceGoatMission} from './goat-missions.js';
+import {advanceGoatMission,awardGoatRewards} from './goat-missions.js';
 import {advanceChickenMission,awardChickenRewards} from './chicken-missions.js';
 /** @typedef {'sunny'|'cloudy'|'rainy'|'hot'} Weather */
 /** @typedef {'lettuce'|'tomato'} CropId */
@@ -107,5 +107,5 @@ export function dispatch(input,command){
  }
  for(const step of advanceMission(state,events)){const reward=MISSION_REWARDS[step];if(reward&&!state.mission.rewards.includes(step)){state.mission.rewards.push(step);transact(state,'mission_reward',reward,command.id+':mission:'+step);events.push({type:'missionReward',amount:reward});}}
  if(state.mission.step===7){const checks={order:events.some(e=>e.type==='orderFilled'),hotCare:events.some(e=>e.type==='watered'&&state.weather==='hot'&&state.plots.find(p=>p.id===e.plot)?.crop),efficiency:events.some(e=>e.type==='efficiencyUpgraded')};for(const key of /** @type {('order'|'hotCare'|'efficiency')[]} */(Object.keys(checks))){if(checks[key]&&!state.followups[key]){state.followups[key]=true;const amount=FOLLOWUP_REWARDS[key];transact(state,'mission_reward',amount,command.id+':followup:'+key);events.push({type:'missionReward',amount});}}}
- if(FEATURES.chicken){advanceChickenMission(state);awardChickenRewards(state,events,transact,command.id);}advanceGoatMission(state);state.revision=command.id;assertInvariants(state);return {state,ok:true,error:'',events};
+ if(FEATURES.chicken){advanceChickenMission(state);awardChickenRewards(state,events,transact,command.id);}advanceGoatMission(state);awardGoatRewards(state,events,transact,command.id);state.revision=command.id;assertInvariants(state);return {state,ok:true,error:'',events};
 }
