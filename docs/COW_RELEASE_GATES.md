@@ -57,3 +57,7 @@ Release audit against actual production baseline dd8184e:93 source/built files m
 ## M7-F02
 
 Real advanced V4 (three cows, partial delivery, five prepaid cooling ticks) and active-job V4 are refused by actual V3 schema/storage readers without changing primary, backup or original archive. Current reader resumes exact bytes/state. qa/cow/M7-F02 holds both snapshots and hashes; final committed-dist archive/manifest is added outside Git after this checkpoint. Local release report: docs/COW_LOCAL_RELEASE.md. Publication/live/homepage/production report remain pending separate authorization.
+
+## M7-F03
+
+Fresh explicit Product Owner authorization received for Cow publication and live tests. Clean5189b54831c8cdafcbfc8dfa005113dd9dfe215c fast-forwarded into main and non-force pushed; remote exact SHA verified. Existing authorized Cloudflare dashboard confirms repository/automatic main/blank build/dist and terminal deployment success at2026-11-04T21:51:12.345563Z:8d46fcf6-8cc1-4473-aa15-bd5e661494fb, https://8d46fcf6.myfarmtwin-com.pages.dev, custom aliases myfarmtwin.com/www. All115public resources match exact committed Git blobs, zero mismatch. No access/settings/API retry or GitHub Actions. Evidence qa/cow/release/first-deployment.json and first-integrity/live-integrity.json.20QA suites now accept an explicit BASE_URL with safe no-local-server cleanup; lint passes, all client/dist bytes unchanged. Detailed live gate is next; homepage availability remains pending it.
