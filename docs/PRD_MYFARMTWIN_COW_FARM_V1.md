@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **35/64 (54.69%)**
+Progress: **36/64 (56.25%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -63,7 +63,7 @@ Progress: **35/64 (54.69%)**
 ### M4 — Save migration, old-user safety and failure recovery (8)
 
 - [x] **M4-F01** — Read actual current save version, design latest→next upgrade without hardcoded version number and without losing old unknown/newer save.
-- [ ] **M4-F02** — Migrate crop-only saves retaining every original crop/Coins/market/weather/ledger field semantically exact.
+- [x] **M4-F02** — Migrate crop-only saves retaining every original crop/Coins/market/weather/ledger field semantically exact.
 - [ ] **M4-F03** — Migrate Chicken-era saves retaining hens, egg lots, orders, upgrades, histories, rewards; test chicken regression.
 - [ ] **M4-F04** — Migrate Goat-era saves if implemented; if not, document applicability and ensure future Goat integration uses shared migration chain.
 - [ ] **M4-F05** — Serialize/validate cows, provenance-tagged supplies, lots, milk counters, production/sale remainders, cooling credit, recovery episodes, missions/grants, third-cow purchase, versions and ledger (§6.9).
@@ -221,3 +221,6 @@ Critical vertical slice PASS:8fresh/existing EN/ID desktop/mobile scenarios with
 
 ### M4-F01
 Actual releasedV3 discovered from immutable source and targetV4 from current configuration; additive migration/rollback contract documented.6 targeted real-reader/migration tests PASS, including future primary with valid backup, unchanged prior archives, archive collision/quota read-only preview and malformed-current no-default behavior. No runtime change or publication.
+
+### M4-F02
+V0/V1 crop-only migration retains every original field, exact source archives and original frozen hash/replay oracle; only legitimately absent history/modules/version are added.4 targeted crop migration/frozen replay tests PASS; malformed unknown-field/negative-soil sources stay intact and receive no replacement farm or starter. Existing full crop browser gate also passed M3.
