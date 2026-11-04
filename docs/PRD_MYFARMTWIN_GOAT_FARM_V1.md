@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **20/60 (33.3%)**.
+Progress: **21/60 (35.0%)**.
 
 ## Checklist
 
@@ -34,7 +34,7 @@ Progress: **20/60 (33.3%)**.
 - [x] **M2-F04** — Water trough/refill/consumption from shared farm tank with volume conservation.
 - [x] **M2-F05** — Pasture biomass, browse consumption and deterministic regeneration based on shared weather.
 - [x] **M2-F06** — Shelter cleanliness/clean action and bounded maintenance cost/effect; prevent spam exploits.
-- [ ] **M2-F07** — Causal nutrition/hydration/space/weather → comfort/condition with gradual recovery, no offline degradation.
+- [x] **M2-F07** — Causal nutrition/hydration/space/weather → comfort/condition with gradual recovery, no offline degradation.
 - [ ] **M2-F08** — Growth stages `weaned→growing→market-ready` using game ticks and configurable compressed duration.
 - [ ] **M2-F09** — Herd capacity and social minimum-two sale rule, with rejection messages and recovery suggestions.
 - [ ] **M2-F10** — Unit/invariant tests seeded scenarios: no feed/water, good care, hot/rainy, overgrazing, pause, 24 ticks=Next Day.
@@ -136,3 +136,6 @@ Actual paddock browse is consumed before hay. Bounded regrowth uses existing sha
 
 ### M2-F06
 Shelter use lowers cleanliness only in shared logical hours. Free cleaning improves cleanliness by at most 20, caps at 100, obeys six-game-hour cooldown and does not directly recover body condition or grant Coins/items/rewards. Pause, 30-day neglect, full shelter, cooldown and 20-click spam cases preserve bounds and atomically reject; 117 unit tests, lint/typecheck/build PASS. Evidence: qa/goat/M2-F06/.
+
+### M2-F07
+Actual consumed browse/hay and water drive gradual adequacy, derived shelter/space/weather comfort, and bounded body condition recovery/decline. Same-seed paid 10-day good care beats shortages with conserved supply cost, identical shared RNG/weather and no death. Refilling/cleaning cannot instantly heal; one-hour effects, dirty/hot/room terms and immutable derived snapshots tested. No offline wall-clock effect. 120 unit tests, lint/typecheck/build PASS. EN/ID causal reasons added. Evidence: qa/goat/M2-F07/.
