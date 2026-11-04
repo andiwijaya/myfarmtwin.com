@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **8/64 (12.50%)**
+Progress: **9/64 (14.06%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -21,7 +21,7 @@ Progress: **8/64 (12.50%)**
 ### M1 — Cow Barn world, visual life and controls (8)
 
 - [x] **M1-F01** — Add `Cow Barn` area entry to `/play/` and existing area selector; accessible keyboard/touch, preserves selected crop/chicken/goat game state.
-- [ ] **M1-F02** — Render barn exterior/interior or cutaway, fencing/rest area and milk station with world footprint & collision safe.
+- [x] **M1-F02** — Render barn exterior/interior or cutaway, fencing/rest area and milk station with world footprint & collision safe.
 - [ ] **M1-F03** — Render initial two cows and optional third from stable engine IDs, distinguish them, show lactating/ready status and owned/capacity; prevent duplicate cows on rerender.
 - [ ] **M1-F04** — Implement low-cost cow idle/walk/eat/drink/rest animations; reduced-motion/low-graphics parity and no state changes from animation.
 - [ ] **M1-F05** — Render interactive feeder, water trough, cleaning station, milk can and co-op pickup point.
@@ -140,3 +140,6 @@ Original V1.1 Library text read fully and derived64-entry living checklist/contr
 
 ### M1-F01
 Cow Barn area works with keyboard/touch in8 new/existing EN/ID desktop320px profiles; entering/switching/language leaves exact farm save unchanged and restores selected crop. Typecheck/build/locale audit PASS; Crop/Chicken/Goat navigation preserved. Evidence qa/cow/M1-F01.
+
+### M1-F02
+Original lightweight isometric cutaway barn, straw rest area, fences and6 dairy stations rendered;8 EN/ID new/existing desktop320px browser profiles PASS with exact save preservation. Reviewed actual desktop/mobile pixels; no engine rewrite/dependency/media. Typecheck/build/locale audit PASS. Evidence qa/cow/M1-F02.
