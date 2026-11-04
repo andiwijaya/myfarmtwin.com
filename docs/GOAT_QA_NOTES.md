@@ -1,8 +1,9 @@
-# Goat QA follow-ups
+# Goat QA follow-ups — resolved locally
 
-These are scheduled hardening checks within the original PRD, not release acceptance claims. All must be resolved before local release readiness; no publication is authorized.
+- Historical sale/economy validation: M4-F06 now recomputes the actual quote, checks care evidence, acquisition/paid purchase chronology and historical shelter/social order. Adversarial and rollback tests pass.
+- Extra herd rendering: M3-F06 and M5-F04 provide eight distinct stable positions, one climber, identity-based coats/ordinals. Four/six/eight capacity tests and maximum-herd keyboard/touch selection pass. Existing camera tests verify rotated painted-object picking and real drag without accidental selection.
+- Skip-link screenshot concern: M6-F04 measured actual unfocused offscreen geometry, focused keyboard navigation and complete screenshots. No user-visible stray skip link; focus behavior preserved. Separate real mobile SVG excess-height issue was corrected and both responsive/camera suites repeated successfully.
+- Storage/denied write locks: M4-F06 twelve scenarios preserve originals and show explicit unavailable/conflict states without uncaught errors. Sixteen two-tab races remain atomic.
+- Final content audit found the return summary omitted Goat progress and the optional Lab omitted explicit forage regrowth/utilization and current growth rate. These now read actual state; the same rate helper drives both simulation and explanation. Targeted preservation/growth tests and real data-tool browser checks cover the additions.
 
-- M4 import/economy: extend historical sale coherence beyond shape/ledger equality to recompute price from stored condition/tick, enforce first-care evidence, purchase/acquisition chronology, and historical social/capacity order. Live commands already enforce current eligibility, quoted price, revision/CAS, unique registry and minimum-two. Refactor earlier synthetic policy fixtures to real commands if stricter history validation requires it.
-- M3-F06/M5 shelter expansion: provide enough distinct visible herd positions when adding goats; stable coats/ordinals now come from identity, not changing array position. Verify four goats immediately and six/eight at later shelter levels, including rotation/picking.
-- M6 visual/accessibility: scrolled full-page QA screenshots show the existing offscreen skip link inside the capture. Check actual viewport/focus geometry and correct hiding if necessary while keeping the focused skip link usable; do not confuse a screenshot compositor artifact with a tested user-visible defect.
-- M4/M6 keep unsupported/denied browser-write-lock behavior explicit and non-destructive; verify quota/blocked storage and any rejected lock request do not overwrite originals or create unhandled errors.
+Release remains local. Publication/live-production gates require explicit authorization.
