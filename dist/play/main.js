@@ -112,12 +112,12 @@ function send(type,extra={}){return queueSave(()=>{
  if(type==='tick'&&document.hidden)return;if(externalChange){notify(t('saveConflict'));return;}
  const previousMission=state.mission.step;const result=dispatch(state,{...extra,id:state.revision+1,type});if(!result.ok){notify(t(result.error));return;}
  try{saveSession.save(result.state);saveStatus='saveSaved';}catch(error){const prior=saveStatus;saveStatus=error instanceof Error&&['saveConflict','saveCorrupt'].includes(error.message)?error.message:'saveUnavailable';if(saveStatus==='saveCorrupt'&&['saveNewer','saveRecoveryPreview','saveMigrationPreview'].includes(prior))saveStatus=prior;if(saveStatus==='saveConflict'){externalChange=true;notify(t('saveConflict'));render();return;}}
- state=result.state;resumeVisible=false;const reward=result.events.find(e=>e.type==='missionReward');notify((result.events.length?t(result.events[0].type):'')+(reward?' +'+reward.amount+' '+t('coins')+' · '+t('mission_reward'):''));if(type==='select'&&activeArea==='field'&&previousMission===state.mission.step&&result.events.every(e=>e.type==='selected')){
+ state=result.state;resumeVisible=false;const goatSale=result.events.find(e=>e.type==='goatSold'),reward=result.events.find(e=>e.type==='missionReward');notify((result.events.length?t(result.events[0].type):'')+(goatSale?' +'+goatSale.amount+' '+t('coins'):'')+(reward?' +'+reward.amount+' '+t('coins')+' · '+t('mission_reward'):''));if(type==='select'&&activeArea==='field'&&previousMission===state.mission.step&&result.events.every(e=>e.type==='selected')){
   // A selection changes revision and backup, but no farm resources or forecast.
   renderSelection();renderMission();renderData(saveSession);
   if(el('inspect-dialog').hasAttribute('open')){renderInspect(state,selected);renderReasons(state,selected);renderTrends(state,selected);}
   el('resume-summary').hidden=true;el('save-status').textContent=t(saveStatus);el('save-status').classList.toggle('save-warning',!['saveSaved','saveResumed'].includes(saveStatus));
- }else render(type!=='select');
+ }else render(type!=='select');if(goatSale&&/** @type {HTMLDialogElement} */(el('market-dialog')).open)(document.getElementById('goat-sale-receipt')||document.getElementById('goat-market-title'))?.focus();
 }).catch(()=>{saveStatus='saveUnavailable';notify(t('saveUnavailable'));render();});}
 el('next-day').addEventListener('click',()=>send('nextDay'));el('pause').addEventListener('click',()=>send('pause'));el('speed').addEventListener('click',()=>send('speed'));
 el('quick-pump').addEventListener('click',()=>send('togglePump'));

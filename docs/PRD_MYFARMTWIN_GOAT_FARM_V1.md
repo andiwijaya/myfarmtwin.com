@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **28/60 (46.7%)**.
+Progress: **29/60 (48.3%)**.
 
 ## Checklist
 
@@ -42,7 +42,7 @@ Progress: **28/60 (46.7%)**.
 - [x] **M3-F02** — Implement `My First Goat Sale` chapter, FarmGirl guide, persisted progress and area-specific mission display.
 - [x] **M3-F03** — Bind Feed/Water/Clean/Inspect buttons to real commands and causally correct visual feedback.
 - [x] **M3-F04** — Integrate live-goat sale quote/contract into the **same** Market as crops/eggs.
-- [ ] **M3-F05** — Atomic sale ready adult → remove goat once, credit Coins/ledger once, leave two goats together.
+- [x] **M3-F05** — Atomic sale ready adult → remove goat once, credit Coins/ledger once, leave two goats together.
 - [ ] **M3-F06** — Allow purchasing a weaned goat (capacity + Coins checks) and a viable non-exploitable recovery path.
 - [ ] **M3-F07** — Complete mission reward once and reveal next upgrade/goal without repeatable free grants.
 - [ ] **M3-F08** — **MVP GATE:** scripted desktop+touch mobile first entry→Feed→Water→Clean→Inspect→Sell→Coins→Next Goal; target automated ≤180s and Crop/Chicken regression green.
@@ -160,3 +160,6 @@ Feed/Water/Clean/animal Inspect now invoke real atomic commands, advance saved g
 
 ### M3-F04
 Live-goat quotes/requirements now appear in the same Market as real crop/egg inventory and shared supplies. Read-only contract review displays integer price, live-animal wording, condition/growth and herd-after-sale; first contract requires actual care/adult inspection. Panel contract entry and EN/ID requirements work without changing save/Coins; eight desktop/touch new/stocked-farm quote/reload cases plus four original crop/egg commerce journeys PASS, alongside 137 unit tests/lint/typecheck/build. Atomic fulfillment follows next. Mobile Market pixels reviewed. Evidence: qa/goat/M3-F04/.
+
+### M3-F05
+Quote-checked atomic live adult sale removes one goat, credits one shared ledger payment and keeps two. First-care/readiness/social/stale-price/forged-value/replay/accessor payloads reject without mutation. Market fulfillment is busy-protected; actual receipt gets accessible focus, and remaining animal coats/ordinals retain identity. 141 unit tests, lint/typecheck/build and 12 new/existing/zero-wallet EN/ID desktop/touch sale/double-click/reload/protected-old-farm cases PASS. Chapter reward/next investment are subsequent features; M4 historical-import hardening remains scheduled. Evidence: qa/goat/M3-F05/.
