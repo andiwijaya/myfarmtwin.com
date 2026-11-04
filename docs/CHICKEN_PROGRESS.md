@@ -189,3 +189,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M5-F07 | PASS | 47/58 (81.0%)
 
 2026-11-03T23:58:15+00:00 — 91 tests/typecheck/build and four EN/ID actual UI Lab checks pass; actual factors/rates/probability/history/ledger, bounded lazy UI and inspection leaves save unchanged.
+
+## M5-F08 | PASS | 48/58 (82.8%)
+
+2026-11-04T00:04:23+00:00 — M5 GATE PASS:92 tests plus24-case7/30/60/90-day paid balance matrix; solvent cared farms, neglect plateaus at11eggs, heat/shade trade-offs, bounded saves/rewards.

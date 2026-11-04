@@ -357,7 +357,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 - [x] **M5-F05** — Market egg order pertama dengan target yang achievable, expiry non-punitive, reward exactly once.
 - [x] **M5-F06** — Missions Healthy Hens dan Bigger Coop; progress memberi tujuan tanpa forced daily login.
 - [x] **M5-F07** — Engineering Lab Chicken `Why?` menampilkan faktor dan angka nyata (feed/water, comfort, grade, egg rate history, biaya vs revenue).
-- [ ] **M5-F08** — Simulation balance 7/30/60/90 game days; bandingkan crop-only/chicken-only/mixed-farm, ideal/neglected/hot; cek tidak ada exploit dan target growth reasonable.
+- [x] **M5-F08** — Simulation balance 7/30/60/90 game days; bandingkan crop-only/chicken-only/mixed-farm, ideal/neglected/hot; cek tidak ada exploit dan target growth reasonable.
 
 **M5 gate:** ekspansi memberi strategi baru, bukan idle money printer atau pekerjaan klik berulang yang melelahkan.
 
