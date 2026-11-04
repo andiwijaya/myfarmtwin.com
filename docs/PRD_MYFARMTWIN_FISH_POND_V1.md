@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **27/64 (42.19%)**
+Progress: **28/64 (43.75%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -39,7 +39,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M2-F06** — Implement paid/basic aerator state, energy cost, oxygen transfer bounds, out-of-Coins shutoff with truthful status.
 - [x] **M2-F07** — Implement TAN/waste accumulation, uneaten feed impact, bounded pH/temp/clarity estimates without conflating TAN and NH3.
 - [x] **M2-F08** — Implement paid water exchange with separate supply/source, 5% mass-balance/dilution and effluent accounting; protect crop water tank.
-- [ ] **M2-F09** — Implement fish growth stages, biomass/density/water quality/growth trade-offs using shared logical ticks, weather and seeded reproducibility.
+- [x] **M2-F09** — Implement fish growth stages, biomass/density/water quality/growth trade-offs using shared logical ticks, weather and seeded reproducibility.
 - [ ] **M2-F10** — Implement market readiness, grade, recoverable fish condition; hard capacity and safe stock purchase checks.
 - [ ] **M2-F11** — Headless controlled tests compare fed/unfed, moderate/overfed, aerator ON/OFF, filter/no-filter, stocking density, hot weather; 24 ticks==Next Day, state/ledger/resource bounds.
 - [ ] **M3-F01** — Wire pond entry and starter view to persisted engine state; show 4 market-ready + 8 fingerlings as separate cohorts where config permits.
@@ -166,3 +166,6 @@ Actual feed/sludge addsTAN, biological conversion consumes accountedO2, temperat
 
 ### M2-F08
 Paid/finitely credited200L5% exchange records equal inflow/outflow and actualO2/TAN/sludge dilution; zero-wallet welcome then exhausted-credit protection and independent fieldtank PASS;11affected tests/types/build/audit PASS.
+
+### M2-F09
+Feed-limited growth/condition now follow actualO2/TAN/temp/density on ticks; controlled8young grow-out measured20game days with native paid care/earned crop funds and exact replay;311units/lint/types/build/audit PASS.
