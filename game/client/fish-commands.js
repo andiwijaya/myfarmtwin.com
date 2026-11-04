@@ -1,4 +1,4 @@
-export const FISH_COMMANDS=Object.freeze(/** @type {const} */(['enterFishPond','fish.inspect','fish.buyFeed','fish.feed','fish.aerate']));
+export const FISH_COMMANDS=Object.freeze(/** @type {const} */(['enterFishPond','fish.inspect','fish.buyFeed','fish.feed','fish.aerate','fish.buyWater','fish.exchange']));
 /** @typedef {typeof FISH_COMMANDS[number]} FishCommandType */
 /** @param {unknown} value */
 export const isFishCommand=value=>typeof value==='string'&&(value==='enterFishPond'||value.startsWith('fish.'));
