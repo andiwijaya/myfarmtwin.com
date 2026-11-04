@@ -24,3 +24,6 @@ export function fishStage(cohort,tick){if(cohort.massG>=FISH.maxMassG&&(cohort.s
 export const fishOxygen=pond=>pond.oxygenMg/pond.volumeL;
 /** TAN, not unionized NH3. @param {FishPond} pond */
 export const fishTan=pond=>pond.tanMg/pond.volumeL;
+
+/** Exactly-once finite kit, attached only by an accepted explicit enterFishPond command. @param {number} tick */
+export function createFishKit(tick){const g=createFishState(),p=createFishPond(1,tick);g.visited=true;g.enteredTick=tick;g.starterGrantId='fish.starter.v1';g.feed.starter=FISH.starterFeedG;g.water.starter=FISH.starterWaterL;g.air.starter=FISH.starterAirTicks;g.mission.step=1;g.nextCohort=3;p.cohorts=[{id:'fish.cohort.1',species:'tilapia',source:'starter-ready',acquiredTick:tick,count:FISH.readyCount,massG:FISH.maxMassG,condition:1000,lastFedTick:-1,growthRemainder:0},{id:'fish.cohort.2',species:'tilapia',source:'starter-young',acquiredTick:tick,count:FISH.fingerlingCount,massG:FISH.fingerlingG,condition:1000,lastFedTick:-1,growthRemainder:0}];p.balance.stockCount=FISH.readyCount+FISH.fingerlingCount;p.balance.stockMassG=FISH.readyCount*FISH.maxMassG+FISH.fingerlingCount*FISH.fingerlingG;g.ponds.push(p);return g;}
