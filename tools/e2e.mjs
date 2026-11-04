@@ -25,7 +25,7 @@ try{
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   const game=await page.request.get(base+'/play/');
   if(game.status()===200){
-   const playLink=page.getByRole('link',{name:'Play Farm',exact:true}).first();await playLink.click();assert.match(page.url(),/\/play\/$/);
+   const playLink=page.locator('a[href="/play/"]').first();assert.ok((await playLink.getAttribute('aria-labelledby'))||(await playLink.innerText()).trim());await playLink.click();assert.match(page.url(),/\/play\/$/);
    await page.goto(base+'/play/',{waitUntil:'networkidle'});await page.locator('#language').selectOption('id');assert.equal(await page.locator('html').getAttribute('lang'),'id');
    await page.reload({waitUntil:'networkidle'});assert.equal(await page.locator('#language').inputValue(),'id');await page.locator('#language').selectOption('en');
    assert.equal(await page.locator('link[rel=canonical]').getAttribute('href'),'https://myfarmtwin.com/play/');

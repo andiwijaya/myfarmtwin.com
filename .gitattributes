@@ -1,0 +1,3 @@
+game/tests/fixtures/rollback-v1-save-schema.js.txt text eol=lf
+game/tests/fixtures/rollback-v1-storage.js.txt text eol=lf
+game/tests/fixtures/goat-v2/** -text

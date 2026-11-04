@@ -10,12 +10,12 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **1/60 (1.7%)**.
+Progress: **2/60 (3.3%)**.
 
 ## Checklist
 
 - [x] **M0-F01** — Audit latest local/remote/live repo, active Dot tasks, branches/commits and uncommitted code; do not overwrite ongoing Chicken work.
-- [ ] **M0-F02** — Run baseline lint/typecheck/unit/build/e2e/homepage and available compatibility/security tests; document existing failures separately.
+- [x] **M0-F02** — Run baseline lint/typecheck/unit/build/e2e/homepage and available compatibility/security tests; document existing failures separately.
 - [ ] **M0-F03** — Verify exact Chicken status (implemented, ongoing, absent) and define safe prerequisite/integration gate.
 - [ ] **M0-F04** — Map engine/tick/weather/Market/ledger/UI/save APIs and actual schema version; identify reuse points.
 - [ ] **M0-F05** — Create safe checkpoint/branch, sanitized old-save fixtures and rollback strategy without touching user save.
@@ -79,3 +79,6 @@ Progress: **1/60 (1.7%)**.
 
 ### M0-F01
 Local/remote main both at baseline 1e14042, no unfinished Chicken changes. Chicken release branch retained; new isolated Goat branch. Live browser homepage confirms `desktop-promo-v3`, exactly one game card and `/play/` entry. Previous deployment evidence: `qa/home-desktop-v3/live/deployment.json`. No other coding agent delegated. Working tree initially clean. Only scoped immutable-fixture EOL baseline repair is underway.
+
+### M0-F02
+Baseline lint/typecheck, 96 unit tests, safe build, complete desktop/touch E2E incl crop vertical slice/save recovery/import/data/black-box, 24 homepage surfaces, 12 compatibility surfaces plus Firefox and security PASS. Fixed only two pre-existing issues: exact rollback fixtures LF-pinned with unchanged Git hashes, and obsolete pre-promo homepage link-name locator. Existing Firefox configured through supported environment variables. Evidence: task-2/qa/goat/baseline-fixed/.
