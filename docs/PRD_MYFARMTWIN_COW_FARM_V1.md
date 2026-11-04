@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **28/64 (43.75%)**
+Progress: **29/64 (45.31%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -51,7 +51,7 @@ Progress: **28/64 (43.75%)**
 - [x] **M3-F01** — One-time `cow.*` starter kit at first entry: 2 lactating cows, stand, limited supplies and pre-existing milk reservoir, preserving old wallet.
 - [x] **M3-F02** — Add FarmGirl `First Milk Delivery` mission, one objective at a time and no collision with crop/chicken/goat missions.
 - [x] **M3-F03** — Hook feed/refill/clean/inspect UI to real validated engine actions and negative/disabled feedback.
-- [ ] **M3-F04** — Hook milking station to per-cow production/eligibility and lot creation, with friendly visual feedback.
+- [x] **M3-F04** — Hook milking station to per-cow production/eligibility and lot creation, with friendly visual feedback.
 - [ ] **M3-F05** — Add milk lots A/B/C to existing inventory and **Co-op delivery** to existing Market; accepted only if valid grade/freshness.
 - [ ] **M3-F06** — Exact integer sale/ledger income with persisted fractional remainder, ordinary/contract lot selection and partial contract lots; no double-credit or mutation on invalid/stale/replayed orders.
 - [ ] **M3-F07** — Add affordable first upgrade path (cooler/trough) with visible world change and measurable engine benefit.
@@ -200,3 +200,6 @@ First Milk Delivery now presents one real causal objective at a time, with local
 
 ### M3-F03
 Care UI now exposes separate starter/recovery entitlements, owned feed and shared water, explains capped transfers/free hygiene, and focuses actual Market restock/refill controls. Typecheck/build/audit and8 fresh/existing EN/ID desktop320/touch care profiles PASS; all real transfers, disabled reasons and older assets verified. Evidence qa/cow/M3-F03.
+
+### M3-F04
+Milking station now lists actual owned cows, reservoir volume, individual eligibility/reasons and validated whole-can collection, with direct inspection navigation.4 EN/ID desktop320/touch profiles PASS, including double-click one session, saved lot, world can gauge and localized success notice. Typecheck/build/audit PASS. Evidence qa/cow/M3-F04.
