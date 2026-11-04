@@ -6,3 +6,5 @@ export const COW_LEDGER_TYPES=Object.freeze([...COW_COST_TYPES,'cow_starter_gran
 export const COW_STAGE_FACTOR=Object.freeze({early:950,mid:1000,late:850});
 export const COW_COMFORT_WEIGHTS=Object.freeze({nutrition:25,hydration:25,cleanliness:25,rest:5,heat:20});
 export const COW_MILK_QUALITY=Object.freeze({comfort:50,stand:30,can:20,A:975,B:700,minHygiene:60,standSoil:4,canSoil:2,sanitizedStandSoil:1,sanitizedCanSoil:1});
+
+export const COW_ORDERS=Object.freeze([{id:'cow.delivery',volumeMl:1500,minGrade:'C',bonus:8},{id:'cow.quality',volumeMl:8000,minGrade:'A',bonus:12},{id:'cow.volume',volumeMl:15000,minGrade:'B',bonus:15}]);
