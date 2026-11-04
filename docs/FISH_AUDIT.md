@@ -15,3 +15,9 @@ Evidence: qa/fish/M0-F01/live-integrity.json and log; fish-session/deadline.json
 ## Prior-area dependency resolved
 
 Cow is64/64 complete, not the stale62/64 snapshot in the incoming Fish document. COW_PRODUCTION_RELEASE.md and the Cow tracker record final live verification. Its release source c3de361 is the exact fresh production baseline. Crops, Chicken, Goat and Cow are all present in the shared engine/save and production. Previously completed isolated live journeys cover crop harvest/sale, eggs, live-goat sale, Cow care/milking/sale and reload. No owner's profile was used. Fish starts after Cow final evidence ffc0963, so no concurrent merge or overwrite is needed. Preserve one homepage card and its current truthful Fish-planned copy until separately authorized and actually verified live.
+
+## Baseline verification
+
+Fresh local lint, typecheck, build, client/locale audit and262/262unit tests PASS before game changes. Client audit88modules/819locale keys, zero runtime dependencies/external imports/debug statements. build only copied dist/play. No baseline application failure. Evidence qa/fish/M0-F04/{lint,typecheck,build,audit-client,test}.log.
+
+Reuse the immediately prior exact-source Cow release regression evidence rather than relabeling it as new runs: full original crop E2E; complete eight-suite Chicken runner;15Goat suites including16races;17Cow suites/84profiles;32legacy balance cases;35day mixed endurance;12compat checks and Firefox crop slice; homepage/cache/security/SEO. Source game bytes still equal c3de361 and fresh115-resource live integrity passed. See COW_PRODUCTION_RELEASE.md and its external evidence paths. Those are measured retained baseline results, not claims of Fish regression coverage. Repeat affected gates as Fish changes. Physical iOS/Android/Safari unavailable; browser touch/CPU/network emulation is identified as such.
