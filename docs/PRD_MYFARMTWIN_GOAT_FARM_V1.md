@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **43/60 (71.7%)**.
+Progress: **44/60 (73.3%)**.
 
 ## Checklist
 
@@ -57,7 +57,7 @@ Progress: **43/60 (71.7%)**.
 - [x] **M5-F01** — Unlock paddock #2 and implement actual rotational grazing/regrowth tradeoffs and visual switching.
 - [x] **M5-F02** — Shelter upgrade costs Coins, improves capacity/comfort and visibly changes the scene.
 - [x] **M5-F03** — Feeder/trough upgrade reduces repeated clicking **without** creating water/hay from nothing.
-- [ ] **M5-F04** — Buy extra weaned goats within capacity; stable IDs, stage and herd welfare rules maintained.
+- [x] **M5-F04** — Buy extra weaned goats within capacity; stable IDs, stage and herd welfare rules maintained.
 - [ ] **M5-F05** — Follow-up missions: Healthy Herd, Growing Goat, Pasture Planner, Bigger Shelter, Livestock Contract.
 - [ ] **M5-F06** — Add optional Engineering Lab/Why? with real factors, feed/water/forage trends and goat P&L.
 - [ ] **M5-F07** — Balance 7/30/60/90 game days: good vs bad care, Goat/Crop/Chicken/mixed, sale economics and bounded wealth.
@@ -205,3 +205,6 @@ Paid shelter upgrades raise actual capacity 4-to-6-to-8, increase shade and visi
 
 ### M5-F03
 Paid care-container upgrade doubles real feeder/trough capacity and visibly enlarges both objects. Installation preserves all hay/water/herd; later refill moves exact existing store/shared-tank quantities, never creates supplies. 157 unit tests, lint/typecheck/build and four EN/ID desktop/touch upgrade/reload profiles pass; scene pixels reviewed. Evidence: qa/goat/M5-F03/.
+
+### M5-F04
+Actual paid young-goat purchases fill each 4/6/8 capacity, reject overflow, retain unique sequential IDs and never instant-grow animals. Focused upgrade model tests and four EN/ID desktop/touch eight-goat browser profiles pass: distinct rendered positions, every shortcut selectable, correct total price and exact reload. Reviewed eight-goat scene. Evidence: qa/goat/M5-F04/.
