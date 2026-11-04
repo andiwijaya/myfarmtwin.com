@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **43/64 (67.19%)**
+Progress: **44/64 (68.75%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -76,7 +76,7 @@ Progress: **43/64 (67.19%)**
 ### M5 — Strategy, progression and optional engineering depth (8)
 
 - [x] **M5-F01** — Upgrade cow water trough / modest automatic refill **from paid shared tank source**, to reduce chores without magic water.
-- [ ] **M5-F02** — Implement shade/ventilation upgrade with measured effect on comfort/yield during hot weather and transparent cost.
+- [x] **M5-F02** — Implement shade/ventilation upgrade with measured effect on comfort/yield during hot weather and transparent cost.
 - [ ] **M5-F03** — Implement optional cooling tank purchase, added capacity, toggle/status, prepaid energy ledger and slower decline only while actively cooled; verify no-funds/off/empty/reload cases.
 - [ ] **M5-F04** — Implement milking stand sanitation upgrade/maintenance and traceable quality improvement; avoid meaningless decorative upgrades.
 - [ ] **M5-F05** — Add co-op contracts by milk quantity/grade, one-time rewards, capacity-affordable objectives and no punitive real-time deadlines.
@@ -245,3 +245,6 @@ Final CowV4 boundary reconciles all paid flags, source ledgers, integer milk/rev
 
 ### M5-F01
 Larger-trough progression verified under identical controlled8hot game days:actual water-fill actions fall8to5 while both herds consume720000mL and produce identical milk.90Coin upgrade remains single-purchase, exact tagged transfers/no free water; existing EN/ID world/capacity UI already verified.3 targeted workload/affordability tests PASS;247full unit gate precedes this added case.
+
+### M5-F02
+Paid100Coin shade/ventilation is real and idempotent, visible as original world awning with EN/ID optional upgrade controls. Controlled24hot-hour matched intake yields9612plain vs10360shadedmL with90000mL drinking in both; no instant welfare/resources.250full units and4desktop/mobile EN/ID browser profiles PASS, screenshot reviewed. Evidence qa/cow/M5-F02.
