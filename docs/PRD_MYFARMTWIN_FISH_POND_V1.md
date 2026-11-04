@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **14/64 (21.88%)**
+Progress: **15/64 (23.44%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -25,7 +25,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M0-F07** — Add this PRD living checklist & architecture/test contract to `docs/`; set feature gate default OFF until vertical slice, no production changes.
 - [x] **M1-F01** — Add `Fish Pond` area selector and navigation within `/play/`; no new save/game route, old views still work.
 - [x] **M1-F02** — Draw one cohesive pond/water/edge/deck/inlet/outlet scene with correct isometric alignment; no world overlap or clipped picking.
-- [ ] **M1-F03** — Render fish cohorts in two size/stage variants based on actual state (or presentation fixture before M2); no mismatch between state and fish count label.
+- [x] **M1-F03** — Render fish cohorts in two size/stage variants based on actual state (or presentation fixture before M2); no mismatch between state and fish count label.
 - [ ] **M1-F04** — Add lightweight swim/surface/feeding visual animations, reduced-motion and low-graphics fallbacks, no simulation driven by frame rate.
 - [ ] **M1-F05** — Add interactive aerator bubbles, feed station, harvest net/dock, water-exchange station and real visual ON/OFF/status states.
 - [ ] **M1-F06** — Implement concise contextual controls `Feed`, `Aerate`, `Inspect`, `Harvest`, `Market` with disabled reasons; no inert buttons claiming success.
@@ -125,3 +125,6 @@ Gated Fish Pond preview navigation works in existing play route;8 EN/ID desktop/
 
 ### M1-F02
 Cohesive original isometric pond/water/edge/deck/inlet/outlet scene passes8 gate/navigation profiles; desktop/mobile pixels inspected, no overlap or save mutation.
+
+### M1-F03
+Read-only Fish snapshots render two school sizes with actual count/ready labels; validated partial-harvest10/2 fixture and8 EN/ID browser profiles preserve saves.
