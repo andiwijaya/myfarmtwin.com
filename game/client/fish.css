@@ -1,0 +1,12 @@
+/* Original lightweight presentation; these keyframes never drive simulation. */
+.fish-scene [data-fish-school]{animation:fish-swim 7s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+.fish-scene[data-fish-feeding="true"] [data-fish-school]{animation-name:fish-surface;animation-duration:2.5s}
+@keyframes fish-surface{0%,100%{transform:translate(0,1px) rotate(-1deg)}50%{transform:translate(4px,-5px) rotate(2deg)}}
+.fish-scene [data-fish-school="1"]{animation-delay:-3s;animation-duration:9s}
+.fish-scene[data-paused="true"] [data-fish-school],.fish-scene[data-paused="true"] [data-fish-food]{animation-play-state:paused}
+.fish-scene [data-fish-food]{animation:fish-feed-ripple 1.8s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.fish-school-note{position:absolute;bottom:12px;left:16px;right:16px;margin:0;color:#365c53;text-align:center;font-size:12px;line-height:1.4;pointer-events:none}
+@keyframes fish-swim{0%{transform:translate(-5px,2px)}55%{transform:translate(3px,-2px)}100%{transform:translate(7px,1px)}}
+@keyframes fish-feed-ripple{0%{opacity:.9;transform:scale(.92)}100%{opacity:.4;transform:scale(1.05)}}
+.low-graphics .fish-scene [data-fish-school],.low-graphics .fish-scene [data-fish-food]{animation:none!important}
+@media(prefers-reduced-motion:reduce){.fish-scene [data-fish-school],.fish-scene [data-fish-food]{animation:none!important}}
