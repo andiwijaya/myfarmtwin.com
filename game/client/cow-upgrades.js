@@ -1,0 +1,5 @@
+import {COW} from './cow-config.js';
+/** @param {import('./engine.js').State} state @param {string} type */
+export function cowUpgradeReason(state,type){const g=state.cow;if(!g?.visited||!g.barn)return 'cowNotVisited';if(type==='viewCowUpgrade')return g.mission.upgradeViewed?'cowGoalViewed':'';if(type==='buyCowTrough')return g.barn.troughUpgrade?'cowUpgradeOwned':state.coins<COW.troughPrice?'noCoins':'';return 'invalidCowCommand';}
+/** @param {import('./engine.js').State} state @param {import('./engine.js').Command} command @param {import('./engine.js').DomainEvent[]} events @param {import('./cow-runtime.js').CowTransaction} transact */
+export function applyCowUpgrade(state,command,events,transact){const reason=cowUpgradeReason(state,command.type);if(reason)return reason;const g=state.cow;if(!g?.barn)return 'cowNotVisited';if(command.type==='viewCowUpgrade'){g.mission.upgradeViewed=true;events.push({type:'cowGoalOpened'});return '';}transact(state,'cow_trough_upgrade',-COW.troughPrice,command.id+':cow.trough');g.barn.troughUpgrade=true;events.push({type:'cowTroughUpgraded'});return '';}
