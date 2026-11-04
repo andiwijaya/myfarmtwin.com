@@ -4,13 +4,13 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **2/64 (3.12%)**
+Progress: **3/64 (4.69%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
 - [x] **M0-F01** — Audit local/remote/live commit, active Dot tasks, uncommitted files, branch divergence and deploy; record baseline & rollback without touching user files.
 - [x] **M0-F02** — Verify Chicken status (code, live, PRD checklist) and Goat status (PRD/local task/branch/live); choose safe sequential integration strategy.
-- [ ] **M0-F03** — Map existing headless engine, clock, weather, wallet, Market, inventory, events, renderer and save validator; document reuse contracts.
+- [x] **M0-F03** — Map existing headless engine, clock, weather, wallet, Market, inventory, events, renderer and save validator; document reuse contracts.
 - [ ] **M0-F04** — Run baseline local `lint`, `typecheck`, `test`, `build`, `e2e`, chicken & other project scripts actually available; document pre-existing issues.
 - [ ] **M0-F05** — Snapshot/anonymized fixtures for current save versions and realistic mixed-farm states; establish non-destructive rollback plan.
 - [ ] **M0-F06** — Confirm responsive UX/camera/low-graphics and create small visual assets plan consistent with existing renderer; no engine rewrite.
@@ -122,3 +122,6 @@ Verified clean c77f78a checkout, origin/main dd8184e and all 80 production resou
 
 ### M0-F02
 Verified completed Chicken and Goat source, preserved 60/60 Goat release documents and exact live assets; sequential isolated branch starts after completed Goat, without touching owner saves. See COW_AUDIT.md.
+
+### M0-F03
+Mapped deterministic shared reducer, clock, seeded weather, ledger, Market, 240 L tank, V3 validation/archives and isometric UI integration; Cow units and V4 additive migration boundary documented in COW_AUDIT.md.
