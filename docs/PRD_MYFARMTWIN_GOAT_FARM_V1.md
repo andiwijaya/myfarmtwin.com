@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **53/60 (88.3%)**.
+Progress: **54/60 (90.0%)**.
 
 ## Checklist
 
@@ -67,7 +67,7 @@ Progress: **53/60 (88.3%)**.
 - [x] **M6-F04** — EN/ID + keyboard/screen reader accessible labels/reduced motion; viewport 320/360/390/768/1024/1440 + landscape; Firefox if available.
 - [x] **M6-F05** — Performance/memory/long-session tests; low-graphics retains all essential actions.
 - [x] **M6-F06** — Dead-code/new-dependency/media audit; preserve existing assets, keep repo small, no QA junk/cache in Git.
-- [ ] **M6-F07** — Homepage single-game-card, editorial routes, metadata/sitemap/GA4, original Crop+Chicken tests all green.
+- [x] **M6-F07** — Homepage single-game-card, editorial routes, metadata/sitemap/GA4, original Crop+Chicken tests all green.
 - [ ] **M7-F01** — Fresh clean local build, full test suite, release diff review and deployment/config comparison.
 - [ ] **M7-F02** — Validate safe backup/migration/rollback; older client must not overwrite future-format saves.
 - [ ] **M7-F03** — Push/deploy via **existing audited Cloudflare Pages/GitHub pipeline**; no force push or unnecessary GitHub Actions runs.
@@ -235,3 +235,6 @@ Twelve maximum-farm local browser performance runs pass at 59.6-60 desktop FPS a
 
 ### M6-F06
 Final audit: 58 exact source/build files, zero runtime dependencies, new media, debug/eval imports or tracked QA/cache; homepage/editorial, dependency and deployment/security config unchanged. Fixed missing Goat return-summary progress and explicit Lab forage utilization/regrowth/current growth terms using the identical simulation helper. 167 unit tests, lint/typecheck/build/client audit and four actual data/Lab browser profiles pass. Evidence: qa/goat/M6-F06/.
+
+### M6-F07
+Original full crop/Chicken game/data/save/regression suites pass; homepage 24 responsive EN/ID profiles, warm-cache tests, nine SEO routes/15 layouts and Chromium/Firefox compatibility pass. Exact non-game dist/GA4/editorial and config/dependency bytes remain unchanged from production baseline. Remote main unchanged; no publication. Evidence: qa/goat/M6-F07-* and GOAT_M6_GATE.md.
