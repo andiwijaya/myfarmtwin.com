@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **39/60 (65.0%)**.
+Progress: **40/60 (66.7%)**.
 
 ## Checklist
 
@@ -53,7 +53,7 @@ Progress: **39/60 (65.0%)**.
 - [x] **M4-F05** — Auto-save, paused/hidden tab, Next Day, system clock shifts: no phantom production or starvation.
 - [x] **M4-F06** — Invalid/future/malicious save, recovery/backup/quarantine, storage blocked: protect original user data.
 - [x] **M4-F07** — Two-tab concurrency/double-click/replay tests: one sale/grant/purchase, no wallet/growth dupes.
-- [ ] **M4-F08** — Mixed-farm 30+ game-day endurance with daily save roundtrip; bounds, ledger, clock consistent.
+- [x] **M4-F08** — Mixed-farm 30+ game-day endurance with daily save roundtrip; bounds, ledger, clock consistent.
 - [ ] **M5-F01** — Unlock paddock #2 and implement actual rotational grazing/regrowth tradeoffs and visual switching.
 - [ ] **M5-F02** — Shelter upgrade costs Coins, improves capacity/comfort and visibly changes the scene.
 - [ ] **M5-F03** — Feeder/trough upgrade reduces repeated clicking **without** creating water/hay from nothing.
@@ -193,3 +193,6 @@ Historical price, paid acquisition, chronological capacity/social rules and impo
 
 ### M4-F07
 Sixteen real two-tab races cover sale/reward, young-goat purchase, hay purchase and Next Day on EN/ID desktop/touch. Exactly one revision/transaction/hour advance wins, stale tab reports conflict, reload does not replay. Prior parallel first-entry and double-click/revision-replay tests cover one starter and gesture duplication. Evidence: qa/goat/M4-F07/.
+
+### M4-F08
+35-day real-command mixed-farm endurance passes daily save/session roundtrips, all invariants and complete deterministic replay. 430 commands, 39 replay rejections; four goat sales, four paid replacements, 93 crop units and 55 eggs sold; three goats remain, minimum wallet 120, final 1549, peak save 32837 bytes. M4 persistence gate documented; evidence qa/goat/M4-F08/.
