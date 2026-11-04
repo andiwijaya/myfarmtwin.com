@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **18/64 (28.12%)**
+Progress: **19/64 (29.69%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -36,7 +36,7 @@ Progress: **18/64 (28.12%)**
 - [x] **M2-F01** — Add typed/configured cow/barn/lot model, unique IDs, unit normalization, bounded values and validator structure.
 - [x] **M2-F02** — Add revision-safe idempotent cow commands, no direct DOM economy mutation, no duplicative scheduler or RNG.
 - [x] **M2-F03** — Add feed inventory purchase, store→trough transfer and per-tick intake; avoid free/negative feed and unrealistic crop conversion.
-- [ ] **M2-F04** — Add trough refill as atomic transfer from shared farm tank and tick water consumption; test mixed crop/chicken/goat demand.
+- [x] **M2-F04** — Add trough refill as atomic transfer from shared farm tank and tick water consumption; test mixed crop/chicken/goat demand.
 - [ ] **M2-F05** — Add cleanliness, shade/heat protection and derived comfort model with gradual recovery; no animal death/offline punishment.
 - [ ] **M2-F06** — Add `lactating` eligibility and prior-calving metadata, fixed-stage sustained V1 scenario with no automatic dry transition, bounded tick production and dry-cow 0-yield tests; expose model disclaimer.
 - [ ] **M2-F07** — Add reservoir, max 2 sessions/cow/game-day and 8-game-hour spacing across midnight; prevent button-created milk/replay and catch-up overflow.
@@ -170,3 +170,6 @@ Revision-safe command gate rejects getters before reading id/type, forged payloa
 
 ### M2-F03
 Paid mixed feed uses shared Market/wallet and exact purchase ledger; no crop/Goat conversion. Integer hourly demand with persisted remainder consumes exactly8000g/cow/day, restricted starter before normal stock, no negative feed or button-created milk.190 units and4 EN/ID desktop/mobile purchase/double-gesture/transfer/day-intake/reload profiles PASS. Evidence qa/cow/M2-F03.
+
+### M2-F04
+Integer water consumption is30/45L per cow/day normal/hot, on shared ticks only. Starter180L is separate/finite; later Cow refill exactly debits shared tank, preserves legacy sub-mL residue and old crop/hen/Goat state.194 units and4 EN/ID desktop/mobile source/intake/shared paid resupply/reload profiles PASS; no transfer fee or negative water. Evidence qa/cow/M2-F04.

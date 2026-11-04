@@ -1,0 +1,3 @@
+import {COW} from './cow-config.js';import {consumeCowResource,approachCowIndex} from './cow-math.js';
+/** Cow water stays integer mL; current configured daily figures divide into exact hourly demand. @param {import('./engine.js').State} state */
+export function tickCowWater(state){const g=state.cow;if(!g?.visited)return {demand:0,intake:0,adequacy:0};const demand=g.cows.length*(state.weather==='hot'?COW.hotWaterDayMl:COW.waterDayMl)/24;if(!Number.isSafeInteger(demand))throw Error('Non-integer Cow hourly water configuration');const intake=consumeCowResource(g,'water',demand),adequacy=demand?Math.floor(intake*COW.careScale/demand):0;for(const cow of g.cows)cow.hydration=approachCowIndex(cow.hydration,adequacy);return {demand,intake,adequacy};}
