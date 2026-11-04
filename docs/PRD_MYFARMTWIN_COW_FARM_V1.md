@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **42/64 (65.62%)**
+Progress: **43/64 (67.19%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -75,7 +75,7 @@ Progress: **42/64 (65.62%)**
 
 ### M5 — Strategy, progression and optional engineering depth (8)
 
-- [ ] **M5-F01** — Upgrade cow water trough / modest automatic refill **from paid shared tank source**, to reduce chores without magic water.
+- [x] **M5-F01** — Upgrade cow water trough / modest automatic refill **from paid shared tank source**, to reduce chores without magic water.
 - [ ] **M5-F02** — Implement shade/ventilation upgrade with measured effect on comfort/yield during hot weather and transparent cost.
 - [ ] **M5-F03** — Implement optional cooling tank purchase, added capacity, toggle/status, prepaid energy ledger and slower decline only while actively cooled; verify no-funds/off/empty/reload cases.
 - [ ] **M5-F04** — Implement milking stand sanitation upgrade/maintenance and traceable quality improvement; avoid meaningless decorative upgrades.
@@ -242,3 +242,6 @@ Final CowV4 boundary reconciles all paid flags, source ledgers, integer milk/rev
 
 ### M4-F08
 35-day real-command4area endurance PASS from fresh and exact olderV3 farms:1971/1981commands,63replay rejects each, deterministic full replay, daily reload and exact old archive. Minimum120/1765Coins; peak77687/97583bytes; milk409142/405788mL sold plus continuing crop/egg/goat sales.247full units/type/build/audit PASS. M4 gate docs/COW_M4_GATE.md, qa/cow/M4-F08.
+
+### M5-F01
+Larger-trough progression verified under identical controlled8hot game days:actual water-fill actions fall8to5 while both herds consume720000mL and produce identical milk.90Coin upgrade remains single-purchase, exact tagged transfers/no free water; existing EN/ID world/capacity UI already verified.3 targeted workload/affordability tests PASS;247full unit gate precedes this added case.
