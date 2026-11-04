@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **7/64 (10.94%)**
+Progress: **8/64 (12.50%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -31,7 +31,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [ ] **M1-F06** — Implement concise contextual controls `Feed`, `Aerate`, `Inspect`, `Harvest`, `Market` with disabled reasons; no inert buttons claiming success.
 - [ ] **M1-F07** — Validate camera controls, rotate/zoom/reset where supported, scene picking, keyboard and touch portrait/landscape; switch Field/Chicken/Goat/Cow ↔ Fish without save mutations.
 - [ ] **M1-F08** — Translate all UI EN/ID, aria labels, error/empty states, `Why?` and mission scaffolding; no inaccessible hover-only elements.
-- [ ] **M2-F01** — Define FishPond/Pond/FishCohort/FishHarvestLot data/config, bounded integer units, stable IDs and strict invariants.
+- [x] **M2-F01** — Define FishPond/Pond/FishCohort/FishHarvestLot data/config, bounded integer units, stable IDs and strict invariants.
 - [ ] **M2-F02** — Add validated `fish.*` commands to existing dispatch/revision/transaction flow, atomic reject/replay behavior, seed determinism.
 - [ ] **M2-F03** — Implement exactly-once starter pond/cohorts/feed/first entry, separate pond water from crop tank, safe zero-wallet tutorial allowance.
 - [ ] **M2-F04** — Implement feed purchase/store/feed consumption + limited appetite, excess-waste and stock accounting; no feed/growth spam.
@@ -104,3 +104,6 @@ Original code-native isometric SVG prototype visually inspected;12 EN/ID desktop
 
 ### M0-F07
 Living64-feature checklist, architecture/test contract and default-OFF gate complete;264unit tests, strict types/build/client audit PASS.
+
+### M2-F01
+Standalone Fish model/config and strict conservation validator complete;270unit tests, types/build/audit PASS; mature-mass reservation covers every growth step.
