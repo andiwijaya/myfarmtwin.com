@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **16/60 (26.7%)**.
+Progress: **17/60 (28.3%)**.
 
 ## Checklist
 
@@ -30,7 +30,7 @@ Progress: **16/60 (26.7%)**.
 - [x] **M1-F08** — EN/ID for every Goat view/control/status/error; seamless return to Crop/Chicken guide.
 - [x] **M2-F01** — Define Goat/Herd/Shelter/Paddock config with bounded values, stable IDs, age-stage semantics and validators.
 - [x] **M2-F02** — Wire goat commands into existing revision/idempotency/atomic engine transaction flow.
-- [ ] **M2-F03** — Hay purchase/store/refill/consumption with feed conservation and accurate ledger.
+- [x] **M2-F03** — Hay purchase/store/refill/consumption with feed conservation and accurate ledger.
 - [ ] **M2-F04** — Water trough/refill/consumption from shared farm tank with volume conservation.
 - [ ] **M2-F05** — Pasture biomass, browse consumption and deterministic regeneration based on shared weather.
 - [ ] **M2-F06** — Shelter cleanliness/clean action and bounded maintenance cost/effect; prevent spam exploits.
@@ -124,3 +124,6 @@ Defined bounded herd/shelter/paddock/supply configuration, stable identities, de
 
 ### M2-F02
 Strict Goat commands now share atomic clone/revision dispatch, ledger and clock. Replays/stale/polluted payloads reject unchanged; enter/inspect work headlessly, other husbandry commands remain unavailable until their own gates. Added required V3 empty-state reader and separate pre-Goat original archive before persisting any new field; old Chicken archive and unaffected V1/V2 subtrees preserved. 105 unit tests incl exact production V2 rollback, lint/typecheck/build, Chicken save/data, original full E2E/data/recovery/black-box/crop, security and Goat UI preservation PASS. M4 remains pending. Evidence: qa/goat/M2-F02/; GOAT_SAVE_POLICY.md.
+
+### M2-F03
+Hay purchase charges 24 shared Coins for 6kg exactly once, storage->rack transfer preserves quantity, existing logical hours consume hay without negative stock, paused tick rejects unchanged. Capacity/no-Coins/replay/empty-rack paths are atomic; Crop/Chicken inventory and funds unaffected by transfers; V3 roundtrip exact. 108 full unit tests, lint/typecheck/build PASS. EN/ID events/rejection/ledger labels added. Evidence: qa/goat/M2-F03/.
