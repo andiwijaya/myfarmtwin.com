@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **11/64 (17.19%)**
+Progress: **12/64 (18.75%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -54,7 +54,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M4-F01** — Audit actual latest schema at execution and add additive Fish version/migration (if latest V4, V4→V5); no starter grant on parse/migration.
 - [x] **M4-F02** — Verify migrators from original crop V1, Chicken V2, Goat V3, Cow V4 where supported; untouched subtree snapshots/ledger/RNG exact semantically.
 - [x] **M4-F03** — Add safe `before-fish` archival original bytes with conflicts/quota blocked preview, preserve all earlier archives/backup/quarantine.
-- [ ] **M4-F04** — Validate persisted fish state/cohorts/DO/TAN/credits/lots/mission/reward, bounded histories and size, reject malformed/unknown/prototype input.
+- [x] **M4-F04** — Validate persisted fish state/cohorts/DO/TAN/credits/lots/mission/reward, bounded histories and size, reject malformed/unknown/prototype input.
 - [ ] **M4-F05** — Test save/reload/reopen/pause/hidden/system-clock shift; fish growth, energy, waste and events do not progress twice.
 - [ ] **M4-F06** — Test export/import, confirmed reset, restore from backup, corrupt/quarantine/future schema, denied/quota storage; user data never silently deleted.
 - [ ] **M4-F07** — Test parallel tabs/stale revisions, double harvest/sale/restock/upgrade/one-time grant, atomic wallet/stock and idempotency.
@@ -116,3 +116,6 @@ Nine actualV0-V4 fixtures preserve every legacy field; exactV4 rollback reader b
 
 ### M4-F03
 Independent beforeFish archive preserves exact actual-source bytes; conflict/quota/future/recovery tests PASS;280units and4 EN/ID browser export/reload profiles PASS.
+
+### M4-F04
+StrictFish model/ledger/source/mission/recovery validation PASS including hundreds of hostile numeric mutations and getter/prototype rejection;286units plus lint/types/build/audit PASS.
