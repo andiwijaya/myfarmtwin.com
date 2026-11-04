@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **21/60 (35.0%)**.
+Progress: **22/60 (36.7%)**.
 
 ## Checklist
 
@@ -35,7 +35,7 @@ Progress: **21/60 (35.0%)**.
 - [x] **M2-F05** — Pasture biomass, browse consumption and deterministic regeneration based on shared weather.
 - [x] **M2-F06** — Shelter cleanliness/clean action and bounded maintenance cost/effect; prevent spam exploits.
 - [x] **M2-F07** — Causal nutrition/hydration/space/weather → comfort/condition with gradual recovery, no offline degradation.
-- [ ] **M2-F08** — Growth stages `weaned→growing→market-ready` using game ticks and configurable compressed duration.
+- [x] **M2-F08** — Growth stages `weaned→growing→market-ready` using game ticks and configurable compressed duration.
 - [ ] **M2-F09** — Herd capacity and social minimum-two sale rule, with rejection messages and recovery suggestions.
 - [ ] **M2-F10** — Unit/invariant tests seeded scenarios: no feed/water, good care, hot/rainy, overgrazing, pause, 24 ticks=Next Day.
 - [ ] **M3-F01** — Grant one-time starter shelter + three goats + bounded supplies when first entering Goat Ranch.
@@ -139,3 +139,6 @@ Shelter use lowers cleanliness only in shared logical hours. Free cleaning impro
 
 ### M2-F07
 Actual consumed browse/hay and water drive gradual adequacy, derived shelter/space/weather comfort, and bounded body condition recovery/decline. Same-seed paid 10-day good care beats shortages with conserved supply cost, identical shared RNG/weather and no death. Refilling/cleaning cannot instantly heal; one-hour effects, dirty/hot/room terms and immutable derived snapshots tested. No offline wall-clock effect. 120 unit tests, lint/typecheck/build PASS. EN/ID causal reasons added. Evidence: qa/goat/M2-F07/.
+
+### M2-F08
+Young goats grow only on the existing logical hour using actual nutrition/hydration/body condition; derived weaned->growing->marketReady stages never regress or exceed one. Real paid care in an earned mixed farm matures both young within 12-20 owned game days; identical elapsed shortage stays below 10%. Starter adult is ready at entry and care clicks do not advance growth. 123 unit tests, lint/typecheck/build PASS; compressed-game labels and growing size/label added. Evidence: qa/goat/M2-F08/.
