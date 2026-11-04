@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **45/64 (70.31%)**
+Progress: **46/64 (71.88%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -78,7 +78,7 @@ Progress: **45/64 (70.31%)**
 - [x] **M5-F01** — Upgrade cow water trough / modest automatic refill **from paid shared tank source**, to reduce chores without magic water.
 - [x] **M5-F02** — Implement shade/ventilation upgrade with measured effect on comfort/yield during hot weather and transparent cost.
 - [x] **M5-F03** — Implement optional cooling tank purchase, added capacity, toggle/status, prepaid energy ledger and slower decline only while actively cooled; verify no-funds/off/empty/reload cases.
-- [ ] **M5-F04** — Implement milking stand sanitation upgrade/maintenance and traceable quality improvement; avoid meaningless decorative upgrades.
+- [x] **M5-F04** — Implement milking stand sanitation upgrade/maintenance and traceable quality improvement; avoid meaningless decorative upgrades.
 - [ ] **M5-F05** — Add co-op contracts by milk quantity/grade, one-time rewards, capacity-affordable objectives and no punitive real-time deadlines.
 - [ ] **M5-F06** — Add `Happy Cows`, `Cool the Milk`, `Heat Wave`, `Bigger Dairy` missions/unlocks and fair resupply; implement one 2→3 barn upgrade and atomic third already-lactating cow purchase with all prerequisites.
 - [ ] **M5-F07** — Read-only Dairy Engineering Lab: water/feed trends, comfort factors, milk reservoir vs yield, grade/freshness, expenses/revenue/cost per L and model limitations.
@@ -251,3 +251,6 @@ Paid100Coin shade/ventilation is real and idempotent, visible as original world 
 
 ### M5-F03
 Actual120Coin cooler purchase starts off/zero credit and adds40L separate storage, service HUD and original world tank/gauge. Empty/off do not charge; zero wallet never cools free or borrows; paid credit survives toggle/move/reload.252full units and4EN/ID desktop/mobile real purchase/direct-milking/24h-four-fee/whole-move profiles PASS. Evidence qa/cow/M5-F03.
+
+### M5-F04
+80Coin sanitation upgrade reduces future stand/handling dirt without instant cleaning, comfort, freshness or milk. Matched48h handling improves retained hygiene and actual A-grade collections at equal intake; free basic cleaning remains available.254full units and4EN/ID desktop/mobile paid-purchase/free-clean/world-equipment/reload profiles PASS. Evidence qa/cow/M5-F04.

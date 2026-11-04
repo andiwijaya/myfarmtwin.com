@@ -1,4 +1,4 @@
-export const COW_COMMANDS=Object.freeze(/** @type {const} */(['enterCow','buyCowFeed','feedCows','waterCows','cleanCowBarn','cleanCowStand','cleanCowCan','inspectCow','milkCow','moveCowMilk','discardCowMilk','toggleCowCooler','sellCowMilk','acceptCowOrder','viewCowUpgrade','buyCowTrough','buyCowShade','buyCowCooler','startCowCareJob','completeCowCareJob']));
+export const COW_COMMANDS=Object.freeze(/** @type {const} */(['enterCow','buyCowFeed','feedCows','waterCows','cleanCowBarn','cleanCowStand','cleanCowCan','inspectCow','milkCow','moveCowMilk','discardCowMilk','toggleCowCooler','sellCowMilk','acceptCowOrder','viewCowUpgrade','buyCowTrough','buyCowShade','buyCowCooler','buyCowSanitation','startCowCareJob','completeCowCareJob']));
 /** @typedef {typeof COW_COMMANDS[number]} CowCommandType */
 /** @param {string} type */
 export const isCowCommand=type=>COW_COMMANDS.some(k=>k===type);
