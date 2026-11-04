@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **24/64 (37.50%)**
+Progress: **25/64 (39.06%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -42,7 +42,7 @@ Progress: **24/64 (37.50%)**
 - [x] **M2-F07** — Add reservoir, max 2 sessions/cow/game-day and 8-game-hour spacing across midnight; prevent button-created milk/replay and catch-up overflow.
 - [x] **M2-F08** — Add deterministic grade and atomic full-reservoir→lot transfer with capacity rejection; prove opening + produced = ready + stored + sold + discarded using integer mL.
 - [x] **M2-F09** — Add game-tick freshness/grade ceilings, cooler paid-credit and no-funds behavior; no clock-based offline decay, grade restoration or free cooling.
-- [ ] **M2-F10** — Headless deterministic comparison suite: adequate vs scarce water, feed, heat, hygiene; invariants/clock/seed repeatability.
+- [x] **M2-F10** — Headless deterministic comparison suite: adequate vs scarce water, feed, heat, hygiene; invariants/clock/seed repeatability.
 
 **M2 gate:** milk output arises only from valid lactating cows + care + time, and grades obey causal model.
 
@@ -188,3 +188,6 @@ Atomic whole-reservoir capacity and deterministic grades verified:3999mL free re
 
 ### M2-F09
 Freshness uses ordinary ticks only and exact A/B/C/rejected ceilings. Whole-lot moves preserve provenance; spoiled lots occupy capacity until free disposal. Paid cooling prepays1Coin/6active hours, persists credit and pauses safely at0Coins;213 units and4 EN/ID desktop/mobile storage profiles PASS. Evidence qa/cow/M2-F09.
+
+### M2-F10
+Headless model gate PASS:24seeds x6 controlled conditions x24h, exact deterministic replay, care and shade improve actual yield; reservoir suppression and paid cold-chain tradeoffs hold.216unit tests PASS. Derived report docs/COW_M2_GATE.md; evidence qa/cow/M2-F10. M3 first-sale gate remains next, no publication.
