@@ -1,4 +1,5 @@
 import {t} from './locales.js';
+import {GOAT_SCENE_PREVIEW} from './goat-scene-snapshot.js';
 import {iso,diamond} from './isometric.js';
 import {GOAT_LAYOUT as L} from './goat-layout.js';
 const NS='http://www.w3.org/2000/svg';
@@ -22,11 +23,19 @@ function stations(parent){
  const [a,b,d,e]=corners(L.platform),platform=node('g',{'data-goat-station':'platform','aria-label':t('goatPlatform')},parent);node('polygon',{points:points([a,b,d,e].map(p=>({x:p.x,y:p.y-12}))),fill:'#c2aa74',stroke:'#9b845c','stroke-width':2},platform);for(const p of [b,d,e])node('path',{d:`M${p.x},${p.y-12} v16`,stroke:'#8d7951','stroke-width':4},platform);
  const sign=iso(L.contract.x,L.contract.y),s=node('g',{'data-goat-station':'contract','aria-label':t('goatContract')},parent);node('path',{d:`M${sign.x},${sign.y+5} v-51`,stroke:'#a28a5f','stroke-width':5},s);node('rect',{x:sign.x-36,y:sign.y-51,width:72,height:28,rx:4,fill:'#e6d5ab',stroke:'#ad9566','stroke-width':2},s);node('text',{x:sign.x,y:sign.y-34,'text-anchor':'middle','font-size':10,fill:'#37523b'},s).textContent=t('goatContract');
 }
+/** @param {Element} parent @param {import('./goat-scene-snapshot.js').GoatView} goat @param {number} index */
+function drawGoat(parent,goat,index){
+ const spots=[{x:4.1,y:3.2},{x:3.5,y:4.8},{x:5.2,y:4.7}],spot=spots[index%spots.length],p=iso(spot.x,spot.y),adult=goat.stage==='marketReady',g=node('g',{transform:`translate(${p.x} ${p.y})`,'data-goat':goat.id,'data-goat-stage':goat.stage,'aria-label':t(adult?'goatReadyAdult':'goatWeaned')+' '+(index+1),role:'img'},parent);
+ node('title',{},g).textContent=t(adult?'goatReadyAdult':'goatWeaned');node('ellipse',{cx:0,cy:4,rx:adult?25:18,ry:9,fill:'#758955',opacity:'.3'},g);const body=node('g',{transform:`scale(${adult?1:.72})`,class:'goat-figure'},g),coat=index%3===0?'#f5ead1':index%3===1?'#bc956d':'#e5c99b';
+ for(const x of [-12,9]){node('path',{d:`M${x-3},-7 v18 l6,1 v-19`,fill:'#b69b72',stroke:'#967951','stroke-width':1},body);node('path',{d:`M${x-3},10 h7`,stroke:'#4b4c39','stroke-width':3},body);}node('path',{d:'M-17,-17 q-13,-18 -10,-1 l10,7',fill:coat,stroke:'#aa9068','stroke-width':1},body);node('ellipse',{cx:-1,cy:-14,rx:22,ry:13,fill:coat,stroke:'#ac926d','stroke-width':1.2},body);node('path',{d:'M10,-19 q-1,-20 12,-16 l11,9 l-4,10 l-13,3 Z',fill:coat,stroke:'#ac926d','stroke-width':1.2},body);node('path',{d:'M18,-34 q-13,-17 -11,-5 M24,-34 q-1,-18 -6,-13',fill:'none',stroke:'#9b8e6a','stroke-width':3,'stroke-linecap':'round'},body);node('path',{d:'M16,-31 l-13,-3 l7,9 Z',fill:'#c5b18b',stroke:'#ac926d'},body);node('ellipse',{cx:29,cy:-22,rx:7,ry:5,fill:'#ddcbaa'},body);node('circle',{cx:24,cy:-29,r:2,fill:'#283e30'},body);node('path',{d:'M25,-17 l-3,9 l7,-8',fill:'#c4b18a'},body);node('path',{d:'M12,-22 l6,4',stroke:adult?'#3e7957':'#bc8056','stroke-width':4},body);if(adult)node('circle',{cx:17,cy:-16,r:3,fill:'#e1bf58'},body);
+}
 /** Original SVG presentation. No gameplay clock, grants or persistence. */
-export function renderGoatWorld(){
+/** @param {{herd:readonly import('./goat-scene-snapshot.js').GoatView[]}} [snapshot] */
+export function renderGoatWorld(snapshot=GOAT_SCENE_PREVIEW){
  const host=/** @type {HTMLElement} */(document.querySelector('#world'));
  host.replaceChildren();const svg=node('svg',{viewBox:'0 0 900 540',class:'farm-scene goat-scene',role:'img','aria-label':t('goatArea')},host);node('title',{},svg).textContent=t('goatArea');node('ellipse',{cx:450,cy:355,rx:337,ry:137,fill:'#94ad74',opacity:'.23'},svg);const camera=node('g',{id:'map-camera'},svg);
  node('polygon',{points:'98,236 450,412 802,236 802,263 450,439 98,263',fill:'#91a96d'},camera);for(let y=0;y<L.size;y++)for(let x=0;x<L.size;x++){const p=iso(x,y);node('polygon',{points:diamond(p.x,p.y),fill:(x+y)%4===0?'#d3dfac':'#c6d89c',stroke:'#b4c98c','stroke-width':'.5','data-goat-tile':y*L.size+x},camera);}
  const edges=[[.3,.3,6.8,.3],[.3,.3,.3,6.8],[6.8,.3,6.8,6.8],[.3,6.8,6.8,6.8]];for(const edge of edges.slice(0,2))fence(camera,edge);pasture(camera);shelter(camera);stations(camera);
+ snapshot.herd.forEach((goat,index)=>drawGoat(camera,goat,index));
  const foreground=node('g',{'data-goat-foreground':''},camera);for(const edge of edges.slice(2))fence(foreground,edge);
 }
