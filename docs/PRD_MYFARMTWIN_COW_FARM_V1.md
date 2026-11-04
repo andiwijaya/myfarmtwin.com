@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **59/64 (92.19%)**
+Progress: **60/64 (93.75%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -102,7 +102,7 @@ Progress: **59/64 (92.19%)**
 ### M7 — Local release, production live verification and report (6)
 
 - [x] **M7-F01** — Run full clean build/test/lint/typecheck/e2e/chicken/other applicable suites, include scenario/balance tests and review protected-file diff.
-- [ ] **M7-F02** — Verify migration compatibility and rollback that **preserves new-format save** even if previous client cannot understand it; archive release evidence outside Git.
+- [x] **M7-F02** — Verify migration compatibility and rollback that **preserves new-format save** even if previous client cannot understand it; archive release evidence outside Git.
 - [ ] **M7-F03** — Push/deploy through currently audited GitHub→Cloudflare Pages pipeline after all gates; no force-push/GitHub Actions routine QA.
 - [ ] **M7-F04** — Live smoke desktop/mobile using isolated test browser profile: first dairy sale + save/reload + all old area checks + no uncaught exceptions.
 - [ ] **M7-F05** — Update homepage **existing single card** promotional copy/alt text/SEO EN/ID from “cows not playable” to accurate status **only after dairy is verified live**; preserve unfinished goat/fish disclaimers; retest.
@@ -293,3 +293,6 @@ Code/visible EN-ID claims reviewed:post-calving lactation only, fixed V1 scenari
 
 ### M7-F01
 Final262tests, clean type/build/lint/client audit and12compatibility profiles plusFirefox slice PASS. Protected-file audit proves unchanged homepage/articles/config/legacy fixtures and exact93file build. Final488866B/179328B gzip; canonical dist tree59b3e3d. No publication.
+
+### M7-F02
+Actual V3 rollback readers refuse advanced/active-job V4 and preserve all bytes; current reader resumes exact snapshots. Local release report/evidence prepared;60/64local-ready, four publication-dependent steps pending. No push/deploy.
