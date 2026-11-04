@@ -1,3 +1,4 @@
+import {FISH_MESSAGES} from './fish-locales.js';
 import {GOAT_MESSAGES} from './goat-locales.js';
 import {COW_MESSAGES} from './cow-locales.js';
 /** @type {Record<string,Record<string,string>>} */
@@ -92,7 +93,7 @@ if(!messages[locale])locale='en';
 /** @param {string} key */
 export const t=key=>messages[locale][key]||messages.en[key]||key;
 export const getLocale=()=>locale;
-Object.assign(messages.en,{exportBeforeFish:'Export pre-Fish original'},GOAT_MESSAGES.en,COW_MESSAGES.en);Object.assign(messages.id,{exportBeforeFish:'Ekspor save asli sebelum Ikan'},GOAT_MESSAGES.id,COW_MESSAGES.id);
+Object.assign(messages.en,{exportBeforeFish:'Export pre-Fish original'},GOAT_MESSAGES.en,COW_MESSAGES.en,FISH_MESSAGES.en);Object.assign(messages.id,{exportBeforeFish:'Ekspor save asli sebelum Ikan'},GOAT_MESSAGES.id,COW_MESSAGES.id,FISH_MESSAGES.id);
 /** @param {string} next */
 export function setLocale(next){locale=messages[next]?next:'en';try{localStorage.setItem('myfarmtwin.locale',locale);}catch{/* Optional preference storage unavailable. */}document.documentElement.lang=locale;}
 export function translate(){document.documentElement.lang=locale;document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t(el.getAttribute('data-i18n')||'');});}

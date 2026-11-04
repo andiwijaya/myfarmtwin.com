@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **12/64 (18.75%)**
+Progress: **13/64 (20.31%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -23,7 +23,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M0-F05** — Create isolated branch/checkpoint, sanitized V1–latest save fixtures, preserve original media, record release rollback plan and ignored QA path.
 - [x] **M0-F06** — Prototype lightweight isometric pond mock/layout, asset license inventory and mobile/desktop target; no new renderer dependency without evidence.
 - [x] **M0-F07** — Add this PRD living checklist & architecture/test contract to `docs/`; set feature gate default OFF until vertical slice, no production changes.
-- [ ] **M1-F01** — Add `Fish Pond` area selector and navigation within `/play/`; no new save/game route, old views still work.
+- [x] **M1-F01** — Add `Fish Pond` area selector and navigation within `/play/`; no new save/game route, old views still work.
 - [ ] **M1-F02** — Draw one cohesive pond/water/edge/deck/inlet/outlet scene with correct isometric alignment; no world overlap or clipped picking.
 - [ ] **M1-F03** — Render fish cohorts in two size/stage variants based on actual state (or presentation fixture before M2); no mismatch between state and fish count label.
 - [ ] **M1-F04** — Add lightweight swim/surface/feeding visual animations, reduced-motion and low-graphics fallbacks, no simulation driven by frame rate.
@@ -119,3 +119,6 @@ Independent beforeFish archive preserves exact actual-source bytes; conflict/quo
 
 ### M4-F04
 StrictFish model/ledger/source/mission/recovery validation PASS including hundreds of hostile numeric mutations and getter/prototype rejection;286units plus lint/types/build/audit PASS.
+
+### M1-F01
+Gated Fish Pond preview navigation works in existing play route;8 EN/ID desktop/mobile gate/old-area profiles preserve exact primary save.
