@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **40/64 (62.50%)**
+Progress: **41/64 (64.06%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -68,7 +68,7 @@ Progress: **40/64 (62.50%)**
 - [x] **M4-F04** — Migrate Goat-era saves if implemented; if not, document applicability and ensure future Goat integration uses shared migration chain.
 - [x] **M4-F05** — Serialize/validate cows, provenance-tagged supplies, lots, milk counters, production/sale remainders, cooling credit, recovery episodes, missions/grants, third-cow purchase, versions and ledger (§6.9).
 - [x] **M4-F06** — Test autosave/reload/return, import/export, cancel/invalid data, confirmed reset, rolling backup, quarantine corrupt/future saves.
-- [ ] **M4-F07** — Two-tabs/stale-revision/double-click and time pause/hidden tab/system-clock tests; no dupe sale/milk/grant or softlock.
+- [x] **M4-F07** — Two-tabs/stale-revision/double-click and time pause/hidden tab/system-clock tests; no dupe sale/milk/grant or softlock.
 - [ ] **M4-F08** — 30+ game-day mixed farm endurance with save roundtrips, shared resource conservation, no negative balance and no storage bloat.
 
 **M4 gate:** older players resume all existing content unharmed; no silent downgrade/reset. **Release blocker.**
@@ -236,3 +236,6 @@ Final CowV4 boundary reconciles all paid flags, source ledgers, integer milk/rev
 
 ### M4-F06
 245unit tests and24isolated browser data/resilience profiles PASS. Exact Cow exports, dedicated pre-Cow/pre-Goat originals, cancel/invalid imports, confirmed reset/backup restore preserve partial lots, paid credit and active jobs. Older backup recovery now archives source before autosave; archive collision/quota stays read-only. Future/corrupt/disabled-storage/denied-or-absent-lock/poisoned saves stay protected. Evidence qa/cow/M4-F06*.
+
+### M4-F07
+40real EN/ID desktop/mobile two-tab races PASS:entry, care, inspect, milk, quoted sale, job start/completion and upgrade each accept exactly one revision and stale tabs cannot write.4browser clock profiles PASS for all4areas, pause/hidden/system-time changes and exact NextDay;2headless24tick/stale-immutability tests PASS. Evidence qa/cow/M4-F07-*; no app permission changes.
