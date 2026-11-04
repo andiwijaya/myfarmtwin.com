@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **9/60 (15.0%)**.
+Progress: **10/60 (16.7%)**.
 
 ## Checklist
 
@@ -23,7 +23,7 @@ Progress: **9/60 (15.0%)**.
 - [x] **M1-F01** — Add `Goat Ranch` area switch to `/play/`, preserving Field/Chicken state and keyboard/touch behavior.
 - [x] **M1-F02** — Render enclosed yard/shelter/pasture with responsive geometry, no crop plot overlap or route split.
 - [x] **M1-F03** — Render 3 starter goats from stable state (one adult and two weaned), visually distinguishable.
-- [ ] **M1-F04** — Add light state-driven idle/walk/browse/chew/climb animations and reduced-motion fallback.
+- [x] **M1-F04** — Add light state-driven idle/walk/browse/chew/climb animations and reduced-motion fallback.
 - [ ] **M1-F05** — Render/select hay rack, shared water trough, cleanable shelter, paddock and safe climb platform.
 - [ ] **M1-F06** — Add contextual actions Feed/Water/Clean/Inspect/Sell, with correct disabled state and human-readable reasons.
 - [ ] **M1-F07** — Mobile 320–390 and desktop interactions, pan/zoom/reset (rotate if applicable), keyboard/focus, low graphics.
@@ -103,3 +103,6 @@ Original lightweight isometric enclosed ranch rendered in the same /play view: 6
 
 ### M1-F03
 Three stable scene goats now visibly distinguish one large ready adult from two smaller weaned young, with unique goat.starter IDs and EN/ID accessible labels. Four browser cases verify stage counts, stable IDs across locale redraw and unchanged farm saves; lint/typecheck/build PASS. Scene-only snapshot is immutable; no first-entry grant before M3. Evidence: qa/goat/M1-F03/.
+
+### M1-F04
+Light idle/walk/browse/chew/rest/short-climb SVG motions are derived from the shared logical tick snapshot; CSS cannot mutate growth/Coins/save. Full unit suite (97 tests), lint/typecheck/build and four EN/ID desktop/touch motion/reduced-motion/low-graphics plus exact-save regression cases PASS. Evidence: qa/goat/M1-F04/.
