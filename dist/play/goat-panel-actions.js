@@ -1,4 +1,4 @@
-import {t} from './locales.js';import {GOAT} from './goat-config.js';import {goatCapacities} from './goat-state.js';import {goatSaleReason} from './goat-market-policy.js';
+import {t} from './locales.js';import {openGoatContract} from './goat-market.js';import {GOAT} from './goat-config.js';import {goatCapacities} from './goat-state.js';import {goatSaleReason} from './goat-market-policy.js';
 /** @typedef {(type:import('./engine.js').CommandType,extra?:Partial<import('./engine.js').Command>)=>unknown} GoatSend */
 let expanded='';export function clearGoatDisclosure(){expanded='';}
 /** Real commands only. Disclosure openness is bounded presentation state, not simulation state. @param {import('./engine.js').State} state @param {string} selected @param {HTMLElement} host @param {GoatSend} send */
@@ -11,7 +11,7 @@ export function renderGoatActions(state,selected,host,send){
  if(selected==='hay')button('feed','goatFeedAction',()=>{send('feedGoats');},g.feederG>=cap.feederG-.00001?'goatRackFull':g.hayStockG<=0?'goatNoHay':'');
  if(selected==='water')button('water','goatWaterAction',()=>{send('waterGoats');},g.troughMl>=cap.troughMl-.00001?'goatTroughFull':state.water<=0?'noWater':'');
  if(selected==='clean'||selected==='shelter')button('clean','goatCleanAction',()=>{send('cleanGoatShelter');},q.cleanliness>=99.999?'goatShelterClean':state.tick-q.lastCleanTick<GOAT.cleanInterval?'goatCleanCooldown':'');
- if(goat)button('sell','goatSellAction',()=>{},goatSaleReason(state,goat.id)||'goatNoContract');
+ if(goat)button('sell','goatReviewContract',()=>openGoatContract(goat.id),goatSaleReason(state,goat.id));
  if(selected==='contract')button('market','marketTitle',()=>document.dispatchEvent(new Event('marketopen')));
  host.append(detail);
 }
