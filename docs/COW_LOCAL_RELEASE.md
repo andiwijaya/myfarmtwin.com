@@ -1,5 +1,7 @@
 # Cow Farm V1.1 — local release candidate
 
+> Historical pre-publication checkpoint. Cow Farm was subsequently published and verified; see [COW_PRODUCTION_RELEASE.md](COW_PRODUCTION_RELEASE.md) for current64/64 production status.
+
 **Local-ready: 60/64. Not pushed or deployed.** Source is original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f` (full V1.1 read directly; this report/checklist is derived project documentation, not a materialized attachment). Branch `cow-farm-v1`; application-code checkpoint `67a059b4a1ec77425b367143dec27dee7933b8e8`. Final Git HEAD can include later test/report-only commits. Canonical committed `dist` tree: `59b3e3d2344b6dc57026f899809a6d825e59b9ac`.
 
 ## Implemented

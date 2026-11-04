@@ -4,9 +4,9 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Publication subsequently explicitly authorized by Product Owner; first Cow deployment verified. Live gameplay and homepage gates are being completed below. The local release report is retained as the pre-publication snapshot.
+Publication explicitly authorized and fully verified. Current production source c3de361699b5dda4a131cf829f7d2a8ccff0b52f, deployment89318edf-aaa6-47b5-9232-bc65a85d3851; detailed live/homepage/report evidence below. COW_LOCAL_RELEASE.md is retained as the historical pre-publication snapshot.
 
-Progress: **63/64 (98.44%)**
+Progress: **64/64 (100.00%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -108,7 +108,7 @@ Progress: **63/64 (98.44%)**
 - [x] **M7-F03** — Push/deploy through currently audited GitHub→Cloudflare Pages pipeline after all gates; no force-push/GitHub Actions routine QA.
 - [x] **M7-F04** — Live smoke desktop/mobile using isolated test browser profile: first dairy sale + save/reload + all old area checks + no uncaught exceptions.
 - [x] **M7-F05** — Update homepage **existing single card** promotional copy/alt text/SEO EN/ID from “cows not playable” to accurate status **only after dairy is verified live**; preserve unfinished goat/fish disclaimers; retest.
-- [ ] **M7-F06** — Final report with commit, tested deployment link/ID, performance/security/QA evidence, remaining risks, rollback and 64/64 checklist only if each done.
+- [x] **M7-F06** — Final report with commit, tested deployment link/ID, performance/security/QA evidence, remaining risks, rollback and 64/64 checklist only if each done.
 
 **M7 gate:** production fully verified, not merely “build succeeded”; save recovery documented and actual homepage claims truthful.
 
@@ -307,3 +307,6 @@ Authorized non-force5189b54main push and exact Cloudflare deployment8d46fcf6term
 
 ### M7-F05
 Final c3de361/Cloudflare89318edf success;115Git-exact assets, unchanged93game files. Existing one-card EN/ID homepage accurately lists live cows/future fish;4live homepage profiles,9SEO/15layouts plus8Cow and8mixed journeys PASS; saves intact.
+
+### M7-F06
+Final production report completed: exactc3de361/89318edf success,115Git-exact resources,84Cow live profiles plus final smoke/data/rollback/SEO;64/64supported. Save safe, no unresolved blocker; physical/Safari limits explicit. Evidence commits local, main verified unchanged.

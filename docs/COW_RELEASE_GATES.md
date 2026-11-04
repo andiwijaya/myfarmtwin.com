@@ -73,3 +73,7 @@ After the84profile live Cow gate, only existing single-card EN/ID availability/d
 ## M7-F05
 
 Final main/source c3de361699b5dda4a131cf829f7d2a8ccff0b52f, Cloudflare deployment89318edf-aaa6-47b5-9232-bc65a85d3851 terminal success2026-11-04T22:06:57.499492Z, immutable https://89318edf.myfarmtwin-com.pages.dev. Exactly two availability files uploaded (113reused). All115public resources match exact finalGit blobs, and all93game assets remain byte-identical to5189b54. Four live320/1440EN-ID homepage/metadata/CTA/save/no-overflow cases plus no-JS/blocked-storage/reduced-motion fallback checks PASS. Nine liveSEO routes/15layouts and GA4 pass; eight final native-clock Cow first-sale/reload and eight final crop/egg/Goat journeys PASS. Existing artwork/layout/articles/config preserved; only fish remains future. Evidence qa/cow/release/final-{deployment.json,integrity,home,cow,mixed,seo}. No publication or gameplay issue remains; final report is next.
+
+## M7-F06
+
+Final production report docs/COW_PRODUCTION_RELEASE.md records exact c3de361/source89318edf deployment/time,115Git-exact resource bodies,84Cow live profiles and final8Cow/8mixed/4homepage smoke,save/old-client rollback,local performance/security evidence and physical/Safari limits. Historical local report is labeled. All64micro-features are supported by evidence; no unresolved production failure. Final report/checklist commits stay local on cow-farm-v1 to avoid documentation-only deployment; main remains exact verified source. No next expansion started.
