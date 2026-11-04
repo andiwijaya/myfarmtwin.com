@@ -197,3 +197,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M6-F01 | PASS | 49/58 (84.5%)
 
 2026-11-04T00:10:10+00:00 — Full EN/ID desktop/actual-touch Chicken+cross-crop, progression/Lab and stockout pass; fixed large-coop care occlusion; six-hen four-angle yard/crop picking+expansion pass.
+
+## M6-F02 | PASS | 50/58 (86.2%)
+
+2026-11-04T00:12:08+00:00 — 94 tests/lint/typecheck pass;3000 mixed valid/invalid commands preserve immutable inputs, stock/ledger/replay/V2 bounds; isolated feature-off keeps Chicken bytes and exact crop behavior.
