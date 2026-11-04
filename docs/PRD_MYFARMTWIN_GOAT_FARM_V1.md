@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **4/60 (6.7%)**.
+Progress: **5/60 (8.3%)**.
 
 ## Checklist
 
@@ -18,7 +18,7 @@ Progress: **4/60 (6.7%)**.
 - [x] **M0-F02** — Run baseline lint/typecheck/unit/build/e2e/homepage and available compatibility/security tests; document existing failures separately.
 - [x] **M0-F03** — Verify exact Chicken status (implemented, ongoing, absent) and define safe prerequisite/integration gate.
 - [x] **M0-F04** — Map engine/tick/weather/Market/ledger/UI/save APIs and actual schema version; identify reuse points.
-- [ ] **M0-F05** — Create safe checkpoint/branch, sanitized old-save fixtures and rollback strategy without touching user save.
+- [x] **M0-F05** — Create safe checkpoint/branch, sanitized old-save fixtures and rollback strategy without touching user save.
 - [ ] **M0-F06** — Commit living PRD, technical acceptance contract and local test plan; no implementation before gate.
 - [ ] **M1-F01** — Add `Goat Ranch` area switch to `/play/`, preserving Field/Chicken state and keyboard/touch behavior.
 - [ ] **M1-F02** — Render enclosed yard/shelter/pasture with responsive geometry, no crop plot overlap or route split.
@@ -88,3 +88,6 @@ Chicken is implemented and feature-enabled at baseline 1e14042; 96 unit tests an
 
 ### M0-F04
 Mapped current V2 schema and exact allowed fields; shared dispatch revision+clone/reject semantics, logical hour/weather/RNG, Coins/ledger, tank, Market, mission displays, per-area camera and locked SaveSession APIs. Safe build copies only dist/play. Technical acceptance/test/rollback contract recorded in GOAT_CONTRACTS.md.
+
+### M0-F05
+Isolated goat-ranch-v1 branch; immutable production/main checkpoint 1e14042 retained. Captured validated synthetic fresh V2 and 35-day mixed Crop/Chicken V2 saves (8 beds, 2 hens, tick 840, 2350 Coins), manifest hashes and exact original V2 save-schema/storage/config reader bytes. SHA256 and serialize/deserialize equality PASS; no real user save accessed. Existing V0/V1 fixtures remain available.

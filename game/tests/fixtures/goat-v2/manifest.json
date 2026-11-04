@@ -1,0 +1,43 @@
+{
+  "source": "1e140428eba6743817e808676c689ce4ff7fffcf",
+  "synthetic": true,
+  "saveVersion": 2,
+  "files": [
+    {
+      "name": "fresh.json",
+      "bytes": 1316,
+      "sha256": "45572cd7b58237221e7fe303f1f04f33f1b160a293e24c211d1efe57a3e2e196",
+      "tick": 0,
+      "coins": 120,
+      "hens": 0
+    },
+    {
+      "name": "mixed.json",
+      "bytes": 57214,
+      "sha256": "f1e45bd7477897a03694ecdcaa57f2ed3c577ef06440f2c15ec435587bdfb979",
+      "tick": 840,
+      "coins": 2350,
+      "hens": 2
+    }
+  ],
+  "rollbackSourceFiles": [
+    {
+      "name": "rollback/save-schema.js.txt",
+      "source": "game/client/save-schema.js",
+      "bytes": 8418,
+      "sha256": "2938e0785978a2d0c51c5a0f2f616b883dd67b05b5253b3ca4721e8b202772b3"
+    },
+    {
+      "name": "rollback/storage.js.txt",
+      "source": "game/client/storage.js",
+      "bytes": 4354,
+      "sha256": "fbc65c514bb1b5da70c6b8b25adf7a441403d3ca137a146232e26b8df657f639"
+    },
+    {
+      "name": "rollback/config.js.txt",
+      "source": "game/client/config.js",
+      "bytes": 1889,
+      "sha256": "3c0833fb4018edf3b86de4134906e514346b2708aaa9307e71409a8944b6c539"
+    }
+  ]
+}
