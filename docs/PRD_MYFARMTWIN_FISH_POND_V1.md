@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **29/64 (45.31%)**
+Progress: **30/64 (46.88%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -42,7 +42,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M2-F09** — Implement fish growth stages, biomass/density/water quality/growth trade-offs using shared logical ticks, weather and seeded reproducibility.
 - [x] **M2-F10** — Implement market readiness, grade, recoverable fish condition; hard capacity and safe stock purchase checks.
 - [ ] **M2-F11** — Headless controlled tests compare fed/unfed, moderate/overfed, aerator ON/OFF, filter/no-filter, stocking density, hot weather; 24 ticks==Next Day, state/ledger/resource bounds.
-- [ ] **M3-F01** — Wire pond entry and starter view to persisted engine state; show 4 market-ready + 8 fingerlings as separate cohorts where config permits.
+- [x] **M3-F01** — Wire pond entry and starter view to persisted engine state; show 4 market-ready + 8 fingerlings as separate cohorts where config permits.
 - [ ] **M3-F02** — Add FarmGirl `My First Fish Harvest` chapter in context; mission progression depends only on accepted actions/state evidence, not rendering.
 - [ ] **M3-F03** — Connect Feed/Aerate/Inspect buttons to real commands/ticks with state-driven water indicators and causal `Why?` text.
 - [ ] **M3-F04** — Render accurate `Ready to Harvest` state and implement atomic actual harvest from eligible cohort → FishHarvestLot (count/weight/grade), no double-harvest.
@@ -172,3 +172,6 @@ Feed-limited growth/condition now follow actualO2/TAN/temp/density on ticks; con
 
 ### M2-F10
 Readiness uses actual mature mass/owned time; condition-based grades recover gradually; paid stock reserves full future mass before spending;5stock/growth tests/types/build/audit PASS.
+
+### M3-F01
+UI entry now dispatches and persists the actual finite starter;4 EN/ID desktop/mobile earnedV4 profiles preserve all old fields/archive and grant nothing on reentry/reload; types/build/audit PASS.
