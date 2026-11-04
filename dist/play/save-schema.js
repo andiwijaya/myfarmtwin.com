@@ -1,3 +1,4 @@
+import {validateChickenEconomy} from './chicken-save-checks.js';
 import {CURRENT_SAVE_VERSION} from './config.js';import {createChickenState} from './chicken-state.js';
 import {assertInvariants} from './invariants.js';import {INITIAL_PLOTS,EXPANSION,CROP_IDS,CROPS,ORDERS,WEATHER} from './config.js';
 const COST_TYPES=['seed_purchase','water_cost','facility_purchase','feed_purchase','care_cost','coop_upgrade','hen_purchase','feeder_upgrade','feeder_service','shade_purchase'];const REVENUE_TYPES=['sale_revenue','mission_reward','egg_sale'];const CHICKEN_TYPES=['feed_purchase','care_cost','coop_upgrade','hen_purchase','feeder_upgrade','feeder_service','shade_purchase','egg_sale'];
@@ -30,7 +31,7 @@ function validateVersion(value,version){
  const stats=object(s.stats,['planted','watered','cared','harvested','sold','hotCare','orders']);for(const n of Object.values(stats))integer(n);if(stats.cared>stats.watered||stats.hotCare>stats.cared||stats.harvested-stats.sold!==quantity)throw new Error('Invalid farm totals');
  const orders=array(s.completedOrders,3);if(new Set(orders).size!==orders.length||orders.some(id=>!ORDERS.some(o=>o.id===id))||stats.orders!==orders.length||(orders.length&&mission.step<7))throw new Error('Invalid orders');
  const followups=object(s.followups,['order','hotCare','efficiency']);for(const flag of Object.values(followups))boolean(flag);if((followups.order&&stats.orders<1)||(followups.hotCare&&stats.hotCare<1)||(followups.efficiency&&!pump.efficient)||(Object.values(followups).some(Boolean)&&mission.step<7))throw new Error('Invalid follow-up missions');
- const state=/** @type {import('./engine.js').State} */(/** @type {unknown} */(s));assertInvariants(state);return structuredClone(state);
+ const state=/** @type {import('./engine.js').State} */(/** @type {unknown} */(s));assertInvariants(state);if(version===2)validateChickenEconomy(state);return structuredClone(state);
 }
 /** @param {unknown} value @returns {import('./engine.js').State} */
 export function validateState(value){return validateVersion(value,SAVE_VERSION);}

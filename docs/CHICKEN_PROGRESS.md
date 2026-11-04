@@ -205,3 +205,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M6-F03 | PASS | 51/58 (87.9%)
 
 2026-11-04T00:14:08+00:00 — Runtime/dead-code audit passes: zero runtime deps/debug/external imports, EN/ID keys match, obsolete prototype runner/preview fallback removed, build isolated and original FarmGirl PNG byte-identical.
+
+## M6-F04 | PASS | 52/58 (89.7%)
+
+2026-11-04T00:20:42+00:00 — 95 tests and browser CSP/malicious import/data/concurrency pass; new supply/price/grant/history coherence, legacy/future/quarantine preservation; eight tab races and storage/clock failures safe.
