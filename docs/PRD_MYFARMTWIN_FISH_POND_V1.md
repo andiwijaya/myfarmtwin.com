@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **6/64 (9.38%)**
+Progress: **7/64 (10.94%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -22,7 +22,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M0-F04** — Run available baseline local lint/typecheck/unit/build/E2E/chicken/cow/goat/homepage/security/SEO/compat tests; distinguish baseline issue vs new regression.
 - [x] **M0-F05** — Create isolated branch/checkpoint, sanitized V1–latest save fixtures, preserve original media, record release rollback plan and ignored QA path.
 - [x] **M0-F06** — Prototype lightweight isometric pond mock/layout, asset license inventory and mobile/desktop target; no new renderer dependency without evidence.
-- [ ] **M0-F07** — Add this PRD living checklist & architecture/test contract to `docs/`; set feature gate default OFF until vertical slice, no production changes.
+- [x] **M0-F07** — Add this PRD living checklist & architecture/test contract to `docs/`; set feature gate default OFF until vertical slice, no production changes.
 - [ ] **M1-F01** — Add `Fish Pond` area selector and navigation within `/play/`; no new save/game route, old views still work.
 - [ ] **M1-F02** — Draw one cohesive pond/water/edge/deck/inlet/outlet scene with correct isometric alignment; no world overlap or clipped picking.
 - [ ] **M1-F03** — Render fish cohorts in two size/stage variants based on actual state (or presentation fixture before M2); no mismatch between state and fish count label.
@@ -101,3 +101,6 @@ Captured actual synthetic fresh/mixedV4 including earned3Cow farm; exact reader 
 
 ### M0-F06
 Original code-native isometric SVG prototype visually inspected;12 EN/ID desktop/mobile layouts and four orientations PASS; no new dependency.
+
+### M0-F07
+Living64-feature checklist, architecture/test contract and default-OFF gate complete;264unit tests, strict types/build/client audit PASS.
