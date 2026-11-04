@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **5/64 (7.81%)**
+Progress: **6/64 (9.38%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -21,7 +21,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M0-F03** — Read current headless engine/tick, renderer camera, Market, ledger, fish-relevant configs, storage and save migration; record actual version and integration seam.
 - [x] **M0-F04** — Run available baseline local lint/typecheck/unit/build/E2E/chicken/cow/goat/homepage/security/SEO/compat tests; distinguish baseline issue vs new regression.
 - [x] **M0-F05** — Create isolated branch/checkpoint, sanitized V1–latest save fixtures, preserve original media, record release rollback plan and ignored QA path.
-- [ ] **M0-F06** — Prototype lightweight isometric pond mock/layout, asset license inventory and mobile/desktop target; no new renderer dependency without evidence.
+- [x] **M0-F06** — Prototype lightweight isometric pond mock/layout, asset license inventory and mobile/desktop target; no new renderer dependency without evidence.
 - [ ] **M0-F07** — Add this PRD living checklist & architecture/test contract to `docs/`; set feature gate default OFF until vertical slice, no production changes.
 - [ ] **M1-F01** — Add `Fish Pond` area selector and navigation within `/play/`; no new save/game route, old views still work.
 - [ ] **M1-F02** — Draw one cohesive pond/water/edge/deck/inlet/outlet scene with correct isometric alignment; no world overlap or clipped picking.
@@ -98,3 +98,6 @@ Fresh lint/typecheck/build/client audit and262unit tests PASS; unchanged exact-s
 
 ### M0-F05
 Captured actual synthetic fresh/mixedV4 including earned3Cow farm; exact reader hashes and byte-preservation test PASS; isolated branch and rollback retained.
+
+### M0-F06
+Original code-native isometric SVG prototype visually inspected;12 EN/ID desktop/mobile layouts and four orientations PASS; no new dependency.
