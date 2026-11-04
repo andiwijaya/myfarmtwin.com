@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **18/60 (30.0%)**.
+Progress: **19/60 (31.7%)**.
 
 ## Checklist
 
@@ -32,7 +32,7 @@ Progress: **18/60 (30.0%)**.
 - [x] **M2-F02** — Wire goat commands into existing revision/idempotency/atomic engine transaction flow.
 - [x] **M2-F03** — Hay purchase/store/refill/consumption with feed conservation and accurate ledger.
 - [x] **M2-F04** — Water trough/refill/consumption from shared farm tank with volume conservation.
-- [ ] **M2-F05** — Pasture biomass, browse consumption and deterministic regeneration based on shared weather.
+- [x] **M2-F05** — Pasture biomass, browse consumption and deterministic regeneration based on shared weather.
 - [ ] **M2-F06** — Shelter cleanliness/clean action and bounded maintenance cost/effect; prevent spam exploits.
 - [ ] **M2-F07** — Causal nutrition/hydration/space/weather → comfort/condition with gradual recovery, no offline degradation.
 - [ ] **M2-F08** — Growth stages `weaned→growing→market-ready` using game ticks and configurable compressed duration.
@@ -130,3 +130,6 @@ Hay purchase charges 24 shared Coins for 6kg exactly once, storage->rack transfe
 
 ### M2-F04
 Shared tank litres transfer to trough ml exactly; real shared-hour drinking conserves volume, hot weather raises demand, partial/empty/full tanks and replay reject safely. No extra Coin charge for transfers; existing paid farm refill remains recovery. Crop/Chicken state preserved; paused clock/dry trough never creates water or underflows. 111 unit tests, lint/typecheck/build PASS; EN/ID feedback added. Evidence: qa/goat/M2-F04/.
+
+### M2-F05
+Actual paddock browse is consumed before hay. Bounded regrowth uses existing shared weather and resting/active grazing pressure without another RNG/clock; biomass and lifetime consumed/regrown terms conserve mass. Seeded 20-day save/replay shows overgrazing shortages without negative stocks; rain/rest/heat and cap scenarios tested. 114 full unit tests, lint/typecheck/build PASS. Earlier feed assertions now include actual browse plus hay, preserving total demand/accounting. Evidence: qa/goat/M2-F05/.
