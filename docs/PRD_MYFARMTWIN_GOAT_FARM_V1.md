@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **25/60 (41.7%)**.
+Progress: **26/60 (43.3%)**.
 
 ## Checklist
 
@@ -39,7 +39,7 @@ Progress: **25/60 (41.7%)**.
 - [x] **M2-F09** — Herd capacity and social minimum-two sale rule, with rejection messages and recovery suggestions.
 - [x] **M2-F10** — Unit/invariant tests seeded scenarios: no feed/water, good care, hot/rainy, overgrazing, pause, 24 ticks=Next Day.
 - [x] **M3-F01** — Grant one-time starter shelter + three goats + bounded supplies when first entering Goat Ranch.
-- [ ] **M3-F02** — Implement `My First Goat Sale` chapter, FarmGirl guide, persisted progress and area-specific mission display.
+- [x] **M3-F02** — Implement `My First Goat Sale` chapter, FarmGirl guide, persisted progress and area-specific mission display.
 - [ ] **M3-F03** — Bind Feed/Water/Clean/Inspect buttons to real commands and causally correct visual feedback.
 - [ ] **M3-F04** — Integrate live-goat sale quote/contract into the **same** Market as crops/eggs.
 - [ ] **M3-F05** — Atomic sale ready adult → remove goat once, credit Coins/ledger once, leave two goats together.
@@ -151,3 +151,6 @@ M2 gate PASS: 130 unit tests cover seeded good/no-feed/no-water/hot/rain/overgra
 
 ### M3-F01
 Real UI first entry now atomically grants the saved shelter/one mature+two weaned herd/6kg hay once, with at most 12L shortage-only starter water voucher (zero Coins) to avoid empty-tank/zero-wallet softlock. Removed the presentation-only herd; renderer snapshots actual ownership. 133 unit tests, lint/typecheck/build, eight new/existing V2 EN/ID desktop/touch first-entry/reload/locale cases and two parallel-tab grant races PASS. Older farm subtrees/archives preserved; actual Goat UI roundtrip PASS. Evidence: qa/goat/M3-F01/.
+
+### M3-F02
+First live-goat-sale chapter now persists evidence-driven progress only from accepted commands; reordered real care is remembered, guide reads/rejected spam cannot grant progress/rewards. Existing FarmGirl displays separate EN/ID Goat objectives/progress/targets and restores Crop/Chicken guides. Forged mission completion rejects. 136 unit tests, lint/typecheck/build and 12 desktop/touch/bilingual existing-progress guide/reload/save profiles PASS. Care controls are wired in the next feature. Evidence: qa/goat/M3-F02/.
