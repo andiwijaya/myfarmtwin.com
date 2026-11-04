@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **32/64 (50.00%)**
+Progress: **33/64 (51.56%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -55,7 +55,7 @@ Progress: **32/64 (50.00%)**
 - [x] **M3-F05** — Add milk lots A/B/C to existing inventory and **Co-op delivery** to existing Market; accepted only if valid grade/freshness.
 - [x] **M3-F06** — Exact integer sale/ledger income with persisted fractional remainder, ordinary/contract lot selection and partial contract lots; no double-credit or mutation on invalid/stale/replayed orders.
 - [x] **M3-F07** — Add affordable first upgrade path (cooler/trough) with visible world change and measurable engine benefit.
-- [ ] **M3-F08** — Add free cleaning/disposal and repeatable Co-op Care Jobs with time gate, source/capacity accounting, restricted ration and durable deduplication; prove a second independent zero-wallet recovery.
+- [x] **M3-F08** — Add free cleaning/disposal and repeatable Co-op Care Jobs with time gate, source/capacity accounting, restricted ration and durable deduplication; prove a second independent zero-wallet recovery.
 - [ ] **M3-F09** — **CRITICAL VERTICAL SLICE:** desktop/touch-mobile first entry → care → clean → milk → valid co-op sale → Coins → view upgrade goal, target ≤180 seconds in measured scenarios. Upgrade purchase is a separate balance test; all old farm loops pass.
 
 **M3 gate:** end-to-end Dairy core gameplay functional. **Do not** add advanced features until this passes. **Do not deploy** without M4 save safety and M6/M7 release gates.
@@ -212,3 +212,6 @@ Exact sale accounting and first contract verified:one rounding per transaction, 
 
 ### M3-F07
 First upgrade goal shows90Coin price,100-to150L benefit and true shortfall; purchase changes world/capacity once without free water.227unit tests PASS, including five days of zero-wallet dairy-only normal paid resupply/sales funding the upgrade;4 EN/ID desktop/mobile goal/purchase/reload profiles PASS. Evidence qa/cow/M3-F07.
+
+### M3-F08
+Repeatable care jobs require real next-hour shortage, unavailable affordable resupply and no usable milk, recheck after8ordinary hours, and complete at most once/24absolute hours. Restricted16kg/90L two-cow aid preserves exact sources and cannot credit Coins/shared water; second independent zero-wallet episode verified.230units and4 EN/ID desktop320/touch recovery profiles PASS. Disposal reasons now persist. Evidence qa/cow/M3-F08.
