@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **13/60 (21.7%)**.
+Progress: **14/60 (23.3%)**.
 
 ## Checklist
 
@@ -27,7 +27,7 @@ Progress: **13/60 (21.7%)**.
 - [x] **M1-F05** — Render/select hay rack, shared water trough, cleanable shelter, paddock and safe climb platform.
 - [x] **M1-F06** — Add contextual actions Feed/Water/Clean/Inspect/Sell, with correct disabled state and human-readable reasons.
 - [x] **M1-F07** — Mobile 320–390 and desktop interactions, pan/zoom/reset (rotate if applicable), keyboard/focus, low graphics.
-- [ ] **M1-F08** — EN/ID for every Goat view/control/status/error; seamless return to Crop/Chicken guide.
+- [x] **M1-F08** — EN/ID for every Goat view/control/status/error; seamless return to Crop/Chicken guide.
 - [ ] **M2-F01** — Define Goat/Herd/Shelter/Paddock config with bounded values, stable IDs, age-stage semantics and validators.
 - [ ] **M2-F02** — Wire goat commands into existing revision/idempotency/atomic engine transaction flow.
 - [ ] **M2-F03** — Hay purchase/store/refill/consumption with feed conservation and accurate ledger.
@@ -115,3 +115,6 @@ Context panels now provide working Inspect disclosures and shared Market entry. 
 
 ### M1-F07
 Goat camera/accessibility gate PASS on 10 EN/ID profiles: 320/360/390 portrait, 844x390 landscape and 1440 desktop. Real touch/mouse drag never picks accidentally; all four rotations preserve painted trough picking; zoom clamps, reset, independent per-area cameras, keyboard/focus, >=44px controls, low graphics and below-world panel verified without save mutation. Existing full six-hen Chicken plus rotated Field picking/expansion camera regressions PASS on desktop/touch. Evidence: qa/goat/M1-F07/.
+
+### M1-F08
+Full current ranch EN/ID labels/actions/errors/disclosures and locale redraw verified; active selection and exact saves preserved, Crop/Chicken guides restored. lint/typecheck, 97 unit tests, build, full original E2E/data/recovery/black-box/crop flow, 24 homepage surfaces and nine-route/15-layout SEO PASS. GOAT_M1_GATE documents presentation limits and later model/save gates. Homepage preservation scope excludes only intentionally edited game output under explicit test flag. Evidence: qa/goat/M1-F08/.
