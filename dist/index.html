@@ -28,14 +28,15 @@
     <label class="locale-label"><span class="sr-only" data-home="language">Language</span><select id="home-language"><option value="en" lang="en">EN</option><option value="id" lang="id">ID</option></select></label>
   </header>
   <main id="main" class="home-main">
-    <a class="game-card" href="/play/" aria-labelledby="game-title">
-      <div class="card-preview"><img src="/assets/farm-preview.svg" width="740" height="510" alt="Cartoon final-vision farm with vegetables, chickens, a goat, a cow and a fish pond." data-home-alt="previewAlt" fetchpriority="high"></div>
+    <a class="game-card" href="/play/" aria-labelledby="game-title game-enter" aria-describedby="game-description game-future">
+      <div class="card-preview"><img src="/assets/farm-vision-hero-v2-small.webp" srcset="/assets/farm-vision-hero-v2-small.webp 768w, /assets/farm-vision-hero-v2.webp 1536w" sizes="(min-width: 1400px) 620px, (min-width: 901px) 50vw, (min-width: 601px) 520px, calc(100vw - 40px)" width="1536" height="1024" alt="A cartoon future farm with vegetables, chickens, goats, a cow and a fish pond." data-home-alt="previewAlt" fetchpriority="high"></div>
       <div class="card-content">
-        <p class="live-tag"><span class="live-dot" aria-hidden="true"></span><span data-home="live">Live</span></p>
-        <h1 id="game-title" data-home="play">Play Farm</h1>
-        <p class="card-description" data-home="description">Grow crops and raise chickens in one farm.</p>
-        <p class="card-future" data-home="future">Illustration of our future farm. Goats, cows and fish ponds are not playable yet.</p>
-        <div class="card-bottom"><span class="play-note" data-home="note">Free · No account</span><span class="card-action"><span data-home="enter">Play now</span><span aria-hidden="true">↗</span></span></div>
+        <p class="live-tag"><span class="live-dot" aria-hidden="true"></span><span data-home="live">Live now · Crops &amp; chickens</span></p>
+        <h1 id="game-title" data-home="play">A little farm.
+A lot to grow.</h1>
+        <p class="card-description" id="game-description" data-home="description">Grow vegetables, care for chickens, and make this little farm your own.</p>
+        <p class="card-future" id="game-future" data-home="future">A glimpse of our future farm. Goats, cows and fish ponds are not playable yet.</p>
+        <div class="card-bottom"><span class="play-note" data-home="note">Free · No account</span><span class="card-action"><span id="game-enter" data-home="enter">Play now</span><span aria-hidden="true">↗</span></span></div>
       </div>
     </a>
   </main>
