@@ -1,0 +1,4 @@
+/** Monotonic objectives use accepted engine evidence, never render or wall time. @param {import('./engine.js').State} state */
+export function advanceCowMission(state){const g=state.cow;if(!g?.visited)return;const checks=[g.visited,g.stats.feedActions>0,g.stats.waterActions>0,g.stats.standCleaned>0,g.mission.inspectedA,g.stats.milkings>0,g.stats.saleCount>0,g.mission.upgradeViewed];while(g.mission.step<checks.length&&checks[g.mission.step])g.mission.step++;if(g.mission.step>=7&&!g.grants.includes('cow.welcome'))g.grants.push('cow.welcome');}
+/** @param {import('./engine.js').State} state */
+export function cowObjective(state){const step=state.cow?.mission.step||0,targets=['#area-cow','[data-choose-cow=feed]','[data-choose-cow=water]','[data-choose-cow=stand]','[data-choose-cow="cow.starter.a"]','[data-choose-cow="cow.starter.a"]','[data-choose-cow=coop]','#market-open',''];return {step,title:'cowMission'+step,detail:'cowDetail'+step,target:targets[step]};}
