@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **12/60 (20.0%)**.
+Progress: **13/60 (21.7%)**.
 
 ## Checklist
 
@@ -26,7 +26,7 @@ Progress: **12/60 (20.0%)**.
 - [x] **M1-F04** — Add light state-driven idle/walk/browse/chew/climb animations and reduced-motion fallback.
 - [x] **M1-F05** — Render/select hay rack, shared water trough, cleanable shelter, paddock and safe climb platform.
 - [x] **M1-F06** — Add contextual actions Feed/Water/Clean/Inspect/Sell, with correct disabled state and human-readable reasons.
-- [ ] **M1-F07** — Mobile 320–390 and desktop interactions, pan/zoom/reset (rotate if applicable), keyboard/focus, low graphics.
+- [x] **M1-F07** — Mobile 320–390 and desktop interactions, pan/zoom/reset (rotate if applicable), keyboard/focus, low graphics.
 - [ ] **M1-F08** — EN/ID for every Goat view/control/status/error; seamless return to Crop/Chicken guide.
 - [ ] **M2-F01** — Define Goat/Herd/Shelter/Paddock config with bounded values, stable IDs, age-stage semantics and validators.
 - [ ] **M2-F02** — Wire goat commands into existing revision/idempotency/atomic engine transaction flow.
@@ -112,3 +112,6 @@ Seven stations/shelter and three goats selectable with shared per-area camera pi
 
 ### M1-F06
 Context panels now provide working Inspect disclosures and shared Market entry. Feed/water/clean/sell controls show explicit visible EN/ID reasons and aria-describedby while M1 is presentation-only; no fake economy operation or grant. Four desktop/touch profiles verify disabled reasons, accessible expanded inspection, Market navigation and exact old-save/guide preservation. lint/typecheck/build PASS. Evidence: qa/goat/M1-F06/.
+
+### M1-F07
+Goat camera/accessibility gate PASS on 10 EN/ID profiles: 320/360/390 portrait, 844x390 landscape and 1440 desktop. Real touch/mouse drag never picks accidentally; all four rotations preserve painted trough picking; zoom clamps, reset, independent per-area cameras, keyboard/focus, >=44px controls, low graphics and below-world panel verified without save mutation. Existing full six-hen Chicken plus rotated Field picking/expansion camera regressions PASS on desktop/touch. Evidence: qa/goat/M1-F07/.
