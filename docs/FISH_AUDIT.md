@@ -11,3 +11,7 @@ Rollback baseline: preserve/export current V4 before any future release. Keep ap
 Owned runtime guard tested normal exit and forced child-tree timeout. Work stops07:50WIB, automatic conservative checkpoint follows, registered cleanup jobs stop07:55WIB, ahead of hard08:00WIB2026-11-05. Only exact PID/creation-time matched owned jobs can be terminated. No automatic resume or machine schedule changes. QA is outside Git in the shared task workspace, qa/fish/.
 
 Evidence: qa/fish/M0-F01/live-integrity.json and log; fish-session/deadline.json, watchdog.log; COW_PRODUCTION_RELEASE.md for retained prior release identity. Local lookup commands: git status, worktree list, log, remote -v and ls-remote origin refs/heads/main.
+
+## Prior-area dependency resolved
+
+Cow is64/64 complete, not the stale62/64 snapshot in the incoming Fish document. COW_PRODUCTION_RELEASE.md and the Cow tracker record final live verification. Its release source c3de361 is the exact fresh production baseline. Crops, Chicken, Goat and Cow are all present in the shared engine/save and production. Previously completed isolated live journeys cover crop harvest/sale, eggs, live-goat sale, Cow care/milking/sale and reload. No owner's profile was used. Fish starts after Cow final evidence ffc0963, so no concurrent merge or overwrite is needed. Preserve one homepage card and its current truthful Fish-planned copy until separately authorized and actually verified live.
