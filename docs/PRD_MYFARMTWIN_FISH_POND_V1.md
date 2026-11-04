@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **2/64 (3.12%)**
+Progress: **3/64 (4.69%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -18,7 +18,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 
 - [x] **M0-F01** — Audit local, remote, production release commit, current Dot tasks, uncommitted files/worktrees, deployment and rollback; find any Fish work not pushed.
 - [x] **M0-F02** — Verify **Crop/Chicken/Goat/Cow actual status**, especially pending Cow 62/64 snapshot, and establish safe sequential integration without overwriting active task.
-- [ ] **M0-F03** — Read current headless engine/tick, renderer camera, Market, ledger, fish-relevant configs, storage and save migration; record actual version and integration seam.
+- [x] **M0-F03** — Read current headless engine/tick, renderer camera, Market, ledger, fish-relevant configs, storage and save migration; record actual version and integration seam.
 - [ ] **M0-F04** — Run available baseline local lint/typecheck/unit/build/E2E/chicken/cow/goat/homepage/security/SEO/compat tests; distinguish baseline issue vs new regression.
 - [ ] **M0-F05** — Create isolated branch/checkpoint, sanitized V1–latest save fixtures, preserve original media, record release rollback plan and ignored QA path.
 - [ ] **M0-F06** — Prototype lightweight isometric pond mock/layout, asset license inventory and mobile/desktop target; no new renderer dependency without evidence.
@@ -89,3 +89,6 @@ Verified isolated checkout, remote main and115 exact production resources; no ot
 
 ### M0-F02
 Resolved stale Cow62/64 snapshot against actual64/64 release and exact production assets; all four prior areas preserved.
+
+### M0-F03
+Documented actualV4 seams, shared tick/spending/RNG order, future-mass capacity, tutorial budget and auditable repeat recovery design.
