@@ -1,0 +1,5 @@
+import {COW} from './cow-config.js';
+/** Integer approach reaches either endpoint without a hidden fractional backlog. @param {number} current @param {number} target @param {number} [response] */
+export function approachCowIndex(current,target,response=COW.careResponse){const difference=target-current;return Math.max(0,Math.min(COW.careScale,current+Math.sign(difference)*Math.ceil(Math.abs(difference)/response)));}
+/** Consume restricted recovery first, then starter, then purchased/shared stock. @param {import('./cow-state.js').CowState} g @param {'feed'|'water'} resource @param {number} demand */
+export function consumeCowResource(g,resource,demand){const trough=resource==='feed'?g.feedTrough:g.waterTrough;let remaining=demand;for(const source of /** @type {const} */(['recovery','starter','normal'])){const amount=Math.min(remaining,trough[source]);trough[source]-=amount;remaining-=amount;const key=/** @type {'recoveryFeedUsedG'|'starterFeedUsedG'|'normalFeedUsedG'|'recoveryWaterUsedMl'|'starterWaterUsedMl'|'normalWaterUsedMl'} */(source+(resource==='feed'?'FeedUsedG':'WaterUsedMl'));g.stats[key]+=amount;}return demand-remaining;}

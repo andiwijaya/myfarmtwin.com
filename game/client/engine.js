@@ -9,7 +9,7 @@ import {createChickenState} from './chicken-state.js';
 import {createGoatState} from './goat-state.js';
 import {createCowState} from './cow-state.js';
 import {isCowCommand,validateCowCommand} from './cow-commands.js';
-import {applyCowCommand} from './cow-runtime.js';
+import {applyCowCommand,tickCow} from './cow-runtime.js';
 import {isGoatCommand,validateGoatCommand} from './goat-commands.js';
 import {applyGoatCommand,tickGoat} from './goat-runtime.js';
 import {advanceGoatMission,awardGoatRewards} from './goat-missions.js';
@@ -47,7 +47,7 @@ function hour(state){
   const balance=waterBalance({waterMm:plot.soilWaterMm,capacityMm:plot.soilCapacityMm,rainMm:weather.rainMmDay/24,irrigationMm,etMm:(config?config.waterPerDayMm/24:.15)*weather.et});plot.soilWaterMm=balance.waterMm;
   if(crop&&config){crop.progress=Math.min(1,crop.progress+balance.waterFactor*weather.growth/config.hours);crop.stage=config.stages.filter(threshold=>crop.progress>=threshold).length-1;crop.quality=clamp(crop.quality+(balance.moisturePercent<20||balance.moisturePercent>90?-.004:.003),.35,1);}
   plot.history.push({tick:state.tick+1,water:plot.soilWaterMm,growth:crop?.progress||0});if(plot.history.length>48)plot.history.shift();
- }if(FEATURES.chicken)tickChicken(state,transact);tickGoat(state);state.tick++;if(state.tick%24===0)nextWeather(state);
+ }if(FEATURES.chicken)tickChicken(state,transact);tickGoat(state);if(FEATURES.cow)tickCow(state);state.tick++;if(state.tick%24===0)nextWeather(state);
 }
 /** @param {State} state @param {string} type @param {number} amount @param {string} id */
 function transact(state,type,amount,id){state.coins+=amount;state.ledger.push({id,tick:state.tick,type,amount,balance:state.coins});}

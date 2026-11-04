@@ -3,6 +3,7 @@ import {CROP_IDS,CROPS,WATER,PUMP,ORDERS,LIMITS} from './config.js';
 import {renderChickenShop,renderChickenLots,renderChickenOrder} from './chicken-market.js';
 import {renderGoatContracts} from './goat-market.js';
 import {renderGoatShop} from './goat-shop.js';
+import {renderCowShop} from './cow-shop.js';
 /** @typedef {(type:import('./engine.js').CommandType,extra?:Partial<import('./engine.js').Command>)=>void} Send */
 export function setupMarket(){const dialog=/** @type {HTMLDialogElement} */(el('market-dialog'));el('market-open').addEventListener('click',()=>dialog.showModal());el('close-market').addEventListener('click',()=>dialog.close());document.addEventListener('marketopen',()=>dialog.showModal());dialog.addEventListener('close',()=>el('market-open').focus({preventScroll:true}));}
 /** @param {import('./engine.js').State} state @param {Send} send */
@@ -10,7 +11,7 @@ export function renderMarket(state,send){const host=el('market-lots');host.repla
 /** @param {import('./engine.js').State} state @param {Send} send */
 export function renderShop(state,send){
  const shop=el('market-shop');shop.replaceChildren();const heading=document.createElement('h3');heading.textContent=t('farmSupplies');shop.append(heading);
- renderChickenShop(state,send,shop);renderGoatShop(state,send,shop);
+ renderChickenShop(state,send,shop);renderGoatShop(state,send,shop);renderCowShop(state,send,shop);
  for(const crop of CROP_IDS){const row=document.createElement('div');row.className='market-lot';const text=document.createElement('span');text.textContent=t(crop)+' · '+state.seeds[crop]+' '+t('seeds');const b=document.createElement('button');b.type='button';b.className='action-button';b.dataset.buySeed=crop;b.textContent=t('buySeed')+' · '+CROPS[crop].seedPrice+' '+t('coins');b.addEventListener('click',()=>send('buySeed',{crop}));row.append(text,b);shop.append(row);}
  const refill=document.createElement('button');refill.id='refill';refill.type='button';refill.className='action-button';refill.textContent=t('refill')+' · ≤'+WATER.refillLitres+' L / '+WATER.refillCost+' '+t('coins');refill.addEventListener('click',()=>send('refill'));shop.append(refill);
  const aid=document.createElement('button');aid.id='recovery';aid.type='button';aid.className='action-button recovery';aid.textContent=t('recoverySeed');aid.disabled=!recoveryAvailable(state);aid.title=t('recoveryDescription');aid.addEventListener('click',()=>send('recovery'));shop.append(aid);const aidText=document.createElement('p');aidText.className='market-note';aidText.textContent=t('recoveryDescription');shop.append(aidText);

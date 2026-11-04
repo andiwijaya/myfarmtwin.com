@@ -1,4 +1,4 @@
-export const COW_COMMANDS=Object.freeze(/** @type {const} */(['enterCow','feedCows','waterCows','cleanCowBarn','cleanCowStand','cleanCowCan','inspectCow']));
+export const COW_COMMANDS=Object.freeze(/** @type {const} */(['enterCow','buyCowFeed','feedCows','waterCows','cleanCowBarn','cleanCowStand','cleanCowCan','inspectCow']));
 /** @typedef {typeof COW_COMMANDS[number]} CowCommandType */
 /** @param {string} type */
 export const isCowCommand=type=>COW_COMMANDS.some(k=>k===type);
