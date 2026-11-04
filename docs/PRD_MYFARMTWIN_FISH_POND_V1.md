@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **24/64 (37.50%)**
+Progress: **25/64 (39.06%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -36,7 +36,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M2-F03** — Implement exactly-once starter pond/cohorts/feed/first entry, separate pond water from crop tank, safe zero-wallet tutorial allowance.
 - [x] **M2-F04** — Implement feed purchase/store/feed consumption + limited appetite, excess-waste and stock accounting; no feed/growth spam.
 - [x] **M2-F05** — Implement pond DO oxygen mass concentration, fish respiration/waste demand, surface replenishment, sensible game day/night variation.
-- [ ] **M2-F06** — Implement paid/basic aerator state, energy cost, oxygen transfer bounds, out-of-Coins shutoff with truthful status.
+- [x] **M2-F06** — Implement paid/basic aerator state, energy cost, oxygen transfer bounds, out-of-Coins shutoff with truthful status.
 - [ ] **M2-F07** — Implement TAN/waste accumulation, uneaten feed impact, bounded pH/temp/clarity estimates without conflating TAN and NH3.
 - [ ] **M2-F08** — Implement paid water exchange with separate supply/source, 5% mass-balance/dilution and effluent accounting; protect crop water tank.
 - [ ] **M2-F09** — Implement fish growth stages, biomass/density/water quality/growth trade-offs using shared logical ticks, weather and seeded reproducibility.
@@ -157,3 +157,6 @@ Finite paid Fish feed, source-priority transfer, bounded appetite/digestion and 
 
 ### M2-F05
 Mass-backedDO follows biomass/sludge/heat and day-night surface transfer with saturation; controlled oxygen and shared-clock/pause/RNG tests PASS alongside feed/save regressions; types/build/audit PASS.
+
+### M2-F06
+Aeration adds bounded realDO on shared ticks, consumes once-only welcome then paid runtime;3tests verify ON/OFF cost, unique ledger IDs, zero-wallet shutoff and OFF/reload retention;9affected tests/types/build/audit PASS.
