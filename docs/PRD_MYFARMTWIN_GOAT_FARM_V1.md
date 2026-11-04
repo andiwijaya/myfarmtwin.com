@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **54/60 (90.0%)**.
+Progress: **55/60 (91.7%)**.
 
 ## Checklist
 
@@ -68,7 +68,7 @@ Progress: **54/60 (90.0%)**.
 - [x] **M6-F05** — Performance/memory/long-session tests; low-graphics retains all essential actions.
 - [x] **M6-F06** — Dead-code/new-dependency/media audit; preserve existing assets, keep repo small, no QA junk/cache in Git.
 - [x] **M6-F07** — Homepage single-game-card, editorial routes, metadata/sitemap/GA4, original Crop+Chicken tests all green.
-- [ ] **M7-F01** — Fresh clean local build, full test suite, release diff review and deployment/config comparison.
+- [x] **M7-F01** — Fresh clean local build, full test suite, release diff review and deployment/config comparison.
 - [ ] **M7-F02** — Validate safe backup/migration/rollback; older client must not overwrite future-format saves.
 - [ ] **M7-F03** — Push/deploy via **existing audited Cloudflare Pages/GitHub pipeline**; no force push or unnecessary GitHub Actions runs.
 - [ ] **M7-F04** — Live desktop+touch-mobile browser smoke of Goat full first sale plus Crop/Chicken, use isolated test profiles.
@@ -238,3 +238,6 @@ Final audit: 58 exact source/build files, zero runtime dependencies, new media, 
 
 ### M6-F07
 Original full crop/Chicken game/data/save/regression suites pass; homepage 24 responsive EN/ID profiles, warm-cache tests, nine SEO routes/15 layouts and Chromium/Firefox compatibility pass. Exact non-game dist/GA4/editorial and config/dependency bytes remain unchanged from production baseline. Remote main unchanged; no publication. Evidence: qa/goat/M6-F07-* and GOAT_M6_GATE.md.
+
+### M7-F01
+Fresh clean final build, lint/typecheck, 169 units, client/exact-byte/config audit and 32 balance scenarios pass. Fixed reproduced poisoned pre-visit Goat reward import; complete 19 browser suites/154 scenarios and original full E2E pass again. Final four Goat stress profiles pass at 59.2-60 FPS; assets 322524B raw/122011B summed gzip within documented caps. Evidence: qa/goat/M7-F01-* and GOAT_LOCAL_RELEASE_GATE.md.
