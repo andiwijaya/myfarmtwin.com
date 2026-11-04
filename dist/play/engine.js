@@ -1,3 +1,5 @@
+import {isFishCommand,validateFishCommand} from './fish-commands.js';
+import {applyFishCommand} from './fish-runtime.js';
 import {createFishState} from './fish-state.js';
 import {CURRENT_SAVE_VERSION,STARTER,INITIAL_PLOTS,CROP_IDS,CROPS,WATER,WEATHER,LIMITS,MISSION_REWARDS,PUMP,ORDERS,EXPANSION,FOLLOWUP_REWARDS} from './config.js';
 import {waterBalance,clamp} from './water.js';
@@ -24,8 +26,8 @@ import {advanceChickenMission,awardChickenRewards} from './chicken-missions.js';
 /** @typedef {{id:string,tick:number,type:string,amount:number,balance:number}} LedgerEntry */
 /** @typedef {{id:number,type:CropId,quantity:number,quality:number}} Lot */
 /** @typedef {{saveVersion:number,revision:number,tick:number,seed:number,rng:number,weather:Weather,paused:boolean,speed:number,coins:number,water:number,careCredits:number,seeds:Record<CropId,number>,plots:Plot[],inventory:Lot[],ledger:LedgerEntry[],mission:{step:number,rewards:number[]},pump:{built:boolean,on:boolean,efficient:boolean,runHours:number,stopReason:string},stats:{planted:number,watered:number,cared:number,harvested:number,sold:number,hotCare:number,orders:number},completedOrders:string[],followups:{order:boolean,hotCare:boolean,efficiency:boolean},nextLot:number,chicken?:import('./chicken-state.js').ChickenState,goat?:import('./goat-state.js').GoatState,cow?:import('./cow-state.js').CowState,fish?:import('./fish-state.js').FishState}} State */
-/** @typedef {'select'|'tick'|'nextDay'|'pause'|'speed'|'plant'|'water'|'harvest'|'sell'|'buySeed'|'buyPump'|'upgradeEfficiency'|'togglePump'|'refill'|'recovery'|'expand'|'order'|import('./chicken-commands.js').ChickenCommandType|import('./goat-commands.js').GoatCommandType|import('./cow-commands.js').CowCommandType} CommandType */
-/** @typedef {{id:number,type:CommandType,plot?:number,crop?:CropId,lot?:number,order?:string,eggLot?:string,goatId?:string,cowId?:string,cowLot?:string,cowLots?:string[],cowQuote?:string,cowOrder?:string,cowStorage?:'can'|'cooler',paddock?:number,quotePrice?:number}} Command */
+/** @typedef {'select'|'tick'|'nextDay'|'pause'|'speed'|'plant'|'water'|'harvest'|'sell'|'buySeed'|'buyPump'|'upgradeEfficiency'|'togglePump'|'refill'|'recovery'|'expand'|'order'|import('./chicken-commands.js').ChickenCommandType|import('./goat-commands.js').GoatCommandType|import('./cow-commands.js').CowCommandType|import('./fish-commands.js').FishCommandType} CommandType */
+/** @typedef {{id:number,type:CommandType,plot?:number,crop?:CropId,lot?:number,order?:string,eggLot?:string,goatId?:string,cowId?:string,cowLot?:string,cowLots?:string[],cowQuote?:string,cowOrder?:string,cowStorage?:'can'|'cooler',paddock?:number,quotePrice?:number,fishPond?:number}} Command */
 /** @typedef {{type:string,plot?:number,amount?:number,cowId?:string}} DomainEvent */
 /** @param {number} [seed] @returns {State} */
 export function createState(seed=6321){return {saveVersion:CURRENT_SAVE_VERSION,revision:0,tick:0,seed:seed>>>0,rng:seed>>>0,weather:'sunny',paused:true,speed:1,coins:STARTER.coins,water:STARTER.water,careCredits:0,seeds:{lettuce:STARTER.seeds,tomato:0},plots:INITIAL_PLOTS.map(p=>({...p,soilWaterMm:12,soilCapacityMm:50,crop:null,waterAppliedMm:0,careCost:0,lastWaterTick:-1,history:[]})),inventory:[],ledger:[],mission:{step:0,rewards:[]},pump:{built:false,on:false,efficient:false,runHours:0,stopReason:''},stats:{planted:0,watered:0,cared:0,harvested:0,sold:0,hotCare:0,orders:0},completedOrders:[],followups:{order:false,hotCare:false,efficiency:false},nextLot:1,chicken:createChickenState(),goat:createGoatState(),cow:createCowState(),fish:createFishState()};}
@@ -61,15 +63,16 @@ export function dispatch(input,command){
  const reject=(/** @type {string} */error)=>({state:input,ok:false,error,events:[]});
  if(!command||typeof command!=='object'||Array.isArray(command))return reject('staleCommand');
  const descriptors=Object.getOwnPropertyDescriptors(command),requested=typeof descriptors.type?.value==='string'?descriptors.type.value:'';
- if(Object.getPrototypeOf(command)!==Object.prototype||Object.values(descriptors).some(d=>!Object.hasOwn(d,'value')))return reject(isCowCommand(requested)?'invalidCowCommand':isGoatCommand(requested)?'invalidGoatCommand':isChickenCommand(requested)?'invalidChickenCommand':'staleCommand');
+ if(Object.getPrototypeOf(command)!==Object.prototype||Object.values(descriptors).some(d=>!Object.hasOwn(d,'value')))return reject(isFishCommand(requested)?'invalidFishCommand':isCowCommand(requested)?'invalidCowCommand':isGoatCommand(requested)?'invalidGoatCommand':isChickenCommand(requested)?'invalidChickenCommand':'staleCommand');
  if(!Number.isSafeInteger(command.id)||command.id!==input.revision+1)return reject('staleCommand');
+ if(isFishCommand(command.type)){const error=validateFishCommand(command);if(error)return reject(error);if(!FEATURES.fish)return reject('fishDisabled');}
  if(isCowCommand(command.type)){const error=validateCowCommand(command);if(error)return reject(error);if(!FEATURES.cow)return reject('cowDisabled');}
  if(isGoatCommand(command.type)){const error=validateGoatCommand(command);if(error)return reject(error);}
  if(isChickenCommand(command.type)){const error=validateChickenCommand(command);if(error)return reject(error);if(!FEATURES.chicken)return reject('chickenDisabled');}
  const state=structuredClone(input);
  /** @type {DomainEvent[]} */
  const events=[];
- if(isCowCommand(command.type)){const error=applyCowCommand(state,command,events,transact);if(error)return reject(error);}else if(isGoatCommand(command.type)){const error=applyGoatCommand(state,command,events,transact);if(error)return reject(error);}else if(isChickenCommand(command.type)){const error=applyChickenCommand(state,command,events,transact);if(error)return reject(error);}else switch(command.type){
+ if(isFishCommand(command.type)){const error=applyFishCommand(state,command,events);if(error)return reject(error);}else if(isCowCommand(command.type)){const error=applyCowCommand(state,command,events,transact);if(error)return reject(error);}else if(isGoatCommand(command.type)){const error=applyGoatCommand(state,command,events,transact);if(error)return reject(error);}else if(isChickenCommand(command.type)){const error=applyChickenCommand(state,command,events,transact);if(error)return reject(error);}else switch(command.type){
   case 'upgradeEfficiency':if(!state.pump.built)return reject('noPump');if(state.mission.step<7)return reject('ordersLocked');if(state.pump.efficient)return reject('efficiencyExists');if(state.coins<PUMP.efficientPrice)return reject('noCoins');transact(state,'facility_purchase',-PUMP.efficientPrice,command.id+':efficientMotor');state.pump.efficient=true;events.push({type:'efficiencyUpgraded'});break;
   case 'expand':{
    if(state.mission.step<7)return reject('ordersLocked');if(state.plots.length>=LIMITS.plots)return reject('farmFull');const price=expansionPrice(state);if(state.coins<price)return reject('noCoins');const cell=EXPANSION.cells[state.plots.length-INITIAL_PLOTS.length];if(!cell)return reject('farmFull');

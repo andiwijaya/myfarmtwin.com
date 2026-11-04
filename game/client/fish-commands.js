@@ -1,0 +1,6 @@
+export const FISH_COMMANDS=Object.freeze(/** @type {const} */(['enterFishPond','fish.inspect']));
+/** @typedef {typeof FISH_COMMANDS[number]} FishCommandType */
+/** @param {unknown} value */
+export const isFishCommand=value=>typeof value==='string'&&(value==='enterFishPond'||value.startsWith('fish.'));
+/** Strict namespace/payload boundary before state is cloned or changed. @param {unknown} value */
+export function validateFishCommand(value){if(!value||typeof value!=='object'||Array.isArray(value)||Object.getPrototypeOf(value)!==Object.prototype)return 'invalidFishCommand';const descriptors=Object.getOwnPropertyDescriptors(value),keys=Reflect.ownKeys(value);if(keys.some(k=>typeof k!=='string')||Object.values(descriptors).some(d=>!Object.hasOwn(d,'value')||!d.enumerable))return 'invalidFishCommand';const c=/** @type {Record<string,any>} */(value);if(!Number.isSafeInteger(c.id)||c.id<1||!FISH_COMMANDS.includes(c.type))return 'invalidFishCommand';const allowed=c.type==='enterFishPond'?['id','type']:['id','type','fishPond'];if(keys.length!==allowed.length||keys.some(k=>!allowed.includes(/** @type {string} */(k))))return 'invalidFishCommand';if(c.type!=='enterFishPond'&&(!Number.isSafeInteger(c.fishPond)||c.fishPond<1||c.fishPond>2))return 'invalidFishCommand';return '';}
