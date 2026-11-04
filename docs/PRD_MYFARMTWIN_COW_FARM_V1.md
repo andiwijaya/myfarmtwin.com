@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **49/64 (76.56%)**
+Progress: **50/64 (78.12%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -82,7 +82,7 @@ Progress: **49/64 (76.56%)**
 - [x] **M5-F05** — Add co-op contracts by milk quantity/grade, one-time rewards, capacity-affordable objectives and no punitive real-time deadlines.
 - [x] **M5-F06** — Add `Happy Cows`, `Cool the Milk`, `Heat Wave`, `Bigger Dairy` missions/unlocks and fair resupply; implement one 2→3 barn upgrade and atomic third already-lactating cow purchase with all prerequisites.
 - [x] **M5-F07** — Read-only Dairy Engineering Lab: water/feed trends, comfort factors, milk reservoir vs yield, grade/freshness, expenses/revenue/cost per L and model limitations.
-- [ ] **M5-F08** — Balance fixed-seed 7/30/60/90 game days, dairy-only/crop/chicken/goat/mixed; grade/refrigeration/no-care strategies; detect exploit/dominant economy and tune.
+- [x] **M5-F08** — Balance fixed-seed 7/30/60/90 game days, dairy-only/crop/chicken/goat/mixed; grade/refrigeration/no-care strategies; detect exploit/dominant economy and tune.
 
 **M5 gate:** player decisions affect throughput, quality, operating cost and quality of life—not endless micromanagement.
 
@@ -263,3 +263,6 @@ Four causal cosmetic goals now track healthy hours, valid paid cooling, shaded h
 
 ### M5-F07
 Optional Dairy Engineering Lab is read-only and shows actual reservoir/produced/stored/sold/discarded volumes, causal potential,12real hourly samples and direct cash cost per litre. Shared-tank refill spending is explicit and unallocated, avoiding double-charge/full-profit claims.262full units and4EN/ID desktop320/mobile pure-view/localization/no-overflow profiles PASS; source-checked96sample ring cannot invent yield after history clear. Evidence qa/cow/M5-F07.
+
+### M5-F08
+47 fixed-seed economic cases and one exact replay PASS across7/30/60/90days; earned third cow, mixed areas, neglect, delayed cooling and zero-wallet paths verified. Recovery effort tuned8to16ordinary hours after measured weak advantage; normal paid care now beats generous comparator by46.9% at90days.262full units/build/type/audit and4recovery UI profiles PASS. Method/limits docs/COW_M5_BALANCE.md.
