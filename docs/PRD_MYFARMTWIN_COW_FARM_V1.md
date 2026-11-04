@@ -6,7 +6,7 @@ Coding-at-home session explicitly started by Product Owner. Routine local implem
 
 Publication subsequently explicitly authorized by Product Owner; first Cow deployment verified. Live gameplay and homepage gates are being completed below. The local release report is retained as the pre-publication snapshot.
 
-Progress: **62/64 (96.88%)**
+Progress: **63/64 (98.44%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -107,7 +107,7 @@ Progress: **62/64 (96.88%)**
 - [x] **M7-F02** — Verify migration compatibility and rollback that **preserves new-format save** even if previous client cannot understand it; archive release evidence outside Git.
 - [x] **M7-F03** — Push/deploy through currently audited GitHub→Cloudflare Pages pipeline after all gates; no force-push/GitHub Actions routine QA.
 - [x] **M7-F04** — Live smoke desktop/mobile using isolated test browser profile: first dairy sale + save/reload + all old area checks + no uncaught exceptions.
-- [ ] **M7-F05** — Update homepage **existing single card** promotional copy/alt text/SEO EN/ID from “cows not playable” to accurate status **only after dairy is verified live**; preserve unfinished goat/fish disclaimers; retest.
+- [x] **M7-F05** — Update homepage **existing single card** promotional copy/alt text/SEO EN/ID from “cows not playable” to accurate status **only after dairy is verified live**; preserve unfinished goat/fish disclaimers; retest.
 - [ ] **M7-F06** — Final report with commit, tested deployment link/ID, performance/security/QA evidence, remaining risks, rollback and 64/64 checklist only if each done.
 
 **M7 gate:** production fully verified, not merely “build succeeded”; save recovery documented and actual homepage claims truthful.
@@ -304,3 +304,6 @@ Authorized non-force5189b54main push and exact Cloudflare deployment8d46fcf6term
 
 ### M7-F04
 84Cow live profiles/17suites PASS at exact5189b54; native first-sale2ticks, care/milk/sales/contracts/cooling/upgrades/third-cow/Lab/reload verified.8mixed old-area and8Cow data profiles, full crop E2E and live security PASS; owner save untouched.
+
+### M7-F05
+Final c3de361/Cloudflare89318edf success;115Git-exact assets, unchanged93game files. Existing one-card EN/ID homepage accurately lists live cows/future fish;4live homepage profiles,9SEO/15layouts plus8Cow and8mixed journeys PASS; saves intact.
