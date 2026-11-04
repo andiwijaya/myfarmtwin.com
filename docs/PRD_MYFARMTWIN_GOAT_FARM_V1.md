@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **38/60 (63.3%)**.
+Progress: **39/60 (65.0%)**.
 
 ## Checklist
 
@@ -52,7 +52,7 @@ Progress: **38/60 (63.3%)**.
 - [x] **M4-F04** — Save/reload/import Goat herd, stock, pasture, growth, sale/grants, missions, visuals exactly.
 - [x] **M4-F05** — Auto-save, paused/hidden tab, Next Day, system clock shifts: no phantom production or starvation.
 - [x] **M4-F06** — Invalid/future/malicious save, recovery/backup/quarantine, storage blocked: protect original user data.
-- [ ] **M4-F07** — Two-tab concurrency/double-click/replay tests: one sale/grant/purchase, no wallet/growth dupes.
+- [x] **M4-F07** — Two-tab concurrency/double-click/replay tests: one sale/grant/purchase, no wallet/growth dupes.
 - [ ] **M4-F08** — Mixed-farm 30+ game-day endurance with daily save roundtrip; bounds, ledger, clock consistent.
 - [ ] **M5-F01** — Unlock paddock #2 and implement actual rotational grazing/regrowth tradeoffs and visual switching.
 - [ ] **M5-F02** — Shelter upgrade costs Coins, improves capacity/comfort and visibly changes the scene.
@@ -190,3 +190,6 @@ Four EN/ID desktop/touch browser profiles verify one shared auto-saved hour, hid
 
 ### M4-F06
 Historical price, paid acquisition, chronological capacity/social rules and impossible juvenile sales now validate at the untrusted-save boundary. 153 unit tests, lint/typecheck/build and twelve desktop/touch storage cases pass: quota, denied locks, blocked storage, future/corrupt saves and backup quarantine protect originals with no uncaught errors. Evidence: qa/goat/M4-F06/.
+
+### M4-F07
+Sixteen real two-tab races cover sale/reward, young-goat purchase, hay purchase and Next Day on EN/ID desktop/touch. Exactly one revision/transaction/hour advance wins, stale tab reports conflict, reload does not replay. Prior parallel first-entry and double-click/revision-replay tests cover one starter and gesture duplication. Evidence: qa/goat/M4-F07/.
