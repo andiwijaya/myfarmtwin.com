@@ -1,0 +1,6 @@
+import {t} from './locales.js';
+export const COW_OBJECT_KEYS=Object.freeze({barn:'cowBarnShelter',feed:'cowFeeder',water:'cowWaterTrough',stand:'cowMilkingStand',can:'cowMilkCan',coop:'cowCoop',clean:'cowCleanStation'});
+/** @param {string} id @param {import('./engine.js').State} state */
+export function validCowSelection(id,state){return !!state.cow?.visited&&(Object.hasOwn(COW_OBJECT_KEYS,id)||state.cow.cows.some(c=>c.id===id));}
+/** @param {import('./engine.js').State} state @param {string} selected */
+export function renderCowPanel(state,selected){const panel=/** @type {HTMLElement} */(document.querySelector('#cow-panel'));panel.hidden=!selected;if(!selected)return;const cow=state.cow?.cows.find(c=>c.id===selected),heading=/** @type {HTMLElement} */(document.querySelector('#cow-heading'));heading.textContent=cow?t('cowName')+' '+(cow.id==='cow.starter.a'?'A':cow.id==='cow.starter.b'?'B':'C'):t(COW_OBJECT_KEYS[/** @type {keyof typeof COW_OBJECT_KEYS} */(selected)]);const copy=/** @type {HTMLElement} */(document.querySelector('#cow-selection-copy'));copy.textContent=cow?t(cow.lactationStatus==='lactating'?'cowLactating':'cowDry')+' · '+t('cowMilkReady')+': '+cow.milkReadyMl/1000+' L':t('cowWelcomeDetail');}

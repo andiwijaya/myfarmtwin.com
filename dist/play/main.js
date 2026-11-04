@@ -4,6 +4,7 @@ import {renderChickenWorld} from './chicken-view.js';
 import {renderGoatWorld} from './goat-view.js';
 import {renderCowWorld} from './cow-view.js';
 import {cowSnapshot} from './cow-scene-snapshot.js';
+import {renderCowPanel,validCowSelection} from './cow-panel.js';
 import {renderGoatPanel,validGoatSelection} from './goat-panel.js';
 import {goatSnapshot} from './goat-scene-snapshot.js';
 import {goatObjective} from './goat-missions.js';
@@ -36,7 +37,11 @@ const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
 let guideExpanded=true;
 let celebrationDismissed=false;
 let activeArea='field';
-let selectedChicken='';let selectedGoat='';
+let selectedChicken='';let selectedGoat='';let selectedCow='';
+function renderCowSelection(){if(selectedCow&&!validCowSelection(selectedCow,state))selectedCow='';document.querySelectorAll('[data-cow-object]').forEach(p=>{const active=p.getAttribute('data-cow-object')===selectedCow;p.classList.toggle('cow-selected',active);p.setAttribute('aria-pressed',String(active));});document.querySelectorAll('[data-choose-cow]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-choose-cow')===selectedCow)));renderCowPanel(state,selectedCow);}
+document.addEventListener('cowobjectselect',event=>{const id=/** @type {CustomEvent<string>} */(event).detail;if(activeArea==='cow'&&validCowSelection(id,state)){selectedCow=id;renderCowSelection();}});
+function closeCow(){const old=selectedCow;selectedCow='';renderCowSelection();/** @type {HTMLButtonElement|null} */(document.querySelector('[data-choose-cow="'+old+'"]'))?.focus();}
+el('close-cow').addEventListener('click',closeCow);
 function renderGoatSelection(){if(selectedGoat&&!validGoatSelection(selectedGoat,state))selectedGoat='';document.querySelectorAll('[data-goat-object]').forEach(p=>{const active=p.getAttribute('data-goat-object')===selectedGoat;p.classList.toggle('goat-selected',active);p.setAttribute('aria-pressed',String(active));});document.querySelectorAll('[data-choose-goat]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-choose-goat')===selectedGoat)));renderGoatPanel(state,selectedGoat,send);}
 document.addEventListener('goatobjectselect',event=>{const id=/** @type {CustomEvent<string>} */(event).detail;if(activeArea==='goat'&&validGoatSelection(id,state)){selectedGoat=id;renderGoatSelection();}});
 function closeGoat(){const old=selectedGoat;selectedGoat='';renderGoatSelection();/** @type {HTMLButtonElement|null} */(document.querySelector('[data-choose-goat="'+old+'"]'))?.focus();}
@@ -45,7 +50,7 @@ function yardSnapshot(){return chickenSnapshot(state)||{level:0,doorOpen:true,pe
 function renderChickenSelection(){el('world').dataset.selectedChicken=selectedChicken;document.querySelectorAll('[data-chicken-object]').forEach(p=>{const active=p.getAttribute('data-chicken-object')===selectedChicken;p.classList.toggle('chicken-selected',active);p.setAttribute('aria-pressed',String(active));});document.querySelectorAll('[data-choose-chicken]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-choose-chicken')===selectedChicken)));renderChickenPanel(yardSnapshot(),selectedChicken);}
 document.addEventListener('chickenobjectselect',event=>{const id=/** @type {CustomEvent<string>} */(event).detail;if(activeArea==='chicken'&&['coop','nest','feeder','drinker','clean'].includes(id)){selectedChicken=id;renderChickenSelection();}});
 document.addEventListener('chickenaction',event=>{if(activeArea!=='chicken')return;const id=/** @type {CustomEvent<string>} */(event).detail,types=/** @type {Record<string,import('./engine.js').CommandType>} */({feed:'feedHens',water:'waterHens',clean:'cleanCoop',collect:'collectEggs'});if(Object.hasOwn(types,id))send(types[id]);});
-document.addEventListener('camerachanged',()=>{if(activeArea==='goat')renderGoatSelection();else if(activeArea==='chicken')renderChickenSelection();else renderSelection();});
+document.addEventListener('camerachanged',()=>{if(activeArea==='cow')renderCowSelection();else if(activeArea==='goat')renderGoatSelection();else if(activeArea==='chicken')renderChickenSelection();else renderSelection();});
 function closeChicken(){const old=selectedChicken;selectedChicken='';renderChickenSelection();/** @type {HTMLButtonElement|null} */(document.querySelector('[data-choose-chicken='+old+']'))?.focus();}
 el('close-chicken').addEventListener('click',closeChicken);
 el('area-cow').addEventListener('click',()=>{if(FEATURES.cow){clearNotice();if(!state.cow?.visited&&externalChange){notify(t('saveConflict'));return;}activeArea='cow';if(!state.cow?.visited)send('enterCow');else render();}});
@@ -84,7 +89,7 @@ function renderSelection(){
 function closePlot(){const old=selected;selected=null;renderSelection();if(old!==null){const button=/** @type {HTMLButtonElement|null} */(document.querySelector(`[data-choose-plot="${old}"]`));button?.focus();}}
 document.addEventListener('plotselect',event=>{const id=/** @type {CustomEvent<number>} */(event).detail;if(!Number.isInteger(id)||!state.plots.some(p=>p.id===id))return;selected=id;renderSelection();send('select',{plot:id});});
 el('close-plot').addEventListener('click',closePlot);
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!document.querySelector('dialog[open]')){if(activeArea==='goat'&&selectedGoat)closeGoat();else if(activeArea==='chicken'&&selectedChicken)closeChicken();else closePlot();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!document.querySelector('dialog[open]')){if(activeArea==='cow'&&selectedCow)closeCow();else if(activeArea==='goat'&&selectedGoat)closeGoat();else if(activeArea==='chicken'&&selectedChicken)closeChicken();else closePlot();}});
 language.value=getLocale();
 language.addEventListener('change',()=>{setLocale(language.value);render();});
 function renderGoatMission(){const objective=goatObjective(state);el('guide-chapter').textContent=t(objective.step<8?'goatChapter1':'goatRanchGoals');el('mission-title').textContent=t(objective.title)+(objective.progress?' · '+objective.progress:'');el('mission-detail').textContent=t(objective.detail);el('mission-track').hidden=false;el('mission-track').setAttribute('aria-valuemax','8');el('mission-track').setAttribute('aria-valuenow',String(objective.step));el('mission-track').setAttribute('aria-label',t('goatChapter1'));el('mission-progress').style.width=100*objective.step/8+'%';document.querySelectorAll('.mission-target').forEach(e=>e.classList.remove('mission-target'));if(objective.target)document.querySelector(objective.target)?.classList.add('mission-target');}
@@ -107,7 +112,7 @@ function render(redrawWorld=true){
  el('map-hint').textContent=t(activeArea==='goat'?'goatMapHint':activeArea==='chicken'?'yardMapHint':'fieldMapHint');if(activeArea==='chicken')el('weather-advice').textContent=t('yardWeather_'+state.weather);
  if(activeArea==='chicken'){renderChickenSelection();panel.hidden=true;el('pump-panel').hidden=true;el('mission-track').hidden=false;el('followup-missions').hidden=true;el('celebration').hidden=true;el('guide-chapter').textContent=t('chickenArea');const objective=chickenObjective(state);el('mission-title').textContent=t(objective.title)+(objective.progress?' · '+objective.progress:'');el('mission-detail').textContent=t(objective.detail);el('mission-track').setAttribute('aria-valuemax','8');el('mission-track').setAttribute('aria-valuenow',String(objective.step));el('mission-track').setAttribute('aria-label',t('chickenArea'));el('mission-progress').style.width=100*objective.step/8+'%';document.querySelectorAll('.mission-target').forEach(e=>e.classList.remove('mission-target'));if(objective.target)document.querySelector(objective.target)?.classList.add('mission-target');el('world').setAttribute('aria-label',t('chickenArea'));}else{el('mission-track').hidden=false;el('mission-track').setAttribute('aria-valuemax','7');el('chicken-panel').hidden=true;}
  el('area-cow').hidden=!FEATURES.cow;el('area-cow').setAttribute('aria-pressed',String(activeArea==='cow'));
- if(activeArea==='cow'){panel.hidden=true;el('chicken-panel').hidden=true;el('pump-panel').hidden=true;el('followup-missions').hidden=true;el('celebration').hidden=true;el('mission-track').hidden=true;el('guide-chapter').textContent=t('cowArea');el('mission-title').textContent=t('cowWelcome');el('mission-detail').textContent=t('cowWelcomeDetail');el('world').setAttribute('aria-label',t('cowArea'));el('map-hint').textContent=t('cowMapHint');}
+ el('cow-panel').hidden=true;if(activeArea==='cow'){renderCowSelection();panel.hidden=true;el('chicken-panel').hidden=true;el('pump-panel').hidden=true;el('followup-missions').hidden=true;el('celebration').hidden=true;el('mission-track').hidden=true;el('guide-chapter').textContent=t('cowArea');el('mission-title').textContent=t('cowWelcome');el('mission-detail').textContent=t('cowWelcomeDetail');el('world').setAttribute('aria-label',t('cowArea'));el('map-hint').textContent=t('cowMapHint');}
  el('goat-panel').hidden=true;if(activeArea==='goat'){renderGoatSelection();panel.hidden=true;el('chicken-panel').hidden=true;el('pump-panel').hidden=true;el('followup-missions').hidden=true;el('celebration').hidden=true;renderGoatMission();el('world').setAttribute('aria-label',t('goatArea'));}
 }
 let writeQueue=Promise.resolve();

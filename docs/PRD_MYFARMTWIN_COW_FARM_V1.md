@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **11/64 (17.19%)**
+Progress: **12/64 (18.75%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -24,7 +24,7 @@ Progress: **11/64 (17.19%)**
 - [x] **M1-F02** — Render barn exterior/interior or cutaway, fencing/rest area and milk station with world footprint & collision safe.
 - [x] **M1-F03** — Render initial two cows and optional third from stable engine IDs, distinguish them, show lactating/ready status and owned/capacity; prevent duplicate cows on rerender.
 - [x] **M1-F04** — Implement low-cost cow idle/walk/eat/drink/rest animations; reduced-motion/low-graphics parity and no state changes from animation.
-- [ ] **M1-F05** — Render interactive feeder, water trough, cleaning station, milk can and co-op pickup point.
+- [x] **M1-F05** — Render interactive feeder, water trough, cleaning station, milk can and co-op pickup point.
 - [ ] **M1-F06** — Implement contextual cow/barn actions and HUD with disabled reasons, progress and immediate visible feedback.
 - [ ] **M1-F07** — Integrate pan/zoom/rotate if supported, reset view, object picking and viewport responsive 320–1440 widths/landscape; no touch trap.
 - [ ] **M1-F08** — Translate all Cow screens, missions, notices, labels and accessibility strings EN/ID, preserve locale preference & other-area UI.
@@ -149,3 +149,6 @@ Two saved stable adult lactating cows,4000/0mL opening reservoirs, owned/capacit
 
 ### M1-F04
 Five lightweight shared-tick cosmetic activities implemented; no eating/drinking from empty troughs.8 focused state/scene tests and8 browser profiles PASS; low graphics/reduced motion disable animation while preserving exact save bytes. Typecheck/build PASS. Evidence qa/cow/M1-F04.
+
+### M1-F05
+All9 actual Cow/care objects have map picking and44px labelled shortcuts, selected feedback, keyboard Enter/Escape and focus restoration.8 EN/ID new/existing desktop320px browser profiles PASS with exact saves; reviewed mobile pixels. Typecheck/build/locale audit PASS. Evidence qa/cow/M1-F05.
