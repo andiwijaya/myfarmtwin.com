@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **39/64 (60.94%)**
+Progress: **40/64 (62.50%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -67,7 +67,7 @@ Progress: **39/64 (60.94%)**
 - [x] **M4-F03** — Migrate Chicken-era saves retaining hens, egg lots, orders, upgrades, histories, rewards; test chicken regression.
 - [x] **M4-F04** — Migrate Goat-era saves if implemented; if not, document applicability and ensure future Goat integration uses shared migration chain.
 - [x] **M4-F05** — Serialize/validate cows, provenance-tagged supplies, lots, milk counters, production/sale remainders, cooling credit, recovery episodes, missions/grants, third-cow purchase, versions and ledger (§6.9).
-- [ ] **M4-F06** — Test autosave/reload/return, import/export, cancel/invalid data, confirmed reset, rolling backup, quarantine corrupt/future saves.
+- [x] **M4-F06** — Test autosave/reload/return, import/export, cancel/invalid data, confirmed reset, rolling backup, quarantine corrupt/future saves.
 - [ ] **M4-F07** — Two-tabs/stale-revision/double-click and time pause/hidden tab/system-clock tests; no dupe sale/milk/grant or softlock.
 - [ ] **M4-F08** — 30+ game-day mixed farm endurance with save roundtrips, shared resource conservation, no negative balance and no storage bloat.
 
@@ -233,3 +233,6 @@ ActualV3 fresh/mixed Goat-era farms preserve every prior field and exact origina
 
 ### M4-F05
 Final CowV4 boundary reconciles all paid flags, source ledgers, integer milk/revenue/fractions, partial receipts, cooling credit/freshness history, recovery/disposal, mission evidence and third-purchase proof.242full units plus8native-clock and4recovery EN/ID browser profiles PASS. Coherently balanced forged prices/credits/grants/receipts and prepoisoned namespaces reject; old readers/fixtures unchanged. docs/COW_V4_VALIDATION.md; qa/cow/M4-F05*.
+
+### M4-F06
+245unit tests and24isolated browser data/resilience profiles PASS. Exact Cow exports, dedicated pre-Cow/pre-Goat originals, cancel/invalid imports, confirmed reset/backup restore preserve partial lots, paid credit and active jobs. Older backup recovery now archives source before autosave; archive collision/quota stays read-only. Future/corrupt/disabled-storage/denied-or-absent-lock/poisoned saves stay protected. Evidence qa/cow/M4-F06*.
