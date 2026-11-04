@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **14/64 (21.88%)**
+Progress: **15/64 (23.44%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -27,7 +27,7 @@ Progress: **14/64 (21.88%)**
 - [x] **M1-F05** — Render interactive feeder, water trough, cleaning station, milk can and co-op pickup point.
 - [x] **M1-F06** — Implement contextual cow/barn actions and HUD with disabled reasons, progress and immediate visible feedback.
 - [x] **M1-F07** — Integrate pan/zoom/rotate if supported, reset view, object picking and viewport responsive 320–1440 widths/landscape; no touch trap.
-- [ ] **M1-F08** — Translate all Cow screens, missions, notices, labels and accessibility strings EN/ID, preserve locale preference & other-area UI.
+- [x] **M1-F08** — Translate all Cow screens, missions, notices, labels and accessibility strings EN/ID, preserve locale preference & other-area UI.
 
 **M1 gate:** Cow Barn view and interactions visually usable, **not** yet claiming milking/sale production works.
 
@@ -158,3 +158,6 @@ Real contextual feed/water/three free hygiene/inspect commands and Cow HUD/progr
 
 ### M1-F07
 14 EN/ID surfaces320–1440 plus landscape PASS: Cow/water picking in4 rotations, real touch/mouse drag with no accidental selection, keyboard pan, zoom bounds/reset, independent4-area cameras,44px controls, no overlay/overflow, low/reduced-motion and exact saves.10 old Goat camera regression surfaces also PASS. Evidence qa/cow/M1-F07.
+
+### M1-F08
+All current Cow screens/actions/disabled notices and model/biology disclosures translated EN/ID.16 Chromium153/Firefox155 new/full-care320/1440 profiles PASS: locale flips preserve exact saves, keyboard skip link works, old areas and locale reload safe, no raw keys.180 units/typecheck/build/client audit PASS. M1 gate ready for M2, local only.
