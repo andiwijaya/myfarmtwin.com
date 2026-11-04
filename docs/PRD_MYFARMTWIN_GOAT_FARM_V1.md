@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **31/60 (51.7%)**.
+Progress: **32/60 (53.3%)**.
 
 ## Checklist
 
@@ -45,7 +45,7 @@ Progress: **31/60 (51.7%)**.
 - [x] **M3-F05** — Atomic sale ready adult → remove goat once, credit Coins/ledger once, leave two goats together.
 - [x] **M3-F06** — Allow purchasing a weaned goat (capacity + Coins checks) and a viable non-exploitable recovery path.
 - [x] **M3-F07** — Complete mission reward once and reveal next upgrade/goal without repeatable free grants.
-- [ ] **M3-F08** — **MVP GATE:** scripted desktop+touch mobile first entry→Feed→Water→Clean→Inspect→Sell→Coins→Next Goal; target automated ≤180s and Crop/Chicken regression green.
+- [x] **M3-F08** — **MVP GATE:** scripted desktop+touch mobile first entry→Feed→Water→Clean→Inspect→Sell→Coins→Next Goal; target automated ≤180s and Crop/Chicken regression green.
 - [ ] **M4-F01** — Audit newest real schema, implement safe `latest→next` Goat version migration (no hardcoded assumption).
 - [ ] **M4-F02** — Verify full V1 Crop save migration without altering Crop funds/history/missions/tank/ledger.
 - [ ] **M4-F03** — Verify Chicken-era save migration and exact preservation if Chicken exists; document evidence if not applicable.
@@ -169,3 +169,6 @@ Paid weaned-goat restocking and hay Market shop preserve the shared wallet and o
 
 ### M3-F07
 One-time 20-Coin chapter reward shares the atomic sale transaction and persists a unique grant/ledger row. Reload/replay/inspection cannot repeat it; next restocking goal unlocks and completed investment reaches step eight. 146 unit tests, lint/typecheck/build and twelve new/existing/zero-wallet desktop/touch EN/ID sales pass. Evidence: qa/goat/M3-F07/.
+
+### M3-F08
+MVP stop-and-fix gate PASS: twelve EN/ID desktop/touch new/existing/zero-wallet real first-sale journeys, next guide, payment/reward once, two remain and return to Field/Chicken. Four restocking profiles, complete original E2E/data/recovery/black-box/crop and four original Chicken/crop slices pass. Evidence: qa/goat/M3-F08/ and GOAT_M3_GATE.md; release persistence gates remain pending.
