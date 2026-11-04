@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **19/64 (29.69%)**
+Progress: **20/64 (31.25%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -37,7 +37,7 @@ Progress: **19/64 (29.69%)**
 - [x] **M2-F02** — Add revision-safe idempotent cow commands, no direct DOM economy mutation, no duplicative scheduler or RNG.
 - [x] **M2-F03** — Add feed inventory purchase, store→trough transfer and per-tick intake; avoid free/negative feed and unrealistic crop conversion.
 - [x] **M2-F04** — Add trough refill as atomic transfer from shared farm tank and tick water consumption; test mixed crop/chicken/goat demand.
-- [ ] **M2-F05** — Add cleanliness, shade/heat protection and derived comfort model with gradual recovery; no animal death/offline punishment.
+- [x] **M2-F05** — Add cleanliness, shade/heat protection and derived comfort model with gradual recovery; no animal death/offline punishment.
 - [ ] **M2-F06** — Add `lactating` eligibility and prior-calving metadata, fixed-stage sustained V1 scenario with no automatic dry transition, bounded tick production and dry-cow 0-yield tests; expose model disclaimer.
 - [ ] **M2-F07** — Add reservoir, max 2 sessions/cow/game-day and 8-game-hour spacing across midnight; prevent button-created milk/replay and catch-up overflow.
 - [ ] **M2-F08** — Add deterministic grade and atomic full-reservoir→lot transfer with capacity rejection; prove opening + produced = ready + stored + sold + discarded using integer mL.
@@ -173,3 +173,6 @@ Paid mixed feed uses shared Market/wallet and exact purchase ledger; no crop/Goa
 
 ### M2-F04
 Integer water consumption is30/45L per cow/day normal/hot, on shared ticks only. Starter180L is separate/finite; later Cow refill exactly debits shared tank, preserves legacy sub-mL residue and old crop/hen/Goat state.194 units and4 EN/ID desktop/mobile source/intake/shared paid resupply/reload profiles PASS; no transfer fee or negative water. Evidence qa/cow/M2-F04.
+
+### M2-F05
+Ordinary ticks now drive fractional barn soil, gradual care-derived comfort and recoverable body condition; separate stand/can hygiene unchanged by basic care clock. Controlled shade/hot comparison and90-day neglect keep both cows alive.198 units and4 EN/ID desktop/mobile real-care/Why/reload profiles PASS; cleaning never gives instant comfort, money or offline penalties. Evidence qa/cow/M2-F05.
