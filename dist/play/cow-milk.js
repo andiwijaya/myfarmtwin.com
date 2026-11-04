@@ -1,0 +1,8 @@
+import {COW,COW_STAGE_FACTOR} from './cow-config.js';
+const HOUR_ML=COW.yieldDayMl/24;if(!Number.isSafeInteger(HOUR_ML))throw Error('Non-integer Cow hourly yield configuration');
+/** Lactating does not imply a positive ready reservoir. @param {import('./cow-state.js').Cow|undefined} cow */
+export function cowLactationReason(cow){return !cow?'cowMissing':!cow.priorCalving||cow.lactationStatus!=='lactating'?'cowNotLactating':'';}
+/** Read-only potential at the current saved care indices, not a prediction of the next care update. @param {import('./cow-state.js').Cow} cow */
+export function cowYieldRate(cow){if(cowLactationReason(cow))return {eligible:false,carePermille:0,potentialHourMl:0};const scale=COW.careScale,condition=COW.conditionYieldBase+Math.floor((scale-COW.conditionYieldBase)*cow.bodyCondition/scale);let factor=Math.floor(cow.nutrition*cow.hydration/scale);factor=Math.floor(factor*cow.comfort/scale);factor=Math.floor(factor*condition/scale);factor=Math.floor(factor*COW_STAGE_FACTOR[cow.lactationStage]/scale);return {eligible:true,carePermille:factor,potentialHourMl:HOUR_ML*factor/scale};}
+/** Admitted integer milk only. Full reservoirs suppress potential and retain only a sub-mL remainder. @param {import('./engine.js').State} state */
+export function tickCowMilk(state){const g=state.cow;if(!g?.visited)return;for(const cow of g.cows){const rate=cowYieldRate(cow);if(!rate.eligible)continue;const numerator=HOUR_ML*rate.carePermille+cow.productionRemainder,potential=Math.floor(numerator/COW.careScale);cow.productionRemainder=numerator%COW.careScale;const admitted=Math.min(potential,Math.max(0,COW.reservoirMl-cow.milkReadyMl));cow.milkReadyMl+=admitted;cow.producedMilkMl+=admitted;g.producedMilkMl+=admitted;}}
