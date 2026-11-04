@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **55/60 (91.7%)**.
+Progress: **56/60 (93.3%)**.
 
 ## Checklist
 
@@ -69,7 +69,7 @@ Progress: **55/60 (91.7%)**.
 - [x] **M6-F06** — Dead-code/new-dependency/media audit; preserve existing assets, keep repo small, no QA junk/cache in Git.
 - [x] **M6-F07** — Homepage single-game-card, editorial routes, metadata/sitemap/GA4, original Crop+Chicken tests all green.
 - [x] **M7-F01** — Fresh clean local build, full test suite, release diff review and deployment/config comparison.
-- [ ] **M7-F02** — Validate safe backup/migration/rollback; older client must not overwrite future-format saves.
+- [x] **M7-F02** — Validate safe backup/migration/rollback; older client must not overwrite future-format saves.
 - [ ] **M7-F03** — Push/deploy via **existing audited Cloudflare Pages/GitHub pipeline**; no force push or unnecessary GitHub Actions runs.
 - [ ] **M7-F04** — Live desktop+touch-mobile browser smoke of Goat full first sale plus Crop/Chicken, use isolated test profiles.
 - [ ] **M7-F05** — Verify exact live commit/assets, SEO/security/performance and rollback capability; rollback on genuine production regression.
@@ -241,3 +241,6 @@ Original full crop/Chicken game/data/save/regression suites pass; homepage 24 re
 
 ### M7-F01
 Fresh clean final build, lint/typecheck, 169 units, client/exact-byte/config audit and 32 balance scenarios pass. Fixed reproduced poisoned pre-visit Goat reward import; complete 19 browser suites/154 scenarios and original full E2E pass again. Final four Goat stress profiles pass at 59.2-60 FPS; assets 322524B raw/122011B summed gzip within documented caps. Evidence: qa/goat/M7-F01-* and GOAT_LOCAL_RELEASE_GATE.md.
+
+### M7-F02
+Backup/rollback gate passes fifteen focused immutable old-reader/migration/archive/storage tests and four actual EN/ID desktop/touch cancelled/confirmed Goat backup restores with exact reload. V2 originals and V3 progress remain protected; documented safe forward-fix/code-rollback limitations. Local scope complete at 56/60; four publication/live gates remain unauthorized. Evidence: qa/goat/M7-F02/ and GOAT_RELEASE_READINESS.md.
