@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **51/64 (79.69%)**
+Progress: **52/64 (81.25%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -89,7 +89,7 @@ Progress: **51/64 (79.69%)**
 ### M6 — Black-box, white-box, compatibility & protection (8)
 
 - [x] **M6-F01** — Black-box desktop/touch-mobile full Dairy loop, mixed farm switching, all Market flows, upgrade, mission, recoveries and no softlock.
-- [ ] **M6-F02** — White-box tests: deterministic tick/weather, lactation eligibility, resource conservation, grade, freshness, market/ledger invariants and action idempotency.
+- [x] **M6-F02** — White-box tests: deterministic tick/weather, lactation eligibility, resource conservation, grade, freshness, market/ledger invariants and action idempotency.
 - [ ] **M6-F03** — Security/resilience: malicious/corrupt/import JSON, unknown/prototype fields, future schema, storage disabled/quota, stale tab and safe backup behavior.
 - [ ] **M6-F04** — Layout/keyboard/ARIA/mobile at 320/360/390/768/1024/1440 + landscape, EN/ID, reduced motion; cross-browser if runners available.
 - [ ] **M6-F05** — Performance/memory benchmark with cows animation and all areas enabled, low-graphics fallback, bounded timers/history/save payload.
@@ -269,3 +269,6 @@ Optional Dairy Engineering Lab is read-only and shows actual reservoir/produced/
 
 ### M6-F01
 17complete black-box suites and84isolated EN/ID desktop/touch profiles PASS on final b2; native first sale, all care/storage/Market/recovery/upgrade/third-cow/Lab flows and exact reload verified. Evidence qa/cow/M6-F01.
+
+### M6-F02
+262white-box tests PASS on b2, including24seeds/six conditions, shared deterministic clock, lactation eligibility, integer conservation/fractions, grade/freshness, exact ledger/sales/energy and command replay boundaries. Build/type/audit PASS; qa/cow/M6-F02.
