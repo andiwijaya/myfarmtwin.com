@@ -3,7 +3,7 @@ import {GOAT} from './goat-config.js';
 import {browseGoatHour} from './goat-pasture.js';
 import {updateGoatCare} from './goat-welfare.js';
 import {growGoats} from './goat-growth.js';
-import {goatQuote,goatContractReason} from './goat-market-policy.js';
+import {goatQuote,goatContractReason,goatBuyReason} from './goat-market-policy.js';
 /** @typedef {(state:import('./engine.js').State,type:string,amount:number,id:string)=>void} Transaction */
 /** The existing single logical hour owns age. Husbandry terms are added in their sequential gates. @param {import('./engine.js').State} state */
 export function tickGoat(state){const g=state.goat;if(!g?.visited)return;for(const goat of g.herd)goat.ageHours++;const {remaining,browse,demand}=browseGoatHour(g,state.weather),hay=Math.min(g.feederG,remaining);g.feederG=Math.max(0,g.feederG-hay);g.stats.hayUsedG+=hay;const waterDemand=g.herd.length*GOAT.waterDayMl/24*(state.weather==='hot'?GOAT.hotWaterFactor:1),water=Math.min(g.troughMl,waterDemand);g.troughMl=Math.max(0,g.troughMl-water);g.stats.waterUsedMl+=water;if(g.shelter)g.shelter.cleanliness=Math.max(0,g.shelter.cleanliness-g.herd.length*GOAT.soilPerGoatDay/24);updateGoatCare(g,state.weather,{foodDemand:demand,food:browse+hay,browse,waterDemand,water});growGoats(g);}
@@ -17,6 +17,7 @@ export function applyGoatCommand(state,command,events,transact){
  if(command.type==='waterGoats'){const space=cap.troughMl-g.troughMl;if(space<=.00001)return 'goatTroughFull';if(state.water<=0)return 'noWater';const amount=Math.min(space,state.water*1000);state.water=Math.max(0,state.water-amount/1000);g.troughMl+=amount;g.stats.waterTransferredMl+=amount;g.stats.waterActions++;events.push({type:'goatWatered',amount});return '';}
  if(command.type==='cleanGoatShelter'){const shelter=g.shelter;if(!shelter)return 'goatNotVisited';if(shelter.cleanliness>=99.999)return 'goatShelterClean';if(state.tick-shelter.lastCleanTick<GOAT.cleanInterval)return 'goatCleanCooldown';shelter.cleanliness=Math.min(100,shelter.cleanliness+GOAT.cleanEffect);shelter.lastCleanTick=state.tick;g.stats.cleaned++;events.push({type:'goatShelterCleaned'});return '';}
  if(command.type==='sellGoat'){const id=command.goatId||'',reason=goatContractReason(state,id);if(reason)return reason;const quote=goatQuote(state,id);if(command.quotePrice!==quote.price)return 'goatQuoteChanged';const index=g.herd.findIndex(h=>h.id===id),goat=g.herd[index];g.herd.splice(index,1);g.sales.push({id:goat.id,growth:goat.growth,condition:goat.condition,tick:state.tick,price:quote.price,contractId:quote.id});g.stats.sold++;transact(state,'goat_sale',quote.price,command.id+':'+goat.id);events.push({type:'goatSold',amount:quote.price});return '';}
+ if(command.type==='buyGoat'){const reason=goatBuyReason(state);if(reason)return reason;const id='goat.bought.'+g.nextGoat++;transact(state,'goat_purchase',-GOAT.weanedPrice,command.id+':'+id);g.herd.push({id,growth:0,condition:.85,ageHours:0,acquiredTick:state.tick});g.stats.bought++;events.push({type:'goatBought'});return '';}
  if(command.type==='inspectGoat'){const goat=g.herd.find(h=>h.id===command.goatId);if(!goat)return 'goatMissing';g.stats.inspected++;if(goat.growth===1)g.mission.inspectedAdult=true;events.push({type:'goatInspected'});return '';}
  return 'goatActionUnavailable';
 }
