@@ -11,7 +11,7 @@ export function renderFishWorld(state){
  const ns='http://www.w3.org/2000/svg',title=document.createElementNS(ns,'title');title.textContent=t(snapshot.preview?'fishPreview':'fishArea');svg.prepend(title);
  const map=document.createElementNS(ns,'g');map.id='map-camera';for(const child of [...svg.children])if(!['defs','title'].includes(child.tagName))map.append(child);svg.append(map);host.append(svg);
  const copy=document.createElement('p');copy.className='world-caption fish-preview-copy';copy.textContent=(snapshot.preview?t('fishPreview')+' · ':'')+snapshot.count+' '+t('fishCount')+' · '+snapshot.ready+' '+t('fishReady');copy.dataset.fishCount=String(snapshot.count);copy.dataset.fishReady=String(snapshot.ready);host.append(copy);
- const info=document.createElement('p');info.className='fish-school-note';info.textContent=t('fishSchoolHint');host.append(info);
+ const info=document.createElement('p');info.className='fish-school-note';info.textContent=t('fishSchoolHint');host.append(info);if(!snapshot.preview&&snapshot.count===0){const empty=document.createElement('p');empty.id='fish-empty';empty.className='fish-school-note';empty.textContent=t('fishEmpty');host.append(empty);}
  host.querySelectorAll('[data-fish-object]').forEach(object=>{const id=object.getAttribute('data-fish-object')||'';object.setAttribute('aria-label',t('fishStation_'+id));});
  bindCamera(host,{area:'fish',redraw:()=>renderFishWorld(state)});
 }
