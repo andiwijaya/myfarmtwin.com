@@ -1,0 +1,10 @@
+import {GOAT,GOAT_SHELTERS,GOAT_REWARDS,GOAT_LEDGER_TYPES} from './goat-config.js';
+/** Transaction coherence at import/save and engine boundaries. @param {import('./engine.js').State} state */
+export function validateGoatEconomy(state){const g=state.goat,entries=(/** @type {string} */type)=>state.ledger.filter(l=>l.type===type),check=(/** @type {boolean} */ok)=>{if(!ok)throw Error('Goat economy mismatch');};if(!g?.visited){check(!state.ledger.some(l=>GOAT_LEDGER_TYPES.includes(l.type)));return;}
+ const starter=entries('goat_starter_grant');check(starter.length===1&&starter[0].id===g.starterGrantId&&starter[0].amount===0);for(const goat of g.herd.filter(h=>h.id.startsWith('goat.starter.')))check(goat.acquiredTick===starter[0].tick);
+ const paid=(/** @type {string} */type,/** @type {number} */count,/** @type {number} */price)=>{const rows=entries(type);check(rows.length===count&&rows.every(l=>l.amount===-price));return rows;};paid('goat_feed_purchase',g.stats.hayBoughtG/GOAT.hayBagG,GOAT.hayBagPrice);const buys=paid('goat_purchase',g.stats.bought,GOAT.weanedPrice);for(let n=1;n<g.nextGoat;n++)check(buys.filter(l=>l.id.endsWith(':goat.bought.'+n)).length===1);
+ const shelter=entries('goat_shelter_upgrade');check(shelter.length===(g.shelter?.level||0));shelter.forEach((l,i)=>check(l.amount===-GOAT_SHELTERS[i+1].price));paid('goat_paddock_purchase',g.paddocks.length-1,GOAT.paddockPrice);paid('goat_care_upgrade',g.shelter?.careUpgrade?1:0,GOAT.careUpgradePrice);
+ const sales=entries('goat_sale');check(sales.length===g.sales.length);for(const sale of g.sales)check(sales.filter(l=>l.id.endsWith(':'+sale.id)&&l.tick===sale.tick&&l.amount===sale.price).length===1);
+ for(const [id,amount]of Object.entries(GOAT_REWARDS)){const rows=state.ledger.filter(l=>l.type==='mission_reward'&&l.id.endsWith(':'+id));check(rows.length===(g.grants.includes(id)?1:0)&&rows.every(l=>l.amount===amount));}
+ for(const name of /** @type {const} */(['feedActions','waterActions','cleaned','inspected','bought','sold','rotations']))check(g.stats[name]<=state.revision);check(g.stats.healthyHours<=state.tick);check(!g.mission.inspectedAdult||g.stats.inspected>0);
+}

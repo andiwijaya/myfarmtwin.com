@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **15/60 (25.0%)**.
+Progress: **16/60 (26.7%)**.
 
 ## Checklist
 
@@ -29,7 +29,7 @@ Progress: **15/60 (25.0%)**.
 - [x] **M1-F07** — Mobile 320–390 and desktop interactions, pan/zoom/reset (rotate if applicable), keyboard/focus, low graphics.
 - [x] **M1-F08** — EN/ID for every Goat view/control/status/error; seamless return to Crop/Chicken guide.
 - [x] **M2-F01** — Define Goat/Herd/Shelter/Paddock config with bounded values, stable IDs, age-stage semantics and validators.
-- [ ] **M2-F02** — Wire goat commands into existing revision/idempotency/atomic engine transaction flow.
+- [x] **M2-F02** — Wire goat commands into existing revision/idempotency/atomic engine transaction flow.
 - [ ] **M2-F03** — Hay purchase/store/refill/consumption with feed conservation and accurate ledger.
 - [ ] **M2-F04** — Water trough/refill/consumption from shared farm tank with volume conservation.
 - [ ] **M2-F05** — Pasture biomass, browse consumption and deterministic regeneration based on shared weather.
@@ -121,3 +121,6 @@ Full current ranch EN/ID labels/actions/errors/disclosures and locale redraw ver
 
 ### M2-F01
 Defined bounded herd/shelter/paddock/supply configuration, stable identities, derived age stages and strict unknown/prototype/finite/unique/capacity validators. Empty additive state grants nothing. Synthetic kit has one ready adult/two weaned; juvenile growth cannot exceed owned game age. Hay/water/browse accounting rejects duplicated supplies. 101 full unit tests including adversarial cases, lint/typecheck/build PASS; no engine/save coupling yet. Evidence: qa/goat/M2-F01/.
+
+### M2-F02
+Strict Goat commands now share atomic clone/revision dispatch, ledger and clock. Replays/stale/polluted payloads reject unchanged; enter/inspect work headlessly, other husbandry commands remain unavailable until their own gates. Added required V3 empty-state reader and separate pre-Goat original archive before persisting any new field; old Chicken archive and unaffected V1/V2 subtrees preserved. 105 unit tests incl exact production V2 rollback, lint/typecheck/build, Chicken save/data, original full E2E/data/recovery/black-box/crop, security and Goat UI preservation PASS. M4 remains pending. Evidence: qa/goat/M2-F02/; GOAT_SAVE_POLICY.md.

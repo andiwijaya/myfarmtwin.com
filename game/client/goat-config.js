@@ -5,4 +5,7 @@ export const GOAT_SHELTERS=Object.freeze([
  Object.freeze({capacity:6,price:100,feederG:9000,troughMl:30000,shade:.8}),
  Object.freeze({capacity:8,price:180,feederG:12000,troughMl:40000,shade:1})
 ]);
+export const GOAT_REWARDS=Object.freeze({'goat.chapter1':20,'goat.healthy':15,'goat.growing':15,'goat.pasture':15,'goat.bigger':20,'goat.contract':20});
+export const GOAT_COST_TYPES=Object.freeze(['goat_feed_purchase','goat_purchase','goat_shelter_upgrade','goat_paddock_purchase','goat_care_upgrade']);
+export const GOAT_LEDGER_TYPES=Object.freeze([...GOAT_COST_TYPES,'goat_sale','goat_starter_grant']);
 export const GOAT_REWARD_IDS=Object.freeze(['goat.chapter1','goat.healthy','goat.growing','goat.pasture','goat.bigger','goat.contract']);

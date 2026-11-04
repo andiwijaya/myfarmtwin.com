@@ -1,0 +1,6 @@
+export const GOAT_COMMANDS=Object.freeze(/** @type {const} */(['enterGoat','buyHay','feedGoats','waterGoats','cleanGoatShelter','inspectGoat','sellGoat','buyGoat','rotatePaddock','unlockPaddock','upgradeGoatShelter','upgradeGoatCare']));
+/** @typedef {typeof GOAT_COMMANDS[number]} GoatCommandType */
+/** @param {string} type */
+export const isGoatCommand=type=>GOAT_COMMANDS.some(name=>name===type);
+/** Strict commands share the existing global revision; no payload can smuggle wallet/state fields. @param {unknown} value */
+export function validateGoatCommand(value){if(!value||typeof value!=='object'||Array.isArray(value)||Object.getPrototypeOf(value)!==Object.prototype)return 'invalidGoatCommand';const c=/** @type {Record<string,unknown>} */(value);if(!Number.isSafeInteger(c.id)||typeof c.type!=='string'||!isGoatCommand(c.type))return 'invalidGoatCommand';const animal=c.type==='inspectGoat'||c.type==='sellGoat',paddock=c.type==='rotatePaddock',allowed=['id','type',...(animal?['goatId']:[]),...(paddock?['paddock']:[])];if(Object.keys(c).length!==allowed.length||Object.keys(c).some(k=>!allowed.includes(k)))return 'invalidGoatCommand';if(animal&&(typeof c.goatId!=='string'||!/^goat\.(starter\.(adult|young\.[12])|bought\.[1-9][0-9]*)$/.test(c.goatId)))return 'invalidGoatCommand';if(paddock&&c.paddock!==0&&c.paddock!==1)return 'invalidGoatCommand';return '';}
