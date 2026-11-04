@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **52/64 (81.25%)**
+Progress: **53/64 (82.81%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -90,7 +90,7 @@ Progress: **52/64 (81.25%)**
 
 - [x] **M6-F01** — Black-box desktop/touch-mobile full Dairy loop, mixed farm switching, all Market flows, upgrade, mission, recoveries and no softlock.
 - [x] **M6-F02** — White-box tests: deterministic tick/weather, lactation eligibility, resource conservation, grade, freshness, market/ledger invariants and action idempotency.
-- [ ] **M6-F03** — Security/resilience: malicious/corrupt/import JSON, unknown/prototype fields, future schema, storage disabled/quota, stale tab and safe backup behavior.
+- [x] **M6-F03** — Security/resilience: malicious/corrupt/import JSON, unknown/prototype fields, future schema, storage disabled/quota, stale tab and safe backup behavior.
 - [ ] **M6-F04** — Layout/keyboard/ARIA/mobile at 320/360/390/768/1024/1440 + landscape, EN/ID, reduced motion; cross-browser if runners available.
 - [ ] **M6-F05** — Performance/memory benchmark with cows animation and all areas enabled, low-graphics fallback, bounded timers/history/save payload.
 - [ ] **M6-F06** — Dead-code and license audit; clean only confirmed unused NEW code/assets, keep all prior media and avoid QA/cache in Git.
@@ -272,3 +272,6 @@ Optional Dairy Engineering Lab is read-only and shows actual reservoir/produced/
 
 ### M6-F02
 262white-box tests PASS on b2, including24seeds/six conditions, shared deterministic clock, lactation eligibility, integer conservation/fractions, grade/freshness, exact ledger/sales/energy and command replay boundaries. Build/type/audit PASS; qa/cow/M6-F02.
+
+### M6-F03
+16storage-resilience,8data-management,4retuned job two-tab and2CSP/malicious-import profiles PASS; all source bytes/archives protected, no external requests/errors or permission changes. Earlier40command/8third-purchase races retained. qa/cow/M6-F03-*.
