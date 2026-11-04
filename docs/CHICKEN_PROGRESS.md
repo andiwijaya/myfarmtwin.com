@@ -225,3 +225,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M6-F08 | PASS | 56/58 (96.6%)
 
 2026-11-04T03:35:27+00:00 — One card cartoon vision EN/ID; 16 homepage surfaces, nine SEO routes and baseline originals/save preservation PASS
+
+## M6-F09 | LOCAL GATES PASS / PUBLICATION BLOCKED | 56/58 (96.6%)
+
+2026-11-04 office session: all local release commands,96tests,full crop/Chicken UI/data/concurrency,Chromium/Firefox,24balance cases and90-day mixed replay pass. Five BASE_URL runner branches also pass against a separate local preview. Served game is unchanged from measured c71bac8 performance checkpoint; homepage assets are03d99c83c6610a8cdbf4d1c841a1d473d0c3fc78. Production37resource integrity still matches def03f2. No Chicken push/deploy occurred. Read-only Cloudflare project preflight first returnedHTTP403; official existing-auth Wrangler deployment-list succeeded, but automatic approval review denied a further API preflight before execution as a repeat of the permission-blocked operation. No bypass/retry followed. M6-F09/F10 remain unchecked pending permitted metadata verification, deployment and live QA. Exact status/evidence/resume steps:CHICKEN_RELEASE_CANDIDATE.md.
