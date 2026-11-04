@@ -1,4 +1,5 @@
 import {GOAT_MESSAGES} from './goat-locales.js';
+import {COW_MESSAGES} from './cow-locales.js';
 /** @type {Record<string,Record<string,string>>} */
 export const messages={
  en:{edition:'THE LITTLE FARM',journal:'Back to home',eyebrow:'GROW SOMETHING GOOD',title:'A little land. A lot to grow.',intro:'Your own small corner of the world. Start with a seed.',ready:'Welcome to your little farm.',local:'No account. Just you, a little land, and a fresh start.'},
@@ -91,7 +92,7 @@ if(!messages[locale])locale='en';
 /** @param {string} key */
 export const t=key=>messages[locale][key]||messages.en[key]||key;
 export const getLocale=()=>locale;
-Object.assign(messages.en,GOAT_MESSAGES.en);Object.assign(messages.id,GOAT_MESSAGES.id);
+Object.assign(messages.en,GOAT_MESSAGES.en,COW_MESSAGES.en);Object.assign(messages.id,GOAT_MESSAGES.id,COW_MESSAGES.id);
 /** @param {string} next */
 export function setLocale(next){locale=messages[next]?next:'en';try{localStorage.setItem('myfarmtwin.locale',locale);}catch{/* Optional preference storage unavailable. */}document.documentElement.lang=locale;}
 export function translate(){document.documentElement.lang=locale;document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t(el.getAttribute('data-i18n')||'');});}

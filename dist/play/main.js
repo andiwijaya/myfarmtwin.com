@@ -2,6 +2,7 @@ import {getLocale,setLocale,translate,t} from './locales.js';
 import {renderWorld} from './world.js';
 import {renderChickenWorld} from './chicken-view.js';
 import {renderGoatWorld} from './goat-view.js';
+import {renderCowWorld} from './cow-view.js';
 import {renderGoatPanel,validGoatSelection} from './goat-panel.js';
 import {goatSnapshot} from './goat-scene-snapshot.js';
 import {goatObjective} from './goat-missions.js';
@@ -46,6 +47,7 @@ document.addEventListener('chickenaction',event=>{if(activeArea!=='chicken')retu
 document.addEventListener('camerachanged',()=>{if(activeArea==='goat')renderGoatSelection();else if(activeArea==='chicken')renderChickenSelection();else renderSelection();});
 function closeChicken(){const old=selectedChicken;selectedChicken='';renderChickenSelection();/** @type {HTMLButtonElement|null} */(document.querySelector('[data-choose-chicken='+old+']'))?.focus();}
 el('close-chicken').addEventListener('click',closeChicken);
+el('area-cow').addEventListener('click',()=>{if(FEATURES.cow){clearNotice();activeArea='cow';render();}});
 el('area-field').addEventListener('click',()=>{clearNotice();activeArea='field';render();});
 el('area-goat').addEventListener('click',()=>{clearNotice();if(!state.goat?.visited&&externalChange){notify(t('saveConflict'));return;}activeArea='goat';if(!state.goat?.visited)send('enterGoat');else render();});
 el('area-chicken').addEventListener('click',()=>{if(FEATURES.chicken){clearNotice();if(!state.chicken?.visited&&externalChange){notify(t('saveConflict'));return;}activeArea='chicken';if(!state.chicken?.visited)send('enterYard');else render();}});
@@ -89,7 +91,7 @@ function renderMission(){const step=state.mission.step,copy=currentObjective(sta
 function render(redrawWorld=true){
  if(activeArea==='chicken'&&(!FEATURES.chicken||!state.chicken?.visited))activeArea='field';
  if(activeArea==='goat'&&!state.goat?.visited)activeArea='field';
- translate();if(redrawWorld){if(activeArea==='goat')renderGoatWorld(goatSnapshot(state));else if(activeArea==='chicken')renderChickenWorld(yardSnapshot());else renderWorld(state.plots,state.tick,state.pump);}renderSelection();renderGuide();renderGraphics();renderMarket(state,send);renderOrders(state,send);renderShop(state,send);renderMission();renderData(saveSession);renderInspect(state,selected);renderReasons(state,selected);renderTrends(state,selected);
+ translate();if(redrawWorld){if(activeArea==='cow')renderCowWorld();else if(activeArea==='goat')renderGoatWorld(goatSnapshot(state));else if(activeArea==='chicken')renderChickenWorld(yardSnapshot());else renderWorld(state.plots,state.tick,state.pump);}renderSelection();renderGuide();renderGraphics();renderMarket(state,send);renderOrders(state,send);renderShop(state,send);renderMission();renderData(saveSession);renderInspect(state,selected);renderReasons(state,selected);renderTrends(state,selected);
  el('hud-day').textContent=String(Math.floor(state.tick/24)+1);el('hud-coins').textContent=String(state.coins);el('hud-water').textContent=String(Math.floor(state.water));el('hud-seeds').textContent=String(state.seeds.lettuce+state.seeds.tomato);
  el('inventory-harvest').textContent=state.inventory.length?state.inventory.map(lot=>t(lot.type)+' ×'+lot.quantity+' · '+Math.round(lot.quality*100)+'% '+t('quality')).join(' | '):t('noHarvest');
  if(state.chicken?.inventory.length)el('inventory-harvest').textContent=(state.inventory.length?el('inventory-harvest').textContent+' | ':'')+t('eggs')+' ×'+state.chicken.inventory.reduce((n,l)=>n+l.quantity,0);
@@ -102,6 +104,8 @@ function render(redrawWorld=true){
  el('farm-areas').hidden=!FEATURES.chicken;el('farm-areas').setAttribute('aria-label',t('farmAreas'));el('area-field').setAttribute('aria-pressed',String(activeArea==='field'));el('area-chicken').setAttribute('aria-pressed',String(activeArea==='chicken'));el('world').dataset.area=activeArea;el('weather-care').hidden=activeArea!=='field';el('area-goat').setAttribute('aria-pressed',String(activeArea==='goat'));
  el('map-hint').textContent=t(activeArea==='goat'?'goatMapHint':activeArea==='chicken'?'yardMapHint':'fieldMapHint');if(activeArea==='chicken')el('weather-advice').textContent=t('yardWeather_'+state.weather);
  if(activeArea==='chicken'){renderChickenSelection();panel.hidden=true;el('pump-panel').hidden=true;el('mission-track').hidden=false;el('followup-missions').hidden=true;el('celebration').hidden=true;el('guide-chapter').textContent=t('chickenArea');const objective=chickenObjective(state);el('mission-title').textContent=t(objective.title)+(objective.progress?' · '+objective.progress:'');el('mission-detail').textContent=t(objective.detail);el('mission-track').setAttribute('aria-valuemax','8');el('mission-track').setAttribute('aria-valuenow',String(objective.step));el('mission-track').setAttribute('aria-label',t('chickenArea'));el('mission-progress').style.width=100*objective.step/8+'%';document.querySelectorAll('.mission-target').forEach(e=>e.classList.remove('mission-target'));if(objective.target)document.querySelector(objective.target)?.classList.add('mission-target');el('world').setAttribute('aria-label',t('chickenArea'));}else{el('mission-track').hidden=false;el('mission-track').setAttribute('aria-valuemax','7');el('chicken-panel').hidden=true;}
+ el('area-cow').hidden=!FEATURES.cow;el('area-cow').setAttribute('aria-pressed',String(activeArea==='cow'));
+ if(activeArea==='cow'){panel.hidden=true;el('chicken-panel').hidden=true;el('pump-panel').hidden=true;el('followup-missions').hidden=true;el('celebration').hidden=true;el('mission-track').hidden=true;el('guide-chapter').textContent=t('cowArea');el('mission-title').textContent=t('cowWelcome');el('mission-detail').textContent=t('cowWelcomeDetail');el('world').setAttribute('aria-label',t('cowArea'));el('map-hint').textContent=t('cowMapHint');}
  el('goat-panel').hidden=true;if(activeArea==='goat'){renderGoatSelection();panel.hidden=true;el('chicken-panel').hidden=true;el('pump-panel').hidden=true;el('followup-missions').hidden=true;el('celebration').hidden=true;renderGoatMission();el('world').setAttribute('aria-label',t('goatArea'));}
 }
 let writeQueue=Promise.resolve();

@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **7/64 (10.94%)**
+Progress: **8/64 (12.50%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -20,7 +20,7 @@ Progress: **7/64 (10.94%)**
 
 ### M1 — Cow Barn world, visual life and controls (8)
 
-- [ ] **M1-F01** — Add `Cow Barn` area entry to `/play/` and existing area selector; accessible keyboard/touch, preserves selected crop/chicken/goat game state.
+- [x] **M1-F01** — Add `Cow Barn` area entry to `/play/` and existing area selector; accessible keyboard/touch, preserves selected crop/chicken/goat game state.
 - [ ] **M1-F02** — Render barn exterior/interior or cutaway, fencing/rest area and milk station with world footprint & collision safe.
 - [ ] **M1-F03** — Render initial two cows and optional third from stable engine IDs, distinguish them, show lactating/ready status and owned/capacity; prevent duplicate cows on rerender.
 - [ ] **M1-F04** — Implement low-cost cow idle/walk/eat/drink/rest animations; reduced-motion/low-graphics parity and no state changes from animation.
@@ -137,3 +137,6 @@ Reviewed current desktop/mobile world pixels and baseline camera/low-graphics ev
 
 ### M0-F07
 Original V1.1 Library text read fully and derived64-entry living checklist/contracts committed; isolated cow-farm-v1 preserves prior work. New Cow feature gate initially off, typecheck/build and3 fixture safety tests PASS; protected site/config unchanged, no push/deploy.
+
+### M1-F01
+Cow Barn area works with keyboard/touch in8 new/existing EN/ID desktop320px profiles; entering/switching/language leaves exact farm save unchanged and restores selected crop. Typecheck/build/locale audit PASS; Crop/Chicken/Goat navigation preserved. Evidence qa/cow/M1-F01.
