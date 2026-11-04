@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **6/64 (9.38%)**
+Progress: **7/64 (10.94%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -14,7 +14,7 @@ Progress: **6/64 (9.38%)**
 - [x] **M0-F04** — Run baseline local `lint`, `typecheck`, `test`, `build`, `e2e`, chicken & other project scripts actually available; document pre-existing issues.
 - [x] **M0-F05** — Snapshot/anonymized fixtures for current save versions and realistic mixed-farm states; establish non-destructive rollback plan.
 - [x] **M0-F06** — Confirm responsive UX/camera/low-graphics and create small visual assets plan consistent with existing renderer; no engine rewrite.
-- [ ] **M0-F07** — Commit/copy this living PRD to repo docs, create isolated safe branch, release checkpoints and feature flag; no premature deployment.
+- [x] **M0-F07** — Commit/copy this living PRD to repo docs, create isolated safe branch, release checkpoints and feature flag; no premature deployment.
 
 **M0 gate:** verified baseline, safe worktree, no conflict with other Dot work, older saves protected.
 
@@ -134,3 +134,6 @@ Captured actual V3 fresh and35-day mixed synthetic saves plus exact production r
 
 ### M0-F06
 Reviewed current desktop/mobile world pixels and baseline camera/low-graphics evidence; original lightweight SVG Cow asset, layout, picking, accessibility and EN/ID plan documented. Baseline responsive and12 performance profiles pass.
+
+### M0-F07
+Original V1.1 Library text read fully and derived64-entry living checklist/contracts committed; isolated cow-farm-v1 preserves prior work. New Cow feature gate initially off, typecheck/build and3 fixture safety tests PASS; protected site/config unchanged, no push/deploy.
