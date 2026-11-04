@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **45/60 (75.0%)**.
+Progress: **46/60 (76.7%)**.
 
 ## Checklist
 
@@ -59,7 +59,7 @@ Progress: **45/60 (75.0%)**.
 - [x] **M5-F03** — Feeder/trough upgrade reduces repeated clicking **without** creating water/hay from nothing.
 - [x] **M5-F04** — Buy extra weaned goats within capacity; stable IDs, stage and herd welfare rules maintained.
 - [x] **M5-F05** — Follow-up missions: Healthy Herd, Growing Goat, Pasture Planner, Bigger Shelter, Livestock Contract.
-- [ ] **M5-F06** — Add optional Engineering Lab/Why? with real factors, feed/water/forage trends and goat P&L.
+- [x] **M5-F06** — Add optional Engineering Lab/Why? with real factors, feed/water/forage trends and goat P&L.
 - [ ] **M5-F07** — Balance 7/30/60/90 game days: good vs bad care, Goat/Crop/Chicken/mixed, sale economics and bounded wealth.
 - [ ] **M6-F01** — Black-box full E2E desktop/touch-mobile across Crop/Chicken/Goat, new & existing saves, Market, missions.
 - [ ] **M6-F02** — White-box deterministic growth/care/conservation/contract/ledger/min-two invariant tests.
@@ -211,3 +211,6 @@ Actual paid young-goat purchases fill each 4/6/8 capacity, reject overflow, reta
 
 ### M5-F05
 Five follow-up goals now use real healthy hours, juvenile growth, rested grazing/rotations, paid larger shelter/herd and a second valid live-goat contract. Every reward has one persisted grant and ledger row; repeat inspection/reload cannot farm rewards. Historical evidence validates on save. 159 unit tests, lint/typecheck/build and EN/ID desktop/touch progressed-save browser flows pass. Evidence: qa/goat/M5-F05/.
+
+### M5-F06
+Optional read-only Why/Engineering Lab explains real care terms, actual lifetime hay/browse/water use, deterministic quotes, direct ranch P&L and explicit equal cost allocation per goat. Bounded six-hour trends follow the shared clock and survive export/import. 161 unit tests, lint/typecheck/build and four EN/ID desktop/touch Lab/data profiles pass without save mutation on reads. Evidence: qa/goat/M5-F06/.

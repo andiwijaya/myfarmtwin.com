@@ -2,11 +2,12 @@ import {createGoatKit,goatCapacities} from './goat-state.js';
 import {GOAT,GOAT_SHELTERS} from './goat-config.js';
 import {browseGoatHour} from './goat-pasture.js';
 import {updateGoatCare} from './goat-welfare.js';
+import {sampleGoatHistory} from './goat-insights.js';
 import {growGoats} from './goat-growth.js';
 import {goatQuote,goatContractReason,goatBuyReason} from './goat-market-policy.js';
 /** @typedef {(state:import('./engine.js').State,type:string,amount:number,id:string)=>void} Transaction */
 /** The existing single logical hour owns age. Husbandry terms are added in their sequential gates. @param {import('./engine.js').State} state */
-export function tickGoat(state){const g=state.goat;if(!g?.visited)return;for(const goat of g.herd)goat.ageHours++;const {remaining,browse,demand}=browseGoatHour(g,state.weather),hay=Math.min(g.feederG,remaining);g.feederG=Math.max(0,g.feederG-hay);g.stats.hayUsedG+=hay;const waterDemand=g.herd.length*GOAT.waterDayMl/24*(state.weather==='hot'?GOAT.hotWaterFactor:1),water=Math.min(g.troughMl,waterDemand);g.troughMl=Math.max(0,g.troughMl-water);g.stats.waterUsedMl+=water;if(g.shelter)g.shelter.cleanliness=Math.max(0,g.shelter.cleanliness-g.herd.length*GOAT.soilPerGoatDay/24);updateGoatCare(g,state.weather,{foodDemand:demand,food:browse+hay,browse,waterDemand,water});growGoats(g);}
+export function tickGoat(state){const g=state.goat;if(!g?.visited)return;for(const goat of g.herd)goat.ageHours++;const {remaining,browse,demand}=browseGoatHour(g,state.weather),hay=Math.min(g.feederG,remaining);g.feederG=Math.max(0,g.feederG-hay);g.stats.hayUsedG+=hay;const waterDemand=g.herd.length*GOAT.waterDayMl/24*(state.weather==='hot'?GOAT.hotWaterFactor:1),water=Math.min(g.troughMl,waterDemand);g.troughMl=Math.max(0,g.troughMl-water);g.stats.waterUsedMl+=water;if(g.shelter)g.shelter.cleanliness=Math.max(0,g.shelter.cleanliness-g.herd.length*GOAT.soilPerGoatDay/24);updateGoatCare(g,state.weather,{foodDemand:demand,food:browse+hay,browse,waterDemand,water});growGoats(g);sampleGoatHistory(state);}
 /** Called only on dispatch's private clone; rejected commands never escape it. @param {import('./engine.js').State} state @param {import('./engine.js').Command} command @param {import('./engine.js').DomainEvent[]} events @param {Transaction} transact */
 export function applyGoatCommand(state,command,events,transact){
  if(command.type==='enterGoat'){if(state.goat?.visited)return 'goatAlreadyEntered';state.goat=createGoatKit(state.tick);const voucher=Math.max(0,GOAT.starterWaterVoucherMl-state.water*1000);state.goat.stats.waterVoucherMl=voucher;state.water+=voucher/1000;transact(state,'goat_starter_grant',0,'goat.starter.v1');events.push({type:'goatEntered'});return '';}

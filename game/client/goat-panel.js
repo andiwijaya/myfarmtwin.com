@@ -1,3 +1,4 @@
+import {renderGoatLab} from './goat-lab.js';
 import {t,getLocale} from './locales.js';import {goatStage,goatCapacities} from './goat-state.js';import {goatWelfare} from './goat-welfare.js';import {goatSaleReason} from './goat-market-policy.js';import {renderGoatActions,clearGoatDisclosure} from './goat-panel-actions.js';
 /** @type {Record<string,string>} */
 const labels={shelter:'goatShelter',hay:'goatHayRack',water:'goatTrough',clean:'goatCleanStation',pasture:'goatBrowse',platform:'goatPlatform',contract:'goatContract'};
@@ -14,6 +15,6 @@ export function renderGoatPanel(state,selected,send){
  else if(selected==='water'){add('goatTankShared',number(state.water)+' L');add('goatDrinkingWater',number(g.troughMl/1000)+' / '+number(cap.troughMl/1000)+' L');}
  else if(selected==='pasture'){for(const p of g.paddocks)add(t('goatPaddock')+' '+(p.id+1)+(p.id===g.activePaddock?' · '+t('goatActive'):''),number(p.biomassG/1000)+' kg');}
  else{add('goatHerdCount',g.herd.length+' / '+cap.herd);add('goatCleanliness',Math.round(g.shelter?.cleanliness||0)+'%');}
- add('goatComfort',Math.round(welfare.score*100)+'%');renderGoatActions(state,selected,/** @type {HTMLElement} */(document.querySelector('#goat-actions')),send);
+ add('goatComfort',Math.round(welfare.score*100)+'%');renderGoatActions(state,selected,/** @type {HTMLElement} */(document.querySelector('#goat-actions')),send);renderGoatLab(state,/** @type {HTMLElement} */(document.querySelector('#goat-actions')));
  if(active){const next=/** @type {HTMLButtonElement|null} */(panel.querySelector('[data-goat-action="'+active+'"]'));if(next&&!next.disabled)next.focus({preventScroll:true});else heading.focus({preventScroll:true});}
 }
