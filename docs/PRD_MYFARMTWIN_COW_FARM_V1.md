@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **25/64 (39.06%)**
+Progress: **26/64 (40.62%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -48,7 +48,7 @@ Progress: **25/64 (39.06%)**
 
 ### M3 — Full playable first milk delivery & cashflow (9)
 
-- [ ] **M3-F01** — One-time `cow.*` starter kit at first entry: 2 lactating cows, stand, limited supplies and pre-existing milk reservoir, preserving old wallet.
+- [x] **M3-F01** — One-time `cow.*` starter kit at first entry: 2 lactating cows, stand, limited supplies and pre-existing milk reservoir, preserving old wallet.
 - [ ] **M3-F02** — Add FarmGirl `First Milk Delivery` mission, one objective at a time and no collision with crop/chicken/goat missions.
 - [ ] **M3-F03** — Hook feed/refill/clean/inspect UI to real validated engine actions and negative/disabled feedback.
 - [ ] **M3-F04** — Hook milking station to per-cow production/eligibility and lot creation, with friendly visual feedback.
@@ -191,3 +191,6 @@ Freshness uses ordinary ticks only and exact A/B/C/rejected ceilings. Whole-lot 
 
 ### M2-F10
 Headless model gate PASS:24seeds x6 controlled conditions x24h, exact deterministic replay, care and shade improve actual yield; reservoir suppression and paid cold-chain tradeoffs hold.216unit tests PASS. Derived report docs/COW_M2_GATE.md; evidence qa/cow/M2-F10. M3 first-sale gate remains next, no publication.
+
+### M3-F01
+One-time starter slice verified across16 fresh/actual older-save wallet-and-tank combinations. ZeroCoins and empty shared tank still allow real restricted care and one4000mL opening lot without changing existing farm assets; reload/archive/re-entry cannot duplicate kit. Targeted starter tests PASS;216 full units at preceding model gate. No publication.
