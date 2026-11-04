@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **56/64 (87.50%)**
+Progress: **57/64 (89.06%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -94,7 +94,7 @@ Progress: **56/64 (87.50%)**
 - [x] **M6-F04** — Layout/keyboard/ARIA/mobile at 320/360/390/768/1024/1440 + landscape, EN/ID, reduced motion; cross-browser if runners available.
 - [x] **M6-F05** — Performance/memory benchmark with cows animation and all areas enabled, low-graphics fallback, bounded timers/history/save payload.
 - [x] **M6-F06** — Dead-code and license audit; clean only confirmed unused NEW code/assets, keep all prior media and avoid QA/cache in Git.
-- [ ] **M6-F07** — Full regression of crop/chicken/goat (if implemented), save/import/backup, existing Market, weather, water, homepage desktop/mobile, SEO and GA4.
+- [x] **M6-F07** — Full regression of crop/chicken/goat (if implemented), save/import/backup, existing Market, weather, water, homepage desktop/mobile, SEO and GA4.
 - [ ] **M6-F08** — Verify claims against code/biology: lactation-after-calving metadata, no raw milk direct-consumption promises, no offline welfare punishment, acceptable game simplifications visible.
 
 **M6 gate:** no unresolved P0/P1 or save corruption, performance stable, desktop/mobile usable, existing products preserved.
@@ -284,3 +284,6 @@ Optional Dairy Engineering Lab is read-only and shows actual reservoir/produced/
 
 ### M6-F06
 All34Cow modules reachable; original SVG/CSS, zero new media/dependencies, exact built parity and no tracked QA/cache. Removed unused import/unissued reserved grant;262tests/type/build/audit PASS.77superseded owned captures cleaned, final evidence retained.
+
+### M6-F07
+Full crop and8suite Chicken regression,8mixed old-area journeys and15Goat suites PASS, including16Goat races.24homepage profiles,9SEO routes/15layouts,GA4,warm cache and32old-area balance cases PASS; protected homepage/config unchanged. qa/cow/M6-F07-*.
