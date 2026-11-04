@@ -1,9 +1,12 @@
 import {STARTER,LIMITS,WATER,CROP_IDS} from './config.js';
 import {validateChicken} from './chicken-state.js';
 import {validateGoat} from './goat-state.js';
+import {validateCow} from './cow-state.js';
+import {validateCowEconomy} from './cow-save-checks.js';
 import {validateGoatEconomy} from './goat-save-checks.js';
 /** @param {import('./engine.js').State} state */
 export function assertInvariants(state){
+ if(state.cow!==undefined){validateCow(state.cow,state.tick);validateCowEconomy(state);}
  if(state.chicken!==undefined)validateChicken(state.chicken,state.tick);
  if(state.goat!==undefined){validateGoat(state.goat,state.tick);validateGoatEconomy(state);}
  if(!Number.isSafeInteger(state.coins)||state.coins<0||!Number.isSafeInteger(state.revision)||state.revision<0||!Number.isSafeInteger(state.tick)||state.tick<0)throw new Error('Invalid economy/time');

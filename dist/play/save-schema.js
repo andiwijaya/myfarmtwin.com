@@ -1,9 +1,11 @@
 import {createGoatState} from './goat-state.js';
+import {createCowState} from './cow-state.js';
+import {COW_COST_TYPES,COW_LEDGER_TYPES} from './cow-config.js';
 import {GOAT_COST_TYPES,GOAT_LEDGER_TYPES} from './goat-config.js';
 import {validateChickenEconomy} from './chicken-save-checks.js';
 import {CURRENT_SAVE_VERSION} from './config.js';import {createChickenState} from './chicken-state.js';
 import {assertInvariants} from './invariants.js';import {INITIAL_PLOTS,EXPANSION,CROP_IDS,CROPS,ORDERS,WEATHER} from './config.js';
-const COST_TYPES=[...GOAT_COST_TYPES,'seed_purchase','water_cost','facility_purchase','feed_purchase','care_cost','coop_upgrade','hen_purchase','feeder_upgrade','feeder_service','shade_purchase'];const REVENUE_TYPES=['goat_sale','goat_starter_grant','sale_revenue','mission_reward','egg_sale'];const CHICKEN_TYPES=['feed_purchase','care_cost','coop_upgrade','hen_purchase','feeder_upgrade','feeder_service','shade_purchase','egg_sale'];
+const COST_TYPES=[...COW_COST_TYPES,...GOAT_COST_TYPES,'seed_purchase','water_cost','facility_purchase','feed_purchase','care_cost','coop_upgrade','hen_purchase','feeder_upgrade','feeder_service','shade_purchase'];const REVENUE_TYPES=['cow_starter_grant','cow_milk_sale','cow_order_bonus','goat_sale','goat_starter_grant','sale_revenue','mission_reward','egg_sale'];const CHICKEN_TYPES=['feed_purchase','care_cost','coop_upgrade','hen_purchase','feeder_upgrade','feeder_service','shade_purchase','egg_sale'];
 export const SAVE_VERSION=CURRENT_SAVE_VERSION;export const MAX_SAVE_BYTES=2_000_000;
 /** @param {unknown} value @param {string[]} keys @returns {Record<string,any>} */
 function object(value,keys){if(!value||typeof value!=='object'||Array.isArray(value)||Object.getPrototypeOf(value)!==Object.prototype)throw new Error('Invalid save object');const v=/** @type {Record<string,any>} */(value);if(Object.keys(v).length!==keys.length||keys.some(k=>!Object.hasOwn(v,k)))throw new Error('Unknown or missing save fields');return v;}
@@ -17,7 +19,7 @@ function boolean(value){if(typeof value!=='boolean')throw new Error('Invalid sav
 function array(value,max){if(!Array.isArray(value)||value.length>max)throw new Error('Invalid save array');return value;}
 /** Validate untrusted data before it reaches engine/UI. @param {unknown} value @param {number} version @param {boolean} [copy] @returns {import('./engine.js').State} */
 function validateVersion(value,version,copy=true){
- const s=object(value,['saveVersion','revision','tick','seed','rng','weather','paused','speed','coins','water','careCredits','seeds','plots','inventory','ledger','mission','pump','stats','completedOrders','followups','nextLot',...(version>=2?['chicken']:[]),...(version>=3?['goat']:[])]);
+ const s=object(value,['saveVersion','revision','tick','seed','rng','weather','paused','speed','coins','water','careCredits','seeds','plots','inventory','ledger','mission','pump','stats','completedOrders','followups','nextLot',...(version>=2?['chicken']:[]),...(version>=3?['goat']:[]),...(version>=4?['cow']:[])]);
  if(s.saveVersion!==version)throw new Error('Unsupported save version');integer(s.revision);integer(s.tick);integer(s.seed,0,0xffffffff);integer(s.rng,0,0xffffffff);if(!Object.keys(WEATHER).includes(s.weather))throw new Error('Invalid weather');boolean(s.paused);if(![1,2].includes(s.speed))throw new Error('Invalid speed');integer(s.coins);number(s.water,0,240);integer(s.careCredits,0,1);integer(s.nextLot,1);
  const seeds=object(s.seeds,['lettuce','tomato']);for(const c of CROP_IDS)integer(seeds[c],0,99);
  const positions=[...INITIAL_PLOTS,...EXPANSION.cells],plots=array(s.plots,8);if(plots.length<3)throw new Error('Missing beds');
@@ -27,7 +29,7 @@ function validateVersion(value,version,copy=true){
   if(p.crop!==null){const c=object(p.crop,['type','progress','quality','stage','plantedTick']);if(!CROP_IDS.includes(c.type))throw new Error('Invalid crop');number(c.progress,0,1);number(c.quality,.35,1);integer(c.plantedTick,0,s.tick);const config=CROPS[/** @type {'lettuce'|'tomato'} */(c.type)];if(c.stage!==config.stages.filter(n=>c.progress>=n).length-1)throw new Error('Invalid growth stage');}
  }
  const lots=array(s.inventory,80),lotIds=new Set();let quantity=0;for(const item of lots){const l=object(item,['id','type','quantity','quality']);integer(l.id,1,s.nextLot-1);if(lotIds.has(l.id)||!CROP_IDS.includes(l.type))throw new Error('Invalid lot');lotIds.add(l.id);integer(l.quantity,1,80);number(l.quality,.35,1);quantity+=l.quantity;}
- for(const item of array(s.ledger,20000)){const l=object(item,['id','tick','type','amount','balance']);if(typeof l.id!=='string'||!/^[A-Za-z0-9:._-]{1,100}$/.test(l.id)||![...COST_TYPES,...REVENUE_TYPES].filter(t=>(version>=2||!CHICKEN_TYPES.includes(t))&&(version>=3||!GOAT_LEDGER_TYPES.includes(t))).includes(l.type))throw new Error('Invalid ledger entry');integer(l.tick,0,s.tick);integer(l.amount,-1e9,1e9);integer(l.balance);if(COST_TYPES.includes(l.type)&&l.amount>0)throw new Error('Invalid cost');if(REVENUE_TYPES.includes(l.type)&&l.amount<0)throw new Error('Invalid revenue');}
+ for(const item of array(s.ledger,20000)){const l=object(item,['id','tick','type','amount','balance']);if(typeof l.id!=='string'||!/^[A-Za-z0-9:._-]{1,100}$/.test(l.id)||![...COST_TYPES,...REVENUE_TYPES].filter(t=>(version>=2||!CHICKEN_TYPES.includes(t))&&(version>=3||!GOAT_LEDGER_TYPES.includes(t))&&(version>=4||!COW_LEDGER_TYPES.includes(t))).includes(l.type))throw new Error('Invalid ledger entry');integer(l.tick,0,s.tick);integer(l.amount,-1e9,1e9);integer(l.balance);if(COST_TYPES.includes(l.type)&&l.amount>0)throw new Error('Invalid cost');if(REVENUE_TYPES.includes(l.type)&&l.amount<0)throw new Error('Invalid revenue');}
  const mission=object(s.mission,['step','rewards']);integer(mission.step,0,7);const rewards=array(mission.rewards,4);if(new Set(rewards).size!==rewards.length||rewards.some(n=>![2,5,6,7].includes(n)||n>mission.step))throw new Error('Invalid mission rewards');
  const pump=object(s.pump,['built','on','efficient','runHours','stopReason']);boolean(pump.built);boolean(pump.on);boolean(pump.efficient);integer(pump.runHours,0,s.tick);if(!['','noWater','noCoins'].includes(pump.stopReason))throw new Error('Invalid pump status');
  const stats=object(s.stats,['planted','watered','cared','harvested','sold','hotCare','orders']);for(const n of Object.values(stats))integer(n);if(stats.cared>stats.watered||stats.hotCare>stats.cared||stats.harvested-stats.sold!==quantity)throw new Error('Invalid farm totals');
@@ -38,7 +40,7 @@ function validateVersion(value,version,copy=true){
 /** @param {unknown} value @returns {import('./engine.js').State} */
 export function validateState(value){return validateVersion(value,SAVE_VERSION);}
 /** V1 was strictly validated before this additive migration. @param {import('./engine.js').State} state */
-function migrateV1(state){return validateState({...state,saveVersion:SAVE_VERSION,chicken:createChickenState(),goat:createGoatState()});}
+function migrateV1(state){return validateState({...state,saveVersion:SAVE_VERSION,chicken:createChickenState(),goat:createGoatState(),cow:createCowState()});}
 /** @param {import('./engine.js').State} state */
 export function serialize(state){validateVersion(state,SAVE_VERSION,false);const text=JSON.stringify({format:'MyFarmTwin',saveVersion:SAVE_VERSION,state});if(new TextEncoder().encode(text).length>MAX_SAVE_BYTES)throw new Error('Save too large');return text;}
 /** @param {string} text @returns {import('./engine.js').State} */
@@ -46,6 +48,7 @@ export function deserialize(text){
  if(typeof text!=='string'||new TextEncoder().encode(text).length>MAX_SAVE_BYTES)throw new Error('Save too large');const envelope=object(JSON.parse(text),['format','saveVersion','state']);if(envelope.format!=='MyFarmTwin')throw new Error('Unsupported save format');
  if(envelope.saveVersion===0){const legacy=structuredClone(envelope.state);if(!legacy||legacy.saveVersion!==0||!Array.isArray(legacy.plots))throw new Error('Invalid legacy save');for(const plot of legacy.plots){object(plot,['id','x','y','soilWaterMm','soilCapacityMm','crop','waterAppliedMm','careCost','lastWaterTick']);plot.history=[];}legacy.saveVersion=1;return migrateV1(validateVersion(legacy,1));}
  if(envelope.saveVersion===1)return migrateV1(validateVersion(envelope.state,1));
- if(envelope.saveVersion===2){const old=validateVersion(envelope.state,2);return validateState({...old,saveVersion:SAVE_VERSION,goat:createGoatState()});}
+ if(envelope.saveVersion===2){const old=validateVersion(envelope.state,2);return validateState({...old,saveVersion:SAVE_VERSION,goat:createGoatState(),cow:createCowState()});}
+ if(envelope.saveVersion===3){const old=validateVersion(envelope.state,3);return validateState({...old,saveVersion:SAVE_VERSION,cow:createCowState()});}
  if(typeof envelope.saveVersion==='number'&&envelope.saveVersion>SAVE_VERSION)throw new Error('saveNewer');if(envelope.saveVersion!==SAVE_VERSION)throw new Error('Unsupported save version');return validateState(envelope.state);
 }

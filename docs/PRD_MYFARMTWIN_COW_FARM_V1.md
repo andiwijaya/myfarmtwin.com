@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **9/64 (14.06%)**
+Progress: **10/64 (15.62%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -22,7 +22,7 @@ Progress: **9/64 (14.06%)**
 
 - [x] **M1-F01** — Add `Cow Barn` area entry to `/play/` and existing area selector; accessible keyboard/touch, preserves selected crop/chicken/goat game state.
 - [x] **M1-F02** — Render barn exterior/interior or cutaway, fencing/rest area and milk station with world footprint & collision safe.
-- [ ] **M1-F03** — Render initial two cows and optional third from stable engine IDs, distinguish them, show lactating/ready status and owned/capacity; prevent duplicate cows on rerender.
+- [x] **M1-F03** — Render initial two cows and optional third from stable engine IDs, distinguish them, show lactating/ready status and owned/capacity; prevent duplicate cows on rerender.
 - [ ] **M1-F04** — Implement low-cost cow idle/walk/eat/drink/rest animations; reduced-motion/low-graphics parity and no state changes from animation.
 - [ ] **M1-F05** — Render interactive feeder, water trough, cleaning station, milk can and co-op pickup point.
 - [ ] **M1-F06** — Implement contextual cow/barn actions and HUD with disabled reasons, progress and immediate visible feedback.
@@ -143,3 +143,6 @@ Cow Barn area works with keyboard/touch in8 new/existing EN/ID desktop320px prof
 
 ### M1-F02
 Original lightweight isometric cutaway barn, straw rest area, fences and6 dairy stations rendered;8 EN/ID new/existing desktop320px browser profiles PASS with exact save preservation. Reviewed actual desktop/mobile pixels; no engine rewrite/dependency/media. Typecheck/build/locale audit PASS. Evidence qa/cow/M1-F02.
+
+### M1-F03
+Two saved stable adult lactating cows,4000/0mL opening reservoirs, owned/capacity and one-time source kit work; real V3->V4 archives preserve all older farm fields.175 unit tests,8 Cow profiles, full crop E2E and8 three-area sale journeys PASS; old V3 reader protects real V4. Reviewed final pixels. Local only.
