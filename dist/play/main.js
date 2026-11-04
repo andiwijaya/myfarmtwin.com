@@ -1,4 +1,5 @@
 import {getLocale,setLocale,translate,t} from './locales.js';
+import {renderFishPanel,FISH_STATIONS} from './fish-panel.js';
 import {renderFishWorld} from './fish-view.js';
 import {renderWorld} from './world.js';
 import {renderChickenWorld} from './chicken-view.js';
@@ -40,6 +41,10 @@ const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
 let guideExpanded=true;
 let celebrationDismissed=false;
 let activeArea='field';
+let selectedFish='';
+function renderFishSelection(){if(selectedFish&&!FISH_STATIONS.includes(selectedFish))selectedFish='';document.querySelectorAll('[data-fish-object]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-fish-object')===selectedFish)));document.querySelectorAll('[data-choose-fish]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-choose-fish')===selectedFish)));renderFishPanel(state,selectedFish);}
+document.addEventListener('fishobjectselect',event=>{const id=/** @type {CustomEvent<string>} */(event).detail;if(activeArea==='fish'&&FISH_STATIONS.includes(id)){selectedFish=id;renderFishSelection();}});
+el('close-fish').addEventListener('click',()=>{const old=selectedFish;selectedFish='';renderFishSelection();/** @type {HTMLButtonElement|null} */(document.querySelector('[data-choose-fish="'+old+'"]'))?.focus();});
 let selectedChicken='';let selectedGoat='';let selectedCow='';
 function renderCowSelection(){if(selectedCow&&!validCowSelection(selectedCow,state))selectedCow='';document.querySelectorAll('[data-cow-object]').forEach(p=>{const active=p.getAttribute('data-cow-object')===selectedCow;p.classList.toggle('cow-selected',active);p.setAttribute('aria-pressed',String(active));});document.querySelectorAll('[data-choose-cow]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-choose-cow')===selectedCow)));renderCowPanel(state,selectedCow,send);}
 document.addEventListener('cowobjectselect',event=>{const id=/** @type {CustomEvent<string>} */(event).detail;if(activeArea==='cow'&&validCowSelection(id,state)){selectedCow=id;renderCowSelection();}});
@@ -119,8 +124,8 @@ function render(redrawWorld=true){
  el('area-cow').hidden=!FEATURES.cow;el('area-cow').setAttribute('aria-pressed',String(activeArea==='cow'));
  renderCowHud(state,activeArea==='cow');el('cow-panel').hidden=true;if(activeArea==='cow'){renderCowSelection();panel.hidden=true;el('chicken-panel').hidden=true;el('pump-panel').hidden=true;el('followup-missions').hidden=true;el('celebration').hidden=true;el('mission-track').hidden=false;el('mission-track').setAttribute('aria-valuemax','8');el('mission-track').setAttribute('aria-valuenow',String(state.cow?.mission.step||0));el('mission-track').setAttribute('aria-label',t('cowFirstDelivery'));el('mission-progress').style.width=100*(state.cow?.mission.step||0)/8+'%';document.querySelectorAll('.mission-target').forEach(e=>e.classList.remove('mission-target'));el('guide-chapter').textContent=t('cowFirstDelivery');const cowGoal=cowObjective(state);el('mission-title').textContent=t(cowGoal.title)+(cowGoal.progress?' · '+cowGoal.progress:'');el('mission-detail').textContent=t(cowGoal.detail);if(cowGoal.target)document.querySelector(cowGoal.target)?.classList.add('mission-target');el('world').setAttribute('aria-label',t('cowArea'));el('map-hint').textContent=t('cowMapHint');}
  el('goat-panel').hidden=true;if(activeArea==='goat'){renderGoatSelection();panel.hidden=true;el('chicken-panel').hidden=true;el('pump-panel').hidden=true;el('followup-missions').hidden=true;el('celebration').hidden=true;renderGoatMission();el('world').setAttribute('aria-label',t('goatArea'));}
- el('area-fish').hidden=!FEATURES.fish;el('area-fish').setAttribute('aria-pressed',String(activeArea==='fish'));
- if(activeArea==='fish'){for(const id of ['plot-panel','chicken-panel','goat-panel','cow-panel','cow-hud','pump-panel','followup-missions','celebration','mission-track'])el(id).hidden=true;el('guide-chapter').textContent=t('fishArea');el('mission-title').textContent=t('fishPreview');el('mission-detail').textContent=t('fishPreviewCopy');el('world').setAttribute('aria-label',t('fishArea'));el('map-hint').textContent=t('fishMapHint');document.querySelectorAll('.mission-target').forEach(e=>e.classList.remove('mission-target'));}
+ el('fish-panel').hidden=true;el('area-fish').hidden=!FEATURES.fish;el('area-fish').setAttribute('aria-pressed',String(activeArea==='fish'));
+ if(activeArea==='fish'){renderFishSelection();for(const id of ['plot-panel','chicken-panel','goat-panel','cow-panel','cow-hud','pump-panel','followup-missions','celebration','mission-track'])el(id).hidden=true;el('guide-chapter').textContent=t('fishArea');el('mission-title').textContent=t('fishPreview');el('mission-detail').textContent=t('fishPreviewCopy');el('world').setAttribute('aria-label',t('fishArea'));el('map-hint').textContent=t('fishMapHint');document.querySelectorAll('.mission-target').forEach(e=>e.classList.remove('mission-target'));}
 }
 let writeQueue=Promise.resolve();
 /** @param {()=>void|Promise<void>} action */

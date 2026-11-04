@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **16/64 (25.00%)**
+Progress: **17/64 (26.56%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -27,7 +27,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M1-F02** — Draw one cohesive pond/water/edge/deck/inlet/outlet scene with correct isometric alignment; no world overlap or clipped picking.
 - [x] **M1-F03** — Render fish cohorts in two size/stage variants based on actual state (or presentation fixture before M2); no mismatch between state and fish count label.
 - [x] **M1-F04** — Add lightweight swim/surface/feeding visual animations, reduced-motion and low-graphics fallbacks, no simulation driven by frame rate.
-- [ ] **M1-F05** — Add interactive aerator bubbles, feed station, harvest net/dock, water-exchange station and real visual ON/OFF/status states.
+- [x] **M1-F05** — Add interactive aerator bubbles, feed station, harvest net/dock, water-exchange station and real visual ON/OFF/status states.
 - [ ] **M1-F06** — Implement concise contextual controls `Feed`, `Aerate`, `Inspect`, `Harvest`, `Market` with disabled reasons; no inert buttons claiming success.
 - [ ] **M1-F07** — Validate camera controls, rotate/zoom/reset where supported, scene picking, keyboard and touch portrait/landscape; switch Field/Chicken/Goat/Cow ↔ Fish without save mutations.
 - [ ] **M1-F08** — Translate all UI EN/ID, aria labels, error/empty states, `Why?` and mission scaffolding; no inaccessible hover-only elements.
@@ -133,3 +133,6 @@ Read-only Fish snapshots render two school sizes with actual count/ready labels;
 Decorative swim/surface/feed motion uses CSS only;2 browser profiles verify movement/pause/reduced-motion/low-graphics without loading engine; types/build/audit PASS.
 
 M1-F04 correction: final surfacing rule initially overrode reduced-motion by CSS specificity. Strong fallback override now disables every Fish animation; final two browser profiles PASS at qa/fish/M1-F04-fixed/report.json. No later feature started before repair.
+
+### M1-F05
+Six interactive stations, feed/net/water/aerator visuals and actualON/OFF bubbles PASS8 EN/ID browser profiles;44px shortcuts, keyboard/focus restore, exact saves.

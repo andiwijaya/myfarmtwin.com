@@ -1,0 +1,4 @@
+import {el} from './dom.js';import {t} from './locales.js';import {fishSnapshot} from './fish-snapshot.js';
+export const FISH_STATIONS=Object.freeze(['pond','feed','aerator','harvest','water','market']);
+/** @param {import('./engine.js').State} state @param {string} selected */
+export function renderFishPanel(state,selected){el('fish-panel').hidden=!selected;if(!selected)return;const snap=fishSnapshot(state),pond=snap.ponds[0];el('fish-heading').textContent=t('fishStation_'+selected);el('fish-selection-copy').textContent=snap.preview?t('fishPreviewCopy'):t('fishStationInfo_'+selected);const values=el('fish-status');values.replaceChildren();for(const [key,value]of [['fishCount',String(snap.count)],['fishReady',String(snap.ready)],['fishAeration',t(pond?.aerating?'fishOn':'fishOff')]]){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=t(key);dd.textContent=value;values.append(dt,dd);}el('fish-actions').replaceChildren();}
