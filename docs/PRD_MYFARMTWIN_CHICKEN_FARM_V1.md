@@ -368,7 +368,7 @@ Dot **wajib** mengecek balance terhadap harga crop existing, pendapatan per 7/30
 - [x] **M6-F03** — **Dead-code / dependency audit:** remove only confirmed unused new code/assets, preserve working legacy and original media; no QA artifacts in Git.
 - [x] **M6-F04** — Save security: malicious import/unknown fields/prototype keys, corrupt/quarantine, stale tab, future schema, no destructive reset.
 - [x] **M6-F05** — Cross-browser/cross-locale regression EN/ID, Chromium + Firefox if runners available, keyboard/ARIA/reduced-motion/accessible touch targets.
-- [ ] **M6-F06** — Visual review 320/360/390/768/1024/1440 widths plus landscape; no clipped coop, offscreen buttons, horizontal overflow, tiny tap targets.
+- [x] **M6-F06** — Visual review 320/360/390/768/1024/1440 widths plus landscape; no clipped coop, offscreen buttons, horizontal overflow, tiny tap targets.
 - [ ] **M6-F07** — Performance test normal + low-graphics / slow-device emulation: no runaway animation/timers, bounded DOM/SVG updates, memory/save payload acceptable.
 - [ ] **M6-F08** — Pre-release preservation check: homepage exactly one game card dengan ilustrasi cartoon kebun sayur, ayam, kambing, sapi, kolam ikan dan penjelasan EN/ID bahwa kambing, sapi, dan kolam ikan adalah visi masa depan, bukan fitur playable saat ini; copy EN/ID crop + Chicken Farm setelah tersedia, editorial routes/metadata, GA4, original assets, crop save/market/test output preserved.
 - [ ] **M6-F09** — Local build/test → reviewed git diff → **push/deploy with existing verified pipeline**, then **live production smoke/regression** desktop & mobile; rollback on true regression. Never force-push.

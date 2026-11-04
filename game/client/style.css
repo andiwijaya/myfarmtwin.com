@@ -37,3 +37,5 @@ dialog{border:1px solid var(--line);border-radius:24px;background:var(--paper);c
 .notice{pointer-events:none}
 
 .chicken-actions>details{grid-column:1/-1}.chicken-lab{min-width:0}.chicken-lab-history{overflow-x:auto;max-width:100%}.chicken-lab table{width:100%;border-collapse:collapse;font-size:12px}.chicken-lab th,.chicken-lab td{padding:4px;text-align:left;border-bottom:1px solid #dce2ce}
+
+.chicken-actions>details>summary{min-height:44px;padding:12px 0;cursor:pointer}

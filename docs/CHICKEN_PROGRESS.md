@@ -213,3 +213,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M6-F05 | PASS | 53/58 (91.4%)
 
 2026-11-04T00:23:56+00:00 — Chromium153/Firefox155 EN/ID desktop+touch viewport keyboard/ARIA/reduced-motion/low-graphics/save checks pass; full Firefox Chicken+cross-crop loops pass all four surfaces.
+
+## M6-F06 | PASS | 54/58 (93.1%)
+
+2026-11-04T03:05:42+00:00 — 14 EN/ID widths/orientations pass with8beds/6hens/large coop/Lab/Market; visual review fixed dialog focus overlay;44px disclosures and keyboard-scrolling history verified.
