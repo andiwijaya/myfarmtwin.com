@@ -56,7 +56,10 @@ export const saleValue=lot=>Math.max(1,Math.round(lot.quantity*CROPS[lot.type].p
 /** @param {State} input @param {Command} command @returns {{state:State,ok:boolean,error:string,events:DomainEvent[]}} */
 export function dispatch(input,command){
  const reject=(/** @type {string} */error)=>({state:input,ok:false,error,events:[]});
- if(!command||!Number.isSafeInteger(command.id)||command.id!==input.revision+1)return reject('staleCommand');
+ if(!command||typeof command!=='object'||Array.isArray(command))return reject('staleCommand');
+ const descriptors=Object.getOwnPropertyDescriptors(command),requested=typeof descriptors.type?.value==='string'?descriptors.type.value:'';
+ if(Object.getPrototypeOf(command)!==Object.prototype||Object.values(descriptors).some(d=>!Object.hasOwn(d,'value')))return reject(isCowCommand(requested)?'invalidCowCommand':isGoatCommand(requested)?'invalidGoatCommand':isChickenCommand(requested)?'invalidChickenCommand':'staleCommand');
+ if(!Number.isSafeInteger(command.id)||command.id!==input.revision+1)return reject('staleCommand');
  if(isCowCommand(command.type)){const error=validateCowCommand(command);if(error)return reject(error);if(!FEATURES.cow)return reject('cowDisabled');}
  if(isGoatCommand(command.type)){const error=validateGoatCommand(command);if(error)return reject(error);}
  if(isChickenCommand(command.type)){const error=validateChickenCommand(command);if(error)return reject(error);if(!FEATURES.chicken)return reject('chickenDisabled');}

@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **16/64 (25.00%)**
+Progress: **17/64 (26.56%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -34,7 +34,7 @@ Progress: **16/64 (25.00%)**
 ### M2 — Real deterministic cow care, lactation and milk model (10)
 
 - [x] **M2-F01** — Add typed/configured cow/barn/lot model, unique IDs, unit normalization, bounded values and validator structure.
-- [ ] **M2-F02** — Add revision-safe idempotent cow commands, no direct DOM economy mutation, no duplicative scheduler or RNG.
+- [x] **M2-F02** — Add revision-safe idempotent cow commands, no direct DOM economy mutation, no duplicative scheduler or RNG.
 - [ ] **M2-F03** — Add feed inventory purchase, store→trough transfer and per-tick intake; avoid free/negative feed and unrealistic crop conversion.
 - [ ] **M2-F04** — Add trough refill as atomic transfer from shared farm tank and tick water consumption; test mixed crop/chicken/goat demand.
 - [ ] **M2-F05** — Add cleanliness, shade/heat protection and derived comfort model with gradual recovery; no animal death/offline punishment.
@@ -164,3 +164,6 @@ All current Cow screens/actions/disabled notices and model/biology disclosures t
 
 ### M2-F01
 Typed configured Cow/barn/lot data now validates integer units, per-cow opening/produced/collected provenance, unique bounded lots, chronological session counters, cumulative sale/fraction/energy/recovery constraints and malicious hidden/getter/prototype fields.183 units/typecheck/build/audit PASS; fixed provisional balance and examples documented. Evidence qa/cow/M2-F01.
+
+### M2-F02
+Revision-safe command gate rejects getters before reading id/type, forged payloads, prototypes, symbols and all stale/replays; frozen inputs remain unchanged.186 unit tests PASS including deterministic mixed replay/no wall-clock or unseeded RNG and24 ticks==NextDay.20 real two-tab EN/ID desktop/mobile entry/care races PASS: exactly one revision/grant/transfer, stale read-only and reload safe. Evidence qa/cow/M2-F02.
