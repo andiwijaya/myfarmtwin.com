@@ -4,14 +4,14 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **3/64 (4.69%)**
+Progress: **4/64 (6.25%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
 - [x] **M0-F01** — Audit local/remote/live commit, active Dot tasks, uncommitted files, branch divergence and deploy; record baseline & rollback without touching user files.
 - [x] **M0-F02** — Verify Chicken status (code, live, PRD checklist) and Goat status (PRD/local task/branch/live); choose safe sequential integration strategy.
 - [x] **M0-F03** — Map existing headless engine, clock, weather, wallet, Market, inventory, events, renderer and save validator; document reuse contracts.
-- [ ] **M0-F04** — Run baseline local `lint`, `typecheck`, `test`, `build`, `e2e`, chicken & other project scripts actually available; document pre-existing issues.
+- [x] **M0-F04** — Run baseline local `lint`, `typecheck`, `test`, `build`, `e2e`, chicken & other project scripts actually available; document pre-existing issues.
 - [ ] **M0-F05** — Snapshot/anonymized fixtures for current save versions and realistic mixed-farm states; establish non-destructive rollback plan.
 - [ ] **M0-F06** — Confirm responsive UX/camera/low-graphics and create small visual assets plan consistent with existing renderer; no engine rewrite.
 - [ ] **M0-F07** — Commit/copy this living PRD to repo docs, create isolated safe branch, release checkpoints and feature flag; no premature deployment.
@@ -125,3 +125,6 @@ Verified completed Chicken and Goat source, preserved 60/60 Goat release documen
 
 ### M0-F03
 Mapped deterministic shared reducer, clock, seeded weather, ledger, Market, 240 L tank, V3 validation/archives and isometric UI integration; Cow units and V4 additive migration boundary documented in COW_AUDIT.md.
+
+### M0-F04
+All 15 baseline npm gates PASS, 169 unit tests, full crop/Chicken and 8 Goat mixed browser journeys; homepage24, SEO9, compat and12 performance profiles PASS. No pre-existing application failures. Evidence qa/cow/M0-F04 and COW_AUDIT.md.

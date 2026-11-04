@@ -23,3 +23,9 @@ DOM/SVG renderer is isometric, not WebGL/true 3D. World/camera keep separate per
 ## Balance assumptions to test
 
 Cow baseline yield 6000 mL/day, normal/hot demand 30/45 L and 8000 g feed per cow/day. Shared water at 6 Coins/100 L means two cows cost 3.6–5.4 Coins/day for ordinary water, with 12 L ideal milk/day worth up to 72 Coins before feed/energy/grade. Fix one feed-price config and test paid progression against existing crops, eggs and growing goats; do not assume first 16-Coin opening sale buys a 90-Coin trough. Starter water is a separately accounted Cow-only entitlement and must not refill the shared tank. Preserve all V1.1 limits, exact arithmetic, recovery gates and no-offline-punishment rules.
+
+## M0-F04 — clean baseline gates
+
+All 15 npm tasks passed: lint, typecheck, test (169/169), build, e2e (full original crop/data/recovery flows), chicken (complete release runner), balance, endurance, audit:client, homepage, homepage:cache, seo, security, compat and performance. An additional Goat full browser suite passed eight new/existing desktop/touch EN/ID mixed three-area journeys. Evidence is outside Git at qa/cow/M0-F04/results.json and per-task logs/reports.
+
+Homepage passed 24 widths/languages plus no-JS/blocked-storage/reduced-motion checks; nine SEO routes and fifteen layouts passed. Existing locale audit and dependency/security guards passed. Twelve performance profiles passed: desktop 60 FPS, 4x-CPU/150ms/1.6Mbps mobile emulation 56.7–60 FPS. This is measured local/headless evidence, not physical mobile/Safari coverage. Client is 58 assets, 322987 local checkout bytes / 122187 summed per-file gzip; exact production comparison uses Git bytes to avoid Windows CRLF differences. No pre-existing application failure found. A local read-only reporting one-liner had a syntax typo and was corrected; it never changed repository data.
