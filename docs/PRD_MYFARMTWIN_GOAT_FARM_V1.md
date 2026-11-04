@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **11/60 (18.3%)**.
+Progress: **12/60 (20.0%)**.
 
 ## Checklist
 
@@ -25,7 +25,7 @@ Progress: **11/60 (18.3%)**.
 - [x] **M1-F03** — Render 3 starter goats from stable state (one adult and two weaned), visually distinguishable.
 - [x] **M1-F04** — Add light state-driven idle/walk/browse/chew/climb animations and reduced-motion fallback.
 - [x] **M1-F05** — Render/select hay rack, shared water trough, cleanable shelter, paddock and safe climb platform.
-- [ ] **M1-F06** — Add contextual actions Feed/Water/Clean/Inspect/Sell, with correct disabled state and human-readable reasons.
+- [x] **M1-F06** — Add contextual actions Feed/Water/Clean/Inspect/Sell, with correct disabled state and human-readable reasons.
 - [ ] **M1-F07** — Mobile 320–390 and desktop interactions, pan/zoom/reset (rotate if applicable), keyboard/focus, low graphics.
 - [ ] **M1-F08** — EN/ID for every Goat view/control/status/error; seamless return to Crop/Chicken guide.
 - [ ] **M2-F01** — Define Goat/Herd/Shelter/Paddock config with bounded values, stable IDs, age-stage semantics and validators.
@@ -109,3 +109,6 @@ Light idle/walk/browse/chew/rest/short-climb SVG motions are derived from the sh
 
 ### M1-F05
 Seven stations/shelter and three goats selectable with shared per-area camera picking and accessible shortcuts. Real SVG trough tap/click and hay keyboard picking, all shortcut selections, Escape/close focus restoration, invalid selection rejection and exact saves PASS on four EN/ID desktop/touch profiles. Fixed a real mobile overlay found by painted-object testing: Goat shortcuts now flow below SVG; non-overlap asserted. Crop/Chicken first-sale regression four profiles, lint/typecheck/build PASS. Evidence: qa/goat/M1-F05/.
+
+### M1-F06
+Context panels now provide working Inspect disclosures and shared Market entry. Feed/water/clean/sell controls show explicit visible EN/ID reasons and aria-describedby while M1 is presentation-only; no fake economy operation or grant. Four desktop/touch profiles verify disabled reasons, accessible expanded inspection, Market navigation and exact old-save/guide preservation. lint/typecheck/build PASS. Evidence: qa/goat/M1-F06/.
