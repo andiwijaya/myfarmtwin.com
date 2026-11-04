@@ -1,13 +1,8 @@
-/** Scene-only reference for the M1 presentation gate. This never grants or persists animals. */
-/** @typedef {{id:string,stage:'weaned'|'growing'|'marketReady',ready?:boolean,activity?:'idle'|'walk'|'browse'|'chew'|'rest'|'climb'}} GoatView */
-/** @type {{herd:readonly GoatView[]}} */
-export const GOAT_SCENE_PREVIEW=Object.freeze({herd:Object.freeze([
- Object.freeze({id:'goat.starter.adult',stage:'marketReady'}),
- Object.freeze({id:'goat.starter.young.1',stage:'weaned'}),
- Object.freeze({id:'goat.starter.young.2',stage:'weaned'})
-])});
-/** Cosmetic activity only. Never uses wall-clock time or advances a simulation. @param {number} tick */
-export function goatSceneSnapshot(tick){
- const activities=/** @type {const} */(['idle','walk','browse','chew','rest','climb']);
- return {herd:GOAT_SCENE_PREVIEW.herd.map((goat,index)=>({...goat,activity:activities[(Math.floor(tick/3)+index)%activities.length]}))};
-}
+import {goatStage} from './goat-state.js';import {goatSaleReason} from './goat-market-policy.js';import {goatWelfare} from './goat-welfare.js';
+/** @typedef {'idle'|'walk'|'browse'|'chew'|'rest'|'climb'} GoatActivity */
+/** @typedef {{id:string,stage:'weaned'|'growing'|'marketReady',ready:boolean,activity:GoatActivity,growth:number,condition:number,ageGameDays:number}} GoatView */
+/** @typedef {{visited:boolean,herd:GoatView[],level:number,careUpgrade:boolean,hayStockG:number,feederG:number,troughMl:number,cleanliness:number,nutrition:number,hydration:number,comfort:number,paddocks:{id:number,biomassG:number,selected:boolean}[],coins:number,tankWaterL:number}} GoatRanchSnapshot */
+/** Cosmetic activity reads the shared logical tick, never wall-clock time. @param {number} index @param {number} tick @param {number} [nutrition] @param {number} [hydration] @returns {GoatActivity} */
+export function goatActivity(index,tick,nutrition=1,hydration=1){const values=/** @type {const} */(['idle','walk','browse','chew','rest','climb']),activity=values[(Math.floor(tick/3)+index)%values.length];return hydration<.5&&activity==='climb'?'rest':nutrition<.5&&activity==='chew'?'browse':activity;}
+/** Copy of actual saved ownership/model facts. No presentation starter herd, grants or writes. @param {import('./engine.js').State} state @returns {GoatRanchSnapshot} */
+export function goatSnapshot(state){const g=state.goat,welfare=g?goatWelfare(g,state.weather):null;return {visited:!!g?.visited,herd:g?.visited?g.herd.map((goat,index)=>({id:goat.id,stage:goatStage(goat),ready:!goatSaleReason(state,goat.id),activity:goatActivity(index,state.tick,g.nutrition,g.hydration),growth:goat.growth,condition:goat.condition,ageGameDays:goat.ageHours/24})):[],level:g?.shelter?.level||0,careUpgrade:!!g?.shelter?.careUpgrade,hayStockG:g?.hayStockG||0,feederG:g?.feederG||0,troughMl:g?.troughMl||0,cleanliness:g?.shelter?.cleanliness||0,nutrition:g?.nutrition||0,hydration:g?.hydration||0,comfort:welfare?.score||0,paddocks:g?.paddocks.map(p=>({id:p.id,biomassG:p.biomassG,selected:p.id===g.activePaddock}))||[],coins:state.coins,tankWaterL:state.water};}

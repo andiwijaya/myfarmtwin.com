@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **24/60 (40.0%)**.
+Progress: **25/60 (41.7%)**.
 
 ## Checklist
 
@@ -38,7 +38,7 @@ Progress: **24/60 (40.0%)**.
 - [x] **M2-F08** — Growth stages `weaned→growing→market-ready` using game ticks and configurable compressed duration.
 - [x] **M2-F09** — Herd capacity and social minimum-two sale rule, with rejection messages and recovery suggestions.
 - [x] **M2-F10** — Unit/invariant tests seeded scenarios: no feed/water, good care, hot/rainy, overgrazing, pause, 24 ticks=Next Day.
-- [ ] **M3-F01** — Grant one-time starter shelter + three goats + bounded supplies when first entering Goat Ranch.
+- [x] **M3-F01** — Grant one-time starter shelter + three goats + bounded supplies when first entering Goat Ranch.
 - [ ] **M3-F02** — Implement `My First Goat Sale` chapter, FarmGirl guide, persisted progress and area-specific mission display.
 - [ ] **M3-F03** — Bind Feed/Water/Clean/Inspect buttons to real commands and causally correct visual feedback.
 - [ ] **M3-F04** — Integrate live-goat sale quote/contract into the **same** Market as crops/eggs.
@@ -148,3 +148,6 @@ Model policies require mature stage, adequate condition and at least two goats a
 
 ### M2-F10
 M2 gate PASS: 130 unit tests cover seeded good/no-feed/no-water/hot/rain/overgrazing scenarios, exact 24-tick vs Next Day semantics, pause and system-clock shifts, mass conservation, care/growth and immutable inputs. Import now rejects below-floor condition and impossible owned-time consumption/regrowth/health/cleaning counts. Existing Crop/Chicken replay/rollback tests remain green; lint/typecheck/build PASS. GOAT_M2_GATE documents model/presentation boundary and next M3 vertical slice. Evidence: qa/goat/M2-F10/.
+
+### M3-F01
+Real UI first entry now atomically grants the saved shelter/one mature+two weaned herd/6kg hay once, with at most 12L shortage-only starter water voucher (zero Coins) to avoid empty-tank/zero-wallet softlock. Removed the presentation-only herd; renderer snapshots actual ownership. 133 unit tests, lint/typecheck/build, eight new/existing V2 EN/ID desktop/touch first-entry/reload/locale cases and two parallel-tab grant races PASS. Older farm subtrees/archives preserved; actual Goat UI roundtrip PASS. Evidence: qa/goat/M3-F01/.

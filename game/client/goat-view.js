@@ -1,5 +1,4 @@
 import {t} from './locales.js';
-import {GOAT_SCENE_PREVIEW} from './goat-scene-snapshot.js';
 import {iso as projectIso,diamond} from './isometric.js';
 import {bindCamera,cameraRotation} from './camera.js';
 const iso=(/** @type {number} */x,/** @type {number} */y)=>projectIso(x,y,cameraRotation('goat'));
@@ -32,8 +31,8 @@ function drawGoat(parent,goat,index){
  for(const x of [-12,9]){node('path',{d:`M${x-3},-7 v18 l6,1 v-19`,fill:'#b69b72',stroke:'#967951','stroke-width':1},body);node('path',{d:`M${x-3},10 h7`,stroke:'#4b4c39','stroke-width':3},body);}node('path',{d:'M-17,-17 q-13,-18 -10,-1 l10,7',fill:coat,stroke:'#aa9068','stroke-width':1},body);node('ellipse',{cx:-1,cy:-14,rx:22,ry:13,fill:coat,stroke:'#ac926d','stroke-width':1.2},body);node('path',{d:'M10,-19 q-1,-20 12,-16 l11,9 l-4,10 l-13,3 Z',fill:coat,stroke:'#ac926d','stroke-width':1.2},body);node('path',{d:'M18,-34 q-13,-17 -11,-5 M24,-34 q-1,-18 -6,-13',fill:'none',stroke:'#9b8e6a','stroke-width':3,'stroke-linecap':'round'},body);node('path',{d:'M16,-31 l-13,-3 l7,9 Z',fill:'#c5b18b',stroke:'#ac926d'},body);node('ellipse',{cx:29,cy:-22,rx:7,ry:5,fill:'#ddcbaa'},body);node('circle',{cx:24,cy:-29,r:2,fill:'#283e30'},body);node('path',{d:'M25,-17 l-3,9 l7,-8',fill:'#c4b18a'},body);node('path',{d:'M12,-22 l6,4',stroke:adult?'#3e7957':'#bc8056','stroke-width':4},body);if(adult)node('circle',{cx:17,cy:-16,r:3,fill:'#e1bf58'},body);
 }
 /** Original SVG presentation. No gameplay clock, grants or persistence. */
-/** @param {{herd:readonly import('./goat-scene-snapshot.js').GoatView[]}} [snapshot] */
-export function renderGoatWorld(snapshot=GOAT_SCENE_PREVIEW){
+/** @param {import('./goat-scene-snapshot.js').GoatRanchSnapshot} snapshot */
+export function renderGoatWorld(snapshot){
  const host=/** @type {HTMLElement} */(document.querySelector('#world'));
  host.replaceChildren();const svg=node('svg',{viewBox:'0 0 900 540',class:'farm-scene goat-scene',role:'img','aria-label':t('goatArea')},host);node('title',{},svg).textContent=t('goatArea');node('ellipse',{cx:450,cy:355,rx:337,ry:137,fill:'#94ad74',opacity:'.23'},svg);const camera=node('g',{id:'map-camera'},svg);
  node('polygon',{points:'98,236 450,412 802,236 802,263 450,439 98,263',fill:'#91a96d'},camera);for(let y=0;y<L.size;y++)for(let x=0;x<L.size;x++){const p=iso(x,y);node('polygon',{points:diamond(p.x,p.y),fill:(x+y)%4===0?'#d3dfac':'#c6d89c',stroke:'#b4c98c','stroke-width':'.5','data-goat-tile':y*L.size+x},camera);}

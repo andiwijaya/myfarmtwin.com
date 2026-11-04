@@ -3,7 +3,7 @@ import {renderWorld} from './world.js';
 import {renderChickenWorld} from './chicken-view.js';
 import {renderGoatWorld} from './goat-view.js';
 import {renderGoatPanel,validGoatSelection} from './goat-panel.js';
-import {goatSceneSnapshot} from './goat-scene-snapshot.js';
+import {goatSnapshot} from './goat-scene-snapshot.js';
 import {FEATURES} from './features.js';
 import {renderChickenPanel} from './chicken-panel.js';
 import {chickenSnapshot} from './chicken-snapshot.js';
@@ -46,7 +46,7 @@ document.addEventListener('camerachanged',()=>{if(activeArea==='goat')renderGoat
 function closeChicken(){const old=selectedChicken;selectedChicken='';renderChickenSelection();/** @type {HTMLButtonElement|null} */(document.querySelector('[data-choose-chicken='+old+']'))?.focus();}
 el('close-chicken').addEventListener('click',closeChicken);
 el('area-field').addEventListener('click',()=>{clearNotice();activeArea='field';render();});
-el('area-goat').addEventListener('click',()=>{clearNotice();activeArea='goat';render();});
+el('area-goat').addEventListener('click',()=>{clearNotice();if(!state.goat?.visited&&externalChange){notify(t('saveConflict'));return;}activeArea='goat';if(!state.goat?.visited)send('enterGoat');else render();});
 el('area-chicken').addEventListener('click',()=>{if(FEATURES.chicken){clearNotice();if(!state.chicken?.visited&&externalChange){notify(t('saveConflict'));return;}activeArea='chicken';if(!state.chicken?.visited)send('enterYard');else render();}});
 el('continue-farm').addEventListener('click',()=>{celebrationDismissed=true;chosenCrop='tomato';const empty=state.plots.find(p=>!p.crop);if(empty)selected=empty.id;render();});
 el('resume-continue').addEventListener('click',()=>{resumeVisible=false;render();});
@@ -86,7 +86,8 @@ language.addEventListener('change',()=>{setLocale(language.value);render();});
 function renderMission(){const step=state.mission.step,copy=currentObjective(state);el('mission-title').textContent=t(copy[0]);el('mission-detail').textContent=t(copy[1]);el('guide-chapter').textContent=t(step<7?'firstHarvest':'nextChapter');el('mission-progress').style.width=100*step/7+'%';el('mission-track').setAttribute('aria-valuenow',String(step));el('celebration').hidden=step<7||celebrationDismissed;document.querySelectorAll('.mission-target').forEach(e=>e.classList.remove('mission-target'));const next=FOLLOWUPS.find(q=>!state.followups[q.id]);const target=step<7?['.plot-shortcuts','#plant','#water','#next-day','#harvest','#market-open','#buy-pump'][step]:next?.id==='hotCare'?'#weather-name':next?'#market-open':null;if(target)document.querySelector(target)?.classList.add('mission-target');el('followup-missions').hidden=step<7;const list=el('followup-list');list.replaceChildren();for(const quest of FOLLOWUPS){const item=document.createElement('li');item.dataset.quest=quest.id;item.dataset.done=String(state.followups[quest.id]);item.textContent=(state.followups[quest.id]?'✓ ':'○ ')+t(quest.title);list.append(item);}}
 function render(redrawWorld=true){
  if(activeArea==='chicken'&&(!FEATURES.chicken||!state.chicken?.visited))activeArea='field';
- translate();if(redrawWorld){if(activeArea==='goat')renderGoatWorld(goatSceneSnapshot(state.tick));else if(activeArea==='chicken')renderChickenWorld(yardSnapshot());else renderWorld(state.plots,state.tick,state.pump);}renderSelection();renderGuide();renderGraphics();renderMarket(state,send);renderOrders(state,send);renderShop(state,send);renderMission();renderData(saveSession);renderInspect(state,selected);renderReasons(state,selected);renderTrends(state,selected);
+ if(activeArea==='goat'&&!state.goat?.visited)activeArea='field';
+ translate();if(redrawWorld){if(activeArea==='goat')renderGoatWorld(goatSnapshot(state));else if(activeArea==='chicken')renderChickenWorld(yardSnapshot());else renderWorld(state.plots,state.tick,state.pump);}renderSelection();renderGuide();renderGraphics();renderMarket(state,send);renderOrders(state,send);renderShop(state,send);renderMission();renderData(saveSession);renderInspect(state,selected);renderReasons(state,selected);renderTrends(state,selected);
  el('hud-day').textContent=String(Math.floor(state.tick/24)+1);el('hud-coins').textContent=String(state.coins);el('hud-water').textContent=String(Math.floor(state.water));el('hud-seeds').textContent=String(state.seeds.lettuce+state.seeds.tomato);
  el('inventory-harvest').textContent=state.inventory.length?state.inventory.map(lot=>t(lot.type)+' ×'+lot.quantity+' · '+Math.round(lot.quality*100)+'% '+t('quality')).join(' | '):t('noHarvest');
  if(state.chicken?.inventory.length)el('inventory-harvest').textContent=(state.inventory.length?el('inventory-harvest').textContent+' | ':'')+t('eggs')+' ×'+state.chicken.inventory.reduce((n,l)=>n+l.quantity,0);
