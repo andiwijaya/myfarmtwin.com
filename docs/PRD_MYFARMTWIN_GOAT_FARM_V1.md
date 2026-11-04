@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **41/60 (68.3%)**.
+Progress: **42/60 (70.0%)**.
 
 ## Checklist
 
@@ -55,7 +55,7 @@ Progress: **41/60 (68.3%)**.
 - [x] **M4-F07** — Two-tab concurrency/double-click/replay tests: one sale/grant/purchase, no wallet/growth dupes.
 - [x] **M4-F08** — Mixed-farm 30+ game-day endurance with daily save roundtrip; bounds, ledger, clock consistent.
 - [x] **M5-F01** — Unlock paddock #2 and implement actual rotational grazing/regrowth tradeoffs and visual switching.
-- [ ] **M5-F02** — Shelter upgrade costs Coins, improves capacity/comfort and visibly changes the scene.
+- [x] **M5-F02** — Shelter upgrade costs Coins, improves capacity/comfort and visibly changes the scene.
 - [ ] **M5-F03** — Feeder/trough upgrade reduces repeated clicking **without** creating water/hay from nothing.
 - [ ] **M5-F04** — Buy extra weaned goats within capacity; stable IDs, stage and herd welfare rules maintained.
 - [ ] **M5-F05** — Follow-up missions: Healthy Herd, Growing Goat, Pasture Planner, Bigger Shelter, Livestock Contract.
@@ -199,3 +199,6 @@ Sixteen real two-tab races cover sale/reward, young-goat purchase, hay purchase 
 
 ### M5-F01
 Paid second paddock and actual rotation now alter deterministic browse/rest/regrowth. Clicking alone creates no forage or growth; same/locked/duplicate/poor-wallet actions reject. 155 unit tests, lint/typecheck/build and four EN/ID desktop/touch browser profiles pass; two physical paddocks show current grazing selection and restore exactly after reload. Evidence: qa/goat/M5-F01/.
+
+### M5-F02
+Paid shelter upgrades raise actual capacity 4-to-6-to-8, increase shade and visibly enlarge the roof/building without creating goats or supplies. 156 unit tests, lint/typecheck/build and four desktop/touch EN/ID browser profiles pass, including double-click safety, exact stage costs and reload. Evidence: qa/goat/M5-F02/.
