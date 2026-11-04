@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **38/64 (59.38%)**
+Progress: **39/64 (60.94%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -66,7 +66,7 @@ Progress: **38/64 (59.38%)**
 - [x] **M4-F02** — Migrate crop-only saves retaining every original crop/Coins/market/weather/ledger field semantically exact.
 - [x] **M4-F03** — Migrate Chicken-era saves retaining hens, egg lots, orders, upgrades, histories, rewards; test chicken regression.
 - [x] **M4-F04** — Migrate Goat-era saves if implemented; if not, document applicability and ensure future Goat integration uses shared migration chain.
-- [ ] **M4-F05** — Serialize/validate cows, provenance-tagged supplies, lots, milk counters, production/sale remainders, cooling credit, recovery episodes, missions/grants, third-cow purchase, versions and ledger (§6.9).
+- [x] **M4-F05** — Serialize/validate cows, provenance-tagged supplies, lots, milk counters, production/sale remainders, cooling credit, recovery episodes, missions/grants, third-cow purchase, versions and ledger (§6.9).
 - [ ] **M4-F06** — Test autosave/reload/return, import/export, cancel/invalid data, confirmed reset, rolling backup, quarantine corrupt/future saves.
 - [ ] **M4-F07** — Two-tabs/stale-revision/double-click and time pause/hidden tab/system-clock tests; no dupe sale/milk/grant or softlock.
 - [ ] **M4-F08** — 30+ game-day mixed farm endurance with save roundtrips, shared resource conservation, no negative balance and no storage bloat.
@@ -230,3 +230,6 @@ Actual V2 Chicken fresh/mixed saves retain every prior field and exact era archi
 
 ### M4-F04
 ActualV3 fresh/mixed Goat-era farms preserve every prior field and exact original bytes. Advanced paid shelter/care, two rotated pastures, herd IDs, sales/contracts, sources, histories and rewards are validated by the exact releasedV3 reader before migration and remain unchanged after explicit Cow entry.9 targeted tests PASS, original fixture/reader hashes unchanged;8 full Goat browser profiles already passed M3.
+
+### M4-F05
+Final CowV4 boundary reconciles all paid flags, source ledgers, integer milk/revenue/fractions, partial receipts, cooling credit/freshness history, recovery/disposal, mission evidence and third-purchase proof.242full units plus8native-clock and4recovery EN/ID browser profiles PASS. Coherently balanced forged prices/credits/grants/receipts and prepoisoned namespaces reject; old readers/fixtures unchanged. docs/COW_V4_VALIDATION.md; qa/cow/M4-F05*.
