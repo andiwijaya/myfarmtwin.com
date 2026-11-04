@@ -1,0 +1,42 @@
+{
+  "sourceCommit": "c3de361699b5dda4a131cf829f7d2a8ccff0b52f",
+  "saveVersion": 4,
+  "synthetic": true,
+  "containsUserData": false,
+  "fixtures": [
+    {
+      "name": "fresh.json",
+      "sha256": "cf9dfb7257145a14013066bd3a4e8fc0a0b2e4933f46ed61aebc5154884a2b0a",
+      "bytes": 3194,
+      "tick": 0,
+      "revision": 0,
+      "coins": 120,
+      "cows": 0,
+      "cowSales": 0
+    },
+    {
+      "name": "mixed.json",
+      "sha256": "e74f4bb2b89828e3b2e5331aeb7bf31c4879d4dc0d0d2d01d492a4ba33efeeb0",
+      "bytes": 104213,
+      "tick": 744,
+      "revision": 1987,
+      "coins": 2253,
+      "cows": 3,
+      "cowSales": 170
+    }
+  ],
+  "readers": [
+    {
+      "name": "config.js",
+      "sha256": "580698dfd981b5f715190994cb5b57a40c0b9c508315b0be9c9c173f32c61f99"
+    },
+    {
+      "name": "save-schema.js",
+      "sha256": "16818fdc9cc30353e8ce70c3a24b9f29c421ba70b1b28cb2db67842cc9e5ef8a"
+    },
+    {
+      "name": "storage.js",
+      "sha256": "acb92f7a128b14f9b0aa5bc77ce1de70f4d710a7cfce08e0d8441a9b2af62a79"
+    }
+  ]
+}
