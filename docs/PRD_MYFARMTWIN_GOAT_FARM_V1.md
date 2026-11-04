@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **47/60 (78.3%)**.
+Progress: **48/60 (80.0%)**.
 
 ## Checklist
 
@@ -61,7 +61,7 @@ Progress: **47/60 (78.3%)**.
 - [x] **M5-F05** — Follow-up missions: Healthy Herd, Growing Goat, Pasture Planner, Bigger Shelter, Livestock Contract.
 - [x] **M5-F06** — Add optional Engineering Lab/Why? with real factors, feed/water/forage trends and goat P&L.
 - [x] **M5-F07** — Balance 7/30/60/90 game days: good vs bad care, Goat/Crop/Chicken/mixed, sale economics and bounded wealth.
-- [ ] **M6-F01** — Black-box full E2E desktop/touch-mobile across Crop/Chicken/Goat, new & existing saves, Market, missions.
+- [x] **M6-F01** — Black-box full E2E desktop/touch-mobile across Crop/Chicken/Goat, new & existing saves, Market, missions.
 - [ ] **M6-F02** — White-box deterministic growth/care/conservation/contract/ledger/min-two invariant tests.
 - [ ] **M6-F03** — Security tests for untrusted save, prototype keys, malformed state, stale revisions, duplicate commands.
 - [ ] **M6-F04** — EN/ID + keyboard/screen reader accessible labels/reduced motion; viewport 320/360/390/768/1024/1440 + landscape; Firefox if available.
@@ -217,3 +217,6 @@ Optional read-only Why/Engineering Lab explains real care terms, actual lifetime
 
 ### M5-F07
 32 real-command 7/30/60/90-day crop/Chicken/Goat/mixed good-vs-bad scenarios pass, including zero-wallet recovery. Fixed reproduced first-cycle cash-flow failure by tuning 6kg hay 24-to-12 Coins, preserving original historical prices. Zero-wallet Goat ends 90 days with 917 Coins/13 sales; no negative or unbounded states. 162 unit tests, lint/typecheck/build and four real purchase UI profiles pass. GOAT_BALANCE.md and qa/goat/M5-F07/.
+
+### M6-F01
+Eight real full-game black-box journeys cover new/existing mixed farms on EN/ID desktop/touch. Each plays Goat first sale/restock, actual crop grow/harvest/sale, Chicken care/lay/collect/sale, then returns to care the same goats; shared ledger unique, companion IDs preserved, no overflow/errors and exact reload. Evidence: qa/goat/M6-F01/.
