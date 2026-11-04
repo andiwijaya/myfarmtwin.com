@@ -7,3 +7,5 @@
 - Final content audit found the return summary omitted Goat progress and the optional Lab omitted explicit forage regrowth/utilization and current growth rate. These now read actual state; the same rate helper drives both simulation and explanation. Targeted preservation/growth tests and real data-tool browser checks cover the additions.
 
 Release remains local. Publication/live-production gates require explicit authorization.
+
+- M7 release review reproduced a forged Goat chapter reward before first visit that poisoned later entry. Import now rejects unvisited/unknown Goat reward ledger namespaces, pre-starter paid chronology and future transaction revisions. 169 unit tests and 14 storage scenarios pass; original poisoned bytes remain protected. Full release checks repeat after the fix.
