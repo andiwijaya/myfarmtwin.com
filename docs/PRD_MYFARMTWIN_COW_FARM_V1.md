@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **27/64 (42.19%)**
+Progress: **28/64 (43.75%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -50,7 +50,7 @@ Progress: **27/64 (42.19%)**
 
 - [x] **M3-F01** — One-time `cow.*` starter kit at first entry: 2 lactating cows, stand, limited supplies and pre-existing milk reservoir, preserving old wallet.
 - [x] **M3-F02** — Add FarmGirl `First Milk Delivery` mission, one objective at a time and no collision with crop/chicken/goat missions.
-- [ ] **M3-F03** — Hook feed/refill/clean/inspect UI to real validated engine actions and negative/disabled feedback.
+- [x] **M3-F03** — Hook feed/refill/clean/inspect UI to real validated engine actions and negative/disabled feedback.
 - [ ] **M3-F04** — Hook milking station to per-cow production/eligibility and lot creation, with friendly visual feedback.
 - [ ] **M3-F05** — Add milk lots A/B/C to existing inventory and **Co-op delivery** to existing Market; accepted only if valid grade/freshness.
 - [ ] **M3-F06** — Exact integer sale/ledger income with persisted fractional remainder, ordinary/contract lot selection and partial contract lots; no double-credit or mutation on invalid/stale/replayed orders.
@@ -197,3 +197,6 @@ One-time starter slice verified across16 fresh/actual older-save wallet-and-tank
 
 ### M3-F02
 First Milk Delivery now presents one real causal objective at a time, with localized targets, persisted progress and zero welcome Coin bonus.218unit tests and4 EN/ID desktop/mobile guided-care-to-milk profiles PASS; original farm guides and locale changes remain independent. Evidence qa/cow/M3-F02.
+
+### M3-F03
+Care UI now exposes separate starter/recovery entitlements, owned feed and shared water, explains capped transfers/free hygiene, and focuses actual Market restock/refill controls. Typecheck/build/audit and8 fresh/existing EN/ID desktop320/touch care profiles PASS; all real transfers, disabled reasons and older assets verified. Evidence qa/cow/M3-F03.
