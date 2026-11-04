@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **42/60 (70.0%)**.
+Progress: **43/60 (71.7%)**.
 
 ## Checklist
 
@@ -56,7 +56,7 @@ Progress: **42/60 (70.0%)**.
 - [x] **M4-F08** — Mixed-farm 30+ game-day endurance with daily save roundtrip; bounds, ledger, clock consistent.
 - [x] **M5-F01** — Unlock paddock #2 and implement actual rotational grazing/regrowth tradeoffs and visual switching.
 - [x] **M5-F02** — Shelter upgrade costs Coins, improves capacity/comfort and visibly changes the scene.
-- [ ] **M5-F03** — Feeder/trough upgrade reduces repeated clicking **without** creating water/hay from nothing.
+- [x] **M5-F03** — Feeder/trough upgrade reduces repeated clicking **without** creating water/hay from nothing.
 - [ ] **M5-F04** — Buy extra weaned goats within capacity; stable IDs, stage and herd welfare rules maintained.
 - [ ] **M5-F05** — Follow-up missions: Healthy Herd, Growing Goat, Pasture Planner, Bigger Shelter, Livestock Contract.
 - [ ] **M5-F06** — Add optional Engineering Lab/Why? with real factors, feed/water/forage trends and goat P&L.
@@ -202,3 +202,6 @@ Paid second paddock and actual rotation now alter deterministic browse/rest/regr
 
 ### M5-F02
 Paid shelter upgrades raise actual capacity 4-to-6-to-8, increase shade and visibly enlarge the roof/building without creating goats or supplies. 156 unit tests, lint/typecheck/build and four desktop/touch EN/ID browser profiles pass, including double-click safety, exact stage costs and reload. Evidence: qa/goat/M5-F02/.
+
+### M5-F03
+Paid care-container upgrade doubles real feeder/trough capacity and visibly enlarges both objects. Installation preserves all hay/water/herd; later refill moves exact existing store/shared-tank quantities, never creates supplies. 157 unit tests, lint/typecheck/build and four EN/ID desktop/touch upgrade/reload profiles pass; scene pixels reviewed. Evidence: qa/goat/M5-F03/.
