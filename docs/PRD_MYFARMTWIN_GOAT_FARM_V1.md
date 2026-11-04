@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **49/60 (81.7%)**.
+Progress: **50/60 (83.3%)**.
 
 ## Checklist
 
@@ -63,7 +63,7 @@ Progress: **49/60 (81.7%)**.
 - [x] **M5-F07** — Balance 7/30/60/90 game days: good vs bad care, Goat/Crop/Chicken/mixed, sale economics and bounded wealth.
 - [x] **M6-F01** — Black-box full E2E desktop/touch-mobile across Crop/Chicken/Goat, new & existing saves, Market, missions.
 - [x] **M6-F02** — White-box deterministic growth/care/conservation/contract/ledger/min-two invariant tests.
-- [ ] **M6-F03** — Security tests for untrusted save, prototype keys, malformed state, stale revisions, duplicate commands.
+- [x] **M6-F03** — Security tests for untrusted save, prototype keys, malformed state, stale revisions, duplicate commands.
 - [ ] **M6-F04** — EN/ID + keyboard/screen reader accessible labels/reduced motion; viewport 320/360/390/768/1024/1440 + landscape; Firefox if available.
 - [ ] **M6-F05** — Performance/memory/long-session tests; low-graphics retains all essential actions.
 - [ ] **M6-F06** — Dead-code/new-dependency/media audit; preserve existing assets, keep repo small, no QA junk/cache in Git.
@@ -223,3 +223,6 @@ Eight real full-game black-box journeys cover new/existing mixed farms on EN/ID 
 
 ### M6-F02
 164 full unit tests pass. Added entire mixed-world Next Day-vs-24-hour equivalence for three seeds including goats/hens/crops/weather/history and exact roundtrip. Equal paid two-paddock 30-day comparison proves actual rotation improves browse intake, juvenile growth and condition without buying extra hay; all mass/social/economy invariants hold. Evidence: qa/goat/M6-F02/.
+
+### M6-F03
+Adversarial Goat envelopes reject identity/XSS/prototype/resource/growth/history/grant/ledger attacks; paid actions reject stale, hidden and inherited payloads without input mutation. Focused security/rollback tests and existing desktop/touch browser CSP/header/import suite pass; 57 client files scanned, no unsafe HTML/eval/credential patterns, external requests or policy violations. Evidence: qa/goat/M6-F03/.
