@@ -1,0 +1,3 @@
+import {runGoatSession} from '../../../tools/goat-session.mjs';import {cowAct as act} from './cow-shortage.mjs';import {cowSaleQuote} from '../../client/cow-sales.js';
+/** A genuinely earned older mixed farm plus the real first dairy delivery; no invented paid ownership. */
+export function cowOnboarded(){let s=runGoatSession({days:35,mode:'mixed',replay:false}).state;for(const type of ['enterCow','feedCows','waterCows','cleanCowBarn','cleanCowStand','cleanCowCan'])s=act(s,type);s=act(s,'inspectCow',{cowId:'cow.starter.a'});s=act(s,'milkCow',{cowId:'cow.starter.a',cowStorage:'can'});s=act(s,'sellCowMilk',{cowLots:['cow.milk.1'],cowOrder:'',cowQuote:cowSaleQuote(s,['cow.milk.1'])});return act(s,'viewCowUpgrade');}
