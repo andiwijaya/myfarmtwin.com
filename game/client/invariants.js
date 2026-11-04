@@ -1,3 +1,4 @@
+import {validateFish} from './fish-validation.js';
 import {STARTER,LIMITS,WATER,CROP_IDS} from './config.js';
 import {validateChicken} from './chicken-state.js';
 import {validateGoat} from './goat-state.js';
@@ -6,6 +7,7 @@ import {validateCowEconomy} from './cow-save-checks.js';
 import {validateGoatEconomy} from './goat-save-checks.js';
 /** @param {import('./engine.js').State} state */
 export function assertInvariants(state){
+ if(state.fish!==undefined)validateFish(state.fish,state.tick);
  if(state.cow!==undefined){validateCow(state.cow,state.tick);validateCowEconomy(state);}
  if(state.chicken!==undefined)validateChicken(state.chicken,state.tick);
  if(state.goat!==undefined){validateGoat(state.goat,state.tick);validateGoatEconomy(state);}

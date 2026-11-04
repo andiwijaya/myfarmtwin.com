@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **8/64 (12.50%)**
+Progress: **9/64 (14.06%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -51,7 +51,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [ ] **M3-F07** — Add fingerling restock/shop with valid density/stock constraints, affordability and actionable insufficient resources/no-water recovery.
 - [ ] **M3-F08** — Mission completion & next objectives once only; first-harvest sale economics and upgrade feasible for fresh/zero-wallet/reused save.
 - [ ] **M3-F09** — **FUNCTIONALITY-FIRST VERTICAL SLICE:** Chromium desktop/touch-mobile EN/ID first entry → Feed → Aerate/Why → Harvest → Sell → Upgrade/Restock and resume, target automated ≤180 sec; old Crop/Chicken/Goat/Cow flows pass.
-- [ ] **M4-F01** — Audit actual latest schema at execution and add additive Fish version/migration (if latest V4, V4→V5); no starter grant on parse/migration.
+- [x] **M4-F01** — Audit actual latest schema at execution and add additive Fish version/migration (if latest V4, V4→V5); no starter grant on parse/migration.
 - [ ] **M4-F02** — Verify migrators from original crop V1, Chicken V2, Goat V3, Cow V4 where supported; untouched subtree snapshots/ledger/RNG exact semantically.
 - [ ] **M4-F03** — Add safe `before-fish` archival original bytes with conflicts/quota blocked preview, preserve all earlier archives/backup/quarantine.
 - [ ] **M4-F04** — Validate persisted fish state/cohorts/DO/TAN/credits/lots/mission/reward, bounded histories and size, reject malformed/unknown/prototype input.
@@ -107,3 +107,6 @@ Living64-feature checklist, architecture/test contract and default-OFF gate comp
 
 ### M2-F01
 Standalone Fish model/config and strict conservation validator complete;270unit tests, types/build/audit PASS; mature-mass reservation covers every growth step.
+
+### M4-F01
+AdditiveV5 Fish migration with empty grants and exactV4 preservation PASS;273unit tests/types/build/audit PASS after explicit legacy projection updates.

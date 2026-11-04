@@ -1,3 +1,4 @@
+import {createFishState} from './fish-state.js';
 import {createGoatState} from './goat-state.js';
 import {createCowState} from './cow-state.js';
 import {COW_COST_TYPES,COW_LEDGER_TYPES} from './cow-config.js';
@@ -19,7 +20,7 @@ function boolean(value){if(typeof value!=='boolean')throw new Error('Invalid sav
 function array(value,max){if(!Array.isArray(value)||value.length>max)throw new Error('Invalid save array');return value;}
 /** Validate untrusted data before it reaches engine/UI. @param {unknown} value @param {number} version @param {boolean} [copy] @returns {import('./engine.js').State} */
 function validateVersion(value,version,copy=true){
- const s=object(value,['saveVersion','revision','tick','seed','rng','weather','paused','speed','coins','water','careCredits','seeds','plots','inventory','ledger','mission','pump','stats','completedOrders','followups','nextLot',...(version>=2?['chicken']:[]),...(version>=3?['goat']:[]),...(version>=4?['cow']:[])]);
+ const s=object(value,['saveVersion','revision','tick','seed','rng','weather','paused','speed','coins','water','careCredits','seeds','plots','inventory','ledger','mission','pump','stats','completedOrders','followups','nextLot',...(version>=2?['chicken']:[]),...(version>=3?['goat']:[]),...(version>=4?['cow']:[]),...(version>=5?['fish']:[])]);
  if(s.saveVersion!==version)throw new Error('Unsupported save version');integer(s.revision);integer(s.tick);integer(s.seed,0,0xffffffff);integer(s.rng,0,0xffffffff);if(!Object.keys(WEATHER).includes(s.weather))throw new Error('Invalid weather');boolean(s.paused);if(![1,2].includes(s.speed))throw new Error('Invalid speed');integer(s.coins);number(s.water,0,240);integer(s.careCredits,0,1);integer(s.nextLot,1);
  const seeds=object(s.seeds,['lettuce','tomato']);for(const c of CROP_IDS)integer(seeds[c],0,99);
  const positions=[...INITIAL_PLOTS,...EXPANSION.cells],plots=array(s.plots,8);if(plots.length<3)throw new Error('Missing beds');
@@ -40,7 +41,7 @@ function validateVersion(value,version,copy=true){
 /** @param {unknown} value @returns {import('./engine.js').State} */
 export function validateState(value){return validateVersion(value,SAVE_VERSION);}
 /** V1 was strictly validated before this additive migration. @param {import('./engine.js').State} state */
-function migrateV1(state){return validateState({...state,saveVersion:SAVE_VERSION,chicken:createChickenState(),goat:createGoatState(),cow:createCowState()});}
+function migrateV1(state){return validateState({...state,saveVersion:SAVE_VERSION,chicken:createChickenState(),goat:createGoatState(),cow:createCowState(),fish:createFishState()});}
 /** @param {import('./engine.js').State} state */
 export function serialize(state){validateVersion(state,SAVE_VERSION,false);const text=JSON.stringify({format:'MyFarmTwin',saveVersion:SAVE_VERSION,state});if(new TextEncoder().encode(text).length>MAX_SAVE_BYTES)throw new Error('Save too large');return text;}
 /** @param {string} text @returns {import('./engine.js').State} */
@@ -48,7 +49,8 @@ export function deserialize(text){
  if(typeof text!=='string'||new TextEncoder().encode(text).length>MAX_SAVE_BYTES)throw new Error('Save too large');const envelope=object(JSON.parse(text),['format','saveVersion','state']);if(envelope.format!=='MyFarmTwin')throw new Error('Unsupported save format');
  if(envelope.saveVersion===0){const legacy=structuredClone(envelope.state);if(!legacy||legacy.saveVersion!==0||!Array.isArray(legacy.plots))throw new Error('Invalid legacy save');for(const plot of legacy.plots){object(plot,['id','x','y','soilWaterMm','soilCapacityMm','crop','waterAppliedMm','careCost','lastWaterTick']);plot.history=[];}legacy.saveVersion=1;return migrateV1(validateVersion(legacy,1));}
  if(envelope.saveVersion===1)return migrateV1(validateVersion(envelope.state,1));
- if(envelope.saveVersion===2){const old=validateVersion(envelope.state,2);return validateState({...old,saveVersion:SAVE_VERSION,goat:createGoatState(),cow:createCowState()});}
- if(envelope.saveVersion===3){const old=validateVersion(envelope.state,3);return validateState({...old,saveVersion:SAVE_VERSION,cow:createCowState()});}
+ if(envelope.saveVersion===2){const old=validateVersion(envelope.state,2);return validateState({...old,saveVersion:SAVE_VERSION,goat:createGoatState(),cow:createCowState(),fish:createFishState()});}
+ if(envelope.saveVersion===3){const old=validateVersion(envelope.state,3);return validateState({...old,saveVersion:SAVE_VERSION,cow:createCowState(),fish:createFishState()});}
+ if(envelope.saveVersion===4){const old=validateVersion(envelope.state,4);return validateState({...old,saveVersion:SAVE_VERSION,fish:createFishState()});}
  if(typeof envelope.saveVersion==='number'&&envelope.saveVersion>SAVE_VERSION)throw new Error('saveNewer');if(envelope.saveVersion!==SAVE_VERSION)throw new Error('Unsupported save version');return validateState(envelope.state);
 }
