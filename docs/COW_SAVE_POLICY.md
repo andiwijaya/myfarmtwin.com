@@ -1,0 +1,11 @@
+# Cow save and rollback policy
+
+Baseline production dd8184e uses save V3. Cow adds V4 after this audit, following actual current→next discovery. New V4 module must initially be empty and unvisited; migration must not grant cows, milk, aid, Coins or ticks. Only explicit Barn entry grants starter once. Preserve every prior farm value semantically, including Goat IDs/sales and previous immutable ledger entries.
+
+Synthetic fixtures in `game/tests/fixtures/cow-v3` were generated with actual deployed V3 engine/serializer before modification, not by editing version numbers on a newer save. Fresh fixture is empty V3. Mixed fixture is 35 game days/tick840/revision430,1779Coins,93 crop units sold,55 eggs sold,4 Goat sales,3 currently owned goats. SHA256 and byte lengths are in manifest. They contain no owner data. Prior V0/V1/V2 fixtures remain untouched. Raw text fixtures are pinned against EOL conversion.
+
+Exact deployed V3 config/save-schema/storage Git blobs are retained with SHA256. The rollback-boundary test loads these readers: a future-version primary with a valid V3 backup is blocked as newer, and attempted writes cannot alter either. After Cow schema is added, this same test must exercise real serialized V4 bytes. Retain pre-Chicken and pre-Goat archives and add a separate pre-Cow V3 archive before saving migration; collisions/quota must leave the original protected. All tests use isolated memory/browser stores, never the owner's profile.
+
+Operational rollback: do not clear localStorage or import an older backup automatically. Revert code only to a reader that refuses newer primary before fallback. The preserved original can be exported; use explicit confirmation for any restore/reset and retain replaced valid data as backup or unreadable bytes as quarantine. Prefer a forward-compatible reader fix. An older legitimate backup is a whole snapshot, never merge Cow grants/recovery entitlements into later balances.
+
+Cow persistence must include milk quantities/remainders, lot provenance/age/grade, per-cow milking cooldown/day count, cooling enable/credit, restricted ration source counters, recovery episode/time gate, one-time rewards and third-cow purchase identity. Bounded display histories may not remove authoritative accounting or replay protection. Malformed/prototype/future data rejects without mutating an existing valid farm.

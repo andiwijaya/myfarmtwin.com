@@ -1,0 +1,49 @@
+{
+  "sourceCommit": "dd8184e1beb95685ded536dcef022eb4e7306f6f",
+  "saveVersion": 3,
+  "synthetic": true,
+  "containsUserData": false,
+  "fixtures": [
+    {
+      "name": "fresh.json",
+      "bytes": 1834,
+      "sha256": "4a35b4f2c56b5b82f9f7ac56e77df42a0fb5c0933df07ca5a7276114df5016c3",
+      "tick": 0,
+      "revision": 0,
+      "coins": 120,
+      "goats": 0,
+      "goatSales": 0,
+      "eggSales": 0,
+      "cropSales": 0
+    },
+    {
+      "name": "mixed.json",
+      "bytes": 53275,
+      "sha256": "901698aa230ec9708bfc1a661b24f4836cc8bb802a90173c662f10671930ed18",
+      "tick": 840,
+      "revision": 430,
+      "coins": 1779,
+      "goats": 3,
+      "goatSales": 4,
+      "eggSales": 55,
+      "cropSales": 93
+    }
+  ],
+  "rollbackSourceFiles": [
+    {
+      "name": "rollback/config.js.txt",
+      "bytes": 1889,
+      "sha256": "c07d4584e588b30330a5e5a0342e8ac9c4a6cbffdf66709cfe35ef9d7dda8469"
+    },
+    {
+      "name": "rollback/save-schema.js.txt",
+      "bytes": 8841,
+      "sha256": "05799c053277d9b07469468a7586763fa2af67b8a609aea44ff873feed0774a0"
+    },
+    {
+      "name": "rollback/storage.js.txt",
+      "bytes": 4639,
+      "sha256": "6af930c5b280b391c642483bad2d33a3c4224663e59338900aa99ad1232de251"
+    }
+  ]
+}

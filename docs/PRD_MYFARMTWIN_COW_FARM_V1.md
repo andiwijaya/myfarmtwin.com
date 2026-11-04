@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **4/64 (6.25%)**
+Progress: **5/64 (7.81%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -12,7 +12,7 @@ Progress: **4/64 (6.25%)**
 - [x] **M0-F02** — Verify Chicken status (code, live, PRD checklist) and Goat status (PRD/local task/branch/live); choose safe sequential integration strategy.
 - [x] **M0-F03** — Map existing headless engine, clock, weather, wallet, Market, inventory, events, renderer and save validator; document reuse contracts.
 - [x] **M0-F04** — Run baseline local `lint`, `typecheck`, `test`, `build`, `e2e`, chicken & other project scripts actually available; document pre-existing issues.
-- [ ] **M0-F05** — Snapshot/anonymized fixtures for current save versions and realistic mixed-farm states; establish non-destructive rollback plan.
+- [x] **M0-F05** — Snapshot/anonymized fixtures for current save versions and realistic mixed-farm states; establish non-destructive rollback plan.
 - [ ] **M0-F06** — Confirm responsive UX/camera/low-graphics and create small visual assets plan consistent with existing renderer; no engine rewrite.
 - [ ] **M0-F07** — Commit/copy this living PRD to repo docs, create isolated safe branch, release checkpoints and feature flag; no premature deployment.
 
@@ -128,3 +128,6 @@ Mapped deterministic shared reducer, clock, seeded weather, ledger, Market, 240 
 
 ### M0-F04
 All 15 baseline npm gates PASS, 169 unit tests, full crop/Chicken and 8 Goat mixed browser journeys; homepage24, SEO9, compat and12 performance profiles PASS. No pre-existing application failures. Evidence qa/cow/M0-F04 and COW_AUDIT.md.
+
+### M0-F05
+Captured actual V3 fresh and35-day mixed synthetic saves plus exact production reader hashes;3 preservation/future-primary rollback tests PASS. All earlier fixtures untouched, separate pre-Cow archive/rollback policy documented.
