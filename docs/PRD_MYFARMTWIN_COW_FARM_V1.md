@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **33/64 (51.56%)**
+Progress: **34/64 (53.12%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -56,7 +56,7 @@ Progress: **33/64 (51.56%)**
 - [x] **M3-F06** — Exact integer sale/ledger income with persisted fractional remainder, ordinary/contract lot selection and partial contract lots; no double-credit or mutation on invalid/stale/replayed orders.
 - [x] **M3-F07** — Add affordable first upgrade path (cooler/trough) with visible world change and measurable engine benefit.
 - [x] **M3-F08** — Add free cleaning/disposal and repeatable Co-op Care Jobs with time gate, source/capacity accounting, restricted ration and durable deduplication; prove a second independent zero-wallet recovery.
-- [ ] **M3-F09** — **CRITICAL VERTICAL SLICE:** desktop/touch-mobile first entry → care → clean → milk → valid co-op sale → Coins → view upgrade goal, target ≤180 seconds in measured scenarios. Upgrade purchase is a separate balance test; all old farm loops pass.
+- [x] **M3-F09** — **CRITICAL VERTICAL SLICE:** desktop/touch-mobile first entry → care → clean → milk → valid co-op sale → Coins → view upgrade goal, target ≤180 seconds in measured scenarios. Upgrade purchase is a separate balance test; all old farm loops pass.
 
 **M3 gate:** end-to-end Dairy core gameplay functional. **Do not** add advanced features until this passes. **Do not deploy** without M4 save safety and M6/M7 release gates.
 
@@ -215,3 +215,6 @@ First upgrade goal shows90Coin price,100-to150L benefit and true shortfall; purc
 
 ### M3-F08
 Repeatable care jobs require real next-hour shortage, unavailable affordable resupply and no usable milk, recheck after8ordinary hours, and complete at most once/24absolute hours. Restricted16kg/90L two-cow aid preserves exact sources and cannot credit Coins/shared water; second independent zero-wallet episode verified.230units and4 EN/ID desktop320/touch recovery profiles PASS. Disposal reasons now persist. Evidence qa/cow/M3-F08.
+
+### M3-F09
+Critical vertical slice PASS:8fresh/existing EN/ID desktop/mobile scenarios with0Coins/empty tank use actual1x3000ms shared clock; automated5723-5891ms,2ticks,4289mL sale,17Coins+156/1000 and90Coin goal/73shortfall. Full crop black-box, complete Chicken runner and8Goat full profiles PASS;230unit baseline, final build/audit PASS. Report docs/COW_M3_GATE.md. No publication.
