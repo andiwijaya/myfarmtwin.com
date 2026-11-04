@@ -1,5 +1,7 @@
 # Goat Ranch V1 — locally ready, not published
 
+Historical prepublication/local-gate record. The user later approved publication and all release gates passed; see [GOAT_RELEASE_REPORT.md](GOAT_RELEASE_REPORT.md) and the current living checklist for the completed production release.
+
 **56/60 checklist items complete.** All coding and applicable local gates pass. M7-F03–F06 remain unchecked because pushing/deploying this Goat release has not been authorized. No production Goat claim is made.
 
 Repository: `C:\MyFarmTwin`; branch `goat-ranch-v1`; origin `https://github.com/andiwijaya/myfarmtwin.com.git`. Application source checkpoint: `e42c679df02e0e41befcbed4bf427e82acbc5d49`. Later local commits contain test/documentation checkpoints. Exact final handoff commit and client hashes are recorded outside Git in `task-2/qa/goat/GOAT_LOCAL_RELEASE.json` after this checkpoint. Main/origin main were verified unchanged at `1e140428eba6743817e808676c689ce4ff7fffcf`.

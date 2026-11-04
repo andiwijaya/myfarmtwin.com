@@ -1,5 +1,7 @@
 # Goat Ranch V1 — acceptance contract and local test plan
 
+Historical prepublication/local-gate record. The user later approved publication and all release gates passed; see [GOAT_RELEASE_REPORT.md](GOAT_RELEASE_REPORT.md) and the current living checklist for the completed production release.
+
 Authoritative requirements: original Library item `libfile_fc76c0db920481918dad59d081068072`. The project checklist records its identity and all 60 acceptance items. This document is an implementation plan, not a downloaded source copy.
 
 ## Safe baseline

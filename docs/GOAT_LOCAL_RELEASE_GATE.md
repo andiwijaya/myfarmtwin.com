@@ -1,5 +1,7 @@
 # Goat Ranch local release gate
 
+Historical prepublication/local-gate record. The user later approved publication and all release gates passed; see [GOAT_RELEASE_REPORT.md](GOAT_RELEASE_REPORT.md) and the current living checklist for the completed production release.
+
 M7-F01 PASS. Gameplay source checkpoint: `e42c679df02e0e41befcbed4bf427e82acbc5d49` on `goat-ranch-v1`. Main/origin main remain production baseline `1e140428eba6743817e808676c689ce4ff7fffcf`; no remote write.
 
 Fresh clean build passes lint, typecheck, **169 unit tests**, client audit and exact source/output identity. A final test improvement verifies the Lab growth rate against observed engine ticks, rather than restating the implementation formula. All 58 client files match `dist/play`; no dependency, runtime import, media, Cloudflare/security/workflow or non-game site-output change.

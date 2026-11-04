@@ -10,7 +10,7 @@ Publication: the user explicitly approved Goat Ranch deployment. Final productio
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **59/60 (98.3%)**.
+Progress: **60/60 (100.0%)**.
 
 ## Checklist
 
@@ -73,7 +73,7 @@ Progress: **59/60 (98.3%)**.
 - [x] **M7-F03** — Push/deploy via **existing audited Cloudflare Pages/GitHub pipeline**; no force push or unnecessary GitHub Actions runs.
 - [x] **M7-F04** — Live desktop+touch-mobile browser smoke of Goat full first sale plus Crop/Chicken, use isolated test profiles.
 - [x] **M7-F05** — Verify exact live commit/assets, SEO/security/performance and rollback capability; rollback on genuine production regression.
-- [ ] **M7-F06** — Final report with test evidence, screenshot/log locations outside Git, deployed URL/commit, known issues, living checklist completion.
+- [x] **M7-F06** — Final report with test evidence, screenshot/log locations outside Git, deployed URL/commit, known issues, living checklist completion.
 
 ## Evidence
 
@@ -253,3 +253,6 @@ Live production smoke PASS in isolated profiles: 56 core scenarios cover new/exi
 
 ### M7-F05
 Final production dd8184e1beb95685ded536dcef022eb4e7306f6f / Cloudflare 1b28946e-6835-457e-a104-db217d9218d9 SUCCESS. All80 production resources match exact Git bytes; all58 game assets unchanged from tested9f. Corrected stale homepage availability EN/ID with versioned script after24 local profiles/SEO/legacy+previous-v3 warm-cache tests; final live homepage/SEO/security and eight three-area journeys pass. Four live stress profiles60FPS, bounded heap; retained old deployment has exact baseline reader bytes and refuses to overwrite synthetic V3 plus V2 backup. No rollback needed, config/permissions unchanged. Evidence: qa/goat/release/.
+
+### M7-F06
+Final production report records verified source dd8184e1beb95685ded536dcef022eb4e7306f6f, successful Cloudflare deployment1b28946e-6835-457e-a104-db217d9218d9, exact80-resource identity, local169 units/154 browser scenarios, full live gameplay/save/home/SEO/security/performance/rollback evidence, resolved copy/cache/operational issues and honest device/API limitations. Living checklist60/60. No real user data touched, no outstanding blocker or next expansion; evidence/checklist commits kept local to avoid documentation-only deployment. See GOAT_RELEASE_REPORT.md and qa/goat/release/.
