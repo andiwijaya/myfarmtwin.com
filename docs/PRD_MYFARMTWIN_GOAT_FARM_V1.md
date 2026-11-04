@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **35/60 (58.3%)**.
+Progress: **36/60 (60.0%)**.
 
 ## Checklist
 
@@ -49,7 +49,7 @@ Progress: **35/60 (58.3%)**.
 - [x] **M4-F01** — Audit newest real schema, implement safe `latest→next` Goat version migration (no hardcoded assumption).
 - [x] **M4-F02** — Verify full V1 Crop save migration without altering Crop funds/history/missions/tank/ledger.
 - [x] **M4-F03** — Verify Chicken-era save migration and exact preservation if Chicken exists; document evidence if not applicable.
-- [ ] **M4-F04** — Save/reload/import Goat herd, stock, pasture, growth, sale/grants, missions, visuals exactly.
+- [x] **M4-F04** — Save/reload/import Goat herd, stock, pasture, growth, sale/grants, missions, visuals exactly.
 - [ ] **M4-F05** — Auto-save, paused/hidden tab, Next Day, system clock shifts: no phantom production or starvation.
 - [ ] **M4-F06** — Invalid/future/malicious save, recovery/backup/quarantine, storage blocked: protect original user data.
 - [ ] **M4-F07** — Two-tab concurrency/double-click/replay tests: one sale/grant/purchase, no wallet/growth dupes.
@@ -181,3 +181,6 @@ Frozen fresh and progressed V1 crop saves preserve every unaffected subtree, fun
 
 ### M4-F03
 Captured real-format fresh and 35-day mixed Chicken V2 fixtures preserve complete hens/coop/eggs/history/grants and every crop field on additive migration and Goat first entry/reload. Existing pre-Chicken archive remains byte-identical and separate pre-Goat original is exact. Three focused preservation/policy tests pass; existing-save browser entry/sale already covered at M3 gate.
+
+### M4-F04
+Actual browser export/import/cancel/confirm/reload preserves an eight-day cared ranch with young growth, pasture stocks, paid purchase, completed sale/reward/mission and old mixed farm. Export bytes, restored bytes, all goat visual attributes and replaced-save backup are exact on EN/ID desktop/touch. Import preview now includes herd count; lint/typecheck/build pass. Evidence: qa/goat/M4-F04/.
