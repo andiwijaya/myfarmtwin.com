@@ -1,0 +1,12 @@
+import {FISH} from './fish-config.js';
+import {fishCount,fishSupply} from './fish-state.js';
+/** @typedef {(state:import('./engine.js').State,type:string,amount:number,id:string)=>void} FishTransaction */
+/** All Fish payments go through the original wallet/ledger and matching Fish totals. @param {import('./engine.js').State} state @param {string} type @param {number} amount @param {string} suffix @param {FishTransaction} transact */
+export function fishPayment(state,type,amount,suffix,transact){transact(state,type,amount,(state.revision+1)+':fish.'+suffix);const g=state.fish;if(g)g.stats[amount<0?'costCoins':'revenueCoins']+=Math.abs(amount);}
+/** Restricted aid first, then finite starter, then purchased stock. @param {import('./fish-state.js').FishState} g @param {number} amount */
+function takeFeed(g,amount){for(const source of /** @type {const} */(['recovery','starter','normal'])){const take=Math.min(amount,g.feed[source]);g.feed[source]-=take;g.stats[source+'FeedUsedG']+=take;amount-=take;}}
+/** @param {import('./engine.js').State} state @param {import('./engine.js').Command} command @param {FishTransaction} transact @returns {string|undefined} */
+export function fishFeedCommand(state,command,transact){const g=state.fish,pond=g?.ponds.find(p=>p.id===command.fishPond);if(!g||!pond)return 'fishPondMissing';if(command.type==='fish.buyFeed'){if(fishSupply(g.feed)+FISH.feedBagG>FISH.feedStoreMaxG)return 'fishFeedFull';if(state.coins<FISH.feedBagCoins)return 'noCoins';fishPayment(state,'fish.feed_purchase',-FISH.feedBagCoins,'feed.0',transact);g.feed.normal+=FISH.feedBagG;g.stats.feedBoughtG+=FISH.feedBagG;return;}
+ if(!fishCount(pond))return 'fishEmpty';if(pond.lastFeedTick===state.tick)return 'fishFedThisHour';const amount=command.fishAmountG??Math.min(1000,fishCount(pond)*48);if(fishSupply(g.feed)<amount)return 'fishNoFeed';takeFeed(g,amount);const capacity=Math.min(1000,fishCount(pond)*48),admitted=Math.min(amount,Math.max(0,capacity-pond.pendingFeedG));pond.pendingFeedG+=admitted;pond.balance.feedOfferedG+=amount;pond.balance.feedWasteG+=amount-admitted;pond.lastFeedTick=state.tick;g.stats.feedActions++;return;}
+/** Digestion is clock-driven; feed clicks never cause growth. @param {import('./fish-state.js').FishPond} pond @param {number} tick */
+export function digestFishFeed(pond,tick){const eaten=Math.min(pond.pendingFeedG,fishCount(pond)*2);pond.pendingFeedG-=eaten;pond.balance.feedEatenG+=eaten;if(eaten)for(const c of pond.cohorts)c.lastFedTick=tick;return eaten;}

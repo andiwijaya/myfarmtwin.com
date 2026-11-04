@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **22/64 (34.38%)**
+Progress: **23/64 (35.94%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -34,7 +34,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M2-F01** — Define FishPond/Pond/FishCohort/FishHarvestLot data/config, bounded integer units, stable IDs and strict invariants.
 - [x] **M2-F02** — Add validated `fish.*` commands to existing dispatch/revision/transaction flow, atomic reject/replay behavior, seed determinism.
 - [x] **M2-F03** — Implement exactly-once starter pond/cohorts/feed/first entry, separate pond water from crop tank, safe zero-wallet tutorial allowance.
-- [ ] **M2-F04** — Implement feed purchase/store/feed consumption + limited appetite, excess-waste and stock accounting; no feed/growth spam.
+- [x] **M2-F04** — Implement feed purchase/store/feed consumption + limited appetite, excess-waste and stock accounting; no feed/growth spam.
 - [ ] **M2-F05** — Implement pond DO oxygen mass concentration, fish respiration/waste demand, surface replenishment, sensible game day/night variation.
 - [ ] **M2-F06** — Implement paid/basic aerator state, energy cost, oxygen transfer bounds, out-of-Coins shutoff with truthful status.
 - [ ] **M2-F07** — Implement TAN/waste accumulation, uneaten feed impact, bounded pH/temp/clarity estimates without conflating TAN and NH3.
@@ -151,3 +151,6 @@ Strict Fish namespace integrates atomic revision/clone dispatch;3 inspection/gat
 
 ### M2-F03
 Explicit exactly-once4ready/8young starter with finite feed/water/air and independent4000L pond PASS fresh/zero-wallet/earnedV4 tests;295units/types/build/audit PASS.
+
+### M2-F04
+Finite paid Fish feed, source-priority transfer, bounded appetite/digestion and costly overfeed waste PASS4tests including same-hour/replay/pause/24tick equivalence; types/build/audit PASS.
