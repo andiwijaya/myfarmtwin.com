@@ -209,3 +209,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M6-F04 | PASS | 52/58 (89.7%)
 
 2026-11-04T00:20:42+00:00 — 95 tests and browser CSP/malicious import/data/concurrency pass; new supply/price/grant/history coherence, legacy/future/quarantine preservation; eight tab races and storage/clock failures safe.
+
+## M6-F05 | PASS | 53/58 (91.4%)
+
+2026-11-04T00:23:56+00:00 — Chromium153/Firefox155 EN/ID desktop+touch viewport keyboard/ARIA/reduced-motion/low-graphics/save checks pass; full Firefox Chicken+cross-crop loops pass all four surfaces.
