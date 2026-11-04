@@ -6,11 +6,11 @@ Source: `MYFARMTWIN_GOAT_FARM_MASTER_PRD_V1.md`, Library `libfile_fc76c0db920481
 
 Scope: one shared farm/clock/Coins/Market/save, live-goat care/growth/sales. Starter once: one ready adult and two weaned goats; every sale leaves at least two. No milk, breeding or other expansions. Existing crops, chickens, homepage, EN/ID, SEO and deployment config must survive.
 
-Publication restriction: local coding/testing only. No push or deployment without new explicit authorization; M7 publication/live items remain unchecked until then.
+Publication: the user explicitly approved Goat Ranch deployment. Final production source dd8184e1beb95685ded536dcef022eb4e7306f6f, Cloudflare deployment 1b28946e-6835-457e-a104-db217d9218d9, is successful and live-verified. Release documentation/checklist commits remain local to avoid a documentation-only redeployment.
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **58/60 (96.7%)**.
+Progress: **59/60 (98.3%)**.
 
 ## Checklist
 
@@ -72,7 +72,7 @@ Progress: **58/60 (96.7%)**.
 - [x] **M7-F02** — Validate safe backup/migration/rollback; older client must not overwrite future-format saves.
 - [x] **M7-F03** — Push/deploy via **existing audited Cloudflare Pages/GitHub pipeline**; no force push or unnecessary GitHub Actions runs.
 - [x] **M7-F04** — Live desktop+touch-mobile browser smoke of Goat full first sale plus Crop/Chicken, use isolated test profiles.
-- [ ] **M7-F05** — Verify exact live commit/assets, SEO/security/performance and rollback capability; rollback on genuine production regression.
+- [x] **M7-F05** — Verify exact live commit/assets, SEO/security/performance and rollback capability; rollback on genuine production regression.
 - [ ] **M7-F06** — Final report with test evidence, screenshot/log locations outside Git, deployed URL/commit, known issues, living checklist completion.
 
 ## Evidence
@@ -250,3 +250,6 @@ User explicitly approved publication. Safe fast-forward and non-force main push 
 
 ### M7-F04
 Live production smoke PASS in isolated profiles: 56 core scenarios cover new/existing saves, three-area crop/egg/goat sales, atomic payment/reward/social minimum, restocking, paid upgrades, paddock rotation, camera/real-touch/locale, exact export/import/backup/reload and first-entry races. EN/ID desktop/touch all pass. Original full live E2E/data/recovery/black-box also passes; synthetic V2 archive bytes and unaffected old farm match exactly. Evidence: qa/goat/release/live-*; no real user profile/save touched.
+
+### M7-F05
+Final production dd8184e1beb95685ded536dcef022eb4e7306f6f / Cloudflare 1b28946e-6835-457e-a104-db217d9218d9 SUCCESS. All80 production resources match exact Git bytes; all58 game assets unchanged from tested9f. Corrected stale homepage availability EN/ID with versioned script after24 local profiles/SEO/legacy+previous-v3 warm-cache tests; final live homepage/SEO/security and eight three-area journeys pass. Four live stress profiles60FPS, bounded heap; retained old deployment has exact baseline reader bytes and refuses to overwrite synthetic V3 plus V2 backup. No rollback needed, config/permissions unchanged. Evidence: qa/goat/release/.
