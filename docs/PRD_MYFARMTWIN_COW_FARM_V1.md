@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **5/64 (7.81%)**
+Progress: **6/64 (9.38%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -13,7 +13,7 @@ Progress: **5/64 (7.81%)**
 - [x] **M0-F03** — Map existing headless engine, clock, weather, wallet, Market, inventory, events, renderer and save validator; document reuse contracts.
 - [x] **M0-F04** — Run baseline local `lint`, `typecheck`, `test`, `build`, `e2e`, chicken & other project scripts actually available; document pre-existing issues.
 - [x] **M0-F05** — Snapshot/anonymized fixtures for current save versions and realistic mixed-farm states; establish non-destructive rollback plan.
-- [ ] **M0-F06** — Confirm responsive UX/camera/low-graphics and create small visual assets plan consistent with existing renderer; no engine rewrite.
+- [x] **M0-F06** — Confirm responsive UX/camera/low-graphics and create small visual assets plan consistent with existing renderer; no engine rewrite.
 - [ ] **M0-F07** — Commit/copy this living PRD to repo docs, create isolated safe branch, release checkpoints and feature flag; no premature deployment.
 
 **M0 gate:** verified baseline, safe worktree, no conflict with other Dot work, older saves protected.
@@ -131,3 +131,6 @@ All 15 baseline npm gates PASS, 169 unit tests, full crop/Chicken and 8 Goat mix
 
 ### M0-F05
 Captured actual V3 fresh and35-day mixed synthetic saves plus exact production reader hashes;3 preservation/future-primary rollback tests PASS. All earlier fixtures untouched, separate pre-Cow archive/rollback policy documented.
+
+### M0-F06
+Reviewed current desktop/mobile world pixels and baseline camera/low-graphics evidence; original lightweight SVG Cow asset, layout, picking, accessibility and EN/ID plan documented. Baseline responsive and12 performance profiles pass.
