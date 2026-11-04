@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **23/60 (38.3%)**.
+Progress: **24/60 (40.0%)**.
 
 ## Checklist
 
@@ -37,7 +37,7 @@ Progress: **23/60 (38.3%)**.
 - [x] **M2-F07** — Causal nutrition/hydration/space/weather → comfort/condition with gradual recovery, no offline degradation.
 - [x] **M2-F08** — Growth stages `weaned→growing→market-ready` using game ticks and configurable compressed duration.
 - [x] **M2-F09** — Herd capacity and social minimum-two sale rule, with rejection messages and recovery suggestions.
-- [ ] **M2-F10** — Unit/invariant tests seeded scenarios: no feed/water, good care, hot/rainy, overgrazing, pause, 24 ticks=Next Day.
+- [x] **M2-F10** — Unit/invariant tests seeded scenarios: no feed/water, good care, hot/rainy, overgrazing, pause, 24 ticks=Next Day.
 - [ ] **M3-F01** — Grant one-time starter shelter + three goats + bounded supplies when first entering Goat Ranch.
 - [ ] **M3-F02** — Implement `My First Goat Sale` chapter, FarmGirl guide, persisted progress and area-specific mission display.
 - [ ] **M3-F03** — Bind Feed/Water/Clean/Inspect buttons to real commands and causally correct visual feedback.
@@ -145,3 +145,6 @@ Young goats grow only on the existing logical hour using actual nutrition/hydrat
 
 ### M2-F09
 Model policies require mature stage, adequate condition and at least two goats after sale. Every attempted quote from a valid two-goat group rejects with a recovery explanation; full shelter/no Coins disallow purchases and strict capacity rejects overcrowding with valid distinct IDs. Shared tick/condition gives deterministic integer live-livestock quotes without state mutation. Actual sale/purchase UI transactions remain in M3. 126 unit tests, lint/typecheck/build PASS; EN/ID reasons and honest adult-vs-sale-ready labels added. Evidence: qa/goat/M2-F09/.
+
+### M2-F10
+M2 gate PASS: 130 unit tests cover seeded good/no-feed/no-water/hot/rain/overgrazing scenarios, exact 24-tick vs Next Day semantics, pause and system-clock shifts, mass conservation, care/growth and immutable inputs. Import now rejects below-floor condition and impossible owned-time consumption/regrowth/health/cleaning counts. Existing Crop/Chicken replay/rollback tests remain green; lint/typecheck/build PASS. GOAT_M2_GATE documents model/presentation boundary and next M3 vertical slice. Evidence: qa/goat/M2-F10/.
