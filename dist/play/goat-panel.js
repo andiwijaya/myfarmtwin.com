@@ -12,7 +12,7 @@ export function renderGoatPanel(state,selected,send){
  if(goat){add('goatGrowth',Math.floor(goat.growth*100)+'%');add('goatBodyCondition',Math.round(goat.condition*100)+'%');add('goatDaysAtRanch',number(goat.ageHours/24)+' '+t('gameDays'));}
  else if(selected==='hay'){add('goatStoredHay',number(g.hayStockG/1000)+' kg');add('goatRackHay',number(g.feederG/1000)+' / '+number(cap.feederG/1000)+' kg');}
  else if(selected==='water'){add('goatTankShared',number(state.water)+' L');add('goatDrinkingWater',number(g.troughMl/1000)+' / '+number(cap.troughMl/1000)+' L');}
- else if(selected==='pasture'){add('goatPastureBiomass',number((g.paddocks[g.activePaddock]?.biomassG||0)/1000)+' kg');}
+ else if(selected==='pasture'){for(const p of g.paddocks)add(t('goatPaddock')+' '+(p.id+1)+(p.id===g.activePaddock?' · '+t('goatActive'):''),number(p.biomassG/1000)+' kg');}
  else{add('goatHerdCount',g.herd.length+' / '+cap.herd);add('goatCleanliness',Math.round(g.shelter?.cleanliness||0)+'%');}
  add('goatComfort',Math.round(welfare.score*100)+'%');renderGoatActions(state,selected,/** @type {HTMLElement} */(document.querySelector('#goat-actions')),send);
  if(active){const next=/** @type {HTMLButtonElement|null} */(panel.querySelector('[data-goat-action="'+active+'"]'));if(next&&!next.disabled)next.focus({preventScroll:true});else heading.focus({preventScroll:true});}

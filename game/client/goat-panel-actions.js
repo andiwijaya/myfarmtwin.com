@@ -11,6 +11,7 @@ export function renderGoatActions(state,selected,host,send){
  if(selected==='hay')button('feed','goatFeedAction',()=>{send('feedGoats');},g.feederG>=cap.feederG-.00001?'goatRackFull':g.hayStockG<=0?'goatNoHay':'');
  if(selected==='water')button('water','goatWaterAction',()=>{send('waterGoats');},g.troughMl>=cap.troughMl-.00001?'goatTroughFull':state.water<=0?'noWater':'');
  if(selected==='clean'||selected==='shelter')button('clean','goatCleanAction',()=>{send('cleanGoatShelter');},q.cleanliness>=99.999?'goatShelterClean':state.tick-q.lastCleanTick<GOAT.cleanInterval?'goatCleanCooldown':'');
+ if(selected==='pasture'){if(g.paddocks.length<2)button('unlock','goatUnlockPaddock',()=>{send('unlockPaddock');},state.coins<GOAT.paddockPrice?'noCoins':'');for(const p of g.paddocks){const b=button('rotate'+p.id,'goatRotate',()=>{send('rotatePaddock',{paddock:p.id});},p.id===g.activePaddock?'goatPaddockActive':'');b.textContent+=' '+(p.id+1);}}
  if(goat)button('sell','goatReviewContract',()=>openGoatContract(goat.id),goatSaleReason(state,goat.id));
  if(selected==='contract')button('market','marketTitle',()=>document.dispatchEvent(new Event('marketopen')));
  host.append(detail);
