@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **51/60 (85.0%)**.
+Progress: **52/60 (86.7%)**.
 
 ## Checklist
 
@@ -65,7 +65,7 @@ Progress: **51/60 (85.0%)**.
 - [x] **M6-F02** — White-box deterministic growth/care/conservation/contract/ledger/min-two invariant tests.
 - [x] **M6-F03** — Security tests for untrusted save, prototype keys, malformed state, stale revisions, duplicate commands.
 - [x] **M6-F04** — EN/ID + keyboard/screen reader accessible labels/reduced motion; viewport 320/360/390/768/1024/1440 + landscape; Firefox if available.
-- [ ] **M6-F05** — Performance/memory/long-session tests; low-graphics retains all essential actions.
+- [x] **M6-F05** — Performance/memory/long-session tests; low-graphics retains all essential actions.
 - [ ] **M6-F06** — Dead-code/new-dependency/media audit; preserve existing assets, keep repo small, no QA junk/cache in Git.
 - [ ] **M6-F07** — Homepage single-game-card, editorial routes, metadata/sitemap/GA4, original Crop+Chicken tests all green.
 - [ ] **M7-F01** — Fresh clean local build, full test suite, release diff review and deployment/config comparison.
@@ -229,3 +229,6 @@ Adversarial Goat envelopes reject identity/XSS/prototype/resource/growth/history
 
 ### M6-F04
 18 Chromium/Firefox EN/ID profiles at 320/360/390/768/1024/1440 and landscape pass maximum-eight-goat keyboard/labels/44px targets/reduced-motion/low-graphics/read-only Lab/overflow checks. Ten actual camera/touch profiles also pass all four rotations, drag picking, zoom/reset and per-area state. Fixed observed excess mobile SVG whitespace; repeated both suites pass and pixels reviewed. Unfocused skip link is genuinely offscreen and focused navigation works. Evidence: qa/goat/M6-F04/ and M6-F04-camera/.
+
+### M6-F05
+Twelve maximum-farm local browser performance runs pass at 59.6-60 desktop FPS and 43.4-59.2 FPS with 4xCPU/150ms/1.6Mbps mobile emulation. Goat low graphics 57.5 FPS; 30 extra browser days retain bounded DOM/heap. Asset growth and explicit three-area 350KB/130KB budgets documented honestly; unchanged frame/memory requirements, no runtime deps/media. Evidence: qa/goat/M6-F05/ and GOAT_PERFORMANCE.md.
