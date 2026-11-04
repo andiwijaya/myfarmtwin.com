@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **17/60 (28.3%)**.
+Progress: **18/60 (30.0%)**.
 
 ## Checklist
 
@@ -31,7 +31,7 @@ Progress: **17/60 (28.3%)**.
 - [x] **M2-F01** — Define Goat/Herd/Shelter/Paddock config with bounded values, stable IDs, age-stage semantics and validators.
 - [x] **M2-F02** — Wire goat commands into existing revision/idempotency/atomic engine transaction flow.
 - [x] **M2-F03** — Hay purchase/store/refill/consumption with feed conservation and accurate ledger.
-- [ ] **M2-F04** — Water trough/refill/consumption from shared farm tank with volume conservation.
+- [x] **M2-F04** — Water trough/refill/consumption from shared farm tank with volume conservation.
 - [ ] **M2-F05** — Pasture biomass, browse consumption and deterministic regeneration based on shared weather.
 - [ ] **M2-F06** — Shelter cleanliness/clean action and bounded maintenance cost/effect; prevent spam exploits.
 - [ ] **M2-F07** — Causal nutrition/hydration/space/weather → comfort/condition with gradual recovery, no offline degradation.
@@ -127,3 +127,6 @@ Strict Goat commands now share atomic clone/revision dispatch, ledger and clock.
 
 ### M2-F03
 Hay purchase charges 24 shared Coins for 6kg exactly once, storage->rack transfer preserves quantity, existing logical hours consume hay without negative stock, paused tick rejects unchanged. Capacity/no-Coins/replay/empty-rack paths are atomic; Crop/Chicken inventory and funds unaffected by transfers; V3 roundtrip exact. 108 full unit tests, lint/typecheck/build PASS. EN/ID events/rejection/ledger labels added. Evidence: qa/goat/M2-F03/.
+
+### M2-F04
+Shared tank litres transfer to trough ml exactly; real shared-hour drinking conserves volume, hot weather raises demand, partial/empty/full tanks and replay reject safely. No extra Coin charge for transfers; existing paid farm refill remains recovery. Crop/Chicken state preserved; paused clock/dry trough never creates water or underflows. 111 unit tests, lint/typecheck/build PASS; EN/ID feedback added. Evidence: qa/goat/M2-F04/.
