@@ -3,3 +3,5 @@ body{background:#f7f6ef;min-height:100vh}select{font:inherit}a:focus-visible,sel
 @media(max-width:600px){.site-header{height:76px}.brand{font-size:19px}.home-main{padding-top:28px}.game-card{width:400px;border-radius:22px}.card-content{padding:24px}.card-preview{padding:8px 10px 0}.game-card h1{font-size:33px}.card-bottom{gap:12px}.card-action{padding:12px 17px;gap:13px}}
 @media(max-width:359px){.site-header{padding:0 20px}.brand{font-size:18px;gap:8px}.card-content{padding:22px 20px}.game-card h1{font-size:31px}.card-description{font-size:13px}.card-bottom{gap:10px}.card-action{padding:12px 14px;gap:10px}.play-note{font-size:10px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+
+.card-future{font-size:11px;line-height:1.55;color:#6b705e;margin:12px 0 0;max-width:330px}

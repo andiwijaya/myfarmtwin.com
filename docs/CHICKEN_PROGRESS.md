@@ -221,3 +221,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M6-F07 | PASS | 55/58 (94.8%)
 
 2026-11-04T03:33:02+00:00 — 8 performance profiles PASS desktop60/mobile49.6-60FPS; bounded DOM/heap, 96 tests/typecheck and crop/chicken/camera UI regressions PASS
+
+## M6-F08 | PASS | 56/58 (96.6%)
+
+2026-11-04T03:35:27+00:00 — One card cartoon vision EN/ID; 16 homepage surfaces, nine SEO routes and baseline originals/save preservation PASS
