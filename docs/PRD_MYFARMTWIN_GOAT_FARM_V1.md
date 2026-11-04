@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **22/60 (36.7%)**.
+Progress: **23/60 (38.3%)**.
 
 ## Checklist
 
@@ -36,7 +36,7 @@ Progress: **22/60 (36.7%)**.
 - [x] **M2-F06** — Shelter cleanliness/clean action and bounded maintenance cost/effect; prevent spam exploits.
 - [x] **M2-F07** — Causal nutrition/hydration/space/weather → comfort/condition with gradual recovery, no offline degradation.
 - [x] **M2-F08** — Growth stages `weaned→growing→market-ready` using game ticks and configurable compressed duration.
-- [ ] **M2-F09** — Herd capacity and social minimum-two sale rule, with rejection messages and recovery suggestions.
+- [x] **M2-F09** — Herd capacity and social minimum-two sale rule, with rejection messages and recovery suggestions.
 - [ ] **M2-F10** — Unit/invariant tests seeded scenarios: no feed/water, good care, hot/rainy, overgrazing, pause, 24 ticks=Next Day.
 - [ ] **M3-F01** — Grant one-time starter shelter + three goats + bounded supplies when first entering Goat Ranch.
 - [ ] **M3-F02** — Implement `My First Goat Sale` chapter, FarmGirl guide, persisted progress and area-specific mission display.
@@ -142,3 +142,6 @@ Actual consumed browse/hay and water drive gradual adequacy, derived shelter/spa
 
 ### M2-F08
 Young goats grow only on the existing logical hour using actual nutrition/hydration/body condition; derived weaned->growing->marketReady stages never regress or exceed one. Real paid care in an earned mixed farm matures both young within 12-20 owned game days; identical elapsed shortage stays below 10%. Starter adult is ready at entry and care clicks do not advance growth. 123 unit tests, lint/typecheck/build PASS; compressed-game labels and growing size/label added. Evidence: qa/goat/M2-F08/.
+
+### M2-F09
+Model policies require mature stage, adequate condition and at least two goats after sale. Every attempted quote from a valid two-goat group rejects with a recovery explanation; full shelter/no Coins disallow purchases and strict capacity rejects overcrowding with valid distinct IDs. Shared tick/condition gives deterministic integer live-livestock quotes without state mutation. Actual sale/purchase UI transactions remain in M3. 126 unit tests, lint/typecheck/build PASS; EN/ID reasons and honest adult-vs-sale-ready labels added. Evidence: qa/goat/M2-F09/.
