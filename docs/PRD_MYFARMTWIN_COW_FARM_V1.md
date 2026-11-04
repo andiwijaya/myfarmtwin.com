@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **29/64 (45.31%)**
+Progress: **30/64 (46.88%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -52,7 +52,7 @@ Progress: **29/64 (45.31%)**
 - [x] **M3-F02** — Add FarmGirl `First Milk Delivery` mission, one objective at a time and no collision with crop/chicken/goat missions.
 - [x] **M3-F03** — Hook feed/refill/clean/inspect UI to real validated engine actions and negative/disabled feedback.
 - [x] **M3-F04** — Hook milking station to per-cow production/eligibility and lot creation, with friendly visual feedback.
-- [ ] **M3-F05** — Add milk lots A/B/C to existing inventory and **Co-op delivery** to existing Market; accepted only if valid grade/freshness.
+- [x] **M3-F05** — Add milk lots A/B/C to existing inventory and **Co-op delivery** to existing Market; accepted only if valid grade/freshness.
 - [ ] **M3-F06** — Exact integer sale/ledger income with persisted fractional remainder, ordinary/contract lot selection and partial contract lots; no double-credit or mutation on invalid/stale/replayed orders.
 - [ ] **M3-F07** — Add affordable first upgrade path (cooler/trough) with visible world change and measurable engine benefit.
 - [ ] **M3-F08** — Add free cleaning/disposal and repeatable Co-op Care Jobs with time gate, source/capacity accounting, restricted ration and durable deduplication; prove a second independent zero-wallet recovery.
@@ -203,3 +203,6 @@ Care UI now exposes separate starter/recovery entitlements, owned feed and share
 
 ### M3-F04
 Milking station now lists actual owned cows, reservoir volume, individual eligibility/reasons and validated whole-can collection, with direct inspection navigation.4 EN/ID desktop320/touch profiles PASS, including double-click one session, saved lot, world can gauge and localized success notice. Typecheck/build/audit PASS. Evidence qa/cow/M3-F04.
+
+### M3-F05
+Milk batches now appear in shared inventory and existing Market Co-op, with effective grade/freshness, current quote and one atomic whole-batch delivery.221unit tests and4 zero-wallet/empty-tank EN/ID desktop320/touch care-milk-sale-reload profiles PASS:4000mL B yields16Coins once with zero welcome bonus. Egg/milk summaries coexist. Evidence qa/cow/M3-F05.
