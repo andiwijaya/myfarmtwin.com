@@ -76,9 +76,9 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!document.querySele
 language.value=getLocale();
 language.addEventListener('change',()=>{setLocale(language.value);render();});
 function renderMission(){const step=state.mission.step,copy=currentObjective(state);el('mission-title').textContent=t(copy[0]);el('mission-detail').textContent=t(copy[1]);el('guide-chapter').textContent=t(step<7?'firstHarvest':'nextChapter');el('mission-progress').style.width=100*step/7+'%';el('mission-track').setAttribute('aria-valuenow',String(step));el('celebration').hidden=step<7||celebrationDismissed;document.querySelectorAll('.mission-target').forEach(e=>e.classList.remove('mission-target'));const next=FOLLOWUPS.find(q=>!state.followups[q.id]);const target=step<7?['.plot-shortcuts','#plant','#water','#next-day','#harvest','#market-open','#buy-pump'][step]:next?.id==='hotCare'?'#weather-name':next?'#market-open':null;if(target)document.querySelector(target)?.classList.add('mission-target');el('followup-missions').hidden=step<7;const list=el('followup-list');list.replaceChildren();for(const quest of FOLLOWUPS){const item=document.createElement('li');item.dataset.quest=quest.id;item.dataset.done=String(state.followups[quest.id]);item.textContent=(state.followups[quest.id]?'✓ ':'○ ')+t(quest.title);list.append(item);}}
-function render(){
+function render(redrawWorld=true){
  if(activeArea==='chicken'&&(!FEATURES.chicken||!state.chicken?.visited))activeArea='field';
- translate();if(activeArea==='chicken')renderChickenWorld(yardSnapshot());else renderWorld(state.plots,state.tick,state.pump);renderSelection();renderGuide();renderGraphics();renderMarket(state,send);renderOrders(state,send);renderShop(state,send);renderMission();renderData(saveSession);renderInspect(state,selected);renderReasons(state,selected);renderTrends(state,selected);
+ translate();if(redrawWorld){if(activeArea==='chicken')renderChickenWorld(yardSnapshot());else renderWorld(state.plots,state.tick,state.pump);}renderSelection();renderGuide();renderGraphics();renderMarket(state,send);renderOrders(state,send);renderShop(state,send);renderMission();renderData(saveSession);renderInspect(state,selected);renderReasons(state,selected);renderTrends(state,selected);
  el('hud-day').textContent=String(Math.floor(state.tick/24)+1);el('hud-coins').textContent=String(state.coins);el('hud-water').textContent=String(Math.floor(state.water));el('hud-seeds').textContent=String(state.seeds.lettuce+state.seeds.tomato);
  el('inventory-harvest').textContent=state.inventory.length?state.inventory.map(lot=>t(lot.type)+' ×'+lot.quantity+' · '+Math.round(lot.quality*100)+'% '+t('quality')).join(' | '):t('noHarvest');
  if(state.chicken?.inventory.length)el('inventory-harvest').textContent=(state.inventory.length?el('inventory-harvest').textContent+' | ':'')+t('eggs')+' ×'+state.chicken.inventory.reduce((n,l)=>n+l.quantity,0);
@@ -98,9 +98,14 @@ function queueSave(action){const next=writeQueue.then(()=>withSaveLock(action));
 /** @param {import('./engine.js').CommandType} type @param {Partial<import('./engine.js').Command>} [extra] */
 function send(type,extra={}){return queueSave(()=>{
  if(type==='tick'&&document.hidden)return;if(externalChange){notify(t('saveConflict'));return;}
- const result=dispatch(state,{...extra,id:state.revision+1,type});if(!result.ok){notify(t(result.error));return;}
+ const previousMission=state.mission.step;const result=dispatch(state,{...extra,id:state.revision+1,type});if(!result.ok){notify(t(result.error));return;}
  try{saveSession.save(result.state);saveStatus='saveSaved';}catch(error){const prior=saveStatus;saveStatus=error instanceof Error&&['saveConflict','saveCorrupt'].includes(error.message)?error.message:'saveUnavailable';if(saveStatus==='saveCorrupt'&&['saveNewer','saveRecoveryPreview','saveMigrationPreview'].includes(prior))saveStatus=prior;if(saveStatus==='saveConflict'){externalChange=true;notify(t('saveConflict'));render();return;}}
- state=result.state;resumeVisible=false;const reward=result.events.find(e=>e.type==='missionReward');notify((result.events.length?t(result.events[0].type):'')+(reward?' +'+reward.amount+' '+t('coins')+' · '+t('mission_reward'):''));render();
+ state=result.state;resumeVisible=false;const reward=result.events.find(e=>e.type==='missionReward');notify((result.events.length?t(result.events[0].type):'')+(reward?' +'+reward.amount+' '+t('coins')+' · '+t('mission_reward'):''));if(type==='select'&&activeArea==='field'&&previousMission===state.mission.step&&result.events.every(e=>e.type==='selected')){
+  // A selection changes revision and backup, but no farm resources or forecast.
+  renderSelection();renderMission();renderData(saveSession);
+  if(el('inspect-dialog').hasAttribute('open')){renderInspect(state,selected);renderReasons(state,selected);renderTrends(state,selected);}
+  el('resume-summary').hidden=true;el('save-status').textContent=t(saveStatus);el('save-status').classList.toggle('save-warning',!['saveSaved','saveResumed'].includes(saveStatus));
+ }else render(type!=='select');
 }).catch(()=>{saveStatus='saveUnavailable';notify(t('saveUnavailable'));render();});}
 el('next-day').addEventListener('click',()=>send('nextDay'));el('pause').addEventListener('click',()=>send('pause'));el('speed').addEventListener('click',()=>send('speed'));
 el('quick-pump').addEventListener('click',()=>send('togglePump'));

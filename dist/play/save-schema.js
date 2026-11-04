@@ -13,8 +13,8 @@ function integer(value,min=0,max=1e9){const n=number(value,min,max);if(!Number.i
 function boolean(value){if(typeof value!=='boolean')throw new Error('Invalid save flag');}
 /** @param {unknown} value @param {number} max @returns {any[]} */
 function array(value,max){if(!Array.isArray(value)||value.length>max)throw new Error('Invalid save array');return value;}
-/** Validate untrusted data before it reaches engine/UI. @param {unknown} value @param {number} version @returns {import('./engine.js').State} */
-function validateVersion(value,version){
+/** Validate untrusted data before it reaches engine/UI. @param {unknown} value @param {number} version @param {boolean} [copy] @returns {import('./engine.js').State} */
+function validateVersion(value,version,copy=true){
  const s=object(value,['saveVersion','revision','tick','seed','rng','weather','paused','speed','coins','water','careCredits','seeds','plots','inventory','ledger','mission','pump','stats','completedOrders','followups','nextLot',...(version===2?['chicken']:[])]);
  if(s.saveVersion!==version)throw new Error('Unsupported save version');integer(s.revision);integer(s.tick);integer(s.seed,0,0xffffffff);integer(s.rng,0,0xffffffff);if(!Object.keys(WEATHER).includes(s.weather))throw new Error('Invalid weather');boolean(s.paused);if(![1,2].includes(s.speed))throw new Error('Invalid speed');integer(s.coins);number(s.water,0,240);integer(s.careCredits,0,1);integer(s.nextLot,1);
  const seeds=object(s.seeds,['lettuce','tomato']);for(const c of CROP_IDS)integer(seeds[c],0,99);
@@ -31,14 +31,14 @@ function validateVersion(value,version){
  const stats=object(s.stats,['planted','watered','cared','harvested','sold','hotCare','orders']);for(const n of Object.values(stats))integer(n);if(stats.cared>stats.watered||stats.hotCare>stats.cared||stats.harvested-stats.sold!==quantity)throw new Error('Invalid farm totals');
  const orders=array(s.completedOrders,3);if(new Set(orders).size!==orders.length||orders.some(id=>!ORDERS.some(o=>o.id===id))||stats.orders!==orders.length||(orders.length&&mission.step<7))throw new Error('Invalid orders');
  const followups=object(s.followups,['order','hotCare','efficiency']);for(const flag of Object.values(followups))boolean(flag);if((followups.order&&stats.orders<1)||(followups.hotCare&&stats.hotCare<1)||(followups.efficiency&&!pump.efficient)||(Object.values(followups).some(Boolean)&&mission.step<7))throw new Error('Invalid follow-up missions');
- const state=/** @type {import('./engine.js').State} */(/** @type {unknown} */(s));assertInvariants(state);if(version===2)validateChickenEconomy(state);return structuredClone(state);
+ const state=/** @type {import('./engine.js').State} */(/** @type {unknown} */(s));assertInvariants(state);if(version===2)validateChickenEconomy(state);return copy?structuredClone(state):state;
 }
 /** @param {unknown} value @returns {import('./engine.js').State} */
 export function validateState(value){return validateVersion(value,SAVE_VERSION);}
 /** V1 was strictly validated before this additive migration. @param {import('./engine.js').State} state */
 function migrateV1(state){return validateState({...state,saveVersion:SAVE_VERSION,chicken:createChickenState()});}
 /** @param {import('./engine.js').State} state */
-export function serialize(state){validateState(state);const text=JSON.stringify({format:'MyFarmTwin',saveVersion:SAVE_VERSION,state});if(new TextEncoder().encode(text).length>MAX_SAVE_BYTES)throw new Error('Save too large');return text;}
+export function serialize(state){validateVersion(state,SAVE_VERSION,false);const text=JSON.stringify({format:'MyFarmTwin',saveVersion:SAVE_VERSION,state});if(new TextEncoder().encode(text).length>MAX_SAVE_BYTES)throw new Error('Save too large');return text;}
 /** @param {string} text @returns {import('./engine.js').State} */
 export function deserialize(text){
  if(typeof text!=='string'||new TextEncoder().encode(text).length>MAX_SAVE_BYTES)throw new Error('Save too large');const envelope=object(JSON.parse(text),['format','saveVersion','state']);if(envelope.format!=='MyFarmTwin')throw new Error('Unsupported save format');

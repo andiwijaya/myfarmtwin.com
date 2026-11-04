@@ -2,7 +2,7 @@ import {el} from './dom.js';import {t} from './locales.js';import {serialize,des
 /** @param {string} text @param {string} name */
 function download(text,name){const url=URL.createObjectURL(new Blob([text],{type:'application/json'}));const link=document.createElement('a');link.href=url;link.download=name;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 /** @param {import('./storage.js').SaveSession} session */
-export function renderData(session){el('export-original').hidden=!session.original();const archive=session.migrationOriginal();el('export-pre-chicken').hidden=!archive||archive===session.original();el('restore-backup').hidden=!session.backup();/** @type {HTMLInputElement} */(el('import-save')).setAttribute('aria-label',t('importSave'));}
+export function renderData(session){el('export-original').hidden=!session.original();const archive=session.migrationOriginal();el('export-pre-chicken').hidden=!archive||archive===session.original();el('restore-backup').hidden=!session.hasBackup();/** @type {HTMLInputElement} */(el('import-save')).setAttribute('aria-label',t('importSave'));}
 /** @param {{getState:()=>import('./engine.js').State,replace:(state:import('./engine.js').State)=>void|Promise<void>,session:import('./storage.js').SaveSession}} options */
 export function setupData({getState,replace,session}){
  const dialog=/** @type {HTMLDialogElement} */(el('data-confirm')),input=/** @type {HTMLInputElement} */(el('import-save'));

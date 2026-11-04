@@ -217,3 +217,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M6-F06 | PASS | 54/58 (93.1%)
 
 2026-11-04T03:05:42+00:00 — 14 EN/ID widths/orientations pass with8beds/6hens/large coop/Lab/Market; visual review fixed dialog focus overlay;44px disclosures and keyboard-scrolling history verified.
+
+## M6-F07 | PASS | 55/58 (94.8%)
+
+2026-11-04T03:33:02+00:00 — 8 performance profiles PASS desktop60/mobile49.6-60FPS; bounded DOM/heap, 96 tests/typecheck and crop/chicken/camera UI regressions PASS

@@ -1,0 +1,9 @@
+# Chicken Yard performance gate
+
+M6-F07 measured the actual 90-day shared farm with eight beds, six paid hens, large coop, auto feeder, shade and pump. Eight fresh Chromium processes covered field/yard, desktop/390px touch and normal/low graphics. Mobile used 4x CPU throttling, 150ms latency and 1.6Mbps downstream. Repeated selections ran every200ms for2.4seconds; the logical tick stayed unchanged.
+
+2026-11-04 results: desktop60FPS throughout; mobile field49.6 normal/54.2 low, yard57.9 normal/60 low. The original acceptance thresholds stay desktop50/mobile30FPS. Mobile first interaction2498-2865ms; DOM607 field/524yard stayed constant; retained heap growth0.11-0.37MB. No physical Android FPS measurement is claimed. Evidence: task-2/qa/chicken/m6/performance.json, including CPU, memory, timings and per-profile results.
+
+Initial matrix failures were retained outside Git. Full-world and hidden panel rebuilds on selection plus repeated backup decoding caused avoidable work. Selection still dispatches the same engine command, writes revision/backup under the origin lock, and performs full mission/reward rendering whenever those change. A pure selection updates selection, mission targeting, data controls, status and any open Inspector without rebuilding unchanged resources, SVG world or forecast. Serialization retains every validator while omitting an unused defensive clone; imports/readers still clone. Backup availability caches only byte-identical previously validated bytes; changed bytes and actual restore always validate.
+
+The expanded game totals226780 raw bytes across37files and87291 bytes summed per-file gzip. The V1 crop-only200KB raw guard was deliberately replaced by a documented expanded-scope240KB raw/95KB gzip guard; frame-rate and memory limits were retained. Runtime dependencies remain zero. The added budget covers the requested chicken simulation, migration checks, Lab and camera, with no external runtime asset/framework load.
