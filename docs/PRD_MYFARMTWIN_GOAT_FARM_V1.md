@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **57/60 (95.0%)**.
+Progress: **58/60 (96.7%)**.
 
 ## Checklist
 
@@ -71,7 +71,7 @@ Progress: **57/60 (95.0%)**.
 - [x] **M7-F01** — Fresh clean local build, full test suite, release diff review and deployment/config comparison.
 - [x] **M7-F02** — Validate safe backup/migration/rollback; older client must not overwrite future-format saves.
 - [x] **M7-F03** — Push/deploy via **existing audited Cloudflare Pages/GitHub pipeline**; no force push or unnecessary GitHub Actions runs.
-- [ ] **M7-F04** — Live desktop+touch-mobile browser smoke of Goat full first sale plus Crop/Chicken, use isolated test profiles.
+- [x] **M7-F04** — Live desktop+touch-mobile browser smoke of Goat full first sale plus Crop/Chicken, use isolated test profiles.
 - [ ] **M7-F05** — Verify exact live commit/assets, SEO/security/performance and rollback capability; rollback on genuine production regression.
 - [ ] **M7-F06** — Final report with test evidence, screenshot/log locations outside Git, deployed URL/commit, known issues, living checklist completion.
 
@@ -247,3 +247,6 @@ Backup/rollback gate passes fifteen focused immutable old-reader/migration/archi
 
 ### M7-F03
 User explicitly approved publication. Safe fast-forward and non-force main push published exact tested 9f19e7ba5321c4e3d657af57b5091928bba8ce57. Existing authorized Cloudflare dashboard verifies myfarmtwin-com, Git main, committed dist (blank build command), automatic production deploy 42982909-0cc0-4d82-aa2e-80834a0c45e5 SUCCESS at 2026-11-04T09:42:19Z, production aliases correct. OAuth read-only preflight returned403; not retried, dashboard used without settings/access changes. Evidence: qa/goat/release/deployment.json. Live checks pending.
+
+### M7-F04
+Live production smoke PASS in isolated profiles: 56 core scenarios cover new/existing saves, three-area crop/egg/goat sales, atomic payment/reward/social minimum, restocking, paid upgrades, paddock rotation, camera/real-touch/locale, exact export/import/backup/reload and first-entry races. EN/ID desktop/touch all pass. Original full live E2E/data/recovery/black-box also passes; synthetic V2 archive bytes and unaffected old farm match exactly. Evidence: qa/goat/release/live-*; no real user profile/save touched.
