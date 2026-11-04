@@ -10,10 +10,10 @@ import {CROPS} from '../game/client/config.js';
 import assert from 'node:assert/strict';import {pathToFileURL} from 'node:url';import {mkdir,writeFile} from 'node:fs/promises';
 
 /** A real paid strategy; no injected resources, clocks or RNG. */
-export function runGoatSession({days=35,seed=6321,mode='mixed',care='good',replay=true}={}){
+export function runGoatSession({days=35,seed=6321,mode='mixed',care='good',replay=true,broke=false}={}){
  let s=createState(seed),minimumCoins=s.coins,peakSaveBytes=0,replays=0;const trace=[],values=new Map(),db={getItem:k=>values.get(k)??null,setItem:(k,v)=>values.set(k,v),removeItem:k=>values.delete(k)};let session=new SaveSession(db);session.load();session.save(s);
  function act(type,extra={}){const cmd={id:s.revision+1,type,...extra},r=dispatch(s,cmd);assert.ok(r.ok,type+':'+r.error);s=r.state;trace.push(cmd);assertInvariants(s);minimumCoins=Math.min(minimumCoins,s.coins);session.save(s);if(trace.length%11===0){assert.equal(dispatch(s,cmd).error,'staleCommand');replays++;}}
- if(mode==='mixed')act('enterYard');for(const type of ['enterGoat','feedGoats','waterGoats','cleanGoatShelter'])act(type);act('inspectGoat',{goatId:'goat.starter.adult'});const first=goatQuote(s,'goat.starter.adult');act('sellGoat',{goatId:first.goatId,quotePrice:first.price});act('buyGoat');
+ if(broke)for(let n=0;n<15;n++)act('buySeed',{crop:'lettuce'});if(mode==='mixed')act('enterYard');for(const type of ['enterGoat','feedGoats','waterGoats','cleanGoatShelter'])act(type);act('inspectGoat',{goatId:'goat.starter.adult'});const first=goatQuote(s,'goat.starter.adult');act('sellGoat',{goatId:first.goatId,quotePrice:first.price});act('buyGoat');
  const daily=[];
  for(let day=0;day<days;day++){
   if(mode==='mixed'){
@@ -29,6 +29,6 @@ export function runGoatSession({days=35,seed=6321,mode='mixed',care='good',repla
   const text=serialize(s);peakSaveBytes=Math.max(peakSaveBytes,Buffer.byteLength(text));assert.deepEqual(deserialize(text),s);session=new SaveSession(db);const loaded=session.load();assert.equal(loaded.status,'saveResumed');assert.deepEqual(loaded.state,s);s=loaded.state;daily.push({day:day+1,coins:s.coins,herd:s.goat.herd.length,goatSales:s.goat.stats.sold,nutrition:s.goat.nutrition,hydration:s.goat.hydration,growth:s.goat.herd.reduce((n,h)=>n+h.growth,0)/s.goat.herd.length});
  }
  if(replay){let again=createState(seed);for(const cmd of trace){const r=dispatch(again,cmd);assert.ok(r.ok,r.error);again=r.state;}assert.deepEqual(again,s,'deterministic mixed-farm replay');}
- return {days,seed,mode,care,commands:trace.length,replays,minimumCoins,peakSaveBytes,coins:s.coins,goatSales:s.goat.stats.sold,goatPurchases:s.goat.stats.bought,cropSold:s.stats.sold,eggsSold:s.chicken.stats.sold,herd:s.goat.herd.length,daily,state:s};
+ return {days,seed,mode,care,broke,commands:trace.length,replays,minimumCoins,peakSaveBytes,coins:s.coins,goatSales:s.goat.stats.sold,goatPurchases:s.goat.stats.bought,cropSold:s.stats.sold,eggsSold:s.chicken.stats.sold,herd:s.goat.herd.length,daily,state:s};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){const {state,...report}=runGoatSession({days:Number(process.argv[2])||35});assert.ok(report.cropSold>0&&report.eggsSold>0&&report.goatSales>1);assert.equal(state.tick,report.days*24);assert.ok(report.peakSaveBytes<500000);console.log(JSON.stringify(report));if(process.env.QA_DIR){await mkdir(process.env.QA_DIR,{recursive:true});await writeFile(process.env.QA_DIR+'/goat-session.json',JSON.stringify(report,null,2));}}

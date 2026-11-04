@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **46/60 (76.7%)**.
+Progress: **47/60 (78.3%)**.
 
 ## Checklist
 
@@ -60,7 +60,7 @@ Progress: **46/60 (76.7%)**.
 - [x] **M5-F04** — Buy extra weaned goats within capacity; stable IDs, stage and herd welfare rules maintained.
 - [x] **M5-F05** — Follow-up missions: Healthy Herd, Growing Goat, Pasture Planner, Bigger Shelter, Livestock Contract.
 - [x] **M5-F06** — Add optional Engineering Lab/Why? with real factors, feed/water/forage trends and goat P&L.
-- [ ] **M5-F07** — Balance 7/30/60/90 game days: good vs bad care, Goat/Crop/Chicken/mixed, sale economics and bounded wealth.
+- [x] **M5-F07** — Balance 7/30/60/90 game days: good vs bad care, Goat/Crop/Chicken/mixed, sale economics and bounded wealth.
 - [ ] **M6-F01** — Black-box full E2E desktop/touch-mobile across Crop/Chicken/Goat, new & existing saves, Market, missions.
 - [ ] **M6-F02** — White-box deterministic growth/care/conservation/contract/ledger/min-two invariant tests.
 - [ ] **M6-F03** — Security tests for untrusted save, prototype keys, malformed state, stale revisions, duplicate commands.
@@ -214,3 +214,6 @@ Five follow-up goals now use real healthy hours, juvenile growth, rested grazing
 
 ### M5-F06
 Optional read-only Why/Engineering Lab explains real care terms, actual lifetime hay/browse/water use, deterministic quotes, direct ranch P&L and explicit equal cost allocation per goat. Bounded six-hour trends follow the shared clock and survive export/import. 161 unit tests, lint/typecheck/build and four EN/ID desktop/touch Lab/data profiles pass without save mutation on reads. Evidence: qa/goat/M5-F06/.
+
+### M5-F07
+32 real-command 7/30/60/90-day crop/Chicken/Goat/mixed good-vs-bad scenarios pass, including zero-wallet recovery. Fixed reproduced first-cycle cash-flow failure by tuning 6kg hay 24-to-12 Coins, preserving original historical prices. Zero-wallet Goat ends 90 days with 917 Coins/13 sales; no negative or unbounded states. 162 unit tests, lint/typecheck/build and four real purchase UI profiles pass. GOAT_BALANCE.md and qa/goat/M5-F07/.
