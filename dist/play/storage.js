@@ -4,8 +4,9 @@ export const QUARANTINE_KEY='myfarmtwin.save.unreadable.v1';
 export const PRE_V2_KEY='myfarmtwin.save.before-chicken.v1';
 export const PRE_V3_KEY='myfarmtwin.save.before-goat.v2';
 export const PRE_V4_KEY='myfarmtwin.save.before-cow.v3';
+export const PRE_V5_KEY='myfarmtwin.save.before-fish.v4';
 /** Applicable archive names reflect the actual original envelope, never a fabricated intermediate save. @param {string} raw */
-function migrationKeys(raw){const oldVersion=JSON.parse(raw).saveVersion;return [...(oldVersion<2?[PRE_V2_KEY]:[]),...(SAVE_VERSION>=3&&oldVersion<3?[PRE_V3_KEY]:[]),...(SAVE_VERSION>=4&&oldVersion<4?[PRE_V4_KEY]:[])];}
+function migrationKeys(raw){const oldVersion=JSON.parse(raw).saveVersion;return [...(oldVersion<2?[PRE_V2_KEY]:[]),...(SAVE_VERSION>=3&&oldVersion<3?[PRE_V3_KEY]:[]),...(SAVE_VERSION>=4&&oldVersion<4?[PRE_V4_KEY]:[]),...(SAVE_VERSION>=5&&oldVersion<5?[PRE_V5_KEY]:[])];}
 /** @typedef {Pick<Storage,'getItem'|'setItem'|'removeItem'>} Store */
 export class SaveSession{
  /** @param {Store|null} storage */
@@ -29,7 +30,8 @@ export class SaveSession{
  save(state){if(!this.storage)throw new Error('saveUnavailable');if(this.blocked)throw new Error('saveCorrupt');const text=serialize(state);if(this.storage.getItem(SAVE_KEY)!==this.raw)throw new Error('saveConflict');if(this.raw!==null){this.storage.setItem(BACKUP_KEY,this.raw);this.verifiedBackupRaw=this.raw;}this.storage.setItem(SAVE_KEY,text);this.raw=text;}
  /** Explicit user-confirmed import/reset; always preserve the replaced bytes first. @param {import('./engine.js').State} state */
  replace(state){if(!this.storage)throw new Error('saveUnavailable');const text=serialize(state),current=this.storage.getItem(SAVE_KEY);if(current!==this.raw)throw new Error('saveConflict');if(current!==null){let valid=true;try{deserialize(current);}catch{valid=false;}if(valid){this.storage.setItem(BACKUP_KEY,current);this.verifiedBackupRaw=current;}else{const prior=this.storage.getItem(QUARANTINE_KEY);if(prior!==null&&prior!==current)throw new Error('savePreserveFirst');this.storage.setItem(QUARANTINE_KEY,current);}}this.storage.setItem(SAVE_KEY,text);this.raw=text;this.blocked=false;}
- original(){try{return this.blocked?this.raw:this.storage?.getItem(QUARANTINE_KEY)||this.storage?.getItem(PRE_V4_KEY)||this.storage?.getItem(PRE_V3_KEY)||this.storage?.getItem(PRE_V2_KEY)||null;}catch{return null;}}
+ original(){try{return this.blocked?this.raw:this.storage?.getItem(QUARANTINE_KEY)||this.storage?.getItem(PRE_V5_KEY)||this.storage?.getItem(PRE_V4_KEY)||this.storage?.getItem(PRE_V3_KEY)||this.storage?.getItem(PRE_V2_KEY)||null;}catch{return null;}}
+ beforeFishOriginal(){try{return this.storage?.getItem(PRE_V5_KEY)||null;}catch{return null;}}
  beforeCowOriginal(){try{return this.storage?.getItem(PRE_V4_KEY)||null;}catch{return null;}}
  beforeGoatOriginal(){try{return this.storage?.getItem(PRE_V3_KEY)||null;}catch{return null;}}
  migrationOriginal(){try{return this.storage?.getItem(PRE_V2_KEY)||null;}catch{return null;}}

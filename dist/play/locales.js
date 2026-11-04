@@ -92,7 +92,7 @@ if(!messages[locale])locale='en';
 /** @param {string} key */
 export const t=key=>messages[locale][key]||messages.en[key]||key;
 export const getLocale=()=>locale;
-Object.assign(messages.en,GOAT_MESSAGES.en,COW_MESSAGES.en);Object.assign(messages.id,GOAT_MESSAGES.id,COW_MESSAGES.id);
+Object.assign(messages.en,{exportBeforeFish:'Export pre-Fish original'},GOAT_MESSAGES.en,COW_MESSAGES.en);Object.assign(messages.id,{exportBeforeFish:'Ekspor save asli sebelum Ikan'},GOAT_MESSAGES.id,COW_MESSAGES.id);
 /** @param {string} next */
 export function setLocale(next){locale=messages[next]?next:'en';try{localStorage.setItem('myfarmtwin.locale',locale);}catch{/* Optional preference storage unavailable. */}document.documentElement.lang=locale;}
 export function translate(){document.documentElement.lang=locale;document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t(el.getAttribute('data-i18n')||'');});}
