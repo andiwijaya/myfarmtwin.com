@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **34/64 (53.12%)**
+Progress: **35/64 (54.69%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -62,7 +62,7 @@ Progress: **34/64 (53.12%)**
 
 ### M4 — Save migration, old-user safety and failure recovery (8)
 
-- [ ] **M4-F01** — Read actual current save version, design latest→next upgrade without hardcoded version number and without losing old unknown/newer save.
+- [x] **M4-F01** — Read actual current save version, design latest→next upgrade without hardcoded version number and without losing old unknown/newer save.
 - [ ] **M4-F02** — Migrate crop-only saves retaining every original crop/Coins/market/weather/ledger field semantically exact.
 - [ ] **M4-F03** — Migrate Chicken-era saves retaining hens, egg lots, orders, upgrades, histories, rewards; test chicken regression.
 - [ ] **M4-F04** — Migrate Goat-era saves if implemented; if not, document applicability and ensure future Goat integration uses shared migration chain.
@@ -218,3 +218,6 @@ Repeatable care jobs require real next-hour shortage, unavailable affordable res
 
 ### M3-F09
 Critical vertical slice PASS:8fresh/existing EN/ID desktop/mobile scenarios with0Coins/empty tank use actual1x3000ms shared clock; automated5723-5891ms,2ticks,4289mL sale,17Coins+156/1000 and90Coin goal/73shortfall. Full crop black-box, complete Chicken runner and8Goat full profiles PASS;230unit baseline, final build/audit PASS. Report docs/COW_M3_GATE.md. No publication.
+
+### M4-F01
+Actual releasedV3 discovered from immutable source and targetV4 from current configuration; additive migration/rollback contract documented.6 targeted real-reader/migration tests PASS, including future primary with valid backup, unchanged prior archives, archive collision/quota read-only preview and malformed-current no-default behavior. No runtime change or publication.
