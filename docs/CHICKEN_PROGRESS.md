@@ -233,3 +233,7 @@ UTC evidence; only proven features are checked. QA artifacts stay outside Git.
 ## M6-F09 | PASS | 57/58 (98.3%)
 
 2026-11-04T04:00:41+00:00 — Release 7e5879fd471005628ace7dc0d20d5f4fb5782b75 deployed as e4e31644-1fca-4e50-add4-0bfea25255c9; full isolated live EN/ID desktop/touch and Firefox, 55 resource integrity, saves/camera/SEO/security/homepage PASS; no rollback needed
+
+## M6-F10 | PASS | 58/58 (100.0%)
+
+2026-11-04T04:02:07+00:00 — Final release evidence report published: exact source/deployment/URLs, local+live QA, data/rollback and physical-Android limits; all 58 items proven; production assets unchanged

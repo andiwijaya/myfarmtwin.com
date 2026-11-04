@@ -1,5 +1,7 @@
 # Chicken Yard release candidate — local gates passed
 
+Released successfully. See [CHICKEN_RELEASE_REPORT.md](CHICKEN_RELEASE_REPORT.md) for final production evidence; this candidate document preserves the preparation history.
+
 Update2026-11-04:the user explicitly approved one read-only metadata preflight retry. That retry succeeded:Cloudflare Pages myfarmtwin-com uses owner andiwijaya/repo myfarmtwin.com,production main,dist destination,empty build command/root. The earlier blocker below is historical and resolved; no access/settings changed. All local gates remain valid; deployment/live verification are now proceeding.
 
 Status at the earlier checkpoint:56/58 (96.6%). M6-F09 and M6-F10 remain unchecked because deployment and post-deploy live verification are not complete. This report is a checkpoint, not a release-success claim. Branch:chicken-yard-v1. Last feature/served-asset checkpoint:03d99c83c6610a8cdbf4d1c841a1d473d0c3fc78 (M6-F08). The candidate adds same-world adult hens, care/welfare/graded eggs/commerce, paid progression, safe V2 migration/rollback detection, Lab, camera controls and a bilingual one-card future-vision homepage.
