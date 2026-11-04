@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **21/64 (32.81%)**
+Progress: **22/64 (34.38%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -39,7 +39,7 @@ Progress: **21/64 (32.81%)**
 - [x] **M2-F04** — Add trough refill as atomic transfer from shared farm tank and tick water consumption; test mixed crop/chicken/goat demand.
 - [x] **M2-F05** — Add cleanliness, shade/heat protection and derived comfort model with gradual recovery; no animal death/offline punishment.
 - [x] **M2-F06** — Add `lactating` eligibility and prior-calving metadata, fixed-stage sustained V1 scenario with no automatic dry transition, bounded tick production and dry-cow 0-yield tests; expose model disclaimer.
-- [ ] **M2-F07** — Add reservoir, max 2 sessions/cow/game-day and 8-game-hour spacing across midnight; prevent button-created milk/replay and catch-up overflow.
+- [x] **M2-F07** — Add reservoir, max 2 sessions/cow/game-day and 8-game-hour spacing across midnight; prevent button-created milk/replay and catch-up overflow.
 - [ ] **M2-F08** — Add deterministic grade and atomic full-reservoir→lot transfer with capacity rejection; prove opening + produced = ready + stored + sold + discarded using integer mL.
 - [ ] **M2-F09** — Add game-tick freshness/grade ceilings, cooler paid-credit and no-funds behavior; no clock-based offline decay, grade restoration or free cooling.
 - [ ] **M2-F10** — Headless deterministic comparison suite: adequate vs scarce water, feed, heat, hygiene; invariants/clock/seed repeatability.
@@ -179,3 +179,6 @@ Ordinary ticks now drive fractional barn soil, gradual care-derived comfort and 
 
 ### M2-F06
 Only already-calved lactating cows produce admitted integer milk from care and ordinary hours; fixed-stage V1 has no automatic dry expiry.202 units and4 EN/ID desktop/mobile lactating/dry UI profiles PASS, including persisted sub-mL arithmetic,9900+250 admits only100 and no catch-up, separate4000 opening source, and90 paid-care days funded by real existing farm earnings. Dairy-only cashflow remains M3/M5. Evidence qa/cow/M2-F06.
+
+### M2-F07
+Full-reservoir milking now creates one real stored lot/session without fee or fraction reset.205 units and4 EN/ID desktop/mobile real-care/milking/double-click/reload profiles PASS;8-hour spacing and max2/day hold across midnight, dry/dirty/forged requests reject unchanged. Actual can gauge/HUD track4000mL opening transfer; deterministic grade supports valid lots, deeper quality/capacity gate follows. Evidence qa/cow/M2-F07.
