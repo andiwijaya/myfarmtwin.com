@@ -10,7 +10,7 @@ Publication restriction: local coding/testing only. No push or deployment withou
 
 Baseline: `1e140428eba6743817e808676c689ce4ff7fffcf`; isolated branch `goat-ranch-v1`. QA logs/screenshots stay outside Git at `task-2/qa/goat/`.
 
-Progress: **26/60 (43.3%)**.
+Progress: **27/60 (45.0%)**.
 
 ## Checklist
 
@@ -40,7 +40,7 @@ Progress: **26/60 (43.3%)**.
 - [x] **M2-F10** — Unit/invariant tests seeded scenarios: no feed/water, good care, hot/rainy, overgrazing, pause, 24 ticks=Next Day.
 - [x] **M3-F01** — Grant one-time starter shelter + three goats + bounded supplies when first entering Goat Ranch.
 - [x] **M3-F02** — Implement `My First Goat Sale` chapter, FarmGirl guide, persisted progress and area-specific mission display.
-- [ ] **M3-F03** — Bind Feed/Water/Clean/Inspect buttons to real commands and causally correct visual feedback.
+- [x] **M3-F03** — Bind Feed/Water/Clean/Inspect buttons to real commands and causally correct visual feedback.
 - [ ] **M3-F04** — Integrate live-goat sale quote/contract into the **same** Market as crops/eggs.
 - [ ] **M3-F05** — Atomic sale ready adult → remove goat once, credit Coins/ledger once, leave two goats together.
 - [ ] **M3-F06** — Allow purchasing a weaned goat (capacity + Coins checks) and a viable non-exploitable recovery path.
@@ -154,3 +154,6 @@ Real UI first entry now atomically grants the saved shelter/one mature+two weane
 
 ### M3-F02
 First live-goat-sale chapter now persists evidence-driven progress only from accepted commands; reordered real care is remembered, guide reads/rejected spam cannot grant progress/rewards. Existing FarmGirl displays separate EN/ID Goat objectives/progress/targets and restores Crop/Chicken guides. Forged mission completion rejects. 136 unit tests, lint/typecheck/build and 12 desktop/touch/bilingual existing-progress guide/reload/save profiles PASS. Care controls are wired in the next feature. Evidence: qa/goat/M3-F02/.
+
+### M3-F03
+Feed/Water/Clean/animal Inspect now invoke real atomic commands, advance saved guide evidence and show actual kg/L/condition/growth/comfort. Rack hay, trough water and shelter dirt reflect actual model stocks/cleanliness; inspection remains open across redraw and keyboard focus is restored. 136 unit tests, lint/typecheck/build and 12 real-button new/existing/zero-Coins-empty-tank EN/ID desktop/touch care/reload profiles PASS, including protected Crop/Chicken state and no instant growth/healing. Legacy locale regression PASS; retired obsolete M1 disabled-care test branch. Mobile pixels reviewed. Evidence: qa/goat/M3-F03/.

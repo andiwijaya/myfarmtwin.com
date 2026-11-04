@@ -35,8 +35,8 @@ let guideExpanded=true;
 let celebrationDismissed=false;
 let activeArea='field';
 let selectedChicken='';let selectedGoat='';
-function renderGoatSelection(){document.querySelectorAll('[data-goat-object]').forEach(p=>{const active=p.getAttribute('data-goat-object')===selectedGoat;p.classList.toggle('goat-selected',active);p.setAttribute('aria-pressed',String(active));});document.querySelectorAll('[data-choose-goat]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-choose-goat')===selectedGoat)));renderGoatPanel(selectedGoat);}
-document.addEventListener('goatobjectselect',event=>{const id=/** @type {CustomEvent<string>} */(event).detail;if(activeArea==='goat'&&validGoatSelection(id)){selectedGoat=id;renderGoatSelection();}});
+function renderGoatSelection(){if(selectedGoat&&!validGoatSelection(selectedGoat,state))selectedGoat='';document.querySelectorAll('[data-goat-object]').forEach(p=>{const active=p.getAttribute('data-goat-object')===selectedGoat;p.classList.toggle('goat-selected',active);p.setAttribute('aria-pressed',String(active));});document.querySelectorAll('[data-choose-goat]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-choose-goat')===selectedGoat)));renderGoatPanel(state,selectedGoat,send);}
+document.addEventListener('goatobjectselect',event=>{const id=/** @type {CustomEvent<string>} */(event).detail;if(activeArea==='goat'&&validGoatSelection(id,state)){selectedGoat=id;renderGoatSelection();}});
 function closeGoat(){const old=selectedGoat;selectedGoat='';renderGoatSelection();/** @type {HTMLButtonElement|null} */(document.querySelector('[data-choose-goat="'+old+'"]'))?.focus();}
 el('close-goat').addEventListener('click',closeGoat);
 function yardSnapshot(){return chickenSnapshot(state)||{level:0,doorOpen:true,pendingEggs:0,feedG:0,waterL:0,cleanliness:100,storeFeedG:0,tankWaterL:state.water,coins:state.coins};}
