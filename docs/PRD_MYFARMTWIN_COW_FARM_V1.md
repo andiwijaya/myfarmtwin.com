@@ -4,7 +4,7 @@ Source: original Library `libfile_af2b8f2e0db881918dcdc1e510040b4f`, version `1`
 
 Coding-at-home session explicitly started by Product Owner. Routine local implementation/testing authorized. **No push or deploy for this Cow release without separate user authorization.** Publication and live-dependent items stay pending until then; homepage Cow availability stays future until actually live-verified.
 
-Progress: **13/64 (20.31%)**
+Progress: **14/64 (21.88%)**
 
 ### M0 — Current-state audit and safety baseline (7)
 
@@ -26,7 +26,7 @@ Progress: **13/64 (20.31%)**
 - [x] **M1-F04** — Implement low-cost cow idle/walk/eat/drink/rest animations; reduced-motion/low-graphics parity and no state changes from animation.
 - [x] **M1-F05** — Render interactive feeder, water trough, cleaning station, milk can and co-op pickup point.
 - [x] **M1-F06** — Implement contextual cow/barn actions and HUD with disabled reasons, progress and immediate visible feedback.
-- [ ] **M1-F07** — Integrate pan/zoom/rotate if supported, reset view, object picking and viewport responsive 320–1440 widths/landscape; no touch trap.
+- [x] **M1-F07** — Integrate pan/zoom/rotate if supported, reset view, object picking and viewport responsive 320–1440 widths/landscape; no touch trap.
 - [ ] **M1-F08** — Translate all Cow screens, missions, notices, labels and accessibility strings EN/ID, preserve locale preference & other-area UI.
 
 **M1 gate:** Cow Barn view and interactions visually usable, **not** yet claiming milking/sale production works.
@@ -155,3 +155,6 @@ All9 actual Cow/care objects have map picking and44px labelled shortcuts, select
 
 ### M1-F06
 Real contextual feed/water/three free hygiene/inspect commands and Cow HUD/progress/disabled reasons work end-to-end; tagged kit fills24kg/100L, retains8kg/80L, no old wallet/tank change or instant comfort gain.180 unit tests and8 EN/ID new/existing desktop320px care/reload profiles PASS; reviewed pixels, removed inherited crop highlight. Evidence qa/cow/M1-F06.
+
+### M1-F07
+14 EN/ID surfaces320–1440 plus landscape PASS: Cow/water picking in4 rotations, real touch/mouse drag with no accidental selection, keyboard pan, zoom bounds/reset, independent4-area cameras,44px controls, no overlay/overflow, low/reduced-motion and exact saves.10 old Goat camera regression surfaces also PASS. Evidence qa/cow/M1-F07.
