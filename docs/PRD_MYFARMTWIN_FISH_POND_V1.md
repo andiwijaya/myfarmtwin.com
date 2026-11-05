@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **36/64 (56.25%)**
+Progress: **37/64 (57.81%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -49,7 +49,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M3-F05** — Add fish harvest lots to **existing shared Market/inventory** and correct grade/weight price with integer Coins, ledger sale exactly once.
 - [x] **M3-F06** — Add first paid **aerator efficiency upgrade** with visible state change and measurable DO-per-energy benefit; purchase atomic.
 - [x] **M3-F07** — Add fingerling restock/shop with valid density/stock constraints, affordability and actionable insufficient resources/no-water recovery.
-- [ ] **M3-F08** — Mission completion & next objectives once only; first-harvest sale economics and upgrade feasible for fresh/zero-wallet/reused save.
+- [x] **M3-F08** — Mission completion & next objectives once only; first-harvest sale economics and upgrade feasible for fresh/zero-wallet/reused save.
 - [ ] **M3-F09** — **FUNCTIONALITY-FIRST VERTICAL SLICE:** Chromium desktop/touch-mobile EN/ID first entry → Feed → Aerate/Why → Harvest → Sell → Upgrade/Restock and resume, target automated ≤180 sec; old Crop/Chicken/Goat/Cow flows pass.
 - [x] **M4-F01** — Audit actual latest schema at execution and add additive Fish version/migration (if latest V4, V4→V5); no starter grant on parse/migration.
 - [x] **M4-F02** — Verify migrators from original crop V1, Chicken V2, Goat V3, Cow V4 where supported; untouched subtree snapshots/ledger/RNG exact semantically.
@@ -193,3 +193,6 @@ Real45Coin efficiency purchase is atomic/visible, grants no instantO2/credit and
 
 ### M3-F07
 Shared-Market stock/shop and earned shortage recovery PASS322units plus8EN/ID shop/work browser profiles; native empty-pond advance reaches real sale in41days/14work completions and repays5Coin principal; no Coin grants/repeated starter.
+
+### M3-F08
+First chapter completes once from real sale/45upgrade/four restock; native zero-wallet/tank path retains15Coins with no reward grant; render/import/replay checks and bilingual minimum budget guidance PASS.
