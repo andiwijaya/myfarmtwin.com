@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **54/64 (84.38%)**
+Progress: **55/64 (85.94%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -70,7 +70,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M6-F02** — White-box engine/invariant/seed and property/fuzz tests for DO/TAN/feed/water/biomass/growth/grade/costs/commands.
 - [x] **M6-F03** — Security/adversarial tests: malicious save, poisoned object, excessive input, duplicate revision, stale tab, unsafe UI insertion, no secrets/network runtime.
 - [x] **M6-F04** — Browser/compat tests Chromium and Firefox if available, EN/ID, 320/360/390/768/1024/1440 landscape, keyboard, touch, focus, reduced motion.
-- [ ] **M6-F05** — Performance/endurance slow/mobile and 90-game-day simulation; bounded SVG/timers, memory, event listeners, save size, fast area switching.
+- [x] **M6-F05** — Performance/endurance slow/mobile and 90-game-day simulation; bounded SVG/timers, memory, event listeners, save size, fast area switching.
 - [ ] **M6-F06** — Dead-code dependency/repo hygiene audit: remove obsolete **new** code only, preserve previous assets, keep artifacts/cache/screenshot outside Git.
 - [ ] **M6-F07** — Snapshot regression homepage one-card design, game routes, GA4, canonical/OG/sitemap/editorial, existing assets/media and security headers.
 - [ ] **M6-F08** — Clean release-candidate dry-run: all available `lint`, `typecheck`, `test`, `build`, `e2e`, `chicken`, Goat/Cow suites if present, Fish suite, homepage, security, SEO, compat, performance, balance, endurance, rollback reader.
@@ -247,3 +247,6 @@ PASS9adversarial/property/support tests and38browser profiles: poisoned imports/
 
 ### M6-F04
 PASS36Chromium153/Firefox155 EN/ID portrait/landscape profiles plus14Cow camera profiles, actual4rotation picking/drag/keyboard/focus/44px/reducedmotion/save checks and visual review. Fixed inherited mobile transform and duplicate shortcut; actual auto-feeding visual follows tick. Type/build/audit and focused feeder/scene tests PASS. Physical devices/Safari unavailable.
+
+### M6-F05
+PASS20real-clock desktop/mobile normal/low five-area profiles,1000native switches and paired90day maximum-farm endurance. Desktop>=58.7FPS/mobile>=39.3FPS, stable timers/listeners, bounded heap/DOM/save; UI selection/Chicken cache preserve actual commands. Explicit five-area transfer budget documented; local only.

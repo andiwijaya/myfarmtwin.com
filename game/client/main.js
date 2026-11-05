@@ -58,7 +58,8 @@ function renderGoatSelection(){if(selectedGoat&&!validGoatSelection(selectedGoat
 document.addEventListener('goatobjectselect',event=>{const id=/** @type {CustomEvent<string>} */(event).detail;if(activeArea==='goat'&&validGoatSelection(id,state)){selectedGoat=id;renderGoatSelection();}});
 function closeGoat(){const old=selectedGoat;selectedGoat='';renderGoatSelection();/** @type {HTMLButtonElement|null} */(document.querySelector('[data-choose-goat="'+old+'"]'))?.focus();}
 el('close-goat').addEventListener('click',closeGoat);
-function yardSnapshot(){return chickenSnapshot(state)||{level:0,doorOpen:true,pendingEggs:0,feedG:0,waterL:0,cleanliness:100,storeFeedG:0,tankWaterL:state.water,coins:state.coins};}
+/** @type {{state:import('./engine.js').State,snapshot:import('./chicken-panel.js').CareSnapshot}|null} */let yardCache=null;
+function yardSnapshot(){if(!yardCache||yardCache.state!==state)yardCache={state,snapshot:chickenSnapshot(state)||{level:0,doorOpen:true,pendingEggs:0,feedG:0,waterL:0,cleanliness:100,storeFeedG:0,tankWaterL:state.water,coins:state.coins}};return yardCache.snapshot;}
 function renderChickenSelection(){el('world').dataset.selectedChicken=selectedChicken;document.querySelectorAll('[data-chicken-object]').forEach(p=>{const active=p.getAttribute('data-chicken-object')===selectedChicken;p.classList.toggle('chicken-selected',active);p.setAttribute('aria-pressed',String(active));});document.querySelectorAll('[data-choose-chicken]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-choose-chicken')===selectedChicken)));renderChickenPanel(yardSnapshot(),selectedChicken);}
 document.addEventListener('chickenobjectselect',event=>{const id=/** @type {CustomEvent<string>} */(event).detail;if(activeArea==='chicken'&&['coop','nest','feeder','drinker','clean'].includes(id)){selectedChicken=id;renderChickenSelection();}});
 document.addEventListener('chickenaction',event=>{if(activeArea!=='chicken')return;const id=/** @type {CustomEvent<string>} */(event).detail,types=/** @type {Record<string,import('./engine.js').CommandType>} */({feed:'feedHens',water:'waterHens',clean:'cleanCoop',collect:'collectEggs'});if(Object.hasOwn(types,id))send(types[id]);});
@@ -100,7 +101,8 @@ function renderSelection(){
  const plant=document.createElement('button');plant.type='button';plant.id='plant';plant.className='action-button primary';plant.textContent=t('plant')+' '+t(chosenCrop)+' · '+state.seeds[chosenCrop]+' '+t('seeds');plant.addEventListener('click',()=>{if(selected!==null)send('plant',{plot:selected,crop:chosenCrop});});actions.append(plant);
 }
 function closePlot(){const old=selected;selected=null;renderSelection();if(old!==null){const button=/** @type {HTMLButtonElement|null} */(document.querySelector(`[data-choose-plot="${old}"]`));button?.focus();}}
-document.addEventListener('plotselect',event=>{const id=/** @type {CustomEvent<number>} */(event).detail;if(!Number.isInteger(id)||!state.plots.some(p=>p.id===id))return;selected=id;renderSelection();send('select',{plot:id});});
+function renderPlotChoice(){renderSelection();renderMission();renderData(saveSession);if(el('inspect-dialog').hasAttribute('open')){renderInspect(state,selected);renderReasons(state,selected);renderTrends(state,selected);}resumeVisible=false;el('resume-summary').hidden=true;}
+document.addEventListener('plotselect',event=>{const id=/** @type {CustomEvent<number>} */(event).detail;if(!Number.isInteger(id)||!state.plots.some(p=>p.id===id))return;selected=id;if(state.mission.step===0){renderSelection();send('select',{plot:id});}else renderPlotChoice();});
 el('close-plot').addEventListener('click',closePlot);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!document.querySelector('dialog[open]')){if(activeArea==='fish'&&selectedFish)closeFish();else if(activeArea==='cow'&&selectedCow)closeCow();else if(activeArea==='goat'&&selectedGoat)closeGoat();else if(activeArea==='chicken'&&selectedChicken)closeChicken();else closePlot();}});
 language.value=getLocale();
@@ -137,7 +139,7 @@ let writeQueue=Promise.resolve();
 function queueSave(action){const next=writeQueue.then(()=>withSaveLock(action));writeQueue=next.catch(()=>{});return next;}
 /** @param {import('./engine.js').CommandType} type @param {Partial<import('./engine.js').Command>} [extra] */
 function send(type,extra={}){return queueSave(()=>{
- if(type==='tick'&&document.hidden)return;if(externalChange){notify(t('saveConflict'));return;}
+ if(type==='select'&&state.mission.step>0){renderPlotChoice();return;}if(type==='tick'&&document.hidden)return;if(externalChange){notify(t('saveConflict'));return;}
  const previousMission=state.mission.step;const result=dispatch(state,{...extra,id:state.revision+1,type});if(!result.ok){notify(t(result.error));return;}
  try{saveSession.save(result.state);saveStatus='saveSaved';}catch(error){const prior=saveStatus;saveStatus=error instanceof Error&&['saveConflict','saveCorrupt'].includes(error.message)?error.message:'saveUnavailable';if(saveStatus==='saveCorrupt'&&['saveNewer','saveRecoveryPreview','saveMigrationPreview'].includes(prior))saveStatus=prior;if(saveStatus==='saveConflict'){externalChange=true;notify(t('saveConflict'));render();return;}}
  state=result.state;resumeVisible=false;const goatSale=result.events.find(e=>e.type==='goatSold'),reward=result.events.find(e=>e.type==='missionReward');notify((result.events.length?t(result.events[0].type):'')+(goatSale?' +'+goatSale.amount+' '+t('coins'):'')+(reward?' +'+reward.amount+' '+t('coins')+' · '+t('mission_reward'):''));if(type==='select'&&activeArea==='field'&&previousMission===state.mission.step&&result.events.every(e=>e.type==='selected')){
