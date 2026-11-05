@@ -67,3 +67,12 @@ Standard balance command retains all4original60day Crop policies, then runs26Fis
 Final standard performance command PASS20normal/low xdesktop/mobile xfiveareas, each with >=2actual shared ticks and50area switches. Minimum desktop60FPS/mobile49.9FPS; worst switchP95 desktop100ms/mobile334ms. Client628957Braw/229070Bgzip-equivalent; timers/listeners/heap/DOM/save budgets PASS. Working-build SHA256 `bc7de5a182c9a8eef298ffb30a694b82b97ad1b55c640c0b28ec16806e3c8e82`; canonical publication blobs are checked separately in M7-F01 because existing Windows text checkout line endings can differ from Git.
 
 Two stale tests were corrected with stronger assertions: explicit OFF migration context while real gateON is proved separately; field-camera view-only picking now preserves full bytes while real paid expansion must persist exactly once. Initial failures retained in M6-F08-core external logs. No gameplay validator or gate was weakened. Physical devices/Safari remain unavailable. Publication remains held; M7-F01 next.
+
+
+## M7-F01: local release hold, canonical identity and concrete rollback
+
+Clean tested product `c153fcdd4ccbed9bc09e28601cf143359de231c7`,129canonical source/build pairs exact,152canonical published files. Dist tree `be96c8db73ef66e062fe8515fb77a9418317811b`, Git-byte artifact SHA256 `30b1d798ff2b62777f1eca47702ac2ccd3232569b0dc1ba0b0835f7d1fc7d2e5` and per-file manifest outside Git in M7-F01/preflight.json. Existing Windows checkout line endings are explicitly separated from committed publication bytes. Read-only remote main remains C3, Fish branch absent; no push/deploy attempted.
+
+Four native browser rollback/reactivation profiles PASS in M7-F01-rollback/rollback.json: actual canonicalV5 OFF artifact hides Fish, preserves exact Fish during24old-area hours and retains primaryV5/rolling backup/originalV4 archive. ON reactivation grants nothing and adds only24ordinary Fish hours, with no OFF-hour catchup; all companion/cohort IDs, reload and archive exact. FISH_RELEASE.md documents the concrete external artifact and safe rollback; archivedV4 data is never substituted over currentV5 progress.
+
+Remaining five steps are publication, exact production integrity, isolated live QA, only-then truthful homepage Fish promotion, and final64/64 live report. They are HELD pending explicit Fish publication authorization.
