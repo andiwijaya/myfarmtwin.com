@@ -54,5 +54,20 @@
     "Second-pond capital does not repay within90days in reviewed policy; cash/operating/capital/bonus/debt remain separated."
   ],
   "evidenceRoot": "C:\\Users\\andi_\\Documents\\Codex\\2026-11-03\\task-2\\qa\\fish\\release",
-  "finishedUtc": "2026-11-05T07:41:23.098293+00:00"
+  "finishedUtc": "2026-11-05T07:41:23.098293+00:00",
+  "androidNormalProfileResolution": {
+    "recordedUtc": "2026-11-05T08:03:29.580852+00:00",
+    "reported": "Android normal profile showed four tabs; incognito showed Fish.",
+    "latestUserEvidence": [
+      "User explicitly answered game tab had not been reloaded.",
+      "User reported Fish visible in incognito.",
+      "After same-host /play/?v=fish-v1 navigation in normal profile, user answered: Sudah muncul di tab normal."
+    ],
+    "cause": "Stale/running frontend in normal browser profile. Live Fish gate enabled and no current mobile-layout hiding was found; exact internal HTTP/memory cache layer was not directly inspected on the physical phone.",
+    "fix": "Normal-profile navigation to the existing same-host /play/?v=fish-v1 forces fresh entry while retaining origin/profile storage. No site-data clearing, localStorage reset, worker unregister, security setting or production code change.",
+    "physicalAndroidAccessConfirmedByUser": true,
+    "diagnostics": "Six Android Chrome emulation cases315/393px, canonical/www and plain/versioned paths:5visible unclipped tabs, actual Fish entry, oldV4 subtree/Coins/water/tick exact and original archive exact. Fresh contexts alone were not treated as proof of owner update.",
+    "productionSource": "fffc13516c1e8e19c5131d9c26b808eb51f6ed20",
+    "noAdditionalDeployment": true
+  }
 }
