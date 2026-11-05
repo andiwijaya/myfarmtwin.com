@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **57/64 (89.06%)**
+Progress: **58/64 (90.62%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -73,7 +73,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M6-F05** — Performance/endurance slow/mobile and 90-game-day simulation; bounded SVG/timers, memory, event listeners, save size, fast area switching.
 - [x] **M6-F06** — Dead-code dependency/repo hygiene audit: remove obsolete **new** code only, preserve previous assets, keep artifacts/cache/screenshot outside Git.
 - [x] **M6-F07** — Snapshot regression homepage one-card design, game routes, GA4, canonical/OG/sitemap/editorial, existing assets/media and security headers.
-- [ ] **M6-F08** — Clean release-candidate dry-run: all available `lint`, `typecheck`, `test`, `build`, `e2e`, `chicken`, Goat/Cow suites if present, Fish suite, homepage, security, SEO, compat, performance, balance, endurance, rollback reader.
+- [x] **M6-F08** — Clean release-candidate dry-run: all available `lint`, `typecheck`, `test`, `build`, `e2e`, `chicken`, Goat/Cow suites if present, Fish suite, homepage, security, SEO, compat, performance, balance, endurance, rollback reader.
 - [ ] **M7-F01** — Verify current release permissions/holds, precise commit, diff, clean build output, compatible rollback and archived old-save original.
 - [ ] **M7-F02** — Local final test/review and staged/no-force-push release using audited GitHub→Cloudflare pipeline, no GitHub Actions routine QA.
 - [ ] **M7-F03** — Confirm production asset/commit/deployment ID integrity, security headers, canonical/OG and no unexpected deleted editorial content.
@@ -256,3 +256,6 @@ PASSnew-code hygiene: removed obsolete new CSS only; seven selected baseline ass
 
 ### M6-F07
 PASS23outside-play content snapshots, five explicit existing CRLF-only conversions, unchanged homepage/editorial/GA4/SEO/media/headers. 24bilingual homepage surfaces,9SEO routes/15layouts,2CSP/security and2warm-cache profiles PASS with saves preserved. Homepage Fish promotion correctly remains planned; local only.
+
+### M6-F08
+PASSclean local RC:368units,13browser packages/17Cow/8Chicken,36Fish compat,26reviewed90day economy policies, Crop/V4V5/max90day endurance and20real-clock performance profiles. Desktop>=60FPS/mobile>=49.9FPS; homepage/SEO/security/cache same-product gates valid. Publication held; preflight next.

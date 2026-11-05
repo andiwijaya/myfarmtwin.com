@@ -1,3 +1,4 @@
+import {spawnSync} from 'node:child_process';
 import {createState,dispatch,pumpCovers,expansionPrice} from '../game/client/engine.js';import {assertInvariants} from '../game/client/invariants.js';import {serialize,deserialize} from '../game/client/save-schema.js';import {CROPS,ORDERS,CROP_IDS} from '../game/client/config.js';import {pathToFileURL} from 'node:url';import assert from 'node:assert/strict';
 export function runLongSession(days=90){
  let state=createState(),commands=0,replayRejections=0,peakSaveBytes=0,minCoins=120;
@@ -18,3 +19,4 @@ export function runLongSession(days=90){
  return {days,commands,replayRejections,peakSaveBytes,minimumCoins:minCoins,coins:state.coins,plots:state.plots.length,harvested:state.stats.harvested,sold:state.stats.sold,orders:state.completedOrders.length,mission:state.mission.step,followups:state.followups,pumpHours:state.pump.runHours,state};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){const {state,...report}=runLongSession();console.log(JSON.stringify(report));}
+if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){const {FEATURES}=await import('../game/client/features.js');if(FEATURES.fish)for(const script of ["fish-endurance.mjs", "fish-max-endurance.mjs"]){const result=spawnSync(process.execPath,['tools/'+script],{stdio:'inherit',env:process.env});if(result.status!==0)process.exit(result.status??1);}}
