@@ -1,0 +1,4 @@
+/** Causal state evidence only, never view/render/locale calls. No Coin rewards here. @param {import('./engine.js').State} state */
+export function advanceFishMission(state){const g=state.fish;if(!g?.visited)return;const proofs=[false,g.stats.feedActions>0,g.stats.aeratorToggles>0,g.stats.inspections>0&&state.tick>g.enteredTick,g.stats.harvestActions>0,g.stats.saleActions>0,!!g.ponds[0]?.efficient,g.stats.stockedCount>=4];while(g.mission.step<8&&proofs[g.mission.step])g.mission.step++;}
+/** @param {import('./engine.js').State} state */
+export function fishObjective(state){const step=state.fish?.mission.step||0,ids=['','feed','aerator','pond','harvest','market','aerator','market',''];return {step,title:'fishGoal'+step,detail:'fishGoal'+step+'Copy',target:ids[step]?'[data-choose-fish='+ids[step]+']':''};}

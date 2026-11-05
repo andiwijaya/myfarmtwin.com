@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **30/64 (46.88%)**
+Progress: **31/64 (48.44%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -43,7 +43,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M2-F10** — Implement market readiness, grade, recoverable fish condition; hard capacity and safe stock purchase checks.
 - [ ] **M2-F11** — Headless controlled tests compare fed/unfed, moderate/overfed, aerator ON/OFF, filter/no-filter, stocking density, hot weather; 24 ticks==Next Day, state/ledger/resource bounds.
 - [x] **M3-F01** — Wire pond entry and starter view to persisted engine state; show 4 market-ready + 8 fingerlings as separate cohorts where config permits.
-- [ ] **M3-F02** — Add FarmGirl `My First Fish Harvest` chapter in context; mission progression depends only on accepted actions/state evidence, not rendering.
+- [x] **M3-F02** — Add FarmGirl `My First Fish Harvest` chapter in context; mission progression depends only on accepted actions/state evidence, not rendering.
 - [ ] **M3-F03** — Connect Feed/Aerate/Inspect buttons to real commands/ticks with state-driven water indicators and causal `Why?` text.
 - [ ] **M3-F04** — Render accurate `Ready to Harvest` state and implement atomic actual harvest from eligible cohort → FishHarvestLot (count/weight/grade), no double-harvest.
 - [ ] **M3-F05** — Add fish harvest lots to **existing shared Market/inventory** and correct grade/weight price with integer Coins, ledger sale exactly once.
@@ -175,3 +175,6 @@ Readiness uses actual mature mass/owned time; condition-based grades recover gra
 
 ### M3-F01
 UI entry now dispatches and persists the actual finite starter;4 EN/ID desktop/mobile earnedV4 profiles preserve all old fields/archive and grant nothing on reentry/reload; types/build/audit PASS.
+
+### M3-F02
+FarmGirl Fish chapter progresses from accepted feed/air/ordinary-hour/inspection evidence only; repeated rendering, stale actions and0hour inspection cannot fake progression/rewards;8affected tests/types/build/audit PASS.
