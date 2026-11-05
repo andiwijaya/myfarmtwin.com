@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **43/64 (67.19%)**
+Progress: **44/64 (68.75%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -60,7 +60,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M4-F07** — Test parallel tabs/stale revisions, double harvest/sale/restock/upgrade/one-time grant, atomic wallet/stock and idempotency.
 - [x] **M4-F08** — Mixed farm endurance >=30 in-game days + roundtrips all four earlier areas + Fish; resource mass balance, ledger and bounded save pass.
 - [x] **M5-F01** — Add second pond expansion with independent water quality/cohorts, shared wallet/clock/weather, unlock/space and visual state.
-- [ ] **M5-F02** — Add biofilter upgrade that lowers actual TAN or water exchange demand with real Coins/energy/maintenance cost; no magic clean button.
+- [x] **M5-F02** — Add biofilter upgrade that lowers actual TAN or water exchange demand with real Coins/energy/maintenance cost; no magic clean button.
 - [ ] **M5-F03** — Add auto-feeder scheduling upgrade that consumes purchased feed and uses tick, reduces clicking without producing free growth.
 - [ ] **M5-F04** — Add `Healthy Water`, `Grow-Out`, `Fish Market Contract` chapters with reachable goals and one-time payouts.
 - [ ] **M5-F05** — Add `Energy Saver`/efficient aeration challenge and compare real paid operation costs; explain benefits through visible outcome.
@@ -214,3 +214,6 @@ Paired current-native/actualV4 five-area30day/720hour endurance PASS with whole-
 
 ### M5-F01
 Earned second pond pays240 once and starts empty; independent water/cohorts/care with shared clock and wallet. PASS333unit tests, type/build/client audit and4native-earned EN/ID desktop/touch browser profiles, screenshots reviewed, destination/focus/switch/save/old-area navigation checked. Final long-term balance/performance gates remain pending; no publication.
+
+### M5-F02
+Real paid biofilter converts TAN with measured oxygen demand and finite paid runtime; no instant clean water, free supply or inactive charge. PASS7focused unit/regression tests, type/build/audit and4native-earned desktop/touch EN/ID browser profiles including duplicate purchase, actual treatment, source ledger, pond isolation and reload. Screenshot reviewed; aggregate causal comparisons next.

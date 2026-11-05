@@ -6,7 +6,7 @@ import {bindCamera,cameraRotation} from './camera.js';
 /** Presentation-only area; no clock, RNG, grants or persistence. @param {import('./engine.js').State} state */
 export function renderFishWorld(state){
  const host=/** @type {HTMLElement} */(document.querySelector('#world'));host.replaceChildren();
- const snapshot=fishSnapshot(state),pond=snapshot.ponds.find(p=>p.id===selectedFishPond(state))||snapshot.ponds[0],source=new DOMParser().parseFromString(fishPondScene(cameraRotation('fish'),pond?.cohorts||[],{feeding:pond?.feeding,aerator:pond?.aerating,efficient:pond?.efficient}),'image/svg+xml');
+ const snapshot=fishSnapshot(state),pond=snapshot.ponds.find(p=>p.id===selectedFishPond(state))||snapshot.ponds[0],source=new DOMParser().parseFromString(fishPondScene(cameraRotation('fish'),pond?.cohorts||[],{feeding:pond?.feeding,aerator:pond?.aerating,efficient:pond?.efficient,biofilter:pond?.biofilter}),'image/svg+xml');
  const svg=/** @type {SVGSVGElement} */(/** @type {unknown} */(document.importNode(source.documentElement,true)));
  svg.setAttribute('viewBox','0 0 900 540');svg.setAttribute('class','farm-scene fish-scene');svg.dataset.paused=String(state.paused);svg.setAttribute('aria-label',t('fishArea'));svg.setAttribute('data-fish-pond',String(pond.id));
  const ns='http://www.w3.org/2000/svg',title=document.createElementNS(ns,'title');title.textContent=t(snapshot.preview?'fishPreview':'fishArea');svg.prepend(title);

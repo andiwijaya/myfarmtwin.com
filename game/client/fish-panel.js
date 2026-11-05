@@ -1,4 +1,5 @@
 import {selectedFishPond} from './fish-selection.js';
+import {fishFilterReason} from './fish-filter.js';
 import {FISH} from './fish-config.js';
 import {fishReady,fishGrade} from './fish-stock.js';
 import {el} from './dom.js';import {t} from './locales.js';import {fishSnapshot} from './fish-snapshot.js';import {fishSupply,fishCount} from './fish-state.js';
@@ -13,7 +14,7 @@ export function renderFishPanel(state,selected,send){
  const inspect=()=>button('inspect',t('fishAction_inspect'),()=>send('fish.inspect',{fishPond:id}),snap.preview?'fishNotVisited':'');
  if(selected==='feed'){const amount=p?Math.min(1000,fishCount(p)*48):0;button('feed',t('fishAction_feed'),()=>send('fish.feed',{fishPond:id}),!p?'fishNotVisited':!fishCount(p)?'fishEmpty':p.lastFeedTick===state.tick?'fishFedThisHour':g&&fishSupply(g.feed)<amount?'fishNoFeed':'');button('buyFeed',t('fishBuyFeed8'),()=>send('fish.buyFeed',{fishPond:id}),state.coins<8?'noCoins':'');inspect();}
  else if(selected==='aerator'){button('aerate',t(p?.aeratorOn?'fishTurnAirOff':'fishAction_aerate'),()=>send('fish.aerate',{fishPond:id}),!p||!g?'fishNotVisited':!p.aeratorOn&&g.air.starter+g.air.recovery+p.airPaidTicks===0&&state.coins<1?'fishNoEnergy':'');button('upgradeAir',t(p?.efficient?'fishEfficient':'fishUpgradeAir')+' · '+FISH.efficiencyCoins+' '+t('coins'),()=>send('fish.upgradeAir',{fishPond:id}),p?.efficient?'fishUpgradeExists':!g?.stats.saleActions?'fishSellFirst':state.coins<FISH.efficiencyCoins?'noCoins':'');inspect();}
- else if(selected==='water'){button('exchange',t('fishExchange5'),()=>send('fish.exchange',{fishPond:id}),!p||!g?'fishNotVisited':fishSupply(g.water)<200&&state.coins<3?'fishNoWater':'');inspect();}
+ else if(selected==='water'){if(p){button('filter',t(p.biofilter?'fishFilterOwned':'fishBuyFilter')+' · '+FISH.filterCoins+' '+t('coins'),()=>send('fish.buyFilter',{fishPond:id}),fishFilterReason(state,p));const note=document.createElement('p');note.dataset.fishFilterStatus='';note.textContent=t('fishFilterHelp')+' '+t(!p.biofilter?'fishFilterAbsent':!p.aeratorOn?'fishFilterOff':p.filterPaidTicks||state.coins>=1?'fishFilterReady':'fishFilterNoEnergy');actions.append(note);}button('exchange',t('fishExchange5'),()=>send('fish.exchange',{fishPond:id}),!p||!g?'fishNotVisited':fishSupply(g.water)<200&&state.coins<3?'fishNoWater':'');inspect();}
  else if(selected==='harvest'){const ready=p?.cohorts.filter(c=>fishReady(c,state.tick))||[];if(!ready.length)button('harvest',t('fishAction_harvest'),()=>{},'fishNoReady');for(const c of ready){button('harvest',t('fishAction_harvest')+' · '+c.count+' '+t('fishCount')+' · '+(c.count*c.massG/1000)+' kg · '+fishGrade(c),()=>send('fish.harvest',{fishPond:id,fishCohort:c.id}));actions.lastElementChild?.setAttribute('data-fish-harvest',c.id);}}
  else if(selected==='pond')inspect();
  button('market',t('fishAction_market'),()=>document.dispatchEvent(new Event('marketopen')));
