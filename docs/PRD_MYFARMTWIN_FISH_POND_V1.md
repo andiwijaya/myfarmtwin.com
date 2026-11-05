@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **45/64 (70.31%)**
+Progress: **46/64 (71.88%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -61,7 +61,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M4-F08** — Mixed farm endurance >=30 in-game days + roundtrips all four earlier areas + Fish; resource mass balance, ledger and bounded save pass.
 - [x] **M5-F01** — Add second pond expansion with independent water quality/cohorts, shared wallet/clock/weather, unlock/space and visual state.
 - [x] **M5-F02** — Add biofilter upgrade that lowers actual TAN or water exchange demand with real Coins/energy/maintenance cost; no magic clean button.
-- [ ] **M5-F03** — Add auto-feeder scheduling upgrade that consumes purchased feed and uses tick, reduces clicking without producing free growth.
+- [x] **M5-F03** — Add auto-feeder scheduling upgrade that consumes purchased feed and uses tick, reduces clicking without producing free growth.
 - [ ] **M5-F04** — Add `Healthy Water`, `Grow-Out`, `Fish Market Contract` chapters with reachable goals and one-time payouts.
 - [ ] **M5-F05** — Add `Energy Saver`/efficient aeration challenge and compare real paid operation costs; explain benefits through visible outcome.
 - [ ] **M5-F06** — Engineering Lab Fish: actual DO mg/L, TAN mg/L (not free NH3), pH/temp estimates, feed input/waste, biomass/density, growth trends, fish grade, FCR proxy, Coins/unit margins; disclosures and `Why?`.
@@ -220,3 +220,6 @@ Real paid biofilter converts TAN with measured oxygen demand and finite paid run
 
 ### M2-F11
 PASS7 aggregate causal comparisons against the actual paid biofilter: feed/no-feed, moderate/overfeed, aeration ON/OFF, filtered/unfiltered, density, heat, and24ticks=NextDay including both ponds and all old subsystems. Per-hour oxygen/TAN/feed budgets and full save roundtrips remain valid; no extra RNG draws.
+
+### M5-F03
+Paid toggleable auto-feeder consumes actual shared inventory only on ordinary scheduled hours. PASS10focused feeder/aggregate tests, type/build/audit and4EN/ID desktop/mobile browser profiles with one purchase, OFF/ON, sufficient purchased stock, next-day schedule, two-pond isolation and reload; stockout cannot auto-buy or partially ration.
