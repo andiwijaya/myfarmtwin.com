@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **42/64 (65.62%)**
+Progress: **43/64 (67.19%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -59,7 +59,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M4-F06** — Test export/import, confirmed reset, restore from backup, corrupt/quarantine/future schema, denied/quota storage; user data never silently deleted.
 - [x] **M4-F07** — Test parallel tabs/stale revisions, double harvest/sale/restock/upgrade/one-time grant, atomic wallet/stock and idempotency.
 - [x] **M4-F08** — Mixed farm endurance >=30 in-game days + roundtrips all four earlier areas + Fish; resource mass balance, ledger and bounded save pass.
-- [ ] **M5-F01** — Add second pond expansion with independent water quality/cohorts, shared wallet/clock/weather, unlock/space and visual state.
+- [x] **M5-F01** — Add second pond expansion with independent water quality/cohorts, shared wallet/clock/weather, unlock/space and visual state.
 - [ ] **M5-F02** — Add biofilter upgrade that lowers actual TAN or water exchange demand with real Coins/energy/maintenance cost; no magic clean button.
 - [ ] **M5-F03** — Add auto-feeder scheduling upgrade that consumes purchased feed and uses tick, reduces clicking without producing free growth.
 - [ ] **M5-F04** — Add `Healthy Water`, `Grow-Out`, `Fish Market Contract` chapters with reachable goals and one-time payouts.
@@ -211,3 +211,6 @@ Native loan5/half-work, paid-credit/partial-lot and mixed-farm data PASS12EN/ID 
 
 ### M4-F08
 Paired current-native/actualV4 five-area30day/720hour endurance PASS with whole-farm daily roundtrips, exact replay, stable old animal IDs, conserved resources/cash and bounded histories/save.
+
+### M5-F01
+Earned second pond pays240 once and starts empty; independent water/cohorts/care with shared clock and wallet. PASS333unit tests, type/build/client audit and4native-earned EN/ID desktop/touch browser profiles, screenshots reviewed, destination/focus/switch/save/old-area navigation checked. Final long-term balance/performance gates remain pending; no publication.

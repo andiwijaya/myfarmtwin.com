@@ -26,3 +26,5 @@
 .world[data-area="fish"] .plot-shortcuts{position:relative;bottom:auto;left:auto;transform:none;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;padding:4px 12px 16px;margin:auto;max-width:100%}
 .world[data-area="fish"] .plot-shortcuts button{min-width:44px;min-height:44px;font-size:12px}
 .world[data-area="fish"] .camera-controls{z-index:2}
+
+.fish-ponds{display:flex;gap:8px;flex-wrap:wrap;padding:8px 16px}.fish-ponds[hidden]{display:none}.fish-ponds button,#fish-stock-pond{min-height:44px;min-width:80px}.fish-ponds button[aria-pressed="true"]{background:#365c53;color:white}
