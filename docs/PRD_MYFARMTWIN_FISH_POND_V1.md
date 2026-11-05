@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **47/64 (73.44%)**
+Progress: **48/64 (75.00%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -63,7 +63,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M5-F02** — Add biofilter upgrade that lowers actual TAN or water exchange demand with real Coins/energy/maintenance cost; no magic clean button.
 - [x] **M5-F03** — Add auto-feeder scheduling upgrade that consumes purchased feed and uses tick, reduces clicking without producing free growth.
 - [x] **M5-F04** — Add `Healthy Water`, `Grow-Out`, `Fish Market Contract` chapters with reachable goals and one-time payouts.
-- [ ] **M5-F05** — Add `Energy Saver`/efficient aeration challenge and compare real paid operation costs; explain benefits through visible outcome.
+- [x] **M5-F05** — Add `Energy Saver`/efficient aeration challenge and compare real paid operation costs; explain benefits through visible outcome.
 - [ ] **M5-F06** — Engineering Lab Fish: actual DO mg/L, TAN mg/L (not free NH3), pH/temp estimates, feed input/waste, biomass/density, growth trends, fish grade, FCR proxy, Coins/unit margins; disclosures and `Why?`.
 - [ ] **M5-F07** — Balance simulations 7/30/60/90 game days for Fish-only, mixed, high/low feeding, hot weather, aeration strategies, supply constraint and upgrade ROI; no unbounded “fish money printer”.
 - [ ] **M6-F01** — Black-box full UI E2E fresh/old save, first fish sale, second pond, crop/hen/goat/cow regressions, Market, upgrade, EN/ID.
@@ -226,3 +226,6 @@ Paid toggleable auto-feeder consumes actual shared inventory only on ordinary sc
 
 ### M5-F04
 Earned HealthyWater/GrowOut chapters and three reachable once-only sales milestones. PASS5 chapter tests plus first-loop/feeder regression,4EN/ID desktop/touch browser profiles, type/build/audit, physical reward proofs and four visible mass stages. Native paid care reaches every contract in19additional days; no view/import rewards or starter bonus.
+
+### M5-F05
+Energy Saver verifies24consumed paid-efficient hours, excludes starter/aid/unused credits and compares actual4vs2Coin fixed-period operation with separate45capital cost. PASS9energy/upgrade/chapter tests, type/build/audit and4EN/ID desktop/touch UI profiles, once-only zero-reward completion/reload and screenshot review.
