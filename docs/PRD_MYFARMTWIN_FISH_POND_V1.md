@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **44/64 (68.75%)**
+Progress: **45/64 (70.31%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -41,7 +41,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M2-F08** — Implement paid water exchange with separate supply/source, 5% mass-balance/dilution and effluent accounting; protect crop water tank.
 - [x] **M2-F09** — Implement fish growth stages, biomass/density/water quality/growth trade-offs using shared logical ticks, weather and seeded reproducibility.
 - [x] **M2-F10** — Implement market readiness, grade, recoverable fish condition; hard capacity and safe stock purchase checks.
-- [ ] **M2-F11** — Headless controlled tests compare fed/unfed, moderate/overfed, aerator ON/OFF, filter/no-filter, stocking density, hot weather; 24 ticks==Next Day, state/ledger/resource bounds.
+- [x] **M2-F11** — Headless controlled tests compare fed/unfed, moderate/overfed, aerator ON/OFF, filter/no-filter, stocking density, hot weather; 24 ticks==Next Day, state/ledger/resource bounds.
 - [x] **M3-F01** — Wire pond entry and starter view to persisted engine state; show 4 market-ready + 8 fingerlings as separate cohorts where config permits.
 - [x] **M3-F02** — Add FarmGirl `My First Fish Harvest` chapter in context; mission progression depends only on accepted actions/state evidence, not rendering.
 - [x] **M3-F03** — Connect Feed/Aerate/Inspect buttons to real commands/ticks with state-driven water indicators and causal `Why?` text.
@@ -217,3 +217,6 @@ Earned second pond pays240 once and starts empty; independent water/cohorts/care
 
 ### M5-F02
 Real paid biofilter converts TAN with measured oxygen demand and finite paid runtime; no instant clean water, free supply or inactive charge. PASS7focused unit/regression tests, type/build/audit and4native-earned desktop/touch EN/ID browser profiles including duplicate purchase, actual treatment, source ledger, pond isolation and reload. Screenshot reviewed; aggregate causal comparisons next.
+
+### M2-F11
+PASS7 aggregate causal comparisons against the actual paid biofilter: feed/no-feed, moderate/overfeed, aeration ON/OFF, filtered/unfiltered, density, heat, and24ticks=NextDay including both ponds and all old subsystems. Per-hour oxygen/TAN/feed budgets and full save roundtrips remain valid; no extra RNG draws.
