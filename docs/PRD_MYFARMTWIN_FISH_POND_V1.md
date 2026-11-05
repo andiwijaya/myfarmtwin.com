@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **61/64 (95.31%)**
+Progress: **62/64 (96.88%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -77,7 +77,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M7-F01** — Verify current release permissions/holds, precise commit, diff, clean build output, compatible rollback and archived old-save original.
 - [x] **M7-F02** — Local final test/review and staged/no-force-push release using audited GitHub→Cloudflare pipeline, no GitHub Actions routine QA.
 - [x] **M7-F03** — Confirm production asset/commit/deployment ID integrity, security headers, canonical/OG and no unexpected deleted editorial content.
-- [ ] **M7-F04** — Live isolated-browser desktop/mobile EN/ID Fish first loop + resume/import + full Crop/Chicken/Goat/Cow smoke, screenshots and console errors, owner saves untouched.
+- [x] **M7-F04** — Live isolated-browser desktop/mobile EN/ID Fish first loop + resume/import + full Crop/Chicken/Goat/Cow smoke, screenshots and console errors, owner saves untouched.
 - [ ] **M7-F05** — **ONLY after Fish live verified**, revise existing homepage **single card** future/planned text to accurately say Fish playable; adjust EN/ID, alt/OG copy and cache busting without additional game cards, reverify production.
 - [ ] **M7-F06** — Final report: 64/64 evidence, completed scope, tests, production URL/commit/deploy ID, perf/QA, known limits, safe rollback preserving Fish saves, next roadmap.
 
@@ -268,3 +268,6 @@ Explicit Fish publication approval received; verified clean4ef1b05 and currentC3
 
 ### M7-F03
 PASSexact first production4ef1b05/70f37252 terminal success,151public HTTP bodies equal Git with zero mismatch, actual desktop/mobile CSP/header/core/import preservation and no external requests. Live runners use BASE_URL and no feature interception; full live gameplay gate continues.
+
+### M7-F04
+PASSactual live13main/36Fish/17Cow suites,12Fish data,4V4archive,4clock,8all-five-area and4camera profiles;151Git-exact resources. Two isolated water-refill flows confirm100L/6Coins; user save untouched. Screenshot Windows metadata limitation and optional water UX findings recorded. Homepage availability update next.
