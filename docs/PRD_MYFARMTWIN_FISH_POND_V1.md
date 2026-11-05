@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **52/64 (81.25%)**
+Progress: **53/64 (82.81%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -68,7 +68,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M5-F07** — Balance simulations 7/30/60/90 game days for Fish-only, mixed, high/low feeding, hot weather, aeration strategies, supply constraint and upgrade ROI; no unbounded “fish money printer”.
 - [x] **M6-F01** — Black-box full UI E2E fresh/old save, first fish sale, second pond, crop/hen/goat/cow regressions, Market, upgrade, EN/ID.
 - [x] **M6-F02** — White-box engine/invariant/seed and property/fuzz tests for DO/TAN/feed/water/biomass/growth/grade/costs/commands.
-- [ ] **M6-F03** — Security/adversarial tests: malicious save, poisoned object, excessive input, duplicate revision, stale tab, unsafe UI insertion, no secrets/network runtime.
+- [x] **M6-F03** — Security/adversarial tests: malicious save, poisoned object, excessive input, duplicate revision, stale tab, unsafe UI insertion, no secrets/network runtime.
 - [ ] **M6-F04** — Browser/compat tests Chromium and Firefox if available, EN/ID, 320/360/390/768/1024/1440 landscape, keyboard, touch, focus, reduced motion.
 - [ ] **M6-F05** — Performance/endurance slow/mobile and 90-game-day simulation; bounded SVG/timers, memory, event listeners, save size, fast area switching.
 - [ ] **M6-F06** — Dead-code dependency/repo hygiene audit: remove obsolete **new** code only, preserve previous assets, keep artifacts/cache/screenshot outside Git.
@@ -241,3 +241,6 @@ PASS8native all-five-area fresh/migrated desktop/mobile EN/ID playthroughs,36Fis
 
 ### M6-F02
 PASS2400seeded property actions across four actual state classes with exact replay,342accepted/858rejected per first replay, immutable frozen input and strict cash/mass/save/history/old-area/pond-isolation bounds. Reproduce node --test game/tests/fish-fuzz.test.mjs; evidence qa/fish/M6-F02/test.txt.
+
+### M6-F03
+PASS9adversarial/property/support tests and38browser profiles: poisoned imports/future-save preservation,12data roundtrips,16two-tab new-upgrade/bonus races, CSP/headers/no-secrets/no external runtime. Hardened pond-service chronology and disclosed incoming support liability. Complete legacy13suite/17Cow matrix also PASS; no owner data or permissions changed.
