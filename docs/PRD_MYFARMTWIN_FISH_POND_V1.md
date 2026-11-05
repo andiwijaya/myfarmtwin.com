@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **49/64 (76.56%)**
+Progress: **50/64 (78.12%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -65,7 +65,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M5-F04** — Add `Healthy Water`, `Grow-Out`, `Fish Market Contract` chapters with reachable goals and one-time payouts.
 - [x] **M5-F05** — Add `Energy Saver`/efficient aeration challenge and compare real paid operation costs; explain benefits through visible outcome.
 - [x] **M5-F06** — Engineering Lab Fish: actual DO mg/L, TAN mg/L (not free NH3), pH/temp estimates, feed input/waste, biomass/density, growth trends, fish grade, FCR proxy, Coins/unit margins; disclosures and `Why?`.
-- [ ] **M5-F07** — Balance simulations 7/30/60/90 game days for Fish-only, mixed, high/low feeding, hot weather, aeration strategies, supply constraint and upgrade ROI; no unbounded “fish money printer”.
+- [x] **M5-F07** — Balance simulations 7/30/60/90 game days for Fish-only, mixed, high/low feeding, hot weather, aeration strategies, supply constraint and upgrade ROI; no unbounded “fish money printer”.
 - [ ] **M6-F01** — Black-box full UI E2E fresh/old save, first fish sale, second pond, crop/hen/goat/cow regressions, Market, upgrade, EN/ID.
 - [ ] **M6-F02** — White-box engine/invariant/seed and property/fuzz tests for DO/TAN/feed/water/biomass/growth/grade/costs/commands.
 - [ ] **M6-F03** — Security/adversarial tests: malicious save, poisoned object, excessive input, duplicate revision, stale tab, unsafe UI insertion, no secrets/network runtime.
@@ -232,3 +232,6 @@ Energy Saver verifies24consumed paid-efficient hours, excludes starter/aid/unuse
 
 ### M5-F06
 Optional read-only Fish Lab exposes exact selected-pond units/mass budgets/grades,96hour bounded actual trends, undefined FCR handling and disclosed all-pond cash basis. PASS4Lab/energy tests, type/build/audit and4desktop/touch EN/ID browser profiles with exact metrics, transient open-state, pond switching, no save changes and reviewed desktop/mobile screenshots.
+
+### M5-F07
+PASS26source-hashed90day policies sampled7/30/60/90,27runs including exact zero-wallet replay; causal strategy/ROI/conservation and liability-adjusted recovery upper bound pass. Fixed residual-aid softlock and free-support exploit, preserved old6h filter credits, tuned24h filter service and TAN response, deferred feeder capex.359full unit plus9focused tests, type/build/audit and4native recovery EN/ID browser profiles PASS; M6 gates/publication still pending.

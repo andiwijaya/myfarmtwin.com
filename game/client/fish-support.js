@@ -1,0 +1,3 @@
+import {FISH} from './fish-config.js';
+/** Used emergency supplies are an interest-free operating advance, not a gift. Exact rational3000-unit cash valuation, rounded once cumulatively. Unused credits owe nothing. @param {import('./engine.js').State} state */
+export function fishSupportAccount(state){const g=state.fish;if(!g)return {usedCoins:0,repaidCoins:0,debtCoins:0};const s=g.stats,units=s.recoveryFeedUsedG*FISH.feedBagCoins*3+s.recoveryWaterUsedL*FISH.exchangeCoins*15+s.recoveryAirUsedTicks*FISH.airCoins*(3000/FISH.efficientAirTicks),usedCoins=Math.ceil(units/3000),repaidCoins=state.ledger.filter(l=>l.type==='fish.care_repayment').reduce((n,l)=>n-l.amount,0);return {usedCoins,repaidCoins,debtCoins:Math.max(0,usedCoins-repaidCoins)};}
