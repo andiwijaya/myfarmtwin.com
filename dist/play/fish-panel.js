@@ -1,3 +1,4 @@
+import {fishReady,fishGrade} from './fish-stock.js';
 import {el} from './dom.js';import {t} from './locales.js';import {fishSnapshot} from './fish-snapshot.js';import {fishSupply,fishCount} from './fish-state.js';
 export const FISH_STATIONS=Object.freeze(['pond','feed','aerator','harvest','water','market']);
 /** @param {import('./engine.js').State} state @param {string} selected @param {(type:import('./engine.js').CommandType,extra?:Partial<import('./engine.js').Command>)=>void} send */
@@ -11,7 +12,7 @@ export function renderFishPanel(state,selected,send){
  if(selected==='feed'){const amount=p?Math.min(1000,fishCount(p)*48):0;button('feed',t('fishAction_feed'),()=>send('fish.feed',{fishPond:1}),!p?'fishNotVisited':!fishCount(p)?'fishEmpty':p.lastFeedTick===state.tick?'fishFedThisHour':g&&fishSupply(g.feed)<amount?'fishNoFeed':'');button('buyFeed',t('fishBuyFeed8'),()=>send('fish.buyFeed',{fishPond:1}),state.coins<8?'noCoins':'');inspect();}
  else if(selected==='aerator'){button('aerate',t(p?.aeratorOn?'fishTurnAirOff':'fishAction_aerate'),()=>send('fish.aerate',{fishPond:1}),!p||!g?'fishNotVisited':!p.aeratorOn&&g.air.starter+g.air.recovery+p.airPaidTicks===0&&state.coins<1?'fishNoEnergy':'');inspect();}
  else if(selected==='water'){button('exchange',t('fishExchange5'),()=>send('fish.exchange',{fishPond:1}),!p||!g?'fishNotVisited':fishSupply(g.water)<200&&state.coins<3?'fishNoWater':'');inspect();}
- else if(selected==='harvest')button('harvest',t('fishAction_harvest'),()=>{},'fishHarvestPending');
+ else if(selected==='harvest'){const ready=p?.cohorts.filter(c=>fishReady(c,state.tick))||[];if(!ready.length)button('harvest',t('fishAction_harvest'),()=>{},'fishNoReady');for(const c of ready){button('harvest',t('fishAction_harvest')+' · '+c.count+' '+t('fishCount')+' · '+(c.count*c.massG/1000)+' kg · '+fishGrade(c),()=>send('fish.harvest',{fishPond:1,fishCohort:c.id}));actions.lastElementChild?.setAttribute('data-fish-harvest',c.id);}}
  else if(selected==='pond')inspect();
  button('market',t('fishAction_market'),()=>document.dispatchEvent(new Event('marketopen')));
  if(g&&g.stats.inspections>0){const why=document.createElement('p');why.dataset.fishInspection='';const oxygen=(pond?.oxygenMg||0)/4000,tan=(pond?.tanMg||0)/4000;why.textContent=t('fishOxygen')+': '+t(oxygen<3?'fishLow':oxygen<5?'fishWatch':'fishGood')+'. '+t(tan>=1?'fishWasteWatch':'fishWaterSteady')+' '+t('fishWaterDisclaimer');actions.append(why);}
