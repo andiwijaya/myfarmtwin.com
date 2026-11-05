@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **39/64 (60.94%)**
+Progress: **40/64 (62.50%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -56,7 +56,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M4-F03** — Add safe `before-fish` archival original bytes with conflicts/quota blocked preview, preserve all earlier archives/backup/quarantine.
 - [x] **M4-F04** — Validate persisted fish state/cohorts/DO/TAN/credits/lots/mission/reward, bounded histories and size, reject malformed/unknown/prototype input.
 - [x] **M4-F05** — Test save/reload/reopen/pause/hidden/system-clock shift; fish growth, energy, waste and events do not progress twice.
-- [ ] **M4-F06** — Test export/import, confirmed reset, restore from backup, corrupt/quarantine/future schema, denied/quota storage; user data never silently deleted.
+- [x] **M4-F06** — Test export/import, confirmed reset, restore from backup, corrupt/quarantine/future schema, denied/quota storage; user data never silently deleted.
 - [ ] **M4-F07** — Test parallel tabs/stale revisions, double harvest/sale/restock/upgrade/one-time grant, atomic wallet/stock and idempotency.
 - [ ] **M4-F08** — Mixed farm endurance >=30 in-game days + roundtrips all four earlier areas + Fish; resource mass balance, ledger and bounded save pass.
 - [ ] **M5-F01** — Add second pond expansion with independent water quality/cohorts, shared wallet/clock/weather, unlock/space and visual state.
@@ -202,3 +202,6 @@ Functionality-first gate PASS8native EN/ID fresh/zero-wallet profiles in3533-361
 
 ### M4-F05
 4 EN/ID browser profiles verify exact paused/hidden/system-clock freeze, ordinary paid-credit/feed ticks and partial lot persistence through reload/reopen; no duplicate progression.
+
+### M4-F06
+Native loan5/half-work, paid-credit/partial-lot and mixed-farm data PASS12EN/ID export/import/cancel/reset/backup/restore profiles; corrupt/quota/future/denied preservation tests PASS; Fish replacement summary explicit.
