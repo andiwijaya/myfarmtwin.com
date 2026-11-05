@@ -1,3 +1,9 @@
+# Fish Pond release status
+
+**Current:61/64.** Explicit approval received; production source4ef1b05 deployed successfully as70f37252. All151public bodies match Git, security/header checks pass. Full live gameplay verification is in progress; homepage Fish availability is updated only after it passes. No settings/Actions changes.
+
+## Historical local preflight before publication approval
+
 # Fish Pond local release preflight
 
 Status: **59/64 local-ready; publication HELD**. Andi authorized autonomous local implementation and QA; Fish push/deploy needs separate explicit authorization. No push, deployment, GitHub Actions or access/settings change occurred. M7-F02 through M7-F06 remain unchecked; no production Fish claim.

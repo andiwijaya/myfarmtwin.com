@@ -4,7 +4,7 @@ Authority: original Library `libfile_bf20a78771f88191a6fab144dffedf42`, MYFARMTW
 
 Session: user authorizes autonomous local coding until08:00WIB5November2026 /01:00UTC. Work deadline07:50WIB, automatic conservative checkpoint, cleanup deadline07:55WIB. Supervisor/watchdog stops only registered owned processes; no resume until fresh office instruction. No Fish push/deploy authorized. Homepage must continue saying Fish planned.
 
-Progress: **60/64 (93.75%)**
+Progress: **61/64 (95.31%)**
 
 ## Dependency corrections, preserving all64 IDs
 
@@ -76,7 +76,7 @@ Implementation order: M0-F01 → M0-F02 → M0-F03 → M0-F04 → M0-F05 → M0-
 - [x] **M6-F08** — Clean release-candidate dry-run: all available `lint`, `typecheck`, `test`, `build`, `e2e`, `chicken`, Goat/Cow suites if present, Fish suite, homepage, security, SEO, compat, performance, balance, endurance, rollback reader.
 - [x] **M7-F01** — Verify current release permissions/holds, precise commit, diff, clean build output, compatible rollback and archived old-save original.
 - [x] **M7-F02** — Local final test/review and staged/no-force-push release using audited GitHub→Cloudflare pipeline, no GitHub Actions routine QA.
-- [ ] **M7-F03** — Confirm production asset/commit/deployment ID integrity, security headers, canonical/OG and no unexpected deleted editorial content.
+- [x] **M7-F03** — Confirm production asset/commit/deployment ID integrity, security headers, canonical/OG and no unexpected deleted editorial content.
 - [ ] **M7-F04** — Live isolated-browser desktop/mobile EN/ID Fish first loop + resume/import + full Crop/Chicken/Goat/Cow smoke, screenshots and console errors, owner saves untouched.
 - [ ] **M7-F05** — **ONLY after Fish live verified**, revise existing homepage **single card** future/planned text to accurately say Fish playable; adjust EN/ID, alt/OG copy and cache busting without additional game cards, reverify production.
 - [ ] **M7-F06** — Final report: 64/64 evidence, completed scope, tests, production URL/commit/deploy ID, perf/QA, known limits, safe rollback preserving Fish saves, next roadmap.
@@ -265,3 +265,6 @@ PASSclean tested candidate,129canonical source/build pairs and152Git-byte asset 
 
 ### M7-F02
 Explicit Fish publication approval received; verified clean4ef1b05 and currentC3main, fast-forward/non-force main push exact4ef1b05 confirmed remotely. Existing Cloudflare main/dist automatic pipeline deployed70f37252 terminal success06:42:51UTC; exact public asset/live gates follow, no settings/Actions changes.
+
+### M7-F03
+PASSexact first production4ef1b05/70f37252 terminal success,151public HTTP bodies equal Git with zero mismatch, actual desktop/mobile CSP/header/core/import preservation and no external requests. Live runners use BASE_URL and no feature interception; full live gameplay gate continues.
