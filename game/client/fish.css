@@ -28,3 +28,5 @@
 .world[data-area="fish"] .camera-controls{z-index:2}
 
 .fish-ponds{display:flex;gap:8px;flex-wrap:wrap;padding:8px 16px}.fish-ponds[hidden]{display:none}.fish-ponds button,#fish-stock-pond{min-height:44px;min-width:80px}.fish-ponds button[aria-pressed="true"]{background:#365c53;color:white}
+
+#fish-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start}#fish-actions>p,#fish-actions>.fish-lab{flex-basis:100%;margin:4px 0 8px}.fish-lab{min-width:0;width:100%;border-top:1px solid var(--line);padding-top:12px}.fish-lab summary{min-height:44px;padding:10px 0;cursor:pointer;font-weight:600}.fish-lab figure{margin:16px 0;max-width:600px}.fish-lab figcaption{font-size:12px}.fish-lab svg{width:100%;max-height:180px}.fish-lab .inspect-values{max-width:800px}.fish-lab dd{overflow-wrap:anywhere}.fish-lab p{font-size:13px;line-height:1.6}

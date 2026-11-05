@@ -1,3 +1,4 @@
+import {renderFishLab} from './fish-lab.js';
 import {fishEnergyTrial} from './fish-energy.js';
 import {selectedFishPond} from './fish-selection.js';
 import {fishFeederReason,ownsFishFeeder} from './fish-feeder.js';
@@ -21,4 +22,5 @@ export function renderFishPanel(state,selected,send){
  else if(selected==='pond')inspect();
  button('market',t('fishAction_market'),()=>document.dispatchEvent(new Event('marketopen')));
  if(g&&g.stats.inspections>0){const why=document.createElement('p');why.dataset.fishInspection='';const oxygen=(pond?.oxygenMg||0)/4000,tan=(pond?.tanMg||0)/4000;why.textContent=t('fishOxygen')+': '+t(oxygen<3?'fishLow':oxygen<5?'fishWatch':'fishGood')+'. '+t(tan>=1?'fishWasteWatch':'fishWaterSteady')+' '+t('fishWaterDisclaimer');actions.append(why);}
+ if(p)renderFishLab(state,p,actions);
 }
