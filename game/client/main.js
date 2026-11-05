@@ -43,7 +43,7 @@ let guideExpanded=true;
 let celebrationDismissed=false;
 let activeArea='field';
 let selectedFish='';
-function renderFishSelection(){if(selectedFish&&!FISH_STATIONS.includes(selectedFish))selectedFish='';document.querySelectorAll('[data-fish-object]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-fish-object')===selectedFish)));document.querySelectorAll('[data-choose-fish]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-choose-fish')===selectedFish)));renderFishPanel(state,selectedFish);}
+function renderFishSelection(){if(selectedFish&&!FISH_STATIONS.includes(selectedFish))selectedFish='';document.querySelectorAll('[data-fish-object]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-fish-object')===selectedFish)));document.querySelectorAll('[data-choose-fish]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-choose-fish')===selectedFish)));renderFishPanel(state,selectedFish,send);}
 document.addEventListener('fishobjectselect',event=>{const id=/** @type {CustomEvent<string>} */(event).detail;if(activeArea==='fish'&&FISH_STATIONS.includes(id)){selectedFish=id;renderFishSelection();}});
 function closeFish(){const old=selectedFish;selectedFish='';renderFishSelection();/** @type {HTMLButtonElement|null} */(document.querySelector('[data-choose-fish="'+old+'"]'))?.focus();}
 el('close-fish').addEventListener('click',closeFish);
