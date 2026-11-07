@@ -31,8 +31,8 @@
     },
     {
       "name": "main.js",
-      "bytes": 415811,
-      "sha256": "5c6aae95f5957fb3632c4038e395bf5b629c677375e796ba939e1cb3986cb94e"
+      "bytes": 415829,
+      "sha256": "2bf72c447778d431a2094eb6884a37d7c74d81d60afc7206d4f70edb7c25bb99"
     },
     {
       "name": "preview-loader.js",
@@ -48,13 +48,13 @@
   "emitted": [
     {
       "name": "main.js",
-      "bytes": 415811,
-      "sha256": "5c6aae95f5957fb3632c4038e395bf5b629c677375e796ba939e1cb3986cb94e"
+      "bytes": 415829,
+      "sha256": "2bf72c447778d431a2094eb6884a37d7c74d81d60afc7206d4f70edb7c25bb99"
     },
     {
       "name": "unified-world-preview.js",
-      "bytes": 58151,
-      "sha256": "e85e8cfbd5c79d46839a01ac1f2b32454af7d3d26d02e2cea159e087406e6105"
+      "bytes": 59945,
+      "sha256": "e569eb7bdf2afba7a9a505d0f5a1737d5813c50c207be73f1b85ebcae5c4cf7e"
     },
     {
       "name": "vendor/three/chunks/chunk-HDFNCP36.js",
