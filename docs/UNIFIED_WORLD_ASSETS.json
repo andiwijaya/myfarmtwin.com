@@ -114,8 +114,8 @@
     },
     {
       "path": "game/client/unified-world-shell.js",
-      "bytes": 1500,
-      "sha256": "716ff63a985bac4e494353489063b5724f4f5b9acf920a1690cc88133d40ed29",
+      "bytes": 5367,
+      "sha256": "b40211bcbf5b56bfb7029ed4483c965d076c9f54993e4c797ac62a97e2c788f8",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },

@@ -1,14 +1,26 @@
 /** Presentation-only layout. Reparent original live controls instead of cloning
  * resource totals, native action buttons or their event handlers. */
-export function createWorldShell(){
+/** @param {{onInspect?:()=>void}} [options] */
+export function createWorldShell(options={}){
  const root=document.querySelector('#farm'),world=document.querySelector('#world'),hud=document.querySelector('.hud'),weather=document.querySelector('.weather-strip'),preview=document.querySelector('#unified-preview');
  if(!(root instanceof HTMLElement)||!(world instanceof HTMLElement)||!(hud instanceof HTMLElement)||!(preview instanceof HTMLElement))throw Error('World HUD requires the existing farm elements');
  document.body.classList.add('unified-shell');root.dataset.worldLayout='true';root.prepend(hud);hud.after(world);if(weather)hud.after(weather);
  const bar=document.createElement('div');bar.className='world-map-bar';const stage=preview.querySelector('.unified-preview-stage'),exit=preview.querySelector('.unified-preview-exit'),quality=preview.querySelector('select[data-world-quality]')?.parentElement;if(exit)bar.append(exit);if(quality)bar.append(quality);if(stage)preview.insertBefore(bar,stage);
  const title=document.createElement('span');title.className='world-map-title';bar.prepend(title);
+ const nav=document.createElement('nav');nav.id='world-menus';nav.className='world-menus';root.after(nav);
+ const labels=/** @type {Record<string,readonly [string,string]>} */({missions:['Missions','Misi'],build:['Build / Upgrade','Bangun / Upgrade'],market:['Market','Pasar'],inventory:['Inventory','Inventori'],lab:['Engineering Lab','Lab Teknik'],settings:['Settings','Pengaturan']});
+ const buttons=/** @type {Map<string,HTMLButtonElement>} */(new Map()),dialogs=/** @type {Map<string,{dialog:HTMLDialogElement,heading:HTMLElement,close:HTMLButtonElement}>} */(new Map());
+ for(const key of Object.keys(labels)){const button=key==='market'?document.querySelector('#market-open'):document.createElement('button');if(!(button instanceof HTMLButtonElement))throw Error('Original Market control missing');button.type='button';button.dataset.worldMenu=key;buttons.set(key,button);nav.append(button);}
+ /** @param {string} key @param {readonly (Element|null)[]} nodes */
+ function sheet(key,nodes){const dialog=document.createElement('dialog'),header=document.createElement('div'),heading=document.createElement('h2'),close=document.createElement('button'),body=document.createElement('div');dialog.id='world-'+key;dialog.className='world-menu-sheet';heading.id=dialog.id+'-heading';dialog.setAttribute('aria-labelledby',heading.id);header.className='dialog-heading';close.type='button';close.className='close-panel';close.dataset.worldClose=key;header.append(heading,close);body.className='world-sheet-body';for(const node of nodes)if(node)body.append(node);dialog.append(header,body);document.body.append(dialog);const button=buttons.get(key);button?.setAttribute('aria-controls',dialog.id);button?.setAttribute('aria-haspopup','dialog');button?.setAttribute('aria-expanded','false');button?.addEventListener('click',()=>{dialog.showModal();button.setAttribute('aria-expanded','true');});close.addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>{button?.setAttribute('aria-expanded','false');button?.focus({preventScroll:true});});dialogs.set(key,{dialog,heading,close});}
+ sheet('missions',[document.querySelector('#resume-summary'),document.querySelector('.mission-bar'),document.querySelector('#mission-track'),document.querySelector('#followup-missions'),document.querySelector('#celebration')]);
+ const inventory=document.querySelector('.inventory');if(inventory instanceof HTMLDetailsElement)inventory.open=true;sheet('inventory',[inventory]);
+ sheet('settings',[document.querySelector('.game-settings'),document.querySelector('#data-tools'),document.querySelector('.local-note')]);
+ let marketReturn=buttons.get('market');const marketDialog=document.querySelector('#market-dialog');buttons.get('market')?.addEventListener('click',()=>{marketReturn=buttons.get('market');if(marketDialog instanceof HTMLElement)marketDialog.scrollTop=0;});buttons.get('build')?.addEventListener('click',()=>{marketReturn=buttons.get('build');document.dispatchEvent(new Event('marketopen'));marketReturn=buttons.get('build');document.querySelector('#market-shop')?.scrollIntoView({block:'start'});});document.addEventListener('marketopen',()=>{marketReturn=buttons.get('market');if(marketDialog instanceof HTMLElement)marketDialog.scrollTop=0;});marketDialog?.addEventListener('close',()=>marketReturn?.focus({preventScroll:true}));
+ buttons.get('lab')?.addEventListener('click',()=>options.onInspect?.());document.querySelector('#inspect-dialog')?.addEventListener('close',()=>buttons.get('lab')?.focus({preventScroll:true}));
  return {
   /** @param {string} locale */
-  update(locale){title.textContent=locale==='id'?'Satu lahan, farm milikmu':'One place, your farm';},
+  update(locale){const id=locale==='id';title.textContent=id?'Satu lahan, farm milikmu':'One place, your farm';nav.setAttribute('aria-label',id?'Menu farm':'Farm menus');for(const [key,button]of buttons)button.textContent=labels[key][id?1:0];for(const [key,{heading,close}]of dialogs){heading.textContent=labels[key][id?1:0];close.textContent=id?'Tutup':'Close';}},
   inspect:()=>({originalHud:hud===document.querySelector('.hud'),worldFirst:!!(hud.compareDocumentPosition(world)&Node.DOCUMENT_POSITION_FOLLOWING)})
  };
 }
