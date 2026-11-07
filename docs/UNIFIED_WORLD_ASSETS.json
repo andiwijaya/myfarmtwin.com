@@ -51,8 +51,8 @@
   "proceduralSources": [
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 45639,
-      "sha256": "26057042de5a422d072a58445b30381c00e5467c8772b3fb7c4e07533a979dd4",
+      "bytes": 46767,
+      "sha256": "19189907844d3a58756685f334e4c3a2b8578fdeff8cad9a09a1aefbdd7fc3e4",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -65,8 +65,15 @@
     },
     {
       "path": "game/client/unified-world-environment.js",
-      "bytes": 3003,
-      "sha256": "858fd8fd9e905c1458eeebd771a920bed1d99c32d12a528bd5f94c7600b1836b",
+      "bytes": 3047,
+      "sha256": "18e81791871e12034b3391c987ec2e3d23ecce36fb501072bb9f62841b5f69b0",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-structures.js",
+      "bytes": 3725,
+      "sha256": "b30daca3d7cc4751bfe88da5600952a22b82bb4f83f1e6956d58d79af944dd7e",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -170,15 +177,15 @@
     },
     {
       "path": "game/client/unified-goat-layout.js",
-      "bytes": 2816,
-      "sha256": "a1033d00d76ed46060d720d956da310a9791e6ec77f186d6ec37ca5e9aa68cef",
+      "bytes": 2889,
+      "sha256": "354d1578d091252058be12bfa4e0d5df3b78cd8e3748f559ffd783e0d7dd8067",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
       "path": "game/client/unified-cow-layout.js",
-      "bytes": 2281,
-      "sha256": "e070282534a0bddb9b33d1766d768670faba6e95b94f1705f308c0e5485a6b36",
+      "bytes": 2332,
+      "sha256": "8a918bd612b62292400c2f01a9fb25ad55ea0be528e3d9a39d93a17d86ef87af",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },

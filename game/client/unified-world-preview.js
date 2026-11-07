@@ -6,6 +6,7 @@ import {nativeFill,cueDescription} from './unified-world-cues.js';
 import {WORLD_ART} from './unified-world-art.js';
 import {WORLD_STYLE} from './unified-world-style.js';
 import {pathDetailParts,treeParts,bedDetailParts,ranchFenceParts} from './unified-world-environment.js';
+import {structureParts} from './unified-world-structures.js';
 import {createWorldSprites,spriteOpaque} from './unified-world-sprites.js';
 import {WORLD_BOUNDS,ZONE_REGISTRY} from './unified-world-registry.js';
 import {WORLD_PATHS,MARKET_PLAZA,WORLD_SIGNS,WORLD_TREES,zoneLabel} from './unified-world-layout.js';
@@ -46,7 +47,9 @@ export function mountUnifiedPreview(host,state,locale,options={}){
  /** @param {Group|Scene} parent @param {number} x @param {number} y @param {number} z @param {number} w @param {number} h @param {number} d @param {string} color @param {number} [opacity] */
  function box(parent,x,y,z,w,h,d,color,opacity=1){const mesh=new Mesh(geometry,material(color,opacity));mesh.position.set(x,y,z);mesh.scale.set(w,h,d);parent.add(mesh);return mesh;}
  /** @param {Group} parent @param {import('./unified-world-environment.js').EnvironmentPart} part */
- function detail(parent,part){const mesh=box(parent,part.x,part.y,part.z,part.width,part.height,part.depth,part.color,part.opacity);mesh.rotation.y=part.rotation||0;mesh.userData.environmentDetail=true;mesh.userData.fineDetail=!!part.fine;if(part.opacity!==undefined){mesh.userData.pickThrough=true;mesh.userData.canvasLayer=1;}return mesh;}
+ function detail(parent,part){const mesh=box(parent,part.x,part.y,part.z,part.width,part.height,part.depth,part.color,part.opacity);mesh.rotation.set(0,part.rotation||0,part.tilt||0);mesh.userData.environmentDetail=true;mesh.userData.fineDetail=!!part.fine;mesh.userData.cutawayFixed=!!part.fixed;mesh.userData.structureFeature=part.feature||'';if(part.opacity!==undefined){mesh.userData.pickThrough=true;mesh.userData.canvasLayer=1;}return mesh;}
+ /** Shared open care containers. Native fill volumes stay independent of the shell. @param {Group} parent @param {number} w @param {number} d @param {number} base @param {number} rim @param {string} color @param {string} feature */
+ function vessel(parent,w,d,base,rim,color,feature){box(parent,0,base/2,0,w,base,d,color).userData.structureFeature=feature;for(const x of [-1,1])box(parent,x*(w-.04)/2,base+rim/2,0,.04,rim,d,color).userData.structureFeature=feature;for(const z of [-1,1])box(parent,0,base+rim/2,z*(d-.04)/2,w-.08,rim,.04,color).userData.structureFeature=feature;}
  const bounds=WORLD_BOUNDS,centerX=(bounds.minX+bounds.maxX)/2,centerZ=(bounds.minZ+bounds.maxZ)/2;
  const ground=box(scene,centerX,-.3,centerZ,bounds.maxX-bounds.minX,.6,bounds.maxZ-bounds.minZ,WORLD_STYLE.ground);ground.userData.canvasLayer=0;ground.userData.worldGround=true;
  for(const path of [MARKET_PLAZA,...WORLD_PATHS]){const mesh=box(scene,path.x,.015,path.z,path.width,.025,path.depth,WORLD_STYLE.path);mesh.userData.canvasLayer=1;mesh.userData.pathId=path.id;}
@@ -69,11 +72,8 @@ export function mountUnifiedPreview(host,state,locale,options={}){
    for(const part of bedDetailParts(entity))detail(group,part);
    if(entity.covered)box(group,0,.14,-.38,.055,.04,.08,'#6c8b7e');
    if(entity.crop){const parts=cropParts(entity.crop);group.userData.cropType=entity.crop.type;group.userData.cropStage=entity.crop.stage;for(const p of parts){const mesh=box(group,p.x,p.y,p.z,p.w,p.h,p.d,p.color);mesh.rotation.set(p.rx,p.ry,p.rz);if(p.leaf){mesh.userData.cropLeaf=true;mesh.userData.restZ=p.rz;}}}
-  }else if(kind==='coop'||kind==='market'||kind==='goatShelter'){
-   box(group,0,h/2,0,w,h,d,kind==='coop'?WORLD_STYLE.wood:'#e4c994');
-   const roof=box(group,0,h+.15,0,w+.35,.28,d+.35,WORLD_STYLE.roof);roof.rotation.z=.08;
-   box(group,0,.5,d/2+.025,.6,1,.08,'#5f5941');
-   if(entity.careUpgrade)box(group,.8,.8,d/2+.07,.45,.35,.08,'#7c9d8a');
+  }else if(['coop','market','goatShelter','cowBarn'].includes(kind)){
+   for(const part of structureParts(entity))detail(group,part);
   }else if(kind==='fishPond'){
    box(group,0,.08,0,w,.16,d,'#8e9875').userData.canvasLayer=1;box(group,0,.18,0,w-.4,.04,d-.4,(entity.clarity??1000)<500?'#91ad8d':'#7caeb1').userData.canvasLayer=1;for(const x of [-w/2,w/2])box(group,x,.18,0,.18,.35,d+.18,WORLD_STYLE.stone);for(const z of [-d/2,d/2])box(group,0,.18,z,w,.35,.18,WORLD_STYLE.stone);
   }else if(kind==='fishSchool'){
@@ -82,34 +82,33 @@ export function mountUnifiedPreview(host,state,locale,options={}){
    box(group,0,.22,0,w,.44,d,entity.equipment==='filter'?'#97a18a':entity.equipment==='feeder'?'#c1ad7a':'#91aaa2');if(entity.domainId==='aerator'){box(group,0,.49,0,w*.8,.1,d*.7,entity.active?'#6caa9d':'#8b9282');if(entity.automatic)box(group,0,.59,0,.18,.1,.18,'#d8c078');}else box(group,0,.5,0,w*.65,.12,d*.65,entity.value>0?'#a9c4ad':'#9c9d87');
   }else if(kind==='fishStation'){
    box(group,0,.2,0,w,.4,d,entity.domainId==='harvest'?'#b5ad83':'#b4a07b');if(entity.domainId==='feed')box(group,0,.47,0,w*.6,.14,d*.6,entity.active?'#c5b969':'#b3a17e');
-  }else if(kind==='cowBarn'){
-   box(group,0,h/2,0,w,h,d,'#baae83');box(group,0,h+.12,0,w+.3,.24,d+.3,'#9e7960');box(group,-w*.25,.65,d/2+.02,.9,1.3,.04,'#756b50');if(entity.sanitation)box(group,w/2+.02,.7,0,.06,.5,.5,'#91afad');if(entity.shade){box(group,-w*.32,h*.65,d*.38,w*.36,.12,1.05,'#92a36e');for(const x of [-w*.45,-w*.2])box(group,x,h*.32,d*.42,.08,h*.64,.08,WORLD_STYLE.trunk);}
   }else if(kind==='cow'){
    box(group,0,.85,0,.95,.65,1.25,'#e6dfc6');box(group,.49,.87,-.2,.035,.4,.5,'#6a6658');box(group,-.49,.95,.2,.035,.3,.4,'#6a6658');for(const x of [-.32,.32])for(const z of [-.45,.45])box(group,x,.3,z,.14,.6,.14,'#716954');box(group,0,1.35,.65,.55,.5,.4,'#e6dfc6');box(group,0,1.2,.89,.5,.22,.15,'#bb9f88');for(const x of [-.38,.38])box(group,x,1.47,.65,.22,.1,.22,'#8d8571');box(group,0,.8,-.79,.06,.6,.06,'#8d8571');if(entity.ready)box(group,0,1.1,.5,.95,.08,.12,'#719174');
   }else if(kind==='cowStation'){
    if(entity.domainId==='stand'){box(group,0,.08,0,w,.16,d,'#aaa386').userData.canvasLayer=1;for(const x of [-w/2,w/2])box(group,x,.55,0,.08,1,.9,'#948b6b');}
    else if(entity.equipment==='cooler'){box(group,0,h/2,0,w,h,d,'#adc2bc');box(group,0,h+.04,0,w,.08,d,'#d9e0ce');box(group,w/2+.02,h*.7,0,.04,.12,.2,entity.status==='cooling'?'#6eab86':entity.status==='paused_no_funds'?'#b88258':'#8c9186');const ratio=nativeFill(entity.value,entity.capacity);if(ratio>0){const gauge=box(group,w/2+.026,h*.15+h*.65*ratio/2,0,.04,h*.65*ratio,.16,'#eee5cd');gauge.userData.nativeFill=true;gauge.userData.fillRatio=ratio;}}
-   else{box(group,0,.2,0,w,.4,d,entity.domainId==='coop'?'#aeb48b':'#a49979');if(entity.domainId==='can'){box(group,0,.6,0,.55,.8,.55,'#bdc9b6');const ratio=nativeFill(entity.value,entity.capacity);if(ratio>0){const gauge=box(group,.29,.25+.65*ratio/2,0,.035,.65*ratio,.12,'#eee5cd');gauge.userData.nativeFill=true;gauge.userData.fillRatio=ratio;}}else if(entity.value>0&&(entity.domainId==='feed'||entity.domainId==='water')){const ratio=nativeFill(entity.value,entity.capacity),fill=box(group,0,.405+.06*ratio,0,w*.8,.12*ratio,d*.8,entity.domainId==='water'?'#78aeb4':'#c4b465');fill.userData.nativeFill=true;fill.userData.fillRatio=ratio;}}
+   else{const care=entity.domainId==='feed'||entity.domainId==='water',size=entity.domainId==='water'&&!entity.careUpgrade?.8:1;if(care)vessel(group,w*size,d*size,.4,.17,'#a49979',entity.careUpgrade?'upgraded-trough':'care-trough');else box(group,0,.2,0,w,.4,d,entity.domainId==='coop'?'#aeb48b':'#a49979');if(entity.domainId==='can'){box(group,0,.6,0,.55,.8,.55,'#bdc9b6');const ratio=nativeFill(entity.value,entity.capacity);if(ratio>0){const gauge=box(group,.29,.25+.65*ratio/2,0,.035,.65*ratio,.12,'#eee5cd');gauge.userData.nativeFill=true;gauge.userData.fillRatio=ratio;}}else if(entity.value>0&&care){const ratio=nativeFill(entity.value,entity.capacity),fill=box(group,0,.405+.06*ratio,0,w*size*.8,.12*ratio,d*size*.8,entity.domainId==='water'?'#78aeb4':'#c4b465');fill.userData.nativeFill=true;fill.userData.fillRatio=ratio;}}
   }else if(kind==='goat'){
    group.scale.setScalar(entity.scale||1);box(group,0,.5,0,.55,.45,.8,'#c5a17a');for(const x of [-.2,.2])for(const z of [-.27,.27])box(group,x,.2,z,.08,.4,.08,'#765e47');box(group,0,.9,.4,.28,.28,.24,'#d1b18a');for(const x of [-.21,.21])box(group,x,.94,.42,.15,.07,.12,'#c5a17a');for(const x of [-.08,.08])box(group,x,1.12,.4,.05,.25,.05,'#e5dbc0');box(group,0,.65,-.48,.09,.14,.14,'#d1b18a');if(entity.ready)box(group,0,.75,.19,.58,.05,.08,'#6c966c');
   }else if(kind==='paddock'){
    const amount=Math.max(0,Math.min(1,entity.value/(entity.capacity||1)));box(group,0,.025,0,w,.025,d,amount>0?(entity.active?'#94b869':'#b0c887'):'#aa956b').userData.canvasLayer=1;for(const x of [-w/2,w/2])box(group,x,.06,0,.05,.07,d,'#78965d');for(const z of [-d/2,d/2])box(group,0,.06,z,w,.07,.05,'#78965d');if(amount>0)for(const x of [-w*.28,0,w*.28])for(const z of [-d*.28,0,d*.28])box(group,x,.08+amount*.06,z,.16,amount*.12,.16,'#628d4d');
   }else if(kind==='goatStation'){
    if(entity.domainId==='platform'){for(let i=0;i<3;i++)box(group,(i-1)*.38,(i+1)*.1,0,.4,(i+1)*.2,.9,'#9c8c65');}
-   else{box(group,0,.12,0,w,.24,d,entity.domainId==='clean'&&entity.value<40?'#ac6c4c':'#9c997d');if(entity.value>0&&(entity.domainId==='hay'||entity.domainId==='water')){const ratio=nativeFill(entity.value,entity.capacity),fill=box(group,0,.24+.06*ratio,0,w*.75,.12*ratio,d*.75,entity.domainId==='water'?'#78aeb4':'#c4b465');fill.userData.nativeFill=true;fill.userData.fillRatio=ratio;}}
+   else{const care=entity.domainId==='hay'||entity.domainId==='water',size=entity.careUpgrade?1:.8;if(care)vessel(group,w*size,d*size,.24,.16,'#9c997d',entity.careUpgrade?'enlarged-container':'care-container');else box(group,0,.12,0,w,.24,d,entity.domainId==='clean'&&entity.value<40?'#ac6c4c':'#9c997d');if(entity.value>0&&care){const ratio=nativeFill(entity.value,entity.capacity),fill=box(group,0,.24+.06*ratio,0,w*size*.75,.12*ratio,d*size*.75,entity.domainId==='water'?'#78aeb4':'#c4b465');fill.userData.nativeFill=true;fill.userData.fillRatio=ratio;}}
   }else if(kind==='hen'){
    box(group,-.1,.06,0,.035,.12,.035,'#b78744');box(group,.1,.06,0,.035,.12,.035,'#b78744');
    box(group,0,.27,0,.36,.35,.45,'#fff1cd');box(group,.04,.52,.12,.2,.22,.22,'#fff1cd');box(group,.04,.67,.12,.08,.1,.14,'#b35e43');box(group,.04,.5,.27,.1,.07,.12,'#d9a649');
   }else if(kind==='pump'){
    box(group,0,.25,0,.65,.5,.65,'#7a9b95');box(group,0,.7,0,.5,.35,.5,'#94aca2');box(group,.28,.68,0,.15,.12,.2,'#597a78');box(group,0,.95,0,.18,.08,.18,entity.value===1?'#4b9eb2':'#737f6b');
+   for(const x of [-.24,.24])box(group,x,.1,0,.12,.2,.7,WORLD_STYLE.trunk);box(group,0,.75,.27,.23,.2,.04,'#fff1cd').userData.structureFeature='control-panel';if(entity.efficient)for(const x of [-.17,0,.17])box(group,x,.55,-.34,.045,.32,.06,'#597a78').userData.structureFeature='efficient-motor';
   }else if(kind==='station'){
    if(entity.domainId==='nest'){box(group,0,.1,0,w,.2,d,'#ba975a');const slots=Math.min(8,entity.capacity||4);for(let i=0;i<slots;i++){const x=(i-(slots-1)/2)*.11;box(group,x,.22,0,.09,.06,.27,'#806948');if(i<entity.value)box(group,x,.31,0,.07,.1,.08,'#fff1cd');}}
-   else if(entity.domainId==='feeder'||entity.domainId==='drinker'){box(group,0,.1,0,w,.2,d,'#8d9b89');const fill=nativeFill(entity.value,entity.capacity);if(fill>0){const contents=box(group,0,.22+fill*.1,0,.46,fill*.2,.44,entity.domainId==='drinker'?'#78aeb4':'#b59054');contents.userData.nativeFill=true;contents.userData.fillRatio=fill;}if(entity.automatic)box(group,-.23,.33,0,.14,.32,.35,entity.active?'#659a7b':'#8b9282');}
+   else if(entity.domainId==='feeder'||entity.domainId==='drinker'){vessel(group,w,d,.2,.26,'#8d9b89','chicken-container');const fill=nativeFill(entity.value,entity.capacity);if(fill>0){const contents=box(group,0,.22+fill*.1,0,.46,fill*.2,.44,entity.domainId==='drinker'?'#78aeb4':'#b59054');contents.userData.nativeFill=true;contents.userData.fillRatio=fill;}if(entity.automatic){for(const [x,y,z,ww,hh,dd,color]of /** @type {[number,number,number,number,number,number,string][]} */([[-.23,.4,0,.06,.4,.12,'#8b9282'],[-.18,.74,0,.3,.38,.35,'#c1ad7a'],[-.18,.96,0,.34,.06,.39,'#fff1cd'],[-.34,.74,.05,.035,.1,.1,entity.active?'#659a7b':'#8b9282']]))box(group,x,y,z,ww,hh,dd,color).userData.structureFeature='auto-feeder';}}
    else box(group,0,h/2,0,w,h,d,entity.value<40?'#ac6c4c':'#ba975a');
   }else if(kind==='available'){
    box(group,0,.03,0,w,.06,d,'#b8c68b');box(group,0,.65,0,.1,1.3,.1,'#94724d');box(group,0,1.2,0,1.3,.45,.12,'#e6d3a0');
   }
-  if(CUTAWAY_KINDS.includes(kind)){for(const part of group.children)part.userData.cutawayShell=true;box(group,0,.06,0,w,.12,d,'#b6ac8a').userData.canvasLayer=1;for(const x of [-w/2+.08,w/2-.08])for(const z of [-d/2+.08,d/2-.08])box(group,x,h/2,z,.1,h,.1,'#9b8a65');}
+  if(CUTAWAY_KINDS.includes(kind)){for(const part of group.children)if(!part.userData.cutawayFixed)part.userData.cutawayShell=true;box(group,0,.06,0,w,.12,d,'#b6ac8a').userData.canvasLayer=1;for(const x of [-w/2+.08,w/2-.08])for(const z of [-d/2+.08,d/2-.08])box(group,x,h/2,z,.1,h,.1,'#9b8a65');}
   if(['coop','goatShelter','cowBarn','market'].includes(kind))detail(group,{x:.2,y:.003,z:-.2,width:w+.3,height:.003,depth:d+.3,color:'#344b38',opacity:.1});
   return group;
  }

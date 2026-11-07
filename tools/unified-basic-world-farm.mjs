@@ -1,0 +1,6 @@
+import {createState,dispatch} from '../game/client/engine.js';import {serialize} from '../game/client/save-schema.js';
+/** An unupgraded five-area QA farm. Its pump is paid for after the real first
+ * crop sale; no resource edits or bypass of the original sell-first gate. */
+export function makeBasicWorldFarm(){let state=createState(6521);const commands=[];const act=(type,extra={})=>{const c={id:state.revision+1,type,...extra},r=dispatch(state,c);if(!r.ok)throw Error('Basic world '+type+': '+r.error);state=r.state;commands.push(c);};
+ for(const type of ['enterYard','enterGoat','enterCow','enterFishPond'])act(type);act('select',{plot:0});act('plant',{plot:0,crop:'lettuce'});for(let day=0;state.plots[0].crop.progress<1&&day<14;day++){if(state.plots[0].soilWaterMm<22){if(state.water<25)act('refill');act('water',{plot:0});}act('nextDay');}if(state.plots[0].crop.progress!==1)throw Error('Basic native crop did not mature');act('harvest',{plot:0});act('sell',{lot:state.inventory[0].id});act('buyPump');
+ for(const type of ['feedHens','waterHens','feedGoats','waterGoats','feedCows','waterCows'])act(type);for(const type of ['cleanCowBarn','cleanCowStand','cleanCowCan'])act(type);return{state,raw:serialize(state),commands};}
