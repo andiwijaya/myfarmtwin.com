@@ -114,15 +114,29 @@
     },
     {
       "path": "game/client/unified-world-shell.js",
-      "bytes": 8023,
-      "sha256": "b7dc4dd7d98422ff4075cf1a75ad421cae6bf79c17e566ec15deecc59f02ffcc",
+      "bytes": 8726,
+      "sha256": "19f4b5959a702db9d37751da6d326c665e568df11f0a6db68febed6ff3ab5591",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
       "path": "game/client/unified-world-minimap.js",
-      "bytes": 2934,
-      "sha256": "92ed65b4381d440c02b0ad26597f1090f485d16fb54d9796e84c846365f43106",
+      "bytes": 4870,
+      "sha256": "53feef326c4a89a1db0dca492782b3f60a739dde07605096d2ad197ccfc09f79",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-status.js",
+      "bytes": 4063,
+      "sha256": "c0c1ba1835b8a20b391741447fcbc8a969a948bc0b09aec75d7f5597fb20ffcc",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-availability.js",
+      "bytes": 547,
+      "sha256": "0e28f4a05bbed975147d0bc2035e5975e46cf720eac08e3b66b0af5747e86de2",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },

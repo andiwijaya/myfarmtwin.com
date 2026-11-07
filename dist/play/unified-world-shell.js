@@ -1,14 +1,15 @@
 import {createWorldMinimap} from './unified-world-minimap.js';
 /** Presentation-only layout. Reparent original live controls instead of cloning
  * resource totals, native action buttons or their event handlers. */
-/** @param {{onInspect?:()=>void,onCloseContext?:()=>void,onGoTo?:(zone:string)=>void}} [options] */
+/** @param {{onInspect?:()=>void,onCloseContext?:()=>void,onGoTo?:(zone:string)=>void,describeIssue?:(key:string)=>string}} [options] */
 export function createWorldShell(options={}){
  const root=document.querySelector('#farm'),world=document.querySelector('#world'),hud=document.querySelector('.hud'),weather=document.querySelector('.weather-strip'),preview=document.querySelector('#unified-preview');
  if(!(root instanceof HTMLElement)||!(world instanceof HTMLElement)||!(hud instanceof HTMLElement)||!(preview instanceof HTMLElement))throw Error('World HUD requires the existing farm elements');
  document.body.classList.add('unified-shell');root.dataset.worldLayout='true';root.prepend(hud);hud.after(world);if(weather)hud.after(weather);
  const bar=document.createElement('div');bar.className='world-map-bar';const stage=preview.querySelector('.unified-preview-stage'),exit=preview.querySelector('.unified-preview-exit'),quality=preview.querySelector('select[data-world-quality]')?.parentElement;if(exit)bar.append(exit);if(quality)bar.append(quality);if(stage)preview.insertBefore(bar,stage);
- const minimap=createWorldMinimap({go:zone=>options.onGoTo?.(zone)});bar.append(minimap.root);
+ const minimap=createWorldMinimap({go:zone=>options.onGoTo?.(zone),describe:options.describeIssue});bar.append(minimap.root);
  minimap.focus('market');
+ const statusLine=document.createElement('p');statusLine.className='world-area-status';statusLine.setAttribute('aria-live','polite');bar.after(statusLine);
  const title=document.createElement('span');title.className='world-map-title';bar.prepend(title);
  const nav=document.createElement('nav');nav.id='world-menus';nav.className='world-menus';root.after(nav);
  const labels=/** @type {Record<string,readonly [string,string]>} */({missions:['Missions','Misi'],build:['Build / Upgrade','Bangun / Upgrade'],market:['Market','Pasar'],inventory:['Inventory','Inventori'],lab:['Engineering Lab','Lab Teknik'],settings:['Settings','Pengaturan']});
@@ -24,8 +25,8 @@ export function createWorldShell(options={}){
  const contexts=/** @type {HTMLElement[]} */([...root.querySelectorAll('#plot-panel,#chicken-panel,#goat-panel,#cow-panel,#fish-panel,#pump-panel')].filter(n=>n instanceof HTMLElement));for(const panel of contexts)panel.dataset.worldContext='true';const plotPanel=document.querySelector('#plot-panel'),plotHeading=document.querySelector('#plot-heading'),plotClose=document.querySelector('#close-plot'),plotHeader=document.createElement('div');plotHeader.className='world-context-heading';if(plotHeading)plotHeader.append(plotHeading);if(plotClose)plotHeader.append(plotClose);plotPanel?.prepend(plotHeader);const pump=document.querySelector('#pump-panel'),closePump=document.createElement('button');closePump.type='button';closePump.className='close-panel';closePump.dataset.worldClosePump='true';closePump.addEventListener('click',()=>options.onCloseContext?.());pump?.append(closePump);
  function context(){const id=world instanceof HTMLElement?world.dataset.selectedEntity||'':'',kind=id==='field.pump'?'pump':id.startsWith('field.plot.')?'plot':id.startsWith('chicken.')?'chicken':id.startsWith('goat.')?'goat':id.startsWith('cow.')?'cow':id.startsWith('fish.')?'fish':'';return id.endsWith('.available')?'':kind;}
  return {
-  /** @param {string} locale */
-  update(locale){minimap.update(locale);const id=locale==='id';title.textContent=id?'Satu lahan, farm milikmu':'One place, your farm';nav.setAttribute('aria-label',id?'Menu farm':'Farm menus');for(const [key,button]of buttons)button.textContent=labels[key][id?1:0];for(const [key,{heading,close}]of dialogs){heading.textContent=labels[key][id?1:0];close.textContent=id?'Tutup':'Close';}closePump.textContent=id?'Tutup':'Close';const wanted=context();for(const panel of contexts)if(panel.id!==wanted+'-panel')panel.hidden=true;document.body.classList.toggle('world-has-context',contexts.some(p=>!p.hidden));},
+  /** @param {string} locale @param {readonly Readonly<import('./unified-world-status.js').ZoneStatus>[]} [statuses] */
+  update(locale,statuses=[]){minimap.update(locale,statuses);const id=locale==='id',ready=statuses.filter(s=>s.ready).length,care=statuses.filter(s=>s.needsCare).length,unvisited=statuses.filter(s=>s.mode==='unvisited').length,summary=id?ready+' area siap · '+care+' perlu perawatan · '+unvisited+' belum dimulai':ready+' areas ready · '+care+' need care · '+unvisited+' not started';if(statusLine.textContent!==summary)statusLine.textContent=summary;title.textContent=id?'Satu lahan, farm milikmu':'One place, your farm';nav.setAttribute('aria-label',id?'Menu farm':'Farm menus');for(const [key,button]of buttons)button.textContent=labels[key][id?1:0];for(const [key,{heading,close}]of dialogs){heading.textContent=labels[key][id?1:0];close.textContent=id?'Tutup':'Close';}closePump.textContent=id?'Tutup':'Close';const wanted=context();for(const panel of contexts)if(panel.id!==wanted+'-panel')panel.hidden=true;document.body.classList.toggle('world-has-context',contexts.some(p=>!p.hidden));},
   /** Close a menu before a camera-only navigation without stealing map focus. @param {string} key */
   closeMenu(key){dialogs.get(key)?.closeForWorld();},
   /** @param {string} zone */
