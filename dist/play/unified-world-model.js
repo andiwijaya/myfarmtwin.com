@@ -22,7 +22,7 @@ export {TWO_ZONE_BOUNDS,TWO_ZONE_ANCHORS} from './unified-world-registry.js';
 export function readWorldSnapshot(state,options={}){
  const irrigationKnown=Array.isArray(options.coveredPlotIds),coverage=new Set(options.coveredPlotIds||[]),coveredPlotIds=Object.freeze(state.pump.built&&irrigationKnown?state.plots.filter(p=>coverage.has(p.id)).map(p=>p.id):[]),installed=new Set(coveredPlotIds);
  /** @type {WorldEntity[]} */const entities=state.plots.map(p=>({id:'field.plot.'+p.id,zone:'field',kind:'plot',domainId:p.id,...worldPoint('field',p.x-4,p.y-3),width:.92,depth:.92,height:.13,value:p.soilWaterMm/p.soilCapacityMm,...(irrigationKnown?{covered:installed.has(p.id)}:{}),...(p.crop?{crop:Object.freeze({type:p.crop.type,stage:p.crop.stage,progress:p.crop.progress,quality:p.crop.quality})}:{})}));
- if(state.pump.built)entities.push({id:'field.pump',zone:'field',kind:'pump',domainId:'pump',...worldPoint('field',PUMP.x-4,PUMP.y-3),width:.8,depth:.8,height:1,value:Number(state.pump.on)});
+ if(state.pump.built)entities.push({id:'field.pump',zone:'field',kind:'pump',domainId:'pump',...worldPoint('field',PUMP.x-4,PUMP.y-3),width:.8,depth:.8,height:1,value:Number(state.pump.on),status:state.pump.on?'enabled':state.pump.stopReason||'off'});
  entities.push({id:'market.central',zone:'market',kind:'market',domainId:'market',...worldPoint('market'),width:2.5,depth:2,height:2,value:0});
  const chicken=state.chicken,coop=chicken?.visited?chicken.coop:null,yard=chickenLayout(chicken);
  if(coop&&chicken){
