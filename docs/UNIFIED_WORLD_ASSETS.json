@@ -51,8 +51,8 @@
   "proceduralSources": [
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 40813,
-      "sha256": "37646b2f5ebf00f8789a2a0b9cc6da3c2d3fa6badb8122b228e4d87ac15275be",
+      "bytes": 40849,
+      "sha256": "06b99e09c9a260c8b2b3547d247420e99cfca35400a6a542758bf7a9369703f4",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -72,8 +72,8 @@
     },
     {
       "path": "game/client/unified-world-sprites.js",
-      "bytes": 11820,
-      "sha256": "8f87352d634c52cc6c4c46ca4bc18e25f65265f13f7a1725ec7abdc9d0746bcb",
+      "bytes": 13277,
+      "sha256": "6d1ab3efeab8604e175658f9539e7236008f5cd40e64277b62dfb01fad4e7e09",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -81,6 +81,20 @@
       "path": "game/client/unified-world-crops.js",
       "bytes": 2180,
       "sha256": "6edb030802b266fcd3ee2e72909a3e00026754a4465c501772d5fbb5ba481a9b",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-motion.js",
+      "bytes": 5725,
+      "sha256": "1d4f2e3253add1b30f2580a2ce8470f6c5b69a3887144cf49500e70d51d55e58",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-fade.js",
+      "bytes": 1737,
+      "sha256": "b215d8876556adfa04e5c36748a25e20ff754b9bf65a430c5ffea4cb9de0e462",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
