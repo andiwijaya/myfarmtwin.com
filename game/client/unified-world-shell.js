@@ -1,3 +1,4 @@
+import {createWorldTools} from './unified-world-tools.js';
 import {createWorldMinimap} from './unified-world-minimap.js';
 /** Presentation-only layout. Reparent original live controls instead of cloning
  * resource totals, native action buttons or their event handlers. */
@@ -10,6 +11,7 @@ export function createWorldShell(options={}){
  const bar=document.createElement('div');bar.className='world-map-bar';const stage=preview.querySelector('.unified-preview-stage'),exit=preview.querySelector('.unified-preview-exit'),quality=preview.querySelector('select[data-world-quality]')?.parentElement;if(exit)bar.append(exit);if(quality)bar.append(quality);if(stage)preview.insertBefore(bar,stage);
  const minimap=createWorldMinimap({go:zone=>options.onGoTo?.(zone),describe:options.describeIssue});bar.append(minimap.root);
  minimap.focus('market');
+ const tools=createWorldTools({host:preview,bar,minimap:minimap.root,weather:weatherEvent});
  const statusLine=document.createElement('p');statusLine.className='world-area-status';statusLine.setAttribute('aria-live','polite');bar.after(statusLine);
  const title=document.createElement('span');title.className='world-map-title';bar.prepend(title);
  const nav=document.createElement('nav');nav.id='world-menus';nav.className='world-menus';root.after(nav);
@@ -30,12 +32,12 @@ export function createWorldShell(options={}){
  const layoutObserver=new ResizeObserver(fitStage);for(const node of [hud,bar,statusLine,document.querySelector('.game-header')])if(node)layoutObserver.observe(node);window.addEventListener('resize',fitStage);window.visualViewport?.addEventListener('resize',fitStage);fitStage();
  return {
   /** @param {string} locale @param {readonly Readonly<import('./unified-world-status.js').ZoneStatus>[]} [statuses] */
-  update(locale,statuses=[]){minimap.update(locale,statuses);const id=locale==='id',ready=statuses.filter(s=>s.ready).length,care=statuses.filter(s=>s.needsCare).length,unvisited=statuses.filter(s=>s.mode==='unvisited').length,summary=id?ready+' area siap · '+care+' perlu perawatan · '+unvisited+' belum dimulai':ready+' areas ready · '+care+' need care · '+unvisited+' not started';if(statusLine.textContent!==summary)statusLine.textContent=summary;title.textContent=id?'Satu lahan, farm milikmu':'One place, your farm';nav.setAttribute('aria-label',id?'Menu farm':'Farm menus');for(const [key,button]of buttons)button.textContent=labels[key][id?1:0];for(const [key,{heading,close}]of dialogs){heading.textContent=labels[key][id?1:0];close.textContent=id?'Tutup':'Close';}closePump.textContent=id?'Tutup':'Close';const wanted=context();for(const panel of contexts)if(panel.id!==wanted+'-panel')panel.hidden=true;document.body.classList.toggle('world-has-context',contexts.some(p=>!p.hidden));},
+  update(locale,statuses=[]){minimap.update(locale,statuses);tools.update(locale);const id=locale==='id',ready=statuses.filter(s=>s.ready).length,care=statuses.filter(s=>s.needsCare).length,unvisited=statuses.filter(s=>s.mode==='unvisited').length,summary=id?ready+' area siap · '+care+' perlu perawatan · '+unvisited+' belum dimulai':ready+' areas ready · '+care+' need care · '+unvisited+' not started';if(statusLine.textContent!==summary)statusLine.textContent=summary;title.textContent=id?'Satu lahan, farm milikmu':'One place, your farm';nav.setAttribute('aria-label',id?'Menu farm':'Farm menus');for(const [key,button]of buttons)button.textContent=labels[key][id?1:0];for(const [key,{heading,close}]of dialogs){heading.textContent=labels[key][id?1:0];close.textContent=id?'Tutup':'Close';}closePump.textContent=id?'Tutup':'Close';const wanted=context();for(const panel of contexts)if(panel.id!==wanted+'-panel')panel.hidden=true;document.body.classList.toggle('world-has-context',contexts.some(p=>!p.hidden));},
   /** Close a menu before a camera-only navigation without stealing map focus. @param {string} key */
   closeMenu(key){dialogs.get(key)?.closeForWorld();},
   /** @param {string} zone */
   focusZone(zone){minimap.focus(zone);},
-  focusContext(){stage?.scrollIntoView({block:'nearest',behavior:'instant'});document.body.classList.toggle('world-has-context',contexts.some(p=>!p.hidden));const panel=contexts.find(p=>!p.hidden);if(panel)options.onReveal?.(panel.getBoundingClientRect());const heading=panel?.querySelector('h2,strong');if(heading instanceof HTMLElement){heading.tabIndex=-1;heading.focus({preventScroll:true});}else{const start=preview?.querySelector('[data-preview-start-zone]:not([hidden])');if(start instanceof HTMLButtonElement)start.focus({preventScroll:true});}},
+  focusContext(){stage?.scrollIntoView({block:'start',behavior:'instant'});document.body.classList.toggle('world-has-context',contexts.some(p=>!p.hidden));const panel=contexts.find(p=>!p.hidden);if(panel)options.onReveal?.(panel.getBoundingClientRect());const heading=panel?.querySelector('h2,strong');if(heading instanceof HTMLElement){heading.tabIndex=-1;heading.focus({preventScroll:true});}else{const start=preview?.querySelector('[data-preview-start-zone]:not([hidden])');if(start instanceof HTMLButtonElement)start.focus({preventScroll:true});}},
   inspect:()=>({originalHud:hud===document.querySelector('.hud'),worldFirst:!!(hud.compareDocumentPosition(world)&Node.DOCUMENT_POSITION_FOLLOWING)})
  };
 }

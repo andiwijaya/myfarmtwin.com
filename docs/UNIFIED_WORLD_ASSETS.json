@@ -51,8 +51,8 @@
   "proceduralSources": [
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 58980,
-      "sha256": "2616c523528f55eac2a2274f00c0548097c69568a3b9519307e46da6becce40f",
+      "bytes": 59841,
+      "sha256": "4d5415b2346b5077713f9274cb8fa16c36f909276746efe1a32780fcbe370bf6",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -114,8 +114,8 @@
     },
     {
       "path": "game/client/unified-world-shell.js",
-      "bytes": 10547,
-      "sha256": "34f098abd2875a734e66f7c15095d09352582ad008bac9070e7dcd5768c8f4a8",
+      "bytes": 10718,
+      "sha256": "beae4cf27b3684231fc8e0349311fd33e2bf3c5cee8f18ca724a55d1ce04074f",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -123,6 +123,20 @@
       "path": "game/client/unified-world-minimap.js",
       "bytes": 4870,
       "sha256": "53feef326c4a89a1db0dca492782b3f60a739dde07605096d2ad197ccfc09f79",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-tools.js",
+      "bytes": 5560,
+      "sha256": "1d8bca7ec4de9bbb2ab4f14b3aeda657a23d8d9229ca1be8ee21f5c112c009dd",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-gestures.js",
+      "bytes": 1962,
+      "sha256": "ae9d33eb6c31994d110f84aaee67b66a426dfec654dd6a5ca6cbccb1448313da",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
