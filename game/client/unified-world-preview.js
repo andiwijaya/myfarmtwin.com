@@ -1,6 +1,7 @@
 import {Scene,Color,OrthographicCamera,HemisphereLight,DirectionalLight,Mesh,BoxGeometry,MeshLambertMaterial,Group,Raycaster,Vector2} from 'three';
-import {readWorldSnapshot,resolveWorldSelection,TWO_ZONE_BOUNDS} from './unified-world-model.js';
-import {createWorldCamera} from './unified-world-camera.js';
+import {readWorldSnapshot,resolveWorldSelection} from './unified-world-model.js';
+import {WORLD_BOUNDS} from './unified-world-registry.js';
+import {createFarmCamera} from './unified-world-camera.js';
 import {createCanvasWorldRenderer} from './unified-world-canvas.js';
 
 /** Snapshot scene with input callbacks. No economy reducer or simulation clock is owned here.
@@ -9,7 +10,7 @@ import {createCanvasWorldRenderer} from './unified-world-canvas.js';
  * @param {{onSelect?:(target:Readonly<import('./unified-world-model.js').WorldSelection>)=>void,onStartChicken?:()=>void|Promise<void>,lowGraphics?:boolean}} [options]
  */
 export function mountUnifiedPreview(host,state,locale,options={}){
- const control=createWorldCamera(),scene=new Scene(),camera=new OrthographicCamera(),abort=new AbortController();
+ const control=createFarmCamera(),scene=new Scene(),camera=new OrthographicCamera(),abort=new AbortController();
  scene.background=new Color('#e5eddc');scene.add(new HemisphereLight('#fff5de','#68835d',2.6));const sun=new DirectionalLight('#fff4dc',2);sun.position.set(-8,18,10);scene.add(sun);
  const geometry=new BoxGeometry(1,1,1),materials=new Map(),objects=new Map();
  /** @type {import('three').WebGLRenderer|null} */let renderer=null;
@@ -29,10 +30,10 @@ export function mountUnifiedPreview(host,state,locale,options={}){
  function material(color){let m=materials.get(color);if(!m){m=new MeshLambertMaterial({color});materials.set(color,m);}return m;}
  /** @param {Group|Scene} parent @param {number} x @param {number} y @param {number} z @param {number} w @param {number} h @param {number} d @param {string} color */
  function box(parent,x,y,z,w,h,d,color){const mesh=new Mesh(geometry,material(color));mesh.position.set(x,y,z);mesh.scale.set(w,h,d);parent.add(mesh);return mesh;}
- const bounds=TWO_ZONE_BOUNDS;
- box(scene,0,-.3,-.5,bounds.maxX-bounds.minX,.6,bounds.maxZ-bounds.minZ,'#91b76c').userData.canvasLayer=0;
+ const bounds=WORLD_BOUNDS,centerX=(bounds.minX+bounds.maxX)/2,centerZ=(bounds.minZ+bounds.maxZ)/2;
+ const ground=box(scene,centerX,-.3,centerZ,bounds.maxX-bounds.minX,.6,bounds.maxZ-bounds.minZ,'#91b76c');ground.userData.canvasLayer=0;ground.userData.worldGround=true;
  box(scene,0,.01,0,12,.025,1.1,'#dac493').userData.canvasLayer=1;box(scene,-4,.02,-2,1.1,.025,12,'#dac493').userData.canvasLayer=1;
- for(const [x,z]of [[-9,-9],[8,-7],[9,7],[-9,8]]){box(scene,x,.7,z,.25,1.4,.25,'#876247');box(scene,x,1.8,z,1.4,1.8,1.4,'#5d8c55');}
+ for(const [x,z]of [[bounds.minX+3,bounds.minZ+4],[bounds.maxX-3,bounds.minZ+4],[bounds.maxX-3,bounds.maxZ-3],[bounds.minX+3,bounds.maxZ-3]]){box(scene,x,.7,z,.25,1.4,.25,'#876247');box(scene,x,1.8,z,1.4,1.8,1.4,'#5d8c55');}
  const marker=box(scene,0,.07,0,1,.02,1,'#f3ce68');marker.visible=false;marker.userData.canvasLayer=2;
  const raycaster=new Raycaster();
  function selectionView(){const entity=snapshot.entities.find(e=>e.id===selectedEntity);if(!entity)selectedEntity=null;marker.visible=!!entity;if(entity){marker.position.set(entity.x,.07,entity.z);marker.scale.set(entity.width+.16,.02,entity.depth+.16);}host.dataset.selectedEntity=selectedEntity||'';for(const button of list.querySelectorAll('button'))button.setAttribute('aria-pressed',String(button.dataset.previewSelect===selectedEntity));startChicken.hidden=entity?.kind!=='available'||snapshot.chickenStarted||!options.onStartChicken;}
@@ -129,6 +130,6 @@ export function mountUnifiedPreview(host,state,locale,options={}){
   /** Return focus only for the panel actually opened by this world selection. @param {string} kind @param {string|number} domainId */
   releaseSelection(kind,domainId){const target=selectedEntity?resolveWorldSelection(snapshot,selectedEntity):null;if(disposed||!target||target.kind!==kind||target.domainId!==domainId)return false;for(const button of list.querySelectorAll('button'))if(button.dataset.previewSelect===selectedEntity)button.focus({preventScroll:true});selectedEntity=null;selectionView();draw();return true;},
   dispose(){if(disposed)return;disposed=true;cancelStartup();stopVisual();rendererEpoch++;if(pendingContext){releaseContext(pendingContext);pendingContext=null;}abort.abort();observer.disconnect();releaseRenderer();canvasRenderer?.dispose();canvasRenderer=null;scene.clear();objects.clear();geometry.dispose();for(const m of materials.values())m.dispose();materials.clear();host.replaceChildren();host.dataset.renderer='disposed';},
-  inspect:()=>({disposed,entities:objects.size,renderer:host.dataset.renderer,camera:control.view(),visualPending:visualFrame===null?0:1,startupPending:startupTimer===null?0:1,renderSubmissions,animatedEntities:lastAnimated})
+  inspect:()=>({disposed,entities:objects.size,renderer:host.dataset.renderer,camera:control.view(),bounds,groundMeshes:scene.children.filter(object=>object.userData.worldGround).length,terrain:{x:ground.position.x,z:ground.position.z,width:ground.scale.x,depth:ground.scale.z,top:ground.position.y+ground.scale.y/2},visualPending:visualFrame===null?0:1,startupPending:startupTimer===null?0:1,renderSubmissions,animatedEntities:lastAnimated})
  };
 }

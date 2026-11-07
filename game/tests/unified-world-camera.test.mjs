@@ -1,7 +1,14 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {createWorldCamera} from '../client/unified-world-camera.js';
+import {createWorldCamera,createFarmCamera} from '../client/unified-world-camera.js';
+import {WORLD_BOUNDS,ZONE_REGISTRY} from '../client/unified-world-registry.js';
 import {TWO_ZONE_BOUNDS as bounds} from '../client/unified-world-model.js';
 import {OrthographicCamera,Vector3} from 'three';
+test('full farm fits all ground and four-unit roof corners across every heading/aspect with bounded shared focus',()=>{
+ const camera=createFarmCamera();assert.deepEqual(camera.view(),{x:5,z:0,heading:0,zoom:1});
+ for(let h=0;h<4;h++){camera.fit();for(const aspect of [320/640,390/440,1440/600,2.4])for(const x of [WORLD_BOUNDS.minX,WORLD_BOUNDS.maxX])for(const z of [WORLD_BOUNDS.minZ,WORLD_BOUNDS.maxZ])for(const y of [0,4]){const p=camera.project({x,y,z},aspect);assert.ok(Math.abs(p.x)<1&&Math.abs(p.y)<1,JSON.stringify({h,aspect,p}));}for(const [id,zone]of Object.entries(ZONE_REGISTRY)){camera.focus(id);assert.equal(camera.view().heading,h);assert.equal(camera.view().x,zone.anchor.x);assert.equal(camera.view().z,zone.anchor.z);}camera.rotate(1);}
+ camera.zoomBy(1e9);assert.equal(camera.view().zoom,8);camera.pan(1e9,-1e9);assert.equal(camera.view().x,30);assert.equal(camera.view().z,-25);camera.reset();assert.deepEqual(camera.view(),{x:5,z:0,heading:0,zoom:1});
+});
+test('camera refuses malformed layout configuration instead of emitting NaN matrices',()=>{for(const config of [{bounds:{}},{bounds:{minX:1,maxX:0,minZ:0,maxZ:1}},{maxZoom:0},{maxHeight:Infinity}])assert.throws(()=>createWorldCamera(config),RangeError);});
 test('four headings fit every terrain/roof bound on portrait and desktop',()=>{
  const camera=createWorldCamera();for(let heading=0;heading<4;heading++){
   for(const aspect of [320/640,390/440,1440/600,2.4])for(const x of [bounds.minX,bounds.maxX])for(const z of [bounds.minZ,bounds.maxZ])for(const y of [0,3]){const p=camera.project({x,y,z},aspect);assert.ok(Math.abs(p.x)<1&&Math.abs(p.y)<1,JSON.stringify({heading,aspect,p}));}
