@@ -1,5 +1,6 @@
 import {Scene,Color,OrthographicCamera,HemisphereLight,DirectionalLight,Mesh,BoxGeometry,MeshLambertMaterial,Group,Raycaster,Vector2} from 'three';
 import {readWorldSnapshot,resolveWorldSelection} from './unified-world-model.js';
+import {objectiveEntity} from './unified-world-objectives.js';
 import {WORLD_BOUNDS,ZONE_REGISTRY} from './unified-world-registry.js';
 import {WORLD_PATHS,MARKET_PLAZA,WORLD_SIGNS,WORLD_TREES,zoneLabel} from './unified-world-layout.js';
 import {irrigationRuns} from './unified-world-irrigation.js';
@@ -167,6 +168,10 @@ export function mountUnifiedPreview(host,state,locale,options={}){
  if(preferLow)useFallback('low');else requestThree();
  const observer=new ResizeObserver(()=>{if(stage.clientWidth!==renderWidth||stage.clientHeight!==renderHeight)draw();});observer.observe(stage);
  return {
+  /** Read the existing guide target without selecting it. @param {string|null|undefined} target @param {{contextZone?:string,plotId?:number|null,fishPondId?:number}} [context] */
+  objectiveTarget(target,context){return disposed?null:objectiveEntity(snapshot,target,context);},
+  /** Camera-only objective navigation, including truthful unstarted land. @param {string} id */
+  focusEntity(id){if(disposed)return false;const entity=snapshot.entities.find(e=>e.id===id);if(!entity)return false;focusedZone=entity.zone;control.focus(entity.zone);const view=control.view();control.pan(entity.x-view.x,entity.z-view.z);control.zoomBy(8/control.view().zoom);draw();options.onFocusZone?.(focusedZone);canvas.focus({preventScroll:true});canvas.scrollIntoView({block:'nearest',behavior:'instant'});return true;},
   /** Compatibility HTML controls select the same real world objects. @param {string} kind @param {string|number} domainId @param {number} [pondId] */
   selectDomain(kind,domainId,pondId){if(disposed)return false;const entity=snapshot.entities.find(e=>{const t=resolveWorldSelection(snapshot,e.id);return t?.kind===kind&&t.domainId===domainId&&(pondId===undefined||t.pondId===pondId);});if(!entity)return false;select(entity.id);return true;},
   clearSelection(){if(disposed)return;const old=selectedEntity;selectedEntity=null;if(old)options.onSelectionCleared?.(old);selectionView();draw();},
