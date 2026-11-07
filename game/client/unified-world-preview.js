@@ -1,6 +1,7 @@
 import {Scene,Color,OrthographicCamera,HemisphereLight,DirectionalLight,Mesh,BoxGeometry,MeshLambertMaterial,Group,Raycaster,Vector2} from 'three';
 import {readWorldSnapshot,resolveWorldSelection} from './unified-world-model.js';
 import {objectiveEntity} from './unified-world-objectives.js';
+import {WORLD_ART} from './unified-world-art.js';
 import {WORLD_BOUNDS,ZONE_REGISTRY} from './unified-world-registry.js';
 import {WORLD_PATHS,MARKET_PLAZA,WORLD_SIGNS,WORLD_TREES,zoneLabel} from './unified-world-layout.js';
 import {irrigationRuns} from './unified-world-irrigation.js';
@@ -18,7 +19,7 @@ export {createWorldPresentation} from './unified-world-selection.js';
  */
 export function mountUnifiedPreview(host,state,locale,options={}){
  const control=createFarmCamera(),scene=new Scene(),camera=new OrthographicCamera(),abort=new AbortController();
- scene.background=new Color('#e5eddc');scene.add(new HemisphereLight('#fff5de','#68835d',2.6));const sun=new DirectionalLight('#fff4dc',2);sun.position.set(-8,18,10);scene.add(sun);
+ const light=WORLD_ART.light;scene.background=new Color(light.background);scene.add(new HemisphereLight(light.sky,light.ground,light.hemisphere));const sun=new DirectionalLight(light.key,light.keyIntensity);sun.position.set(light.keyPosition[0],light.keyPosition[1],light.keyPosition[2]);scene.add(sun);
  const geometry=new BoxGeometry(1,1,1),materials=new Map(),objects=new Map(),irrigation=new Group(),yard=new Group();irrigation.userData.entityId='field.pump';yard.userData.entityId='chicken.coop';scene.add(irrigation,yard);let irrigationKey='',yardKey='';
  /** @type {import('three').WebGLRenderer|null} */let renderer=null;
  /** @type {WebGL2RenderingContext|null} */let pendingContext=null;

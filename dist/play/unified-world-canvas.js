@@ -1,4 +1,5 @@
 import {Mesh,Vector3,Matrix3} from './vendor/three/three.module.js';
+import {WORLD_ART} from './unified-world-art.js';
 /** @typedef {{x:number,y:number}} Point */
 /** @typedef {{points:Point[],depth:number,layer:number,color:string,owner:string|null}} CanvasFace */
 
@@ -8,7 +9,7 @@ import {Mesh,Vector3,Matrix3} from './vendor/three/three.module.js';
  */
 export function projectSceneFaces(scene,camera,width,height){
  if(width<=0||height<=0)return [];scene.updateMatrixWorld(true);camera.updateMatrixWorld(true);
- const direction=camera.getWorldDirection(new Vector3()),light=new Vector3(-8,18,10).normalize();
+ const position=WORLD_ART.light.keyPosition,direction=camera.getWorldDirection(new Vector3()),light=new Vector3(position[0],position[1],position[2]).normalize();
  /** @type {CanvasFace[]} */const faces=[];
  scene.traverseVisible(object=>{
   if(!(object instanceof Mesh))return;const mesh=/** @type {import('three').Mesh<import('three').BoxGeometry,import('three').MeshLambertMaterial>} */(object),positions=mesh.geometry.getAttribute('position'),normals=mesh.geometry.getAttribute('normal');
@@ -44,7 +45,7 @@ export function createCanvasWorldRenderer(canvas,scene,camera,pixelRatio=1){
  /** @type {CanvasFace[]} */let faces=[];let disposed=false;
  return {
   /** @param {number} width @param {number} height */
-  render(width,height){if(disposed)return;const w=Math.max(1,Math.round(width*ratio)),h=Math.max(1,Math.round(height*ratio));if(canvas.width!==w)canvas.width=w;if(canvas.height!==h)canvas.height=h;context.setTransform(ratio,0,0,ratio,0,0);context.fillStyle='#e5eddc';context.fillRect(0,0,width,height);faces=projectSceneFaces(scene,camera,width,height);for(const face of faces){context.beginPath();for(const [i,p]of face.points.entries())if(i===0)context.moveTo(p.x,p.y);else context.lineTo(p.x,p.y);context.closePath();context.fillStyle=face.color;context.fill();}},
+  render(width,height){if(disposed)return;const w=Math.max(1,Math.round(width*ratio)),h=Math.max(1,Math.round(height*ratio));if(canvas.width!==w)canvas.width=w;if(canvas.height!==h)canvas.height=h;context.setTransform(ratio,0,0,ratio,0,0);context.fillStyle=WORLD_ART.light.background;context.fillRect(0,0,width,height);faces=projectSceneFaces(scene,camera,width,height);for(const face of faces){context.beginPath();for(const [i,p]of face.points.entries())if(i===0)context.moveTo(p.x,p.y);else context.lineTo(p.x,p.y);context.closePath();context.fillStyle=face.color;context.fill();}},
   /** @param {number} x @param {number} y */
   pick:(x,y)=>disposed?null:pickCanvasFace(faces,x,y),
   dispose(){disposed=true;faces=[];},

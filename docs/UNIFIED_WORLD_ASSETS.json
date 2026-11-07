@@ -51,8 +51,15 @@
   "proceduralSources": [
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 38668,
-      "sha256": "fd54063a9a555834af0af30e325e2e618504f02c887cc13bf7aa72a211b2026a",
+      "bytes": 38840,
+      "sha256": "42bebb7ad7c400719c26188511bcbf5de61f231ba73be34be50901abb66323c6",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-art.js",
+      "bytes": 3181,
+      "sha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
