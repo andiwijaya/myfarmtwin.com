@@ -1,0 +1,7 @@
+# M7-F02 — optional preferences cannot corrupt the farm
+
+Graphics uses the validated, separate `myfarmtwin.world.quality` key (`auto`, `high`, `low`) plus compatibility with the existing `myfarmtwin.graphics` UI key. Invalid values fall back safely; reads and writes catch browser storage failures. Camera/focus/selection are transient presentation state and are not fields in the authoritative save.
+
+`tools/unified-preferences-e2e.mjs` passed 12/12 disposable desktop/touch-emulated Chrome profiles: missing, malformed JSON, valid Low, legacy Low, actual preference-key `SecurityError` on read, and `QuotaExceededError` on write. Each profile changed all three quality choices, moved/rotated the camera, switched locale, executed an original harvest, then reloaded. The entire serialized save and ledger matched the original engine oracle. Preference failure did not prevent gameplay; reload chose the expected persisted/default quality, reset presentation selection/heading, and retained one canvas and one original clock.
+
+Evidence: `qa-artifacts/unified-m7-preferences-final/preferences.json` plus actual viewport captures. The first QA attempt used an ambiguous selector shared by the host and select; the test was corrected to target the real select and all profiles rerun. The injected failures affect UI keys only; this is not a claim that authoritative storage loss can save progress. Original storage-blocked recovery is covered separately in M7-F09/M8. No production change, push or deployment.
