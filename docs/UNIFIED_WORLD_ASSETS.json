@@ -51,8 +51,8 @@
   "proceduralSources": [
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 40199,
-      "sha256": "8cb592c304ff7a6badcf0695baadea0ef43a1c3e1d834b46f40bfd164a84d084",
+      "bytes": 40268,
+      "sha256": "3a1e94b91d416cfdf85bf0ef2f9135fa3d1b140724e01d1c74d72827a8282073",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -72,8 +72,8 @@
     },
     {
       "path": "game/client/unified-world-sprites.js",
-      "bytes": 10209,
-      "sha256": "670fb57e4a42bd59b50b38f0ba7e59141178061aa5425587d6e24ca7731afaf4",
+      "bytes": 11812,
+      "sha256": "eab4533acc8892ab75a9484b86ef06e7e91e39f4626898ca422c6a18777c251e",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -128,8 +128,8 @@
     },
     {
       "path": "game/client/unified-fish-layout.js",
-      "bytes": 3163,
-      "sha256": "5f08cb8f50f2d1363e7cfdc4472a33423568695b149ba82ec6d316249343a914",
+      "bytes": 3639,
+      "sha256": "80bffcbd2858d4f923404fd85f199475c6cadeb0989a56a24d7439a5cabf7921",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     }
@@ -146,7 +146,7 @@
       "modelPath": "tools/art/chicken.mjs",
       "modelSha256": "316e204c1bc7b350ff8459d5176b3aaaf262106d80b866e6608fda51cc36b6cb",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "8dfd6f355388557c22f23cb2a87e4581de38e8fd43344c824e9c240026a0ff84",
+      "generatorSha256": "9c045a28b3d0a12f68be7908bcd74d4d4d4684c3712cd0cf1781242562944f7e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
@@ -168,7 +168,7 @@
       "modelPath": "tools/art/chicken.mjs",
       "modelSha256": "316e204c1bc7b350ff8459d5176b3aaaf262106d80b866e6608fda51cc36b6cb",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "8dfd6f355388557c22f23cb2a87e4581de38e8fd43344c824e9c240026a0ff84",
+      "generatorSha256": "9c045a28b3d0a12f68be7908bcd74d4d4d4684c3712cd0cf1781242562944f7e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
@@ -190,7 +190,7 @@
       "modelPath": "tools/art/cow.mjs",
       "modelSha256": "b7cad6c090ad7bd79646b31621d07717c1aa868f418db21a47888c77a762b44c",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "8dfd6f355388557c22f23cb2a87e4581de38e8fd43344c824e9c240026a0ff84",
+      "generatorSha256": "9c045a28b3d0a12f68be7908bcd74d4d4d4684c3712cd0cf1781242562944f7e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
@@ -212,11 +212,55 @@
       "modelPath": "tools/art/cow.mjs",
       "modelSha256": "b7cad6c090ad7bd79646b31621d07717c1aa868f418db21a47888c77a762b44c",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "8dfd6f355388557c22f23cb2a87e4581de38e8fd43344c824e9c240026a0ff84",
+      "generatorSha256": "9c045a28b3d0a12f68be7908bcd74d4d4d4684c3712cd0cf1781242562944f7e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
         "modelSha256": "b7cad6c090ad7bd79646b31621d07717c1aa868f418db21a47888c77a762b44c",
+        "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
+        "three": "0.187.0",
+        "chromium": "156.0.8078.80",
+        "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      }
+    },
+    {
+      "path": "game/client/assets/world/fish.high.png",
+      "metadata": "game/client/assets/world/fish.high.json",
+      "bytes": 67306,
+      "sha256": "dd3120fb9dd027199687667051c560ca137408cfaecaf7afa03208a7f7ac8540",
+      "metadataSha256": "6edd5eb605dcc8f4e76c23f801a4d65549ad2a30c618c4f7e3aaa891113cf3b9",
+      "modulePath": "game/client/assets/world/fish.high.js",
+      "moduleSha256": "ee367559865944d0f4454a8750e62b10d36d93f28d69a31022622054e1f421e0",
+      "modelPath": "tools/art/fish.mjs",
+      "modelSha256": "ac7e9ba1f03a57520457083b4a1016f93d0fd57b88a4467ca8cb2206106e936f",
+      "generatorPath": "tools/generate-world-atlas.mjs",
+      "generatorSha256": "9c045a28b3d0a12f68be7908bcd74d4d4d4684c3712cd0cf1781242562944f7e",
+      "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
+      "source": {
+        "generator": "myfarmtwin-world-atlas-v1",
+        "modelSha256": "ac7e9ba1f03a57520457083b4a1016f93d0fd57b88a4467ca8cb2206106e936f",
+        "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
+        "three": "0.187.0",
+        "chromium": "156.0.8078.80",
+        "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      }
+    },
+    {
+      "path": "game/client/assets/world/fish.low.png",
+      "metadata": "game/client/assets/world/fish.low.json",
+      "bytes": 23897,
+      "sha256": "46c17c48d4325a41ea24555b90069ada23e4a891e93a3e9a8f154c51c8f91b09",
+      "metadataSha256": "e966118d0aa877e0815a4c949fdf4b685f379c505c24234927f7f4d774da00e7",
+      "modulePath": "game/client/assets/world/fish.low.js",
+      "moduleSha256": "14493f6071235641b5b6428028a533d0877f628a7a25f9cc6407191c6ffc4f82",
+      "modelPath": "tools/art/fish.mjs",
+      "modelSha256": "ac7e9ba1f03a57520457083b4a1016f93d0fd57b88a4467ca8cb2206106e936f",
+      "generatorPath": "tools/generate-world-atlas.mjs",
+      "generatorSha256": "9c045a28b3d0a12f68be7908bcd74d4d4d4684c3712cd0cf1781242562944f7e",
+      "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
+      "source": {
+        "generator": "myfarmtwin-world-atlas-v1",
+        "modelSha256": "ac7e9ba1f03a57520457083b4a1016f93d0fd57b88a4467ca8cb2206106e936f",
         "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
         "three": "0.187.0",
         "chromium": "156.0.8078.80",
@@ -234,7 +278,7 @@
       "modelPath": "tools/art/goat.mjs",
       "modelSha256": "882ae9514c47743c3847a4c9fb5e109945bc012fcacd86a2d4ba8e4fbd18dcf9",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "8dfd6f355388557c22f23cb2a87e4581de38e8fd43344c824e9c240026a0ff84",
+      "generatorSha256": "9c045a28b3d0a12f68be7908bcd74d4d4d4684c3712cd0cf1781242562944f7e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
@@ -256,7 +300,7 @@
       "modelPath": "tools/art/goat.mjs",
       "modelSha256": "882ae9514c47743c3847a4c9fb5e109945bc012fcacd86a2d4ba8e4fbd18dcf9",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "8dfd6f355388557c22f23cb2a87e4581de38e8fd43344c824e9c240026a0ff84",
+      "generatorSha256": "9c045a28b3d0a12f68be7908bcd74d4d4d4684c3712cd0cf1781242562944f7e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
@@ -269,5 +313,5 @@
     }
   ],
   "proceduralOrigin": "Original repository-authored geometry and offline 3D atlas rigs; per-species integration and M4/M5 acceptance tracked separately",
-  "textures": 6
+  "textures": 8
 }
