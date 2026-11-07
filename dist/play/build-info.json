@@ -31,8 +31,8 @@
     },
     {
       "name": "main.js",
-      "bytes": 415849,
-      "sha256": "c2816508a1d15ee30a68c90557d068172fc386793b8a7e936bbd25bf6511fd0f"
+      "bytes": 415855,
+      "sha256": "17f78f56ef922af83c2bbdcb4ed7db5dfc14a2bc7182df8152d507b33d09750b"
     },
     {
       "name": "preview-loader.js",
@@ -41,20 +41,20 @@
     },
     {
       "name": "style.css",
-      "bytes": 20863,
-      "sha256": "92842c8f3b494f5512a92a48b198df54bbbac3d212aa346412a39b3497fd2533"
+      "bytes": 21572,
+      "sha256": "5ce8b6104ce27c8de20bfb82d413ef617842f0cff9b2910f759e68b9763c203c"
     }
   ],
   "emitted": [
     {
       "name": "main.js",
-      "bytes": 415849,
-      "sha256": "c2816508a1d15ee30a68c90557d068172fc386793b8a7e936bbd25bf6511fd0f"
+      "bytes": 415855,
+      "sha256": "17f78f56ef922af83c2bbdcb4ed7db5dfc14a2bc7182df8152d507b33d09750b"
     },
     {
       "name": "unified-world-preview.js",
-      "bytes": 90823,
-      "sha256": "d578de70d6d12f683b0446bf7bda264d54bc9f810e1e6560d45c61b426d1ab2a"
+      "bytes": 95694,
+      "sha256": "710fcc2eab01ecdb10a056642c676740486988ed55aaf28f8511624b771c6203"
     },
     {
       "name": "vendor/three/chunks/chunk-5TCQDHAV.js",
@@ -62,7 +62,7 @@
       "sha256": "721ed3a26b8af9c95ddf27c0a513f7565f0af9849d55576946bbc40b59c090f1"
     },
     {
-      "name": "vendor/three/chunks/unified-world-webgl-Z7G2Y4CY.js",
+      "name": "vendor/three/chunks/unified-world-webgl-BEP2IL3H.js",
       "bytes": 357192,
       "sha256": "971d3ea569f1c348dc4a349f107a17eb77cff1e05371088dc48f9ab103a81ced"
     },
@@ -72,6 +72,6 @@
       "sha256": "fbee321c616fb6c81fd5a3e36de7d09f16092432cc47c55e78801b2af961c2e2"
     }
   ],
-  "lazyWebGL": "vendor/three/chunks/unified-world-webgl-Z7G2Y4CY.js",
+  "lazyWebGL": "vendor/three/chunks/unified-world-webgl-BEP2IL3H.js",
   "retainedStandaloneModules": true
 }

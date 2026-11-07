@@ -21,7 +21,7 @@
       "notice": "dist/play/vendor/three/LICENSE.txt"
     },
     {
-      "path": "dist/play/vendor/three/chunks/unified-world-webgl-Z7G2Y4CY.js",
+      "path": "dist/play/vendor/three/chunks/unified-world-webgl-BEP2IL3H.js",
       "bytes": 357192,
       "sha256": "971d3ea569f1c348dc4a349f107a17eb77cff1e05371088dc48f9ab103a81ced",
       "sourcePackage": "three@0.187.0",
@@ -51,8 +51,8 @@
   "proceduralSources": [
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 49137,
-      "sha256": "a941146b7a1a6bdb797429538c7e589e8430cafb85a2d32306e6d15a188288a1",
+      "bytes": 52632,
+      "sha256": "081b3df6ec74289077893e8096de05387b930996898f1b7627a29f52f2ff9b07",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -88,6 +88,13 @@
       "path": "game/client/unified-world-lighting.js",
       "bytes": 1807,
       "sha256": "61a515a24e9256b1b84e6bbb7a156b05d66164a8ca7a3593f99a1996a394d1e9",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-effects.js",
+      "bytes": 4470,
+      "sha256": "916d4eeace2585226195fd718f73a048541360a3a442d28072e5267124c19cfa",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -205,8 +212,8 @@
     },
     {
       "path": "game/client/unified-fish-layout.js",
-      "bytes": 3694,
-      "sha256": "b4f4f6086caf2a4ecd3e7e3aa3d33c40c4baa3a2219e845cc8422c4240771d89",
+      "bytes": 3732,
+      "sha256": "ddb6cc24e34e6c90e98faef1993fbb5500e005bdb4420859b98e96c7ee337df4",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     }
