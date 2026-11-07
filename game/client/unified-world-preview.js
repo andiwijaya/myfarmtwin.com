@@ -1,4 +1,4 @@
-import {Scene,Color,OrthographicCamera,HemisphereLight,DirectionalLight,Mesh,BoxGeometry,MeshLambertMaterial,Group,Raycaster,Vector2,Sprite} from 'three';
+import {Scene,Color,OrthographicCamera,HemisphereLight,DirectionalLight,Mesh,BoxGeometry,MeshLambertMaterial,Group,Raycaster,Vector2,Sprite,BufferGeometry,Float32BufferAttribute} from 'three';
 import {readWorldSnapshot,resolveWorldSelection} from './unified-world-model.js';
 import {objectiveEntity} from './unified-world-objectives.js';
 import {cropParts,cropSway} from './unified-world-crops.js';
@@ -8,6 +8,7 @@ import {WORLD_STYLE} from './unified-world-style.js';
 import {pathDetailParts,treeParts,bedDetailParts,ranchFenceParts} from './unified-world-environment.js';
 import {structureParts} from './unified-world-structures.js';
 import {waterStyle,pondSurfaceParts,waterMotion} from './unified-world-water.js';
+import {worldLighting} from './unified-world-lighting.js';
 import {createWorldSprites,spriteOpaque} from './unified-world-sprites.js';
 import {WORLD_BOUNDS,ZONE_REGISTRY} from './unified-world-registry.js';
 import {WORLD_PATHS,MARKET_PLAZA,WORLD_SIGNS,WORLD_TREES,zoneLabel} from './unified-world-layout.js';
@@ -27,8 +28,8 @@ export {createWorldPresentation} from './unified-world-selection.js';
  */
 export function mountUnifiedPreview(host,state,locale,options={}){
  const control=createFarmCamera(),scene=new Scene(),camera=new OrthographicCamera(),abort=new AbortController();
- const light=WORLD_ART.light;scene.background=new Color(light.background);scene.add(new HemisphereLight(light.sky,light.ground,light.hemisphere));const sun=new DirectionalLight(light.key,light.keyIntensity);sun.position.set(light.keyPosition[0],light.keyPosition[1],light.keyPosition[2]);scene.add(sun);
- const geometry=new BoxGeometry(1,1,1),materials=new Map(),objects=new Map(),irrigation=new Group(),yard=new Group(),environment=new Group(),ranches=new Group();irrigation.userData.entityId='field.pump';yard.userData.entityId='chicken.coop';environment.userData.environment=true;ranches.userData.ranchFences=true;scene.add(irrigation,yard,environment,ranches);let irrigationKey='',yardKey='',ranchKey='';
+ const light=WORLD_ART.light,backdrop=new Color(light.background),ambientSky=new HemisphereLight(light.sky,light.ground,light.hemisphere);scene.background=backdrop;scene.add(ambientSky);const sun=new DirectionalLight(light.key,light.keyIntensity);sun.position.set(light.keyPosition[0],light.keyPosition[1],light.keyPosition[2]);scene.add(sun);
+ const geometry=new BoxGeometry(1,1,1),gableGeometry=new BufferGeometry().setAttribute('position',new Float32BufferAttribute([-.5,0,0,.5,0,0,0,1,0],3)).setAttribute('normal',new Float32BufferAttribute([0,0,1,0,0,1,0,0,1],3)),materials=new Map(),objects=new Map(),irrigation=new Group(),yard=new Group(),environment=new Group(),ranches=new Group();irrigation.userData.entityId='field.pump';yard.userData.entityId='chicken.coop';environment.userData.environment=true;ranches.userData.ranchFences=true;scene.add(irrigation,yard,environment,ranches);let irrigationKey='',yardKey='',ranchKey='';
  /** @type {import('three').WebGLRenderer|null} */let renderer=null;
  /** @type {WebGL2RenderingContext|null} */let pendingContext=null;
  let rendererEpoch=0,loading=false,ready=Promise.resolve(),renderSubmissions=0,lastAnimated=0,renderWidth=0,renderHeight=0,visualGeneration=0,visualRunning=false;
@@ -48,7 +49,7 @@ export function mountUnifiedPreview(host,state,locale,options={}){
  /** @param {Group|Scene} parent @param {number} x @param {number} y @param {number} z @param {number} w @param {number} h @param {number} d @param {string} color @param {number} [opacity] */
  function box(parent,x,y,z,w,h,d,color,opacity=1){const mesh=new Mesh(geometry,material(color,opacity));mesh.position.set(x,y,z);mesh.scale.set(w,h,d);parent.add(mesh);return mesh;}
  /** @param {Group} parent @param {import('./unified-world-environment.js').EnvironmentPart} part */
- function detail(parent,part){const mesh=box(parent,part.x,part.y,part.z,part.width,part.height,part.depth,part.color,part.opacity);mesh.rotation.set(0,part.rotation||0,part.tilt||0);mesh.userData.environmentDetail=true;mesh.userData.fineDetail=!!part.fine;mesh.userData.cutawayFixed=!!part.fixed;mesh.userData.structureFeature=part.feature||'';if(part.opacity!==undefined){mesh.userData.pickThrough=true;mesh.userData.canvasLayer=1;}return mesh;}
+ function detail(parent,part){const mesh=part.shape==='gable'?new Mesh(gableGeometry,material(part.color,part.opacity)):box(parent,part.x,part.y,part.z,part.width,part.height,part.depth,part.color,part.opacity);if(part.shape==='gable'){mesh.position.set(part.x,part.y,part.z);mesh.scale.set(part.width,part.height,part.depth);mesh.userData.worldGable=true;parent.add(mesh);}mesh.rotation.set(0,part.rotation||0,part.tilt||0);mesh.userData.coveredTop=!!part.coveredTop;mesh.userData.environmentDetail=true;mesh.userData.fineDetail=!!part.fine;mesh.userData.cutawayFixed=!!part.fixed;mesh.userData.structureFeature=part.feature||'';if(part.opacity!==undefined){mesh.userData.pickThrough=true;mesh.userData.canvasLayer=1;}return mesh;}
  /** Shared open care containers. Native fill volumes stay independent of the shell. @param {Group} parent @param {number} w @param {number} d @param {number} base @param {number} rim @param {string} color @param {string} feature */
  function vessel(parent,w,d,base,rim,color,feature){box(parent,0,base/2,0,w,base,d,color).userData.structureFeature=feature;for(const x of [-1,1])box(parent,x*(w-.04)/2,base+rim/2,0,.04,rim,d,color).userData.structureFeature=feature;for(const z of [-1,1])box(parent,0,base+rim/2,z*(d-.04)/2,w-.08,rim,.04,color).userData.structureFeature=feature;}
  const bounds=WORLD_BOUNDS,centerX=(bounds.minX+bounds.maxX)/2,centerZ=(bounds.minZ+bounds.maxZ)/2;
@@ -114,6 +115,7 @@ export function mountUnifiedPreview(host,state,locale,options={}){
   return group;
  }
  function sync(){
+  const atmosphere=worldLighting(snapshot),lighting=atmosphere.light;backdrop.set(lighting.background);ambientSky.color.set(lighting.sky);ambientSky.groundColor.set(lighting.ground);ambientSky.intensity=lighting.hemisphere;sun.color.set(lighting.key);sun.intensity=lighting.keyIntensity;sprites.setAmbientTint(atmosphere.spriteTint);host.dataset.worldHour=String(atmosphere.hour);host.dataset.worldWeather=atmosphere.weather;host.dataset.worldLightPhase=atmosphere.phase;
   const goatLabels=/** @type {Record<string,string>} */({shelter:language==='id'?'Naungan':'Shelter',hay:language==='id'?'Pakan':'Hay',water:language==='id'?'Air minum':'Water',clean:language==='id'?'Kebersihan':'Cleaning',platform:language==='id'?'Pijakan':'Platform',contract:language==='id'?'Kontrak':'Contract'});
   const cowLabels=/** @type {Record<string,string>} */({barn:language==='id'?'Kandang':'Barn',feed:language==='id'?'Pakan':'Feed',water:language==='id'?'Air minum':'Water',stand:language==='id'?'Tempat perah':'Milking stand',can:language==='id'?'Penyimpanan susu':'Milk storage',clean:language==='id'?'Kebersihan':'Cleaning',coop:language==='id'?'Koperasi':'Co-op'});
   const fishLabels=/** @type {Record<string,string>} */({pond:language==='id'?'Kolam':'Pond',feed:language==='id'?'Pakan':'Feed',water:language==='id'?'Air':'Water',harvest:language==='id'?'Panen':'Harvest',market:language==='id'?'Dermaga pasar':'Market dock',aerator:language==='id'?'Aerator':'Aerator'});
@@ -202,7 +204,7 @@ export function mountUnifiedPreview(host,state,locale,options={}){
   ready:()=>ready,
   /** Return focus only for the panel actually opened by this world selection. @param {string} kind @param {string|number} domainId */
   releaseSelection(kind,domainId){const target=selectedEntity?resolveWorldSelection(snapshot,selectedEntity):null;if(disposed||!target||target.kind!==kind||target.domainId!==domainId)return false;for(const button of list.querySelectorAll('button'))if(button.dataset.previewSelect===selectedEntity)button.focus({preventScroll:true});const old=selectedEntity;selectedEntity=null;if(old)options.onSelectionCleared?.(old);selectionView();draw();return true;},
-  dispose(){if(disposed)return;disposed=true;cancelStartup();stopVisual();sprites.dispose();rendererEpoch++;if(pendingContext){releaseContext(pendingContext);pendingContext=null;}abort.abort();observer.disconnect();releaseRenderer();canvasRenderer?.dispose();canvasRenderer=null;irrigation.clear();yard.clear();scene.clear();objects.clear();geometry.dispose();for(const m of materials.values())m.dispose();materials.clear();host.replaceChildren();host.dataset.renderer='disposed';},
+  dispose(){if(disposed)return;disposed=true;cancelStartup();stopVisual();sprites.dispose();rendererEpoch++;if(pendingContext){releaseContext(pendingContext);pendingContext=null;}abort.abort();observer.disconnect();releaseRenderer();canvasRenderer?.dispose();canvasRenderer=null;irrigation.clear();yard.clear();scene.clear();objects.clear();geometry.dispose();gableGeometry.dispose();for(const m of materials.values())m.dispose();materials.clear();host.replaceChildren();host.dataset.renderer='disposed';},
   inspect:()=>({disposed,entities:objects.size,renderer:host.dataset.renderer,camera:control.view(),bounds,groundMeshes:scene.children.filter(object=>object.userData.worldGround).length,pathMeshes:scene.children.filter(object=>object.userData.pathId).length,signPosts:scene.children.filter(object=>object.userData.zoneSign).length,terrain:{x:ground.position.x,z:ground.position.z,width:ground.scale.x,depth:ground.scale.z,top:ground.position.y+ground.scale.y/2},visualPending:visualFrame===null?0:1,startupPending:startupTimer===null?0:1,renderSubmissions,animatedEntities:lastAnimated,sprites:sprites.inspect()})
  };
 }

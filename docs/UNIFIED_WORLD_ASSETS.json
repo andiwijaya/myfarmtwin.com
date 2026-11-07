@@ -21,7 +21,7 @@
       "notice": "dist/play/vendor/three/LICENSE.txt"
     },
     {
-      "path": "dist/play/vendor/three/chunks/unified-world-webgl-BEP2IL3H.js",
+      "path": "dist/play/vendor/three/chunks/unified-world-webgl-Z7G2Y4CY.js",
       "bytes": 357192,
       "sha256": "971d3ea569f1c348dc4a349f107a17eb77cff1e05371088dc48f9ab103a81ced",
       "sourcePackage": "three@0.187.0",
@@ -31,8 +31,8 @@
     },
     {
       "path": "dist/play/vendor/three/three.module.js",
-      "bytes": 508,
-      "sha256": "91360d01e927d784f66eef07b978f5ea8847625d5dcaaca4e5c6cabdfe7c5dae",
+      "bytes": 572,
+      "sha256": "fbee321c616fb6c81fd5a3e36de7d09f16092432cc47c55e78801b2af961c2e2",
       "sourcePackage": "three@0.187.0",
       "transformation": "Tree-shaken/minified with esbuild@0.28.2; shared class identity and lazy WebGL split",
       "license": "MIT",
@@ -51,8 +51,8 @@
   "proceduralSources": [
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 48033,
-      "sha256": "8aca8831685c32d313cd9b6fec74da6b89cda8c1b51990c4ee62ab6e9a6f8cce",
+      "bytes": 49137,
+      "sha256": "a941146b7a1a6bdb797429538c7e589e8430cafb85a2d32306e6d15a188288a1",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -65,15 +65,15 @@
     },
     {
       "path": "game/client/unified-world-environment.js",
-      "bytes": 3047,
-      "sha256": "18e81791871e12034b3391c987ec2e3d23ecce36fb501072bb9f62841b5f69b0",
+      "bytes": 3082,
+      "sha256": "2e9bf3344535e63d97c396f221610e7390afc8fc865ff843791e1ef7ccee44f9",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
       "path": "game/client/unified-world-structures.js",
-      "bytes": 3725,
-      "sha256": "b30daca3d7cc4751bfe88da5600952a22b82bb4f83f1e6956d58d79af944dd7e",
+      "bytes": 3957,
+      "sha256": "d5053d12cc799552b183c37b4e5e440ce9fe2459c23c83f332b4b7d681ac76e0",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -85,9 +85,16 @@
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
+      "path": "game/client/unified-world-lighting.js",
+      "bytes": 1807,
+      "sha256": "61a515a24e9256b1b84e6bbb7a156b05d66164a8ca7a3593f99a1996a394d1e9",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
       "path": "game/client/unified-world-canvas.js",
-      "bytes": 8919,
-      "sha256": "e114e6e1340caf8a27c53a24148ab1d6cf2e050c1aef4eb5ae73273c059542ce",
+      "bytes": 9139,
+      "sha256": "a18c225e8c8c8df1a4b50d31798996c4b44232b8ba7e75f1500b029e37afab55",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -107,8 +114,8 @@
     },
     {
       "path": "game/client/unified-world-sprites.js",
-      "bytes": 16043,
-      "sha256": "92f0ff26fdf28e7a97b12288c2c20ca49715753fabbfd69795adcea9030d4fab",
+      "bytes": 16410,
+      "sha256": "778f40e81f2d83c5c61dfda32f9ada6aed19188abd13f3aade951d22caeb1573",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
