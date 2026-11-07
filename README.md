@@ -6,7 +6,7 @@ Plant lettuce and tomatoes, manage soil water and seeded weather, harvest/sell, 
 
 ## Local development
 
-Node 22+; development-only dependencies are locked. The shipped game has no runtime packages.
+Node 22+; dependencies are locked. The default game loads no runtime packages. An internal opt-in world experiment uses locally bundled, pinned Three.js.
 
 ```text
 npm ci
@@ -17,7 +17,9 @@ npm run build
 npm run preview
 ```
 
-Preview: `http://127.0.0.1:4177/play/`. The build copies only `game/client` into `dist/play`; it never empties `dist` or replaces editorial content. Keep the built game output committed because the audited Cloudflare Pages project publishes `dist` with no remote build command.
+Preview: `http://127.0.0.1:4177/play/`. The build writes `game/client` plus the optional renderer's bounded vendor allowlist only under `dist/play`; it never empties `dist` or replaces editorial content. Keep the built game output committed because the audited Cloudflare Pages project publishes `dist` with no remote build command.
+
+Internal world experiment: `/play/?world=unified-preview`. It is a read-only Crop + Chicken prototype with one 3D terrain and camera; gameplay remains below it. It is not the completed unified experience. Default visits do not fetch its modules or Three.js. The builder copies only its pinned local vendor modules and full MIT notice under `dist/play/vendor/three`; no CDN or source maps. See `docs/UNIFIED_WORLD_AUDIT.md` and the new living PRD. Do not enable a production default until the two-zone, all-five parity, fallback and release gates pass.
 
 ## Verification
 

@@ -43,6 +43,8 @@ const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
 let guideExpanded=true;
 let celebrationDismissed=false;
 let activeArea='field';
+/** @type {ReturnType<typeof import('./unified-world-preview.js')['mountUnifiedPreview']>|null} */
+let unifiedPreview=null;
 let selectedFish='';
 function renderFishSelection(){if(selectedFish&&!FISH_STATIONS.includes(selectedFish))selectedFish='';document.querySelectorAll('[data-fish-object]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-fish-object')===selectedFish)));document.querySelectorAll('[data-choose-fish]').forEach(p=>p.setAttribute('aria-pressed',String(p.getAttribute('data-choose-fish')===selectedFish)));renderFishPanel(state,selectedFish,send);}
 document.addEventListener('fishobjectselect',event=>{const id=/** @type {CustomEvent<string>} */(event).detail;if(activeArea==='fish'&&FISH_STATIONS.includes(id)){selectedFish=id;renderFishSelection();}});
@@ -110,6 +112,7 @@ language.addEventListener('change',()=>{setLocale(language.value);render();});
 function renderGoatMission(){const objective=goatObjective(state);el('guide-chapter').textContent=t(objective.step<8?'goatChapter1':'goatRanchGoals');el('mission-title').textContent=t(objective.title)+(objective.progress?' · '+objective.progress:'');el('mission-detail').textContent=t(objective.detail);el('mission-track').hidden=false;el('mission-track').setAttribute('aria-valuemax','8');el('mission-track').setAttribute('aria-valuenow',String(objective.step));el('mission-track').setAttribute('aria-label',t('goatChapter1'));el('mission-progress').style.width=100*objective.step/8+'%';document.querySelectorAll('.mission-target').forEach(e=>e.classList.remove('mission-target'));if(objective.target)document.querySelector(objective.target)?.classList.add('mission-target');}
 function renderMission(){const step=state.mission.step,copy=currentObjective(state);el('mission-title').textContent=t(copy[0]);el('mission-detail').textContent=t(copy[1]);el('guide-chapter').textContent=t(step<7?'firstHarvest':'nextChapter');el('mission-progress').style.width=100*step/7+'%';el('mission-track').setAttribute('aria-valuenow',String(step));el('celebration').hidden=step<7||celebrationDismissed;document.querySelectorAll('.mission-target').forEach(e=>e.classList.remove('mission-target'));const next=FOLLOWUPS.find(q=>!state.followups[q.id]);const target=step<7?['.plot-shortcuts','#plant','#water','#next-day','#harvest','#market-open','#buy-pump'][step]:next?.id==='hotCare'?'#weather-name':next?'#market-open':null;if(target)document.querySelector(target)?.classList.add('mission-target');el('followup-missions').hidden=step<7;const list=el('followup-list');list.replaceChildren();for(const quest of FOLLOWUPS){const item=document.createElement('li');item.dataset.quest=quest.id;item.dataset.done=String(state.followups[quest.id]);item.textContent=(state.followups[quest.id]?'✓ ':'○ ')+t(quest.title);list.append(item);}}
 function render(redrawWorld=true){
+ unifiedPreview?.update(state,getLocale());
  if(activeArea==='fish'&&!FEATURES.fish)activeArea='field';
  if(activeArea==='chicken'&&(!FEATURES.chicken||!state.chicken?.visited))activeArea='field';
  if(activeArea==='goat'&&!state.goat?.visited)activeArea='field';
@@ -156,3 +159,9 @@ setInterval(()=>{if(!state.paused&&!document.hidden&&!externalChange){for(let i=
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&!state.paused)send('pause');});
 window.addEventListener('storage',event=>{if(event.key!==SAVE_KEY)return;let changed=true;try{changed=saveSession.storage?.getItem(SAVE_KEY)!==saveSession.raw;}catch{/* Unreadable current storage cannot be treated as current. */}if(changed){externalChange=true;saveStatus='saveConflict';notify(t('saveConflict'));render();}});
 setupMarket();setupInspect();setupData({getState:()=>state,replace:next=>queueSave(()=>{saveSession.replace(next);state=next;selected=null;selectedChicken='';selectedGoat='';selectedCow='';selectedFish='';resetFishPond();activeArea='field';resumeVisible=false;celebrationDismissed=false;saveStatus='saveSaved';externalChange=false;render();}),session:saveSession});render();
+// Explicit opt-in only. Default players never fetch Three or mount this prototype.
+if(new URLSearchParams(location.search).get('world')==='unified-preview'){
+ const previewHost=document.createElement('section');previewHost.id='unified-preview';el('world').before(previewHost);
+ try{const {mountUnifiedPreview}=await import('./unified-world-preview.js');unifiedPreview=mountUnifiedPreview(previewHost,state,getLocale());}
+ catch{previewHost.textContent=getLocale()==='id'?'Pratinjau tidak tersedia. Permainan tetap dapat digunakan di bawah.':'Preview unavailable. The game remains usable below.';}
+}

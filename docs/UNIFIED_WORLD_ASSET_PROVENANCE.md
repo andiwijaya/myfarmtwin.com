@@ -1,6 +1,6 @@
 # Unified world asset provenance
 
-M0 inventory, 7 November 2026. No new production art or runtime dependency added.
+M0 inventory, 7 November 2026. At the M0 checkpoint no production art or runtime dependency had been added.
 Exact existing asset hashes and byte sizes are recorded in ignored
 `qa-artifacts/unified-m0/visuals/baseline-visuals.json`; all `dist/play` files are
 inventoried there. Existing editorial/original media stay in place.
@@ -19,3 +19,12 @@ distribution, exact path/hash/bytes, consistent lighting and scale, real browser
 four-heading appearance, no hidden remote loaders, texture allocation and cold
 transfer measurement, reduced-detail alternative, explicit source/production
 separation. QA screenshots/traces/videos remain ignored and are never game assets.
+
+M1 experiment: Three.js 0.187.0 installed from the pinned npm package (lockfile
+retained, lifecycle scripts disabled), with its two WebGL ES modules, full MIT
+notice and version receipt copied under `dist/play/vendor/three`. Exact deployed
+paths, sizes and hashes are in `UNIFIED_WORLD_ASSETS.json`. Vendor bytes are
+protected from checkout newline conversion. No CDN, source maps, external font,
+texture, downloaded model, MyZooTwin source or media is included. The procedural
+box geometry is original feasibility placeholder art and does not satisfy the
+later directional-sprite or graphics-quality gates.

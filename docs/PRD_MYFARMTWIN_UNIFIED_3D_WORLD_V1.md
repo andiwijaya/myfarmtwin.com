@@ -274,7 +274,7 @@ Dot records actual baseline and tested hardware/browser; thresholds can be tuned
 
 ## 6. Master micro-feature checklist — **82 micro-features**
 
-**Execution status: 8/82 = 9.8% (7 November 2026).** Evidence: [M0 audit](UNIFIED_WORLD_AUDIT.md). The original planning status was 0/82. This is a NEW PRD. Dot must mark `[x]` **only after code + automated tests + any required screenshot evidence**. Do not pre-mark because legacy tools exist; a feature passes only when its **new unified-world contract** is verified. Percent = checked/82×100. Each item is individually testable.
+**Execution status: 11/82 = 13.4% (7 November 2026).** Evidence: [M0 audit](UNIFIED_WORLD_AUDIT.md), [M1 checkpoint](UNIFIED_WORLD_M1_CHECKPOINT.md). The original planning status was 0/82. This is a NEW PRD. Dot must mark `[x]` **only after code + automated tests + any required screenshot evidence**. Do not pre-mark because legacy tools exist; a feature passes only when its **new unified-world contract** is verified. Percent = checked/82×100. Each item is individually testable.
 
 ### M0 — Audit and irreversible-risk prevention (8)
 
@@ -291,10 +291,10 @@ Dot records actual baseline and tested hardware/browser; thresholds can be tuned
 
 ### M1 — New renderer feasibility & end-to-end vertical slice (8)
 
-- [ ] **M1-F01** — Prototype a lightweight isolated Three.js/optimized hybrid scene inside `/play/` build with 3D terrain and one camera; existing website/engine unaffected.
+- [x] **M1-F01** — Prototype a lightweight isolated Three.js/optimized hybrid scene inside `/play/` build with 3D terrain and one camera; existing website/engine unaffected.
 - [ ] **M1-F02** — Run measured Three.js-vs-enhanced-2.5D feasibility on actual supported browsers; document renderer choice, device budgets and no-unsupported-WebGL fallback plan.
-- [ ] **M1-F03** — Pin runtime dependency, bundle only game assets (no Astro migration), distribute license and source map policy; verify `dist` editorial unchanged.
-- [ ] **M1-F04** — Implement a read-only `State→Scene` adapter with stable entity references and scene cleanup; snapshot rendering doesn't change revision or save.
+- [x] **M1-F03** — Pin runtime dependency, bundle only game assets (no Astro migration), distribute license and source map policy; verify `dist` editorial unchanged.
+- [x] **M1-F04** — Implement a read-only `State→Scene` adapter with stable entity references and scene cleanup; snapshot rendering doesn't change revision or save.
 - [ ] **M1-F05** — Implement one global isometric camera with bounded pan/zoom/four-angle rotate/reset/fit-world and deterministic coordinate projection.
 - [ ] **M1-F06** — Add mesh/sprite picking that maps 3D hit to existing action ID; distinguish drag vs tap and provide keyboard alternatives.
 - [ ] **M1-F07** — Add no-WebGL/low-quality recoverable pathway with usable scene controls, safe context-loss handling and no secondary simulation ticker.

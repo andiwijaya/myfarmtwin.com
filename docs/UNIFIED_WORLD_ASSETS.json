@@ -1,0 +1,41 @@
+{
+  "audited": "2026-11-07",
+  "purpose": "Hidden read-only world feasibility preview; no MyZooTwin art or source copied",
+  "assets": [
+    {
+      "path": "dist/play/vendor/three/three.module.js",
+      "bytes": 658900,
+      "sha256": "104f56145899722094556490d787aae0617cc2fc3382f31df02d724ea1aee341",
+      "sourcePackage": "three@0.187.0",
+      "license": "MIT",
+      "notice": "dist/play/vendor/three/LICENSE.txt"
+    },
+    {
+      "path": "dist/play/vendor/three/three.core.js",
+      "bytes": 1474799,
+      "sha256": "613e370f76638fdef83926642bf256dc9615684922de1ce1f63a8583e5d78578",
+      "sourcePackage": "three@0.187.0",
+      "license": "MIT",
+      "notice": "dist/play/vendor/three/LICENSE.txt"
+    },
+    {
+      "path": "dist/play/vendor/three/LICENSE.txt",
+      "bytes": 1081,
+      "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc",
+      "sourcePackage": "three@0.187.0",
+      "license": "MIT",
+      "notice": "dist/play/vendor/three/LICENSE.txt"
+    },
+    {
+      "path": "dist/play/vendor/three/version.json",
+      "bytes": 72,
+      "sha256": "df3557d4d7503ffd4a7802735ecb541e67d38c8e300543418383c23ec9d7b7b5",
+      "sourcePackage": "three@0.187.0",
+      "license": "MIT",
+      "notice": "dist/play/vendor/three/LICENSE.txt"
+    }
+  ],
+  "proceduralSource": "game/client/unified-world-preview.js",
+  "proceduralOrigin": "Original repository-authored primitive geometry; placeholder feasibility art, not M4/M5 acceptance",
+  "textures": 0
+}
