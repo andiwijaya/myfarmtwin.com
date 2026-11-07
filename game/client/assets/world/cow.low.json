@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "species": "cow",
+  "lod": "low",
+  "image": "cow.low.png",
+  "imageSha256": "f407208ec3d0703e3f45bbf5ed6505f4246a6346c0af2566b562ce65005e864e",
+  "cell": 128,
+  "columns": 16,
+  "width": 2048,
+  "height": 768,
+  "worldUnits": 3.8,
+  "pivot": [
+    0.5,
+    0.82
+  ],
+  "directions": 4,
+  "framesPerAction": 4,
+  "fps": 6,
+  "actions": [
+    "idle",
+    "walk",
+    "feed",
+    "drink",
+    "rest",
+    "milk"
+  ],
+  "source": {
+    "generator": "myfarmtwin-world-atlas-v1",
+    "modelSha256": "b7cad6c090ad7bd79646b31621d07717c1aa868f418db21a47888c77a762b44c",
+    "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
+    "three": "0.187.0",
+    "chromium": "156.0.8078.80",
+    "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  }
+}

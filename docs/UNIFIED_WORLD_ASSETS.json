@@ -51,8 +51,8 @@
   "proceduralSources": [
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 39999,
-      "sha256": "ff7cc6599f62bd040d61a1d968ed416e1375b1200c7b39b03a9d371ce004d519",
+      "bytes": 40199,
+      "sha256": "8cb592c304ff7a6badcf0695baadea0ef43a1c3e1d834b46f40bfd164a84d084",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -72,8 +72,8 @@
     },
     {
       "path": "game/client/unified-world-sprites.js",
-      "bytes": 9122,
-      "sha256": "c9cd1fed0096c82b7144b8e4d5e31d4a26c19ab265fc160d90756229c4a577ca",
+      "bytes": 10209,
+      "sha256": "670fb57e4a42bd59b50b38f0ba7e59141178061aa5425587d6e24ca7731afaf4",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -146,7 +146,7 @@
       "modelPath": "tools/art/chicken.mjs",
       "modelSha256": "316e204c1bc7b350ff8459d5176b3aaaf262106d80b866e6608fda51cc36b6cb",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "abf34449fa6c231d6b96fd844c688e75e947d27fb700211ed819c5e9c20a6506",
+      "generatorSha256": "8dfd6f355388557c22f23cb2a87e4581de38e8fd43344c824e9c240026a0ff84",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
@@ -168,11 +168,55 @@
       "modelPath": "tools/art/chicken.mjs",
       "modelSha256": "316e204c1bc7b350ff8459d5176b3aaaf262106d80b866e6608fda51cc36b6cb",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "abf34449fa6c231d6b96fd844c688e75e947d27fb700211ed819c5e9c20a6506",
+      "generatorSha256": "8dfd6f355388557c22f23cb2a87e4581de38e8fd43344c824e9c240026a0ff84",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
         "modelSha256": "316e204c1bc7b350ff8459d5176b3aaaf262106d80b866e6608fda51cc36b6cb",
+        "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
+        "three": "0.187.0",
+        "chromium": "156.0.8078.80",
+        "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      }
+    },
+    {
+      "path": "game/client/assets/world/cow.high.png",
+      "metadata": "game/client/assets/world/cow.high.json",
+      "bytes": 767969,
+      "sha256": "0bb3352fa5387c0f8635fd9c977f498d6301950d588b4d8a78bec539c80170fc",
+      "metadataSha256": "2f1442ec38db8a03f4af556fd1db0b8527beb2613b594b403627adb6bf7420c4",
+      "modulePath": "game/client/assets/world/cow.high.js",
+      "moduleSha256": "8eb16294bc50abb62eeaa8e902fd670abd1f0e39d5f2fc9a63e23b210af80cb4",
+      "modelPath": "tools/art/cow.mjs",
+      "modelSha256": "b7cad6c090ad7bd79646b31621d07717c1aa868f418db21a47888c77a762b44c",
+      "generatorPath": "tools/generate-world-atlas.mjs",
+      "generatorSha256": "8dfd6f355388557c22f23cb2a87e4581de38e8fd43344c824e9c240026a0ff84",
+      "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
+      "source": {
+        "generator": "myfarmtwin-world-atlas-v1",
+        "modelSha256": "b7cad6c090ad7bd79646b31621d07717c1aa868f418db21a47888c77a762b44c",
+        "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
+        "three": "0.187.0",
+        "chromium": "156.0.8078.80",
+        "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      }
+    },
+    {
+      "path": "game/client/assets/world/cow.low.png",
+      "metadata": "game/client/assets/world/cow.low.json",
+      "bytes": 289033,
+      "sha256": "f407208ec3d0703e3f45bbf5ed6505f4246a6346c0af2566b562ce65005e864e",
+      "metadataSha256": "ea5281ca3dfc8fef0e42ed28636ae028fad960a6e60ebc4a04baa6a78ad4be79",
+      "modulePath": "game/client/assets/world/cow.low.js",
+      "moduleSha256": "1f607f2562821a396e44c4ccccdc35f9c5ab58c9b804fbcab114ab4b7cb234bb",
+      "modelPath": "tools/art/cow.mjs",
+      "modelSha256": "b7cad6c090ad7bd79646b31621d07717c1aa868f418db21a47888c77a762b44c",
+      "generatorPath": "tools/generate-world-atlas.mjs",
+      "generatorSha256": "8dfd6f355388557c22f23cb2a87e4581de38e8fd43344c824e9c240026a0ff84",
+      "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
+      "source": {
+        "generator": "myfarmtwin-world-atlas-v1",
+        "modelSha256": "b7cad6c090ad7bd79646b31621d07717c1aa868f418db21a47888c77a762b44c",
         "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
         "three": "0.187.0",
         "chromium": "156.0.8078.80",
@@ -190,7 +234,7 @@
       "modelPath": "tools/art/goat.mjs",
       "modelSha256": "882ae9514c47743c3847a4c9fb5e109945bc012fcacd86a2d4ba8e4fbd18dcf9",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "abf34449fa6c231d6b96fd844c688e75e947d27fb700211ed819c5e9c20a6506",
+      "generatorSha256": "8dfd6f355388557c22f23cb2a87e4581de38e8fd43344c824e9c240026a0ff84",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
@@ -212,7 +256,7 @@
       "modelPath": "tools/art/goat.mjs",
       "modelSha256": "882ae9514c47743c3847a4c9fb5e109945bc012fcacd86a2d4ba8e4fbd18dcf9",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "abf34449fa6c231d6b96fd844c688e75e947d27fb700211ed819c5e9c20a6506",
+      "generatorSha256": "8dfd6f355388557c22f23cb2a87e4581de38e8fd43344c824e9c240026a0ff84",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
@@ -225,5 +269,5 @@
     }
   ],
   "proceduralOrigin": "Original repository-authored geometry and offline 3D atlas rigs; per-species integration and M4/M5 acceptance tracked separately",
-  "textures": 4
+  "textures": 6
 }
