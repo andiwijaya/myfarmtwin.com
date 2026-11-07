@@ -7,16 +7,17 @@ import {COOP_LEVELS} from './chicken-config.js';
 import {chickenLayout} from './unified-chicken-layout.js';
 import {goatWorldEntities} from './unified-goat-layout.js';
 import {cowWorldEntities} from './unified-cow-layout.js';
+import {fishWorldEntities} from './unified-fish-layout.js';
 export {TWO_ZONE_BOUNDS,TWO_ZONE_ANCHORS} from './unified-world-registry.js';
-/** @typedef {'field'|'chicken'|'goat'|'cow'|'market'} PreviewZone */
-/** @typedef {{id:string,zone:PreviewZone,kind:'plot'|'pump'|'coop'|'station'|'hen'|'market'|'available'|'goatShelter'|'goatStation'|'goat'|'paddock'|'cowBarn'|'cowStation'|'cow',domainId:string|number,x:number,z:number,width:number,depth:number,height:number,value:number,covered?:boolean,level?:number,shade?:boolean,automatic?:boolean,capacity?:number,expanded?:boolean,sanitation?:boolean,lactating?:boolean,status?:string,equipment?:string,careUpgrade?:boolean,active?:boolean,paddockId?:number,scale?:number,stage?:string,ready?:boolean,activity?:string,crop?:{type:string,stage:number,progress:number,quality:number}}} WorldEntity */
-/** @typedef {{revision:number,tick:number,weather:string,paused:boolean,chickenStarted:boolean,goatStarted:boolean,cowStarted:boolean,chickenLayout:ReturnType<typeof chickenLayout>,irrigationKnown:boolean,coveredPlotIds:readonly number[],entities:readonly Readonly<WorldEntity>[]}} WorldSnapshot */
-/** @typedef {{kind:'plot'|'chicken'|'goat'|'cow'|'pump'|'market'|'startChicken'|'startZone',entityId:string,domainId:string|number,animalId?:string,zone?:PreviewZone}} WorldSelection */
+/** @typedef {'field'|'chicken'|'goat'|'cow'|'fish'|'market'} PreviewZone */
+/** @typedef {{id:string,zone:PreviewZone,kind:'plot'|'pump'|'coop'|'station'|'hen'|'market'|'available'|'goatShelter'|'goatStation'|'goat'|'paddock'|'cowBarn'|'cowStation'|'cow'|'fishPond'|'fishStation'|'fishEquipment'|'fishSchool',domainId:string|number,x:number,z:number,width:number,depth:number,height:number,value:number,pondId?:number,clarity?:number,oxygenMg?:number,tanMg?:number,fishOffset?:number,massG?:number,covered?:boolean,level?:number,shade?:boolean,automatic?:boolean,capacity?:number,expanded?:boolean,sanitation?:boolean,lactating?:boolean,status?:string,equipment?:string,careUpgrade?:boolean,active?:boolean,paddockId?:number,scale?:number,stage?:string,ready?:boolean,activity?:string,crop?:{type:string,stage:number,progress:number,quality:number}}} WorldEntity */
+/** @typedef {{revision:number,tick:number,weather:string,paused:boolean,chickenStarted:boolean,goatStarted:boolean,cowStarted:boolean,fishStarted:boolean,chickenLayout:ReturnType<typeof chickenLayout>,irrigationKnown:boolean,coveredPlotIds:readonly number[],entities:readonly Readonly<WorldEntity>[]}} WorldSnapshot */
+/** @typedef {{kind:'plot'|'chicken'|'goat'|'cow'|'fish'|'pump'|'market'|'startChicken'|'startZone',entityId:string,domainId:string|number,pondId?:number,animalId?:string,zone?:PreviewZone}} WorldSelection */
 
 
 /** Detached immutable snapshot; existing domain IDs remain the command targets.
  * Coverage is supplied by the existing engine selector, never reimplemented here.
- * @param {import('./engine.js').State} state @param {{coveredPlotIds?:readonly number[],goat?:import('./goat-scene-snapshot.js').GoatRanchSnapshot ,cow?:ReturnType<typeof import('./cow-scene-snapshot.js').cowSnapshot>}} [options] @returns {Readonly<WorldSnapshot>}
+ * @param {import('./engine.js').State} state @param {{coveredPlotIds?:readonly number[],goat?:import('./goat-scene-snapshot.js').GoatRanchSnapshot ,cow?:ReturnType<typeof import('./cow-scene-snapshot.js').cowSnapshot>,fish?:import('./unified-fish-layout.js').UnifiedFishView}} [options] @returns {Readonly<WorldSnapshot>}
  */
 export function readWorldSnapshot(state,options={}){
  const irrigationKnown=Array.isArray(options.coveredPlotIds),coverage=new Set(options.coveredPlotIds||[]),coveredPlotIds=Object.freeze(state.pump.built&&irrigationKnown?state.plots.filter(p=>coverage.has(p.id)).map(p=>p.id):[]),installed=new Set(coveredPlotIds);
@@ -31,7 +32,8 @@ export function readWorldSnapshot(state,options={}){
  }else entities.push({id:'chicken.available',zone:'chicken',kind:'available',domainId:'enterYard',...worldPoint('chicken',-1,-2),width:2,depth:2,height:.2,value:0});
  entities.push(...goatWorldEntities(state,options.goat));
  entities.push(...cowWorldEntities(state,options.cow));
- return Object.freeze({revision:state.revision,tick:state.tick,weather:state.weather,paused:state.paused,chickenStarted:!!coop,goatStarted:!!state.goat?.visited,cowStarted:!!state.cow?.visited,chickenLayout:yard,irrigationKnown,coveredPlotIds,entities:Object.freeze(entities.map(e=>Object.freeze(e)))});
+ entities.push(...fishWorldEntities(state,options.fish));
+ return Object.freeze({revision:state.revision,tick:state.tick,weather:state.weather,paused:state.paused,chickenStarted:!!coop,goatStarted:!!state.goat?.visited,cowStarted:!!state.cow?.visited,fishStarted:!!state.fish?.visited,chickenLayout:yard,irrigationKnown,coveredPlotIds,entities:Object.freeze(entities.map(e=>Object.freeze(e)))});
 }
 /** Selection routing only. Entry remains a separate explicit player command.
  * @param {Readonly<WorldSnapshot>} snapshot @param {unknown} id @returns {Readonly<WorldSelection>|null}
@@ -45,6 +47,7 @@ export function resolveWorldSelection(snapshot,id){
  if(entity.kind==='available')return Object.freeze({...base,kind:entity.zone==='chicken'?'startChicken':'startZone',zone:entity.zone});
  if(entity.zone==='goat')return Object.freeze({...base,kind:'goat'});
  if(entity.zone==='cow')return Object.freeze({...base,kind:'cow'});
+ if(entity.zone==='fish')return Object.freeze({...base,kind:'fish',pondId:entity.pondId});
  if(entity.kind==='pump'||entity.kind==='market')return Object.freeze({...base,kind:entity.kind});
  return null;
 }
