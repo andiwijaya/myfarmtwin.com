@@ -274,7 +274,7 @@ Dot records actual baseline and tested hardware/browser; thresholds can be tuned
 
 ## 6. Master micro-feature checklist — **82 micro-features**
 
-**Execution status: 22/82 = 26.8% (7 November 2026).** Evidence: [M0 audit](UNIFIED_WORLD_AUDIT.md), [M1 checkpoint](UNIFIED_WORLD_M1_CHECKPOINT.md), [global camera](UNIFIED_WORLD_CAMERA.md), [picking](UNIFIED_WORLD_PICKING.md), [fallback](UNIFIED_WORLD_FALLBACK.md), [feasibility](UNIFIED_WORLD_FEASIBILITY.md), [two-zone gate](UNIFIED_WORLD_TWO_ZONE_GATE.md), [zone registry](UNIFIED_WORLD_REGISTRY.md), [terrain](UNIFIED_WORLD_TERRAIN.md), [paths](UNIFIED_WORLD_PATHS.md), [crops/pump](UNIFIED_WORLD_CROPS.md), [Chicken Yard](UNIFIED_WORLD_CHICKEN.md), [Goat Ranch](UNIFIED_WORLD_GOAT.md). The original planning status was 0/82. This is a NEW PRD. Dot must mark `[x]` **only after code + automated tests + any required screenshot evidence**. Do not pre-mark because legacy tools exist; a feature passes only when its **new unified-world contract** is verified. Percent = checked/82×100. Each item is individually testable.
+**Execution status: 23/82 = 28.0% (7 November 2026).** Evidence: [M0 audit](UNIFIED_WORLD_AUDIT.md), [M1 checkpoint](UNIFIED_WORLD_M1_CHECKPOINT.md), [global camera](UNIFIED_WORLD_CAMERA.md), [picking](UNIFIED_WORLD_PICKING.md), [fallback](UNIFIED_WORLD_FALLBACK.md), [feasibility](UNIFIED_WORLD_FEASIBILITY.md), [two-zone gate](UNIFIED_WORLD_TWO_ZONE_GATE.md), [zone registry](UNIFIED_WORLD_REGISTRY.md), [terrain](UNIFIED_WORLD_TERRAIN.md), [paths](UNIFIED_WORLD_PATHS.md), [crops/pump](UNIFIED_WORLD_CROPS.md), [Chicken Yard](UNIFIED_WORLD_CHICKEN.md), [Goat Ranch](UNIFIED_WORLD_GOAT.md), [Cow Barn](UNIFIED_WORLD_COW.md). The original planning status was 0/82. This is a NEW PRD. Dot must mark `[x]` **only after code + automated tests + any required screenshot evidence**. Do not pre-mark because legacy tools exist; a feature passes only when its **new unified-world contract** is verified. Percent = checked/82×100. Each item is individually testable.
 
 ### M0 — Audit and irreversible-risk prevention (8)
 
@@ -310,7 +310,7 @@ Dot records actual baseline and tested hardware/browser; thresholds can be tuned
 - [x] **M2-F04** — Convert existing Crop Field plots, irrigation/pump and crop growth visuals to unified coordinate/picking; preserve every stable plot ID.
 - [x] **M2-F05** — Locate Chicken Yard/coop/fence/nest/feeder on unified map; render actual visited/state and owner upgrades, not duplicate starter hens.
 - [x] **M2-F06** — Locate Goat Ranch/paddock/shelter/animals on unified map; maintain true herd stages and grazing object selection.
-- [ ] **M2-F07** — Locate Cow Barn/feeder/milk station/co-op objects on unified map; preserve actual cow states and milking actions.
+- [x] **M2-F07** — Locate Cow Barn/feeder/milk station/co-op objects on unified map; preserve actual cow states and milking actions.
 - [ ] **M2-F08** — Locate Fish Pond/water/aerator/feeding dock/harvest stations on same terrain with true water/equipment status.
 - [ ] **M2-F09** — Resolve all object footprint, z-order, light/shadow and click-collision issues; define empty land, future expansion safe boundaries and camera occlusion rules.
 - [ ] **M2-F10** — Verify full farm visible from `Fit Whole Farm`; `Focus Zone` moves camera across all five without component/scene switch and without simulation/save changes.
