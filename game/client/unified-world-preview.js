@@ -2,18 +2,19 @@ import {Scene,Color,OrthographicCamera,HemisphereLight,DirectionalLight,Mesh,Box
 import {readWorldSnapshot,resolveWorldSelection} from './unified-world-model.js';
 import {WORLD_BOUNDS,ZONE_REGISTRY} from './unified-world-registry.js';
 import {WORLD_PATHS,MARKET_PLAZA,WORLD_SIGNS,zoneLabel} from './unified-world-layout.js';
+import {irrigationRuns} from './unified-world-irrigation.js';
 import {createFarmCamera} from './unified-world-camera.js';
 import {createCanvasWorldRenderer} from './unified-world-canvas.js';
 
 /** Snapshot scene with input callbacks. No economy reducer or simulation clock is owned here.
  * Cosmetic breathing uses one visual RAF, separate from the existing game clock.
  * @param {HTMLElement} host @param {import('./engine.js').State} state @param {string} locale
- * @param {{onSelect?:(target:Readonly<import('./unified-world-model.js').WorldSelection>)=>void,onStartChicken?:()=>void|Promise<void>,lowGraphics?:boolean}} [options]
+ * @param {{onSelect?:(target:Readonly<import('./unified-world-model.js').WorldSelection>)=>void,onStartChicken?:()=>void|Promise<void>,lowGraphics?:boolean,pumpCoverage?:(state:import('./engine.js').State)=>readonly number[]}} [options]
  */
 export function mountUnifiedPreview(host,state,locale,options={}){
  const control=createFarmCamera(),scene=new Scene(),camera=new OrthographicCamera(),abort=new AbortController();
  scene.background=new Color('#e5eddc');scene.add(new HemisphereLight('#fff5de','#68835d',2.6));const sun=new DirectionalLight('#fff4dc',2);sun.position.set(-8,18,10);scene.add(sun);
- const geometry=new BoxGeometry(1,1,1),materials=new Map(),objects=new Map();
+ const geometry=new BoxGeometry(1,1,1),materials=new Map(),objects=new Map(),irrigation=new Group();irrigation.userData.entityId='field.pump';scene.add(irrigation);let irrigationKey='';
  /** @type {import('three').WebGLRenderer|null} */let renderer=null;
  /** @type {WebGL2RenderingContext|null} */let pendingContext=null;
  let rendererEpoch=0,loading=false,ready=Promise.resolve(),renderSubmissions=0,lastAnimated=0,renderWidth=0,renderHeight=0,visualGeneration=0,visualRunning=false;
@@ -22,7 +23,7 @@ export function mountUnifiedPreview(host,state,locale,options={}){
  /** @type {(()=>void)|null} */let startupResolve=null;
  const motion=matchMedia('(prefers-reduced-motion: reduce)');
  /** @type {ReturnType<typeof createCanvasWorldRenderer>|null} */let canvasRenderer=null;
- let disposed=false,sourceState=state,snapshot=readWorldSnapshot(state),language=locale,listKey='',preferLow=!!options.lowGraphics,modeReason='low',focusedZone='market',labelViewKey='';
+ let disposed=false,sourceState=state,snapshot=readWorldSnapshot(state,{coveredPlotIds:options.pumpCoverage?.(state)}),language=locale,listKey='',preferLow=!!options.lowGraphics,modeReason='low',focusedZone='market',labelViewKey='';
  /** @type {string|null} */let selectedEntity=null;
  host.className='unified-preview';host.dataset.unifiedPreview='true';host.setAttribute('aria-label','Unified world preview');
  const heading=document.createElement('h2'),exitLink=document.createElement('a'),note=document.createElement('p'),status=document.createElement('p'),stage=document.createElement('div'),zoneCaption=document.createElement('span'),toolbar=document.createElement('div'),instructions=document.createElement('p'),list=document.createElement('ul'),startChicken=document.createElement('button'),retry=document.createElement('button');let canvas=document.createElement('canvas');
@@ -49,6 +50,7 @@ export function mountUnifiedPreview(host,state,locale,options={}){
   const {width:w,depth:d,height:h,kind}=entity;
   if(kind==='plot'){
    box(group,0,.06,0,w,.12,d,entity.value>.4?'#644b36':'#9a744f');
+   if(entity.covered)box(group,0,.14,-.38,.055,.04,.08,'#6c8b7e');
    if(entity.crop){const size=.18+entity.crop.stage*.09;for(const x of [-.24,.24])for(const z of [-.22,.22]){box(group,x,size/2+.12,z,size,size,size,'#71a74b');if(entity.crop.type==='tomato'&&entity.crop.stage===3)box(group,x-.06,size+.1,z,.12,.12,.12,'#c96642');}}
   }else if(kind==='coop'||kind==='market'){
    box(group,0,h/2,0,w,h,d,kind==='coop'?'#c49b69':'#e4c994');
@@ -57,12 +59,15 @@ export function mountUnifiedPreview(host,state,locale,options={}){
   }else if(kind==='hen'){
    box(group,-.1,.06,0,.035,.12,.035,'#b78744');box(group,.1,.06,0,.035,.12,.035,'#b78744');
    box(group,0,.27,0,.36,.35,.45,'#fff1cd');box(group,.04,.52,.12,.2,.22,.22,'#fff1cd');box(group,.04,.67,.12,.08,.1,.14,'#b35e43');box(group,.04,.5,.27,.1,.07,.12,'#d9a649');
+  }else if(kind==='pump'){
+   box(group,0,.25,0,.65,.5,.65,'#7a9b95');box(group,0,.7,0,.5,.35,.5,'#94aca2');box(group,.28,.68,0,.15,.12,.2,'#597a78');box(group,0,.95,0,.18,.08,.18,entity.value===1?'#4b9eb2':'#737f6b');
   }else if(kind==='available'){
    box(group,0,.03,0,w,.06,d,'#b8c68b');box(group,0,.65,0,.1,1.3,.1,'#94724d');box(group,0,1.2,0,1.3,.45,.12,'#e6d3a0');
-  }else box(group,0,h/2,0,w,h,d,entity.domainId==='drinker'?'#78aeb4':kind==='pump'?'#7a9b95':'#ba975a');
+  }else box(group,0,h/2,0,w,h,d,entity.domainId==='drinker'?'#78aeb4':'#ba975a');
   return group;
  }
  function sync(){
+  const runs=irrigationRuns(snapshot),nextIrrigationKey=JSON.stringify(runs);if(nextIrrigationKey!==irrigationKey){irrigation.clear();for(const run of runs){const mesh=box(irrigation,run.x,.04,run.z,run.width,.025,run.depth,run.enabled?'#5d99a3':'#737f6b');mesh.userData.canvasLayer=2;}irrigationKey=nextIrrigationKey;}host.dataset.irrigationKnown=String(snapshot.irrigationKnown);host.dataset.irrigationCoverage=snapshot.coveredPlotIds.join(',');host.dataset.irrigationMeshes=String(irrigation.children.length);host.dataset.pumpEnabled=String(snapshot.entities.some(e=>e.kind==='pump'&&e.value===1));
   const ids=new Set(snapshot.entities.map(e=>e.id));for(const [id,entry]of objects)if(!ids.has(id)){scene.remove(entry.group);objects.delete(id);}
   for(const e of snapshot.entities){const key=JSON.stringify(e),entry=objects.get(e.id);if(entry?.key===key)continue;if(entry)scene.remove(entry.group);const group=entityGroup(e);objects.set(e.id,{key,group});scene.add(group);}
   const id=language==='id',labels=/** @type {Record<string,string>} */({coop:id?'Kandang ayam':'Chicken coop',nest:id?'Sarang':'Nest',feeder:id?'Pakan':'Feeder',drinker:id?'Air minum':'Drinker',clean:id?'Kebersihan':'Cleaning',pump:id?'Pompa':'Pump',market:id?'Pasar':'Market'});
@@ -126,13 +131,13 @@ export function mountUnifiedPreview(host,state,locale,options={}){
  const observer=new ResizeObserver(()=>{if(stage.clientWidth!==renderWidth||stage.clientHeight!==renderHeight)draw();});observer.observe(stage);
  return {
   /** @param {import('./engine.js').State} next @param {string} nextLocale */
-  update(next,nextLocale){if(disposed||(next===sourceState&&nextLocale===language))return;sourceState=next;snapshot=readWorldSnapshot(next);language=nextLocale;sync();for(const button of toolbar.querySelectorAll('button'))button.textContent=(language==='id'?button.dataset.id:button.dataset.en)||'';draw();},
+  update(next,nextLocale){if(disposed||(next===sourceState&&nextLocale===language))return;sourceState=next;snapshot=readWorldSnapshot(next,{coveredPlotIds:options.pumpCoverage?.(next)});language=nextLocale;sync();for(const button of toolbar.querySelectorAll('button'))button.textContent=(language==='id'?button.dataset.id:button.dataset.en)||'';draw();},
   /** @param {boolean} low */
   setLowGraphics(low){if(disposed||preferLow===low)return;preferLow=low;if(low){useFallback('low');ready=Promise.resolve();}else requestThree();},
   ready:()=>ready,
   /** Return focus only for the panel actually opened by this world selection. @param {string} kind @param {string|number} domainId */
   releaseSelection(kind,domainId){const target=selectedEntity?resolveWorldSelection(snapshot,selectedEntity):null;if(disposed||!target||target.kind!==kind||target.domainId!==domainId)return false;for(const button of list.querySelectorAll('button'))if(button.dataset.previewSelect===selectedEntity)button.focus({preventScroll:true});selectedEntity=null;selectionView();draw();return true;},
-  dispose(){if(disposed)return;disposed=true;cancelStartup();stopVisual();rendererEpoch++;if(pendingContext){releaseContext(pendingContext);pendingContext=null;}abort.abort();observer.disconnect();releaseRenderer();canvasRenderer?.dispose();canvasRenderer=null;scene.clear();objects.clear();geometry.dispose();for(const m of materials.values())m.dispose();materials.clear();host.replaceChildren();host.dataset.renderer='disposed';},
+  dispose(){if(disposed)return;disposed=true;cancelStartup();stopVisual();rendererEpoch++;if(pendingContext){releaseContext(pendingContext);pendingContext=null;}abort.abort();observer.disconnect();releaseRenderer();canvasRenderer?.dispose();canvasRenderer=null;irrigation.clear();scene.clear();objects.clear();geometry.dispose();for(const m of materials.values())m.dispose();materials.clear();host.replaceChildren();host.dataset.renderer='disposed';},
   inspect:()=>({disposed,entities:objects.size,renderer:host.dataset.renderer,camera:control.view(),bounds,groundMeshes:scene.children.filter(object=>object.userData.worldGround).length,pathMeshes:scene.children.filter(object=>object.userData.pathId).length,signPosts:scene.children.filter(object=>object.userData.zoneSign).length,terrain:{x:ground.position.x,z:ground.position.z,width:ground.scale.x,depth:ground.scale.z,top:ground.position.y+ground.scale.y/2},visualPending:visualFrame===null?0:1,startupPending:startupTimer===null?0:1,renderSubmissions,animatedEntities:lastAnimated})
  };
 }
