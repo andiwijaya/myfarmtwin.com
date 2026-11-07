@@ -1,6 +1,6 @@
 {
   "audited": "2026-11-07",
-  "purpose": "Hidden world feasibility preview; no MyZooTwin art or source copied",
+  "purpose": "Hidden functional world preview; no MyZooTwin art or source copied",
   "assets": [
     {
       "path": "dist/play/vendor/three/LICENSE.txt",
@@ -48,7 +48,71 @@
       "notice": "dist/play/vendor/three/LICENSE.txt"
     }
   ],
-  "proceduralSource": "game/client/unified-world-preview.js",
-  "proceduralOrigin": "Original repository-authored primitive geometry and cosmetic hen breathing; feasibility placeholders, not M4/M5 acceptance",
+  "proceduralSources": [
+    {
+      "path": "game/client/unified-world-preview.js",
+      "bytes": 36492,
+      "sha256": "54f6fe2af57d86fa1871167f5315d2fdbae2b6593359bb9ca2af89b556e7f8b4",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-registry.js",
+      "bytes": 3747,
+      "sha256": "48e23a993cf45a0bb28a148a85a3b68b018fde1731aa9dcc7cae6b6c33922516",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-layout.js",
+      "bytes": 1288,
+      "sha256": "91801b34760149e690e7d787d5cff36113d0aec7da53d7f119f575e40be15f6a",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-occlusion.js",
+      "bytes": 680,
+      "sha256": "c34a3bf907063569df22c9c4032e602f30a8cc20a230cfa2394fd61158a95397",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-irrigation.js",
+      "bytes": 923,
+      "sha256": "c38d63eaf978a371aa9a4c1880b7207a63494681fdcfed95dfe05d1f6052368a",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-chicken-layout.js",
+      "bytes": 1875,
+      "sha256": "12d387d6a67e3c875e600020ddf7005188302e213ff65b83428e5d422457b5e5",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-goat-layout.js",
+      "bytes": 2549,
+      "sha256": "51da06abfa9407b4f0b4cf0660e9f020cedbf1edd41a9fee4824166b0067545e",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-cow-layout.js",
+      "bytes": 2088,
+      "sha256": "1ff881c4043228c2f4d47cc8380ebdfd3616a83061d086e4d67f5fc03f56d931",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-fish-layout.js",
+      "bytes": 2655,
+      "sha256": "2cfbb02e878ed46c02c74dbe5f75d1716a5ead8e0b233c7fb1828ecae3f702f7",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    }
+  ],
+  "proceduralOrigin": "Original repository-authored primitive geometry and cosmetic hen breathing; provisional layouts, not M4/M5 acceptance",
   "textures": 0
 }

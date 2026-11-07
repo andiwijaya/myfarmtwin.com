@@ -31,3 +31,10 @@ MyZooTwin source or media is included. The procedural box geometry and subtle
 cosmetic hen breathing are original feasibility placeholders and do not satisfy
 the later directional-sprite or graphics-quality gates. Save state does not
 contain these visual phases.
+
+M2 layout additions are original procedural repository work: registry, terrain,
+paths/signs, owned livestock structures, water/equipment/cohort geometry and
+camera cutaway rules. `UNIFIED_WORLD_ASSETS.json` now records their authoring
+source, byte size and SHA-256 with an explicit portable LF representation.
+No new image, font, model, audio, texture, MyZooTwin asset or external source
+was introduced. These placeholders retain the later M4/M5 art acceptance gates.

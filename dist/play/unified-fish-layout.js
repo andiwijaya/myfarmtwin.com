@@ -11,8 +11,8 @@ export function fishWorldEntities(state,view){
   entities.push({id,zone:'fish',kind:'fishPond',domainId:'pond',...home,width:4.4,depth:6,height:.35,value:native?.count||0,pondId:p.id,clarity:native?.clarity,oxygenMg:p.oxygenMg,tanMg:p.tanMg});
   entities.push({id:id+'.aerator',zone:'fish',kind:'fishEquipment',domainId:'aerator',x:home.x+1.8,z:home.z-3.6,width:.7,depth:.7,height:.6,value:Number(p.aeratorOn),pondId:p.id,automatic:p.efficient,status:p.serviceStatus,active:native?.aerating||false});
   for(const [station,dx,dz]of /** @type {[string,number,number][]} */([['feed',-1,-4],['water',1,-4],['harvest',1,4],['market',-1,4.2]]))entities.push({id:id+'.'+station,zone:'fish',kind:'fishStation',domainId:station,x:home.x+dx,z:home.z+dz,width:.8,depth:.8,height:.6,value:0,pondId:p.id,active:station==='feed'&&!!native?.feeding});
-  if(p.biofilter)entities.push({id:id+'.filter',zone:'fish',kind:'fishEquipment',domainId:'water',x:home.x+1.8,z:home.z+3.3,width:.6,depth:.5,height:.7,value:p.filterPaidTicks,pondId:p.id,equipment:'filter',status:p.serviceStatus});
-  if(view?.feederIds.includes(p.id))entities.push({id:id+'.feeder',zone:'fish',kind:'fishEquipment',domainId:'feed',x:home.x-1.8,z:home.z+3.3,width:.6,depth:.5,height:.8,value:Number(p.autoFeeder),pondId:p.id,equipment:'feeder',active:!!native?.feeding});
+  if(p.biofilter)entities.push({id:id+'.filter',zone:'fish',kind:'fishEquipment',domainId:'water',x:home.x+1.8,z:home.z+3.5,width:.6,depth:.5,height:.7,value:p.filterPaidTicks,pondId:p.id,equipment:'filter',status:p.serviceStatus});
+  if(view?.feederIds.includes(p.id))entities.push({id:id+'.feeder',zone:'fish',kind:'fishEquipment',domainId:'feed',x:home.x-1.8,z:home.z+3.5,width:.6,depth:.5,height:.8,value:Number(p.autoFeeder),pondId:p.id,equipment:'feeder',active:!!native?.feeding});
   if(native){let offset=0;for(const c of p.cohorts){entities.push({id:id+'.school.'+c.id,zone:'fish',kind:'fishSchool',domainId:'pond',...home,width:3.5,depth:5,height:.35,value:c.count,pondId:p.id,scale:.35+.65*c.massG/FISH.maxMassG,stage:fishStage(c,state.tick),fishOffset:offset,massG:c.massG});offset+=c.count;}}
  }
  return entities;

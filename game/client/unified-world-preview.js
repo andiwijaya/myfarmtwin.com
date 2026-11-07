@@ -1,8 +1,9 @@
 import {Scene,Color,OrthographicCamera,HemisphereLight,DirectionalLight,Mesh,BoxGeometry,MeshLambertMaterial,Group,Raycaster,Vector2} from 'three';
 import {readWorldSnapshot,resolveWorldSelection} from './unified-world-model.js';
 import {WORLD_BOUNDS,ZONE_REGISTRY} from './unified-world-registry.js';
-import {WORLD_PATHS,MARKET_PLAZA,WORLD_SIGNS,zoneLabel} from './unified-world-layout.js';
+import {WORLD_PATHS,MARKET_PLAZA,WORLD_SIGNS,WORLD_TREES,zoneLabel} from './unified-world-layout.js';
 import {irrigationRuns} from './unified-world-irrigation.js';
+import {CUTAWAY_KINDS,useCutaway} from './unified-world-occlusion.js';
 import {chickenFenceParts} from './unified-chicken-layout.js';
 import {createFarmCamera} from './unified-world-camera.js';
 import {createCanvasWorldRenderer} from './unified-world-canvas.js';
@@ -37,7 +38,7 @@ export function mountUnifiedPreview(host,state,locale,options={}){
  const ground=box(scene,centerX,-.3,centerZ,bounds.maxX-bounds.minX,.6,bounds.maxZ-bounds.minZ,'#91b76c');ground.userData.canvasLayer=0;ground.userData.worldGround=true;
  for(const path of [MARKET_PLAZA,...WORLD_PATHS]){const mesh=box(scene,path.x,.015,path.z,path.width,.025,path.depth,'#dac493');mesh.userData.canvasLayer=1;mesh.userData.pathId=path.id;}
  for(const sign of WORLD_SIGNS){const group=new Group();group.position.set(sign.x,0,sign.z);group.userData.entityId=sign.id;group.userData.zoneSign=true;box(group,0,.6,0,.08,1.2,.08,'#876247');box(group,0,1.3,0,sign.width,.4,sign.depth,'#e6d3a0');scene.add(group);}
- for(const [x,z]of [[bounds.minX+3,bounds.minZ+4],[bounds.maxX-3,bounds.minZ+4],[bounds.maxX-3,bounds.maxZ-3],[bounds.minX+3,bounds.maxZ-3]]){box(scene,x,.7,z,.25,1.4,.25,'#876247');box(scene,x,1.8,z,1.4,1.8,1.4,'#5d8c55');}
+ for(const {x,z}of WORLD_TREES){box(scene,x,.7,z,.25,1.4,.25,'#876247');box(scene,x,1.8,z,1.4,1.8,1.4,'#5d8c55');}
  const marker=box(scene,0,.07,0,1,.02,1,'#f3ce68');marker.visible=false;marker.userData.canvasLayer=2;
  const raycaster=new Raycaster();
  function selectionView(){const entity=snapshot.entities.find(e=>e.id===selectedEntity);if(!entity)selectedEntity=null;marker.visible=!!entity;if(entity){marker.position.set(entity.x,.07,entity.z);marker.scale.set(entity.width+.16,.02,entity.depth+.16);}host.dataset.selectedEntity=selectedEntity||'';for(const button of list.querySelectorAll('button'))button.setAttribute('aria-pressed',String(button.dataset.previewSelect===selectedEntity));const zone=entity?.kind==='available'?entity.zone:'';startChicken.hidden=!zone||(zone==='chicken'?!options.onStartChicken:!options.onStartZone);startChicken.dataset.previewStartZone=zone;if(zone==='chicken')startChicken.dataset.previewStartChicken='true';else delete startChicken.dataset.previewStartChicken;startChicken.textContent=zone==='chicken'?(language==='id'?'Mulai Halaman Ayam':'Start Chicken Yard'):(language==='id'?'Mulai ':'Start ')+zoneLabel(zone,language);}
@@ -93,6 +94,7 @@ export function mountUnifiedPreview(host,state,locale,options={}){
   }else if(kind==='available'){
    box(group,0,.03,0,w,.06,d,'#b8c68b');box(group,0,.65,0,.1,1.3,.1,'#94724d');box(group,0,1.2,0,1.3,.45,.12,'#e6d3a0');
   }
+  if(CUTAWAY_KINDS.includes(kind)){for(const part of group.children)part.userData.cutawayShell=true;box(group,0,.06,0,w,.12,d,'#b6ac8a');for(const x of [-w/2+.08,w/2-.08])for(const z of [-d/2+.08,d/2-.08])box(group,x,h/2,z,.1,h,.1,'#9b8a65');}
   return group;
  }
  function sync(){
@@ -117,7 +119,7 @@ export function mountUnifiedPreview(host,state,locale,options={}){
   exitLink.textContent=id?'Kembali ke peta klasik':'Return to classic map';selectionView();updateVisual();
  }
  function draw(){
-  if(disposed)return;const width=Math.max(1,stage.clientWidth),height=Math.max(1,stage.clientHeight),f=control.frame(width/height);
+  if(disposed)return;const selectedZone=snapshot.entities.find(e=>e.id===selectedEntity)?.zone,opened=[];for(const e of snapshot.entities){const object=objects.get(e.id);if(!object||!CUTAWAY_KINDS.includes(e.kind))continue;const open=useCutaway(e,focusedZone,selectedZone);for(const part of object.group.children)if(part.userData.cutawayShell)part.visible=!open;if(open)opened.push(e.id);}host.dataset.cutawayBuildings=opened.join(',');const width=Math.max(1,stage.clientWidth),height=Math.max(1,stage.clientHeight),f=control.frame(width/height);
   camera.left=-f.halfWidth;camera.right=f.halfWidth;camera.top=f.halfHeight;camera.bottom=-f.halfHeight;camera.near=.1;camera.far=200;camera.position.set(f.x+32*f.dx,32,f.z+32*f.dz);camera.lookAt(f.x,0,f.z);camera.updateProjectionMatrix();
   if(renderer&&!renderer.getContext().isContextLost()){if(renderWidth!==width||renderHeight!==height)renderer.setSize(width,height,false);renderer.render(scene,camera);renderSubmissions++;}else if(canvasRenderer){canvasRenderer.render(width,height);renderSubmissions++;}renderWidth=width;renderHeight=height;
   host.dataset.heading=String(f.heading);host.dataset.zoom=String(f.zoom);host.dataset.panX=String(f.x);host.dataset.panZ=String(f.z);host.dataset.renderSubmissions=String(renderSubmissions);host.dataset.animatedEntities=String(lastAnimated);host.dataset.focusedZone=focusedZone;
