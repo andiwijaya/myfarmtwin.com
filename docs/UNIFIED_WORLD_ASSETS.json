@@ -51,8 +51,8 @@
   "proceduralSources": [
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 46767,
-      "sha256": "19189907844d3a58756685f334e4c3a2b8578fdeff8cad9a09a1aefbdd7fc3e4",
+      "bytes": 48033,
+      "sha256": "8aca8831685c32d313cd9b6fec74da6b89cda8c1b51990c4ee62ab6e9a6f8cce",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -78,9 +78,16 @@
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
+      "path": "game/client/unified-world-water.js",
+      "bytes": 1979,
+      "sha256": "519b88da4f4b8333951d06198ef488871d59d75d38302c14a1dcd6f080810bbe",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
       "path": "game/client/unified-world-canvas.js",
-      "bytes": 7866,
-      "sha256": "c9beef051f052491ba8f51fdd2d41d2438611757c41293a340d19ae84f5c05e5",
+      "bytes": 8919,
+      "sha256": "e114e6e1340caf8a27c53a24148ab1d6cf2e050c1aef4eb5ae73273c059542ce",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -100,8 +107,8 @@
     },
     {
       "path": "game/client/unified-world-sprites.js",
-      "bytes": 15816,
-      "sha256": "04ec213d59888ad8c2c316cc00a3df90203cfc5c95290b6f3440c0d794ff7e9e",
+      "bytes": 16043,
+      "sha256": "92f0ff26fdf28e7a97b12288c2c20ca49715753fabbfd69795adcea9030d4fab",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -191,8 +198,8 @@
     },
     {
       "path": "game/client/unified-fish-layout.js",
-      "bytes": 3671,
-      "sha256": "be19d2dd965b4fa045dfc2d14d519e392a539f11ad883d48c072204ca5837265",
+      "bytes": 3694,
+      "sha256": "b4f4f6086caf2a4ecd3e7e3aa3d33c40c4baa3a2219e845cc8422c4240771d89",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     }
