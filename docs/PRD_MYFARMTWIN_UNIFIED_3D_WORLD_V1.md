@@ -274,7 +274,7 @@ Dot records actual baseline and tested hardware/browser; thresholds can be tuned
 
 ## 6. Master micro-feature checklist — **82 micro-features**
 
-**Execution status: 13/82 = 15.9% (7 November 2026).** Evidence: [M0 audit](UNIFIED_WORLD_AUDIT.md), [M1 checkpoint](UNIFIED_WORLD_M1_CHECKPOINT.md), [global camera](UNIFIED_WORLD_CAMERA.md), [picking](UNIFIED_WORLD_PICKING.md). The original planning status was 0/82. This is a NEW PRD. Dot must mark `[x]` **only after code + automated tests + any required screenshot evidence**. Do not pre-mark because legacy tools exist; a feature passes only when its **new unified-world contract** is verified. Percent = checked/82×100. Each item is individually testable.
+**Execution status: 14/82 = 17.1% (7 November 2026).** Evidence: [M0 audit](UNIFIED_WORLD_AUDIT.md), [M1 checkpoint](UNIFIED_WORLD_M1_CHECKPOINT.md), [global camera](UNIFIED_WORLD_CAMERA.md), [picking](UNIFIED_WORLD_PICKING.md), [fallback](UNIFIED_WORLD_FALLBACK.md). The original planning status was 0/82. This is a NEW PRD. Dot must mark `[x]` **only after code + automated tests + any required screenshot evidence**. Do not pre-mark because legacy tools exist; a feature passes only when its **new unified-world contract** is verified. Percent = checked/82×100. Each item is individually testable.
 
 ### M0 — Audit and irreversible-risk prevention (8)
 
@@ -297,7 +297,7 @@ Dot records actual baseline and tested hardware/browser; thresholds can be tuned
 - [x] **M1-F04** — Implement a read-only `State→Scene` adapter with stable entity references and scene cleanup; snapshot rendering doesn't change revision or save.
 - [x] **M1-F05** — Implement one global isometric camera with bounded pan/zoom/four-angle rotate/reset/fit-world and deterministic coordinate projection.
 - [x] **M1-F06** — Add mesh/sprite picking that maps 3D hit to existing action ID; distinguish drag vs tap and provide keyboard alternatives.
-- [ ] **M1-F07** — Add no-WebGL/low-quality recoverable pathway with usable scene controls, safe context-loss handling and no secondary simulation ticker.
+- [x] **M1-F07** — Add no-WebGL/low-quality recoverable pathway with usable scene controls, safe context-loss handling and no secondary simulation ticker.
 - [ ] **M1-F08** — **HARD VERTICAL-SLICE GATE:** one continuous crop + chicken terrain in one canvas; plant/water/harvest and feed/collect/sell remain functional through existing Market, exact save/economy, desktop/mobile/EN+ID tests.
 
 **M1 gate:** Do not continue world expansion while two-zone playable proof fails. Stop and fix; no cosmetic-only pass.

@@ -1,6 +1,6 @@
 import {chromium} from 'playwright';import {settledPage} from './settled-page.mjs';import {startServer} from './serve.mjs';import {readFile,mkdir,writeFile} from 'node:fs/promises';import {join} from 'node:path';import {tmpdir} from 'node:os';import assert from 'node:assert/strict';
 const qa=process.env.QA_DIR||join(tmpdir(),'myfarmtwin-unified-camera');await mkdir(qa,{recursive:true});
-const server=await startServer(0),base='http://127.0.0.1:'+server.address().port,browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE}),report={profiles:[],errors:[],method:'Headless isolated Chrome; mobile touch input through CDP emulation, not a physical touchscreen.'};
+const noWebgl=process.env.UNIFIED_NO_WEBGL==='1',server=await startServer(0),base='http://127.0.0.1:'+server.address().port,browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,args:noWebgl?['--disable-webgl']:[]}),report={profiles:[],errors:[],noWebgl,method:'Headless isolated Chrome; mobile touch input through CDP emulation, not a physical touchscreen.'};
 try{
  for(const existing of [false,true])for(const mobile of [false,true])for(const locale of ['en','id']){
   const raw=await readFile('game/tests/fixtures/unified-world/v5-'+(existing?'mixed':'fresh')+'.json','utf8'),context=await browser.newContext({viewport:{width:mobile?390:1440,height:mobile?844:1000},isMobile:mobile,hasTouch:mobile});

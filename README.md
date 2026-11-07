@@ -21,6 +21,8 @@ Preview: `http://127.0.0.1:4177/play/`. The build writes `game/client` plus the 
 
 Internal world experiment: `/play/?world=unified-preview`. It is a Crop + Chicken prototype with one 3D terrain/camera; object picking and keyboard alternatives route to the existing action panels below. Chicken entry requires an explicit Start action. It is not the completed unified experience. Default visits do not fetch its modules or Three.js. The builder copies only its pinned local vendor modules and full MIT notice under `dist/play/vendor/three`; no CDN or source maps. See `docs/UNIFIED_WORLD_AUDIT.md` and the new living PRD. Do not enable a production default until the two-zone, all-five parity, fallback and release gates pass.
 
+The prototype has a unified Canvas2D low-graphics map using the same scene and camera when WebGL is unavailable/lost or Low Graphics is chosen. Existing actions remain usable, and Retry 3D preserves progress. See `docs/UNIFIED_WORLD_FALLBACK.md` for tested scope and limitations.
+
 ## Verification
 
 `npm run e2e` covers desktop/touch-mobile game, editorial, persistence, corrupted saves, data tools, no-funds recovery, pause and concurrent tabs. Additional commands: `npm run compat`, `npm run performance`, `npm run seo`, `npm run audit:client`, `npm run balance`, `npm run endurance`. Browser runners accept `PLAYWRIGHT_CHROMIUM_EXECUTABLE`, `PLAYWRIGHT_SECONDARY_MODULE`, `PLAYWRIGHT_FIREFOX_EXECUTABLE`, `QA_DIR` and (where supported) `BASE_URL` to reuse installed browsers and keep artifacts outside Git.

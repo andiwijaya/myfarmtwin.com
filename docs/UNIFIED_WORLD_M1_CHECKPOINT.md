@@ -1,6 +1,9 @@
 # M1 read-only renderer checkpoint
 
-7 November 2026. Overall checklist: **11/82 = 13.4%**.
+7 November 2026. Initial read-only checkpoint `3a49a74`: **11/82 = 13.4%**.
+Later camera, picking and fallback increments are tracked in the living PRD and
+their dedicated evidence documents; pending statements below describe this
+initial snapshot, not current completion.
 Completed here: M1-F01, M1-F03 and M1-F04. M0 was completed at local commit
 `58cbfc0`, following initial safety checkpoint `11328e6`.
 
