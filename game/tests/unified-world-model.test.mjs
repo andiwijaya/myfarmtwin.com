@@ -9,7 +9,7 @@ function freeze(value){if(value&&typeof value==='object'){Object.values(value).f
 test('unvisited Chicken is an honest available footprint, without grants or imaginary hens',()=>{
  const state=freeze(createState()),before=serialize(state),snapshot=readWorldSnapshot(state);
  assert.equal(snapshot.chickenStarted,false);assert.equal(snapshot.entities.filter(e=>e.kind==='hen'||e.kind==='coop').length,0);
- assert.equal(snapshot.entities.filter(e=>e.kind==='available').length,1);assert.equal(serialize(state),before);
+ assert.equal(snapshot.entities.filter(e=>e.kind==='available'&&e.zone==='chicken').length,1);assert.equal(serialize(state),before);
  assert.equal(snapshot.entities.filter(e=>e.kind==='market').length,1);
 });
 test('snapshot detaches crops, preserves stable domain IDs and never consumes time/RNG/ledger',()=>{

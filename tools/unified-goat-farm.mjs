@@ -1,0 +1,3 @@
+import {dispatch} from '../game/client/engine.js';import {deserialize,serialize} from '../game/client/save-schema.js';
+/** Paid native maximum ranch; no inserted animals, resources, stage or equipment flags. */
+export function makeOwnedGoatFarm(raw){let state=deserialize(raw);const commands=[];const act=type=>{const command={id:state.revision+1,type},r=dispatch(state,command);if(!r.ok)throw Error('Goat QA '+type+': '+r.error);state=r.state;commands.push(command);};while(state.goat.shelter.level<2)act('upgradeGoatShelter');if(!state.goat.shelter.careUpgrade)act('upgradeGoatCare');while(state.goat.herd.length<8)act('buyGoat');if(state.goat.paddocks.length<2)act('unlockPaddock');return{state,commands,raw:serialize(state)};}
