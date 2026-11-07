@@ -23,6 +23,8 @@ Internal world experiment: `/play/?world=unified-preview`. It is a Crop + Chicke
 
 The prototype has a unified Canvas2D low-graphics map using the same scene and camera when WebGL is unavailable/lost or Low Graphics is chosen. Existing actions remain usable, and Retry 3D preserves progress. See `docs/UNIFIED_WORLD_FALLBACK.md` for tested scope and limitations.
 
+The opt-in two-zone proof now occupies the primary world container with one canvas and hides the old area tabs. Crop and Chicken production/sales, complete save parity, reload and the classic-map rollback pass the 16-profile M1 gate. See `docs/UNIFIED_WORLD_TWO_ZONE_GATE.md`. Five-zone expansion and the later gameplay/graphics/release gates remain pending.
+
 ## Verification
 
 `npm run e2e` covers desktop/touch-mobile game, editorial, persistence, corrupted saves, data tools, no-funds recovery, pause and concurrent tabs. Additional commands: `npm run compat`, `npm run performance`, `npm run seo`, `npm run audit:client`, `npm run balance`, `npm run endurance`. Browser runners accept `PLAYWRIGHT_CHROMIUM_EXECUTABLE`, `PLAYWRIGHT_SECONDARY_MODULE`, `PLAYWRIGHT_FIREFOX_EXECUTABLE`, `QA_DIR` and (where supported) `BASE_URL` to reuse installed browsers and keep artifacts outside Git.

@@ -134,8 +134,9 @@ Receipts and unmodified browser captures remain ignored:
   interaction and pending-load lifecycle receipts.
 - `qa-artifacts/unified-m1/` — complete command logs and result summaries.
 
-The tall mobile element captures include an offscreen skip-link overlay; normal
-viewport/focus capture must be checked at the UI gate. These captures establish
+The tall mobile element captures include an offscreen skip-link overlay. Later
+[M1-F08 viewport/focus checks](UNIFIED_WORLD_TWO_ZONE_GATE.md) confirmed it stays
+outside the normal viewport when unfocused. These captures establish
 the actual map and fallback, not a polished layout. Primitive art and all-five
 expansion are deliberately still pending.
 
