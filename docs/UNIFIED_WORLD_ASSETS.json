@@ -12,18 +12,18 @@
       "notice": "dist/play/vendor/three/LICENSE.txt"
     },
     {
-      "path": "dist/play/vendor/three/chunks/chunk-6BC6AZ53.js",
-      "bytes": 184400,
-      "sha256": "c6116da6ac30595a940bf4590da594e8a132f60bdb2bf86b756d3ae632b2d508",
+      "path": "dist/play/vendor/three/chunks/chunk-HDFNCP36.js",
+      "bytes": 192251,
+      "sha256": "9ef2d4259a34a03005f8e5877b1f6d28620b9fda928952e5a828037bbee640f0",
       "sourcePackage": "three@0.187.0",
       "transformation": "Tree-shaken/minified with esbuild@0.28.2; shared class identity and lazy WebGL split",
       "license": "MIT",
       "notice": "dist/play/vendor/three/LICENSE.txt"
     },
     {
-      "path": "dist/play/vendor/three/chunks/unified-world-webgl-6FC73G3W.js",
+      "path": "dist/play/vendor/three/chunks/unified-world-webgl-DYQZURSV.js",
       "bytes": 357192,
-      "sha256": "660da2a7deace68a715481386cfeba89fd577082f2f21f12a2a49d7bc1d2a3cd",
+      "sha256": "cfc724c3770e253a4646d52d53849623c85f17f6fd044817fade07459ca6a78a",
       "sourcePackage": "three@0.187.0",
       "transformation": "Tree-shaken/minified with esbuild@0.28.2; shared class identity and lazy WebGL split",
       "license": "MIT",
@@ -31,8 +31,8 @@
     },
     {
       "path": "dist/play/vendor/three/three.module.js",
-      "bytes": 359,
-      "sha256": "43629060c0b89f43dcdcf1498f7d2dd12351abda27af47ce256a2edc910f1385",
+      "bytes": 482,
+      "sha256": "69cb52dd0135646854e1bc224cac6766f07dee24ebc480f2e45cedd15db88617",
       "sourcePackage": "three@0.187.0",
       "transformation": "Tree-shaken/minified with esbuild@0.28.2; shared class identity and lazy WebGL split",
       "license": "MIT",
@@ -51,8 +51,8 @@
   "proceduralSources": [
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 38840,
-      "sha256": "42bebb7ad7c400719c26188511bcbf5de61f231ba73be34be50901abb66323c6",
+      "bytes": 39649,
+      "sha256": "b7141b43fead74df8b5f51e9af89275d1a4f664416de2b989c36067626d0b342",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -60,6 +60,20 @@
       "path": "game/client/unified-world-art.js",
       "bytes": 3181,
       "sha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-atlas.js",
+      "bytes": 5720,
+      "sha256": "e5747f952db2c6bc7ccfa09f7046f58196fd0db550100f38ba2210802b10093d",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-sprites.js",
+      "bytes": 6423,
+      "sha256": "22d861521b5aa82c40a5642d66540526a03e56387ad87752d00bff9018b611d5",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -93,8 +107,8 @@
     },
     {
       "path": "game/client/unified-chicken-layout.js",
-      "bytes": 1875,
-      "sha256": "12d387d6a67e3c875e600020ddf7005188302e213ff65b83428e5d422457b5e5",
+      "bytes": 2013,
+      "sha256": "600d22b43e951e0e47b5b55d41a94f709190a797c585e5b5d0d052fffa12de09",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -127,10 +141,12 @@
       "bytes": 224386,
       "sha256": "89c49fee676d623d2f8cd401d821db69c412b6b84fbb45dd193ad4321f7008df",
       "metadataSha256": "34f52b36b154c5b673d6d7451910e0962fa02c38638134e28383491b58fbae59",
+      "modulePath": "game/client/assets/world/chicken.high.js",
+      "moduleSha256": "bab38eb84cd7c18fd36c6cc6c9de813d85a17f06389fdd4f7f47a0ffd9991d82",
       "modelPath": "tools/art/chicken.mjs",
       "modelSha256": "316e204c1bc7b350ff8459d5176b3aaaf262106d80b866e6608fda51cc36b6cb",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "9ea94e56b02d4e11f1e84c9f8924ee859abc5148abbd8ea36fb9aff647531a77",
+      "generatorSha256": "6c913d7c430730f087f5b902aabef5fdd6065dcebb66f17fb1e3285268e5ce8b",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
@@ -147,10 +163,12 @@
       "bytes": 79846,
       "sha256": "67a69af7a1ff9740ae362ff7011cc79a8953281bfb7bdd8935e3989fbb2f585a",
       "metadataSha256": "946a4cd36595eb61d470f7fdf01c71a4d33e0628bf96cde8cb7d800003f482a4",
+      "modulePath": "game/client/assets/world/chicken.low.js",
+      "moduleSha256": "af8bf9cf40b149e5baee902b3613e96f0df90e0e020d2b61a07f46a13fcc1c3c",
       "modelPath": "tools/art/chicken.mjs",
       "modelSha256": "316e204c1bc7b350ff8459d5176b3aaaf262106d80b866e6608fda51cc36b6cb",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "9ea94e56b02d4e11f1e84c9f8924ee859abc5148abbd8ea36fb9aff647531a77",
+      "generatorSha256": "6c913d7c430730f087f5b902aabef5fdd6065dcebb66f17fb1e3285268e5ce8b",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",

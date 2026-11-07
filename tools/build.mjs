@@ -17,7 +17,7 @@ export async function build(root=process.cwd(),{bundle=true}={}) {
       if((await lstat(from)).isSymbolicLink()) throw new Error('Symlinks are not build inputs');
       if(entry.isDirectory()) await copy(from,to);
       else if(entry.name==='unified-world-webgl.js'&&bundle){continue;}
-      else if(['unified-world-preview.js','unified-world-canvas.js','unified-world-webgl.js'].includes(entry.name)){
+      else if(['unified-world-preview.js','unified-world-canvas.js','unified-world-sprites.js','unified-world-webgl.js'].includes(entry.name)){
         const body=await readFile(from,'utf8');
         if(!body.includes("from 'three'"))throw new Error('Preview vendor import missing');
         await writeFile(to,body.replace("from 'three'","from './vendor/three/three.module.js'"));preview=true;

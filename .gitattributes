@@ -27,3 +27,5 @@ game/client/assets/world/*.png binary
 dist/play/assets/world/*.png binary
 game/client/assets/world/*.json text eol=lf
 dist/play/assets/world/*.json text eol=lf
+game/client/assets/world/*.js text eol=lf
+dist/play/assets/world/*.js text eol=lf
