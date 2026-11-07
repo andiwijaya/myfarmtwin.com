@@ -274,7 +274,7 @@ Dot records actual baseline and tested hardware/browser; thresholds can be tuned
 
 ## 6. Master micro-feature checklist — **82 micro-features**
 
-**Execution status: 18/82 = 22.0% (7 November 2026).** Evidence: [M0 audit](UNIFIED_WORLD_AUDIT.md), [M1 checkpoint](UNIFIED_WORLD_M1_CHECKPOINT.md), [global camera](UNIFIED_WORLD_CAMERA.md), [picking](UNIFIED_WORLD_PICKING.md), [fallback](UNIFIED_WORLD_FALLBACK.md), [feasibility](UNIFIED_WORLD_FEASIBILITY.md), [two-zone gate](UNIFIED_WORLD_TWO_ZONE_GATE.md), [zone registry](UNIFIED_WORLD_REGISTRY.md), [terrain](UNIFIED_WORLD_TERRAIN.md). The original planning status was 0/82. This is a NEW PRD. Dot must mark `[x]` **only after code + automated tests + any required screenshot evidence**. Do not pre-mark because legacy tools exist; a feature passes only when its **new unified-world contract** is verified. Percent = checked/82×100. Each item is individually testable.
+**Execution status: 19/82 = 23.2% (7 November 2026).** Evidence: [M0 audit](UNIFIED_WORLD_AUDIT.md), [M1 checkpoint](UNIFIED_WORLD_M1_CHECKPOINT.md), [global camera](UNIFIED_WORLD_CAMERA.md), [picking](UNIFIED_WORLD_PICKING.md), [fallback](UNIFIED_WORLD_FALLBACK.md), [feasibility](UNIFIED_WORLD_FEASIBILITY.md), [two-zone gate](UNIFIED_WORLD_TWO_ZONE_GATE.md), [zone registry](UNIFIED_WORLD_REGISTRY.md), [terrain](UNIFIED_WORLD_TERRAIN.md), [paths](UNIFIED_WORLD_PATHS.md). The original planning status was 0/82. This is a NEW PRD. Dot must mark `[x]` **only after code + automated tests + any required screenshot evidence**. Do not pre-mark because legacy tools exist; a feature passes only when its **new unified-world contract** is verified. Percent = checked/82×100. Each item is individually testable.
 
 ### M0 — Audit and irreversible-risk prevention (8)
 
@@ -306,7 +306,7 @@ Dot records actual baseline and tested hardware/browser; thresholds can be tuned
 
 - [x] **M2-F01** — Define fixed `ZoneRegistry` world coordinates/bounds/anchors/collisions for five zones, central Market, path network and reserved empty future land.
 - [x] **M2-F02** — Build one seamless terrain/ground with coherent perspective, world bounds and no visual seams/accidental disconnected floating islands.
-- [ ] **M2-F03** — Add connected path/entry/central Market geometry, signposts and overview framing; no impassable terrain or severe overlaps from all four cameras.
+- [x] **M2-F03** — Add connected path/entry/central Market geometry, signposts and overview framing; no impassable terrain or severe overlaps from all four cameras.
 - [ ] **M2-F04** — Convert existing Crop Field plots, irrigation/pump and crop growth visuals to unified coordinate/picking; preserve every stable plot ID.
 - [ ] **M2-F05** — Locate Chicken Yard/coop/fence/nest/feeder on unified map; render actual visited/state and owner upgrades, not duplicate starter hens.
 - [ ] **M2-F06** — Locate Goat Ranch/paddock/shelter/animals on unified map; maintain true herd stages and grazing object selection.
