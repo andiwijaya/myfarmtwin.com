@@ -53,25 +53,25 @@
     },
     {
       "name": "unified-world-preview.js",
-      "bytes": 79052,
-      "sha256": "1dc37a336b58dafee0edfd5509b57c11c9df71a4d0564f8dc1079233e9e5b386"
+      "bytes": 80138,
+      "sha256": "0a3eb42491d501b12ec5910b7277c1746fbd7b2f4481d1ad3396372c31a12d28"
     },
     {
-      "name": "vendor/three/chunks/chunk-HDFNCP36.js",
-      "bytes": 192251,
-      "sha256": "9ef2d4259a34a03005f8e5877b1f6d28620b9fda928952e5a828037bbee640f0"
+      "name": "vendor/three/chunks/chunk-5TCQDHAV.js",
+      "bytes": 192358,
+      "sha256": "721ed3a26b8af9c95ddf27c0a513f7565f0af9849d55576946bbc40b59c090f1"
     },
     {
-      "name": "vendor/three/chunks/unified-world-webgl-DYQZURSV.js",
+      "name": "vendor/three/chunks/unified-world-webgl-Z7G2Y4CY.js",
       "bytes": 357192,
-      "sha256": "cfc724c3770e253a4646d52d53849623c85f17f6fd044817fade07459ca6a78a"
+      "sha256": "971d3ea569f1c348dc4a349f107a17eb77cff1e05371088dc48f9ab103a81ced"
     },
     {
       "name": "vendor/three/three.module.js",
-      "bytes": 482,
-      "sha256": "69cb52dd0135646854e1bc224cac6766f07dee24ebc480f2e45cedd15db88617"
+      "bytes": 508,
+      "sha256": "91360d01e927d784f66eef07b978f5ea8847625d5dcaaca4e5c6cabdfe7c5dae"
     }
   ],
-  "lazyWebGL": "vendor/three/chunks/unified-world-webgl-DYQZURSV.js",
+  "lazyWebGL": "vendor/three/chunks/unified-world-webgl-Z7G2Y4CY.js",
   "retainedStandaloneModules": true
 }

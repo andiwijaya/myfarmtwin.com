@@ -1,8 +1,17 @@
-import {Mesh,Vector3,Matrix3,Sprite} from './vendor/three/three.module.js';
+import {Mesh,Vector3,Matrix3,Sprite,Color,HemisphereLight,DirectionalLight,AmbientLight} from './vendor/three/three.module.js';
 import {WORLD_ART} from './unified-world-art.js';
 import {spriteOpaque} from './unified-world-sprites.js';
 /** @typedef {{x:number,y:number}} Point */
 /** @typedef {{points:Point[],depth:number,layer:number,color:string,owner:string|null,opacity?:number,pickThrough?:boolean,sprite?:Sprite,rect?:{x:number,y:number,width:number,height:number}}} CanvasFace */
+
+/** Same linear-light Lambert irradiance/PI as the pinned WebGL material. One rig
+ * per projection, never a second time/weather source. @param {import('three').Scene} scene */
+export function createCanvasLighting(scene){
+ const ambient=new Color(0,0,0),hemisphere=/** @type {{sky:Color,ground:Color,direction:Vector3}[]} */([]),directional=/** @type {{color:Color,direction:Vector3}[]} */([]);
+ scene.traverseVisible(light=>{if(light instanceof HemisphereLight)hemisphere.push({sky:light.color.clone().multiplyScalar(light.intensity),ground:light.groundColor.clone().multiplyScalar(light.intensity),direction:light.getWorldPosition(new Vector3()).normalize()});else if(light instanceof DirectionalLight){light.target.updateWorldMatrix(true,false);directional.push({color:light.color.clone().multiplyScalar(light.intensity),direction:light.getWorldPosition(new Vector3()).sub(light.target.getWorldPosition(new Vector3())).normalize()});}else if(light instanceof AmbientLight)ambient.add(light.color.clone().multiplyScalar(light.intensity));});
+ /** @param {Color} color @param {Vector3} normal */
+ return(color,normal)=>{const irradiance=ambient.clone();for(const h of hemisphere)irradiance.add(h.ground.clone().lerp(h.sky,normal.dot(h.direction)*.5+.5));for(const d of directional)irradiance.add(d.color.clone().multiplyScalar(Math.max(0,normal.dot(d.direction))));return color.clone().multiply(irradiance).multiplyScalar(1/Math.PI).getStyle();};
+}
 
 /** Visible faces of the SAME scene/camera; no second world model or simulation.
  * Ground, paths and marker are explicit paint layers; object faces use camera depth.
@@ -10,7 +19,7 @@ import {spriteOpaque} from './unified-world-sprites.js';
  */
 export function projectSceneFaces(scene,camera,width,height){
  if(width<=0||height<=0)return [];scene.updateMatrixWorld(true);camera.updateMatrixWorld(true);
- const position=WORLD_ART.light.keyPosition,direction=camera.getWorldDirection(new Vector3()),light=new Vector3(position[0],position[1],position[2]).normalize();
+ const direction=camera.getWorldDirection(new Vector3()),shade=createCanvasLighting(scene);
  /** @type {CanvasFace[]} */const faces=[];
  scene.traverseVisible(object=>{
   if(object instanceof Sprite&&object.userData.atlas){const p=object.getWorldPosition(new Vector3()).project(camera),scale=object.getWorldScale(new Vector3()),w=scale.x*camera.zoom/(camera.right-camera.left)*width,h=scale.y*camera.zoom/(camera.top-camera.bottom)*height,x=(p.x+1)*width/2-object.center.x*w,y=(1-p.y)*height/2-(1-object.center.y)*h;faces.push({points:[{x,y},{x:x+w,y},{x:x+w,y:y+h},{x,y:y+h}],depth:p.z,layer:3,color:'',owner:object.userData.entityId,sprite:object,rect:{x,y,width:w,height:h}});return;}
@@ -22,7 +31,7 @@ export function projectSceneFaces(scene,camera,width,height){
    const normal=new Vector3().fromBufferAttribute(normals,face*4).applyMatrix3(normalMatrix).normalize();if(normal.dot(direction)>=-1e-8)continue;
    const vertices=Array.from({length:4},(_,i)=>new Vector3().fromBufferAttribute(positions,face*4+i).applyMatrix4(mesh.matrixWorld).project(camera));
    const points=vertices.map(p=>({x:(p.x+1)*width/2,y:(1-p.y)*height/2})),center={x:points.reduce((n,p)=>n+p.x,0)/4,y:points.reduce((n,p)=>n+p.y,0)/4};points.sort((a,b)=>Math.atan2(a.y-center.y,a.x-center.x)-Math.atan2(b.y-center.y,b.x-center.x));
-   faces.push({points,depth:vertices.reduce((n,p)=>n+p.z,0)/4,layer:Number(mesh.userData.canvasLayer??3),opacity:mesh.material.opacity,pickThrough:!!mesh.userData.pickThrough,color:mesh.material.color.clone().multiplyScalar(.72+.28*Math.max(0,normal.dot(light))).getStyle(),owner});
+   faces.push({points,depth:vertices.reduce((n,p)=>n+p.z,0)/4,layer:Number(mesh.userData.canvasLayer??3),opacity:mesh.material.opacity,pickThrough:!!mesh.userData.pickThrough,color:shade(mesh.material.color,normal),owner});
   }
  });
  return faces.sort((a,b)=>a.layer-b.layer||b.depth-a.depth);

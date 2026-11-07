@@ -1,6 +1,12 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {Scene,Group,Mesh,BoxGeometry,MeshLambertMaterial,OrthographicCamera,Vector3,Vector2,Raycaster} from 'three';
-import {projectSceneFaces,pickCanvasFace,containsPoint} from '../client/unified-world-canvas.js';
+import {Scene,Group,Mesh,BoxGeometry,MeshLambertMaterial,OrthographicCamera,Vector3,Vector2,Raycaster,Color,HemisphereLight,DirectionalLight} from 'three';
+import {projectSceneFaces,pickCanvasFace,containsPoint,createCanvasLighting} from '../client/unified-world-canvas.js';
+
+test('fallback follows linear Lambert irradiance and the actual scene light directions',()=>{
+ const scene=new Scene(),hemi=new HemisphereLight('#ffffff','#000000',Math.PI),white=new Color('#ffffff');scene.add(hemi);scene.updateMatrixWorld(true);let shade=createCanvasLighting(scene);
+ assert.equal(shade(white,new Vector3(0,1,0)),'rgb(255,255,255)');assert.equal(shade(white,new Vector3(0,-1,0)),'rgb(0,0,0)');assert.equal(shade(white,new Vector3(1,0,0)),'rgb(188,188,188)');
+ scene.remove(hemi);const sun=new DirectionalLight('#ffffff',Math.PI);sun.position.set(0,0,10);scene.add(sun);scene.updateMatrixWorld(true);shade=createCanvasLighting(scene);assert.equal(shade(white,new Vector3(0,0,1)),'rgb(255,255,255)');assert.equal(shade(white,new Vector3(0,0,-1)),'rgb(0,0,0)');
+});
 test('polygon picking includes the boundary and respects actual concave gaps',()=>{
  const polygon=[{x:0,y:0},{x:4,y:0},{x:4,y:1},{x:1,y:1},{x:1,y:4},{x:0,y:4}];
  assert.equal(containsPoint(polygon,.5,3),true);assert.equal(containsPoint(polygon,0,2),true);assert.equal(containsPoint(polygon,3,3),false);assert.equal(containsPoint(polygon,5,1),false);

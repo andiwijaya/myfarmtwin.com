@@ -1,4 +1,4 @@
-import {readdir,readFile,writeFile,mkdir} from 'node:fs/promises';import {join,relative} from 'node:path';import {tmpdir} from 'node:os';import assert from 'node:assert/strict';
+import {readdir,readFile,writeFile,mkdir} from 'node:fs/promises';import {join,relative,resolve} from 'node:path';import {pathToFileURL} from 'node:url';import {tmpdir} from 'node:os';import assert from 'node:assert/strict';
 import {digest} from './unified-save-baseline.mjs';
 import {execFileSync} from 'node:child_process';
 import {assertPreservedMedia} from './unified-build-preservation.mjs';
@@ -14,5 +14,6 @@ else{const before=JSON.parse(await readFile(join(qa,'preserved-before.json'),'ut
  const preview=await readFile('dist/play/unified-world-preview.js','utf8');assert.ok(preview.includes('./'+bundle.lazyWebGL),'WebGL driver is version-bound and lazy');await assert.rejects(readFile('dist/play/vendor/three/three.core.js'),{code:'ENOENT'});
  for(const name of new Set(['build-info.json',...bundle.emitted.map(f=>f.name),...bundle.defaultCore.map(f=>f.name)])){const path='dist/play/'+name,raw=execFileSync('git',['hash-object','--no-filters',path],{encoding:'utf8'}).trim(),filtered=execFileSync('git',['hash-object','--path='+path,path],{encoding:'utf8'}).trim();assert.equal(raw,filtered,'Git checkout would change receipt-bound bytes: '+name);}
  const coreBytes=bundle.defaultCore.reduce((n,f)=>n+f.bytes,0);assert.ok(coreBytes<640*1024);
+ const cpu=await import(pathToFileURL(resolve('dist/play/vendor/three/three.module.js')).href);for(const name of (await readdir('dist/play')).filter(n=>n.endsWith('.js'))){const source=await readFile('dist/play/'+name,'utf8');for(const match of source.matchAll(/import\s*\{([^}]+)\}\s*from\s*['"]\.\/vendor\/three\/three\.module\.js['"]/g))for(const binding of match[1].split(',')){const exported=binding.trim().split(/\s+as\s+/)[0];assert.ok(Object.hasOwn(cpu,exported),'Standalone CPU export missing: '+exported+' in '+name);}}
  await writeFile(join(qa,'build-audit.json'),JSON.stringify({editorialAndOriginalMedia:preservation.original,additionalAuditedAtlasMedia:preservation.generated,byteExact:true,three:version,bundler:bundle.esbuild,defaultCoreBytes:coreBytes,noticeExact:true,generatedHashesExact:true,lazyDriver:bundle.lazyWebGL},null,2));console.log('Editorial/media, bundle hashes and full MIT notice PASS:',preservation,'default bytes',coreBytes);
 }

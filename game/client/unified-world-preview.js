@@ -4,6 +4,7 @@ import {objectiveEntity} from './unified-world-objectives.js';
 import {cropParts,cropSway} from './unified-world-crops.js';
 import {nativeFill,cueDescription} from './unified-world-cues.js';
 import {WORLD_ART} from './unified-world-art.js';
+import {WORLD_STYLE} from './unified-world-style.js';
 import {createWorldSprites,spriteOpaque} from './unified-world-sprites.js';
 import {WORLD_BOUNDS,ZONE_REGISTRY} from './unified-world-registry.js';
 import {WORLD_PATHS,MARKET_PLAZA,WORLD_SIGNS,WORLD_TREES,zoneLabel} from './unified-world-layout.js';
@@ -44,10 +45,10 @@ export function mountUnifiedPreview(host,state,locale,options={}){
  /** @param {Group|Scene} parent @param {number} x @param {number} y @param {number} z @param {number} w @param {number} h @param {number} d @param {string} color */
  function box(parent,x,y,z,w,h,d,color){const mesh=new Mesh(geometry,material(color));mesh.position.set(x,y,z);mesh.scale.set(w,h,d);parent.add(mesh);return mesh;}
  const bounds=WORLD_BOUNDS,centerX=(bounds.minX+bounds.maxX)/2,centerZ=(bounds.minZ+bounds.maxZ)/2;
- const ground=box(scene,centerX,-.3,centerZ,bounds.maxX-bounds.minX,.6,bounds.maxZ-bounds.minZ,'#91b76c');ground.userData.canvasLayer=0;ground.userData.worldGround=true;
- for(const path of [MARKET_PLAZA,...WORLD_PATHS]){const mesh=box(scene,path.x,.015,path.z,path.width,.025,path.depth,'#dac493');mesh.userData.canvasLayer=1;mesh.userData.pathId=path.id;}
- for(const sign of WORLD_SIGNS){const group=new Group();group.position.set(sign.x,0,sign.z);group.userData.entityId=sign.id;group.userData.zoneSign=true;box(group,0,.6,0,.08,1.2,.08,'#876247');box(group,0,1.3,0,sign.width,.4,sign.depth,'#e6d3a0');scene.add(group);}
- for(const {x,z}of WORLD_TREES){box(scene,x,.7,z,.25,1.4,.25,'#876247');box(scene,x,1.8,z,1.4,1.8,1.4,'#5d8c55');}
+ const ground=box(scene,centerX,-.3,centerZ,bounds.maxX-bounds.minX,.6,bounds.maxZ-bounds.minZ,WORLD_STYLE.ground);ground.userData.canvasLayer=0;ground.userData.worldGround=true;
+ for(const path of [MARKET_PLAZA,...WORLD_PATHS]){const mesh=box(scene,path.x,.015,path.z,path.width,.025,path.depth,WORLD_STYLE.path);mesh.userData.canvasLayer=1;mesh.userData.pathId=path.id;}
+ for(const sign of WORLD_SIGNS){const group=new Group();group.position.set(sign.x,0,sign.z);group.userData.entityId=sign.id;group.userData.zoneSign=true;box(group,0,.6,0,.08,1.2,.08,WORLD_STYLE.trunk);box(group,0,1.3,0,sign.width,.4,sign.depth,'#e6d3a0');scene.add(group);}
+ for(const {x,z}of WORLD_TREES){box(scene,x,.7,z,.25,1.4,.25,WORLD_STYLE.trunk);box(scene,x,1.8,z,1.4,1.8,1.4,'#5d8c55');}
  const marker=new Group();scene.add(marker);marker.position.y=.07;marker.visible=false;marker.userData.selectionMarker=true;for(const[x,z,w,d]of [[-.5,0,.025,1],[.5,0,.025,1],[0,-.5,1,.025],[0,.5,1,.025]]){const edge=box(marker,x,0,z,w,.02,d,'#f3ce68');edge.userData.canvasLayer=2;edge.userData.pickThrough=true;}
  const raycaster=new Raycaster();
  function selectionView(){const entity=snapshot.entities.find(e=>e.id===selectedEntity);if(!entity&&selectedEntity){const old=selectedEntity;selectedEntity=null;options.onSelectionCleared?.(old);}marker.visible=!!entity;if(entity){marker.position.set(entity.x,entity.kind==='fishSchool'?.22:entity.kind==='fishPond'?.36:entity.kind==='plot'?.14:.07,entity.z);marker.scale.set(entity.width+.16,1,entity.depth+.16);}host.dataset.selectedEntity=selectedEntity||'';for(const button of list.querySelectorAll('button'))button.setAttribute('aria-pressed',String(button.dataset.previewSelect===selectedEntity));const zone=entity?.kind==='available'?entity.zone:'';startChicken.hidden=!zone||(zone==='chicken'?!options.onStartChicken:!options.onStartZone);startChicken.dataset.previewStartZone=zone;if(zone==='chicken')startChicken.dataset.previewStartChicken='true';else delete startChicken.dataset.previewStartChicken;startChicken.textContent=zone==='chicken'?(language==='id'?'Mulai Halaman Ayam':'Start Chicken Yard'):(language==='id'?'Mulai ':'Start ')+zoneLabel(zone,language);}
@@ -60,16 +61,16 @@ export function mountUnifiedPreview(host,state,locale,options={}){
   const group=new Group();group.position.set(entity.x,0,entity.z);group.userData.entityId=entity.id;group.userData.kind=entity.kind;group.userData.phase=[...entity.id].reduce((n,c)=>n+c.charCodeAt(0),0)%97;
   const {width:w,depth:d,height:h,kind}=entity;
   if(kind==='plot'){
-   box(group,0,.06,0,w,.12,d,entity.value>.4?'#644b36':'#9a744f');
+   box(group,0,.06,0,w,.12,d,entity.value>.4?WORLD_STYLE.wetSoil:WORLD_STYLE.soil);
    if(entity.covered)box(group,0,.14,-.38,.055,.04,.08,'#6c8b7e');
    if(entity.crop){const parts=cropParts(entity.crop);group.userData.cropType=entity.crop.type;group.userData.cropStage=entity.crop.stage;for(const p of parts){const mesh=box(group,p.x,p.y,p.z,p.w,p.h,p.d,p.color);mesh.rotation.set(p.rx,p.ry,p.rz);if(p.leaf){mesh.userData.cropLeaf=true;mesh.userData.restZ=p.rz;}}}
   }else if(kind==='coop'||kind==='market'||kind==='goatShelter'){
-   box(group,0,h/2,0,w,h,d,kind==='coop'?'#c49b69':'#e4c994');
-   const roof=box(group,0,h+.15,0,w+.35,.28,d+.35,'#a46243');roof.rotation.z=.08;
+   box(group,0,h/2,0,w,h,d,kind==='coop'?WORLD_STYLE.wood:'#e4c994');
+   const roof=box(group,0,h+.15,0,w+.35,.28,d+.35,WORLD_STYLE.roof);roof.rotation.z=.08;
    box(group,0,.5,d/2+.025,.6,1,.08,'#5f5941');
    if(entity.careUpgrade)box(group,.8,.8,d/2+.07,.45,.35,.08,'#7c9d8a');
   }else if(kind==='fishPond'){
-   box(group,0,.08,0,w,.16,d,'#8e9875').userData.canvasLayer=1;box(group,0,.18,0,w-.4,.04,d-.4,(entity.clarity??1000)<500?'#91ad8d':'#7caeb1').userData.canvasLayer=1;for(const x of [-w/2,w/2])box(group,x,.18,0,.18,.35,d+.18,'#a6a17f');for(const z of [-d/2,d/2])box(group,0,.18,z,w,.35,.18,'#a6a17f');
+   box(group,0,.08,0,w,.16,d,'#8e9875').userData.canvasLayer=1;box(group,0,.18,0,w-.4,.04,d-.4,(entity.clarity??1000)<500?'#91ad8d':'#7caeb1').userData.canvasLayer=1;for(const x of [-w/2,w/2])box(group,x,.18,0,.18,.35,d+.18,WORLD_STYLE.stone);for(const z of [-d/2,d/2])box(group,0,.18,z,w,.35,.18,WORLD_STYLE.stone);
   }else if(kind==='fishSchool'){
    for(const {x,z,scale}of fishSchoolMembers(entity)){const fish=new Group();fish.position.set(x,.27,z);fish.scale.setScalar(scale);group.add(fish);box(fish,0,.03,0,.24,.12,.5,'#c8d1bc');box(fish,0,.04,-.3,.26,.09,.12,'#899d8d');box(fish,.13,.04,.03,.12,.04,.18,'#899d8d');box(fish,-.13,.04,.03,.12,.04,.18,'#899d8d');}
   }else if(kind==='fishEquipment'){
@@ -77,7 +78,7 @@ export function mountUnifiedPreview(host,state,locale,options={}){
   }else if(kind==='fishStation'){
    box(group,0,.2,0,w,.4,d,entity.domainId==='harvest'?'#b5ad83':'#b4a07b');if(entity.domainId==='feed')box(group,0,.47,0,w*.6,.14,d*.6,entity.active?'#c5b969':'#b3a17e');
   }else if(kind==='cowBarn'){
-   box(group,0,h/2,0,w,h,d,'#baae83');box(group,0,h+.12,0,w+.3,.24,d+.3,'#9e7960');box(group,-w*.25,.65,d/2+.02,.9,1.3,.04,'#756b50');if(entity.sanitation)box(group,w/2+.02,.7,0,.06,.5,.5,'#91afad');if(entity.shade){box(group,-w*.32,h*.65,d*.38,w*.36,.12,1.05,'#92a36e');for(const x of [-w*.45,-w*.2])box(group,x,h*.32,d*.42,.08,h*.64,.08,'#876247');}
+   box(group,0,h/2,0,w,h,d,'#baae83');box(group,0,h+.12,0,w+.3,.24,d+.3,'#9e7960');box(group,-w*.25,.65,d/2+.02,.9,1.3,.04,'#756b50');if(entity.sanitation)box(group,w/2+.02,.7,0,.06,.5,.5,'#91afad');if(entity.shade){box(group,-w*.32,h*.65,d*.38,w*.36,.12,1.05,'#92a36e');for(const x of [-w*.45,-w*.2])box(group,x,h*.32,d*.42,.08,h*.64,.08,WORLD_STYLE.trunk);}
   }else if(kind==='cow'){
    box(group,0,.85,0,.95,.65,1.25,'#e6dfc6');box(group,.49,.87,-.2,.035,.4,.5,'#6a6658');box(group,-.49,.95,.2,.035,.3,.4,'#6a6658');for(const x of [-.32,.32])for(const z of [-.45,.45])box(group,x,.3,z,.14,.6,.14,'#716954');box(group,0,1.35,.65,.55,.5,.4,'#e6dfc6');box(group,0,1.2,.89,.5,.22,.15,'#bb9f88');for(const x of [-.38,.38])box(group,x,1.47,.65,.22,.1,.22,'#8d8571');box(group,0,.8,-.79,.06,.6,.06,'#8d8571');if(entity.ready)box(group,0,1.1,.5,.95,.08,.12,'#719174');
   }else if(kind==='cowStation'){
@@ -110,7 +111,7 @@ export function mountUnifiedPreview(host,state,locale,options={}){
   const goatLabels=/** @type {Record<string,string>} */({shelter:language==='id'?'Naungan':'Shelter',hay:language==='id'?'Pakan':'Hay',water:language==='id'?'Air minum':'Water',clean:language==='id'?'Kebersihan':'Cleaning',platform:language==='id'?'Pijakan':'Platform',contract:language==='id'?'Kontrak':'Contract'});
   const cowLabels=/** @type {Record<string,string>} */({barn:language==='id'?'Kandang':'Barn',feed:language==='id'?'Pakan':'Feed',water:language==='id'?'Air minum':'Water',stand:language==='id'?'Tempat perah':'Milking stand',can:language==='id'?'Penyimpanan susu':'Milk storage',clean:language==='id'?'Kebersihan':'Cleaning',coop:language==='id'?'Koperasi':'Co-op'});
   const fishLabels=/** @type {Record<string,string>} */({pond:language==='id'?'Kolam':'Pond',feed:language==='id'?'Pakan':'Feed',water:language==='id'?'Air':'Water',harvest:language==='id'?'Panen':'Harvest',market:language==='id'?'Dermaga pasar':'Market dock',aerator:language==='id'?'Aerator':'Aerator'});
-  const nextYardKey=JSON.stringify(snapshot.chickenLayout);if(nextYardKey!==yardKey){yard.clear();if(snapshot.chickenLayout){for(const part of chickenFenceParts(snapshot.chickenLayout.fence))box(yard,part.x,part.y,part.z,part.width,part.height,part.depth,'#96774f');const shade=snapshot.chickenLayout.shade;if(shade){box(yard,shade.x,1.55,shade.z,shade.width,.12,shade.depth,'#92a36e');for(const x of [-.65,.65])for(const z of [-1.05,1.05])box(yard,shade.x+x,.75,shade.z+z,.08,1.5,.08,'#876247');}}yardKey=nextYardKey;}host.dataset.chickenYardMeshes=String(yard.children.length);host.dataset.ownedHens=String(snapshot.entities.filter(e=>e.kind==='hen').length);const coopEntity=snapshot.entities.find(e=>e.kind==='coop');host.dataset.coopLevel=coopEntity?String(coopEntity.level):'';host.dataset.coopShade=String(!!coopEntity?.shade);const chickenFeeder=snapshot.entities.find(e=>e.zone==='chicken'&&e.domainId==='feeder');host.dataset.chickenAutoOwned=String(!!chickenFeeder?.automatic);host.dataset.chickenAutoOn=String(!!chickenFeeder?.active);
+  const nextYardKey=JSON.stringify(snapshot.chickenLayout);if(nextYardKey!==yardKey){yard.clear();if(snapshot.chickenLayout){for(const part of chickenFenceParts(snapshot.chickenLayout.fence))box(yard,part.x,part.y,part.z,part.width,part.height,part.depth,'#96774f');const shade=snapshot.chickenLayout.shade;if(shade){box(yard,shade.x,1.55,shade.z,shade.width,.12,shade.depth,'#92a36e');for(const x of [-.65,.65])for(const z of [-1.05,1.05])box(yard,shade.x+x,.75,shade.z+z,.08,1.5,.08,WORLD_STYLE.trunk);}}yardKey=nextYardKey;}host.dataset.chickenYardMeshes=String(yard.children.length);host.dataset.ownedHens=String(snapshot.entities.filter(e=>e.kind==='hen').length);const coopEntity=snapshot.entities.find(e=>e.kind==='coop');host.dataset.coopLevel=coopEntity?String(coopEntity.level):'';host.dataset.coopShade=String(!!coopEntity?.shade);const chickenFeeder=snapshot.entities.find(e=>e.zone==='chicken'&&e.domainId==='feeder');host.dataset.chickenAutoOwned=String(!!chickenFeeder?.automatic);host.dataset.chickenAutoOn=String(!!chickenFeeder?.active);
   const runs=irrigationRuns(snapshot),nextIrrigationKey=JSON.stringify(runs);if(nextIrrigationKey!==irrigationKey){irrigation.clear();for(const run of runs){const mesh=box(irrigation,run.x,.04,run.z,run.width,.025,run.depth,run.enabled?'#5d99a3':'#737f6b');mesh.userData.canvasLayer=2;}irrigationKey=nextIrrigationKey;}host.dataset.irrigationKnown=String(snapshot.irrigationKnown);host.dataset.irrigationCoverage=snapshot.coveredPlotIds.join(',');host.dataset.irrigationMeshes=String(irrigation.children.length);host.dataset.pumpEnabled=String(snapshot.entities.some(e=>e.kind==='pump'&&e.value===1));
   sprites.snapshot(snapshot.entities);const ids=new Set(snapshot.entities.map(e=>e.id));sprites.retain(ids);for(const [id,entry]of objects)if(!ids.has(id)){scene.remove(entry.group);objects.delete(id);}
   for(const e of snapshot.entities){const key=JSON.stringify(e),entry=objects.get(e.id);if(entry?.key===key)continue;if(entry)scene.remove(entry.group);const group=entityGroup(e);objects.set(e.id,{key,group});scene.add(group);sprites.bind(group,e);}
