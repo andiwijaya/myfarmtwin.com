@@ -207,6 +207,8 @@ export function mountUnifiedPreview(host,state,locale,options={}){
  if(preferLow)useFallback('low');else requestThree();
  const observer=new ResizeObserver(()=>{if(stage.clientWidth!==renderWidth||stage.clientHeight!==renderHeight)draw();});observer.observe(stage);
  return {
+  /** Camera navigation only, preserving current object and native context. @param {string} zone */
+  focusZone(zone){if(disposed||!Object.hasOwn(ZONE_REGISTRY,zone))return;select('zone.'+zone);canvas.focus({preventScroll:true});stage.scrollIntoView({block:'nearest',behavior:'instant'});},
   /** Read the existing guide target without selecting it. @param {string|null|undefined} target @param {{contextZone?:string,plotId?:number|null,fishPondId?:number}} [context] */
   objectiveTarget(target,context){return disposed?null:objectiveEntity(snapshot,target,context);},
   /** Camera-only objective navigation, including truthful unstarted land. @param {string} id */
