@@ -10,6 +10,7 @@ lines read in windows 1–170, 171–340 and 341–490. The living repository co
 
 - Clean initial branch `fish-pond-v1`, HEAD `0061b73b89eb5c13dc770ecd56c730fd38f73649`.
 - One local worktree. Created isolated branch `unified-world-v1` at that HEAD.
+  Non-destructive local M0 checkpoint: `11328e6` (no push).
 - Local main and cached origin/main: `fffc13516c1e8e19c5131d9c26b808eb51f6ed20`.
   Fresh read-only `git ls-remote` confirms that exact current remote main SHA.
 - Public `/play/` observed in a new isolated browser context: HTTP 200, all five
@@ -40,8 +41,11 @@ Initial browser processes were sandbox-blocked on localhost with
 `ERR_NETWORK_ACCESS_DENIED`, before gameplay assertions. The authorized retry
 uses the same headless Chrome executable and temporary Playwright profiles,
 with permitted local networking. E2E main, Chicken aggregate and Goat full
-journeys PASS. Cow aggregate and all-five Fish journey results are recorded in
-the ongoing baseline result file; final M0 completion requires their outcomes.
+journeys PASS. Cow aggregate PASS (17 sub-suites), all-five Fish journeys PASS
+(8 fresh/existing × desktop/mobile × EN/ID profiles, including all five sales,
+shared wallet/ledger, IDs and exact reload). No gameplay/domain code changed
+during baseline. A detached model/camera substrate was prepared and unit-tested
+while long baseline suites ran; it was not loaded by the baseline build.
 
 Evidence is ignored, never production content:
 
@@ -94,14 +98,44 @@ commit and original older-version fixtures remain recorded.
 ## Measurement limits and release hold
 
 Hardware: Intel Core i7-1255U, 23.7 GiB memory; headless Chrome 156.0.8078.80.
-Raw current game content is 629,571 bytes; summed per-file gzip equivalent is
-229,293 bytes. Gzip equivalent is not actual wire transfer. Performance timing
-will be measured separately from other concurrent browser suites.
+Raw baseline game content is 629,571 bytes across 129 files; summed per-file gzip
+equivalent is 229,293 bytes. Gzip equivalent is not actual wire transfer.
+Performance measured separately after the other browser suites: 20/20 legacy
+profiles PASS, no failures/page errors/external requests, one original interval
+before and after 50 area switches per profile. Each RAF-cadence sample is 6.4s,
+includes at least two ordinary shared ticks and repeated object selections.
+This is browser frame cadence, not a claim of Three renderer submissions.
+
+| Available lab profile | FPS range | Cold first interaction | Largest switch p95 | Largest sampled heap growth |
+|---|---|---|---|---|
+| Desktop, ten zone/quality profiles | 59.1–59.7 | 489–562ms | 150ms | 1.85 MiB |
+| 390px touch + 4× CPU + 150ms / 1.6Mbps, ten profiles | 42.7–55.0 | 7089–7785ms | 500ms | 1.85 MiB |
+
+The old runner permits 20s cold start. The new PRD target is ≤5s: emulated legacy
+cold load already exceeds that new target. Do not treat the old-runner PASS as a
+new-world loading gate pass. Optimize and remeasure at M1/M7. Short samples do
+not establish a 15–30-minute soak or a physical-device frame rate.
+
+The paired native max-farm 90-day endurance replay is exact over 2160 logical
+hours; peak serialized save 323,745 bytes, IDs and daily roundtrips exact.
+Full receipts: `qa-artifacts/unified-m0/performance/report.json` and original
+`performance-run.log`. Baseline runtime build hash is
+`9877fd05d7441f7b2d881ca5880f5973334d1b508f6e07785b8d93af5251dbb6`.
+
+Additional CDP CPU profiles use ten Chicken camera rotations and a 5s idle
+window: desktop 162.8ms main-thread TaskDuration over 5894ms; 4× CPU emulation
+814.4ms over 6214ms. Paused saved bytes remain exact. Actual `.cpuprofile` files
+and heap/sample summaries are in `qa-artifacts/unified-m0/cpu/`. TaskDuration
+is main-thread task time, not total machine CPU percentage.
 
 Touch viewport/CPU/network emulation does not establish physical Android FPS,
 GPU memory, thermal behavior, actual touch or Safari compatibility. Those remain
 explicit release risks. Do not invent hardware measurements. M1 renderer choice
 and M7 resource/soak gates must name their actual method and sampled window.
+
+M0 audit gate complete for the available local lab, with the physical-device
+limits above explicitly retained for release. No gameplay behavior was changed
+in the baseline build. M1 substrate work stayed unmounted during these tests.
 
 No push/deploy. Preview remains hidden until the two-zone proof, all-five parity
 and release gates pass. Preserve the existing renderer, original assets and V5

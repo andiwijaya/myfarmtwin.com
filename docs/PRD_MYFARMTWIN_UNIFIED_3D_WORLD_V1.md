@@ -274,17 +274,17 @@ Dot records actual baseline and tested hardware/browser; thresholds can be tuned
 
 ## 6. Master micro-feature checklist — **82 micro-features**
 
-**Execution status: 5/82 = 6.1% (7 November 2026).** Evidence: [M0 audit](UNIFIED_WORLD_AUDIT.md). The original planning status was 0/82. This is a NEW PRD. Dot must mark `[x]` **only after code + automated tests + any required screenshot evidence**. Do not pre-mark because legacy tools exist; a feature passes only when its **new unified-world contract** is verified. Percent = checked/82×100. Each item is individually testable.
+**Execution status: 8/82 = 9.8% (7 November 2026).** Evidence: [M0 audit](UNIFIED_WORLD_AUDIT.md). The original planning status was 0/82. This is a NEW PRD. Dot must mark `[x]` **only after code + automated tests + any required screenshot evidence**. Do not pre-mark because legacy tools exist; a feature passes only when its **new unified-world contract** is verified. Percent = checked/82×100. Each item is individually testable.
 
 ### M0 — Audit and irreversible-risk prevention (8)
 
-- [ ] **M0-F01** — Audit latest local/remote/main/production, commits, uncommitted files and active Dot tasks (especially Fish and Cow release); secure clean isolated branch and non-destructive checkpoint.
+- [x] **M0-F01** — Audit latest local/remote/main/production, commits, uncommitted files and active Dot tasks (especially Fish and Cow release); secure clean isolated branch and non-destructive checkpoint.
 - [x] **M0-F02** — Inventory five renderer modules, `main.js activeArea` handling, per-area cameras, object IDs, zone-specific input, and all existing action/mission/Market/Inspector contracts.
 - [x] **M0-F03** — Inspect MyZooTwin's Three.js scene, camera, asset practices, licensing, deployed build constraints; document transferable patterns, not blind repo copy.
-- [ ] **M0-F04** — Run baseline `lint`, `typecheck`, unit, build, full e2e plus area QA suites actually available; distinguish existing failures from new ones.
+- [x] **M0-F04** — Run baseline `lint`, `typecheck`, unit, build, full e2e plus area QA suites actually available; distinguish existing failures from new ones.
 - [x] **M0-F05** — Capture deterministic baseline screenshots/video evidence and interaction traces for all five current zones on desktop/mobile/EN+ID; inventory assets and current art inconsistencies.
 - [x] **M0-F06** — Freeze sanitized V0–current save fixtures and full crop/chicken/goat/cow/fish ledger/mission snapshots; write byte/semantic comparison scripts; no personal saves copied.
-- [ ] **M0-F07** — Profile current total bytes, FPS, load, CPU/heap and UI actions on mid mobile/desktop; specify quality target reference captures from MyZooTwin **as inspiration only**.
+- [x] **M0-F07** — Profile current total bytes, FPS, load, CPU/heap and UI actions on mid mobile/desktop; specify quality target reference captures from MyZooTwin **as inspiration only**. Local laptop + throttled mobile emulation measured; physical-device performance remains an explicit release limit.
 - [x] **M0-F08** — Add living PRD, design rationale, world schema + asset provenance checklist, feature switch and rollback/release plan to repo; baseline must remain production-safe.
 
 **M0 gate:** no game behavior touched; audit and safe implementation route documented.
