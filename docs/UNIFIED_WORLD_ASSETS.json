@@ -72,8 +72,8 @@
     },
     {
       "path": "game/client/unified-world-sprites.js",
-      "bytes": 15830,
-      "sha256": "37e2c5c93543c872431eda8c680ab4cdf848ae60fe02fa3804f3457dd6eb4702",
+      "bytes": 15816,
+      "sha256": "04ec213d59888ad8c2c316cc00a3df90203cfc5c95290b6f3440c0d794ff7e9e",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -86,8 +86,8 @@
     },
     {
       "path": "game/client/unified-world-motion.js",
-      "bytes": 6917,
-      "sha256": "9c8e16bf905f91389f4f79aa26a88894f932e40c0384e23b4ab8e747b015a6e4",
+      "bytes": 7528,
+      "sha256": "5b9f819bac59aec3582a589cfd64f2633a38be9fbd5076bd319fba3d92d649cf",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
