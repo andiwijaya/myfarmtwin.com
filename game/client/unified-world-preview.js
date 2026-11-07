@@ -3,6 +3,7 @@ import {readWorldSnapshot,resolveWorldSelection} from './unified-world-model.js'
 import {WORLD_BOUNDS,ZONE_REGISTRY} from './unified-world-registry.js';
 import {WORLD_PATHS,MARKET_PLAZA,WORLD_SIGNS,zoneLabel} from './unified-world-layout.js';
 import {irrigationRuns} from './unified-world-irrigation.js';
+import {chickenFenceParts} from './unified-chicken-layout.js';
 import {createFarmCamera} from './unified-world-camera.js';
 import {createCanvasWorldRenderer} from './unified-world-canvas.js';
 
@@ -14,7 +15,7 @@ import {createCanvasWorldRenderer} from './unified-world-canvas.js';
 export function mountUnifiedPreview(host,state,locale,options={}){
  const control=createFarmCamera(),scene=new Scene(),camera=new OrthographicCamera(),abort=new AbortController();
  scene.background=new Color('#e5eddc');scene.add(new HemisphereLight('#fff5de','#68835d',2.6));const sun=new DirectionalLight('#fff4dc',2);sun.position.set(-8,18,10);scene.add(sun);
- const geometry=new BoxGeometry(1,1,1),materials=new Map(),objects=new Map(),irrigation=new Group();irrigation.userData.entityId='field.pump';scene.add(irrigation);let irrigationKey='';
+ const geometry=new BoxGeometry(1,1,1),materials=new Map(),objects=new Map(),irrigation=new Group(),yard=new Group();irrigation.userData.entityId='field.pump';yard.userData.entityId='chicken.coop';scene.add(irrigation,yard);let irrigationKey='',yardKey='';
  /** @type {import('three').WebGLRenderer|null} */let renderer=null;
  /** @type {WebGL2RenderingContext|null} */let pendingContext=null;
  let rendererEpoch=0,loading=false,ready=Promise.resolve(),renderSubmissions=0,lastAnimated=0,renderWidth=0,renderHeight=0,visualGeneration=0,visualRunning=false;
@@ -61,12 +62,17 @@ export function mountUnifiedPreview(host,state,locale,options={}){
    box(group,0,.27,0,.36,.35,.45,'#fff1cd');box(group,.04,.52,.12,.2,.22,.22,'#fff1cd');box(group,.04,.67,.12,.08,.1,.14,'#b35e43');box(group,.04,.5,.27,.1,.07,.12,'#d9a649');
   }else if(kind==='pump'){
    box(group,0,.25,0,.65,.5,.65,'#7a9b95');box(group,0,.7,0,.5,.35,.5,'#94aca2');box(group,.28,.68,0,.15,.12,.2,'#597a78');box(group,0,.95,0,.18,.08,.18,entity.value===1?'#4b9eb2':'#737f6b');
+  }else if(kind==='station'){
+   if(entity.domainId==='nest'){box(group,0,.1,0,w,.2,d,'#ba975a');const slots=Math.min(8,entity.capacity||4);for(let i=0;i<slots;i++){const x=(i-(slots-1)/2)*.11;box(group,x,.22,0,.09,.06,.27,'#806948');if(i<entity.value)box(group,x,.31,0,.07,.1,.08,'#fff1cd');}}
+   else if(entity.domainId==='feeder'||entity.domainId==='drinker'){box(group,0,.1,0,w,.2,d,'#8d9b89');const fill=Math.max(0,Math.min(1,entity.value/(entity.capacity||1)));if(fill>0)box(group,0,.22+fill*.1,0,.46,fill*.2,.44,entity.domainId==='drinker'?'#78aeb4':'#b59054');if(entity.automatic)box(group,-.23,.33,0,.14,.32,.35,'#647c79');}
+   else box(group,0,h/2,0,w,h,d,entity.value<40?'#ac6c4c':'#ba975a');
   }else if(kind==='available'){
    box(group,0,.03,0,w,.06,d,'#b8c68b');box(group,0,.65,0,.1,1.3,.1,'#94724d');box(group,0,1.2,0,1.3,.45,.12,'#e6d3a0');
-  }else box(group,0,h/2,0,w,h,d,entity.domainId==='drinker'?'#78aeb4':'#ba975a');
+  }
   return group;
  }
  function sync(){
+  const nextYardKey=JSON.stringify(snapshot.chickenLayout);if(nextYardKey!==yardKey){yard.clear();if(snapshot.chickenLayout){for(const part of chickenFenceParts(snapshot.chickenLayout.fence))box(yard,part.x,part.y,part.z,part.width,part.height,part.depth,'#96774f');const shade=snapshot.chickenLayout.shade;if(shade){box(yard,shade.x,1.55,shade.z,shade.width,.12,shade.depth,'#92a36e');for(const x of [-.65,.65])for(const z of [-1.05,1.05])box(yard,shade.x+x,.75,shade.z+z,.08,1.5,.08,'#876247');}}yardKey=nextYardKey;}host.dataset.chickenYardMeshes=String(yard.children.length);host.dataset.ownedHens=String(snapshot.entities.filter(e=>e.kind==='hen').length);const coopEntity=snapshot.entities.find(e=>e.kind==='coop');host.dataset.coopLevel=coopEntity?String(coopEntity.level):'';host.dataset.coopShade=String(!!coopEntity?.shade);
   const runs=irrigationRuns(snapshot),nextIrrigationKey=JSON.stringify(runs);if(nextIrrigationKey!==irrigationKey){irrigation.clear();for(const run of runs){const mesh=box(irrigation,run.x,.04,run.z,run.width,.025,run.depth,run.enabled?'#5d99a3':'#737f6b');mesh.userData.canvasLayer=2;}irrigationKey=nextIrrigationKey;}host.dataset.irrigationKnown=String(snapshot.irrigationKnown);host.dataset.irrigationCoverage=snapshot.coveredPlotIds.join(',');host.dataset.irrigationMeshes=String(irrigation.children.length);host.dataset.pumpEnabled=String(snapshot.entities.some(e=>e.kind==='pump'&&e.value===1));
   const ids=new Set(snapshot.entities.map(e=>e.id));for(const [id,entry]of objects)if(!ids.has(id)){scene.remove(entry.group);objects.delete(id);}
   for(const e of snapshot.entities){const key=JSON.stringify(e),entry=objects.get(e.id);if(entry?.key===key)continue;if(entry)scene.remove(entry.group);const group=entityGroup(e);objects.set(e.id,{key,group});scene.add(group);}
@@ -137,7 +143,7 @@ export function mountUnifiedPreview(host,state,locale,options={}){
   ready:()=>ready,
   /** Return focus only for the panel actually opened by this world selection. @param {string} kind @param {string|number} domainId */
   releaseSelection(kind,domainId){const target=selectedEntity?resolveWorldSelection(snapshot,selectedEntity):null;if(disposed||!target||target.kind!==kind||target.domainId!==domainId)return false;for(const button of list.querySelectorAll('button'))if(button.dataset.previewSelect===selectedEntity)button.focus({preventScroll:true});selectedEntity=null;selectionView();draw();return true;},
-  dispose(){if(disposed)return;disposed=true;cancelStartup();stopVisual();rendererEpoch++;if(pendingContext){releaseContext(pendingContext);pendingContext=null;}abort.abort();observer.disconnect();releaseRenderer();canvasRenderer?.dispose();canvasRenderer=null;irrigation.clear();scene.clear();objects.clear();geometry.dispose();for(const m of materials.values())m.dispose();materials.clear();host.replaceChildren();host.dataset.renderer='disposed';},
+  dispose(){if(disposed)return;disposed=true;cancelStartup();stopVisual();rendererEpoch++;if(pendingContext){releaseContext(pendingContext);pendingContext=null;}abort.abort();observer.disconnect();releaseRenderer();canvasRenderer?.dispose();canvasRenderer=null;irrigation.clear();yard.clear();scene.clear();objects.clear();geometry.dispose();for(const m of materials.values())m.dispose();materials.clear();host.replaceChildren();host.dataset.renderer='disposed';},
   inspect:()=>({disposed,entities:objects.size,renderer:host.dataset.renderer,camera:control.view(),bounds,groundMeshes:scene.children.filter(object=>object.userData.worldGround).length,pathMeshes:scene.children.filter(object=>object.userData.pathId).length,signPosts:scene.children.filter(object=>object.userData.zoneSign).length,terrain:{x:ground.position.x,z:ground.position.z,width:ground.scale.x,depth:ground.scale.z,top:ground.position.y+ground.scale.y/2},visualPending:visualFrame===null?0:1,startupPending:startupTimer===null?0:1,renderSubmissions,animatedEntities:lastAnimated})
  };
 }
