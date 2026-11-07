@@ -1,0 +1,18 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {mkdtemp,mkdir,writeFile,readFile,rm,readdir} from 'node:fs/promises';import {join,resolve} from 'node:path';import {tmpdir} from 'node:os';import {pathToFileURL} from 'node:url';
+import {build} from '../../tools/build.mjs';
+test('real bundling shares CPU/WebGL class identity and removes only verified obsolete generated chunks',async()=>{
+ const temp=resolve(tmpdir()),root=await mkdtemp(join(temp,'mft-unified-bundle-'));
+ try{
+  for(const dir of ['game/client','dist','tools','node_modules/three/build'])await mkdir(join(root,dir),{recursive:true});
+  await writeFile(join(root,'package.json'),JSON.stringify({type:'module'}));await writeFile(join(root,'dist/index.html'),'EDITORIAL');
+  const sources={'game/client/index.html':'<script type="module" src="./main.js"></script>','game/client/main.js':"export const open=()=>import('./unified-world-preview.js');export const value=9;",'game/client/unified-world-preview.js':"import {Scene} from 'three';export const scene=new Scene();export const driver=()=>import('./unified-world-webgl.js');",'game/client/unified-world-webgl.js':"export {WebGLRenderer} from 'three';",'tools/three-cpu-entry.mjs':"export {Scene,Vector3} from '../node_modules/three/build/three.core.js';",'node_modules/three/package.json':JSON.stringify({version:'0.187.0',type:'module',main:'build/three.module.js'}),'node_modules/three/build/three.core.js':'export class Vector3{};export class Scene{};','node_modules/three/build/three.module.js':"import {Vector3} from './three.core.js';export class WebGLRenderer {static vectorClass=Vector3;}",'node_modules/three/LICENSE':'FULL MIT NOTICE'};
+  for(const [name,body]of Object.entries(sources))await writeFile(join(root,name),body);
+  await build(root);const receipt=JSON.parse(await readFile(join(root,'dist/play/build-info.json'),'utf8'));assert.equal(receipt.esbuild,'0.28.2');assert.equal(receipt.sourceMaps,false);assert.deepEqual(receipt.defaultCore.map(f=>f.name),['index.html','main.js']);
+  const cpu=await import(pathToFileURL(join(root,'dist/play/vendor/three/three.module.js')).href),driver=await import(pathToFileURL(join(root,'dist/play',receipt.lazyWebGL)).href);assert.equal(cpu.Vector3,driver.WebGLRenderer.vectorClass);
+  await assert.rejects(readFile(join(root,'dist/play/vendor/three/three.core.js')),{code:'ENOENT'});const oldChunk=receipt.emitted.find(f=>f.name.includes('/chunks/'));assert.ok(oldChunk);
+  await writeFile(join(root,'dist/play/vendor/three/chunks/retained.txt'),'KEEP');await writeFile(join(root,'node_modules/three/build/three.core.js'),'export class Vector3{constructor(){this.changed=true;}};export class Scene{};');await build(root);
+  assert.equal(await readFile(join(root,'dist/index.html'),'utf8'),'EDITORIAL');assert.equal(await readFile(join(root,'dist/play/vendor/three/chunks/retained.txt'),'utf8'),'KEEP');await assert.rejects(readFile(join(root,'dist/play',oldChunk.name)),{code:'ENOENT'});
+  const next=JSON.parse(await readFile(join(root,'dist/play/build-info.json'),'utf8')),nextChunk=next.emitted.find(f=>f.name.includes('/chunks/'));await writeFile(join(root,'dist/play',nextChunk.name),'UNEXPECTED EDIT');await writeFile(join(root,'node_modules/three/build/three.core.js'),'export class Vector3{constructor(){this.changed=42;}};export class Scene{};');await assert.rejects(build(root),/Refusing to replace changed generated chunk/);assert.equal(await readFile(join(root,'dist/play',nextChunk.name),'utf8'),'UNEXPECTED EDIT');
+  assert.equal((await readdir(join(root,'dist/play'))).some(n=>n.endsWith('.map')),false);
+ }finally{assert.ok(root.startsWith(join(temp,'mft-unified-bundle-')));await rm(root,{recursive:true,force:true});}
+});

@@ -1,23 +1,28 @@
 import { resolve, relative, join } from 'node:path';
 import { readdir, mkdir, copyFile, lstat, readFile, writeFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
+import {bundleWorld} from './bundle-world.mjs';
 
 /** Copy game/client and the opt-in renderer's pinned vendor files into dist/play only. Never empties output. */
-export async function build(root=process.cwd()) {
+export async function build(root=process.cwd(),{bundle=true}={}) {
   const source=resolve(root,'game/client'), target=resolve(root,'dist/play');
   if(relative(resolve(root,'dist'),target)!=='play') throw new Error('Unsafe output');
   let preview=false;
+  // Receipt-bound entry text must have identical bytes on Windows and Linux.
+  const canonicalText=new Set(['index.html','style.css','goat.css','cow.css','fish.css','preview-loader.js']);
   async function copy(src,dst){
     await mkdir(dst,{recursive:true});
     for(const entry of await readdir(src,{withFileTypes:true})){
       const from=join(src,entry.name),to=join(dst,entry.name);
       if((await lstat(from)).isSymbolicLink()) throw new Error('Symlinks are not build inputs');
       if(entry.isDirectory()) await copy(from,to);
-      else if(['unified-world-preview.js','unified-world-canvas.js'].includes(entry.name)){
+      else if(entry.name==='unified-world-webgl.js'&&bundle){continue;}
+      else if(['unified-world-preview.js','unified-world-canvas.js','unified-world-webgl.js'].includes(entry.name)){
         const body=await readFile(from,'utf8');
         if(!body.includes("from 'three'"))throw new Error('Preview vendor import missing');
         await writeFile(to,body.replace("from 'three'","from './vendor/three/three.module.js'"));preview=true;
-      }else if(/\.(html|css|js|svg|json|webp)$/.test(entry.name)) await copyFile(from,to);
+      }else if(canonicalText.has(relative(source,from)))await writeFile(to,(await readFile(from,'utf8')).replaceAll('\r\n','\n'));
+      else if(/\.(html|css|js|svg|json|webp)$/.test(entry.name)) await copyFile(from,to);
     }
   }
   await copy(source,target);
@@ -29,6 +34,7 @@ export async function build(root=process.cwd()) {
       const path=join(vendor,input);if((await lstat(path)).isSymbolicLink())throw new Error('Symlink vendor input');await copyFile(path,join(output,name));
     }
     await writeFile(join(output,'version.json'),JSON.stringify({name:'three',version:pkg.version,license:'MIT',sourceMaps:false})+'\n');
+    if(bundle)await bundleWorld(root);
   }
   console.log('Built only dist/play; editorial files preserved.');
 }

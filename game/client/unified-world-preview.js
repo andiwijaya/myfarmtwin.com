@@ -1,10 +1,10 @@
-import {Scene,Color,OrthographicCamera,WebGLRenderer,HemisphereLight,DirectionalLight,Mesh,BoxGeometry,MeshLambertMaterial,Group,Raycaster,Vector2} from 'three';
+import {Scene,Color,OrthographicCamera,HemisphereLight,DirectionalLight,Mesh,BoxGeometry,MeshLambertMaterial,Group,Raycaster,Vector2} from 'three';
 import {readWorldSnapshot,resolveWorldSelection,TWO_ZONE_BOUNDS} from './unified-world-model.js';
 import {createWorldCamera} from './unified-world-camera.js';
 import {createCanvasWorldRenderer} from './unified-world-canvas.js';
 
-/** Snapshot scene with input callbacks. No economy reducer or timer is owned here.
- * Static frames are submitted only for a snapshot, resize or player input.
+/** Snapshot scene with input callbacks. No economy reducer or simulation clock is owned here.
+ * Cosmetic breathing uses one visual RAF, separate from the existing game clock.
  * @param {HTMLElement} host @param {import('./engine.js').State} state @param {string} locale
  * @param {{onSelect?:(target:Readonly<import('./unified-world-model.js').WorldSelection>)=>void,onStartChicken?:()=>void|Promise<void>,lowGraphics?:boolean}} [options]
  */
@@ -12,9 +12,15 @@ export function mountUnifiedPreview(host,state,locale,options={}){
  const control=createWorldCamera(),scene=new Scene(),camera=new OrthographicCamera(),abort=new AbortController();
  scene.background=new Color('#e5eddc');scene.add(new HemisphereLight('#fff5de','#68835d',2.6));const sun=new DirectionalLight('#fff4dc',2);sun.position.set(-8,18,10);scene.add(sun);
  const geometry=new BoxGeometry(1,1,1),materials=new Map(),objects=new Map();
- /** @type {WebGLRenderer|null} */let renderer=null;
+ /** @type {import('three').WebGLRenderer|null} */let renderer=null;
+ /** @type {WebGL2RenderingContext|null} */let pendingContext=null;
+ let rendererEpoch=0,loading=false,ready=Promise.resolve(),renderSubmissions=0,lastAnimated=0,renderWidth=0,renderHeight=0,visualGeneration=0,visualRunning=false;
+ /** @type {number|null} */let visualFrame=null;
+ /** @type {number|null} */let startupTimer=null;
+ /** @type {(()=>void)|null} */let startupResolve=null;
+ const motion=matchMedia('(prefers-reduced-motion: reduce)');
  /** @type {ReturnType<typeof createCanvasWorldRenderer>|null} */let canvasRenderer=null;
- let disposed=false,snapshot=readWorldSnapshot(state),language=locale,listKey='',preferLow=!!options.lowGraphics,modeReason='low';
+ let disposed=false,sourceState=state,snapshot=readWorldSnapshot(state),language=locale,listKey='',preferLow=!!options.lowGraphics,modeReason='low';
  /** @type {string|null} */let selectedEntity=null;
  host.className='unified-preview';host.dataset.unifiedPreview='true';host.setAttribute('aria-label','Unified world preview');
  const heading=document.createElement('h2'),note=document.createElement('p'),status=document.createElement('p'),stage=document.createElement('div'),toolbar=document.createElement('div'),instructions=document.createElement('p'),list=document.createElement('ul'),startChicken=document.createElement('button'),retry=document.createElement('button');let canvas=document.createElement('canvas');
@@ -36,7 +42,7 @@ export function mountUnifiedPreview(host,state,locale,options={}){
  function pick(x,y){if(disposed)return;draw();const rect=canvas.getBoundingClientRect();if(rect.width<=0||rect.height<=0||x<rect.left||x>rect.right||y<rect.top||y>rect.bottom)return;if(canvasRenderer){const id=canvasRenderer.pick(x-rect.left,y-rect.top);if(id)select(id);return;}if(!renderer)return;camera.updateMatrixWorld(true);scene.updateMatrixWorld(true);raycaster.setFromCamera(new Vector2((x-rect.left)/rect.width*2-1,1-(y-rect.top)/rect.height*2),camera);const visible=/** @type {Mesh[]} */([]);scene.traverseVisible(object=>{if(object instanceof Mesh)visible.push(object);});const first=raycaster.intersectObjects(visible,false)[0];if(!first)return;let hit=first.object;while(hit.parent&&!hit.userData.entityId)hit=hit.parent;const id=hit.userData.entityId;if(typeof id==='string')select(id);}
  /** @param {import('./unified-world-model.js').WorldEntity} entity */
  function entityGroup(entity){
-  const group=new Group();group.position.set(entity.x,0,entity.z);group.userData.entityId=entity.id;
+  const group=new Group();group.position.set(entity.x,0,entity.z);group.userData.entityId=entity.id;group.userData.kind=entity.kind;group.userData.phase=[...entity.id].reduce((n,c)=>n+c.charCodeAt(0),0)%97;
   const {width:w,depth:d,height:h,kind}=entity;
   if(kind==='plot'){
    box(group,0,.06,0,w,.12,d,entity.value>.4?'#644b36':'#9a744f');
@@ -46,6 +52,7 @@ export function mountUnifiedPreview(host,state,locale,options={}){
    const roof=box(group,0,h+.15,0,w+.35,.28,d+.35,'#a46243');roof.rotation.z=.08;
    box(group,0,.5,d/2+.025,.6,1,.08,'#5f5941');
   }else if(kind==='hen'){
+   box(group,-.1,.06,0,.035,.12,.035,'#b78744');box(group,.1,.06,0,.035,.12,.035,'#b78744');
    box(group,0,.27,0,.36,.35,.45,'#fff1cd');box(group,.04,.52,.12,.2,.22,.22,'#fff1cd');box(group,.04,.67,.12,.08,.1,.14,'#b35e43');box(group,.04,.5,.27,.1,.07,.12,'#d9a649');
   }else if(kind==='available'){
    box(group,0,.03,0,w,.06,d,'#b8c68b');box(group,0,.65,0,.1,1.3,.1,'#94724d');box(group,0,1.2,0,1.3,.45,.12,'#e6d3a0');
@@ -62,18 +69,24 @@ export function mountUnifiedPreview(host,state,locale,options={}){
   toolbar.setAttribute('aria-label',id?'Kontrol kamera dunia':'World camera controls');canvas.setAttribute('aria-label',id?'Peta dunia. Tombol panah untuk geser, tambah atau kurang untuk zoom, kurung siku untuk putar, Home untuk atur ulang.':'World map. Arrow keys to pan, plus or minus to zoom, brackets to rotate, Home to reset.');
   instructions.textContent=id?'Seret peta untuk geser. Fokus peta lalu gunakan panah/WASD, +/−, [ / ] atau Home. Ctrl + roda mouse untuk zoom; tombol kamera juga tersedia.':'Drag the map to pan. Focus the map for arrows/WASD, +/−, [ / ] or Home. Ctrl + mouse wheel zooms; camera buttons are also available.';
   if(host.dataset.renderer==='three')status.textContent=id?'Pratinjau 3D aktif':'3D preview active';
-  else if(host.dataset.renderer==='canvas')status.textContent=modeReason==='context-lost'?(id?'Konteks 3D terputus. Peta grafis ringan tetap aktif.':'3D context lost. The low-graphics map remains active.'):modeReason==='unavailable'?(id?'WebGL tidak tersedia. Peta grafis ringan aktif.':'WebGL unavailable. Low-graphics map active.'):(id?'Peta grafis ringan aktif':'Low-graphics map active');
+  else if(host.dataset.renderer==='canvas')status.textContent=loading?(id?'Peta siap digunakan. Sedang memuat grafis 3D.':'The map is ready to use. Loading 3D graphics.'):modeReason==='context-lost'?(id?'Konteks 3D terputus. Peta grafis ringan tetap aktif.':'3D context lost. The low-graphics map remains active.'):modeReason==='unavailable'?(id?'WebGL tidak tersedia. Peta grafis ringan aktif.':'WebGL unavailable. Low-graphics map active.'):(id?'Peta grafis ringan aktif':'Low-graphics map active');
   else status.textContent=id?'Grafis peta tidak tersedia. Pilih objek melalui daftar.':'Map graphics unavailable. Select objects through the list.';
-  retry.textContent=id?'Coba 3D lagi':'Retry 3D';retry.hidden=preferLow||host.dataset.renderer==='three';
+  retry.textContent=id?'Coba 3D lagi':'Retry 3D';retry.hidden=preferLow||host.dataset.renderer==='three';retry.disabled=loading;host.dataset.loading3d=String(loading);
   host.dataset.entities=String(snapshot.entities.length);host.dataset.chickenStarted=String(snapshot.chickenStarted);
-  startChicken.textContent=id?'Mulai Halaman Ayam':'Start Chicken Yard';selectionView();
+  startChicken.textContent=id?'Mulai Halaman Ayam':'Start Chicken Yard';selectionView();updateVisual();
  }
  function draw(){
   if(disposed)return;const width=Math.max(1,stage.clientWidth),height=Math.max(1,stage.clientHeight),f=control.frame(width/height);
   camera.left=-f.halfWidth;camera.right=f.halfWidth;camera.top=f.halfHeight;camera.bottom=-f.halfHeight;camera.near=.1;camera.far=200;camera.position.set(f.x+32*f.dx,32,f.z+32*f.dz);camera.lookAt(f.x,0,f.z);camera.updateProjectionMatrix();
-  if(renderer){renderer.setSize(width,height,false);renderer.render(scene,camera);}else canvasRenderer?.render(width,height);
-  host.dataset.heading=String(f.heading);host.dataset.zoom=String(f.zoom);host.dataset.panX=String(f.x);host.dataset.panZ=String(f.z);
+  if(renderer&&!renderer.getContext().isContextLost()){if(renderWidth!==width||renderHeight!==height)renderer.setSize(width,height,false);renderer.render(scene,camera);renderSubmissions++;}else if(canvasRenderer){canvasRenderer.render(width,height);renderSubmissions++;}renderWidth=width;renderHeight=height;
+  host.dataset.heading=String(f.heading);host.dataset.zoom=String(f.zoom);host.dataset.panX=String(f.x);host.dataset.panZ=String(f.z);host.dataset.renderSubmissions=String(renderSubmissions);host.dataset.animatedEntities=String(lastAnimated);
  }
+ function shouldAnimate(){return !disposed&&!preferLow&&!motion.matches&&!document.hidden&&!!(renderer||canvasRenderer)&&snapshot.entities.some(e=>e.kind==='hen');}
+ function stopVisual(){visualGeneration++;visualRunning=false;if(visualFrame!==null)cancelAnimationFrame(visualFrame);visualFrame=null;lastAnimated=0;for(const entry of objects.values())if(entry.group.userData.kind==='hen')entry.group.scale.y=1;}
+ function updateVisual(){if(!shouldAnimate()){stopVisual();return;}if(visualRunning)return;visualRunning=true;const generation=++visualGeneration;
+  const frame=(/** @type {number} */time)=>{if(generation!==visualGeneration||!visualRunning)return;visualFrame=null;if(!shouldAnimate()){stopVisual();return;}lastAnimated=0;for(const entry of objects.values())if(entry.group.userData.kind==='hen'){entry.group.scale.y=1+.015*Math.sin(time/600+entry.group.userData.phase);lastAnimated++;}draw();if(generation===visualGeneration&&shouldAnimate())visualFrame=requestAnimationFrame(frame);else stopVisual();};visualFrame=requestAnimationFrame(frame);
+ }
+ document.addEventListener('visibilitychange',()=>{updateVisual();draw();},{signal:abort.signal});motion.addEventListener('change',()=>{updateVisual();draw();},{signal:abort.signal});
  /** @param {number} dx @param {number} dy */
  function panMap(dx,dy){control.panPixels(dx,dy,Math.max(1,stage.clientWidth),Math.max(1,stage.clientHeight));draw();}
  /** @param {string} action */
@@ -90,24 +103,32 @@ export function mountUnifiedPreview(host,state,locale,options={}){
  list.addEventListener('click',event=>{const button=/** @type {HTMLElement} */(event.target).closest('[data-preview-select]'),id=button?.getAttribute('data-preview-select');if(id)select(id);},{signal:abort.signal});
  startChicken.addEventListener('click',()=>{if(snapshot.chickenStarted||startChicken.disabled||!options.onStartChicken)return;startChicken.disabled=true;const finish=()=>{if(!disposed)startChicken.disabled=false;};Promise.resolve(options.onStartChicken()).then(finish,finish);},{signal:abort.signal});
  /** @param {HTMLCanvasElement} next */
- function useCanvas(next){const focused=document.activeElement===canvas;drag=null;canvas.removeEventListener('webglcontextlost',onContextLost);canvasRenderer?.dispose();canvasRenderer=null;canvas.replaceWith(next);canvas=next;canvas.setAttribute('role','group');canvas.tabIndex=0;canvas.style.touchAction='none';canvas.addEventListener('webglcontextlost',onContextLost);if(focused)canvas.focus({preventScroll:true});}
- function releaseRenderer(){canvas.removeEventListener('webglcontextlost',onContextLost);if(renderer){const context=renderer.getContext();renderer.dispose();if(!context.isContextLost())renderer.forceContextLoss();renderer=null;}}
+ function useCanvas(next){const focused=document.activeElement===canvas;drag=null;renderWidth=0;renderHeight=0;canvas.removeEventListener('webglcontextlost',onContextLost);canvasRenderer?.dispose();canvasRenderer=null;canvas.replaceWith(next);canvas=next;canvas.setAttribute('role','group');canvas.tabIndex=0;canvas.style.touchAction='none';canvas.addEventListener('webglcontextlost',onContextLost);if(focused)canvas.focus({preventScroll:true});}
+ /** @param {WebGLRenderingContext|WebGL2RenderingContext} context */
+ function releaseContext(context){if(!context.isContextLost())context.getExtension('WEBGL_lose_context')?.loseContext();}
+ function releaseRenderer(){canvas.removeEventListener('webglcontextlost',onContextLost);if(renderer){const context=renderer.getContext();renderer.dispose();releaseContext(context);renderer=null;}}
+ function cancelStartup(){if(startupTimer!==null)window.clearTimeout(startupTimer);startupTimer=null;const finish=startupResolve;startupResolve=null;finish?.();}
+ /** Let the usable Canvas map and its controls settle before costly WebGL context creation. @returns {Promise<void>} */
+ function deferDriver(){return new Promise(resolve=>{startupResolve=resolve;startupTimer=window.setTimeout(cancelStartup,750);});}
  /** @param {string} reason */
- function useFallback(reason){releaseRenderer();modeReason=reason;const next=document.createElement('canvas');useCanvas(next);try{canvasRenderer=createCanvasWorldRenderer(canvas,scene,camera,preferLow?1:devicePixelRatio||1);host.dataset.renderer='canvas';}catch{host.dataset.renderer='unavailable';}sync();draw();}
- function tryThree(){if(disposed)return;releaseRenderer();const next=document.createElement('canvas'),context=next.getContext('webgl2',{antialias:true,powerPreference:'low-power'});if(!context){useFallback('unavailable');return;}try{const created=new WebGLRenderer({canvas:next,context,antialias:true,powerPreference:'low-power'});created.setPixelRatio(Math.min(devicePixelRatio||1,1.5));useCanvas(next);renderer=created;host.dataset.renderer='three';sync();draw();}catch{if(!context.isContextLost())context.getExtension('WEBGL_lose_context')?.loseContext();useFallback('unavailable');}}
+ function useFallback(reason){cancelStartup();rendererEpoch++;loading=false;if(pendingContext){releaseContext(pendingContext);pendingContext=null;}releaseRenderer();modeReason=reason;const next=document.createElement('canvas');useCanvas(next);try{canvasRenderer=createCanvasWorldRenderer(canvas,scene,camera,preferLow?1:devicePixelRatio||1);host.dataset.renderer='canvas';}catch{host.dataset.renderer='unavailable';}sync();draw();}
+ async function tryThree(){if(disposed||preferLow)return;useFallback('loading');const epoch=rendererEpoch;loading=true;sync();await deferDriver();if(disposed||preferLow||epoch!==rendererEpoch)return;const next=document.createElement('canvas'),context=next.getContext('webgl2',{antialias:true,powerPreference:'low-power'});if(!context){loading=false;modeReason='unavailable';sync();return;}pendingContext=context;try{const {WebGLRenderer}=await import('./unified-world-webgl.js');if(disposed||preferLow||epoch!==rendererEpoch){releaseContext(context);return;}if(context.isContextLost()){useFallback('context-lost');return;}const created=new WebGLRenderer({canvas:next,context,antialias:true,powerPreference:'low-power'});created.setPixelRatio(Math.min(devicePixelRatio||1,1.5));pendingContext=null;useCanvas(next);renderer=created;loading=false;host.dataset.renderer='three';sync();draw();}catch{releaseContext(context);if(!disposed&&epoch===rendererEpoch)useFallback('unavailable');}}
+ function requestThree(){ready=tryThree();return ready;}
  /** @param {Event} event */
  function onContextLost(event){if(disposed||event.target!==canvas)return;event.preventDefault();useFallback('context-lost');}
- retry.addEventListener('click',tryThree,{signal:abort.signal});
- if(preferLow)useFallback('low');else tryThree();
- const observer=new ResizeObserver(draw);observer.observe(stage);sync();draw();
+ retry.addEventListener('click',requestThree,{signal:abort.signal});
+ host.dataset.inputReady='true';
+ if(preferLow)useFallback('low');else requestThree();
+ const observer=new ResizeObserver(()=>{if(stage.clientWidth!==renderWidth||stage.clientHeight!==renderHeight)draw();});observer.observe(stage);
  return {
   /** @param {import('./engine.js').State} next @param {string} nextLocale */
-  update(next,nextLocale){if(disposed)return;snapshot=readWorldSnapshot(next);language=nextLocale;sync();for(const button of toolbar.querySelectorAll('button'))button.textContent=(language==='id'?button.dataset.id:button.dataset.en)||'';draw();},
+  update(next,nextLocale){if(disposed||(next===sourceState&&nextLocale===language))return;sourceState=next;snapshot=readWorldSnapshot(next);language=nextLocale;sync();for(const button of toolbar.querySelectorAll('button'))button.textContent=(language==='id'?button.dataset.id:button.dataset.en)||'';draw();},
   /** @param {boolean} low */
-  setLowGraphics(low){if(disposed||preferLow===low)return;preferLow=low;if(low)useFallback('low');else tryThree();},
+  setLowGraphics(low){if(disposed||preferLow===low)return;preferLow=low;if(low){useFallback('low');ready=Promise.resolve();}else requestThree();},
+  ready:()=>ready,
   /** Return focus only for the panel actually opened by this world selection. @param {string} kind @param {string|number} domainId */
   releaseSelection(kind,domainId){const target=selectedEntity?resolveWorldSelection(snapshot,selectedEntity):null;if(disposed||!target||target.kind!==kind||target.domainId!==domainId)return false;for(const button of list.querySelectorAll('button'))if(button.dataset.previewSelect===selectedEntity)button.focus({preventScroll:true});selectedEntity=null;selectionView();draw();return true;},
-  dispose(){if(disposed)return;disposed=true;abort.abort();observer.disconnect();releaseRenderer();canvasRenderer?.dispose();canvasRenderer=null;scene.clear();objects.clear();geometry.dispose();for(const m of materials.values())m.dispose();materials.clear();host.replaceChildren();host.dataset.renderer='disposed';},
-  inspect:()=>({disposed,entities:objects.size,renderer:host.dataset.renderer,camera:control.view()})
+  dispose(){if(disposed)return;disposed=true;cancelStartup();stopVisual();rendererEpoch++;if(pendingContext){releaseContext(pendingContext);pendingContext=null;}abort.abort();observer.disconnect();releaseRenderer();canvasRenderer?.dispose();canvasRenderer=null;scene.clear();objects.clear();geometry.dispose();for(const m of materials.values())m.dispose();materials.clear();host.replaceChildren();host.dataset.renderer='disposed';},
+  inspect:()=>({disposed,entities:objects.size,renderer:host.dataset.renderer,camera:control.view(),visualPending:visualFrame===null?0:1,startupPending:startupTimer===null?0:1,renderSubmissions,animatedEntities:lastAnimated})
  };
 }

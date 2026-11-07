@@ -1,0 +1,77 @@
+{
+  "kind": "myfarmtwin-world-build-v1",
+  "three": "0.187.0",
+  "esbuild": "0.28.2",
+  "sourceMaps": false,
+  "defaultCore": [
+    {
+      "name": "assets/farmgirl-guide.webp",
+      "bytes": 16542,
+      "sha256": "39b00bb3a3b64b9932cf61b2d02580ce9e775e893753bb54bd9e122b43061082"
+    },
+    {
+      "name": "cow.css",
+      "bytes": 4284,
+      "sha256": "393471def88470359fdbe91e234dd6f1770a44451f4322b057f183352921bdd7"
+    },
+    {
+      "name": "fish.css",
+      "bytes": 4128,
+      "sha256": "d0e6e0d4f54d0526fdf2f74e82061ae54750d4cb1699d5a060da2512d29d2d15"
+    },
+    {
+      "name": "goat.css",
+      "bytes": 2917,
+      "sha256": "06e562dfedf439c5e942bdc61b5d412e13989bfd2ff31a137d97cdcaaba20d5a"
+    },
+    {
+      "name": "index.html",
+      "bytes": 13364,
+      "sha256": "16298d84119fa2602db4c3517f698d150859b42940f5161c6796a5e70aee4665"
+    },
+    {
+      "name": "main.js",
+      "bytes": 413402,
+      "sha256": "faa0c8bef0130bbea77395a52847194f10dcd08de85d787b1d6f511ada07590a"
+    },
+    {
+      "name": "preview-loader.js",
+      "bytes": 343,
+      "sha256": "67389429eff474f7aac6e2615c8d71160671ea1f97ca226bc32ac5b85d9de8eb"
+    },
+    {
+      "name": "style.css",
+      "bytes": 20269,
+      "sha256": "42f9aaecd697dc14183f200bd7b85648d8090ba70ce0a4e5b03d7c5278fc08ee"
+    }
+  ],
+  "emitted": [
+    {
+      "name": "main.js",
+      "bytes": 413402,
+      "sha256": "faa0c8bef0130bbea77395a52847194f10dcd08de85d787b1d6f511ada07590a"
+    },
+    {
+      "name": "unified-world-preview.js",
+      "bytes": 20057,
+      "sha256": "52c08d4f6c320b0839e34a8d3220e91fefe699e554eb9754745d5080db5dbbb6"
+    },
+    {
+      "name": "vendor/three/chunks/chunk-6BC6AZ53.js",
+      "bytes": 184400,
+      "sha256": "c6116da6ac30595a940bf4590da594e8a132f60bdb2bf86b756d3ae632b2d508"
+    },
+    {
+      "name": "vendor/three/chunks/unified-world-webgl-6FC73G3W.js",
+      "bytes": 357192,
+      "sha256": "660da2a7deace68a715481386cfeba89fd577082f2f21f12a2a49d7bc1d2a3cd"
+    },
+    {
+      "name": "vendor/three/three.module.js",
+      "bytes": 359,
+      "sha256": "43629060c0b89f43dcdcf1498f7d2dd12351abda27af47ce256a2edc910f1385"
+    }
+  ],
+  "lazyWebGL": "vendor/three/chunks/unified-world-webgl-6FC73G3W.js",
+  "retainedStandaloneModules": true
+}

@@ -21,10 +21,13 @@ transfer measurement, reduced-detail alternative, explicit source/production
 separation. QA screenshots/traces/videos remain ignored and are never game assets.
 
 M1 experiment: Three.js 0.187.0 installed from the pinned npm package (lockfile
-retained, lifecycle scripts disabled), with its two WebGL ES modules, full MIT
-notice and version receipt copied under `dist/play/vendor/three`. Exact deployed
-paths, sizes and hashes are in `UNIFIED_WORLD_ASSETS.json`. Vendor bytes are
-protected from checkout newline conversion. No CDN, source maps, external font,
-texture, downloaded model, MyZooTwin source or media is included. The procedural
-box geometry is original feasibility placeholder art and does not satisfy the
-later directional-sprite or graphics-quality gates.
+retained, lifecycle scripts disabled). Pinned esbuild 0.28.2 produces a shared
+CPU/math chunk, a small facade and a lazy WebGL driver; the complete upstream MIT
+notice and version receipt remain under `dist/play/vendor/three`. Exact deployed
+paths, sizes and hashes are in `UNIFIED_WORLD_ASSETS.json`, with the build receipt
+in `dist/play/build-info.json`. Vendor bytes are protected from checkout newline
+conversion. No CDN, source maps, external font, texture, downloaded model,
+MyZooTwin source or media is included. The procedural box geometry and subtle
+cosmetic hen breathing are original feasibility placeholders and do not satisfy
+the later directional-sprite or graphics-quality gates. Save state does not
+contain these visual phases.

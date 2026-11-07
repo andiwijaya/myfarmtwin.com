@@ -19,6 +19,11 @@ stage, so canvas replacement does not multiply listeners or lose controls.
 Neither renderer owns a timer or advances the simulation. The original fixed
 clock and save/backup/quarantine readers remain unchanged.
 
+Subsequent M1-F02 loading work adds a cosmetic visual RAF and a cancellable
+one-shot 750 ms WebGL startup delay after the Canvas map is usable. Neither
+advances the simulation. The measurements and lifecycle tests for that later
+change are recorded separately in `UNIFIED_WORLD_FEASIBILITY.md`.
+
 Evidence and verification:
 
 - **381/381** full unit/integration PASS; lint, strict typecheck and build PASS.

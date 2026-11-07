@@ -1,0 +1,49 @@
+import assert from 'node:assert/strict';
+import {chromium} from 'playwright';
+import {startServer} from './serve.mjs';
+import {readFile,mkdir,writeFile} from 'node:fs/promises';
+import {join} from 'node:path';
+import {tmpdir,cpus,totalmem} from 'node:os';
+import {createHash} from 'node:crypto';
+
+const qa=process.env.QA_DIR||join(tmpdir(),'myfarmtwin-unified-feasibility');await mkdir(qa,{recursive:true});
+const raw=await readFile('game/tests/fixtures/unified-world/v5-mixed.json','utf8'),receipt=JSON.parse(await readFile('dist/play/build-info.json','utf8')),loadOnly=process.env.UNIFIED_LOAD_ONLY==='1',sampleMs=loadOnly?1000:60000;
+const server=await startServer(0),base='http://127.0.0.1:'+server.address().port;
+const browsers=[['chrome',process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE||'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'],['edge',process.env.PLAYWRIGHT_EDGE_EXECUTABLE||'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe']];
+const report={loadOnly,sampleMs,method:'Sequential disposable headless Chrome/Edge contexts, real Three WebGL2 versus the same scene projected with Canvas 2D. Mobile is CDP 4x CPU, 150ms latency and 1.6Mbps download; no physical device/display/thermal claim. 60-second RAF cadence and actual successful render submissions are separate metrics; load-only mode is diagnostic, not animation/performance acceptance. Paused synthetic save; two real owned hens breathe cosmetically.',hardware:{cpu:cpus()[0].model,memoryGiB:+(totalmem()/1024**3).toFixed(1)},buildReceiptSHA256:createHash('sha256').update(JSON.stringify(receipt)).digest('hex'),budgets:{usableMapMs:5000,desktopRenderHz:50,mobileRenderHz:30,heapGrowthMiB:20,intervals:1},runs:[],errors:[],failures:[]};
+report.readinessMethod='FirstMapMs is recorded only after successful rendering with input handlers bound and validated game state. ControlCompletedMs also includes Playwright scrolling/actionability and protocol overhead, and is retained as a diagnostic. TrustedInputResponseMs measures actual trusted pointer-up to the resulting camera heading DOM update; budget100ms. The PRD five-second deadline applies to core-map interaction availability.';
+report.budgets.trustedCameraResponseMs=100;
+try{for(const [name,path] of browsers){if(process.env.UNIFIED_BROWSER&&process.env.UNIFIED_BROWSER!==name)continue;const browser=await chromium.launch({headless:true,executablePath:path});try{for(const mobile of [false,true])for(const renderer of ['three','canvas']){
+ if(process.env.UNIFIED_PROFILE&&process.env.UNIFIED_PROFILE!==(mobile?'mobile':'desktop')||process.env.UNIFIED_RENDERER&&process.env.UNIFIED_RENDERER!==renderer)continue;
+ const label=`${name}-${mobile?'mobile':'desktop'}-${renderer}`,context=await browser.newContext({viewport:{width:mobile?390:1440,height:mobile?844:1000},isMobile:mobile,hasTouch:mobile});
+ try{
+  await context.addInitScript(({raw,renderer})=>{
+   localStorage.setItem('myfarmtwin.save.v1',raw);let observed=false;
+   window.addEventListener('pointerup',event=>{if(event.isTrusted&&event.target.closest?.('[data-preview-camera=right]'))window.__qaCameraInputMs=performance.now();},true);
+   const observe=()=>{const host=document.querySelector('#unified-preview');if(!observed&&host?.dataset.inputReady==='true'&&Number(host.dataset.renderSubmissions)>0&&['canvas','three'].includes(host.dataset.renderer)){observed=true;window.__qaMapReadyMs=performance.now();}if(window.__qaCameraInputMs&&window.__qaCameraResponseMs===undefined&&host?.dataset.heading==='1')window.__qaCameraResponseMs=performance.now()-window.__qaCameraInputMs;};
+   new MutationObserver(observe).observe(document,{subtree:true,childList:true,attributes:true,attributeFilter:['data-renderer','data-render-submissions','data-heading']});
+   window.__qaIntervals=new Set();const set=window.setInterval.bind(window),clear=window.clearInterval.bind(window);window.setInterval=(...args)=>{const id=set(...args);window.__qaIntervals.add(id);return id;};window.clearInterval=id=>{window.__qaIntervals.delete(id);return clear(id);};
+   if(renderer==='canvas'){const get=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){return type.startsWith('webgl')?null:get.call(this,type,...args);};}
+  },{raw,renderer});
+  const page=await context.newPage(),cdp=await context.newCDPSession(page);page.on('pageerror',e=>report.errors.push({label,error:e.message}));await cdp.send('Performance.enable');
+  if(mobile){await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});await cdp.send('Network.enable');await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:200000,uploadThroughput:93750,connectionType:'cellular4g'});}
+  if(process.env.UNIFIED_PROFILE_CPU==='1'){await cdp.send('Profiler.enable');await cdp.send('Profiler.start');}
+  await page.goto(base+'/play/?world=unified-preview',{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.__qaMapReadyMs>0);
+  await page.locator('[data-preview-camera=right]').click();const usable=await page.evaluate(()=>({firstMapMs:window.__qaMapReadyMs,controlCompletedMs:performance.now(),trustedInputResponseMs:window.__qaCameraResponseMs,heading:document.querySelector('#unified-preview').dataset.heading}));assert.equal(usable.heading,'1');
+  if(process.env.UNIFIED_PROFILE_CPU==='1')await writeFile(join(qa,label+'-loading.cpuprofile'),JSON.stringify((await cdp.send('Profiler.stop')).profile));
+  await page.waitForFunction(renderer=>document.querySelector('#unified-preview').dataset.renderer===renderer,renderer);const rendererReadyMs=await page.evaluate(()=>performance.now()),graphicsInfo=await page.evaluate(()=>{const canvas=document.querySelector('#unified-preview canvas'),mode=document.querySelector('#unified-preview').dataset.renderer,gl=mode==='three'?canvas.getContext('webgl2'):null,debug=gl?.getExtension('WEBGL_debug_renderer_info');return {devicePixelRatio,canvasWidth:canvas.width,canvasHeight:canvas.height,webglRenderer:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):null,maxTextureSize:gl?gl.getParameter(gl.MAX_TEXTURE_SIZE):null};});
+  await page.locator('[data-preview-camera=reset]').click();await page.waitForFunction(()=>Number(document.querySelector('#unified-preview').dataset.animatedEntities)>=2);await page.bringToFront();await cdp.send('HeapProfiler.collectGarbage');
+  const metrics=async()=>Object.fromEntries((await cdp.send('Performance.getMetrics')).metrics.map(m=>[m.name,m.value])),before=await metrics();
+  const sample=await page.evaluate(sampleMs=>new Promise(resolve=>{const host=document.querySelector('#unified-preview'),start=performance.now(),initial=Number(host.dataset.renderSubmissions),deltas=[];let previous=0;function frame(now){if(previous)deltas.push(now-previous);previous=now;if(now-start<sampleMs)requestAnimationFrame(frame);else{const sorted=[...deltas].sort((a,b)=>a-b),elapsed=now-start;resolve({windowMs:Math.round(elapsed),observerRAFHz:+(deltas.length*1000/elapsed).toFixed(1),successfulRenderHz:+((Number(host.dataset.renderSubmissions)-initial)*1000/elapsed).toFixed(1),p95FrameMs:+sorted[Math.floor(sorted.length*.95)].toFixed(1),renderSubmissions:Number(host.dataset.renderSubmissions)-initial,animatedEntities:Number(host.dataset.animatedEntities)});}}requestAnimationFrame(frame);}),sampleMs);
+  await cdp.send('HeapProfiler.collectGarbage');const after=await metrics();await page.locator('#unified-preview').screenshot({path:join(qa,label+'.png')});
+  const resources=await page.evaluate(()=>performance.getEntriesByType('resource').filter(e=>e.name.includes('/play/')).map(e=>({name:new URL(e.name).pathname,startTime:Math.round(e.startTime),responseEnd:Math.round(e.responseEnd),encodedBodySize:e.encodedBodySize,decodedBodySize:e.decodedBodySize,transferSize:e.transferSize,duration:Math.round(e.duration)})));
+  assert.equal(await page.evaluate(()=>localStorage.getItem('myfarmtwin.save.v1')),raw);const intervals=await page.evaluate(()=>window.__qaIntervals.size);
+  await page.emulateMedia({reducedMotion:'reduce'});await page.waitForTimeout(250);const stopped=await page.locator('#unified-preview').getAttribute('data-render-submissions');await page.waitForTimeout(250);assert.equal(await page.locator('#unified-preview').getAttribute('data-render-submissions'),stopped,'Reduced motion must stop cosmetic rendering');
+  await page.emulateMedia({reducedMotion:'no-preference'});await page.waitForFunction(n=>Number(document.querySelector('#unified-preview').dataset.renderSubmissions)>Number(n),stopped);
+  const row={browser:name,version:browser.version(),mobile,renderer,...usable,rendererReadyMs:Math.round(rendererReadyMs),graphicsInfo,...sample,heapGrowthMiB:+((after.JSHeapUsedSize-before.JSHeapUsedSize)/1024**2).toFixed(2),taskDurationMs:Math.round((after.TaskDuration-before.TaskDuration)*1000),intervals,saveAndLedgerExact:true,reducedMotionStopsAndResumes:true,resources};report.runs.push(row);
+  try{assert.ok(usable.firstMapMs<=5000,'Input-bound rendered map unavailable within5s');assert.ok(usable.trustedInputResponseMs<=100,'Trusted camera input response exceeds100ms');if(!loadOnly)assert.ok(sample.successfulRenderHz>=(mobile?30:50),'Actual submission cadence below budget');assert.ok(sample.animatedEntities>=2);assert.ok(row.heapGrowthMiB<20);assert.equal(intervals,1);}catch(error){report.failures.push({label,error:String(error)});}
+  await writeFile(join(qa,'partial.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({...row,resources:resources.length}));
+ }finally{await context.close();}
+ }}finally{await browser.close();}}
+ assert.ok(report.runs.length>0,'No measurement profiles selected');assert.deepEqual(report.errors,[]);assert.deepEqual(report.failures,[]);
+}finally{await new Promise(r=>server.close(r));await writeFile(join(qa,'feasibility.json'),JSON.stringify(report,null,2));}

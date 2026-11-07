@@ -43,6 +43,7 @@ const panel=/** @type {HTMLElement} */(document.querySelector('#plot-panel'));
 let guideExpanded=true;
 let celebrationDismissed=false;
 let activeArea='field';
+let previewRequested=new URLSearchParams(location.search).get('world')==='unified-preview';
 /** @type {ReturnType<typeof import('./unified-world-preview.js')['mountUnifiedPreview']>|null} */
 let unifiedPreview=null;
 let selectedFish='';
@@ -117,7 +118,7 @@ function render(redrawWorld=true){
  if(activeArea==='chicken'&&(!FEATURES.chicken||!state.chicken?.visited))activeArea='field';
  if(activeArea==='goat'&&!state.goat?.visited)activeArea='field';
  if(activeArea==='cow'&&(!FEATURES.cow||!state.cow?.visited))activeArea='field';
- translate();if(redrawWorld){if(activeArea==='fish')renderFishWorld(state);else if(activeArea==='cow')renderCowWorld(cowSnapshot(state));else if(activeArea==='goat')renderGoatWorld(goatSnapshot(state));else if(activeArea==='chicken')renderChickenWorld(yardSnapshot());else renderWorld(state.plots,state.tick,state.pump);}renderSelection();renderGuide();renderGraphics();renderMarket(state,send);renderOrders(state,send);renderShop(state,send);renderMission();renderData(saveSession);renderInspect(state,selected);renderReasons(state,selected);renderTrends(state,selected);
+ translate();if(redrawWorld&&!previewRequested){if(activeArea==='fish')renderFishWorld(state);else if(activeArea==='cow')renderCowWorld(cowSnapshot(state));else if(activeArea==='goat')renderGoatWorld(goatSnapshot(state));else if(activeArea==='chicken')renderChickenWorld(yardSnapshot());else renderWorld(state.plots,state.tick,state.pump);}renderSelection();renderGuide();renderGraphics();renderMarket(state,send);renderOrders(state,send);renderShop(state,send);renderMission();renderData(saveSession);renderInspect(state,selected);renderReasons(state,selected);renderTrends(state,selected);
  el('hud-day').textContent=String(Math.floor(state.tick/24)+1);el('hud-coins').textContent=String(state.coins);el('hud-water').textContent=String(Math.floor(state.water));el('hud-seeds').textContent=String(state.seeds.lettuce+state.seeds.tomato);
  el('inventory-harvest').textContent=state.inventory.length?state.inventory.map(lot=>t(lot.type)+' ×'+lot.quantity+' · '+Math.round(lot.quality*100)+'% '+t('quality')).join(' | '):t('noHarvest');
  if(state.chicken?.inventory.length)el('inventory-harvest').textContent=(state.inventory.length?el('inventory-harvest').textContent+' | ':'')+t('eggs')+' ×'+state.chicken.inventory.reduce((n,l)=>n+l.quantity,0);const dairyInventory=cowInventorySummary(state);if(dairyInventory)el('inventory-harvest').textContent=(state.inventory.length||state.chicken?.inventory.length?el('inventory-harvest').textContent+' | ':'')+dairyInventory;if(FEATURES.fish&&state.fish?.lots.length){const kg=state.fish.lots.reduce((n,l)=>n+l.massG,0)/1000;el('inventory-harvest').textContent=(state.inventory.length||state.chicken?.inventory.length||dairyInventory?el('inventory-harvest').textContent+' | ':'')+t('fishHarvestLots')+' '+kg.toLocaleString(getLocale())+' kg';}
@@ -158,10 +159,11 @@ el('weather-care').addEventListener('click',()=>{const plots=[...state.plots].so
 setInterval(()=>{if(!state.paused&&!document.hidden&&!externalChange){for(let i=0;i<state.speed;i++)send('tick');}},3000);
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&!state.paused)send('pause');});
 window.addEventListener('storage',event=>{if(event.key!==SAVE_KEY)return;let changed=true;try{changed=saveSession.storage?.getItem(SAVE_KEY)!==saveSession.raw;}catch{/* Unreadable current storage cannot be treated as current. */}if(changed){externalChange=true;saveStatus='saveConflict';notify(t('saveConflict'));render();}});
-setupMarket();setupInspect();setupData({getState:()=>state,replace:next=>queueSave(()=>{saveSession.replace(next);state=next;selected=null;selectedChicken='';selectedGoat='';selectedCow='';selectedFish='';resetFishPond();activeArea='field';resumeVisible=false;celebrationDismissed=false;saveStatus='saveSaved';externalChange=false;render();}),session:saveSession});render();
+setupMarket();setupInspect();setupData({getState:()=>state,replace:next=>queueSave(()=>{saveSession.replace(next);state=next;selected=null;selectedChicken='';selectedGoat='';selectedCow='';selectedFish='';resetFishPond();activeArea='field';resumeVisible=false;celebrationDismissed=false;saveStatus='saveSaved';externalChange=false;render();}),session:saveSession});
 // Explicit opt-in only. Default players never fetch Three or mount this prototype.
-if(new URLSearchParams(location.search).get('world')==='unified-preview'){
- const previewHost=document.createElement('section');previewHost.id='unified-preview';el('world').before(previewHost);
+if(previewRequested){
+ const previewHost=document.createElement('section');previewHost.id='unified-preview';el('world').before(previewHost);el('world').hidden=true;
  try{const {mountUnifiedPreview}=await import('./unified-world-preview.js');unifiedPreview=mountUnifiedPreview(previewHost,state,getLocale(),{lowGraphics,onSelect:target=>{if(target.kind==='market'){document.dispatchEvent(new Event('marketopen'));return;}if(target.kind==='plot'&&typeof target.domainId==='number'){activeArea='field';render();document.dispatchEvent(new CustomEvent('plotselect',{detail:target.domainId}));}else if(target.kind==='chicken'&&state.chicken?.visited&&typeof target.domainId==='string'){activeArea='chicken';selectedChicken=target.domainId;render();}else if(target.kind==='pump'){activeArea='field';render();}},onStartChicken:async()=>{await send('enterYard');if(state.chicken?.visited){activeArea='chicken';selectedChicken='coop';render();}}});}
- catch{previewHost.textContent=getLocale()==='id'?'Pratinjau tidak tersedia. Permainan tetap dapat digunakan di bawah.':'Preview unavailable. The game remains usable below.';}
+ catch{previewRequested=false;el('world').hidden=false;previewHost.textContent=getLocale()==='id'?'Pratinjau tidak tersedia. Permainan tetap dapat digunakan di bawah.':'Preview unavailable. The game remains usable below.';}
 }
+render();
