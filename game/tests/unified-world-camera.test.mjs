@@ -22,3 +22,10 @@ test('fallback projection agrees with the actual pinned Three camera in every he
   control.rotate(1);
  }
 });
+test('pixel pan is the exact inverse screen displacement in all four headings',()=>{
+ const control=createWorldCamera();for(let h=0;h<4;h++){
+  control.reset();control.rotate(h);control.focus('chicken');const point={x:-4,z:-5,y:.5},before=control.project(point,800/600);
+  control.panPixels(40,30,800,600);const after=control.project(point,800/600);assert.ok(Math.abs(after.x-before.x-.1)<1e-12);assert.ok(Math.abs(after.y-before.y-.1)<1e-12);
+  const valid=control.view();control.panPixels(NaN,1,800,600);control.panPixels(1,1,0,600);assert.deepEqual(control.view(),valid);
+ }
+});

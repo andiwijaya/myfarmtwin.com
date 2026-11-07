@@ -8,4 +8,4 @@ game/client/main.js whitespace=cr-at-eol
 game/client/style.css whitespace=cr-at-eol
 dist/play/main.js whitespace=cr-at-eol
 dist/play/style.css whitespace=cr-at-eol
-dist/play/vendor/three/** -text whitespace=cr-at-eol
+dist/play/vendor/three/** -text whitespace=cr-at-eol,-space-before-tab

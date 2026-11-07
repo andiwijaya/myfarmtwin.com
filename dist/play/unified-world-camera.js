@@ -7,6 +7,8 @@ export function createWorldCamera(){
  const bounds=TWO_ZONE_BOUNDS,center={x:(bounds.minX+bounds.maxX)/2,z:(bounds.minZ+bounds.maxZ)/2};
  let x=center.x,z=center.z,heading=0,zoom=1;
  const view=()=>Object.freeze({x,z,heading,zoom});
+ /** @param {number} dx @param {number} dz */
+ function pan(dx,dz){if(Number.isFinite(dx)&&Number.isFinite(dz)){x=clamp(x+dx,bounds.minX,bounds.maxX);z=clamp(z+dz,bounds.minZ,bounds.maxZ);}return view();}
  /** @param {number} aspect */
  function frame(aspect){
   if(!Number.isFinite(aspect)||aspect<=0)throw new RangeError('Invalid viewport aspect');
@@ -26,7 +28,9 @@ export function createWorldCamera(){
   /** @param {number} factor */
   zoomBy(factor){if(Number.isFinite(factor)&&factor>0)zoom=clamp(zoom*factor,1,3.2);return view();},
   /** World-space movement; never receives a farm state or command function. @param {number} dx @param {number} dz */
-  pan(dx,dz){if(Number.isFinite(dx)&&Number.isFinite(dz)){x=clamp(x+dx,bounds.minX,bounds.maxX);z=clamp(z+dz,bounds.minZ,bounds.maxZ);}return view();},
+  pan,
+  /** Drag-ground inverse of project(), shared across all headings. @param {number} dx @param {number} dy @param {number} width @param {number} height */
+  panPixels(dx,dy,width,height){if(![dx,dy,width,height].every(Number.isFinite)||width<=0||height<=0)return view();const f=frame(width/height),a=-2*dx*f.halfWidth/width,b=-2*dy*f.halfHeight/height;return pan((Math.sqrt(2)*a*f.dz+Math.sqrt(6)*b*f.dx)/2,(-Math.sqrt(2)*a*f.dx+Math.sqrt(6)*b*f.dz)/2);},
   /** Camera bookmark only. @param {string} zone */
   focus(zone){if(Object.hasOwn(TWO_ZONE_ANCHORS,zone)){const anchor=TWO_ZONE_ANCHORS[/** @type {keyof typeof TWO_ZONE_ANCHORS} */(zone)];x=anchor.x;z=anchor.z;zoom=2.2;}return view();},
   fit(){x=center.x;z=center.z;zoom=1;return view();},
