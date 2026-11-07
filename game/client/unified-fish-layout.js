@@ -1,4 +1,8 @@
 import {worldPoint} from './unified-world-registry.js';import {fishStage} from './fish-state.js';import {FISH} from './fish-config.js';
+/** Cosmetic members of actual cohorts, never new authoritative fish IDs. Offsets are shared across cohorts in a pond.
+ * @param {Readonly<import('./unified-world-model.js').WorldEntity>} entity
+ */
+export function fishSchoolMembers(entity){const scale=entity.scale||1;return Object.freeze(Array.from({length:entity.value},(_,i)=>{const slot=(entity.fishOffset||0)+i;return Object.freeze({slot,x:(slot%3-1)*1.1,z:(Math.floor(slot/3)-1.5)*1.2,scale,width:.38*scale,depth:.61*scale,centerZ:-.055*scale});}));}
 /** @typedef {{snapshot:ReturnType<typeof import('./fish-snapshot.js').fishSnapshot>,feederIds:readonly number[]}} UnifiedFishView */
 /** Native water/equipment view and real cohorts only; the legacy illustrative unvisited preview is excluded.
  * @param {import('./engine.js').State} state @param {UnifiedFishView|undefined} view

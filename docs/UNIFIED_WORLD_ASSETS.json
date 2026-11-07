@@ -51,8 +51,8 @@
   "proceduralSources": [
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 37827,
-      "sha256": "898fedbe3e35a09581e0bc4c87c669c3078eab7c6b7ecde50c6b84d03516a219",
+      "bytes": 37800,
+      "sha256": "bdda0e3e6cd243591f629df68bcd4e3671bccfddd0d72dd57308b663be6f0afb",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -107,8 +107,8 @@
     },
     {
       "path": "game/client/unified-fish-layout.js",
-      "bytes": 2655,
-      "sha256": "2cfbb02e878ed46c02c74dbe5f75d1716a5ead8e0b233c7fb1828ecae3f702f7",
+      "bytes": 3163,
+      "sha256": "5f08cb8f50f2d1363e7cfdc4472a33423568695b149ba82ec6d316249343a914",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     }

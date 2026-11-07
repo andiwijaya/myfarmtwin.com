@@ -4,6 +4,7 @@ import {WORLD_BOUNDS,ZONE_REGISTRY} from './unified-world-registry.js';
 import {WORLD_PATHS,MARKET_PLAZA,WORLD_SIGNS,WORLD_TREES,zoneLabel} from './unified-world-layout.js';
 import {irrigationRuns} from './unified-world-irrigation.js';
 import {CUTAWAY_KINDS,useCutaway} from './unified-world-occlusion.js';
+import {fishSchoolMembers} from './unified-fish-layout.js';
 import {chickenFenceParts} from './unified-chicken-layout.js';
 import {createFarmCamera} from './unified-world-camera.js';
 import {createCanvasWorldRenderer} from './unified-world-canvas.js';
@@ -63,7 +64,7 @@ export function mountUnifiedPreview(host,state,locale,options={}){
   }else if(kind==='fishPond'){
    box(group,0,.08,0,w,.16,d,'#8e9875').userData.canvasLayer=1;box(group,0,.18,0,w-.4,.04,d-.4,(entity.clarity??1000)<500?'#91ad8d':'#7caeb1').userData.canvasLayer=1;for(const x of [-w/2,w/2])box(group,x,.18,0,.18,.35,d+.18,'#a6a17f');for(const z of [-d/2,d/2])box(group,0,.18,z,w,.35,.18,'#a6a17f');
   }else if(kind==='fishSchool'){
-   const scale=entity.scale||1;for(let i=0;i<entity.value;i++){const slot=(entity.fishOffset||0)+i,x=(slot%3-1)*1.1,z=(Math.floor(slot/3)-1.5)*1.2,fish=new Group();fish.position.set(x,.27,z);fish.scale.setScalar(scale);group.add(fish);box(fish,0,.03,0,.24,.12,.5,'#c8d1bc');box(fish,0,.04,-.3,.26,.09,.12,'#899d8d');box(fish,.13,.04,.03,.12,.04,.18,'#899d8d');box(fish,-.13,.04,.03,.12,.04,.18,'#899d8d');}
+   for(const {x,z,scale}of fishSchoolMembers(entity)){const fish=new Group();fish.position.set(x,.27,z);fish.scale.setScalar(scale);group.add(fish);box(fish,0,.03,0,.24,.12,.5,'#c8d1bc');box(fish,0,.04,-.3,.26,.09,.12,'#899d8d');box(fish,.13,.04,.03,.12,.04,.18,'#899d8d');box(fish,-.13,.04,.03,.12,.04,.18,'#899d8d');}
   }else if(kind==='fishEquipment'){
    box(group,0,.22,0,w,.44,d,entity.equipment==='filter'?'#97a18a':entity.equipment==='feeder'?'#c1ad7a':'#91aaa2');if(entity.domainId==='aerator'){box(group,0,.49,0,w*.8,.1,d*.7,entity.active?'#6caa9d':'#8b9282');if(entity.automatic)box(group,0,.59,0,.18,.1,.18,'#d8c078');}else box(group,0,.5,0,w*.65,.12,d*.65,entity.value>0?'#a9c4ad':'#9c9d87');
   }else if(kind==='fishStation'){
