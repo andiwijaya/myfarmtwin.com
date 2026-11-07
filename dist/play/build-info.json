@@ -31,8 +31,8 @@
     },
     {
       "name": "main.js",
-      "bytes": 415237,
-      "sha256": "33d2ca2675310b5a23f237ff8e54fac2d76759ae6faff20db3e2dd2a3d6492b7"
+      "bytes": 415246,
+      "sha256": "037d22587adc301c4c7b51f21c431b6c12f405c5c7bd37051c4a82712f0de9d6"
     },
     {
       "name": "preview-loader.js",
@@ -48,8 +48,8 @@
   "emitted": [
     {
       "name": "main.js",
-      "bytes": 415237,
-      "sha256": "33d2ca2675310b5a23f237ff8e54fac2d76759ae6faff20db3e2dd2a3d6492b7"
+      "bytes": 415246,
+      "sha256": "037d22587adc301c4c7b51f21c431b6c12f405c5c7bd37051c4a82712f0de9d6"
     },
     {
       "name": "unified-world-preview.js",
