@@ -1,0 +1,85 @@
+{
+  "sourceCommit": "0061b73b89eb5c13dc770ecd56c730fd38f73649",
+  "saveVersion": 5,
+  "synthetic": true,
+  "containsUserData": false,
+  "fixtures": [
+    {
+      "name": "v0-fresh.json",
+      "bytes": 926,
+      "sha256": "357f97671742bd7a2a5b3cd3c37d1d8e2b094582d0b5faec81745160b2afbf2c",
+      "expectedSha256": "e0fa4dddc6b4c30896ca4f6d26a92482906b94caa3a759ee509493d15ce5db33",
+      "sourceVersion": 0,
+      "tick": 0,
+      "revision": 0,
+      "coins": 120,
+      "ledgerEntries": 0
+    },
+    {
+      "name": "v1-mixed.json",
+      "bytes": 20252,
+      "sha256": "55831bf1c48c1e335f81f39f74228bf14ba1424071dabdf04285b8fa784b5b75",
+      "expectedSha256": "b71fa7896572078b77d8cdf3f8d0c938c13c2faf3779348b002c675094b90169",
+      "sourceVersion": 1,
+      "tick": 288,
+      "revision": 80,
+      "coins": 146,
+      "ledgerEntries": 54
+    },
+    {
+      "name": "v2-mixed.json",
+      "bytes": 57214,
+      "sha256": "f1e45bd7477897a03694ecdcaa57f2ed3c577ef06440f2c15ec435587bdfb979",
+      "expectedSha256": "e392fb8cd1ed87bd8f6f86b1630659f57029995fc444392836e4cf31bb091b9c",
+      "sourceVersion": 2,
+      "tick": 840,
+      "revision": 489,
+      "coins": 2350,
+      "ledgerEntries": 311
+    },
+    {
+      "name": "v3-mixed.json",
+      "bytes": 53275,
+      "sha256": "901698aa230ec9708bfc1a661b24f4836cc8bb802a90173c662f10671930ed18",
+      "expectedSha256": "f4235a747e81142b8e38f680fe76b351c24235da6aa018cb82f43679b800f4a3",
+      "sourceVersion": 3,
+      "tick": 840,
+      "revision": 430,
+      "coins": 1779,
+      "ledgerEntries": 202
+    },
+    {
+      "name": "v4-mixed.json",
+      "bytes": 104213,
+      "sha256": "e74f4bb2b89828e3b2e5331aeb7bf31c4879d4dc0d0d2d01d492a4ba33efeeb0",
+      "expectedSha256": "91367aa747a50a4fb25f040996419a603fbbd63dda7a1336a7333b686658662e",
+      "sourceVersion": 4,
+      "tick": 744,
+      "revision": 1987,
+      "coins": 2253,
+      "ledgerEntries": 465
+    },
+    {
+      "name": "v5-fresh.json",
+      "bytes": 4391,
+      "sha256": "e0fa4dddc6b4c30896ca4f6d26a92482906b94caa3a759ee509493d15ce5db33",
+      "expectedSha256": "e0fa4dddc6b4c30896ca4f6d26a92482906b94caa3a759ee509493d15ce5db33",
+      "sourceVersion": 5,
+      "tick": 0,
+      "revision": 0,
+      "coins": 120,
+      "ledgerEntries": 0
+    },
+    {
+      "name": "v5-mixed.json",
+      "bytes": 126391,
+      "sha256": "1534f9254307355b94828ca256012eb8980d4ecbe7d4c273afbc85b4fc1c0302",
+      "expectedSha256": "1534f9254307355b94828ca256012eb8980d4ecbe7d4c273afbc85b4fc1c0302",
+      "sourceVersion": 5,
+      "tick": 1224,
+      "revision": 2058,
+      "coins": 2219,
+      "ledgerEntries": 613
+    }
+  ]
+}
