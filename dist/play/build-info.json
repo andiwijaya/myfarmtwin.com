@@ -31,8 +31,8 @@
     },
     {
       "name": "main.js",
-      "bytes": 419543,
-      "sha256": "44fc024e1b01ce4b6979b5fe6f7c091204ad9454e8ccdf60315fbef72ed23278"
+      "bytes": 419577,
+      "sha256": "ac6c840657134cb0f777ad660896a059acae704f505eb96579276befd65a477d"
     },
     {
       "name": "preview-loader.js",
@@ -41,20 +41,20 @@
     },
     {
       "name": "style.css",
-      "bytes": 29591,
-      "sha256": "f23f116e167da00e5057f65f7d38c7e69ef491131f5ed8cf5580a4154079c355"
+      "bytes": 34906,
+      "sha256": "28a5d9f61d4d461d3d6712465ad26cfbef13f622bfde099a27e87d3605055664"
     }
   ],
   "emitted": [
     {
       "name": "main.js",
-      "bytes": 419543,
-      "sha256": "44fc024e1b01ce4b6979b5fe6f7c091204ad9454e8ccdf60315fbef72ed23278"
+      "bytes": 419577,
+      "sha256": "ac6c840657134cb0f777ad660896a059acae704f505eb96579276befd65a477d"
     },
     {
       "name": "unified-world-preview.js",
-      "bytes": 109444,
-      "sha256": "5d9d758188c63797b00ddb4c53df1dd710083e06353f8a2ea4dbe972b6fee59c"
+      "bytes": 111843,
+      "sha256": "1ffc1f6173bb190fb3969386af404f68385af368a87a00cb981fc47431cfe34a"
     },
     {
       "name": "vendor/three/chunks/chunk-QOEEHEK6.js",
