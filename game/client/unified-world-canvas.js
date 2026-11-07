@@ -2,7 +2,7 @@ import {Mesh,Vector3,Matrix3,Sprite} from 'three';
 import {WORLD_ART} from './unified-world-art.js';
 import {spriteOpaque} from './unified-world-sprites.js';
 /** @typedef {{x:number,y:number}} Point */
-/** @typedef {{points:Point[],depth:number,layer:number,color:string,owner:string|null,sprite?:Sprite,rect?:{x:number,y:number,width:number,height:number}}} CanvasFace */
+/** @typedef {{points:Point[],depth:number,layer:number,color:string,owner:string|null,opacity?:number,pickThrough?:boolean,sprite?:Sprite,rect?:{x:number,y:number,width:number,height:number}}} CanvasFace */
 
 /** Visible faces of the SAME scene/camera; no second world model or simulation.
  * Ground, paths and marker are explicit paint layers; object faces use camera depth.
@@ -22,7 +22,7 @@ export function projectSceneFaces(scene,camera,width,height){
    const normal=new Vector3().fromBufferAttribute(normals,face*4).applyMatrix3(normalMatrix).normalize();if(normal.dot(direction)>=-1e-8)continue;
    const vertices=Array.from({length:4},(_,i)=>new Vector3().fromBufferAttribute(positions,face*4+i).applyMatrix4(mesh.matrixWorld).project(camera));
    const points=vertices.map(p=>({x:(p.x+1)*width/2,y:(1-p.y)*height/2})),center={x:points.reduce((n,p)=>n+p.x,0)/4,y:points.reduce((n,p)=>n+p.y,0)/4};points.sort((a,b)=>Math.atan2(a.y-center.y,a.x-center.x)-Math.atan2(b.y-center.y,b.x-center.x));
-   faces.push({points,depth:vertices.reduce((n,p)=>n+p.z,0)/4,layer:Number(mesh.userData.canvasLayer??3),color:mesh.material.color.clone().multiplyScalar(.72+.28*Math.max(0,normal.dot(light))).getStyle(),owner});
+   faces.push({points,depth:vertices.reduce((n,p)=>n+p.z,0)/4,layer:Number(mesh.userData.canvasLayer??3),opacity:mesh.material.opacity,pickThrough:!!mesh.userData.pickThrough,color:mesh.material.color.clone().multiplyScalar(.72+.28*Math.max(0,normal.dot(light))).getStyle(),owner});
   }
  });
  return faces.sort((a,b)=>a.layer-b.layer||b.depth-a.depth);
@@ -38,7 +38,7 @@ export function containsPoint(points,x,y){
 /** Topmost actually painted polygon owns the input; nonselectable faces occlude.
  * @param {readonly CanvasFace[]} faces @param {number} x @param {number} y
  */
-export function pickCanvasFace(faces,x,y){for(let i=faces.length-1;i>=0;i--){const face=faces[i];if(!containsPoint(face.points,x,y))continue;if(face.sprite&&face.rect&&!spriteOpaque(face.sprite,{x:(x-face.rect.x)/face.rect.width,y:1-(y-face.rect.y)/face.rect.height}))continue;return face.owner;}return null;}
+export function pickCanvasFace(faces,x,y){for(let i=faces.length-1;i>=0;i--){const face=faces[i];if(face.pickThrough)continue;if(!containsPoint(face.points,x,y))continue;if(face.sprite&&face.rect&&!spriteOpaque(face.sprite,{x:(x-face.rect.x)/face.rect.width,y:1-(y-face.rect.y)/face.rect.height}))continue;return face.owner;}return null;}
 
 /** @param {HTMLCanvasElement} canvas @param {import('three').Scene} scene @param {import('three').OrthographicCamera} camera @param {number} [pixelRatio] */
 export function createCanvasWorldRenderer(canvas,scene,camera,pixelRatio=1){
@@ -47,7 +47,7 @@ export function createCanvasWorldRenderer(canvas,scene,camera,pixelRatio=1){
  /** @type {CanvasFace[]} */let faces=[];let disposed=false;
  return {
   /** @param {number} width @param {number} height */
-  render(width,height){if(disposed)return;const w=Math.max(1,Math.round(width*ratio)),h=Math.max(1,Math.round(height*ratio));if(canvas.width!==w)canvas.width=w;if(canvas.height!==h)canvas.height=h;context.setTransform(ratio,0,0,ratio,0,0);context.fillStyle=WORLD_ART.light.background;context.fillRect(0,0,width,height);faces=projectSceneFaces(scene,camera,width,height);for(const face of faces){if(face.sprite&&face.rect){const{asset,pose,from,mix}=face.sprite.userData.atlas;if(from&&mix<1){let blend=face.sprite.userData.blendCanvas;if(!blend){blend=document.createElement('canvas');face.sprite.userData.blendCanvas=blend;}if(blend.width!==pose.width||blend.height!==pose.height){blend.width=pose.width;blend.height=pose.height;}const c=blend.getContext('2d');c.clearRect(0,0,blend.width,blend.height);c.globalCompositeOperation='source-over';c.globalAlpha=1-mix;c.drawImage(asset.image,from.x,from.y,from.width,from.height,0,0,pose.width,pose.height);c.globalCompositeOperation='lighter';c.globalAlpha=mix;c.drawImage(asset.image,pose.x,pose.y,pose.width,pose.height,0,0,pose.width,pose.height);context.drawImage(blend,face.rect.x,face.rect.y,face.rect.width,face.rect.height);}else context.drawImage(asset.image,pose.x,pose.y,pose.width,pose.height,face.rect.x,face.rect.y,face.rect.width,face.rect.height);continue;}context.beginPath();for(const [i,p]of face.points.entries())if(i===0)context.moveTo(p.x,p.y);else context.lineTo(p.x,p.y);context.closePath();context.fillStyle=face.color;context.fill();}},
+  render(width,height){if(disposed)return;const w=Math.max(1,Math.round(width*ratio)),h=Math.max(1,Math.round(height*ratio));if(canvas.width!==w)canvas.width=w;if(canvas.height!==h)canvas.height=h;context.setTransform(ratio,0,0,ratio,0,0);context.globalAlpha=1;context.fillStyle=WORLD_ART.light.background;context.fillRect(0,0,width,height);faces=projectSceneFaces(scene,camera,width,height);for(const face of faces){context.globalAlpha=face.opacity??1;if(face.sprite&&face.rect){const{asset,pose,from,mix}=face.sprite.userData.atlas;if(from&&mix<1){let blend=face.sprite.userData.blendCanvas;if(!blend){blend=document.createElement('canvas');face.sprite.userData.blendCanvas=blend;}if(blend.width!==pose.width||blend.height!==pose.height){blend.width=pose.width;blend.height=pose.height;}const c=blend.getContext('2d');c.clearRect(0,0,blend.width,blend.height);c.globalCompositeOperation='source-over';c.globalAlpha=1-mix;c.drawImage(asset.image,from.x,from.y,from.width,from.height,0,0,pose.width,pose.height);c.globalCompositeOperation='lighter';c.globalAlpha=mix;c.drawImage(asset.image,pose.x,pose.y,pose.width,pose.height,0,0,pose.width,pose.height);context.drawImage(blend,face.rect.x,face.rect.y,face.rect.width,face.rect.height);}else context.drawImage(asset.image,pose.x,pose.y,pose.width,pose.height,face.rect.x,face.rect.y,face.rect.width,face.rect.height);continue;}context.beginPath();for(const [i,p]of face.points.entries())if(i===0)context.moveTo(p.x,p.y);else context.lineTo(p.x,p.y);context.closePath();context.fillStyle=face.color;context.fill();}},
   /** @param {number} x @param {number} y */
   pick:(x,y)=>disposed?null:pickCanvasFace(faces,x,y),
   dispose(){disposed=true;faces=[];},

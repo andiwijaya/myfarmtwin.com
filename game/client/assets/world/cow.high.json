@@ -3,7 +3,7 @@
   "species": "cow",
   "lod": "high",
   "image": "cow.high.png",
-  "imageSha256": "0bb3352fa5387c0f8635fd9c977f498d6301950d588b4d8a78bec539c80170fc",
+  "imageSha256": "e4d98de05798842b994843fd08da25c7d99b462ffd30f3482de08475507abada",
   "cell": 256,
   "columns": 16,
   "width": 4096,
@@ -26,7 +26,7 @@
   ],
   "source": {
     "generator": "myfarmtwin-world-atlas-v1",
-    "modelSha256": "b7cad6c090ad7bd79646b31621d07717c1aa868f418db21a47888c77a762b44c",
+    "modelSha256": "e34e6d1f328002be87931a857915d59f1820a74d235cc2c6d567c14c6171986d",
     "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
     "three": "0.187.0",
     "chromium": "156.0.8078.80",
