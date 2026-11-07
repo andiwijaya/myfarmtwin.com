@@ -1,0 +1,7 @@
+# Original live HUD in one world — M6-F01
+
+The hidden unified preview now puts the original live resource/clock HUD and weather strip directly before the world. Intro copy remains available to assistive technology; the original welcome/resume/mission and care functions are preserved. The five scene-switch tabs stay hidden. Map quality and the classic rollback link share a compact map bar. The shell reparents actual DOM nodes; no resource totals, action handlers or economy are reimplemented. Classic default layout is unchanged.
+
+`tools/unified-hud-e2e.mjs`: eight profiles (fresh/earned five-area farm × desktop/mobile touch emulation × WebGL/Canvas) PASS. Both EN and ID are exercised. The actual map begins at 223 CSS px desktop and 319 CSS px mobile, with 720/554 CSS px stage heights. Each profile checks one original HUD/canvas/interval, no horizontal overflow, all six zone/Market focus shortcuts without a grant or save write, and an actual Next Day action against the full serialized native engine oracle. Actual initial/after screenshots and `hud.json` are ignored in `qa-artifacts/unified-m6-hud/`; reviewed mobile fresh and original structure. This is the layout substrate; global menus, contextual sheets and final mobile compression follow in M6.
+
+Typecheck, lint, build, build/media/provenance and seven frozen-save checks PASS. Engine, save version/key and original editorial assets remain unchanged. No push/deployment or physical-device test.

@@ -22,6 +22,7 @@ import {chickenFenceParts} from './unified-chicken-layout.js';
 import {createFarmCamera} from './unified-world-camera.js';
 import {nearbySpritePoints} from './unified-world-contact.js';
 import {createCanvasWorldRenderer,projectSceneFaces} from './unified-world-canvas.js';
+export {createWorldShell} from './unified-world-shell.js';
 export {createWorldPresentation} from './unified-world-selection.js';
 
 /** Snapshot scene with input callbacks. No economy reducer or simulation clock is owned here.
