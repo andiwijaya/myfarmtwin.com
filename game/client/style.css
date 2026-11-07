@@ -45,3 +45,4 @@ dialog{border:1px solid var(--line);border-radius:24px;background:var(--paper);c
 .unified-preview-stage canvas{display:block;width:100%;height:100%}.unified-preview-controls{display:flex;flex-wrap:wrap;gap:8px;margin-block:12px}
 .unified-preview-controls button{min-height:44px;padding:8px 12px;border:1px solid #7d966d;border-radius:9px;background:#fffdf4;color:#244b39}
 .unified-preview ul{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.8rem;padding-left:20px}
+.unified-preview li button{min-height:44px;border:1px solid #a6bb91;border-radius:8px;padding:6px 10px;color:#244b39;background:#fffdf4}.unified-preview li button[aria-pressed=true]{background:#e6d398;border-color:#8a753d}

@@ -4,6 +4,7 @@
 /** @typedef {'field'|'chicken'|'market'} PreviewZone */
 /** @typedef {{id:string,zone:PreviewZone,kind:'plot'|'pump'|'coop'|'station'|'hen'|'market'|'available',domainId:string|number,x:number,z:number,width:number,depth:number,height:number,value:number,crop?:{type:string,stage:number,progress:number,quality:number}}} WorldEntity */
 /** @typedef {{revision:number,tick:number,weather:string,paused:boolean,chickenStarted:boolean,entities:readonly Readonly<WorldEntity>[]}} WorldSnapshot */
+/** @typedef {{kind:'plot'|'chicken'|'pump'|'market'|'startChicken',entityId:string,domainId:string|number,animalId?:string}} WorldSelection */
 
 export const TWO_ZONE_BOUNDS=Object.freeze({minX:-11,maxX:11,minZ:-11,maxZ:10});
 export const TWO_ZONE_ANCHORS=Object.freeze({field:Object.freeze({x:-4,z:4}),chicken:Object.freeze({x:-4,z:-6}),market:Object.freeze({x:5,z:0})});
@@ -23,4 +24,17 @@ export function readWorldSnapshot(state){
   for(const [i,hen]of chicken.hens.entries()){const [x,z]=henSpots[i%henSpots.length];entities.push({id:'chicken.hen.'+hen.id,zone:'chicken',kind:'hen',domainId:hen.id,x,z,width:.4,depth:.4,height:.45,value:0});}
  }else entities.push({id:'chicken.available',zone:'chicken',kind:'available',domainId:'enterYard',x:-5,z:-8,width:2,depth:2,height:.2,value:0});
  return Object.freeze({revision:state.revision,tick:state.tick,weather:state.weather,paused:state.paused,chickenStarted:!!coop,entities:Object.freeze(entities.map(e=>Object.freeze(e)))});
+}
+/** Selection routing only. Entry remains a separate explicit player command.
+ * @param {Readonly<WorldSnapshot>} snapshot @param {unknown} id @returns {Readonly<WorldSelection>|null}
+ */
+export function resolveWorldSelection(snapshot,id){
+ if(typeof id!=='string')return null;const entity=snapshot.entities.find(e=>e.id===id);if(!entity)return null;
+ const base={entityId:entity.id,domainId:entity.domainId};
+ if(entity.kind==='plot'&&typeof entity.domainId==='number')return Object.freeze({...base,kind:'plot'});
+ if(entity.kind==='hen'&&typeof entity.domainId==='string')return Object.freeze({...base,kind:'chicken',domainId:'coop',animalId:entity.domainId});
+ if(entity.kind==='coop'||entity.kind==='station')return Object.freeze({...base,kind:'chicken'});
+ if(entity.kind==='available')return Object.freeze({...base,kind:'startChicken'});
+ if(entity.kind==='pump'||entity.kind==='market')return Object.freeze({...base,kind:entity.kind});
+ return null;
 }

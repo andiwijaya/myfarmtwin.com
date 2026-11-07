@@ -66,7 +66,7 @@ function renderChickenSelection(){el('world').dataset.selectedChicken=selectedCh
 document.addEventListener('chickenobjectselect',event=>{const id=/** @type {CustomEvent<string>} */(event).detail;if(activeArea==='chicken'&&['coop','nest','feeder','drinker','clean'].includes(id)){selectedChicken=id;renderChickenSelection();}});
 document.addEventListener('chickenaction',event=>{if(activeArea!=='chicken')return;const id=/** @type {CustomEvent<string>} */(event).detail,types=/** @type {Record<string,import('./engine.js').CommandType>} */({feed:'feedHens',water:'waterHens',clean:'cleanCoop',collect:'collectEggs'});if(Object.hasOwn(types,id))send(types[id]);});
 document.addEventListener('camerachanged',()=>{if(activeArea==='fish')renderFishSelection();else if(activeArea==='cow')renderCowSelection();else if(activeArea==='goat')renderGoatSelection();else if(activeArea==='chicken')renderChickenSelection();else renderSelection();});
-function closeChicken(){const old=selectedChicken;selectedChicken='';renderChickenSelection();/** @type {HTMLButtonElement|null} */(document.querySelector('[data-choose-chicken='+old+']'))?.focus();}
+function closeChicken(){const old=selectedChicken;selectedChicken='';renderChickenSelection();if(unifiedPreview?.releaseSelection('chicken',old))return;/** @type {HTMLButtonElement|null} */(document.querySelector('[data-choose-chicken='+old+']'))?.focus();}
 el('close-chicken').addEventListener('click',closeChicken);
 el('area-fish').addEventListener('click',()=>{if(FEATURES.fish){clearNotice();if(!state.fish?.visited&&externalChange){notify(t('saveConflict'));return;}activeArea='fish';if(!state.fish?.visited)send('enterFishPond');else render();}});
 el('area-cow').addEventListener('click',()=>{if(FEATURES.cow){clearNotice();if(!state.cow?.visited&&externalChange){notify(t('saveConflict'));return;}activeArea='cow';if(!state.cow?.visited)send('enterCow');else render();}});
@@ -102,7 +102,7 @@ function renderSelection(){
  const info=document.createElement('p');info.id='crop-info';const c=CROPS[chosenCrop];info.textContent=`${c.hours/24} ${t('gameDays')} (${t('idealCare')}) · ${c.waterPerDayMm} mm/${t('day').toLowerCase()} · ${c.seedPrice} ${t('coins')}/${t('seed')}`;actions.append(info);
  const plant=document.createElement('button');plant.type='button';plant.id='plant';plant.className='action-button primary';plant.textContent=t('plant')+' '+t(chosenCrop)+' · '+state.seeds[chosenCrop]+' '+t('seeds');plant.addEventListener('click',()=>{if(selected!==null)send('plant',{plot:selected,crop:chosenCrop});});actions.append(plant);
 }
-function closePlot(){const old=selected;selected=null;renderSelection();if(old!==null){const button=/** @type {HTMLButtonElement|null} */(document.querySelector(`[data-choose-plot="${old}"]`));button?.focus();}}
+function closePlot(){const old=selected;selected=null;renderSelection();if(old!==null){if(unifiedPreview?.releaseSelection('plot',old))return;const button=/** @type {HTMLButtonElement|null} */(document.querySelector(`[data-choose-plot="${old}"]`));button?.focus();}}
 function renderPlotChoice(){renderSelection();renderMission();renderData(saveSession);if(el('inspect-dialog').hasAttribute('open')){renderInspect(state,selected);renderReasons(state,selected);renderTrends(state,selected);}resumeVisible=false;el('resume-summary').hidden=true;}
 document.addEventListener('plotselect',event=>{const id=/** @type {CustomEvent<number>} */(event).detail;if(!Number.isInteger(id)||!state.plots.some(p=>p.id===id))return;selected=id;if(state.mission.step===0){renderSelection();send('select',{plot:id});}else renderPlotChoice();});
 el('close-plot').addEventListener('click',closePlot);
@@ -162,6 +162,6 @@ setupMarket();setupInspect();setupData({getState:()=>state,replace:next=>queueSa
 // Explicit opt-in only. Default players never fetch Three or mount this prototype.
 if(new URLSearchParams(location.search).get('world')==='unified-preview'){
  const previewHost=document.createElement('section');previewHost.id='unified-preview';el('world').before(previewHost);
- try{const {mountUnifiedPreview}=await import('./unified-world-preview.js');unifiedPreview=mountUnifiedPreview(previewHost,state,getLocale());}
+ try{const {mountUnifiedPreview}=await import('./unified-world-preview.js');unifiedPreview=mountUnifiedPreview(previewHost,state,getLocale(),{onSelect:target=>{if(target.kind==='market'){document.dispatchEvent(new Event('marketopen'));return;}if(target.kind==='plot'&&typeof target.domainId==='number'){activeArea='field';render();document.dispatchEvent(new CustomEvent('plotselect',{detail:target.domainId}));}else if(target.kind==='chicken'&&state.chicken?.visited&&typeof target.domainId==='string'){activeArea='chicken';selectedChicken=target.domainId;render();}else if(target.kind==='pump'){activeArea='field';render();}},onStartChicken:async()=>{await send('enterYard');if(state.chicken?.visited){activeArea='chicken';selectedChicken='coop';render();}}});}
  catch{previewHost.textContent=getLocale()==='id'?'Pratinjau tidak tersedia. Permainan tetap dapat digunakan di bawah.':'Preview unavailable. The game remains usable below.';}
 }
