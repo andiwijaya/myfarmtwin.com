@@ -23,7 +23,7 @@ export function projectSceneFaces(scene,camera,width,height){
  /** @type {CanvasFace[]} */const faces=[];
  scene.traverseVisible(object=>{
   if(object instanceof Sprite&&object.userData.atlas){const p=object.getWorldPosition(new Vector3()).project(camera),scale=object.getWorldScale(new Vector3()),w=scale.x*camera.zoom/(camera.right-camera.left)*width,h=scale.y*camera.zoom/(camera.top-camera.bottom)*height,x=(p.x+1)*width/2-object.center.x*w,y=(1-p.y)*height/2-(1-object.center.y)*h;faces.push({points:[{x,y},{x:x+w,y},{x:x+w,y:y+h},{x,y:y+h}],depth:p.z,layer:3,color:'',owner:object.userData.entityId,sprite:object,rect:{x,y,width:w,height:h}});return;}
-  if(!(object instanceof Mesh))return;const mesh=/** @type {import('three').Mesh<import('three').BufferGeometry,import('three').MeshLambertMaterial>} */(object),positions=mesh.geometry.getAttribute('position'),normals=mesh.geometry.getAttribute('normal'),gable=!!mesh.userData.worldGable;
+  if(!(object instanceof Mesh)||object.userData.worldBatch)return;const mesh=/** @type {import('three').Mesh<import('three').BufferGeometry,import('three').MeshLambertMaterial>} */(object),positions=mesh.geometry.getAttribute('position'),normals=mesh.geometry.getAttribute('normal'),gable=!!mesh.userData.worldGable;
   if(gable?positions.count!==3:mesh.geometry.type!=='BoxGeometry'||positions.count!==24)return;
   let ancestor=/** @type {import('three').Object3D} */(mesh);while(ancestor.parent&&!ancestor.userData.entityId)ancestor=ancestor.parent;
   const owner=typeof ancestor.userData.entityId==='string'?ancestor.userData.entityId:null,normalMatrix=new Matrix3().getNormalMatrix(mesh.matrixWorld);

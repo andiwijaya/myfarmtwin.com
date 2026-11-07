@@ -12,18 +12,18 @@
       "notice": "dist/play/vendor/three/LICENSE.txt"
     },
     {
-      "path": "dist/play/vendor/three/chunks/chunk-5TCQDHAV.js",
-      "bytes": 192358,
-      "sha256": "721ed3a26b8af9c95ddf27c0a513f7565f0af9849d55576946bbc40b59c090f1",
+      "path": "dist/play/vendor/three/chunks/chunk-QOEEHEK6.js",
+      "bytes": 195571,
+      "sha256": "4792eca22472a1780b4426c6db335f7ba85cfc647d7edbe829818466d656c93f",
       "sourcePackage": "three@0.187.0",
       "transformation": "Tree-shaken/minified with esbuild@0.28.2; shared class identity and lazy WebGL split",
       "license": "MIT",
       "notice": "dist/play/vendor/three/LICENSE.txt"
     },
     {
-      "path": "dist/play/vendor/three/chunks/unified-world-webgl-BEP2IL3H.js",
+      "path": "dist/play/vendor/three/chunks/unified-world-webgl-EUOPMC4E.js",
       "bytes": 357192,
-      "sha256": "971d3ea569f1c348dc4a349f107a17eb77cff1e05371088dc48f9ab103a81ced",
+      "sha256": "4c581672fd68586f871e635f29f01a470c5e6b8c49e93e3175eb7265c375f8dd",
       "sourcePackage": "three@0.187.0",
       "transformation": "Tree-shaken/minified with esbuild@0.28.2; shared class identity and lazy WebGL split",
       "license": "MIT",
@@ -31,8 +31,8 @@
     },
     {
       "path": "dist/play/vendor/three/three.module.js",
-      "bytes": 572,
-      "sha256": "fbee321c616fb6c81fd5a3e36de7d09f16092432cc47c55e78801b2af961c2e2",
+      "bytes": 599,
+      "sha256": "74e7b48b044a19e367d65d3288bac00f71b5f765b3e107b2016f8a504061efea",
       "sourcePackage": "three@0.187.0",
       "transformation": "Tree-shaken/minified with esbuild@0.28.2; shared class identity and lazy WebGL split",
       "license": "MIT",
@@ -51,8 +51,8 @@
   "proceduralSources": [
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 52632,
-      "sha256": "081b3df6ec74289077893e8096de05387b930996898f1b7627a29f52f2ff9b07",
+      "bytes": 55160,
+      "sha256": "a82e9a6ea10e40d04db4ef13130bc8bf9615b632c5e1450360595011a14a1f2a",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -99,9 +99,23 @@
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
+      "path": "game/client/unified-world-batches.js",
+      "bytes": 2210,
+      "sha256": "f8a31b44615875a361ffcedd43205bb10955f5a18ab5c956fb85e9dd977c1b75",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-quality.js",
+      "bytes": 689,
+      "sha256": "5aceb7908b65c952de4507e2561daa40dcf80252107d51071c6eb1e353b1e24b",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
       "path": "game/client/unified-world-canvas.js",
-      "bytes": 9139,
-      "sha256": "a18c225e8c8c8df1a4b50d31798996c4b44232b8ba7e75f1500b029e37afab55",
+      "bytes": 9167,
+      "sha256": "bf1ce4e8f2218e753f5b8f9f90d9445a66f7154ae2ff11b566a3fe33e9e8ccd6",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -121,8 +135,8 @@
     },
     {
       "path": "game/client/unified-world-sprites.js",
-      "bytes": 16410,
-      "sha256": "778f40e81f2d83c5c61dfda32f9ada6aed19188abd13f3aade951d22caeb1573",
+      "bytes": 16606,
+      "sha256": "cb93f1683d596b738d80561a54a0f803823800e9af2e1990d1e4b7798c848131",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
