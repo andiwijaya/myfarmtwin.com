@@ -120,6 +120,48 @@
       "origin": "Original work authored for this repository under the current task; no external asset content"
     }
   ],
-  "proceduralOrigin": "Original repository-authored primitive geometry and cosmetic hen breathing; provisional layouts, not M4/M5 acceptance",
-  "textures": 0
+  "atlasAssets": [
+    {
+      "path": "game/client/assets/world/chicken.high.png",
+      "metadata": "game/client/assets/world/chicken.high.json",
+      "bytes": 224386,
+      "sha256": "89c49fee676d623d2f8cd401d821db69c412b6b84fbb45dd193ad4321f7008df",
+      "metadataSha256": "34f52b36b154c5b673d6d7451910e0962fa02c38638134e28383491b58fbae59",
+      "modelPath": "tools/art/chicken.mjs",
+      "modelSha256": "316e204c1bc7b350ff8459d5176b3aaaf262106d80b866e6608fda51cc36b6cb",
+      "generatorPath": "tools/generate-world-atlas.mjs",
+      "generatorSha256": "9ea94e56b02d4e11f1e84c9f8924ee859abc5148abbd8ea36fb9aff647531a77",
+      "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
+      "source": {
+        "generator": "myfarmtwin-world-atlas-v1",
+        "modelSha256": "316e204c1bc7b350ff8459d5176b3aaaf262106d80b866e6608fda51cc36b6cb",
+        "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
+        "three": "0.187.0",
+        "chromium": "156.0.8078.80",
+        "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      }
+    },
+    {
+      "path": "game/client/assets/world/chicken.low.png",
+      "metadata": "game/client/assets/world/chicken.low.json",
+      "bytes": 79846,
+      "sha256": "67a69af7a1ff9740ae362ff7011cc79a8953281bfb7bdd8935e3989fbb2f585a",
+      "metadataSha256": "946a4cd36595eb61d470f7fdf01c71a4d33e0628bf96cde8cb7d800003f482a4",
+      "modelPath": "tools/art/chicken.mjs",
+      "modelSha256": "316e204c1bc7b350ff8459d5176b3aaaf262106d80b866e6608fda51cc36b6cb",
+      "generatorPath": "tools/generate-world-atlas.mjs",
+      "generatorSha256": "9ea94e56b02d4e11f1e84c9f8924ee859abc5148abbd8ea36fb9aff647531a77",
+      "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
+      "source": {
+        "generator": "myfarmtwin-world-atlas-v1",
+        "modelSha256": "316e204c1bc7b350ff8459d5176b3aaaf262106d80b866e6608fda51cc36b6cb",
+        "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
+        "three": "0.187.0",
+        "chromium": "156.0.8078.80",
+        "renderer": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+      }
+    }
+  ],
+  "proceduralOrigin": "Original repository-authored geometry and offline 3D atlas rigs; per-species integration and M4/M5 acceptance tracked separately",
+  "textures": 2
 }

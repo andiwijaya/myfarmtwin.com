@@ -22,3 +22,8 @@ dist/play/main.js text eol=lf
 dist/play/preview-loader.js text eol=lf
 dist/play/unified-world-preview.js text eol=lf
 dist/play/build-info.json text eol=lf
+# Reproducible original atlas outputs; never translate generated metadata newlines.
+game/client/assets/world/*.png binary
+dist/play/assets/world/*.png binary
+game/client/assets/world/*.json text eol=lf
+dist/play/assets/world/*.json text eol=lf

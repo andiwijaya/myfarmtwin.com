@@ -22,7 +22,7 @@ export async function build(root=process.cwd(),{bundle=true}={}) {
         if(!body.includes("from 'three'"))throw new Error('Preview vendor import missing');
         await writeFile(to,body.replace("from 'three'","from './vendor/three/three.module.js'"));preview=true;
       }else if(canonicalText.has(relative(source,from)))await writeFile(to,(await readFile(from,'utf8')).replaceAll('\r\n','\n'));
-      else if(/\.(html|css|js|svg|json|webp)$/.test(entry.name)) await copyFile(from,to);
+      else if(/\.(html|css|js|svg|json|webp|png)$/.test(entry.name)) await copyFile(from,to);
     }
   }
   await copy(source,target);
