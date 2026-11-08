@@ -4,3 +4,5 @@ export async function worldObject(page,id){if(await page.locator('#world-objects
 export async function worldGo(page,zone){await page.locator('#world-minimap summary').click();await page.locator('[data-world-go='+zone+']').click();}
 export async function openWorldSettings(page){if(await page.locator('[data-world-menu=settings]').count()&&!await page.locator('#world-settings').isVisible())await page.locator('[data-world-menu=settings]').click();}
 export async function closeWorldSettings(page){if(await page.locator('#world-settings').count()&&await page.locator('#world-settings').isVisible())await page.locator('[data-world-close=settings]').click();}
+
+export async function worldRetry(page){const button=page.locator('[data-preview-retry]');if(!await button.isVisible()&&await page.locator('#world-camera-tools').count())await page.locator('#world-camera-tools summary').click();await button.click();}
