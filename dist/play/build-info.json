@@ -36,13 +36,13 @@
     },
     {
       "name": "preview-loader.js",
-      "bytes": 669,
-      "sha256": "1325d32d0939b7bf7961d325ca55398bdd07123fe0edd00baee14edbdd88a53f"
+      "bytes": 1805,
+      "sha256": "85b609b1b638f121fa8847172db389627d206fff67f86ecae485c3b2ef0941a1"
     },
     {
       "name": "style.css",
-      "bytes": 39488,
-      "sha256": "b8dc2854a778922c32cf7788f761dc68eb632567a00486381ef632a1cb9443b3"
+      "bytes": 39635,
+      "sha256": "c7554ed2855b4da709adfd4a6ff8862c91034bd9a64480dd7a34a0a102b6c707"
     },
     {
       "name": "vendor/game/chunks/chunk-CXKKWGBJ.js",
@@ -63,8 +63,8 @@
     },
     {
       "name": "unified-world-preview.js",
-      "bytes": 122851,
-      "sha256": "fdc1da8cee31bfb51e0861ce6f1e0898302bef462ce09a2283eac94dfeb4c934"
+      "bytes": 123355,
+      "sha256": "f9abe87c56bfffb5ec5f1e0aab1b9bea7b8380bf63dbd3ae44dad9d430fef40c"
     },
     {
       "name": "vendor/game/chunks/chunk-CXKKWGBJ.js",

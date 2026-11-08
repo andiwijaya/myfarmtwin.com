@@ -84,3 +84,5 @@ dialog{border:1px solid var(--line);border-radius:24px;background:var(--paper);c
 @media(max-height:520px) and (min-width:481px){.unified-shell .world-current-task{position:absolute;width:1px;height:1px;min-height:0;overflow:hidden;clip-path:inset(50%);padding:0;border:0}.unified-shell .world-current-task:focus{position:fixed;top:0;left:0;width:calc(100% - 104px);height:auto;min-height:44px;clip-path:none;z-index:60}}
 
 .unified-shell .world-startup{font-size:13px;margin:4px 0;padding:6px 10px;color:#285138;background:#f6faef;border-radius:8px}.unified-shell #unified-preview[data-controls-ready=false] #world-current-task{cursor:progress}
+
+.world-menu-short{display:none}@media(max-width:700px){.world-menus .world-menu-full{display:none}.world-menus .world-menu-short{display:inline}}
