@@ -1,0 +1,9 @@
+# M8-F04 - keyboard, HTML object alternatives and degraded graphics
+
+`tools/unified-input-e2e.mjs` passes **18 profiles** at desktop, portrait phone and short landscape sizes, EN/ID, WebGL/Canvas and deliberately unavailable drawing contexts. Trusted keyboard/mouse and CDP touch gestures exercise all 17 camera controls, arrows/WASD/rotation/zoom/reset, Enter/Space object selection, search typing isolation, Escape/outside dismissal and visible focus restoration. Drag/pinch do not produce false taps. Actual accessible snapshots and captures are in `qa-artifacts/unified-m8-input/input.json` and neighboring files.
+
+All object actions remain in meaningful searchable/filterable HTML controls and original care/menu DOM. Ninety original commands across these profiles retain exact full native save/ledger and one clock/canvas. The both-contexts-null case proves accessible HTML gameplay and a truthful status; it does not claim a rendered world.
+
+The current visibility regression passes four desktop/touch-emulated WebGL/Canvas profiles (`qa-artifacts/unified-m8-visibility/visibility.json`): original real interval ticks, actual reduced-motion media changes, Low quality and viewport lifecycle. The `document.hidden` branch is explicitly injected; actual CDP frozen/active is separate. Cosmetic motion stops/restarts without extra simulation ticks. Twenty actual shell remounts plus two injected constructor failures restore native nodes/listeners and preserve gameplay (`qa-artifacts/unified-m8-shell-lifecycle`).
+
+Responsive controls remain at least 44 CSS pixels and native dialogs retain labels, scrolling and focus. This is automated browser/ARIA-tree testing and visual inspection, not NVDA/VoiceOver user testing, physical touch, physical notches or thermal testing. No personal profile, push or deploy.
