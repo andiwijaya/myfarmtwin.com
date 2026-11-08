@@ -1,5 +1,5 @@
 {
-  "audited": "2026-11-07",
+  "audited": "2026-11-08",
   "purpose": "Hidden functional world preview; no MyZooTwin art or source copied",
   "assets": [
     {
@@ -114,8 +114,8 @@
     },
     {
       "path": "game/client/unified-world-shell.js",
-      "bytes": 14701,
-      "sha256": "0a35b137de21d3ad63aa8f2482ee209e2bfb4c5fd1b1b8b1631a293d023adbd0",
+      "bytes": 15371,
+      "sha256": "e723973e6628b12600257d62b6e6054f1c9b3a49fd8469f9452a4d1112b641f5",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },

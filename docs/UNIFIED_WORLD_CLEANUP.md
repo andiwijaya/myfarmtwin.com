@@ -1,0 +1,9 @@
+# M8-F06 - bounded output cleanup and retained rollback
+
+`tools/unified-cleanup-audit.mjs` passes. All six vendor files are either hash-exact receipt-owned outputs or the required Three license/version receipt. There is no obsolete raw Three core copy, source map, unowned vendor chunk or tracked QA artifact. The safe build already prunes only stale outputs named by the preceding receipt after checking their hashes; modified or out-of-workspace targets are refused. Build regression tests verify both successful pruning and refusal. No recursive production/editorial cleanup was introduced.
+
+Exactly one production dependency remains, pinned Three.js 0.187.0. All eight locally authored sprite atlases and 24 frozen original editorial/media assets remain exact. The provenance manifest now records the actual 8 November audit. The README's obsolete two-zone/prototype progress paragraphs were replaced with the verified five-zone preview status and explicit release hold.
+
+The original six SVG/camera readers, source modules and media are intentionally retained for the actual classic rollback route. Their original normalized bytes and delivered availability are checked automatically. Removing these while the public replacement is still unpublished would contradict the PRD rollback gate. Standalone diagnostic modules are also retained for the existing import-based QA and original readers; their bytes are disclosed separately from initial downloads. No retired scene switch is active inside the unified preview, and default classic remains the release-safe route.
+
+Evidence: `qa-artifacts/unified-m8-cleanup/cleanup.json`, current build/media audit under `qa-artifacts/unified-m1`, and `UNIFIED_WORLD_DOMAIN_HARDENING.md`. Ignored captures remain outside tracked production files. No push/deploy.
