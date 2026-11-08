@@ -1,3 +1,17 @@
+# Unified3D-only production verified
+
+**Owner-directed follow-up10/10 complete; original PRD checkpoint82/82.** Normal homepage entry and `/play/` open the unified3D game. Classic2D and Canvas world fallback are removed; WebGL failure gets a clear bilingual retry state. The homepage promotes the actual latest3D game in EN/ID with direct entry and new game screenshots/SEO.
+
+Production source **`3666ad7f12a78e4c07799b4bd28e1a87cc27dde3`**, canonical dist **`992c55a108987a9bec9f48fd8a612404bfc23d6d`**. Pages **`myfarmtwin-com`**, deployment **`c3b86321-7f4d-45a9-a4e5-f90d5eebc069`**, terminal success **2026-11-08T11:09:44.017777Z**. Existing GitHub main integration and successful Cloudflare check agree. One ordinary authorized push; no Actions/manual upload/settings change.
+
+- [Homepage](https://myfarmtwin.com/)
+- [Normal3D game](https://myfarmtwin.com/play/)
+- [Immutable deployment](https://c3b86321.myfarmtwin-com.pages.dev/play/)
+
+479 unit tests pass; committed package and220 public bodies match Git; all live entry/gameplay/security/homepage checks pass. Actual public emulated-mobile first3D4923ms, care6113ms, animal art10893ms; warm3D1560ms;54.7 real render submissions/s in60s. No physical Android/iOS or desktop/profile takeover. Complete evidence and limitations: [3D-only release](UNIFIED_WORLD_3D_ONLY_RELEASE.md). Closing evidence stays in a local metadata commit without changing production dist.
+
+Earlier candidate/preview records below are historical.
+
 # Unified 3D-only release candidate
 
 The owner authorized direct3D entry, removal of Classic/Canvas world rendering, a current3D homepage, deployment and live QA. The change is committed as `dda512e0f09312cae34b7599dfc244fd0fceeade`; canonical dist tree `992c55a108987a9bec9f48fd8a612404bfc23d6d`. The tested artifact has479 passing unit tests and220 exact HTTP resource bodies. Follow-up gates are9/10; see [3D-only release evidence](UNIFIED_WORLD_3D_ONLY_RELEASE.md). Production identity and real provider compression/security will be verified after the authorized push.

@@ -4,7 +4,7 @@ Owner instructions, 8 November 2026: normal entry from the homepage opens 3D; re
 
 Work branch: `unified-3d-only`, starting at `215bbce3ecf1cc580e7bb860a613e25c1455ee35`. Prior production source: `a5c2e0e4b3b8de07940ee4b862ff8fcbae2cd4a7`, Pages deployment `63067ffb-e4a4-41e0-8658-8ab2ea7a57a9`.
 
-Follow-up gates: **9/10 verified (90%)**. Evidence is under ignored `qa-artifacts/unified-3d-only`; no QA captures are shipped.
+Follow-up gates: **10/10 verified (100%) — production verified**. Evidence is under ignored `qa-artifacts/unified-3d-only`; no QA captures are shipped.
 
 - [x] F01: Homepage and ordinary `/play/` entry, including old bookmarks, always mount the same 3D world. Eight desktop/touch EN/ID normal/no-WebGL profiles: `entry-viewport/entry.json`.
 - [x] F02: Remove exclusive 2D world source/build output and animation CSS, retaining native gameplay, data model, shared care components and assets.
@@ -15,7 +15,7 @@ Follow-up gates: **9/10 verified (90%)**. Evidence is under ignored `qa-artifact
 - [x] F07: Four WebGL five-area journeys, mission progression, six native menus and ledger equality.
 - [x] F08: Lint/type/unit/build, frozen domain/media audit, asset provenance and committed-package integrity.
 - [x] F09: Measure actual first WebGL map and warm load on throttled mobile emulation; verify animation/lifecycle stability and document physical-device limits.
-- [ ] F10: Verify authorized production pipeline, publish tested commit, identify deployment and test actual live route/homepage/game integrity.
+- [x] F10: Verify authorized production pipeline, publish tested commit, identify deployment and test actual live route/homepage/game integrity.
 
 Baseline before edits: lint and typecheck passed; 486/486 unit tests passed. Dedicated SVG/Canvas projection/layout tests are retired with their deleted implementation. Shared GPU ownership, alpha picking, touch geometry and native Fish stage/stock tests are ported to the surviving 3D code. Domain/reducer/save tests remain in place.
 
@@ -38,3 +38,15 @@ Compressed transport measurements: first WebGL map desktop385ms, emulated mobile
 Other final checks: four chicken parity profiles ×44 accepted native commands,28 new eggs and actual paid feeder service; six trusted-input profiles; four sprite-contact profiles (64 exact picks plus32 enlarged touch picks); four lifecycle profiles including20 full remount/disposal cycles and fatal bootstrap recovery. Native balance26×90-day policies and maximum-farm90-day/2160-hour paired replay passed. Targeted HTTP cache-policy tests add two checks to the477-unit suite.
 
 Final preflight: lint/typecheck passed;479/479 unit tests passed with authorized loopback networking. Committed change `dda512e0f09312cae34b7599dfc244fd0fceeade` has canonical dist tree `992c55a108987a9bec9f48fd8a612404bfc23d6d`:221 files,14 receipt entries,220 actual HTTP bodies verified with zero mismatches (`package/package.json`). Current metadata-only release commit reuses that exact dist tree. `preflight.json` verifies9/10 follow-up gates; production publish and live verification remain the final gate.
+
+## Production closure
+
+Published source `3666ad7f12a78e4c07799b4bd28e1a87cc27dde3` via one normal non-force push to existing production main. Cloudflare Pages deployment `c3b86321-7f4d-45a9-a4e5-f90d5eebc069` completed successfully at2026-11-08T11:09:44.017777Z; its GitHub Cloudflare check and remote main match. Dist tree remains `992c55a108987a9bec9f48fd8a612404bfc23d6d`. Public `/play/` is3D without a query flag; Classic and Canvas world files/choices are removed.
+
+Live verification:220 decoded resource bodies exactly match Git; eight entry/old-bookmark/Low/WebGL-loss-retry profiles pass with byte-exact QA saves; two all-five-area journeys each execute235 original commands across nine game days with exact full save/ledger; six responsive homepage language/entry profiles and two strict CSP/malicious-import profiles pass. Actual screenshots from live-home and live-five-area were visually inspected. No personal browser/profile or desktop was accessed.
+
+Actual public mobile emulation (4x CPU,150ms,1.6Mbps), after other browser QA closed: first successful input-bound WebGL map4923ms; native care6113ms; complete owned animal art10893ms. Warm map1560ms, care2108ms, art3857ms. The60-second sample submits54.7 successful real WebGL renders/s (one-second median56.1), trusted camera response34.6ms,+0.39MiB post-GC heap; reduced motion stops/resumes and full save bytes remain exact. These are submission measurements, not a physical phone/display FPS claim. The5s first-map target is met in this sample with a narrow margin; readiness of care/art is reported separately.
+
+Production compression is verified rather than assumed: new public loader/world modules and immutable assets return Brotli, while two unchanged public Three chunks retain earlier uncompressed cached response headers even after standard revalidation. Their decoded bodies still match Git exactly. No zone cache purge, DNS/security/analytics dashboard change, dependency install, manual upload or Actions run was used. Live performance includes this actual mixed transport; local fully-gzipped2125ms is not presented as the public loading result.
+
+Evidence: `final-acceptance.json`, `deployment.json`, `github-check.json`, `live-integrity/`, `live-entry-final/`, `live-five-area/`, `live-home/`, `live-security/`, `live-performance/`, `live-transport.json` and `live-compression-probe.json`, all under ignored QA. Earlier failed/stalled diagnostic runs are retained. One live QA attempt hit an overly broad status selector while legitimate animal art was still loading; the selector now specifically excludes the independent startup status, and all eight live profiles pass. This closing documentation/QA selector commit is kept local to avoid a documentation-only redeployment; production code is unchanged. No remaining software/release blocker. Physical-device testing remains the explicit limit.

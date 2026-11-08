@@ -1,3 +1,7 @@
+# Final public3D-only measurement
+
+Production `3666ad7`, deployment `c3b86321-7f4d-45a9-a4e5-f90d5eebc069`: actual public mobile emulation first WebGL4923ms, care6113ms, owned animal art10893ms; warm map1560ms, care2108ms, art3857ms. Successful render submissions54.7/s (median56.1), camera34.6ms,+0.39MiB post-GC heap over60s. The first-map5s target passes this sample; it does not imply care/art are ready at the same instant or guarantee every device. Two unchanged public graphics chunks still return their old uncompressed cached headers; other new modules/immutable assets return Brotli. Local gzip2125ms is a separate transport-controlled result. No physical Android/iOS/display FPS claim. Full [release evidence](UNIFIED_WORLD_3D_ONLY_RELEASE.md).
+
 # Current3D-only measurements
 
 The owner-directed3D-only follow-up supersedes the Canvas/default-Classic startup policy below. Actual WebGL first render with negotiated local gzip:385ms desktop,2125ms under4x CPU/150ms/1.6Mbps mobile emulation; warm mobile2612ms, native care3026ms. Actual60-second render submissions:60/s desktop and43.8/s mobile. Raw uncompressed mobile remains5995ms; HTML-only no-transform preserves the original CSP while permitting normal JS/CSS compression. Live provider encoding and loading are a separate final release check. Fifteen-minute soak:300 native ticks,86 moves,23 actors,exact save/reload and+2.70MiB post-GC heap. These are laptop headless/emulation results, not physical Android/iOS measurements. Full evidence: [3D-only release](UNIFIED_WORLD_3D_ONLY_RELEASE.md).
