@@ -14,7 +14,7 @@ export async function unifiedQATarget() {
     assert.equal(url.pathname, '/', 'BASE_URL must identify an origin');
     return {base: url.origin, close: async () => {}};
   }
-  const server = await startServer(0);
+  const server = await startServer(0, undefined, {assetCache: process.env.UNIFIED_QA_ASSET_CACHE === '1'});
   return {base: 'http://127.0.0.1:' + server.address().port,
     close: () => new Promise(resolve => server.close(resolve))};
 }
