@@ -1,7 +1,7 @@
 import {worldCamera} from './unified-shell-ui.mjs';
 import assert from 'node:assert/strict';
 import {chromium,devices} from 'playwright';
-import {startServer} from './serve.mjs';
+import {unifiedQATarget} from './unified-qa-target.mjs';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import {tmpdir,cpus,totalmem} from 'node:os';
@@ -9,9 +9,9 @@ import {createHash} from 'node:crypto';
 
 const qa=process.env.QA_DIR||join(tmpdir(),'myfarmtwin-unified-feasibility');await mkdir(qa,{recursive:true});
 const raw=await readFile('game/tests/fixtures/unified-world/v5-mixed.json','utf8'),receipt=JSON.parse(await readFile('dist/play/build-info.json','utf8')),loadOnly=process.env.UNIFIED_LOAD_ONLY==='1',sampleMs=loadOnly?1000:60000;
-const server=await startServer(0),base='http://127.0.0.1:'+server.address().port;
+const target=await unifiedQATarget(),base=target.base;
 const browsers=[['chrome',process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE||'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'],['edge',process.env.PLAYWRIGHT_EDGE_EXECUTABLE||'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe']];
-const report={loadOnly,sampleMs,method:'Sequential disposable headless Chrome/Edge contexts, real Three WebGL2 versus the same scene projected with Canvas 2D. Mobile is CDP 4x CPU, 150ms latency and 1.6Mbps download; no physical device/display/thermal claim. 60-second RAF cadence and actual successful render submissions are separate metrics; load-only mode is diagnostic, not animation/performance acceptance. Paused synthetic mixed-farm save; cosmetic actors represent real owned land animals and bounded native Fish cohorts.',hardware:{cpu:cpus()[0].model,memoryGiB:+(totalmem()/1024**3).toFixed(1)},buildReceiptSHA256:createHash('sha256').update(JSON.stringify(receipt)).digest('hex'),budgets:{usableMapMs:5000,desktopRenderHz:50,mobileRenderHz:30,heapGrowthMiB:20,intervals:1},runs:[],errors:[],failures:[]};
+const report={base,loadOnly,sampleMs,method:'Sequential disposable headless Chrome/Edge contexts, real Three WebGL2 versus the same scene projected with Canvas 2D. Mobile is CDP 4x CPU, 150ms latency and 1.6Mbps download; no physical device/display/thermal claim. 60-second RAF cadence and actual successful render submissions are separate metrics; load-only mode is diagnostic, not animation/performance acceptance. Paused synthetic mixed-farm save; cosmetic actors represent real owned land animals and bounded native Fish cohorts.',hardware:{cpu:cpus()[0].model,memoryGiB:+(totalmem()/1024**3).toFixed(1)},buildReceiptSHA256:createHash('sha256').update(JSON.stringify(receipt)).digest('hex'),budgets:{usableMapMs:5000,desktopRenderHz:50,mobileRenderHz:30,heapGrowthMiB:20,intervals:1},runs:[],errors:[],failures:[]};
 report.readinessMethod='Progressive startup: core map uses the single validated native session while care menus are explicitly disabled/loading; controlsReadyMs records native gameplay UI attachment separately. FirstMapMs is recorded only after successful rendering with input handlers bound and validated game state. ControlCompletedMs also includes Playwright scrolling/actionability and protocol overhead, and is retained as a diagnostic. TrustedInputResponseMs measures actual trusted pointer-up to the resulting camera heading DOM update; budget100ms. The PRD five-second deadline applies to core-map interaction availability.';
 report.budgets.trustedCameraResponseMs=100;
 try{for(const [name,path] of browsers){if(process.env.UNIFIED_BROWSER&&process.env.UNIFIED_BROWSER!==name)continue;const browser=await chromium.launch({headless:true,executablePath:path});try{for(const mobile of [false,true])for(const renderer of ['three','canvas']){
@@ -58,4 +58,4 @@ try{for(const [name,path] of browsers){if(process.env.UNIFIED_BROWSER&&process.e
  }}finally{await browser.close();}}
  assert.equal(createHash('sha256').update(JSON.stringify(JSON.parse(await readFile('dist/play/build-info.json','utf8')))).digest('hex'),report.buildReceiptSHA256,'Candidate build changed during controlled measurement');
  assert.ok(report.runs.length>0,'No measurement profiles selected');assert.deepEqual(report.errors,[]);assert.deepEqual(report.failures,[]);
-}finally{await new Promise(r=>server.close(r));await writeFile(join(qa,'feasibility.json'),JSON.stringify(report,null,2));}
+}finally{await target.close();await writeFile(join(qa,'feasibility.json'),JSON.stringify(report,null,2));}
