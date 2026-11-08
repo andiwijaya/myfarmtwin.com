@@ -105,7 +105,7 @@ export function createCanvasWorldRenderer(canvas,scene,camera,pixelRatio=1,cache
   * reused; every animated face/sprite still paints at its original depth. The
   * prefix can shrink as actors move, and resets on projection invalidation.
   * @type {{canvas:HTMLCanvasElement,context:CanvasRenderingContext2D,faces:CanvasFace[],background:string}|null} */
- let prefix=null;let prefixFaces=0,prefixReused=false;
+ let prefix=null;let prefixFaces=0,prefixReused=false,lastCPU={projectionMs:0,paintMs:0,totalMs:0};
  /** @param {number} w @param {number} h @param {string} background */
  const paintPrefix=(w,h,background)=>{
   prefixFaces=0;prefixReused=false;if(!cacheEnabled||typeof document==='undefined')return;
@@ -119,10 +119,10 @@ export function createCanvasWorldRenderer(canvas,scene,camera,pixelRatio=1,cache
  };
  return {
   /** @param {number} width @param {number} height */
-  render(width,height){if(disposed)return;pathHits=pathBuilds=spriteReuses=0;const w=Math.max(1,Math.round(width*ratio)),h=Math.max(1,Math.round(height*ratio));if(canvas.width!==w)canvas.width=w;if(canvas.height!==h)canvas.height=h;context.setTransform(ratio,0,0,ratio,0,0);context.globalAlpha=1;const background=scene.background instanceof Color?scene.background.getStyle():WORLD_ART.light.background;context.fillStyle=background;context.fillRect(0,0,w/ratio,h/ratio);faces=projectSceneFaces(scene,camera,width,height,cacheEnabled?projection:undefined,cull,fastProjection);paintPrefix(w,h,background);for(let i=prefixFaces;i<faces.length;i++){const face=faces[i];context.globalAlpha=face.opacity??1;if(face.sprite&&face.rect){let buffers=spritePaint.get(face.sprite);if(!buffers){buffers={readback};spritePaint.set(face.sprite,buffers);}if(paintSprite(context,face.sprite,face.rect,buffers,cacheEnabled))spriteReuses++;continue;}paintFace(face);}},
+  render(width,height){if(disposed)return;const cpuStart=performance.now();pathHits=pathBuilds=spriteReuses=0;const w=Math.max(1,Math.round(width*ratio)),h=Math.max(1,Math.round(height*ratio));if(canvas.width!==w)canvas.width=w;if(canvas.height!==h)canvas.height=h;context.setTransform(ratio,0,0,ratio,0,0);context.globalAlpha=1;const background=scene.background instanceof Color?scene.background.getStyle():WORLD_ART.light.background;context.fillStyle=background;context.fillRect(0,0,w/ratio,h/ratio);faces=projectSceneFaces(scene,camera,width,height,cacheEnabled?projection:undefined,cull,fastProjection);const projectedAt=performance.now();paintPrefix(w,h,background);for(let i=prefixFaces;i<faces.length;i++){const face=faces[i];context.globalAlpha=face.opacity??1;if(face.sprite&&face.rect){let buffers=spritePaint.get(face.sprite);if(!buffers){buffers={readback};spritePaint.set(face.sprite,buffers);}if(paintSprite(context,face.sprite,face.rect,buffers,cacheEnabled))spriteReuses++;continue;}paintFace(face);}const finished=performance.now();lastCPU={projectionMs:projectedAt-cpuStart,paintMs:finished-projectedAt,totalMs:finished-cpuStart};},
   /** @param {number} x @param {number} y */
   pick:(x,y)=>disposed?null:pickCanvasFace(faces,x,y),
   dispose(){disposed=true;faces=[];paths=null;spritePaint=new WeakMap();pathHits=pathBuilds=spriteReuses=prefixFaces=0;prefixReused=false;if(prefix){prefix.canvas.width=prefix.canvas.height=0;prefix=null;}projection.clear();},
-  inspect:()=>({disposed,paintedFaces:faces.length,projection:projection.inspect(),paths:{enabled:!!paths,hits:pathHits,builds:pathBuilds},spriteReuses,prefix:{faces:prefixFaces,reused:prefixReused,backingBytes:prefix?prefix.canvas.width*prefix.canvas.height*4:0}})
+  inspect:()=>({disposed,paintedFaces:faces.length,projection:projection.inspect(),lastCPU:{...lastCPU},paths:{enabled:!!paths,hits:pathHits,builds:pathBuilds},spriteReuses,prefix:{faces:prefixFaces,reused:prefixReused,backingBytes:prefix?prefix.canvas.width*prefix.canvas.height*4:0}})
  };
 }
