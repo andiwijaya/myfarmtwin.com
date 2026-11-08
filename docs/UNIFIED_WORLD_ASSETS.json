@@ -51,8 +51,8 @@
   "proceduralSources": [
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 62654,
-      "sha256": "a1de118b005b128f432d17876abba1e1d1995b102fbfd66044e1ce7c8d83aef8",
+      "bytes": 63471,
+      "sha256": "028e98cb04fe252b1634827ff7d33cd9c8352119cbe97995e3ced6ada9624409",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -114,8 +114,8 @@
     },
     {
       "path": "game/client/unified-world-shell.js",
-      "bytes": 15371,
-      "sha256": "e723973e6628b12600257d62b6e6054f1c9b3a49fd8469f9452a4d1112b641f5",
+      "bytes": 16537,
+      "sha256": "bc18c7984af4a2d6ed920dd6d5962564171a7dff7503452c07561e8c6b2489fe",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -128,8 +128,22 @@
     },
     {
       "path": "game/client/unified-world-tools.js",
-      "bytes": 6010,
-      "sha256": "8c2d7fc6f56bdd64ff4ef84c2e3c2fee73541b0ed9da85982bce95ae6de25662",
+      "bytes": 6426,
+      "sha256": "5c5a88c3ec5ca9e93957f6b5d402d8d197ba8c255bd303a89b43e6b5c8b31f28",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-camera-dock.js",
+      "bytes": 5218,
+      "sha256": "f8ee314fcd06a2be9194f4aa2e6ff5ac89b6d1cfa8c82b957719d1bd86d622c7",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-camera.js",
+      "bytes": 4319,
+      "sha256": "2a47dd9267a2e76bb91aca87c856c4e1d4a15dafb83bb6793fc873527b1b7d59",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },

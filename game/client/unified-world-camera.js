@@ -2,14 +2,14 @@ import {TWO_ZONE_BOUNDS,TWO_ZONE_ANCHORS} from './unified-world-model.js';
 import {WORLD_BOUNDS,ZONE_REGISTRY} from './unified-world-registry.js';
 const clamp=(/** @type {number} */n,/** @type {number} */lo,/** @type {number} */hi)=>Math.max(lo,Math.min(hi,n));
 /** One presentation-only camera. Four headings share the same target and zoom.
- * Projection is also usable by the unified low-graphics fallback.
- * @param {{bounds?:Readonly<import('./unified-world-registry.js').Bounds>,anchors?:Readonly<Record<string,Readonly<import('./unified-world-registry.js').Point>>>,maxZoom?:number,maxHeight?:number}} [options]
+ * Fit shows every terrain corner; reset returns to the readable starting view.
+ * @param {{bounds?:Readonly<import('./unified-world-registry.js').Bounds>,anchors?:Readonly<Record<string,Readonly<import('./unified-world-registry.js').Point>>>,maxZoom?:number,maxHeight?:number,initialZoom?:number}} [options]
  */
 export function createWorldCamera(options={}){
- const bounds=Object.freeze({...options.bounds||TWO_ZONE_BOUNDS}),anchors=options.anchors||TWO_ZONE_ANCHORS,maxZoom=options.maxZoom??3.2,maxHeight=options.maxHeight??3;
- if(![bounds.minX,bounds.maxX,bounds.minZ,bounds.maxZ].every(Number.isFinite)||bounds.minX>=bounds.maxX||bounds.minZ>=bounds.maxZ||!Number.isFinite(maxZoom)||maxZoom<1||!Number.isFinite(maxHeight)||maxHeight<0)throw new RangeError('Invalid camera bounds');
+ const bounds=Object.freeze({...options.bounds||TWO_ZONE_BOUNDS}),anchors=options.anchors||TWO_ZONE_ANCHORS,maxZoom=options.maxZoom??3.2,maxHeight=options.maxHeight??3,initialZoom=options.initialZoom??1;
+ if(![bounds.minX,bounds.maxX,bounds.minZ,bounds.maxZ].every(Number.isFinite)||bounds.minX>=bounds.maxX||bounds.minZ>=bounds.maxZ||!Number.isFinite(maxZoom)||maxZoom<1||!Number.isFinite(maxHeight)||maxHeight<0||!Number.isFinite(initialZoom)||initialZoom<1||initialZoom>maxZoom)throw new RangeError('Invalid camera bounds');
  const center={x:(bounds.minX+bounds.maxX)/2,z:(bounds.minZ+bounds.maxZ)/2};
- let x=center.x,z=center.z,heading=0,zoom=1;
+ let x=center.x,z=center.z,heading=0,zoom=initialZoom;
  const view=()=>Object.freeze({x,z,heading,zoom});
  /** @param {number} dx @param {number} dz */
  function pan(dx,dz){if(Number.isFinite(dx)&&Number.isFinite(dz)){x=clamp(x+dx,bounds.minX,bounds.maxX);z=clamp(z+dz,bounds.minZ,bounds.maxZ);}return view();}
@@ -38,10 +38,11 @@ export function createWorldCamera(options={}){
   /** Camera bookmark only. @param {string} zone */
   focus(zone){if(Object.hasOwn(anchors,zone)){const anchor=anchors[/** @type {keyof typeof anchors} */(zone)];x=anchor.x;z=anchor.z;zoom=Math.min(2.2,maxZoom);}return view();},
   fit(){x=center.x;z=center.z;zoom=1;return view();},
-  reset(){heading=0;x=center.x;z=center.z;zoom=1;return view();},
+  reset(){heading=0;x=center.x;z=center.z;zoom=initialZoom;return view();},
   /** Normalized screen coordinates, with positive Y down. @param {{x:number,z:number,y?:number}} point @param {number} aspect */
   project(point,aspect){const f=frame(aspect);return {x:((point.x-x)*f.dz-(point.z-z)*f.dx)/Math.sqrt(2)/f.halfWidth,y:(((point.x-x)*f.dx+(point.z-z)*f.dz)/Math.sqrt(6)-(point.y||0)*Math.sqrt(2/3))/f.halfHeight};}
  };
 }
 /** The unified renderer instantiates one control using the full registered world. */
-export function createFarmCamera(){return createWorldCamera({bounds:WORLD_BOUNDS,anchors:Object.fromEntries(Object.entries(ZONE_REGISTRY).map(([id,zone])=>[id,zone.anchor])),maxZoom:8,maxHeight:4});}
+export const FARM_INITIAL_ZOOM=1.35;
+export function createFarmCamera(){return createWorldCamera({bounds:WORLD_BOUNDS,anchors:Object.fromEntries(Object.entries(ZONE_REGISTRY).map(([id,zone])=>[id,zone.anchor])),maxZoom:8,maxHeight:4,initialZoom:FARM_INITIAL_ZOOM});}
