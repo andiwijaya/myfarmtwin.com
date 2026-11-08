@@ -26,35 +26,50 @@
     },
     {
       "name": "index.html",
-      "bytes": 13364,
-      "sha256": "16298d84119fa2602db4c3517f698d150859b42940f5161c6796a5e70aee4665"
+      "bytes": 13367,
+      "sha256": "d88f8e72bd299d7e3b272859edd1f241b1c964b6dafffefdddadeba9105b930c"
     },
     {
       "name": "main.js",
-      "bytes": 419649,
-      "sha256": "08a75a00f998401916377c6eaf574e8a42b38c1fe4f3a4a08c25a876ccb3f17b"
+      "bytes": 267841,
+      "sha256": "d1b53e713cffca9a568cce0f7c6e5cfeeccf6b97e9bec2cc32202e73359340fa"
     },
     {
       "name": "preview-loader.js",
-      "bytes": 439,
-      "sha256": "7e24ef7ced34c1c01c613b11e5dc3d2bfaa48c85503a38d3f8a9470304a1a331"
+      "bytes": 669,
+      "sha256": "1325d32d0939b7bf7961d325ca55398bdd07123fe0edd00baee14edbdd88a53f"
     },
     {
       "name": "style.css",
-      "bytes": 39265,
-      "sha256": "266a0c8134770a833f877ad81f1f9d39bc0eb7912733b1b5d669353e008f7549"
+      "bytes": 39488,
+      "sha256": "b8dc2854a778922c32cf7788f761dc68eb632567a00486381ef632a1cb9443b3"
+    },
+    {
+      "name": "vendor/game/chunks/chunk-CXKKWGBJ.js",
+      "bytes": 153302,
+      "sha256": "818d752fd7903ffe457736bc22a25b89cc7f32e2f34b33d8f23dca981f359b0b"
     }
   ],
   "emitted": [
     {
       "name": "main.js",
-      "bytes": 419649,
-      "sha256": "08a75a00f998401916377c6eaf574e8a42b38c1fe4f3a4a08c25a876ccb3f17b"
+      "bytes": 267841,
+      "sha256": "d1b53e713cffca9a568cce0f7c6e5cfeeccf6b97e9bec2cc32202e73359340fa"
+    },
+    {
+      "name": "unified-world-bootstrap.js",
+      "bytes": 3625,
+      "sha256": "7f17b7a14b6d7ee3de33ec34bcad25dd9c7a62bbc993b46a444380c274baf52d"
     },
     {
       "name": "unified-world-preview.js",
-      "bytes": 122256,
-      "sha256": "dc415d0225af97643d8ef0d3b71b595a01653a8a0533fae830f6135e8d1254d8"
+      "bytes": 122851,
+      "sha256": "fdc1da8cee31bfb51e0861ce6f1e0898302bef462ce09a2283eac94dfeb4c934"
+    },
+    {
+      "name": "vendor/game/chunks/chunk-CXKKWGBJ.js",
+      "bytes": 153302,
+      "sha256": "818d752fd7903ffe457736bc22a25b89cc7f32e2f34b33d8f23dca981f359b0b"
     },
     {
       "name": "vendor/three/chunks/chunk-QOEEHEK6.js",

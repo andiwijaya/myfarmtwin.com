@@ -1,4 +1,4 @@
-import {Group,Mesh,InstancedMesh} from 'three';
+import {Group,Mesh,InstancedMesh} from './vendor/three/three.module.js';
 
 /** Static decoration uses the same geometry, materials, transforms and ownership.
  * Originals stay on layer 1 for Canvas projection; GPU batches occupy layer 0.

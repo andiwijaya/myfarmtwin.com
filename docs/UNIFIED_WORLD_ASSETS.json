@@ -51,8 +51,8 @@
   "proceduralSources": [
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 59922,
-      "sha256": "791506d94fbf7692f365a8be6e22e257fd4a2fc9d31c885e6e52a21e6a3b4c39",
+      "bytes": 60743,
+      "sha256": "1e0c204c18359a4777b6ef3dc4dd927adc010bdd6c7b0baabfd173b147dfca4e",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -114,8 +114,8 @@
     },
     {
       "path": "game/client/unified-world-shell.js",
-      "bytes": 14455,
-      "sha256": "7dd9d0485b34756694ed4e14cb6b8ff7498485c6b3e9dc6f0161e3f2dc4415d3",
+      "bytes": 14701,
+      "sha256": "0a35b137de21d3ad63aa8f2482ee209e2bfb4c5fd1b1b8b1631a293d023adbd0",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -130,6 +130,20 @@
       "path": "game/client/unified-world-tools.js",
       "bytes": 5827,
       "sha256": "3aaebacfa73490c9d378fdea741936c51ba1da417b4fd86e05ed5b5912e49577",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-bootstrap.js",
+      "bytes": 5804,
+      "sha256": "97b9cd05bad080665023157f9c9655822b8632ff62a876db2eae694eddaa82d7",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/game-session.js",
+      "bytes": 1135,
+      "sha256": "a84eb88904fabf2b269a78fc6dc1f257ac6b3af1fbe6ceb7a0c9cc5c7c5f46f8",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -177,8 +191,8 @@
     },
     {
       "path": "game/client/unified-world-sprites.js",
-      "bytes": 17157,
-      "sha256": "825e665cb70d92759e7a72af5f0bf697e089b89f04fa893796923eec472c05ab",
+      "bytes": 17283,
+      "sha256": "b68b278e6aa9182fb4127e30174947349b6e66dd48de760943b92c6682980bb5",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
