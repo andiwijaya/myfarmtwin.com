@@ -18,5 +18,5 @@ test('read-only world projection graph cannot reach storage, command reducers or
 });
 
 test('unified renderer modules cannot create a simulation interval',async()=>{
- const files=(await readdir(root)).filter(name=>name.startsWith('unified-')||['game-session.js','preview-loader.js'].includes(name));assert.ok(files.length>30);for(const name of files){const tree=await ast(resolve(root,name));assert.ok(!calls(tree).some(c=>/(?:^|\.)setInterval$/.test(c)),name);}const main=await ast(resolve(root,'main.js'));assert.equal(calls(main).filter(c=>/(?:^|\.)setInterval$/.test(c)).length,1,'Only the original application controller owns the fixed interval');
+ const files=(await readdir(root)).filter(name=>name.startsWith('unified-')||['game-session.js','world-loader.js'].includes(name));assert.ok(files.length>30);for(const name of files){const tree=await ast(resolve(root,name));assert.ok(!calls(tree).some(c=>/(?:^|\.)setInterval$/.test(c)),name);}const main=await ast(resolve(root,'main.js'));assert.equal(calls(main).filter(c=>/(?:^|\.)setInterval$/.test(c)).length,1,'Only the original application controller owns the fixed interval');
 });

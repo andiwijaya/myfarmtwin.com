@@ -3,7 +3,7 @@
 
 **Tanggal penyusunan:** 7 November 2026
 
-**Status:** AUTHORIZED PREVIEW RELEASE VERIFIED — 82/82; default Classic tetap dipertahankan. Status penyusunan asli: READY FOR DOT HANDOFF (PRD perencanaan).
+**Status:** Original preview release verified at 82/82. Owner instructions on 8 November 2026 supersede the default-Classic/hidden-preview/2D-fallback policy: normal entry must be 3D only and legacy 2D removed. Follow-up implementation and release evidence: [UNIFIED_WORLD_3D_ONLY_RELEASE.md](UNIFIED_WORLD_3D_ONLY_RELEASE.md). Status penyusunan asli: READY FOR DOT HANDOFF (PRD perencanaan).
 
 **Website:** https://myfarmtwin.com/
 

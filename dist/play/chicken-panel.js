@@ -1,7 +1,7 @@
 import {renderChickenLab} from './chicken-lab-view.js';
 import {t,getLocale} from './locales.js';import {el} from './dom.js';
 import {CHICKEN} from './chicken-config.js';
-/** @typedef {import('./chicken-view.js').YardSnapshot & {storeFeedG?:number,tankWaterL?:number,coins?:number,feedCapacityG?:number,waterCapacityL?:number,lab?:ReturnType<typeof import('./chicken-lab.js').chickenLab>,comfort?:number,comfortReason?:string,cleanWait?:number,eggInventory?:number}} CareSnapshot */
+/** @typedef {import('./chicken-view-types.js').YardSnapshot & {storeFeedG?:number,tankWaterL?:number,coins?:number,feedCapacityG?:number,waterCapacityL?:number,lab?:ReturnType<typeof import('./chicken-lab.js').chickenLab>,comfort?:number,comfortReason?:string,cleanWait?:number,eggInventory?:number}} CareSnapshot */
 /** @type {CareSnapshot|null} */let renderedSnapshot=null;let renderedLocale='';
 /** @param {CareSnapshot} snapshot @param {string} selected */
 export function renderChickenPanel(snapshot,selected){

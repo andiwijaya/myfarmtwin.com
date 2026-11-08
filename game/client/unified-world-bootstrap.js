@@ -16,7 +16,7 @@ async function prepare(renderer=import('./unified-world-preview.js')){
  let preview=null;
  /** @type {ReturnType<typeof api.createWorldShell>|null} */
  let shell=null;
- const disabled=/** @type {{node:HTMLButtonElement|HTMLSelectElement,disabled:boolean}[]} */([]),notice=document.createElement('p');notice.id='world-startup';notice.className='world-startup';notice.setAttribute('role','status');notice.textContent=locale==='id'?'Peta siap dijelajahi. Sedang menyiapkan kontrol perawatan.':'Explore the map. Loading care controls.';
+ const disabled=/** @type {{node:HTMLButtonElement|HTMLSelectElement,disabled:boolean}[]} */([]),notice=document.createElement('p');notice.id='world-startup';notice.className='world-startup';notice.setAttribute('role','status');notice.textContent=locale==='id'?'Sedang menyiapkan farm 3D dan kontrol perawatan.':'Preparing your 3D farm and care controls.';
  let controlsReady=false,assetsFinished=false;
  /** @param {number} ready @param {number} total @param {number} errors */
  function assetProgress(ready,total,errors){if(!controlsReady||assetsFinished)return;if(ready>=total){assetsFinished=true;notice.remove();}else notice.textContent=errors?(locale==='id'?'Sebagian grafis hewan gagal dimuat. Kontrol perawatan tetap tersedia.':'Some animal art could not load. Care controls remain available.'):(locale==='id'?'Memuat grafis hewan: ':'Loading animal art: ')+ready+'/'+total;dispatchEvent(new Event('resize'));}

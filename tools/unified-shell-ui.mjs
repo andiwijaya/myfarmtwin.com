@@ -6,3 +6,6 @@ export async function openWorldSettings(page){if(await page.locator('[data-world
 export async function closeWorldSettings(page){if(await page.locator('#world-settings').count()&&await page.locator('#world-settings').isVisible())await page.locator('[data-world-close=settings]').click();}
 
 export async function worldRetry(page){const button=page.locator('[data-preview-retry]');if(!await button.isVisible()&&await page.locator('#world-camera-tools').count())await page.locator('#world-camera-tools summary').click();await button.click();}
+
+/** Preserve native parity commands while entering the current visible world UI. */
+export async function worldControl(page,selector){const match=/^\[data-preview-(select|camera)=(?:"([^"]+)"|'([^']+)'|([^\]]+))\]$/.exec(selector);if(!match)throw Error('Unknown world control '+selector);const value=match[2]||match[3]||match[4];return match[1]==='select'?worldObject(page,value):worldCamera(page,value);}

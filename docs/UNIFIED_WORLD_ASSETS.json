@@ -1,6 +1,6 @@
 {
   "audited": "2026-11-08",
-  "purpose": "Hidden functional world preview; no MyZooTwin art or source copied",
+  "purpose": "Default 3D-only farm; no MyZooTwin art or source copied",
   "assets": [
     {
       "path": "dist/play/vendor/three/LICENSE.txt",
@@ -30,7 +30,7 @@
       "notice": "dist/play/vendor/three/LICENSE.txt"
     },
     {
-      "path": "dist/play/vendor/three/three.module.js",
+      "path": "dist/play/vendor/three/three.module-3F7TSCMZ.js",
       "bytes": 620,
       "sha256": "c15061d48531e3b6aab323deb21cc92ebf4bb4e87062ae69731fd069b29aebf8",
       "sourcePackage": "three@0.187.0",
@@ -51,8 +51,8 @@
   "proceduralSources": [
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 65244,
-      "sha256": "d44d8b12e5bb9770779af5b362668161a4ce926367f91933d29696fe300814d1",
+      "bytes": 62654,
+      "sha256": "a1de118b005b128f432d17876abba1e1d1995b102fbfd66044e1ce7c8d83aef8",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -128,15 +128,15 @@
     },
     {
       "path": "game/client/unified-world-tools.js",
-      "bytes": 6016,
-      "sha256": "ce4208d54fbed6f795e119f87003b678002e23190658158d9f99d1ec9f9ecc70",
+      "bytes": 6010,
+      "sha256": "8c2d7fc6f56bdd64ff4ef84c2e3c2fee73541b0ed9da85982bce95ae6de25662",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
       "path": "game/client/unified-world-bootstrap.js",
-      "bytes": 5804,
-      "sha256": "97b9cd05bad080665023157f9c9655822b8632ff62a876db2eae694eddaa82d7",
+      "bytes": 5796,
+      "sha256": "9b1fe29a2820ec99e13baa8f81444edcd01ba20d97f815e23b32b9c9efea64cb",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -169,9 +169,16 @@
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
-      "path": "game/client/unified-world-canvas.js",
-      "bytes": 19874,
-      "sha256": "f43bb88043440e2def9eb9a17d4b4d1c0d250597e21a10f058433a8ec86d9254",
+      "path": "game/client/unified-world-sprite-hit.js",
+      "bytes": 1096,
+      "sha256": "d7f479829e779f2ab033099e8c22bf8fbee1bde9381cddc02ad1dbd19972d2d5",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/world-loader.js",
+      "bytes": 1070,
+      "sha256": "bf8ffa83fae7612402f72d75f2bff2506d70b462ec3624daee2451a8724d2677",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -191,8 +198,8 @@
     },
     {
       "path": "game/client/unified-world-sprites.js",
-      "bytes": 17283,
-      "sha256": "b68b278e6aa9182fb4127e30174947349b6e66dd48de760943b92c6682980bb5",
+      "bytes": 17373,
+      "sha256": "7652d66b47e3f993997025955422c147cec86b5a0d6a0905586510933f01a296",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -219,8 +226,8 @@
     },
     {
       "path": "game/client/unified-world-contact.js",
-      "bytes": 1937,
-      "sha256": "91de9bb3ea36da77038410ecd67ccef684057693744eef10e7979ca373217491",
+      "bytes": 1994,
+      "sha256": "8496b2b8ca25f62764ebf4929bba9a4c24ec4685e4944b1728a9ce94d2ddb9da",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },

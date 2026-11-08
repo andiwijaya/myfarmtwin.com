@@ -1,14 +1,19 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="unified-preview-requested">
 <head>
  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
  <title>Play Farm — MyFarmTwin</title>
  <meta name="description" content="Plant, care, harvest and build your own little farm. A free farm life game in English and Bahasa Indonesia.">
  <link rel="canonical" href="https://myfarmtwin.com/play/">
  <meta property="og:title" content="Play Farm — MyFarmTwin"><meta property="og:description" content="A little land. A lot to grow. Plant your first seed and build a thriving farm."><meta property="og:type" content="website"><meta property="og:url" content="https://myfarmtwin.com/play/">
- <link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="./style.css"><link rel="stylesheet" href="./goat.css"><link rel="stylesheet" href="./cow.css">
-<link rel="stylesheet" href="./fish.css">
- <script type="module" async src="./preview-loader.js"></script>
+ <link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="./style.css?v=5afc99f970161a69"><link rel="stylesheet" href="./goat.css?v=6f9589fee00c06b1"><link rel="stylesheet" href="./cow.css?v=6e0ad88855f8061c">
+<link rel="stylesheet" href="./fish.css?v=633532c9a185dc16">
+ <script type="module" async src="./world-loader-ZJHES3HY.js"></script>
+<link rel="modulepreload" href="./unified-world-bootstrap-AQNAGABW.js">
+<link rel="modulepreload" href="./unified-world-preview-4OC2VHVD.js">
+<link rel="modulepreload" href="./vendor/three/chunks/unified-world-webgl-EUOPMC4E.js">
+<link rel="modulepreload" href="./vendor/game/chunks/chunk-6J75SRKQ.js">
+<link rel="modulepreload" href="./vendor/three/chunks/chunk-QOEEHEK6.js">
 </head>
 <body>
  <a class="skip-link" href="#farm" data-i18n="skipFarm">Skip to farm</a>
@@ -28,7 +33,6 @@
    <button id="market-open" class="action-button" type="button" data-i18n="marketTitle">Market</button>
    <div class="time-controls"><button id="pause" type="button" data-i18n="playClock">Play clock</button><button id="speed" type="button" aria-label="Clock speed">1×</button><button id="next-day" type="button" data-i18n="nextDay">Next day →</button></div>
   </section>
-  <nav id="farm-areas" class="area-nav" aria-label="Farm areas"><button id="area-field" class="action-button" type="button" aria-pressed="true" aria-controls="world" data-i18n="fieldArea">Field</button><button id="area-chicken" class="action-button" type="button" aria-pressed="false" aria-controls="world" data-i18n="chickenArea">Chicken Yard</button><button id="area-goat" class="action-button" type="button" aria-pressed="false" aria-controls="world" data-i18n="goatArea">Goat Ranch</button><button id="area-cow" class="action-button" type="button" aria-pressed="false" aria-controls="world" data-i18n="cowArea" hidden>Cow Barn</button><button id="area-fish" class="action-button" type="button" aria-pressed="false" aria-controls="world" data-i18n="fishArea" hidden>Fish Pond</button></nav>
   <section class="mission-bar" aria-labelledby="mission-title"><img id="guide-portrait" class="guide-portrait" loading="lazy" decoding="async" fetchpriority="low" src="./assets/farmgirl-guide.webp" width="54" height="60" alt="FarmGirl"><div><p class="eyebrow"><span>FarmGirl · </span><span id="guide-chapter" data-i18n="firstHarvest">FIRST HARVEST</span></p><h2 id="mission-title" data-i18n="selectMission">Choose a plot to begin.</h2><p id="mission-detail" data-i18n="selectTip">Three empty beds. One fresh start. Tap a plot below.</p></div><button id="guide-toggle" type="button" aria-controls="mission-detail" aria-expanded="true" data-i18n="hideGuide">Hide guide</button></section>
   <div id="mission-track" class="mission-track" role="progressbar" aria-label="First harvest mission" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0"><span id="mission-progress"></span></div>
   <details id="followup-missions" class="followup-missions" hidden><summary data-i18n="nextChapters">Your next three missions</summary><ul id="followup-list"></ul></details>
@@ -47,7 +51,7 @@
   <section id="goat-panel" class="goat-panel" aria-labelledby="goat-heading" hidden><div class="goat-panel-heading"><h2 id="goat-heading"></h2><button id="close-goat" type="button" class="close-panel" data-i18n="close">Close</button></div><p id="goat-selection-copy"></p><dl id="goat-status" class="goat-status"></dl><div id="goat-actions" class="goat-actions"></div></section>
   <section id="fish-panel" class="chicken-panel" aria-labelledby="fish-heading" hidden><div class="chicken-panel-heading"><h2 id="fish-heading" tabindex="-1"></h2><button id="close-fish" class="close-panel" type="button" data-i18n="close">Close</button></div><p id="fish-selection-copy"></p><dl id="fish-status" class="cow-status"></dl><div id="fish-actions" class="chicken-actions"></div></section>
   <section id="cow-panel" class="cow-panel" aria-labelledby="cow-heading" hidden><div class="cow-panel-heading"><h2 id="cow-heading" tabindex="-1"></h2><button id="close-cow" type="button" class="close-panel" data-i18n="close">Close</button></div><p id="cow-selection-copy"></p><dl id="cow-status" class="cow-status"></dl><details id="cow-care-why" class="cow-model-note" hidden><summary data-i18n="why">Why?</summary><p id="cow-care-why-copy"></p></details><div id="cow-actions" class="cow-actions"></div><details id="cow-model-note" class="cow-model-note"><summary data-i18n="aboutModel">About this model</summary><p data-i18n="cowModelLimits">MyFarmTwin uses a simplified, fictional dairy-farming model for learning and gameplay. Feed, water, milk yield, storage, prices, and time progression are not advice for actual farming or safe milk handling. Raw milk in this game is sold to a processor, not offered for direct consumption.</p><p data-i18n="cowLactationScope">This game scenario keeps adult cows in active lactation. Real lactation is finite and follows calving; reproduction and dry-period transitions are not simulated.</p></details></section>
-  <div class="game-settings"><button id="graphics" type="button" aria-pressed="false" data-i18n="lowGraphics">Low graphics</button><span id="map-hint" data-i18n="mapHint">Tap a bed, or use the plot buttons. Drag to explore.</span></div>
+  <div class="game-settings"><button id="graphics" type="button" aria-pressed="false" data-i18n="lowGraphics">Low graphics</button></div>
   <p class="local-note" data-i18n="local">No account. Just you, a little land, and a fresh start.</p>
   <p id="save-status" class="save-status" role="status"></p>
   <details id="data-tools" class="data-tools"><summary data-i18n="saveTools">Save & data</summary><div class="data-actions"><button id="export-save" class="action-button" type="button" data-i18n="exportSave">Export save</button><label class="action-button file-button"><span data-i18n="importSave">Import save</span><input id="import-save" class="sr-only" type="file" accept=".json,application/json" aria-label="Import save"></label><button id="restore-backup" class="action-button" type="button" data-i18n="restoreBackup" hidden>Restore backup</button><button id="reset-save" class="action-button" type="button" data-i18n="resetFarm">Reset farm</button><button id="export-pre-chicken" class="action-button" type="button" data-i18n="exportBeforeChicken" hidden>Export pre-Chicken original</button><button id="export-pre-goat" class="action-button" type="button" data-i18n="exportBeforeGoat" hidden>Export pre-Goat original</button><button id="export-pre-fish" class="action-button" type="button" data-i18n="exportBeforeFish" hidden>Export pre-Fish original</button><button id="export-pre-cow" class="action-button" type="button" data-i18n="exportBeforeCow" hidden>Export pre-Cow original</button><button id="export-original" class="action-button" type="button" data-i18n="exportOriginal" hidden>Export stored original</button></div><p id="data-message" role="status"></p></details>

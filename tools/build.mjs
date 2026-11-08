@@ -1,15 +1,15 @@
 import { resolve, relative, join } from 'node:path';
-import { readdir, mkdir, copyFile, lstat, readFile, writeFile } from 'node:fs/promises';
+import { readdir, mkdir, copyFile, lstat, readFile, writeFile, unlink } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import {bundleWorld} from './bundle-world.mjs';
 
-/** Copy game/client and the opt-in renderer's pinned vendor files into dist/play only. Never empties output. */
+/** Copy game/client and the 3D renderer's pinned vendor files into dist/play only. Never empties output. */
 export async function build(root=process.cwd(),{bundle=true}={}) {
   const source=resolve(root,'game/client'), target=resolve(root,'dist/play');
   if(relative(resolve(root,'dist'),target)!=='play') throw new Error('Unsafe output');
   let preview=false;
   // Receipt-bound entry text must have identical bytes on Windows and Linux.
-  const canonicalText=new Set(['index.html','style.css','goat.css','cow.css','fish.css','preview-loader.js']);
+  const canonicalText=new Set(['index.html','style.css','goat.css','cow.css','fish.css','world-loader.js']);
   async function copy(src,dst){
     await mkdir(dst,{recursive:true});
     for(const entry of await readdir(src,{withFileTypes:true})){
@@ -17,7 +17,7 @@ export async function build(root=process.cwd(),{bundle=true}={}) {
       if((await lstat(from)).isSymbolicLink()) throw new Error('Symlinks are not build inputs');
       if(entry.isDirectory()) await copy(from,to);
       else if(entry.name==='unified-world-webgl.js'&&bundle){continue;}
-      else if(['unified-world-preview.js','unified-world-canvas.js','unified-world-sprites.js','unified-world-webgl.js','unified-world-batches.js'].includes(entry.name)){
+      else if(['unified-world-preview.js','unified-world-sprite-hit.js','unified-world-sprites.js','unified-world-webgl.js','unified-world-batches.js'].includes(entry.name)){
         const body=await readFile(from,'utf8');
         if(!body.includes("from 'three'"))throw new Error('Preview vendor import missing');
         await writeFile(to,body.replace("from 'three'","from './vendor/three/three.module.js'"));preview=true;
@@ -26,6 +26,9 @@ export async function build(root=process.cwd(),{bundle=true}={}) {
     }
   }
   await copy(source,target);
+  // Exact retired presentation files only; editorial output is never emptied.
+  for(const name of ['world.js','camera.js','isometric.js','chicken-view.js','chicken-layout.js','goat-view.js','cow-view.js','fish-view.js','fish-scene.js','unified-world-canvas.js','preview-loader.js']){try{await unlink(join(target,name));}catch(error){if(error.code!=='ENOENT')throw error;}}
+
   if(preview){
     const vendor=resolve(root,'node_modules/three'),pkg=JSON.parse(await readFile(join(vendor,'package.json'),'utf8'));
     if(pkg.version!=='0.187.0')throw new Error('Expected pinned Three.js 0.187.0');

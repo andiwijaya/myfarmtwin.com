@@ -1,0 +1,22 @@
+{
+  "origin": "Actual WebGL rendering of the repository-authored unified 3D farm and its original procedural animal atlases. Synthetic earned farm only; no user save, external artwork or MyZooTwin content.",
+  "captureTool": "tools/capture-home-world.mjs",
+  "captureToolSha256": "bf67e666fcfbbfbe7a57ca0e2a51bb82c014f0c423bd417a42d6465f98fc4d44",
+  "purpose": "Owner-requested homepage hero and social preview, separate from QA evidence",
+  "assets": [
+    {
+      "path": "dist/assets/farm-world-3d-v1.png",
+      "bytes": 77269,
+      "sha256": "46c66d3fadced80a3d163618ceece791eef2d3828e45959ec2a762e4f566f18e",
+      "width": 1440,
+      "height": 720
+    },
+    {
+      "path": "dist/assets/farm-world-3d-social-v1.png",
+      "bytes": 64028,
+      "sha256": "0223dc51d33f3a6edbfe568b9ee940792987ab9e13414c8818bec1b3936bf3ef",
+      "width": 1200,
+      "height": 630
+    }
+  ]
+}
