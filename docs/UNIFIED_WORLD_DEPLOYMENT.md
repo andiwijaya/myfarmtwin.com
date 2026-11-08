@@ -1,5 +1,7 @@
 # Unified3D-only production verified
 
+**Camera follow-up, 8 November 2026:** the owner subsequently authorized the six-feature camera/layout release. `43e84dd` / `322520a9-0458-4cd4-b0bc-7be3000dc534` is live with functional/save/desktop/touch checks passing. Cold-mobile measurement exposed stale uncompressed graphics cache URLs; transport hardening and final closure are tracked in [the camera release report](UNIFIED_WORLD_CAMERA_WORKSPACE.md). The older production identity below is the prior 3D-only release. Historical Classic rollback notes are superseded; any rollback must retain the 3D-only, V5-capable experience.
+
 **Owner-directed follow-up10/10 complete; original PRD checkpoint82/82.** Normal homepage entry and `/play/` open the unified3D game. Classic2D and Canvas world fallback are removed; WebGL failure gets a clear bilingual retry state. The homepage promotes the actual latest3D game in EN/ID with direct entry and new game screenshots/SEO.
 
 Production source **`3666ad7f12a78e4c07799b4bd28e1a87cc27dde3`**, canonical dist **`992c55a108987a9bec9f48fd8a612404bfc23d6d`**. Pages **`myfarmtwin-com`**, deployment **`c3b86321-7f4d-45a9-a4e5-f90d5eebc069`**, terminal success **2026-11-08T11:09:44.017777Z**. Existing GitHub main integration and successful Cloudflare check agree. One ordinary authorized push; no Actions/manual upload/settings change.

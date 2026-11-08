@@ -5,7 +5,7 @@
 
 **Status:** 3D-ONLY PRODUCTION VERIFIED — original82/82 checkpoint plus owner-directed follow-up10/10. Source `3666ad7`, deployment `c3b86321-7f4d-45a9-a4e5-f90d5eebc069`,8 November2026. The owner superseded hidden-preview/default-Classic/Canvas policy; normal entry is3D only. [Final evidence](UNIFIED_WORLD_3D_ONLY_RELEASE.md). Original planning status: READY FOR DOT HANDOFF.
 
-**Follow-up lokal, 8 November2026:** farm lebih dominan dan kontrol kamera langsung tersedia; [checklist dan bukti kamera/layout](UNIFIED_WORLD_CAMERA_WORKSPACE.md). Larangan push/deploy pemilik berlaku untuk follow-up ini. Perubahan lokal ini belum menjadi bagian dari deployment produksi di atas; hitungan original82/82 tidak diubah.
+**Follow-up kamera, 8 November2026:** enam perbaikan farm/layout/kamera selesai; [checklist dan bukti](UNIFIED_WORLD_CAMERA_WORKSPACE.md). Setelah fase lokal, pemilik mengotorisasi deploy dengan “Ok, deploy bud”. Kamera `43e84dd` terbit sebagai `322520a9`; fungsi live terverifikasi, dan hardening transport menindaklanjuti cold-mobile di atas target 5s. Hitungan original82/82 tidak diubah; hasil dan batas setiap fase dibedakan dalam laporan tersebut.
 
 **Website:** https://myfarmtwin.com/
 

@@ -1,6 +1,6 @@
 # Farm camera workspace follow-up
 
-Status: local work on `camera-layout-controls`, based on `49f53baf2bae761d3198dcebd00eeeca0455f370`. The owner explicitly requested no push or deployment for this follow-up. Production is unchanged. This checklist is separate from the historical 82/82 world PRD and the completed 10/10 3D-only release.
+Status: six camera/layout features complete on `camera-layout-controls`, based on `49f53baf2bae761d3198dcebd00eeeca0455f370`. The initial implementation was local only. The owner subsequently authorized publication with “Ok, deploy bud”; commit `43e84dd85770ee01b7a3c9c3e429b182f057f03f` was deployed through the verified GitHub-main/Cloudflare pipeline. Live functionality passes; the measured cold-mobile budget exposed a legacy cache issue, tracked below. This checklist is separate from the historical 82/82 world PRD and the completed 10/10 3D-only release.
 
 ## Acceptance checklist
 
@@ -9,7 +9,7 @@ Status: local work on `camera-layout-controls`, based on `49f53baf2bae761d3198dc
 - [x] C03: Six 44px direct thumb controls, native drag/pinch and accessible secondary pan controls on touch. Six ID/EN input profiles execute real native care commands with exact full saves.
 - [x] C04: Care sheets, selected objects, camera controls and global menus stay usable together across eight sizes in both languages and two simulated safe-inset conditions (32 cases). Original care buttons fit fully below the sticky heading after native scrolling; no selection-induced page scroll.
 - [x] C05: Native gameplay/save/menu/lifecycle regression and preservation audits pass; see the test matrix below.
-- [x] C06: Final visual evidence, measured loading limits and local reviewable checkpoint recorded; no push/deployment.
+- [x] C06: Final visual evidence, measured loading limits and reviewable checkpoint recorded; initial no-publish restriction and subsequent explicit release authorization are distinguished.
 
 ## Implementation
 
@@ -44,7 +44,19 @@ Evidence roots: `before/`, `final-stable/`, `final-responsive/`, `verified-care/
 
 Canonical committed-dist HTTP verification and the consolidated, receipt-matched checkpoint are recorded separately in `package/package.json` and `acceptance.json` under that same ignored QA root. These are local checks and do not publish any files.
 
-Full homepage/SEO/security, long balance/endurance and the previous 15-minute production renderer soak were not repeated for this bounded camera/layout follow-up. Their production code is unchanged; local artifact preservation is verified. Live testing and release remain excluded by the owner's current instruction.
+Full homepage/SEO/security, long balance/endurance and the previous 15-minute production renderer soak were not repeated during the local camera/layout phase. Their production code is unchanged; local artifact preservation is verified. The subsequent release authorization adds the live checks below; physical-device testing remains unrun.
+
+## Authorized production release and transport follow-up
+
+Fresh provider verification confirmed GitHub `andiwijaya/myfarmtwin.com`, production branch `main`, automatic production deployment enabled, empty remote build/root and output `dist`. Previous 3D-only production was `3666ad7` / `c3b86321-7f4d-45a9-a4e5-f90d5eebc069`. One non-force push published `43e84dd`; Cloudflare deployment `322520a9-0458-4cd4-b0bc-7be3000dc534` completed successfully at 2026-11-08T13:34:08.296109Z and its GitHub check matches.
+
+Actual live checks pass: 221 decoded bodies equal Git, public/immutable build receipts match; four camera viewports, six input profiles, 32 bilingual responsive/safe-area cases, eight 3D/WebGL-retry profiles, two all-five-area journeys x235 commands/nine days with exact whole saves, four homepage surfaces plus fallback checks, and two CSP/malicious-import profiles. Actual public desktop, portrait and landscape screenshots were inspected. This uses disposable headless contexts and synthetic saves only.
+
+The first controlled public mobile sample failed the 5s core-map target: map 5798ms, native care 7266ms, all owned art 12170ms, warm map 3122ms; actual 60-second render submissions 41.5/s, trusted camera response 65.9ms and +0.38MiB post-GC heap. Other browser suites were closed. The failed run is retained under `qa-artifacts/camera-release/live-performance/`; local gzip 2155ms is not substituted for this public result.
+
+Transport probes found six emitted modules using Brotli and two unchanged legacy Three chunks still returning cached `no-transform`, uncompressed even after revalidation. A fresh query key and immutable deployment hostname return Brotli for the same decoded bytes. The bounded fix adds a stable authored banner to the graphics build so esbuild rotates the content-addressed graph consistently, including both old URLs. No dependency, renderer/domain source, save schema, simulation, `_headers`, security/DNS/analytics setting or provider cache purge changes. Eight generated modules are byte-identical to `43e84dd` after normalizing only that exact banner and receipt-resolved import basenames; all `game/client` source is unchanged. Evidence: `transport-fix/runtime-equivalence.json`, `graph.json`, and `legacy-cache-probe.json` under that QA root. A new production measurement is required after publication of the transport fix.
+
+Transport candidate verification: 480/480 unit tests rerun, lint/typecheck pass, eight entry/error/retry profiles, four lifecycle profiles with 20 full remount/disposal cycles, four direct-camera profiles and one complete mobile-ID five-area journey (235 native commands/nine days, exact whole save, one Scene/camera/canvas/interval) pass. A deterministic rebuild retains the exact tested receipt; original media/editorial, licenses, generated hashes and cleanup audits pass. No gameplay implementation bytes changed. The new candidate remains subject to committed-artifact verification and measured production compression/loading.
 
 ## Evidence and limitations
 
@@ -54,4 +66,4 @@ Reference screenshot identity: Library `libfile_a43331d2eea08191a6021249f8abb4ad
 
 The [Library skill](skill://plugin_connector_1p_1b8ff8edfc1481918b252c8277e23125/library/SKILL.md) and its [materialization guidance](skill://plugin_connector_1p_1b8ff8edfc1481918b252c8277e23125/library/references/materialization.md) require: “If the helper is unavailable, stop rather than producing a local file without its Library metadata.” This limits only the reference-image transfer; independent repository work and local visual testing continue.
 
-Physical Android, touch hardware, browser chrome, GPU/display frame rate, notch and thermal behavior are not tested. Touch and safe areas are browser simulations. Live tests, push and deployment are explicitly out of scope for this follow-up.
+Physical Android, touch hardware, browser chrome, GPU/display frame rate, notch and thermal behavior are not tested. Touch and safe areas are browser simulations. Publication uses the existing Git integration only; the initial no-push phase is superseded solely by the owner's subsequent explicit release authorization.

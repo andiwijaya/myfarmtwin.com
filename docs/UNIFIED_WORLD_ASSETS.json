@@ -12,27 +12,27 @@
       "notice": "dist/play/vendor/three/LICENSE.txt"
     },
     {
-      "path": "dist/play/vendor/three/chunks/chunk-QOEEHEK6.js",
-      "bytes": 195571,
-      "sha256": "4792eca22472a1780b4426c6db335f7ba85cfc647d7edbe829818466d656c93f",
+      "path": "dist/play/vendor/three/chunks/chunk-BUKEHCBM.js",
+      "bytes": 195654,
+      "sha256": "ac2ee9171333f614474df56355ff9d3893a48ac245d46395866e6fbd3ab7486d",
       "sourcePackage": "three@0.187.0",
       "transformation": "Tree-shaken/minified with esbuild@0.28.2; shared class identity and lazy WebGL split",
       "license": "MIT",
       "notice": "dist/play/vendor/three/LICENSE.txt"
     },
     {
-      "path": "dist/play/vendor/three/chunks/unified-world-webgl-EUOPMC4E.js",
-      "bytes": 357192,
-      "sha256": "4c581672fd68586f871e635f29f01a470c5e6b8c49e93e3175eb7265c375f8dd",
+      "path": "dist/play/vendor/three/chunks/unified-world-webgl-3OBKYJ57.js",
+      "bytes": 357275,
+      "sha256": "bc12d0046057ca0e704310501c3d6999d077b8fe985678b66614b41cfacbdfcc",
       "sourcePackage": "three@0.187.0",
       "transformation": "Tree-shaken/minified with esbuild@0.28.2; shared class identity and lazy WebGL split",
       "license": "MIT",
       "notice": "dist/play/vendor/three/LICENSE.txt"
     },
     {
-      "path": "dist/play/vendor/three/three.module-3F7TSCMZ.js",
-      "bytes": 620,
-      "sha256": "c15061d48531e3b6aab323deb21cc92ebf4bb4e87062ae69731fd069b29aebf8",
+      "path": "dist/play/vendor/three/three.module-KLAG532C.js",
+      "bytes": 703,
+      "sha256": "55de9497b23d65a385cdf914237e9a1b78c0c237a348da1dc1f888a1c9ff7d6c",
       "sourcePackage": "three@0.187.0",
       "transformation": "Tree-shaken/minified with esbuild@0.28.2; shared class identity and lazy WebGL split",
       "license": "MIT",
