@@ -4,7 +4,7 @@ Owner instructions, 8 November 2026: normal entry from the homepage opens 3D; re
 
 Work branch: `unified-3d-only`, starting at `215bbce3ecf1cc580e7bb860a613e25c1455ee35`. Prior production source: `a5c2e0e4b3b8de07940ee4b862ff8fcbae2cd4a7`, Pages deployment `63067ffb-e4a4-41e0-8658-8ab2ea7a57a9`.
 
-Follow-up gates: **8/10 verified (80%)**. Evidence is under ignored `qa-artifacts/unified-3d-only`; no QA captures are shipped.
+Follow-up gates: **9/10 verified (90%)**. Evidence is under ignored `qa-artifacts/unified-3d-only`; no QA captures are shipped.
 
 - [x] F01: Homepage and ordinary `/play/` entry, including old bookmarks, always mount the same 3D world. Eight desktop/touch EN/ID normal/no-WebGL profiles: `entry-viewport/entry.json`.
 - [x] F02: Remove exclusive 2D world source/build output and animation CSS, retaining native gameplay, data model, shared care components and assets.
@@ -13,7 +13,7 @@ Follow-up gates: **8/10 verified (80%)**. Evidence is under ignored `qa-artifact
 - [x] F05: Updated bilingual homepage, accurate actual game artwork, direct CTA, responsive layout, keyboard/locale/save preservation and old-cache transition.
 - [x] F06: Frozen V0–V5, backups, archives, quarantine, original exports, import/cancel/reset/restore, quota and concurrency regressions on the new route.
 - [x] F07: Four WebGL five-area journeys, mission progression, six native menus and ledger equality.
-- [ ] F08: Lint/type/unit/build, frozen domain/media audit, asset provenance and committed-package integrity.
+- [x] F08: Lint/type/unit/build, frozen domain/media audit, asset provenance and committed-package integrity.
 - [x] F09: Measure actual first WebGL map and warm load on throttled mobile emulation; verify animation/lifecycle stability and document physical-device limits.
 - [ ] F10: Verify authorized production pipeline, publish tested commit, identify deployment and test actual live route/homepage/game integrity.
 
@@ -36,3 +36,5 @@ Transport fix: raw mobile4G/4x CPU first WebGL render measured5.995s, exceeding 
 Compressed transport measurements: first WebGL map desktop385ms, emulated mobile2125ms; native care mobile3026ms; warm mobile2612ms. Actual60-second successful render submission rates: desktop60/s, mobile43.8/s (median45.2/s), mobile trusted camera response15.1ms, post-GC sample growth0.37MiB. Mobile uses4x CPU/150ms/1.6Mbps on the laptop GPU, not a physical phone. Desktop startup overlapped a short security smoke; the mobile measurement followed it. Evidence: `performance-compressed/feasibility.json`. The15-minute fixed renderer/clock soak measured901823ms,300 actual ticks,86 camera moves,four quality changes,23 actors,+2.70MiB post-GC heap and exact final/reloaded save (`soak-fixed/animation-soak.json`).
 
 Other final checks: four chicken parity profiles ×44 accepted native commands,28 new eggs and actual paid feeder service; six trusted-input profiles; four sprite-contact profiles (64 exact picks plus32 enlarged touch picks); four lifecycle profiles including20 full remount/disposal cycles and fatal bootstrap recovery. Native balance26×90-day policies and maximum-farm90-day/2160-hour paired replay passed. Targeted HTTP cache-policy tests add two checks to the477-unit suite.
+
+Final preflight: lint/typecheck passed;479/479 unit tests passed with authorized loopback networking. Committed change `dda512e0f09312cae34b7599dfc244fd0fceeade` has canonical dist tree `992c55a108987a9bec9f48fd8a612404bfc23d6d`:221 files,14 receipt entries,220 actual HTTP bodies verified with zero mismatches (`package/package.json`). Current metadata-only release commit reuses that exact dist tree. `preflight.json` verifies9/10 follow-up gates; production publish and live verification remain the final gate.

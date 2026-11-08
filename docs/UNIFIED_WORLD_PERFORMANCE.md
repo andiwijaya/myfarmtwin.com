@@ -1,3 +1,9 @@
+# Current3D-only measurements
+
+The owner-directed3D-only follow-up supersedes the Canvas/default-Classic startup policy below. Actual WebGL first render with negotiated local gzip:385ms desktop,2125ms under4x CPU/150ms/1.6Mbps mobile emulation; warm mobile2612ms, native care3026ms. Actual60-second render submissions:60/s desktop and43.8/s mobile. Raw uncompressed mobile remains5995ms; HTML-only no-transform preserves the original CSP while permitting normal JS/CSS compression. Live provider encoding and loading are a separate final release check. Fifteen-minute soak:300 native ticks,86 moves,23 actors,exact save/reload and+2.70MiB post-GC heap. These are laptop headless/emulation results, not physical Android/iOS measurements. Full evidence: [3D-only release](UNIFIED_WORLD_3D_ONLY_RELEASE.md).
+
+Historical preview measurements follow.
+
 # M7-F06 — measured startup and long navigation
 
 The preview now prepares its map from **one validated native save session** before downloading the larger gameplay UI entry. Both entries share the actual session module. Camera/Objects work while care controls are explicitly disabled and labelled as loading. Native control attachment preserves the existing Scene/camera; it starts the single original three-second simulation interval after initialization. Atlas downloads and cosmetic animation wait for control attachment so they do not compete with that entry. Visible progress distinguishes control loading, animal art and a failed UI download; HTTP503 leaves an honestly labelled read-only map with a reload link.

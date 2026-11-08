@@ -1,3 +1,9 @@
+# Unified 3D-only release candidate
+
+The owner authorized direct3D entry, removal of Classic/Canvas world rendering, a current3D homepage, deployment and live QA. The change is committed as `dda512e0f09312cae34b7599dfc244fd0fceeade`; canonical dist tree `992c55a108987a9bec9f48fd8a612404bfc23d6d`. The tested artifact has479 passing unit tests and220 exact HTTP resource bodies. Follow-up gates are9/10; see [3D-only release evidence](UNIFIED_WORLD_3D_ONLY_RELEASE.md). Production identity and real provider compression/security will be verified after the authorized push.
+
+The prior preview releases below are historical; their default-Classic and Canvas policy is superseded by the owner's latest instruction.
+
 # Unified world — authorized preview release complete
 
 **82/82 (100%), verified 8 November 2026.** This is the authorized opt-in preview publication. Default visits remain Classic; no automatic unified-default rollout or homepage promotion is claimed.
