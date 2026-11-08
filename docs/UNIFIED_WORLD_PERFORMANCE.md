@@ -40,9 +40,9 @@ Both profiles retained one Scene/camera, one canvas at a time, one simulation in
 Physical Android/iOS, Safari, thermal/battery behavior, a physical display FPS measurement and a screen-reader user study are unavailable. The measured GPU is the laptop's Intel Iris Xe through ANGLE, **not an Android GPU**. Optional `Win32_Processor` CIM utilization access was unavailable; that query was stopped without retry. Host utilization/thermal state is therefore uncontrolled. These limits must accompany local readiness and future release review.
 
 
-## Current M8 candidate: controlled cold/reload and cadence
+## Earlier M8 local candidate: controlled cold/reload and cadence
 
-The current measured build uses canonical receipt SHA256 `d11fe12b51b791cade5599fc7e7afe121185e24d376a788010dcecbe5d09eac0`. These 60-second and 15-minute measurements belong to application `aef4b78d487b2426afd9785457990c79aa27e704`, tree `d690946ecfddf19f37507444b69b434a31f19a63`. Final candidate `ec7a9b5be34b6a5635953799e6118ab8323932a7`, tree `6d1d854fdfbfc20f42d7780a1eec29c181c074c5`, adds only the scoped visible-startup CSS correction described below; renderer/engine JavaScript is byte-identical. Old reports retain their actual receipt identity. `qa-artifacts/unified-m8-render-critical-controlled/feasibility.json` passes four sequential60-second Chrome156 profiles, followed by same-context reloads, with no concurrent assistant QA. The receipt is checked again at completion to reject mixed builds. Mobile uses Pixel5 UA/touch/DPR2.75 on the laptop, CDP CPU4×,150ms latency and200,000B/s download; it is not Android hardware.
+The earlier pre-release measured build uses canonical receipt SHA256 `d11fe12b51b791cade5599fc7e7afe121185e24d376a788010dcecbe5d09eac0`. These 60-second and 15-minute measurements belong to application `aef4b78d487b2426afd9785457990c79aa27e704`, tree `d690946ecfddf19f37507444b69b434a31f19a63`. Final candidate `ec7a9b5be34b6a5635953799e6118ab8323932a7`, tree `6d1d854fdfbfc20f42d7780a1eec29c181c074c5`, adds only the scoped visible-startup CSS correction described below; renderer/engine JavaScript is byte-identical. Old reports retain their actual receipt identity. `qa-artifacts/unified-m8-render-critical-controlled/feasibility.json` passes four sequential60-second Chrome156 profiles, followed by same-context reloads, with no concurrent assistant QA. The receipt is checked again at completion to reject mixed builds. Mobile uses Pixel5 UA/touch/DPR2.75 on the laptop, CDP CPU4×,150ms latency and200,000B/s download; it is not Android hardware.
 
 | Profile | Cold map | Reload map | Cold/reload trusted heading response | Mean / median actual render submissions/s |
 |---|---:|---:|---:|---:|
@@ -78,7 +78,7 @@ Cache/reference offscreen surfaces use the same explicit readback backend; produ
 
 The prototype's all-files3MB cap is explicitly revised to5MiB for retained two-LOD art/renderer/rollback publication. Actual initial HTTP transfer still must remain below3MB, default entry below640KiB raw/250KiB gzip-equivalent; cadence, timing, memory, save and switch limits are unchanged. The original performance run measured the preceding default entry at503,886bytes raw/161,569bytes gzip-equivalent, observed initial HTTP transfer507,164bytes. Final canonical default entry after the scoped CSS correction is504,005bytes raw/161,583bytes gzip-equivalent; final game publication is199files/4,019,147bytes. Gzip-equivalent sums are not wire bytes. Canonical final publication totals and receipt/HTTP integrity are recorded in the release-readiness/final QA documents.
 
-## Current real-clock continuity
+## Earlier M8 real-clock continuity
 
 Both current runs pass in `unified-m8-final-soak-{desktop,mobile}`, with raw receipt SHA256 `acb6fcbb34622f85ae36fe39f078658edb1f7aa0948886221b839a26e446da09` (canonical JSON form `d11fe12b51b791cade5599fc7e7afe121185e24d376a788010dcecbe5d09eac0`).
 
@@ -93,3 +93,59 @@ A final CSS-only correction makes the already-created loading/error notice actua
 
 
 Physical Android/iOS, Safari, thermal/battery tests, display FPS and assistive-technology user trials are unavailable. The GPU is the laptop's Intel Iris Xe through ANGLE, not Android hardware. An optional Win32_Processor CIM-utilization query failed with a client-access error and was stopped without retry; host utilization/thermal state is not claimed. No push/deploy occurred.
+
+## Authorized preview publication: live findings and frozen follow-up
+
+The first authorized preview source `c43a9d8` deployed as `358daa6e-5bea-4b9f-87d8-7c66976b0641`. All live gameplay/save/menu/mission/site/integrity lanes passed. The separate live mobile60-second measurement in `qa-artifacts/unified-m8-release/mobile-controlled` honestly failed its100ms first-camera-input check: cold WebGL114.3ms, cold Canvas83.0ms, with full-art mean/median submissions52.4/53.1 and38.2/37.7 per second. Core maps4.616/4.252s passed5s; care controls7.026/6.459s, art10.432/9.959s and observed WebGL13.269s are separate phases. No engine state mismatch or page error occurred. Three independent cold/reload diagnostic pairs retained in `mobile-input-repeats` confirmed repeated camera-input misses rather than proving one isolated outlier.
+
+Actual live headers were observed, not inferred from the committed header policy: the document used `max-age=0`, while JS/CSS used `max-age=14400, must-revalidate, no-transform` with ETags. Live reloads recorded21/20 resource cache hits and300total transfer bytes. This differs from the earlier local revalidation-only/no-ETag server; those old zero-cache-hit measurements are not relabelled. An explicit local QA-only asset-cache mode now reproduces the observed long-lived asset cache with ETags. It changes neither dist headers nor provider settings. Actual wire/CDN claims still require live results.
+
+The frozen follow-up retains actual paths/signs, building body/roof/gables, owned animal bodies or loaded sprites, native fill volumes/colors, crop bodies and actual eggs. Secondary building trim, rims/film/dividers and small pump fittings defer until native controls attach. Auto Canvas also omits these tagged secondary pieces during camera movement, restoring them after100ms quiet through the same owned cosmetic RAF. It retains owned sprites and native stock shapes throughout; explicit High/Low and reduced-motion behavior are unchanged. First painted response and full-detail restoration are disclosed separately, with100ms and500ms checks. Cadence starts after camera detail settles and all owned art is ready, so reduced interaction frames are not substituted for full-art animation acceptance.
+
+The exact Path2D already constructed for a face is retained under weak face keys instead of being discarded and parsed again. Caption/cue dimensions are reused until label/locale/viewport changes; redundant caption text replacement and interleaved dimension reads/position writes were removed. Full-detail projection math, colors/depth, ownership, native commands and clock remain unchanged. Actual bitmap/screenshot comparisons and cache invalidation tests verify output; resource soaks check the new weak-cache lifecycle.
+
+Initial cached-loading/controlled attempts (`refinement-cached-loading`, `-v2`, `-v3`, `refinement-controlled`, `refinement-controlled-v2`) remain failed where recorded; they are not green aggregate claims. The current loading diagnostic `refinement-cached-loading-v4` passes both cold/reload modes, but its1second windows are not cadence acceptance. Final accepted results are recorded in the following section.
+
+Eight camera-detail profiles pass, including empty farms returning to zero owned RAFs, exact owned sprite/fill identities, reduced-motion/High/Low exclusions and disposal during the reduced frame. Startup restoration initially asserted before the newly scheduled full frame; the harness now waits for actual `cameraDetail=full` and retains the same count assertions, with12/12 passing. Initial type annotations failed strict checking; the annotation-only correction passes typecheck and a rebuild proved the frozen runtime receipt byte-identical (`refinement-runtime-identity.json`). The original audit aggregate remains failed at that original typecheck row; the repeat supplements it.
+
+A composite Canvas screenshot comparison observed7channels differing by1/255 at three pixels; its failure log and read-only numeric observation are retained. The runner initially reused its directory, so initial failed PNG/JSON files were replaced before a late preservation copy; that limitation is explicit in `refinement-visual-initial-failure/README.txt`, and the late copies are not presented as original failed captures. Subsequent strict comparisons read the actual Canvas2D bitmap independently of DOM overlays/CSS clipping, while retaining compositor screenshots for review; WebGL uses actual compositor captures. All32 full-detail pairs pass with zero changed channels, as do the independent64view/80mutation cached-versus-reference controls. No screenshot was reconstructed.
+
+## Final accepted source and live result - M8-F09 complete
+
+Final source `a5c2e0e4b3b8de07940ee4b862ff8fcbae2cd4a7`, canonical dist tree `7431a5c2673290f943917f945e25e25d55f65afd`, production deployment `63067ffb-e4a4-41e0-8658-8ab2ea7a57a9`, terminal success2026-11-08T08:58:39.956368Z. Source/default mode/provider/check identity and all final browser groups are verified in `qa-artifacts/unified-m8-release/final-acceptance.json` and `final-production-identity.json`. The renderer remains an opt-in preview.
+
+The final frozen runtime uses raw receipt SHA256 `18a2e12ea9f14ed0d6a82674ada59a051e575c4324d5d08912c8844bd2a4f931`, canonical-JSON SHA256 `5fe81a0a08debe8ff8161bd55035f5b798606ae4647d1c39d7e6ff572114eefe`. Strict type-only annotation corrections rebuilt to identical receipt bytes. All nine default-entry files remain identical to the first preview publication.
+
+### Final local controlled windows
+
+Four sequential60-second full-art profiles pass in `refinement-controlled-v3`, with the explicit QA-only observed-live asset-cache mode and no other assistant browser QA.
+
+| Profile | Cold map /response | Mean /median submissions per second | Reload map /response | Reload full camera detail |
+|---|---|---:|---|---:|
+| Desktop WebGL |222ms /5.3ms|60.0 /60.0|329ms /12.0ms|115.7ms|
+| Desktop Canvas |218ms /4.4ms|59.3 /60.0|253ms /11.4ms|114.1ms|
+| Mobile emulation WebGL |3906ms /77.2ms|54.9 /55.2|1406ms /26.2ms|26.2ms|
+| Mobile emulation Canvas |3805ms /49.5ms|39.5 /39.7|1518ms /69.5ms|171.4ms|
+
+Mobile cold care/art/observed WebGL:5834/9181/11987ms; Canvas5827/9164/n/a. Post-GC JS change0.04–0.37MiB, one original interval, exact primary save/ledger and reduced-motion stop/resume. These60-second windows begin after all art and full camera detail settle. Trusted first painted response is not mislabeled as full-detail completion.
+
+### Final actual continuity
+
+`refinement-soak-desktop` passes901123ms,301 original ticks,86 camera moves and four quality transitions; post-GC JS/backing+2.906/+12.014MiB. `refinement-soak-mobile` uses actual Canvas with CPU4x/4G emulation and passes909100ms,303 ticks,73 moves and four transitions; JS/backing+2.783/+0.010MiB. Both keep23 owned actor/cohort representatives, one Scene/camera/canvas/clock, at most one owned cosmetic RAF, exact full native state/RNG/weather/ledger and exact reload. Overlapping resource stress is distinct from the isolated cadence windows; backing is not VRAM and15minutes does not establish indefinite thermal behavior.
+
+### Final live cold/reload and cadence
+
+After all final live functional/origin/integrity browser runners closed, two sequential60-second mobile profiles pass on the actual public origin in `final-mobile-controlled`. It is the final receipt, not a relabelled earlier run.
+
+| Live mobile mode | Cold map /response | Cold care /art /observed WebGL | Mean /median submissions per second | Reload map /response | Reload full camera detail |
+|---|---|---|---:|---|---:|
+| WebGL |4263ms /51.5ms|6278 /9658 /12532ms|53.1 /53.1|1337ms /20.9ms|21.1ms|
+| Canvas |4165ms /38.2ms|6176 /9554 /n/a|38.5 /38.7|1479ms /65.0ms|172.2ms|
+
+Both pass the5second core-map,100ms actual first-frame response,30/s mobile mean/median,20MiB heap and one-interval checks. Actual reduced-frame warm Canvas restores full secondary detail within172.2ms, below the separate500ms bound. WebGL warm first response already has full detail. Cold care/art/driver phases remain explicitly later than five seconds. Browser submissions/RAF are not physical-display FPS, CPU4x is an emulation setting, and Iris Xe/ANGLE is not an Android GPU.
+
+Real live reloads show21/20 browser-cache resource hits and300total transfer bytes; these are observed cache hits, unlike the old local no-ETag/no-hit measurements. The application did not change provider/header settings. Existing compatible browser-cached presentation can remain until revalidation. No storage clearing is required or performed.
+
+Final canonical game publication:199files/4020071bytes; default entry504005raw/161583gzip-equivalent bytes, identical to the first release. Gzip-equivalent is not observed wire transfer. Final actual public integrity221bodies/zero mismatch, canonical receipt14checks and five vendor/34portable-source Git hashes pass. Physical Android/iOS, Safari, thermal/battery/display FPS, VRAM and assistive-technology user trials remain unrun. See [final deployment and live evidence](UNIFIED_WORLD_DEPLOYMENT.md) for exact source/release, scope and rollback.
+
+Timing precision: the camera-response proxy is trusted pointer-up to the heading DOM observation after renderer draw submission; full-detail restoration observes that submitted scene state separately. Neither value measures physical display presentation or GPU completion latency. Submission/RAF cadence is not physical-display FPS.

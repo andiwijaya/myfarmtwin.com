@@ -23,7 +23,7 @@ Internal unified-world preview: `/play/?world=unified-preview`. One continuous t
 
 The preview is hidden behind the query flag; default visits keep the original interface and do not fetch Three.js. A local pinned esbuild bundle splits the optional Three CPU/math and asynchronous WebGL driver, retains its complete MIT notice and uses no CDN. Canvas fallback uses the same scene/camera; complete graphics failure retains usable HTML actions. WebGL loss/retry and Low Graphics preserve state. The classic-map link remains the rollback reader until an explicitly authorized release is deployed and verified live.
 
-Local parity, graphics, startup, save and QA evidence is tracked per micro-feature in `docs/PRD_MYFARMTWIN_UNIFIED_3D_WORLD_V1.md`. It distinguishes desktop headless testing and mobile emulation from physical-device tests and does not imply a production release. See also `docs/BUILD_SAFETY.md` and `docs/UNIFIED_WORLD_PERFORMANCE.md`. Build only owns `dist/play`; original editorial/media and rollback assets must remain.
+Local parity, graphics, startup, save and QA evidence is tracked per micro-feature in `docs/PRD_MYFARMTWIN_UNIFIED_3D_WORLD_V1.md`. It distinguishes desktop headless testing and mobile emulation from physical-device tests. The authorized preview publication, exact production source/deployment and live results are recorded in `docs/UNIFIED_WORLD_DEPLOYMENT.md`; default visits remain classic. See also `docs/BUILD_SAFETY.md` and `docs/UNIFIED_WORLD_PERFORMANCE.md`. Build only owns `dist/play`; original editorial/media and rollback assets must remain.
 
 ## Verification
 

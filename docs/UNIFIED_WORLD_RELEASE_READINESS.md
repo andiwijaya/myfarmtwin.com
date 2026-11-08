@@ -1,4 +1,8 @@
-# Unified world — local candidate and release hold
+# Unified world — readiness history and authorized preview release
+
+**82/82 final release verified.** Current authorized production source is `a5c2e0e4b3b8de07940ee4b862ff8fcbae2cd4a7`, deployment `63067ffb-e4a4-41e0-8658-8ab2ea7a57a9`; detailed live status is in [UNIFIED_WORLD_DEPLOYMENT.md](UNIFIED_WORLD_DEPLOYMENT.md). The following local-readiness/hold section records the earlier pre-authorization checkpoint; the subsequent authorization supersedes that hold.
+
+## Historical local readiness checkpoint before authorization
 
 Application candidate: local commit `ec7a9b5be34b6a5635953799e6118ab8323932a7`, branch `unified-world-v1`, production `dist` tree `6d1d854fdfbfc20f42d7780a1eec29c181c074c5`. Later documentation commits may point to this same immutable application tree. It is not deployed. Authoritative PRD identity remains Library `libfile_457bd65eff208191ad529af638e759bb`; the living 82-item checklist is `PRD_MYFARMTWIN_UNIFIED_3D_WORLD_V1.md`.
 

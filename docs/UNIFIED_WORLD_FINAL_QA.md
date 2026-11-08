@@ -1,5 +1,7 @@
 # Unified-world final local QA — M8-F07
 
+> Current authorized preview release is **82/82**, source `a5c2e0e`, deployment `63067ffb-e4a4-41e0-8658-8ab2ea7a57a9`. Historical local acceptance snapshot before authorization follows. The later authorized preview publication and live results are recorded in [UNIFIED_WORLD_DEPLOYMENT.md](UNIFIED_WORLD_DEPLOYMENT.md).
+
 Status: **80/82 (97.6%); M8-F07 local QA complete.** M8-F08/F09 remain release holds. No push/deploy occurred. Authoritative PRD: Library `libfile_457bd65eff208191ad529af638e759bb`; living checklist: `PRD_MYFARMTWIN_UNIFIED_3D_WORLD_V1.md`.
 
 Application candidate: `ec7a9b5be34b6a5635953799e6118ab8323932a7`, branch `unified-world-v1`, `dist` tree `6d1d854fdfbfc20f42d7780a1eec29c181c074c5`. Documentation commits may refer to the same immutable application tree. The unified world remains hidden behind `/play/?world=unified-preview`; default visits retain the classic rollback.
