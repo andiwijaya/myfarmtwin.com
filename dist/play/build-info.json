@@ -41,8 +41,8 @@
     },
     {
       "name": "style.css",
-      "bytes": 39702,
-      "sha256": "7d82b1dd679af4f7e97fa15392fec502ea5e5c47a2ef7754027df694ecbc6480"
+      "bytes": 39700,
+      "sha256": "25e1de7fe29852cc5a839b48798f99c1e23ae3bb1231a9d4c40e415854cef2f4"
     },
     {
       "name": "vendor/game/chunks/chunk-CXKKWGBJ.js",
@@ -63,8 +63,8 @@
     },
     {
       "name": "unified-world-preview.js",
-      "bytes": 123355,
-      "sha256": "f9abe87c56bfffb5ec5f1e0aab1b9bea7b8380bf63dbd3ae44dad9d430fef40c"
+      "bytes": 127205,
+      "sha256": "03a486f17b5560a6fc9dea33836ded909550819937bb92e0c3ce7de779228101"
     },
     {
       "name": "vendor/game/chunks/chunk-CXKKWGBJ.js",
@@ -83,8 +83,8 @@
     },
     {
       "name": "vendor/three/three.module.js",
-      "bytes": 599,
-      "sha256": "74e7b48b044a19e367d65d3288bac00f71b5f765b3e107b2016f8a504061efea"
+      "bytes": 620,
+      "sha256": "c15061d48531e3b6aab323deb21cc92ebf4bb4e87062ae69731fd069b29aebf8"
     }
   ],
   "lazyWebGL": "vendor/three/chunks/unified-world-webgl-EUOPMC4E.js",

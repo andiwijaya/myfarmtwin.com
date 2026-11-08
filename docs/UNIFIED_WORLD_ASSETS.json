@@ -31,8 +31,8 @@
     },
     {
       "path": "dist/play/vendor/three/three.module.js",
-      "bytes": 599,
-      "sha256": "74e7b48b044a19e367d65d3288bac00f71b5f765b3e107b2016f8a504061efea",
+      "bytes": 620,
+      "sha256": "c15061d48531e3b6aab323deb21cc92ebf4bb4e87062ae69731fd069b29aebf8",
       "sourcePackage": "three@0.187.0",
       "transformation": "Tree-shaken/minified with esbuild@0.28.2; shared class identity and lazy WebGL split",
       "license": "MIT",
@@ -51,8 +51,8 @@
   "proceduralSources": [
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 60743,
-      "sha256": "1e0c204c18359a4777b6ef3dc4dd927adc010bdd6c7b0baabfd173b147dfca4e",
+      "bytes": 61176,
+      "sha256": "766d732e1634dd04c228fff4c1ddd5094fdb8b4f459e9a587186c4bd0d5a5de6",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -128,8 +128,8 @@
     },
     {
       "path": "game/client/unified-world-tools.js",
-      "bytes": 5827,
-      "sha256": "3aaebacfa73490c9d378fdea741936c51ba1da417b4fd86e05ed5b5912e49577",
+      "bytes": 6016,
+      "sha256": "ce4208d54fbed6f795e119f87003b678002e23190658158d9f99d1ec9f9ecc70",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -170,8 +170,8 @@
     },
     {
       "path": "game/client/unified-world-canvas.js",
-      "bytes": 11977,
-      "sha256": "3b84bd502a137eb02eea00d0c131f986a5a8a728d29ab9aea81034dbdf3ab9e6",
+      "bytes": 19635,
+      "sha256": "bfa4a4292424b3dbe3defedaf91190cdc9b131d2ccf88fc29f2871ec89bd8fd1",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },

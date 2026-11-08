@@ -86,4 +86,4 @@ dialog{border:1px solid var(--line);border-radius:24px;background:var(--paper);c
 .unified-shell .world-startup{font-size:13px;margin:4px 0;padding:6px 10px;color:#285138;background:#f6faef;border-radius:8px}.unified-shell #unified-preview[data-controls-ready=false] #world-current-task{cursor:progress}
 
 .world-menu-short{display:none}@media(max-width:700px){.world-menus .world-menu-full{display:none}.world-menus .world-menu-short{display:inline}}
-.unified-shell .world-map-bar:not(:has(details[open])){z-index:12}
+.unified-shell .world-map-bar:not(.world-tools-open){z-index:12}
