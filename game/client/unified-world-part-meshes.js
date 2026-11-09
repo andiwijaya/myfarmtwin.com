@@ -1,5 +1,15 @@
 import {BoxGeometry,CylinderGeometry,SphereGeometry,PlaneGeometry,CircleGeometry,BufferGeometry,Float32BufferAttribute,Mesh,Color,Matrix4,Matrix3,Euler,Vector3} from 'three';
-import {pruneFixedFarmParts} from './unified-world-part-pruning.js';
+import {pruneFixedFarmParts,FARM_PART_MAX_Y_SCALE} from './unified-world-part-pruning.js';
+
+/** @typedef {{full:BufferGeometry,overview:BufferGeometry|null,createOverview:(()=>BufferGeometry)|null,disposed:boolean}} WorldPartLod */
+// Conservative overview authoring scale. Curves larger than these projected
+// bounds retain their original mesh. Native quantity volumes opt out entirely.
+const OVERVIEW_PIXELS_PER_UNIT=26*FARM_PART_MAX_Y_SCALE;
+/** @param {import('./unified-world-environment.js').EnvironmentPart} part */
+function overviewSpec(part){const radius=Math.min(.08,part.width*.15,part.height*.15,part.depth*.15);return{
+ flatten:part.shape==='bevel'&&radius*OVERVIEW_PIXELS_PER_UNIT<=.5,
+ curve:part.shape==='cylinder'?Math.max(part.width,part.depth)/2*OVERVIEW_PIXELS_PER_UNIT<=2:part.shape==='foliage'&&Math.max(part.width,part.height,part.depth)/2*OVERVIEW_PIXELS_PER_UNIT<=3
+};}
 
 /** Closed pointed leaf with a curved midrib and a thin underside. */
 function leafGeometry(){
@@ -15,22 +25,22 @@ function leafGeometry(){
  * Caller owns/disposes the generated geometry, and owns the shared material.
  * @param {readonly import('./unified-world-environment.js').EnvironmentPart[]} parts
  * @param {import('three').MeshLambertMaterial} material
- * @param {{preserveFaces?:boolean}} [options]
+ * @param {{preserveFaces?:boolean,overview?:boolean}} [options]
  * @returns {Mesh[]} */
 export function compileWorldParts(parts,material,options={}){
  /** @type {Map<string,BufferGeometry>} */const sources=new Map();
- /** @param {import('./unified-world-environment.js').EnvironmentPart['shape']} shape */
- const sourceFor=shape=>{const key=shape==='bevel'?'bevel':shape==='cylinder'||shape==='foliage'||shape==='surface'||shape==='disc'||shape==='leaf'?shape:'box';let geometry=sources.get(key);if(!geometry){geometry=key==='cylinder'?new CylinderGeometry(.5,.5,1,12):key==='foliage'?new SphereGeometry(.5,8,6):key==='surface'?new PlaneGeometry(1,1).rotateX(-Math.PI/2):key==='disc'?new CircleGeometry(.5,12).rotateX(-Math.PI/2):key==='leaf'?leafGeometry():key==='bevel'?new BoxGeometry(1,1,1,2,2,2):new BoxGeometry(1,1,1);sources.set(key,geometry);}return geometry;};
- /** @type {Map<string,{positions:number[],normals:number[],colors:number[],fixed:boolean,fine:boolean,optional:boolean,features:Set<string>,counts:Record<string,number>}>} */
+ /** @param {import('./unified-world-environment.js').EnvironmentPart['shape']} shape @param {boolean} compact */
+ const sourceFor=(shape,compact)=>{const key=shape==='bevel'?'bevel':shape==='cylinder'||shape==='foliage'||shape==='surface'||shape==='disc'||shape==='leaf'?shape:'box',cacheKey=key+'|'+compact;let geometry=sources.get(cacheKey);if(!geometry){geometry=key==='cylinder'?new CylinderGeometry(.5,.5,1,compact?8:12):key==='foliage'?new SphereGeometry(.5,compact?4:8,compact?4:6):key==='surface'?new PlaneGeometry(1,1).rotateX(-Math.PI/2):key==='disc'?new CircleGeometry(.5,12).rotateX(-Math.PI/2):key==='leaf'?leafGeometry():key==='bevel'?new BoxGeometry(1,1,1,2,2,2):new BoxGeometry(1,1,1);sources.set(cacheKey,geometry);}return geometry;};
+ /** @type {Map<string,{positions:number[],normals:number[],colors:number[],parts:import('./unified-world-environment.js').EnvironmentPart[],fixed:boolean,fine:boolean,optional:boolean,features:Set<string>,counts:Record<string,number>}>} */
  const groups=new Map();
  const color=new Color(),matrix=new Matrix4(),normals=new Matrix3(),rotation=new Euler(),point=new Vector3(),direction=new Vector3(),inside=new Vector3();
  try{for(const part of parts){
   if(![part.x,part.y,part.z,part.width,part.height,part.depth].every(Number.isFinite)||Math.min(part.width,part.height,part.depth)<=0)throw new Error('Invalid authored part dimensions');
   if(part.opacity!==undefined&&part.opacity!==1)throw new Error('Transparent parts require independent sorting');
   if(part.shape&&!['box','bevel','gable','cylinder','foliage','surface','disc','leaf'].includes(part.shape))throw new Error('Unsupported static shape');
-  const source=sourceFor(part.shape),position=source.getAttribute('position'),normal=source.getAttribute('normal'),indices=source.index;if(!indices)throw new Error('Missing indexed source geometry');
+  const spec=overviewSpec(part),compact=!!options.overview&&!options.preserveFaces,flatten=compact&&spec.flatten,source=sourceFor(flatten?'box':part.shape,compact&&!!spec.curve),position=source.getAttribute('position'),normal=source.getAttribute('normal'),indices=source.index;if(!indices)throw new Error('Missing indexed source geometry');
   const fixed=!!part.fixed,fine=!!part.fine,optional=part.startupOptional??!['body','roof','gable-infill','barn-floor','interior-post'].includes(part.feature||''),key=[fixed,fine,optional].join('|');
-  let batch=groups.get(key);if(!batch){batch={positions:[],normals:[],colors:[],fixed,fine,optional,features:new Set(),counts:{}};groups.set(key,batch);}if(part.feature){batch.features.add(part.feature);batch.counts[part.feature]=(batch.counts[part.feature]||0)+1;}
+  let batch=groups.get(key);if(!batch){batch={positions:[],normals:[],colors:[],parts:[],fixed,fine,optional,features:new Set(),counts:{}};groups.set(key,batch);}batch.parts.push(part);if(part.feature){batch.features.add(part.feature);batch.counts[part.feature]=(batch.counts[part.feature]||0)+1;}
   color.set(part.color);rotation.set(part.pitch||0,part.rotation||0,part.tilt||0,'YXZ');matrix.makeRotationFromEuler(rotation);matrix.setPosition(part.x,part.y,part.z);normals.getNormalMatrix(matrix);
   const radius=Math.min(.08,part.width*.15,part.height*.15,part.depth*.15),half=[part.width/2,part.height/2,part.depth/2];
   const count=part.shape==='gable'?3:indices.count;
@@ -39,7 +49,7 @@ export function compileWorldParts(parts,material,options={}){
     const vertices=[[-.5,0,0],[.5,0,0],[0,1,0]],v=vertices[i];point.set(v[0]*part.width,v[1]*part.height,0);direction.set(0,0,1);
    }else{
     const index=indices.getX(i);point.fromBufferAttribute(position,index);point.set(point.x*part.width,point.y*part.height,point.z*part.depth);direction.fromBufferAttribute(normal,index);direction.set(direction.x/part.width,direction.y/part.height,direction.z/part.depth).normalize();
-    if(part.shape==='bevel'){
+    if(part.shape==='bevel'&&!flatten){
      inside.set(Math.max(-half[0]+radius,Math.min(half[0]-radius,point.x)),Math.max(-half[1]+radius,Math.min(half[1]-radius,point.y)),Math.max(-half[2]+radius,Math.min(half[2]-radius,point.z)));
      direction.copy(point).sub(inside).normalize();point.copy(inside).addScaledVector(direction,radius);
     }
@@ -50,12 +60,15 @@ export function compileWorldParts(parts,material,options={}){
  return [...groups.values()].map(batch=>{
   const geometry=new BufferGeometry();geometry.setAttribute('position',new Float32BufferAttribute(batch.positions,3));geometry.setAttribute('normal',new Float32BufferAttribute(batch.normals,3));geometry.setAttribute('color',new Float32BufferAttribute(batch.colors,3));geometry.computeBoundingBox();geometry.computeBoundingSphere();geometry.userData.worldOwned=true;
   pruneFixedFarmParts(geometry,material,!!options.preserveFaces);
-  const mesh=new Mesh(geometry,material);mesh.userData.environmentDetail=true;mesh.userData.cutawayFixed=batch.fixed;mesh.userData.cutawayShell=!batch.fixed;mesh.userData.fineDetail=batch.fine;mesh.userData.startupOptional=batch.optional;mesh.userData.structureFeatures=[...batch.features];mesh.userData.structureFeatureCounts=Object.freeze({...batch.counts});mesh.userData.structureFeature=mesh.userData.structureFeatures.join(',');return mesh;
+  const mesh=new Mesh(geometry,material);mesh.userData.environmentDetail=true;mesh.userData.cutawayFixed=batch.fixed;mesh.userData.cutawayShell=!batch.fixed;mesh.userData.fineDetail=batch.fine;mesh.userData.startupOptional=batch.optional;mesh.userData.structureFeatures=[...batch.features];mesh.userData.structureFeatureCounts=Object.freeze({...batch.counts});mesh.userData.structureFeature=mesh.userData.structureFeatures.join(',');
+  if(!options.overview&&!options.preserveFaces&&batch.parts.some(p=>{const s=overviewSpec(p);return s.flatten||s.curve;})){
+   /** @type {WorldPartLod} */const lod={full:geometry,overview:null,disposed:false,createOverview:()=>{const variants=compileWorldParts(batch.parts,material,{overview:true});if(variants.length!==1)throw new Error('LOD visibility groups changed');return variants[0].geometry;}};mesh.userData.worldPartLod=lod;
+  }return mesh;
  });
 }
 
 /** Release only per-entity baked geometry; shared cubes/materials stay alive.
  * @param {import('three').Object3D} root */
 export function disposePartMeshes(root){
- const seen=new Set();root.traverse(object=>{if(object instanceof Mesh&&object.geometry.userData.worldOwned&&!object.geometry.userData.worldReleased&&!seen.has(object.geometry)){seen.add(object.geometry);object.geometry.userData.worldReleased=true;object.geometry.dispose();}});
+ const seen=new Set();root.traverse(object=>{if(!(object instanceof Mesh))return;/** @type {WorldPartLod|undefined} */const lod=object.userData.worldPartLod;const geometries=[object.geometry,...lod?[lod.full,lod.overview]:[]];for(const geometry of geometries)if(geometry?.userData.worldOwned&&!geometry.userData.worldReleased&&!seen.has(geometry)){seen.add(geometry);geometry.userData.worldReleased=true;geometry.dispose();}if(lod){lod.disposed=true;lod.createOverview=null;}});
 }
