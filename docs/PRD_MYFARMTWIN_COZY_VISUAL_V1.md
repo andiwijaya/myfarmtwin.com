@@ -6,7 +6,7 @@ Owner approved an autonomous stylized cozy upgrade, with deployment after all ga
 
 ## Coordination and evidence
 
-Zebra task `01a1bab6-585c-70be-96ef-a485f9e500d4` has priority on this laptop. MyFarmTwin uses only this repo, `qa-artifacts/cozy-world-v1/`, fresh synthetic-save browser contexts and OS-assigned loopback ports (`startServer(0)`). Never reuse Zebra's tabs, saves, ports or browser profile, inspect/stop its processes, or run heavy builds/browser automation/atlas rendering/soaks/CPU-GPU benchmarks concurrently. Parent coordination is required before each exclusive slot. Requested first slot: 10–15 minutes for fixed-camera baseline capture and render/download profiling. No exclusive work has started.
+Zebra task `01a1bab6-585c-70be-96ef-a485f9e500d4` has priority on this laptop. MyFarmTwin uses only this repo, `qa-artifacts/cozy-world-v1/`, fresh synthetic-save browser contexts and OS-assigned loopback ports (`startServer(0)`). Never reuse Zebra's tabs, saves, ports or browser profile, inspect/stop its processes, or run heavy builds/browser automation/atlas rendering/soaks/CPU-GPU benchmarks concurrently. Parent coordination is required before each exclusive slot. The parent granted a 10-15 minute baseline slot on 9 November. Baseline capture finished and its browser/server were closed by 04:17:39 UTC; the slot was released to Zebra. Further exclusive work awaits coordination.
 
 Library reference: `libfile_5aaff9188e348191a64f23fb12c539d3`, `image(20261109-031927).png`, native `file_00000000a68c821298005553448a6191`, 191453 bytes, 1900x741, current version 0. Metadata/OCR is available. The current official metadata-preserving copy failed on Windows; reference pixels are not installed and were not inspected. Do not download it by an alternate route. The [Library skill](skill://plugin_connector_1p_1b8ff8edfc1481918b252c8277e23125/library/SKILL.md) and materialization guidance require: “If the helper is unavailable, stop rather than producing a local file without its Library metadata.” Continue with actual application baselines in the coordinated slot.
 
@@ -26,10 +26,10 @@ Original procedural models and geometry are preferred. Keep notices and provenan
 
 The existing atlas contract declares exactly 60 MiB combined high+low RGBA storage, below 64 MiB; this is not measured VRAM. Cow high is 256px/cell (4096px-wide sheet), low 128px (2048px-wide sheet). Increasing atlas resolution cannot solve tiny normal-view silhouettes and must not silently exceed hardware/storage limits. Reuse geometry/materials, instance static decoration, cull fine detail and measure actual draw calls, triangles, textures, downloads, heap and successful render submissions. Contact/AO decals must be named honestly; do not claim dynamic physical shadows or physical-display FPS. Native-care and complete-art readiness stay separate from the <=5s core-map target under the existing mobile emulation.
 
-## Living micro-feature checklist — 1/30 (3.3%)
+## Living micro-feature checklist - 2/30 (6.7%)
 
 - [x] A01 Source, art/license inventory and immutable baseline identity recorded; no GPU work or user changes disturbed.
-- [ ] A02 Fixed-camera actual baseline desktop/phone captures and renderer/download profile, in a parent-coordinated slot.
+- [x] A02 Fixed-camera actual baseline desktop/phone captures and renderer/download profile, in a parent-coordinated slot.
 - [ ] A03 Calibrate and lock palette, silhouettes, solar/light/color-space and measurable budgets against that baseline.
 - [ ] B01 Cow authoring rig: readable body/head/coat, six native actions, four directions, high/low atlases without edge/floor clipping.
 - [ ] B02 Crafted barn shell/interior/roof and actual expanded/shade/sanitation upgrades; correct cutaway and selection.
@@ -59,6 +59,17 @@ The existing atlas contract declares exactly 60 MiB combined high+low RGBA stora
 - [ ] E04 Live cold/warm loading and actual encoding; distinguish map/care/art readiness and emulation/physical limits.
 - [ ] E05 Close evidence/checklist, retain failures and a V5-capable 3D-only rollback; report exact source/deployment and limitations.
 
-Current checkpoint: A01 complete; art direction is drafted and the cow prototype is uninstalled. The new original authoring prototype paints coat patches on the actual rounded body surface, uses a larger muzzle, shorter articulated legs and grounded folded-rest poses. CPU checks pass 24 deterministic poses x four camera headings with the current high/low frame margins; these are geometry checks, not rendered alpha/pixel or art-quality acceptance. An initial bounds check counted invisible rest anatomy; the acceptance check now traverses actual visible vertices, keeping its floor/frame tolerance unchanged. Existing asset provenance and the Three MIT notice verify unchanged.
+Current checkpoint: A01-A02 complete; art direction is drafted and the cow prototype is uninstalled. The new original authoring prototype paints coat patches on the actual rounded body surface, uses a larger muzzle, shorter articulated legs and grounded folded-rest poses. CPU checks pass 24 deterministic poses x four camera headings with the current high/low frame margins; these are geometry checks, not rendered alpha/pixel or art-quality acceptance. An initial bounds check counted invisible rest anatomy; the acceptance check now traverses actual visible vertices, keeping its floor/frame tolerance unchanged. Existing asset provenance and the Three MIT notice verify unchanged.
 
-The baseline runner is prepared but unrun. It refuses to launch without a parent-confirmed slot and explicit UTC deadline, uses a separate OS-assigned loopback port and fresh synthetic contexts, captures normal135% and separately labelled cow-focus views, and records actual renderer.info counts. It does not estimate FPS or VRAM bytes. A02 and all visual/performance claims await that exclusive slot. No build, atlas generation, browser automation, soak, push or deployment has been performed for this upgrade.
+The baseline runner completed 32 actual PNG captures: four viewports x four headings x normal135%/separately labelled cow-focus220%. Frozen mixed fixture tick1224/weather hot was used throughout. All four contexts retained exact primary save bytes, one simulation interval and one canvas; all11 actors were ready. The successful report has no application errors and did not exceed its deadline. Evidence is ignored `qa-artifacts/cozy-world-v1/baseline/baseline.json` plus adjacent PNGs. Desktop normal, desktop cow-focus and phone normal pixels were inspected: an empty dark-green board, tiny normal-view animals, cubic foliage and little material depth confirm the art-direction problem. No new art acceptance is claimed.
+
+| Viewport | Atlas | Normal draw calls / triangles | Cow-focus draw calls / triangles | Resource encoded bytes | Resource transfer bytes |
+| --- | --- | --- | --- | --- | --- |
+| 1900x741 | high | 415 / 6256 | 281 / 4712 | 1860532 | 1867132 |
+| 1440x900 | high | 415 / 6256 | 277 / 4664 | 1877074 | 1883974 |
+| 390x844 emulation | low | 370 / 5392 | 340 / 5064 | 910000 | 916900 |
+| 568x320 emulation | low | 372 / 5416 | 242 / 3920 | 910000 | 916900 |
+
+These are real `renderer.info` submissions for heading0, not FPS or physical-device results. Each reports four geometries, four textures and four shader programs, sRGB output and no tone mapping; texture counts are not VRAM bytes. Network totals sum the report's browser Resource Timing entries across capture navigation, not a controlled mobile loading benchmark or complete network/HAR accounting. A03 must set budgets from these measurements before increasing detail.
+
+The first instrumentation attempt incorrectly hooked `WebGLRenderer.prototype.render`, while the renderer defines that method on each instance. Its timeout report is retained as `qa-artifacts/cozy-world-v1/baseline-instrumentation-failure.json`; cleanup closed its browser/server. The corrected public `Scene.onAfterRender` hook records the actual renderer after drawing; its rerun passed. The runner refuses launches without a parent-confirmed slot and explicit UTC deadline. No build, atlas generation, soak, push or deployment has been performed for this upgrade. Full regression, controlled loading/performance and physical Android testing remain unrun.
