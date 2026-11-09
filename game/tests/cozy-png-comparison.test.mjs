@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {PNG} from '../../node_modules/playwright-core/lib/utilsBundle.js';import {compareCozyPng} from '../../tools/compare-cozy-png.mjs';
+test('visual gate compares decoded exact RGBA, detects one changed channel and rejects different dimensions',()=>{
+ const a=new PNG({width:2,height:2});a.data.fill(255);const before=PNG.sync.write(a);assert.equal(compareCozyPng(before,before).exact,true);a.data[5]=254;const changed=compareCozyPng(before,PNG.sync.write(a));assert.equal(changed.exact,false);assert.equal(changed.changedPixels,1);assert.equal(changed.maxChannelDelta,1);assert.notEqual(changed.referenceRGBA,changed.candidateRGBA);assert.throws(()=>compareCozyPng(before,PNG.sync.write(new PNG({width:1,height:2}))),/width differs/);
+});

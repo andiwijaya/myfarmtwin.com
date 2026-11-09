@@ -36,7 +36,7 @@ export function createCropMeshes(e,material){
  for(const [plant,leaves]of canopies){
   const stem=parts.find(p=>p.plant===plant&&(p.feature==='lettuce-heart'||p.feature==='tomato-stem'));if(!stem)throw new Error('Missing native plant anchor');
   const relative=leaves.map(p=>({...convert(p),x:p.x-stem.x,y:p.y-.12,z:p.z-stem.z}));
-  for(const mesh of compileWorldParts(relative,material)){mesh.position.set(stem.x,.12,stem.z);mesh.userData.cropLeaf=true;mesh.userData.cropLeafCount=leaves.length;mesh.userData.restZ=0;meshes.push(mesh);}
+  for(const mesh of compileWorldParts(relative,material,{preserveFaces:true})){mesh.position.set(stem.x,.12,stem.z);mesh.userData.cropLeaf=true;mesh.userData.cropLeafCount=leaves.length;mesh.userData.restZ=0;meshes.push(mesh);}
  }
  return meshes;
 }
