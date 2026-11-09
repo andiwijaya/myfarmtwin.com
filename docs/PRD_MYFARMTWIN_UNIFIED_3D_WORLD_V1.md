@@ -7,6 +7,8 @@
 
 **Follow-up kamera, 8 November2026:** 6/6 selesai dan live setelah otorisasi “Ok, deploy bud”. Source final `ee47d53`, deployment `544d6f3b`, fungsi desktop/HP/save terverifikasi; hardening cache/Brotli menurunkan cold-map emulasi mobile dari 5,80s ke 2,45s. [Bukti dan batas pengujian](UNIFIED_WORLD_CAMERA_WORKSPACE.md). Hitungan original82/82 tidak diubah; tidak ada klaim uji perangkat fisik.
 
+**Upgrade visual cozy, 9 November2026:** pekerjaan kualitas art baru berjalan pada `cozy-world-v1`; [living checklist 30 micro-feature](PRD_MYFARMTWIN_COZY_VISUAL_V1.md). Kandang sapi menjadi hard gate visual sebelum perluasan gaya. Checkpoint engineering lama bukan klaim bahwa art baru selesai; slot browser/build berat harus dikoordinasikan dengan parent karena Zebra diprioritaskan.
+
 **Website:** https://myfarmtwin.com/
 
 **Game:** https://myfarmtwin.com/play/
