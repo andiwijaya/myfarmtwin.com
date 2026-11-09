@@ -3,7 +3,7 @@
   "species": "fish",
   "lod": "low",
   "image": "fish.low.png",
-  "imageSha256": "46c17c48d4325a41ea24555b90069ada23e4a891e93a3e9a8f154c51c8f91b09",
+  "imageSha256": "5dab734cfff3816d7f15e495660b784a8c63b7c601702ec180c94d5c67e5a6d5",
   "cell": 48,
   "columns": 16,
   "width": 768,
@@ -24,7 +24,7 @@
   ],
   "source": {
     "generator": "myfarmtwin-world-atlas-v1",
-    "modelSha256": "ac7e9ba1f03a57520457083b4a1016f93d0fd57b88a4467ca8cb2206106e936f",
+    "modelSha256": "c27704aafd558dc8be09719d28090b2fd4710d8970a649b7397cd30429174e55",
     "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
     "three": "0.187.0",
     "chromium": "156.0.8078.80",
