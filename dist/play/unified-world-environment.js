@@ -1,20 +1,25 @@
-import {WORLD_STYLE as S} from './unified-world-style.js';
+import {COZY_ART} from './unified-cozy-art.js';
 import {ZONE_REGISTRY} from './unified-world-registry.js';
 import {chickenFenceParts} from './unified-chicken-layout.js';
 /** @typedef {{x:number,y:number,z:number,width:number,height:number,depth:number,color:string,rotation?:number,pitch?:number,tilt?:number,opacity?:number,fine?:boolean,fixed?:boolean,startupOptional?:boolean,feature?:string,shape?:'box'|'gable'|'bevel'|'cylinder'|'foliage'|'surface'|'disc'|'leaf',coveredTop?:boolean}} EnvironmentPart */
 /** Bounded paving inside the existing path footprint. No new route or land grant.
  * @param {{x:number,z:number,width:number,depth:number}} path @returns {EnvironmentPart[]} */
 export function pathDetailParts(path){
- const horizontal=path.width>=path.depth,length=horizontal?path.width:path.depth,cross=horizontal?path.depth:path.width,n=Math.min(8,Math.max(1,Math.floor(length/2.6))),parts=/** @type {EnvironmentPart[]} */([]);
- for(const side of [-1,1])parts.push({x:path.x+(horizontal?0:side*(cross/2-.035)),y:.031,z:path.z+(horizontal?side*(cross/2-.035):0),width:horizontal?length:.055,height:.012,depth:horizontal?.055:length,color:'#a48c60'});
- for(let i=0;i<n;i++){const along=(i-(n-1)/2)*length/n;parts.push({x:path.x+(horizontal?along:0),y:.036,z:path.z+(horizontal?0:along),width:horizontal?Math.min(.7,length/n*.6):cross*.72,height:.015,depth:horizontal?cross*.72:Math.min(.7,length/n*.6),color:i%2?'#dfcda4':'#d9c398',fine:true});}return parts;
+ const horizontal=path.width>=path.depth,length=horizontal?path.width:path.depth,cross=horizontal?path.depth:path.width,n=Math.min(5,Math.max(1,Math.floor(length/3))),parts=/** @type {EnvironmentPart[]} */([]);
+ for(const side of [-1,1])parts.push({x:path.x+(horizontal?0:side*(cross/2-.05)),y:.0001,z:path.z+(horizontal?side*(cross/2-.05):0),width:horizontal?length:.09,height:.0001,depth:horizontal?.09:length,color:'#b69b68',shape:'surface',fixed:true,feature:'trail-edge'});
+ for(let i=0;i<n;i++){const along=(i-(n-1)/2)*length/n;parts.push({x:path.x+(horizontal?along:0),y:.00012,z:path.z+(horizontal?0:along),width:horizontal?Math.min(1.4,length/n*.6):cross*.55,height:.0001,depth:horizontal?cross*.55:Math.min(1.4,length/n*.6),color:i%2?'#d5bc8a':'#ceb37f',shape:'disc',fixed:true,fine:true,feature:'worn-trail'});}return parts;
 }
-/** Faceted foliage stays inside the already-audited boundary tree footprint.
+/** Rounded original trees retain the four audited boundary footprints. Branches
+ * connect to trunks/crowns; their contact shade is a modest flat decal.
  * @param {{x:number,z:number}} tree @returns {EnvironmentPart[]} */
-export function treeParts(tree){const{x,z}=tree;return[
- {x:x+.2,y:.003,z:z-.2,width:1.35,height:.003,depth:1.05,color:'#344b38',opacity:.1},
- {x,y:.8,z,width:.22,height:1.6,depth:.22,color:S.trunk},
- ...[[-.3,1.9,0],[.3,2,0],[0,1.8,-.3],[0,1.9,.3],[0,2.5,0]].map(([dx,y,dz],i)=>({x:x+dx,y,z:z+dz,width:i===4?.8:.72,height:i===4?.65:.85,depth:i===4?.8:.72,color:i%2?'#6b8c49':'#789b50',fine:i===3}))
+export function treeParts(tree){const{x,z}=tree,p=COZY_ART.palette;return[
+ {x:x+.08,y:.003,z:z-.08,width:1.25,height:.0002,depth:1.05,color:p.shade,opacity:.12,shape:'disc',feature:'tree-contact'},
+ {x,y:.825,z,width:.16,height:1.65,depth:.18,color:p.woodDark,shape:'cylinder',fixed:true,feature:'tree-trunk'},
+ {x:x-.13,y:1.45,z,width:.08,height:.7,depth:.09,color:p.woodDark,tilt:.5,fixed:true,fine:true,feature:'tree-branch'},
+ {x:x+.13,y:1.6,z,width:.08,height:.7,depth:.09,color:p.wood,tilt:-.5,fixed:true,fine:true,feature:'tree-branch'},
+ {x:x-.08,y:2.12,z:z-.13,width:1.16,height:1.1,depth:1,color:'#799a55',shape:'foliage',fixed:true,feature:'tree-crown'},
+ {x:x+.15,y:2.3,z:z+.12,width:.96,height:.95,depth:1.03,color:'#8ca75e',shape:'foliage',fixed:true,feature:'tree-crown'},
+ {x:x-.1,y:2.75,z:z+.06,width:.92,height:.85,depth:.9,color:'#a3ba6b',shape:'foliage',fixed:true,feature:'tree-crown'}
  ];}
 /** Native plot-owned timber rim and furrows, contained within its footprint.
  * @param {{width:number,depth:number,value:number}} plot @returns {EnvironmentPart[]} */

@@ -50,6 +50,20 @@
   ],
   "proceduralSources": [
     {
+      "path": "game/client/unified-cozy-market.js",
+      "bytes": 3241,
+      "sha256": "fec5c6e0e5c8bb03e3fb081164dab13899d183d77e401a867e1669476de0a378",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-cozy-landscape.js",
+      "bytes": 3664,
+      "sha256": "92459155bf7059b35c7166a7be9031338fdd1dcada707e720b01205e79835dad",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
       "path": "game/client/unified-cozy-fish.js",
       "bytes": 5827,
       "sha256": "72b95d85242c6f5e3afa3c43fe4a3b7b5af9f30929c301c37cc7a1d9baeec908",
@@ -142,8 +156,8 @@
     },
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 60231,
-      "sha256": "5b2375ac2019c5af5a924015c3db5d8c6b64a3acdd06983c7e7fbe70f7eb9869",
+      "bytes": 61601,
+      "sha256": "75bbb3a0c0046d1bd6f7e95b08dd8b1f82108fa1df0dddd4c4bae6402c769d65",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -156,15 +170,15 @@
     },
     {
       "path": "game/client/unified-world-environment.js",
-      "bytes": 3180,
-      "sha256": "ccaede3ac66e7108638d8f1cfd14f3d0167990be9f113b61d236d9a0b360314a",
+      "bytes": 3847,
+      "sha256": "65516b9ae3b14bd7b32693952fda9968b4b1a7871d0909c545bb35ba502b994b",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
       "path": "game/client/unified-world-structures.js",
-      "bytes": 3404,
-      "sha256": "7be346ccd389c9c284052528e6412c15ed3348bcd579dbff9d08f8164361bb3f",
+      "bytes": 678,
+      "sha256": "aa1da5a4e1844f9799eb1e582f5859b5d15fa669d5f4680f3e85ee8e856df2ab",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -191,8 +205,8 @@
     },
     {
       "path": "game/client/unified-world-batches.js",
-      "bytes": 2210,
-      "sha256": "f8a31b44615875a361ffcedd43205bb10955f5a18ab5c956fb85e9dd977c1b75",
+      "bytes": 2266,
+      "sha256": "442c3188c28f65c6f7c00d2539409e53e876f31777e97f17670f878b6d9218e4",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
