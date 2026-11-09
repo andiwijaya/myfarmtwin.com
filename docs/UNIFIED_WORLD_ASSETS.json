@@ -142,8 +142,8 @@
     },
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 59868,
-      "sha256": "98cbc6fc7635585b523c0cf2486435b0820684ea1689c8dfa19fc10949269a67",
+      "bytes": 60231,
+      "sha256": "5b2375ac2019c5af5a924015c3db5d8c6b64a3acdd06983c7e7fbe70f7eb9869",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
