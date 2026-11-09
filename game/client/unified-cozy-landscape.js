@@ -1,5 +1,5 @@
 import {BoxGeometry,Mesh,MeshLambertMaterial,Color,Float32BufferAttribute} from 'three';
-import {COZY_ART} from './unified-cozy-art.js';import {WORLD_STYLE} from './unified-world-style.js';import {ZONE_REGISTRY,WORLD_BOUNDS} from './unified-world-registry.js';
+import {COZY_ART} from './unified-cozy-art.js';import {WORLD_STYLE} from './unified-world-style.js';import {WORLD_BOUNDS} from './unified-world-registry.js';
 /** @typedef {import('./unified-world-environment.js').EnvironmentPart} Part */
 export const LANDSCAPE_ORDER=Object.freeze({terrain:-4,ground:-3,path:-2,detail:-1});
 /** Flat colour layers draw before every native object and never write depth.
@@ -13,17 +13,14 @@ export function createCozyTerrain(material){
  for(let i=0;i<position.count;i++){if(normal.getY(i)>.5)color.copy(grass);else if(normal.getY(i)<-.5)color.copy(earth);else color.lerpColors(earth,edge,position.getY(i)+.5).lerp(grass,position.getY(i)>.49?.55:0);colors.push(color.r,color.g,color.b);}
  geometry.setAttribute('color',new Float32BufferAttribute(colors,3));geometry.userData.worldOwned=true;const mesh=new Mesh(geometry,material);mesh.position.set((b.minX+b.maxX)/2,-.3,(b.minZ+b.maxZ)/2);mesh.scale.set(b.maxX-b.minX,.6,b.maxZ-b.minZ);mesh.renderOrder=LANDSCAPE_ORDER.terrain;mesh.userData.worldGround=true;mesh.userData.canvasLayer=0;return mesh;
 }
-/** Decorative ground paint, not pasture stock, soil moisture or land unlocks.
- * A dedicated background material draws these flat surfaces at y=0;
- * registered native pasture/soil/contact surfaces remain above them.
- * @param {Readonly<import('./unified-world-model.js').WorldSnapshot>} snapshot @returns {Part[]} */
-export function landscapeGroundParts(snapshot){
- const parts=/** @type {Part[]} */([]);
- for(const[zone,started,color]of /** @type {[keyof typeof ZONE_REGISTRY,boolean,string][]} */([['field',true,'#a2b875'],['chicken',snapshot.chickenStarted,'#a9b880'],['goat',snapshot.goatStarted,'#91a96b'],['cow',snapshot.cowStarted,'#91ac70'],['fish',snapshot.fishStarted,'#9eaf7b']])){
-  if(!started)continue;const b=ZONE_REGISTRY[zone].bounds;parts.push({x:(b.minX+b.maxX)/2,y:0,z:(b.minZ+b.maxZ)/2,width:b.maxX-b.minX-.4,height:.0001,depth:b.maxZ-b.minZ-.4,color,shape:'disc',fixed:true,startupOptional:true,feature:'owned-ground-'+zone});
- }
- parts.push({x:5,y:0,z:1,width:5.5,height:.0001,depth:4.4,color:'#c0aa78',shape:'disc',fixed:true,startupOptional:true,feature:'market-approach'});return parts;
-}
+/** Local foot traffic around the existing central Market, not native stock,
+ * soil moisture or land unlocks. Keep the same continuous turf across districts:
+ * broad colour discs leave angular remnants beside rectangular native pasture
+ * and make the single world look like separate islands. Native beds, forage,
+ * existing care pads and connected trails supply the local ground hierarchy.
+ * This background paint stays at y=0 and never covers native contact surfaces.
+ * @returns {Part[]} */
+export function landscapeGroundParts(){return[{x:5,y:0,z:1,width:5.5,height:.0001,depth:4.4,color:'#c0aa78',shape:'disc',fixed:true,startupOptional:true,feature:'market-approach'}];}
 /** Same bilingual camera-sign owners/locations; no simulation entities added.
  * @param {{width:number,depth:number}} sign @returns {Part[]} */
 export function waymarkParts(sign){const p=COZY_ART.palette;return[

@@ -11,11 +11,11 @@ test('terrain retains exact flat native top and world bounds, paints only its si
 
 test('background paint cannot write native depth and every paint layer sorts before native geometry',()=>{const paint=createLandscapePaintMaterial();assert.equal(paint.depthWrite,false);assert.equal(paint.depthTest,false);assert.equal(paint.transparent,false);assert.equal(paint.vertexColors,true);assert.ok(LANDSCAPE_ORDER.terrain<LANDSCAPE_ORDER.ground&&LANDSCAPE_ORDER.ground<LANDSCAPE_ORDER.path&&LANDSCAPE_ORDER.path<LANDSCAPE_ORDER.detail&&LANDSCAPE_ORDER.detail<0);paint.dispose();});
 
-test('ground paint follows only existing visited zones, leaves reserved land empty and cannot overpaint native pasture surfaces',()=>{
- const fresh=createState(),before=serialize(fresh),initial=landscapeGroundParts(readWorldSnapshot(fresh));assert.deepEqual(initial.map(p=>p.feature),['owned-ground-field','market-approach']);assert.equal(serialize(fresh),before);
- const saved=serialize(state),parts=landscapeGroundParts(snapshot);assert.equal(parts.filter(p=>p.feature.startsWith('owned-ground-')).length,5);
+test('ground paint stays at the shared Market and leaves native districts, pasture and reserved land unchanged',()=>{
+ const fresh=createState(),before=serialize(fresh),initial=landscapeGroundParts();assert.deepEqual(initial.map(p=>p.feature),['market-approach']);assert.equal(serialize(fresh),before);
+ const saved=serialize(state),parts=landscapeGroundParts();assert.deepEqual(parts,initial);assert.equal(parts.some(p=>p.feature.startsWith('owned-ground-')),false);
  const group=new Group();group.add(...compileWorldParts(parts,material));assert.ok(group.children.length<=1);for(const mesh of group.children){const p=mesh.geometry.getAttribute('position');for(let i=0;i<p.count;i++)assert.ok(Math.abs(p.getY(i))<1e-15);assert.equal(mesh.userData.entityId,undefined);}
- for(const p of parts){assert.equal(p.shape,'disc');assert.ok(containsBounds(WORLD_BOUNDS,footprint(p)));assert.equal(overlaps(footprint(p),ZONE_REGISTRY.future.bounds),false);assert.ok(p.y<.0003);}
+ for(const p of parts){assert.equal(p.shape,'disc');assert.ok(containsBounds(WORLD_BOUNDS,footprint(p)));assert.equal(overlaps(footprint(p),ZONE_REGISTRY.future.bounds),false);for(const zone of ['field','chicken','goat','cow','fish'])assert.equal(overlaps(footprint(p),ZONE_REGISTRY[zone].bounds),false);assert.ok(p.y<.0003);}
  for(const p of [MARKET_PLAZA,...WORLD_PATHS].flatMap(pathDetailParts))assert.ok(p.y<.0003);
  for(const e of snapshot.entities.filter(e=>e.kind==='paddock'))assert.ok(goatPaddockParts(e).find(p=>p.feature==='native-pasture').y>Math.max(...parts.map(p=>p.y)));
  disposePartMeshes(group);assert.equal(serialize(state),saved);
