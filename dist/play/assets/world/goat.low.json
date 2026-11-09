@@ -3,7 +3,7 @@
   "species": "goat",
   "lod": "low",
   "image": "goat.low.png",
-  "imageSha256": "773084814e062c093a55b9ac822d411cebe344d034be38d14bf74dc2f7f2ae4b",
+  "imageSha256": "99340357eba0c81d78e2fbe6b122c6bf52a49322d06caf196471d9bda7cb1155",
   "cell": 96,
   "columns": 16,
   "width": 1536,
@@ -27,7 +27,7 @@
   ],
   "source": {
     "generator": "myfarmtwin-world-atlas-v1",
-    "modelSha256": "882ae9514c47743c3847a4c9fb5e109945bc012fcacd86a2d4ba8e4fbd18dcf9",
+    "modelSha256": "ef826e65554ee70038f4bb0b8ef9ddd5baed1b9bfbbfcb725ba176030302872d",
     "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
     "three": "0.187.0",
     "chromium": "156.0.8078.80",

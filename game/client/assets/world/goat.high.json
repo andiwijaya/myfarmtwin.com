@@ -3,7 +3,7 @@
   "species": "goat",
   "lod": "high",
   "image": "goat.high.png",
-  "imageSha256": "9787a3bc103d9ab5bb08c3a95077e165fc1533705d256f740676a6e668b705ab",
+  "imageSha256": "442a96429dcb2a2ad3e5acfc6d2645ad145d92d2e9fb4b2e2b8b9695695187da",
   "cell": 192,
   "columns": 16,
   "width": 3072,
@@ -27,7 +27,7 @@
   ],
   "source": {
     "generator": "myfarmtwin-world-atlas-v1",
-    "modelSha256": "882ae9514c47743c3847a4c9fb5e109945bc012fcacd86a2d4ba8e4fbd18dcf9",
+    "modelSha256": "ef826e65554ee70038f4bb0b8ef9ddd5baed1b9bfbbfcb725ba176030302872d",
     "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
     "three": "0.187.0",
     "chromium": "156.0.8078.80",

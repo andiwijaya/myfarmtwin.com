@@ -18,14 +18,14 @@ function leafGeometry(){
 export function compileWorldParts(parts,material){
  /** @type {Map<string,BufferGeometry>} */const sources=new Map();
  /** @param {import('./unified-world-environment.js').EnvironmentPart['shape']} shape */
- const sourceFor=shape=>{const key=shape==='cylinder'||shape==='foliage'||shape==='surface'||shape==='disc'||shape==='leaf'?shape:'box';let geometry=sources.get(key);if(!geometry){geometry=key==='cylinder'?new CylinderGeometry(.5,.5,1,12):key==='foliage'?new SphereGeometry(.5,8,6):key==='surface'?new PlaneGeometry(1,1).rotateX(-Math.PI/2):key==='disc'?new CircleGeometry(.5,12).rotateX(-Math.PI/2):key==='leaf'?leafGeometry():new BoxGeometry(1,1,1,2,2,2);sources.set(key,geometry);}return geometry;};
+ const sourceFor=shape=>{const key=shape==='bevel'?'bevel':shape==='cylinder'||shape==='foliage'||shape==='surface'||shape==='disc'||shape==='leaf'?shape:'box';let geometry=sources.get(key);if(!geometry){geometry=key==='cylinder'?new CylinderGeometry(.5,.5,1,12):key==='foliage'?new SphereGeometry(.5,8,6):key==='surface'?new PlaneGeometry(1,1).rotateX(-Math.PI/2):key==='disc'?new CircleGeometry(.5,12).rotateX(-Math.PI/2):key==='leaf'?leafGeometry():key==='bevel'?new BoxGeometry(1,1,1,2,2,2):new BoxGeometry(1,1,1);sources.set(key,geometry);}return geometry;};
  /** @type {Map<string,{positions:number[],normals:number[],colors:number[],fixed:boolean,fine:boolean,optional:boolean,features:Set<string>,counts:Record<string,number>}>} */
  const groups=new Map();
  const color=new Color(),matrix=new Matrix4(),normals=new Matrix3(),rotation=new Euler(),point=new Vector3(),direction=new Vector3(),inside=new Vector3();
  try{for(const part of parts){
   if(![part.x,part.y,part.z,part.width,part.height,part.depth].every(Number.isFinite)||Math.min(part.width,part.height,part.depth)<=0)throw new Error('Invalid authored part dimensions');
   if(part.opacity!==undefined&&part.opacity!==1)throw new Error('Transparent parts require independent sorting');
-  if(part.shape&&!['bevel','gable','cylinder','foliage','surface','disc','leaf'].includes(part.shape))throw new Error('Unsupported static shape');
+  if(part.shape&&!['box','bevel','gable','cylinder','foliage','surface','disc','leaf'].includes(part.shape))throw new Error('Unsupported static shape');
   const source=sourceFor(part.shape),position=source.getAttribute('position'),normal=source.getAttribute('normal'),indices=source.index;if(!indices)throw new Error('Missing indexed source geometry');
   const fixed=!!part.fixed,fine=!!part.fine,optional=part.startupOptional??!['body','roof','gable-infill','barn-floor','interior-post'].includes(part.feature||''),key=[fixed,fine,optional].join('|');
   let batch=groups.get(key);if(!batch){batch={positions:[],normals:[],colors:[],fixed,fine,optional,features:new Set(),counts:{}};groups.set(key,batch);}if(part.feature){batch.features.add(part.feature);batch.counts[part.feature]=(batch.counts[part.feature]||0)+1;}

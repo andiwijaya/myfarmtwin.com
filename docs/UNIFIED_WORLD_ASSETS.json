@@ -50,6 +50,13 @@
   ],
   "proceduralSources": [
     {
+      "path": "game/client/unified-cozy-goat.js",
+      "bytes": 8697,
+      "sha256": "9547ac5c105f507d01484de49834804c7cc6d32cea54d5d4fddf77cb87053e9b",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
       "path": "game/client/unified-cozy-chicken.js",
       "bytes": 9774,
       "sha256": "129f4b475fb0ec5ab6c3a5903e7656a03d0671ee9f4bd60d79c8139ef561da4f",
@@ -114,15 +121,15 @@
     },
     {
       "path": "game/client/unified-world-part-meshes.js",
-      "bytes": 6225,
-      "sha256": "36ece28cc88042f68e54b6afed275c5a387e4aac069cfbf69b5b8fa82e3ff6ef",
+      "bytes": 6292,
+      "sha256": "7545bc51ca0f167cccc14a993ff81249b3579c69f2cb67cea841d22db27e318f",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 61811,
-      "sha256": "d33ae00670d7cab8f206ce010224c89902bbcb61914a6c60a58931e73c757e90",
+      "bytes": 60333,
+      "sha256": "49e8515f72c1f6944973efa291d0d3d4a1f8c6140fc5e4ab35641cf78beabdcc",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -135,15 +142,15 @@
     },
     {
       "path": "game/client/unified-world-environment.js",
-      "bytes": 3174,
-      "sha256": "04be7cb49c8accd45cab82b25475827306e64905112be6135553a4c3e4dfd4f4",
+      "bytes": 3180,
+      "sha256": "ccaede3ac66e7108638d8f1cfd14f3d0167990be9f113b61d236d9a0b360314a",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
       "path": "game/client/unified-world-structures.js",
-      "bytes": 3292,
-      "sha256": "9c8ddbf4cd8baaf2d9779cd5bbdf6986a0771340acdeae4bc06fe6d26ba0b4c1",
+      "bytes": 3404,
+      "sha256": "7be346ccd389c9c284052528e6412c15ed3348bcd579dbff9d08f8164361bb3f",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -282,8 +289,8 @@
     },
     {
       "path": "game/client/unified-world-sprites.js",
-      "bytes": 17721,
-      "sha256": "ceecd5e137afeb1bc55273ed9c73a8700815d64c806c079d94d9317aaad68c07",
+      "bytes": 17008,
+      "sha256": "f85c278239d3da99aa4c632544dc9b8eeb1a4c707ddd8e031b7fece2983b4fd5",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -515,19 +522,19 @@
     {
       "path": "game/client/assets/world/goat.high.png",
       "metadata": "game/client/assets/world/goat.high.json",
-      "bytes": 491133,
-      "sha256": "9787a3bc103d9ab5bb08c3a95077e165fc1533705d256f740676a6e668b705ab",
-      "metadataSha256": "6526f66b0ce77ab54951ff100e56f2bf23ef8f5c4ffb3f510f1d6e397fa515fb",
+      "bytes": 599884,
+      "sha256": "442a96429dcb2a2ad3e5acfc6d2645ad145d92d2e9fb4b2e2b8b9695695187da",
+      "metadataSha256": "ac4de89c84582b0c26ee6aaa81b878f5c77372fc41812fa9cff04d3e359ebf02",
       "modulePath": "game/client/assets/world/goat.high.js",
-      "moduleSha256": "9d76fba63f6cff2a4a6845b6f7273519e2e36658630ce31966c830fa4bfceeef",
+      "moduleSha256": "c83c60564826150f54ad1db0db313a929271ed9dae2cc7c508352df69c92c798",
       "modelPath": "tools/art/goat.mjs",
-      "modelSha256": "882ae9514c47743c3847a4c9fb5e109945bc012fcacd86a2d4ba8e4fbd18dcf9",
+      "modelSha256": "ef826e65554ee70038f4bb0b8ef9ddd5baed1b9bfbbfcb725ba176030302872d",
       "generatorPath": "tools/generate-world-atlas.mjs",
       "generatorSha256": "abd813f139ceb50673069a76a99ec798f0140bb0545f9874cfbb563da16a778e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
-        "modelSha256": "882ae9514c47743c3847a4c9fb5e109945bc012fcacd86a2d4ba8e4fbd18dcf9",
+        "modelSha256": "ef826e65554ee70038f4bb0b8ef9ddd5baed1b9bfbbfcb725ba176030302872d",
         "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
         "three": "0.187.0",
         "chromium": "156.0.8078.80",
@@ -537,19 +544,19 @@
     {
       "path": "game/client/assets/world/goat.low.png",
       "metadata": "game/client/assets/world/goat.low.json",
-      "bytes": 188257,
-      "sha256": "773084814e062c093a55b9ac822d411cebe344d034be38d14bf74dc2f7f2ae4b",
-      "metadataSha256": "a5a1931c1cd5ebfd49915d9c8217c1263182ee768158579c359332537c8439a0",
+      "bytes": 197513,
+      "sha256": "99340357eba0c81d78e2fbe6b122c6bf52a49322d06caf196471d9bda7cb1155",
+      "metadataSha256": "6f4a47e196c42c537c4c26df0fdb780feff10fd8bc14b0cf640847f6b3c7b372",
       "modulePath": "game/client/assets/world/goat.low.js",
-      "moduleSha256": "72dd6f85b9a0817826e023ab3e338c824be5c5392ec82e15955d277daec879b7",
+      "moduleSha256": "ce196dc7aca02abed4ee86b1a8fe19207c888131cab362aaacc74937087ba0d8",
       "modelPath": "tools/art/goat.mjs",
-      "modelSha256": "882ae9514c47743c3847a4c9fb5e109945bc012fcacd86a2d4ba8e4fbd18dcf9",
+      "modelSha256": "ef826e65554ee70038f4bb0b8ef9ddd5baed1b9bfbbfcb725ba176030302872d",
       "generatorPath": "tools/generate-world-atlas.mjs",
       "generatorSha256": "abd813f139ceb50673069a76a99ec798f0140bb0545f9874cfbb563da16a778e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
-        "modelSha256": "882ae9514c47743c3847a4c9fb5e109945bc012fcacd86a2d4ba8e4fbd18dcf9",
+        "modelSha256": "ef826e65554ee70038f4bb0b8ef9ddd5baed1b9bfbbfcb725ba176030302872d",
         "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
         "three": "0.187.0",
         "chromium": "156.0.8078.80",

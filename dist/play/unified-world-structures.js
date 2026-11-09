@@ -1,12 +1,14 @@
 import {WORLD_STYLE as S} from './unified-world-style.js';
 import {cowBarnParts} from './unified-cow-barn.js';
 import {chickenCoopParts} from './unified-cozy-chicken.js';
+import {goatShelterParts} from './unified-cozy-goat.js';
 /** Actual owned building silhouette/upgrade detail, sharing the same unit cube.
  * @param {Readonly<import('./unified-world-model.js').WorldEntity>} e
  * @returns {import('./unified-world-environment.js').EnvironmentPart[]} */
 export function structureParts(e){
  if(e.kind==='cowBarn')return cowBarnParts(e);
  if(e.kind==='coop')return chickenCoopParts(e);
+ if(e.kind==='goatShelter')return goatShelterParts(e);
  if(!['market','goatShelter'].includes(e.kind))return[];
  const w=e.width,d=e.depth,h=e.height,market=e.kind==='market',rise=market?.55:.65,run=w/2+.15,slope=Math.atan2(rise,run),panel=Math.hypot(run,rise),cream='#fff1cd',dark='#5f5941',wood=S.trunk,parts=/** @type {import('./unified-world-environment.js').EnvironmentPart[]} */([]);
  /** @param {number} x @param {number} y @param {number} z @param {number} width @param {number} height @param {number} depth @param {string} color @param {{tilt?:number,rotation?:number,fixed?:boolean,feature?:string,fine?:boolean,shape?:'gable',coveredTop?:boolean}} [extra] */
