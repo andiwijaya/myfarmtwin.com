@@ -2,6 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';import {rea
 import {Group,MeshLambertMaterial,DoubleSide,Vector3,Raycaster,OrthographicCamera,Box3} from 'three';
 import {compileWorldParts,disposePartMeshes} from '../client/unified-world-part-meshes.js';import {configureFixedFarmParts,FARM_PART_MAX_Y_SCALE} from '../client/unified-world-part-pruning.js';import {WORLD_ART} from '../client/unified-world-art.js';import {createFarmCamera} from '../client/unified-world-camera.js';
 import {cowBarnParts} from '../client/unified-cow-barn.js';import {chickenCoopParts} from '../client/unified-cozy-chicken.js';import {goatShelterParts,goatPaddockParts} from '../client/unified-cozy-goat.js';import {createCropMeshes} from '../client/unified-cozy-crops.js';import {readWorldSnapshot} from '../client/unified-world-model.js';import {deserialize,serialize} from '../client/save-schema.js';
+import {cowCareParts} from '../client/unified-cow-care.js';import {cowSnapshot} from '../client/cow-scene-snapshot.js';import {createChickenCareMeshes} from '../client/unified-cozy-chicken.js';import {createGoatCareMeshes} from '../client/unified-cozy-goat.js';import {makeBasicWorldFarm} from '../../tools/unified-basic-world-farm.mjs';
 
 const plain=new MeshLambertMaterial({vertexColors:true}),pruned=configureFixedFarmParts(new MeshLambertMaterial({vertexColors:true}));
 const root=(parts,material)=>{const group=new Group();group.userData.entityId='same-native-owner';group.add(...compileWorldParts(parts,material));group.updateMatrixWorld(true);return group;};
@@ -41,6 +42,15 @@ test('rolling crop canopies explicitly retain every face while native static bed
  const e={id:'field.plot.0',zone:'field',kind:'plot',domainId:0,x:0,z:0,width:.92,depth:.92,height:.13,value:.9,covered:true,crop:{type:'lettuce',stage:3,progress:1,quality:.8}},before=new Group(),after=new Group();before.add(...createCropMeshes(e,plain));after.add(...createCropMeshes(e,pruned));let removed=0;
  for(let i=0;i<after.children.length;i++){const a=before.children[i],b=after.children[i],stats=b.geometry.userData.worldTriangleStats;removed+=stats.removed;if(!b.userData.cropLeaf)continue;assert.equal(stats.removed,0);assert.equal(stats.preserveFaces,true);for(const name of ['position','normal','color'])assert.deepEqual(b.geometry.getAttribute(name).array,a.geometry.getAttribute(name).array);}
  assert.ok(removed>0);disposePartMeshes(before);disposePartMeshes(after);
+});
+
+test('native quantity volumes preserve their actual vertex height and every face, not only original metadata bounds',()=>{
+ const state=makeBasicWorldFarm().state,snapshot=readWorldSnapshot(state,{cow:cowSnapshot(state)}),groups=[];
+ for(const e of snapshot.entities){
+  if(e.kind==='cowStation')for(const {part}of cowCareParts(e).fills){const root=new Group();root.add(...compileWorldParts([part],pruned,{preserveFaces:true}));groups.push(root);for(const mesh of root.children){const p=mesh.geometry.getAttribute('position');let low=Infinity,high=-Infinity;for(let i=0;i<p.count;i++){low=Math.min(low,p.getY(i));high=Math.max(high,p.getY(i));}assert.ok(Math.abs(high-low-part.height)<1e-6);assert.equal(mesh.geometry.userData.worldTriangleStats.removed,0);}}
+  if(e.kind==='station'||e.kind==='goatStation')for(const ratio of [.25,1]){const native={...e,value:(e.capacity||1)*ratio},root=new Group();root.add(...(e.kind==='station'?createChickenCareMeshes(native,pruned):createGoatCareMeshes(native,pruned)));groups.push(root);for(const mesh of root.children.filter(m=>m.userData.nativeFill)){const p=mesh.geometry.getAttribute('position');let low=Infinity,high=-Infinity;for(let i=0;i<p.count;i++){low=Math.min(low,p.getY(i));high=Math.max(high,p.getY(i));}assert.ok(Math.abs(high-low-mesh.userData.nativeFillHeight)<1e-6);assert.equal(mesh.geometry.userData.worldTriangleStats.removed,0);}}
+ }
+ assert.ok(groups.length>0);for(const root of groups)disposePartMeshes(root);
 });
 
 test('unconfigured or double-sided geometry is never pruned; the actual camera remains inside the supported elevation cone',()=>{

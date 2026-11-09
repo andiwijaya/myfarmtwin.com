@@ -13,7 +13,7 @@ try{
   else if(e.kind==='station'&&e.zone==='chicken')measure(e.id,m=>createChickenCareMeshes(e,m));
   else if(e.kind==='goatStation')measure(e.id,m=>createGoatCareMeshes(e,m));
   else if(e.kind==='paddock')measure(e.id,m=>compileWorldParts(goatPaddockParts(e),m));
-  else if(e.kind==='cowStation')measure(e.id,m=>{const parts=cowCareParts(e);return [...compileWorldParts(parts.shell,m),...parts.fills.flatMap(fill=>compileWorldParts([fill.part],m))];});
+  else if(e.kind==='cowStation')measure(e.id,m=>{const parts=cowCareParts(e);return [...compileWorldParts(parts.shell,m),...parts.fills.flatMap(fill=>compileWorldParts([fill.part],m,{preserveFaces:true}))];});
  }
  if(snapshot.cowStarted){measure('cow.fence',m=>compileWorldParts(cowFenceParts(),m));measure('cow.scenery',m=>compileWorldParts(cowYardParts(snapshot),m));}
  if(snapshot.goatStarted){measure('goat.fence',m=>compileWorldParts(goatFenceParts(),m));measure('goat.ground',m=>compileWorldParts(goatGroundParts(snapshot),m));}

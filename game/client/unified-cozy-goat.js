@@ -71,7 +71,7 @@ export function goatCareParts(e){
  * @param {Readonly<import('./unified-world-model.js').WorldEntity>} e @param {import('three').MeshLambertMaterial} material @returns {import('three').Mesh[]} */
 export function createGoatCareMeshes(e,material){
  const meshes=compileWorldParts(goatCareParts(e),material);
- if(e.kind==='goatStation'&&['hay','water'].includes(String(e.domainId))){const ratio=nativeFill(e.value,e.capacity),size=e.careUpgrade?1:.8;if(ratio>0)for(const mesh of compileWorldParts([{x:0,y:.24+.06*ratio,z:0,width:e.width*size*.75,height:.12*ratio,depth:e.depth*size*.75,color:e.domainId==='water'?'#76b9bf':COZY_ART.palette.straw,shape:'box',feature:'native-contents',startupOptional:false}],material)){mesh.userData.nativeFill=true;mesh.userData.fillRatio=ratio;mesh.userData.nativeFillHeight=.12*ratio;meshes.push(mesh);}}
+ if(e.kind==='goatStation'&&['hay','water'].includes(String(e.domainId))){const ratio=nativeFill(e.value,e.capacity),size=e.careUpgrade?1:.8;if(ratio>0)for(const mesh of compileWorldParts([{x:0,y:.24+.06*ratio,z:0,width:e.width*size*.75,height:.12*ratio,depth:e.depth*size*.75,color:e.domainId==='water'?'#76b9bf':COZY_ART.palette.straw,shape:'box',feature:'native-contents',startupOptional:false}],material,{preserveFaces:true})){mesh.userData.nativeFill=true;mesh.userData.fillRatio=ratio;mesh.userData.nativeFillHeight=.12*ratio;meshes.push(mesh);}}
  return meshes;
 }
 
