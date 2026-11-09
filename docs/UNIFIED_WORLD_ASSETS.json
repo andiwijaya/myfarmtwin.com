@@ -21,7 +21,7 @@
       "notice": "dist/play/vendor/three/LICENSE.txt"
     },
     {
-      "path": "dist/play/vendor/three/chunks/unified-world-webgl-MRH3HXHW.js",
+      "path": "dist/play/vendor/three/chunks/unified-world-webgl-RZSFKD5I.js",
       "bytes": 357275,
       "sha256": "f9981638d0beee5d46a223aa1baaebb14bceddd5ed33114493218389339523cf",
       "sourcePackage": "three@0.187.0",
@@ -49,6 +49,13 @@
     }
   ],
   "proceduralSources": [
+    {
+      "path": "game/client/unified-cozy-chicken.js",
+      "bytes": 9774,
+      "sha256": "129f4b475fb0ec5ab6c3a5903e7656a03d0671ee9f4bd60d79c8139ef561da4f",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
     {
       "path": "game/client/unified-cozy-crops.js",
       "bytes": 5042,
@@ -114,8 +121,8 @@
     },
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 62893,
-      "sha256": "1df01dfbeff3a44d884c4c16f92123a992566dc431849e5690db7c04ce0baecf",
+      "bytes": 61811,
+      "sha256": "d33ae00670d7cab8f206ce010224c89902bbcb61914a6c60a58931e73c757e90",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -135,8 +142,8 @@
     },
     {
       "path": "game/client/unified-world-structures.js",
-      "bytes": 3214,
-      "sha256": "ece7dfa21d850f28c5a2a3dc7bf3a66c02fc112e84a7154fb537135c6566a26c",
+      "bytes": 3292,
+      "sha256": "9c8ddbf4cd8baaf2d9779cd5bbdf6986a0771340acdeae4bc06fe6d26ba0b4c1",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -275,8 +282,8 @@
     },
     {
       "path": "game/client/unified-world-sprites.js",
-      "bytes": 17624,
-      "sha256": "161d3e4d72617512d946066cbcbfed7a6b05f1fd03d0e723ce7fb959afaeffc9",
+      "bytes": 17721,
+      "sha256": "ceecd5e137afeb1bc55273ed9c73a8700815d64c806c079d94d9317aaad68c07",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -376,19 +383,19 @@
     {
       "path": "game/client/assets/world/chicken.high.png",
       "metadata": "game/client/assets/world/chicken.high.json",
-      "bytes": 224386,
-      "sha256": "89c49fee676d623d2f8cd401d821db69c412b6b84fbb45dd193ad4321f7008df",
-      "metadataSha256": "34f52b36b154c5b673d6d7451910e0962fa02c38638134e28383491b58fbae59",
+      "bytes": 288028,
+      "sha256": "5b5d8dfcb0d82f751685d3b6faa4a55959ffc3e6c1d5fa3a349b23ea003332ae",
+      "metadataSha256": "ea395c89e72e97d3d871e74bffcf036d9ab621c57cbcbc73c3dcf54984cacfc2",
       "modulePath": "game/client/assets/world/chicken.high.js",
-      "moduleSha256": "bab38eb84cd7c18fd36c6cc6c9de813d85a17f06389fdd4f7f47a0ffd9991d82",
+      "moduleSha256": "c50700405924c1e7528979fc11bf58734ecc2bfea9aa10f76ec0b68abc00dfa2",
       "modelPath": "tools/art/chicken.mjs",
-      "modelSha256": "316e204c1bc7b350ff8459d5176b3aaaf262106d80b866e6608fda51cc36b6cb",
+      "modelSha256": "3fd910ec58a3e5ece4c7ea07ff35e53e384216988e6561648752d217d21d9791",
       "generatorPath": "tools/generate-world-atlas.mjs",
       "generatorSha256": "abd813f139ceb50673069a76a99ec798f0140bb0545f9874cfbb563da16a778e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
-        "modelSha256": "316e204c1bc7b350ff8459d5176b3aaaf262106d80b866e6608fda51cc36b6cb",
+        "modelSha256": "3fd910ec58a3e5ece4c7ea07ff35e53e384216988e6561648752d217d21d9791",
         "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
         "three": "0.187.0",
         "chromium": "156.0.8078.80",
@@ -398,19 +405,19 @@
     {
       "path": "game/client/assets/world/chicken.low.png",
       "metadata": "game/client/assets/world/chicken.low.json",
-      "bytes": 79846,
-      "sha256": "67a69af7a1ff9740ae362ff7011cc79a8953281bfb7bdd8935e3989fbb2f585a",
-      "metadataSha256": "946a4cd36595eb61d470f7fdf01c71a4d33e0628bf96cde8cb7d800003f482a4",
+      "bytes": 90401,
+      "sha256": "a1819a896e9e153abe8ff309231cebf3231307980530391911d67208962990b4",
+      "metadataSha256": "794039e03b167380941667a100fa24e85c541e289094bdf7ddc762dedd1fcb35",
       "modulePath": "game/client/assets/world/chicken.low.js",
-      "moduleSha256": "af8bf9cf40b149e5baee902b3613e96f0df90e0e020d2b61a07f46a13fcc1c3c",
+      "moduleSha256": "4cd16f62c970fb4797c964bd951e61e23c67788408e41a8a95260d1bf88880de",
       "modelPath": "tools/art/chicken.mjs",
-      "modelSha256": "316e204c1bc7b350ff8459d5176b3aaaf262106d80b866e6608fda51cc36b6cb",
+      "modelSha256": "3fd910ec58a3e5ece4c7ea07ff35e53e384216988e6561648752d217d21d9791",
       "generatorPath": "tools/generate-world-atlas.mjs",
       "generatorSha256": "abd813f139ceb50673069a76a99ec798f0140bb0545f9874cfbb563da16a778e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
-        "modelSha256": "316e204c1bc7b350ff8459d5176b3aaaf262106d80b866e6608fda51cc36b6cb",
+        "modelSha256": "3fd910ec58a3e5ece4c7ea07ff35e53e384216988e6561648752d217d21d9791",
         "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
         "three": "0.187.0",
         "chromium": "156.0.8078.80",
