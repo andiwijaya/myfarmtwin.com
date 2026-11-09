@@ -114,7 +114,7 @@ export function createChickenCareMeshes(e,material){
  const meshes=compileWorldParts(chickenCareParts(e),material);
  if(e.kind==='station'&&e.zone==='chicken'&&['feeder','drinker'].includes(String(e.domainId))){
   const ratio=nativeFill(e.value,e.capacity);
-  if(ratio>0)for(const mesh of compileWorldParts([{x:0,y:.2+ratio*.1,z:0,width:.49,height:ratio*.2,depth:.49,color:e.domainId==='drinker'?'#76b9bf':COZY_ART.palette.straw,shape:'cylinder',feature:'native-contents',startupOptional:false}],material)){
+  if(ratio>0)for(const mesh of compileWorldParts([{x:0,y:.2+ratio*.1,z:0,width:.49,height:ratio*.2,depth:.49,color:e.domainId==='drinker'?'#76b9bf':COZY_ART.palette.straw,shape:'cylinder',feature:'native-contents',startupOptional:false}],material,{preserveFaces:true})){
    mesh.userData.nativeFill=true;mesh.userData.fillRatio=ratio;mesh.userData.nativeFillHeight=ratio*.2;meshes.push(mesh);
   }
  }

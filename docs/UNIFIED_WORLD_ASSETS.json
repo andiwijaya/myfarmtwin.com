@@ -30,9 +30,9 @@
       "notice": "dist/play/vendor/three/LICENSE.txt"
     },
     {
-      "path": "dist/play/vendor/three/three.module-K7MG723P.js",
-      "bytes": 915,
-      "sha256": "a50430f6c20c3afd86d09fbe6416b53f1f70bebcb8658980748f0c2c6b497dcb",
+      "path": "dist/play/vendor/three/three.module-7QSBIX26.js",
+      "bytes": 937,
+      "sha256": "cc7806eae981114020684745d774206012e3c29c2c9e2de4dae9e8ae6994563a",
       "sourcePackage": "three@0.187.0",
       "transformation": "Tree-shaken/minified with esbuild@0.28.2; shared class identity and lazy WebGL split",
       "license": "MIT",
@@ -50,23 +50,30 @@
   ],
   "proceduralSources": [
     {
+      "path": "game/client/unified-world-part-pruning.js",
+      "bytes": 3017,
+      "sha256": "7363c3a7d8fad0c66413fbd80849ab2c11442b69c97827eb4e033fb1f937c69f",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
       "path": "game/client/unified-cozy-goat.js",
-      "bytes": 8697,
-      "sha256": "9547ac5c105f507d01484de49834804c7cc6d32cea54d5d4fddf77cb87053e9b",
+      "bytes": 8718,
+      "sha256": "645286f521f7352b9567243d7712e672d4341c349ada0a371536543abfd2ca95",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
       "path": "game/client/unified-cozy-chicken.js",
-      "bytes": 9774,
-      "sha256": "129f4b475fb0ec5ab6c3a5903e7656a03d0671ee9f4bd60d79c8139ef561da4f",
+      "bytes": 9795,
+      "sha256": "5681ed3641f53495c27daa9cfd0266ed3fbe76966667b0ae6472c1b14abf3bc9",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
       "path": "game/client/unified-cozy-crops.js",
-      "bytes": 5042,
-      "sha256": "e310f96d5a6eb69ecf2e4968bbf354184212ab348d2461a4d6abfd2673960282",
+      "bytes": 5063,
+      "sha256": "fe35962f9ed130645e33fcd5463a97262c1457e8a0e5148fc57267f9e8e8c132",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -121,15 +128,15 @@
     },
     {
       "path": "game/client/unified-world-part-meshes.js",
-      "bytes": 6292,
-      "sha256": "7545bc51ca0f167cccc14a993ff81249b3579c69f2cb67cea841d22db27e318f",
+      "bytes": 6485,
+      "sha256": "bc8a6c3a12a31b13e6902ad1c63b7ab8ab6b52d22faf497083e822a1bb993c33",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 60333,
-      "sha256": "49e8515f72c1f6944973efa291d0d3d4a1f8c6140fc5e4ab35641cf78beabdcc",
+      "bytes": 60566,
+      "sha256": "899fb54ba9c51e372c1e59451c73b1b9625c450a8099a17adedea87d31b36b92",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },

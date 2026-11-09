@@ -1,4 +1,5 @@
 import {BoxGeometry,CylinderGeometry,SphereGeometry,PlaneGeometry,CircleGeometry,BufferGeometry,Float32BufferAttribute,Mesh,Color,Matrix4,Matrix3,Euler,Vector3} from './vendor/three/three.module.js';
+import {pruneFixedFarmParts} from './unified-world-part-pruning.js';
 
 /** Closed pointed leaf with a curved midrib and a thin underside. */
 function leafGeometry(){
@@ -14,8 +15,9 @@ function leafGeometry(){
  * Caller owns/disposes the generated geometry, and owns the shared material.
  * @param {readonly import('./unified-world-environment.js').EnvironmentPart[]} parts
  * @param {import('three').MeshLambertMaterial} material
+ * @param {{preserveFaces?:boolean}} [options]
  * @returns {Mesh[]} */
-export function compileWorldParts(parts,material){
+export function compileWorldParts(parts,material,options={}){
  /** @type {Map<string,BufferGeometry>} */const sources=new Map();
  /** @param {import('./unified-world-environment.js').EnvironmentPart['shape']} shape */
  const sourceFor=shape=>{const key=shape==='bevel'?'bevel':shape==='cylinder'||shape==='foliage'||shape==='surface'||shape==='disc'||shape==='leaf'?shape:'box';let geometry=sources.get(key);if(!geometry){geometry=key==='cylinder'?new CylinderGeometry(.5,.5,1,12):key==='foliage'?new SphereGeometry(.5,8,6):key==='surface'?new PlaneGeometry(1,1).rotateX(-Math.PI/2):key==='disc'?new CircleGeometry(.5,12).rotateX(-Math.PI/2):key==='leaf'?leafGeometry():key==='bevel'?new BoxGeometry(1,1,1,2,2,2):new BoxGeometry(1,1,1);sources.set(key,geometry);}return geometry;};
@@ -47,6 +49,7 @@ export function compileWorldParts(parts,material){
  }}finally{for(const source of sources.values())source.dispose();}
  return [...groups.values()].map(batch=>{
   const geometry=new BufferGeometry();geometry.setAttribute('position',new Float32BufferAttribute(batch.positions,3));geometry.setAttribute('normal',new Float32BufferAttribute(batch.normals,3));geometry.setAttribute('color',new Float32BufferAttribute(batch.colors,3));geometry.computeBoundingBox();geometry.computeBoundingSphere();geometry.userData.worldOwned=true;
+  pruneFixedFarmParts(geometry,material,!!options.preserveFaces);
   const mesh=new Mesh(geometry,material);mesh.userData.environmentDetail=true;mesh.userData.cutawayFixed=batch.fixed;mesh.userData.cutawayShell=!batch.fixed;mesh.userData.fineDetail=batch.fine;mesh.userData.startupOptional=batch.optional;mesh.userData.structureFeatures=[...batch.features];mesh.userData.structureFeatureCounts=Object.freeze({...batch.counts});mesh.userData.structureFeature=mesh.userData.structureFeatures.join(',');return mesh;
  });
 }
