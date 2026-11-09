@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';import {dispatch} from '../game/client/engine.js';import {deserialize,serialize} from '../game/client/save-schema.js';import {fishSupply,fishCount} from '../game/client/fish-state.js';import {fishGrowthFactors} from '../game/client/fish-growth.js';import {fishSnapshot} from '../game/client/fish-snapshot.js';import {readWorldSnapshot} from '../game/client/unified-world-model.js';
+/** Native rest/feed/daytime/low-oxygen branches. This retains the earlier Fish
+ * motion suite's paid stock/feed/25-day low-oxygen recipe without Canvas QA.
+ * All states are immutable command results; never set a pose, oxygen or hour. */
+export function cozyFishCases(raw){
+ const run=(recipe)=>{let state=deserialize(raw);const commands=[],act=(type,extra={})=>{const command={id:state.revision+1,type,...extra},r=dispatch(state,command);assert.ok(r.ok,type+': '+r.error);state=r.state;commands.push(command);};recipe(act,()=>state);return{state,commands,raw:serialize(state)};};
+ const cases={rest:run(()=>{}),feed:run(act=>act('fish.feed',{fishPond:1})),swim:run((act,get)=>{if(get().paused)act('pause');for(let n=0;n<8;n++)act('tick');act('pause');}),surface:run((act,get)=>{act('fish.stock',{fishPond:1,fishCount:8});for(let day=0;day<25;day++){while(fishSupply(get().fish.feed)<1000)act('fish.buyFeed',{fishPond:1});act('fish.feed',{fishPond:1});act('nextDay');}if(get().fish.ponds[0].aeratorOn)act('fish.aerate',{fishPond:1});for(let n=0;fishGrowthFactors(get().fish.ponds[0]).oxygen>=500&&n<30;n++)act('nextDay');assert.equal(fishCount(get().fish.ponds[0]),12);assert.ok(fishGrowthFactors(get().fish.ponds[0]).oxygen<500);assert.equal(get().fish.ponds[0].pendingFeedG,0);})};
+ for(const[action,c]of Object.entries(cases)){assert.equal(c.state.paused,true);const schools=readWorldSnapshot(c.state,{fish:{snapshot:fishSnapshot(c.state),feederIds:[]}}).entities.filter(e=>e.kind==='fishSchool');assert.ok(schools.length);for(const e of schools)assert.equal(e.activity,action,'Native case preparation '+action);}
+ return cases;
+}

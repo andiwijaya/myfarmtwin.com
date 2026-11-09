@@ -16,8 +16,9 @@ import {cowCareParts} from './unified-cow-care.js';
 import {cowFenceParts,cowYardParts} from './unified-cow-yard.js';
 import {createGoatCareMeshes,goatPaddockParts,goatFenceParts,goatGroundParts} from './unified-cozy-goat.js';
 import {createCropMeshes,cropPumpParts} from './unified-cozy-crops.js';
+import {fishPondParts,fishCareParts} from './unified-cozy-fish.js';
 import {worldVisualKey} from './unified-world-visual-key.js';
-import {waterStyle,pondSurfaceParts,waterMotion} from './unified-world-water.js';
+import {pondSurfaceParts,waterMotion} from './unified-world-water.js';
 import {worldLighting} from './unified-world-lighting.js';
 import {createWorldEffects,readySignals} from './unified-world-effects.js';
 import {createWorldSprites,spriteOpaque} from './unified-world-sprites.js';
@@ -99,13 +100,11 @@ export function mountUnifiedPreview(host,state,locale,options={}){
   }else if(kind==='market'){
    for(const part of structureParts(entity))detail(group,part).userData.startupOptional=!['body','roof','gable-infill'].includes(part.feature||'');
   }else if(kind==='fishPond'){
-   box(group,0,.012,0,w,.024,d,'#8e9875').userData.canvasLayer=1;box(group,0,.03,0,w-.4,.02,d-.4,waterStyle(entity.clarity).water).userData.canvasLayer=1;for(const x of [-w/2,w/2])box(group,x,.18,0,.18,.35,d+.18,WORLD_STYLE.stone).userData.startupOptional=true;for(const z of [-d/2,d/2])box(group,0,.18,z,w,.35,.18,WORLD_STYLE.stone).userData.startupOptional=true;const rings=new Map();for(const part of pondSurfaceParts(entity)){let parent=group,p=part;if(part.feature?.startsWith('water-ripple')){const index=Number(part.feature.slice(-1)),side=index===0?-1:1,cx=side*1.3,cz=side*2.05;let ring=rings.get(index);if(!ring){ring=new Group();ring.position.set(cx,part.y,cz);ring.userData.waterRest={x:cx,z:cz,w:1,d:1,index:(entity.pondId||0)*2+index};group.add(ring);rings.set(index,ring);}parent=ring;p={...part,x:part.x-cx,y:0,z:part.z-cz};}const mesh=detail(parent,p),film=part.feature==='water-film';mesh.userData.startupOptional=film;mesh.userData.pickThrough=true;mesh.userData.canvasLayer=film?4:5;mesh.renderOrder=film?3:4;}
+   group.add(...compileWorldParts(fishPondParts(entity),partMaterial));const rings=new Map();for(const part of pondSurfaceParts(entity)){let parent=group,p=part;if(part.feature?.startsWith('water-ripple')){const index=Number(part.feature.slice(-1)),side=index===0?-1:1,cx=side*1.3,cz=side*2.05;let ring=rings.get(index);if(!ring){ring=new Group();ring.position.set(cx,part.y,cz);ring.userData.waterRest={x:cx,z:cz,w:1,d:1,index:(entity.pondId||0)*2+index};group.add(ring);rings.set(index,ring);}parent=ring;p={...part,x:part.x-cx,y:0,z:part.z-cz};}const mesh=detail(parent,p),film=part.feature==='water-film';mesh.userData.startupOptional=film;mesh.userData.pickThrough=true;mesh.userData.canvasLayer=film?4:5;mesh.renderOrder=film?3:4;}
   }else if(kind==='fishSchool'){
    for(const {x,z,scale}of fishSchoolMembers(entity)){const fish=new Group();fish.position.set(x,.27,z);fish.scale.setScalar(scale);group.add(fish);box(fish,0,.03,0,.24,.12,.5,'#c8d1bc');box(fish,0,.04,-.3,.26,.09,.12,'#899d8d');box(fish,.13,.04,.03,.12,.04,.18,'#899d8d');box(fish,-.13,.04,.03,.12,.04,.18,'#899d8d');}
-  }else if(kind==='fishEquipment'){
-   box(group,0,.22,0,w,.44,d,entity.equipment==='filter'?'#97a18a':entity.equipment==='feeder'?'#c1ad7a':'#91aaa2');if(entity.domainId==='aerator'){box(group,0,.49,0,w*.8,.1,d*.7,entity.active?'#6caa9d':'#8b9282');if(entity.automatic)box(group,0,.59,0,.18,.1,.18,'#d8c078');}else box(group,0,.5,0,w*.65,.12,d*.65,entity.value>0?'#a9c4ad':'#9c9d87');
-  }else if(kind==='fishStation'){
-   box(group,0,.2,0,w,.4,d,entity.domainId==='harvest'?'#b5ad83':'#b4a07b');if(entity.domainId==='feed')box(group,0,.47,0,w*.6,.14,d*.6,entity.active?'#c5b969':'#b3a17e');
+  }else if(kind==='fishEquipment'||kind==='fishStation'){
+   group.add(...compileWorldParts(fishCareParts(entity),partMaterial));
   }else if(kind==='cow'){
    box(group,0,.85,0,.95,.65,1.25,'#e6dfc6');box(group,.49,.87,-.2,.035,.4,.5,'#6a6658');box(group,-.49,.95,.2,.035,.3,.4,'#6a6658');for(const x of [-.32,.32])for(const z of [-.45,.45])box(group,x,.3,z,.14,.6,.14,'#716954');box(group,0,1.35,.65,.55,.5,.4,'#e6dfc6');box(group,0,1.2,.89,.5,.22,.15,'#bb9f88');for(const x of [-.38,.38])box(group,x,1.47,.65,.22,.1,.22,'#8d8571');box(group,0,.8,-.79,.06,.6,.06,'#8d8571');if(entity.ready)box(group,0,1.1,.5,.95,.08,.12,'#719174');
   }else if(kind==='cowStation'){

@@ -2,6 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';import {rea
 import {Group,MeshLambertMaterial,DoubleSide,Vector3,Raycaster,OrthographicCamera,Box3} from 'three';
 import {compileWorldParts,disposePartMeshes} from '../client/unified-world-part-meshes.js';import {configureFixedFarmParts,FARM_PART_MAX_Y_SCALE} from '../client/unified-world-part-pruning.js';import {WORLD_ART} from '../client/unified-world-art.js';import {createFarmCamera} from '../client/unified-world-camera.js';
 import {cowBarnParts} from '../client/unified-cow-barn.js';import {chickenCoopParts} from '../client/unified-cozy-chicken.js';import {goatShelterParts,goatPaddockParts} from '../client/unified-cozy-goat.js';import {createCropMeshes} from '../client/unified-cozy-crops.js';import {readWorldSnapshot} from '../client/unified-world-model.js';import {deserialize,serialize} from '../client/save-schema.js';
+import {fishPondParts,fishCareParts} from '../client/unified-cozy-fish.js';
 import {cowCareParts} from '../client/unified-cow-care.js';import {cowSnapshot} from '../client/cow-scene-snapshot.js';import {createChickenCareMeshes} from '../client/unified-cozy-chicken.js';import {createGoatCareMeshes} from '../client/unified-cozy-goat.js';import {makeBasicWorldFarm} from '../../tools/unified-basic-world-farm.mjs';
 
 const plain=new MeshLambertMaterial({vertexColors:true}),pruned=configureFixedFarmParts(new MeshLambertMaterial({vertexColors:true}));
@@ -32,8 +33,8 @@ test('pruned geometry preserves exact surviving attributes, original bounds/orde
  matchingRays(before,after,13,16);disposePartMeshes(before);disposePartMeshes(after);
 });
 
-test('actual Cow/Chicken/Goat native parts keep visible ownership, bounds, colors, normals and immutable source saves',async()=>{
- const state=deserialize(await readFile(new URL('./fixtures/unified-world/v5-mixed.json',import.meta.url),'utf8')),raw=serialize(state),snapshot=readWorldSnapshot(state),builders={cowBarn:cowBarnParts,coop:chickenCoopParts,goatShelter:goatShelterParts,paddock:goatPaddockParts};
+test('actual Cow/Chicken/Goat/Fish native parts keep visible ownership, bounds, colors, normals and immutable source saves',async()=>{
+ const state=deserialize(await readFile(new URL('./fixtures/unified-world/v5-mixed.json',import.meta.url),'utf8')),raw=serialize(state),snapshot=readWorldSnapshot(state),builders={cowBarn:cowBarnParts,coop:chickenCoopParts,goatShelter:goatShelterParts,paddock:goatPaddockParts,fishPond:fishPondParts,fishEquipment:fishCareParts,fishStation:fishCareParts};
  for(const e of snapshot.entities){const build=builders[e.kind];if(!build)continue;const parts=build(e),before=root(parts,plain),after=root(parts,pruned);assert.ok(triangles(after)<triangles(before),e.kind+' has no proven reduction');matchingRays(before,after,7,8);assert.deepEqual(new Box3().setFromObject(after),new Box3().setFromObject(before));let disposed=0;for(const mesh of after.children)mesh.geometry.addEventListener('dispose',()=>disposed++);disposePartMeshes(before);disposePartMeshes(after);disposePartMeshes(after);assert.equal(disposed,after.children.length);}
  assert.equal(serialize(state),raw);
 });
