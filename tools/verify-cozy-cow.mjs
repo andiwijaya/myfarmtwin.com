@@ -3,7 +3,7 @@ import {WORLD_ART} from '../game/client/unified-world-art.js';
 import {createHash} from 'node:crypto';
 
 // CPU geometry checks only. This neither renders pixels nor accepts art quality.
-const modelPath=process.env.COW_RIG_SOURCE||'tools/art/cow.mjs';assert.ok(['tools/art/cow.mjs','tools/art/cow-readability.mjs'].includes(modelPath));
+const modelPath='tools/art/cow.mjs';
 const source=await readFile(modelPath,'utf8'),moduleSource=source.replace("'./vendor/three.module.js'",JSON.stringify(pathToFileURL(resolve('node_modules/three/build/three.module.js')).href)),{createModel}=await import('data:text/javascript;base64,'+Buffer.from(moduleSource).toString('base64')),rig=createModel(),spec=WORLD_ART.species.cow,box=new Box3(),rows=[],paintRows=[],point=new Vector3(),f=spec.frameWorldUnits,p=spec.pivot,camera=new OrthographicCamera(-f*p[0],f*(1-p[0]),f*p[1],-f*(1-p[1]),.1,100);
 // Box3.setFromObject includes invisible anatomy. Only rendered vertices belong
 // to floor/frame acceptance; a folded cow intentionally hides the udder group.
@@ -23,7 +23,7 @@ try{
   rows.push({action,frame,floor:box.min.y,height:box.max.y,projections});
  }
  assert.throws(()=>rig.pose('invented',0),RangeError);assert.throws(()=>rig.pose('idle',NaN),RangeError);
- if(modelPath.endsWith('cow-readability.mjs')){
+ {
   const maps=new Map();rig.root.traverse(mesh=>{if(mesh instanceof Mesh&&mesh.material.map?.userData.cowPaint)maps.set(mesh.material.map.userData.cowPaint,mesh.material.map);});assert.equal(maps.size,2);
   for(const [role,map]of maps){
    const{data,width,height}=map.image;let dark=0,white=0,left=0,right=0;for(let py=0;py<height;py++)for(let px=0;px<width;px++){const i=(py*width+px)*4,sum=data[i]+data[i+1]+data[i+2];assert.equal(data[i+3],255,'Paint punched an alpha hole');if(sum<250){dark++;if(Math.cos((px+.5)/width*Math.PI*2)>0)left++;else right++;}if(sum>600)white++;}assert.ok(dark>width*height*.1&&white>width*height*.25,'Missing broad contrasting coat roles');assert.ok(left>500&&right>500,'One flank lost its marking');
