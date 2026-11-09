@@ -5,10 +5,10 @@
   "esbuild": "0.28.2",
   "sourceMaps": false,
   "entries": {
-    "loader": "world-loader-FCWZ5GKE.js",
-    "main": "main-HUSCT6YE.js",
-    "bootstrap": "unified-world-bootstrap-XW4IOWH5.js",
-    "world": "unified-world-preview-DZ5HFYMR.js",
+    "loader": "world-loader-ZP7VY5FA.js",
+    "main": "main-PQXCINIV.js",
+    "bootstrap": "unified-world-bootstrap-WVZEBFKN.js",
+    "world": "unified-world-preview-T3PJFGZN.js",
     "cpu": "vendor/three/three.module-K7MG723P.js"
   },
   "defaultCore": [
@@ -35,7 +35,7 @@
     {
       "name": "index.html",
       "bytes": 12968,
-      "sha256": "314039c7f3f46bf98f6399e88f2e3d7e0bc215f6875cd009cf56a50635d6c2d4"
+      "sha256": "e405bace0a12341acf00fd2cabf3df02fe3aec56c7a47268143f155b44746407"
     },
     {
       "name": "style.css",
@@ -43,14 +43,14 @@
       "sha256": "f34451400f7a7d36f267340b18c2c7c0377c3bd69279657c4b9841a31175b7ca"
     },
     {
-      "name": "unified-world-bootstrap-XW4IOWH5.js",
+      "name": "unified-world-bootstrap-WVZEBFKN.js",
       "bytes": 3626,
-      "sha256": "fa96149b276aab0c1f6761134ba5f701a3e67c90780200442933fffdf9e49ec6"
+      "sha256": "2ab73bfa500486a5c4e28ee3ff41a764ba16d7023ae504eb47cef9f273e18a59"
     },
     {
-      "name": "unified-world-preview-DZ5HFYMR.js",
-      "bytes": 137736,
-      "sha256": "f3ea1fd5d3fdce1b27b119968d7f336f1c1ea8269e51add1bbbb7fdb3b44e524"
+      "name": "unified-world-preview-T3PJFGZN.js",
+      "bytes": 140881,
+      "sha256": "f109d8422562c81587dbaa561b8df46fa47555c405861aa794b84782f74959d4"
     },
     {
       "name": "vendor/game/chunks/chunk-6J75SRKQ.js",
@@ -68,26 +68,26 @@
       "sha256": "f9981638d0beee5d46a223aa1baaebb14bceddd5ed33114493218389339523cf"
     },
     {
-      "name": "world-loader-FCWZ5GKE.js",
+      "name": "world-loader-ZP7VY5FA.js",
       "bytes": 751,
-      "sha256": "3d6334f77eb1c8c41e6d68ad8f6e968470df22ee6d5846eb8503bf5b24142c88"
+      "sha256": "4b2e1e0750c37db4daef59d82a2726dad3c6765c95190b926947bf1e07cff2fe"
     }
   ],
   "emitted": [
     {
-      "name": "main-HUSCT6YE.js",
+      "name": "main-PQXCINIV.js",
       "bytes": 222379,
-      "sha256": "898b86625bec4acbb59db19a21d4cb54cad5b4640aeb057d27d67b8d48bbc77a"
+      "sha256": "26b6927b589f3d175255023ef0230a4f250d5072909ad61300cbbe28698de13a"
     },
     {
-      "name": "unified-world-bootstrap-XW4IOWH5.js",
+      "name": "unified-world-bootstrap-WVZEBFKN.js",
       "bytes": 3626,
-      "sha256": "fa96149b276aab0c1f6761134ba5f701a3e67c90780200442933fffdf9e49ec6"
+      "sha256": "2ab73bfa500486a5c4e28ee3ff41a764ba16d7023ae504eb47cef9f273e18a59"
     },
     {
-      "name": "unified-world-preview-DZ5HFYMR.js",
-      "bytes": 137736,
-      "sha256": "f3ea1fd5d3fdce1b27b119968d7f336f1c1ea8269e51add1bbbb7fdb3b44e524"
+      "name": "unified-world-preview-T3PJFGZN.js",
+      "bytes": 140881,
+      "sha256": "f109d8422562c81587dbaa561b8df46fa47555c405861aa794b84782f74959d4"
     },
     {
       "name": "vendor/game/chunks/chunk-6J75SRKQ.js",
@@ -110,9 +110,9 @@
       "sha256": "a50430f6c20c3afd86d09fbe6416b53f1f70bebcb8658980748f0c2c6b497dcb"
     },
     {
-      "name": "world-loader-FCWZ5GKE.js",
+      "name": "world-loader-ZP7VY5FA.js",
       "bytes": 751,
-      "sha256": "3d6334f77eb1c8c41e6d68ad8f6e968470df22ee6d5846eb8503bf5b24142c88"
+      "sha256": "4b2e1e0750c37db4daef59d82a2726dad3c6765c95190b926947bf1e07cff2fe"
     }
   ],
   "lazyWebGL": "vendor/three/chunks/unified-world-webgl-MRH3HXHW.js",

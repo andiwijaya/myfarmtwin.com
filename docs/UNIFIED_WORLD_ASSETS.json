@@ -50,6 +50,20 @@
   ],
   "proceduralSources": [
     {
+      "path": "game/client/unified-cozy-crops.js",
+      "bytes": 5042,
+      "sha256": "e310f96d5a6eb69ecf2e4968bbf354184212ab348d2461a4d6abfd2673960282",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-visual-key.js",
+      "bytes": 529,
+      "sha256": "64ff4bbcd49d83b4b60cdf63e05fb3fa37d3af9bd37fbdc8cf228e7a997efab2",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
       "path": "game/client/unified-cow-trails.js",
       "bytes": 3569,
       "sha256": "03ee18fd1c63cead8b78b47b02f9749c0edf83e0a36672c82888ddf0f0a2386a",
@@ -93,15 +107,15 @@
     },
     {
       "path": "game/client/unified-world-part-meshes.js",
-      "bytes": 5638,
-      "sha256": "536098f1a7ddd5f468cbe062e46e6b8a4ae89dd1211e95a26e063f39909a10db",
+      "bytes": 6225,
+      "sha256": "36ece28cc88042f68e54b6afed275c5a387e4aac069cfbf69b5b8fa82e3ff6ef",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 63625,
-      "sha256": "f88de95b50557eb7f327b7e53980617fdc07253a15ea8ac31b6ab5df6a0bb734",
+      "bytes": 62893,
+      "sha256": "1df01dfbeff3a44d884c4c16f92123a992566dc431849e5690db7c04ce0baecf",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -114,8 +128,8 @@
     },
     {
       "path": "game/client/unified-world-environment.js",
-      "bytes": 3128,
-      "sha256": "e3d258d9a8d9a25cebfcf14a656561efdc78b835c43d5c5757cd0bc8aedd8f89",
+      "bytes": 3174,
+      "sha256": "04be7cb49c8accd45cab82b25475827306e64905112be6135553a4c3e4dfd4f4",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -268,8 +282,8 @@
     },
     {
       "path": "game/client/unified-world-crops.js",
-      "bytes": 2180,
-      "sha256": "6edb030802b266fcd3ee2e72909a3e00026754a4465c501772d5fbb5ba481a9b",
+      "bytes": 3188,
+      "sha256": "1653881ee5848e4ad98f0aea6071560659bbdd1a7e78fee0047f6e0e9b268901",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -324,8 +338,8 @@
     },
     {
       "path": "game/client/unified-world-irrigation.js",
-      "bytes": 923,
-      "sha256": "c38d63eaf978a371aa9a4c1880b7207a63494681fdcfed95dfe05d1f6052368a",
+      "bytes": 1910,
+      "sha256": "286dc2dabc148c3ba251c8c49246e9a6badd82e36d072890b266f2fd4ac92542",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },

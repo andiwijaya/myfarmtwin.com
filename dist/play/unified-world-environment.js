@@ -1,7 +1,7 @@
 import {WORLD_STYLE as S} from './unified-world-style.js';
 import {ZONE_REGISTRY} from './unified-world-registry.js';
 import {chickenFenceParts} from './unified-chicken-layout.js';
-/** @typedef {{x:number,y:number,z:number,width:number,height:number,depth:number,color:string,rotation?:number,tilt?:number,opacity?:number,fine?:boolean,fixed?:boolean,feature?:string,shape?:'gable'|'bevel'|'cylinder'|'foliage'|'surface'|'disc',coveredTop?:boolean}} EnvironmentPart */
+/** @typedef {{x:number,y:number,z:number,width:number,height:number,depth:number,color:string,rotation?:number,pitch?:number,tilt?:number,opacity?:number,fine?:boolean,fixed?:boolean,startupOptional?:boolean,feature?:string,shape?:'gable'|'bevel'|'cylinder'|'foliage'|'surface'|'disc'|'leaf',coveredTop?:boolean}} EnvironmentPart */
 /** Bounded paving inside the existing path footprint. No new route or land grant.
  * @param {{x:number,z:number,width:number,depth:number}} path @returns {EnvironmentPart[]} */
 export function pathDetailParts(path){
