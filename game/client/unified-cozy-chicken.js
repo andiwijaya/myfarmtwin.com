@@ -12,7 +12,9 @@ export function chickenCoopParts(e){
  if(e.kind!=='coop')return[];
  const p=COZY_ART.palette,w=e.width,d=e.depth,h=e.height,rise=.65,run=w/2+.15,slope=Math.atan2(rise,run),panel=Math.hypot(run,rise),parts=/** @type {Part[]} */([]);
  /** @param {number} x @param {number} y @param {number} z @param {number} width @param {number} height @param {number} depth @param {string} color @param {string} feature @param {Partial<Part>} [extra] */
- const add=(x,y,z,width,height,depth,color,feature,extra={})=>parts.push({x,y,z,width,height,depth,color,feature,shape:'bevel',startupOptional:false,...extra});
+ const add=(x,y,z,width,height,depth,color,feature,extra={})=>parts.push({x,y,z,width,height,depth,color,feature,shape:extra.fine?'box':'bevel',startupOptional:false,...extra});
+ // Tiny fine battens/seams/planks use straight boxes; rounded main shells and
+ // paid/native silhouettes retain their authored bevels and exact footprints.
  const doorW=.72,doorH=1.1,wall=.12,sideW=(w-doorW)/2;
  for(const side of [-1,1]){
   add(side*(w-wall)/2,h/2,0,wall,h,d,p.wood,'body');

@@ -8,7 +8,7 @@ export function cowBarnParts(e){
  if(e.kind!=='cowBarn')return[];
  const w=e.width,d=e.depth,h=e.height,p=COZY_ART.palette,wall=.14,rise=.65,run=w/2+.15,slope=Math.atan2(rise,run),panel=Math.hypot(run,rise),parts=/** @type {import('./unified-world-environment.js').EnvironmentPart[]} */([]);
  /** @param {number} x @param {number} y @param {number} z @param {number} width @param {number} height @param {number} depth @param {string} color @param {string} feature @param {Partial<import('./unified-world-environment.js').EnvironmentPart>} [extra] */
- const add=(x,y,z,width,height,depth,color,feature,extra={})=>parts.push({x,y,z,width,height,depth,color,feature,shape:'bevel',...extra});
+ const add=(x,y,z,width,height,depth,color,feature,extra={})=>parts.push({x,y,z,width,height,depth,color,feature,shape:extra.fine?'box':'bevel',...extra});
  const doorW=1.5,doorH=1.95,sideW=(w-doorW)/2;
  // Separate solid wall slabs leave a real doorway, rather than a dark rectangle.
  for(const side of [-1,1]){
@@ -17,6 +17,8 @@ export function cowBarnParts(e){
  }
  add(0,h/2,-(d-wall)/2,w-wall*2,h,wall,p.barn,'body');
  add(0,doorH+(h-doorH)/2,(d-wall)/2,doorW,h-doorH,wall,p.barn,'body');
+ // Fine joinery keeps straight lit planes instead of a48-triangle tiny bevel.
+ // Main silhouettes, native flags, coordinates and cutaway groups stay intact.
  // Batten rhythm and varied plank color are authored deterministically.
  const nx=Math.max(6,Math.ceil(w/.48)),nz=Math.max(6,Math.ceil(d/.48));
  for(const side of [-1,1]){
