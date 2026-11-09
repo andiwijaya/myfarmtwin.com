@@ -1,6 +1,7 @@
 import {COZY_ART} from './unified-cozy-art.js';
 import {ZONE_REGISTRY} from './unified-world-registry.js';
 import {ranchFenceParts} from './unified-world-environment.js';
+import {cowTrailParts} from './unified-cow-trails.js';
 
 /** Rounded, warm fence on exactly the existing native ranch footprint/gate.
  * @returns {import('./unified-world-environment.js').EnvironmentPart[]} */
@@ -17,12 +18,15 @@ export function cowYardParts(snapshot){
  /** @param {number} x @param {number} y @param {number} z @param {number} width @param {number} height @param {number} depth @param {string} color @param {string} feature @param {Partial<import('./unified-world-environment.js').EnvironmentPart>} [extra] */
  const add=(x,y,z,width,height,depth,color,feature,extra={})=>parts.push({x,y,z,width,height,depth,color,feature,shape:'foliage',...extra});
  // Soft edge of the pasture; it has no gameplay/capacity meaning.
- add((b.minX+b.maxX)/2,.00025,(b.minZ+b.maxZ)/2,b.maxX-b.minX+.2,.0005,b.maxZ-b.minZ+.2,'#a5c176','pasture',{shape:'cylinder'});
+ add((b.minX+b.maxX)/2,.00025,(b.minZ+b.maxZ)/2,b.maxX-b.minX+.2,.0005,b.maxZ-b.minZ+.2,'#a5c176','pasture',{shape:'disc'});
  const barn=native.find(e=>e.kind==='cowBarn');if(barn){
-  add(barn.x,.001,barn.z,barn.width+1.25,.001,barn.depth+1.05,p.dirt,'barn-apron',{shape:'cylinder'});
+  const left=barn.x-barn.width/2,back=barn.z-barn.depth/2;
+  add((b.minX+left)/2,.0006,(back+b.maxZ)/2,left-b.minX-.6,.0001,b.maxZ-back-.25,p.pasture,'pasture-contrast',{shape:'disc'});
+  add(barn.x,.001,barn.z,barn.width+1.25,.001,barn.depth+1.05,p.dirt,'barn-apron',{shape:'disc'});
   if(barn.value<40)add(barn.x-barn.width*.25,.0025,barn.z+barn.depth*.35,.7,.001,.5,p.soil,'native-barn-dirt');
  }
- for(const station of native.filter(e=>e.kind==='cowStation'))add(station.x,.0015,station.z,station.width+.5,.001,station.depth+.4,station.domainId==='water'?'#aac1a5':p.dirt,'care-pad',{shape:'cylinder'});
+ parts.push(...cowTrailParts(snapshot));
+ for(const station of native.filter(e=>e.kind==='cowStation'))add(station.x,.0018,station.z,station.width+.5,.001,station.depth+.4,station.domainId==='water'?'#aac1a5':p.dirt,'care-pad',{shape:'disc'});
  // Authored repeatable placements, with no random generator or engine inputs.
  for(let i=0;i<28;i++){
   const x=b.minX+.5+(i*2.37)%(b.maxX-b.minX-1),z=b.minZ+.5+(i*3.71)%(b.maxZ-b.minZ-1);
@@ -34,7 +38,7 @@ export function cowYardParts(snapshot){
  for(const [x,z,scale]of [[10.8,15.8,.9],[28.5,15.3,1]]){
   add(x,1.02*scale,z,.24*scale,2.04*scale,.26*scale,p.woodDark,'tree-trunk',{shape:'cylinder',tilt:.055});
   for(const [dx,y,dz,size]of [[-.36,2.1,.08,1.25],[.32,2.35,-.08,1.2],[0,2.75,.02,1.1],[.02,2.15,.38,1.05]])add(x+dx*scale,y*scale,z+dz*scale,size*scale,size*.92*scale,size*scale,y>2.5?p.grassLight:'#729a56','tree-crown');
-  add(x+.12,.001,z+.05,1.35*scale,.001,1.1*scale,'#79965d','tree-contact',{shape:'cylinder'});
+  add(x+.12,.001,z+.05,1.35*scale,.001,1.1*scale,'#79965d','tree-contact',{shape:'disc'});
  }
  return parts;
 }

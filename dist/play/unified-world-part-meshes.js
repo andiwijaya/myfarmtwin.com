@@ -1,4 +1,4 @@
-import {BoxGeometry,CylinderGeometry,SphereGeometry,BufferGeometry,Float32BufferAttribute,Mesh,Color,Matrix4,Matrix3,Euler,Vector3} from './vendor/three/three.module.js';
+import {BoxGeometry,CylinderGeometry,SphereGeometry,PlaneGeometry,CircleGeometry,BufferGeometry,Float32BufferAttribute,Mesh,Color,Matrix4,Matrix3,Euler,Vector3} from './vendor/three/three.module.js';
 
 /** Bake authored static parts by visibility semantics, with linear vertex color.
  * Real triangles retain picking; there are no invisible input proxies. This is
@@ -9,17 +9,19 @@ import {BoxGeometry,CylinderGeometry,SphereGeometry,BufferGeometry,Float32Buffer
  * @param {import('three').MeshLambertMaterial} material
  * @returns {Mesh[]} */
 export function compileWorldParts(parts,material){
- const sources={box:new BoxGeometry(1,1,1,2,2,2),cylinder:new CylinderGeometry(.5,.5,1,12),foliage:new SphereGeometry(.5,8,6)};
- /** @type {Map<string,{positions:number[],normals:number[],colors:number[],fixed:boolean,fine:boolean,optional:boolean,features:Set<string>}>} */
+ /** @type {Map<string,BufferGeometry>} */const sources=new Map();
+ /** @param {import('./unified-world-environment.js').EnvironmentPart['shape']} shape */
+ const sourceFor=shape=>{const key=shape==='cylinder'||shape==='foliage'||shape==='surface'||shape==='disc'?shape:'box';let geometry=sources.get(key);if(!geometry){geometry=key==='cylinder'?new CylinderGeometry(.5,.5,1,12):key==='foliage'?new SphereGeometry(.5,8,6):key==='surface'?new PlaneGeometry(1,1).rotateX(-Math.PI/2):key==='disc'?new CircleGeometry(.5,12).rotateX(-Math.PI/2):new BoxGeometry(1,1,1,2,2,2);sources.set(key,geometry);}return geometry;};
+ /** @type {Map<string,{positions:number[],normals:number[],colors:number[],fixed:boolean,fine:boolean,optional:boolean,features:Set<string>,counts:Record<string,number>}>} */
  const groups=new Map();
  const color=new Color(),matrix=new Matrix4(),normals=new Matrix3(),rotation=new Euler(),point=new Vector3(),direction=new Vector3(),inside=new Vector3();
  try{for(const part of parts){
   if(![part.x,part.y,part.z,part.width,part.height,part.depth].every(Number.isFinite)||Math.min(part.width,part.height,part.depth)<=0)throw new Error('Invalid authored part dimensions');
   if(part.opacity!==undefined&&part.opacity!==1)throw new Error('Transparent parts require independent sorting');
-  if(part.shape&&!['bevel','gable','cylinder','foliage'].includes(part.shape))throw new Error('Unsupported static shape');
-  const source=part.shape==='cylinder'?sources.cylinder:part.shape==='foliage'?sources.foliage:sources.box,position=source.getAttribute('position'),normal=source.getAttribute('normal'),indices=source.index;if(!indices)throw new Error('Missing indexed source geometry');
+  if(part.shape&&!['bevel','gable','cylinder','foliage','surface','disc'].includes(part.shape))throw new Error('Unsupported static shape');
+  const source=sourceFor(part.shape),position=source.getAttribute('position'),normal=source.getAttribute('normal'),indices=source.index;if(!indices)throw new Error('Missing indexed source geometry');
   const fixed=!!part.fixed,fine=!!part.fine,optional=!['body','roof','gable-infill','barn-floor','interior-post'].includes(part.feature||''),key=[fixed,fine,optional].join('|');
-  let batch=groups.get(key);if(!batch){batch={positions:[],normals:[],colors:[],fixed,fine,optional,features:new Set()};groups.set(key,batch);}if(part.feature)batch.features.add(part.feature);
+  let batch=groups.get(key);if(!batch){batch={positions:[],normals:[],colors:[],fixed,fine,optional,features:new Set(),counts:{}};groups.set(key,batch);}if(part.feature){batch.features.add(part.feature);batch.counts[part.feature]=(batch.counts[part.feature]||0)+1;}
   color.set(part.color);rotation.set(0,part.rotation||0,part.tilt||0);matrix.makeRotationFromEuler(rotation);matrix.setPosition(part.x,part.y,part.z);normals.getNormalMatrix(matrix);
   const radius=Math.min(.08,part.width*.15,part.height*.15,part.depth*.15),half=[part.width/2,part.height/2,part.depth/2];
   const count=part.shape==='gable'?3:indices.count;
@@ -35,10 +37,10 @@ export function compileWorldParts(parts,material){
    }
    point.applyMatrix4(matrix);direction.applyNormalMatrix(normals);batch.positions.push(point.x,point.y,point.z);batch.normals.push(direction.x,direction.y,direction.z);batch.colors.push(color.r,color.g,color.b);
   }
- }}finally{for(const source of Object.values(sources))source.dispose();}
+ }}finally{for(const source of sources.values())source.dispose();}
  return [...groups.values()].map(batch=>{
   const geometry=new BufferGeometry();geometry.setAttribute('position',new Float32BufferAttribute(batch.positions,3));geometry.setAttribute('normal',new Float32BufferAttribute(batch.normals,3));geometry.setAttribute('color',new Float32BufferAttribute(batch.colors,3));geometry.computeBoundingBox();geometry.computeBoundingSphere();geometry.userData.worldOwned=true;
-  const mesh=new Mesh(geometry,material);mesh.userData.environmentDetail=true;mesh.userData.cutawayFixed=batch.fixed;mesh.userData.cutawayShell=!batch.fixed;mesh.userData.fineDetail=batch.fine;mesh.userData.startupOptional=batch.optional;mesh.userData.structureFeatures=[...batch.features];mesh.userData.structureFeature=mesh.userData.structureFeatures.join(',');return mesh;
+  const mesh=new Mesh(geometry,material);mesh.userData.environmentDetail=true;mesh.userData.cutawayFixed=batch.fixed;mesh.userData.cutawayShell=!batch.fixed;mesh.userData.fineDetail=batch.fine;mesh.userData.startupOptional=batch.optional;mesh.userData.structureFeatures=[...batch.features];mesh.userData.structureFeatureCounts=Object.freeze({...batch.counts});mesh.userData.structureFeature=mesh.userData.structureFeatures.join(',');return mesh;
  });
 }
 
