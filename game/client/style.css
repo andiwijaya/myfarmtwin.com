@@ -524,3 +524,10 @@ dialog::backdrop{background:#18362966;backdrop-filter:blur(3px)}
  .unified-shell .world-weather-content{position:fixed;top:108px;right:max(8px,var(--world-safe-right));max-width:calc(100vw - 16px)}
  .unified-shell [data-world-context] :is(.cow-panel-heading,.goat-panel-heading,.chicken-panel-heading) h2{font-size:20px;line-height:1.2;margin:4px 0}
 }
+/* In a short touch landscape the modeless sheet owns the right side. Keep
+   closed tool disclosures in the free left strip, rather than under its header. */
+@media(max-height:520px) and (orientation:landscape){
+ .unified-shell.world-has-context .world-map-bar{left:4px;right:auto;width:min(260px,calc(100% - min(360px,50vw) - 12px));max-width:none;justify-content:flex-start}
+ .unified-shell.world-has-context .world-map-bar select{width:72px;max-width:72px;padding:4px;font-size:11px}
+ .unified-shell.world-has-context .world-map-bar summary{padding:4px;font-size:11px}
+}

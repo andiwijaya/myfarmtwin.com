@@ -1,8 +1,9 @@
+import {revealAfterShortcut} from './unified-world-reveal.js';
 import {createWorldTools} from './unified-world-tools.js';
 import {createWorldMinimap} from './unified-world-minimap.js';
 /** Presentation-only layout. Reparent original live controls instead of cloning
  * resource totals, native action buttons or their event handlers. */
-/** @param {{isLoading?:()=>boolean,onInspect?:()=>void,onCloseContext?:()=>void,onGoTo?:(zone:string)=>void,describeIssue?:(key:string)=>string,onReveal?:(rect:DOMRect)=>void}} [options] */
+/** @param {{isLoading?:()=>boolean,onInspect?:()=>void,onCloseContext?:()=>void,onGoTo?:(zone:string)=>void,describeIssue?:(key:string)=>string,onReveal?:(rect:DOMRect,preserveZoom?:boolean)=>void}} [options] */
 export function createWorldShell(options={}){
  const root=document.querySelector('#farm'),world=document.querySelector('#world'),hud=document.querySelector('.hud'),weather=document.querySelector('.weather-strip'),preview=document.querySelector('#unified-preview');
  if(!(root instanceof HTMLElement)||!(world instanceof HTMLElement)||!(hud instanceof HTMLElement)||!(preview instanceof HTMLElement))throw Error('World HUD requires the existing farm elements');
@@ -44,6 +45,7 @@ export function createWorldShell(options={}){
  /** Keep modeless care below the actual HUD, including short landscape windows.
   * The fixed bottom edge is independent of panel content/scroll/height. */
  function fitCare(){if(disposed||!(stage instanceof HTMLElement))return;const panel=contexts.find(p=>!p.hidden);if(!panel){document.body.style.removeProperty('--world-care-max-height');return;}const height=Math.max(96,Math.floor(panel.getBoundingClientRect().bottom-stage.getBoundingClientRect().top-8)),next=height+'px';if(document.body.style.getPropertyValue('--world-care-max-height')!==next)document.body.style.setProperty('--world-care-max-height',next);}
+ preview.addEventListener('worldcamerashortcut',event=>{const {action,zone,preserveSelection}=/** @type {CustomEvent<{action:string,zone:string,preserveSelection:boolean}>} */(event).detail,kind=context(),selected=kind==='plot'||kind==='pump'?'field':kind,panel=contexts.find(p=>!p.hidden);if(panel&&revealAfterShortcut(action,zone,selected,preserveSelection))options.onReveal?.(panel.getBoundingClientRect(),action!==selected);},{signal:abort.signal});
  const desktopLayout=matchMedia('(min-width:1024px) and (hover:hover) and (pointer:fine)'),placeTask=()=>{if(desktopLayout.matches)bar.prepend(task);else bar.after(task);fitStage();};desktopLayout.addEventListener('change',placeTask,{signal:abort.signal});placeTask();preview.addEventListener('worldtoolslayout',fitStage,{signal:abort.signal});layoutObserver=new ResizeObserver(fitStage);for(const node of [hud,bar,task,preview.querySelector('#world-camera-dock'),preview.querySelector('#world-touch-hint'),document.querySelector('.game-header')])if(node)layoutObserver.observe(node);window.addEventListener('resize',fitStage,{signal:abort.signal});window.visualViewport?.addEventListener('resize',fitStage,{signal:abort.signal});fitStage();
  return {
   /** @param {string} locale @param {readonly Readonly<import('./unified-world-status.js').ZoneStatus>[]} [statuses] */
