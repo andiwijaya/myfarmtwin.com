@@ -86,8 +86,8 @@
     },
     {
       "path": "game/client/unified-cozy-chicken.js",
-      "bytes": 9795,
-      "sha256": "5681ed3641f53495c27daa9cfd0266ed3fbe76966667b0ae6472c1b14abf3bc9",
+      "bytes": 9970,
+      "sha256": "041f7eb5afc347ca0f5de11a13f3007eb189ce16e2cd63675ff0685e6ec4057d",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -128,15 +128,15 @@
     },
     {
       "path": "game/client/unified-cow-barn.js",
-      "bytes": 5297,
-      "sha256": "b1345cf6ede64b77bd9da099e56a992dc6d8710f293b1b9eb5513653da0b18ef",
+      "bytes": 5473,
+      "sha256": "9446b23408f45a7bdf91b0cba53bc8581e651929b857ca9ec77d9c36413b1ce4",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
       "path": "game/client/unified-cow-care.js",
-      "bytes": 4677,
-      "sha256": "94a929648de045f779c4d0cbe36adb938453b5b2ae5514c2f5d9a65a3576b919",
+      "bytes": 4852,
+      "sha256": "0cd5fd41122d09806cb6066a59b6f845d79ab49901f83e72466333fd2aebc23a",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },

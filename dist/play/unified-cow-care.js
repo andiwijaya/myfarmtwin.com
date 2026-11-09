@@ -9,9 +9,11 @@ export function cowCareParts(e){
  const shell=/** @type {Part[]} */([]),fills=/** @type {{part:Part,ratio:number}[]} */([]);if(e.kind!=='cowStation')return{shell,fills};
  const p=COZY_ART.palette,w=e.width,d=e.depth,h=e.height;
  /** @param {number} x @param {number} y @param {number} z @param {number} width @param {number} height @param {number} depth @param {string} color @param {string} feature @param {Partial<Part>} [extra] */
- const add=(x,y,z,width,height,depth,color,feature,extra={})=>shell.push({x,y,z,width,height,depth,color,feature,shape:'bevel',...extra});
+ const add=(x,y,z,width,height,depth,color,feature,extra={})=>shell.push({x,y,z,width,height,depth,color,feature,shape:extra.fine?'box':'bevel',...extra});
  /** @param {Part} part */
  const fill=part=>{const ratio=nativeFill(e.value,e.capacity);if(ratio>0)fills.push({part,ratio});};
+ // Only fine joinery uses straight planes. Native quantity volumes are built
+ // independently below, retain every face and keep their linear exact heights.
  const ratio=nativeFill(e.value,e.capacity);
  if(e.equipment==='cooler'){
   add(0,h/2,0,w*.92,h,d*.92,p.metal,'body');
