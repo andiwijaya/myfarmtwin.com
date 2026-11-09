@@ -2,7 +2,7 @@ import {readFile,writeFile,mkdir} from 'node:fs/promises';import {pathToFileURL}
 import {WORLD_ART} from '../game/client/unified-world-art.js';
 
 // CPU geometry checks only. This neither renders pixels nor accepts art quality.
-const source=await readFile('tools/art/cozy-cow.mjs','utf8'),moduleSource=source.replace("'./vendor/three.module.js'",JSON.stringify(pathToFileURL(resolve('node_modules/three/build/three.module.js')).href)),{createModel}=await import('data:text/javascript;base64,'+Buffer.from(moduleSource).toString('base64')),rig=createModel(),spec=WORLD_ART.species.cow,box=new Box3(),rows=[],point=new Vector3(),f=spec.frameWorldUnits,p=spec.pivot,camera=new OrthographicCamera(-f*p[0],f*(1-p[0]),f*p[1],-f*(1-p[1]),.1,100);
+const source=await readFile('tools/art/cow.mjs','utf8'),moduleSource=source.replace("'./vendor/three.module.js'",JSON.stringify(pathToFileURL(resolve('node_modules/three/build/three.module.js')).href)),{createModel}=await import('data:text/javascript;base64,'+Buffer.from(moduleSource).toString('base64')),rig=createModel(),spec=WORLD_ART.species.cow,box=new Box3(),rows=[],point=new Vector3(),f=spec.frameWorldUnits,p=spec.pivot,camera=new OrthographicCamera(-f*p[0],f*(1-p[0]),f*p[1],-f*(1-p[1]),.1,100);
 // Box3.setFromObject includes invisible anatomy. Only rendered vertices belong
 // to floor/frame acceptance; a folded cow intentionally hides the udder group.
 const visibleBounds=()=>{box.makeEmpty();rig.root.traverseVisible(mesh=>{if(!(mesh instanceof Mesh))return;const v=mesh.geometry.getAttribute('position');for(let i=0;i<v.count;i++)box.expandByPoint(point.fromBufferAttribute(v,i).applyMatrix4(mesh.matrixWorld));});};
@@ -21,4 +21,4 @@ try{
  }
  assert.throws(()=>rig.pose('invented',0),RangeError);assert.throws(()=>rig.pose('idle',NaN),RangeError);
 }finally{rig.dispose();rig.dispose();}
-const qa=process.env.QA_DIR||'qa-artifacts/cozy-world-v1/cpu-rig';await mkdir(qa,{recursive:true});await writeFile(qa+'/geometry.json',JSON.stringify({prototype:true,installed:false,actions:spec.actions.length,poses:rows.length,headings:4,rows,scope:'CPU bounds and deterministic authoring poses only. No rendered pixels, GPU/browser run, benchmark or visual-quality pass.'},null,2));console.log(JSON.stringify({cpuGeometry:'pass',poses:rows.length,headings:4,installed:false,visualGate:'not run'}));
+const qa=process.env.QA_DIR||'qa-artifacts/cozy-world-v1/cpu-rig';await mkdir(qa,{recursive:true});await writeFile(qa+'/geometry.json',JSON.stringify({authoringOnly:true,runtimeAtlasVerification:false,actions:spec.actions.length,poses:rows.length,headings:4,rows,scope:'CPU bounds and deterministic authoring poses only. No rendered pixels, GPU/browser run, benchmark or visual-quality pass.'},null,2));console.log(JSON.stringify({cpuGeometry:'pass',poses:rows.length,headings:4,runtimeAtlasVerification:false,visualGate:'not run'}));
