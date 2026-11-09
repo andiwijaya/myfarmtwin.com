@@ -1,5 +1,5 @@
 {
-  "audited": "2026-11-08",
+  "audited": "2026-11-09",
   "purpose": "Default 3D-only farm; no MyZooTwin art or source copied",
   "assets": [
     {
@@ -12,27 +12,27 @@
       "notice": "dist/play/vendor/three/LICENSE.txt"
     },
     {
-      "path": "dist/play/vendor/three/chunks/chunk-BUKEHCBM.js",
-      "bytes": 195654,
-      "sha256": "ac2ee9171333f614474df56355ff9d3893a48ac245d46395866e6fbd3ab7486d",
+      "path": "dist/play/vendor/three/chunks/chunk-NSRIPCPK.js",
+      "bytes": 198499,
+      "sha256": "c1a3991b28b421f8c1882d9316c3f6ea658a3dbb5ef83a3eb6bf7a8073cdd5eb",
       "sourcePackage": "three@0.187.0",
       "transformation": "Tree-shaken/minified with esbuild@0.28.2; shared class identity and lazy WebGL split",
       "license": "MIT",
       "notice": "dist/play/vendor/three/LICENSE.txt"
     },
     {
-      "path": "dist/play/vendor/three/chunks/unified-world-webgl-3OBKYJ57.js",
+      "path": "dist/play/vendor/three/chunks/unified-world-webgl-YG5JD76C.js",
       "bytes": 357275,
-      "sha256": "bc12d0046057ca0e704310501c3d6999d077b8fe985678b66614b41cfacbdfcc",
+      "sha256": "8f385d6b657a02f52f8b31b282f52778550f0ea8b74f10b73ba74799f30e7391",
       "sourcePackage": "three@0.187.0",
       "transformation": "Tree-shaken/minified with esbuild@0.28.2; shared class identity and lazy WebGL split",
       "license": "MIT",
       "notice": "dist/play/vendor/three/LICENSE.txt"
     },
     {
-      "path": "dist/play/vendor/three/three.module-KLAG532C.js",
+      "path": "dist/play/vendor/three/three.module-33SOL6NQ.js",
       "bytes": 703,
-      "sha256": "55de9497b23d65a385cdf914237e9a1b78c0c237a348da1dc1f888a1c9ff7d6c",
+      "sha256": "5f8877035f47a89ea06d93e9843e4cc6e1920372ca7f122e3f7a141138a443a1",
       "sourcePackage": "three@0.187.0",
       "transformation": "Tree-shaken/minified with esbuild@0.28.2; shared class identity and lazy WebGL split",
       "license": "MIT",
@@ -50,30 +50,72 @@
   ],
   "proceduralSources": [
     {
+      "path": "game/client/unified-cozy-art.js",
+      "bytes": 731,
+      "sha256": "5cfa0a866bf1843bb82843063e4a92db64c44febcac1eb810b1c0ad403b14d85",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-cozy-contact.js",
+      "bytes": 1655,
+      "sha256": "def9ce782f1ea9eb35874ed5311044cd47afa4dab4f018ff0e8cfaee1a007357",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-cow-barn.js",
+      "bytes": 5297,
+      "sha256": "b1345cf6ede64b77bd9da099e56a992dc6d8710f293b1b9eb5513653da0b18ef",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-cow-care.js",
+      "bytes": 4677,
+      "sha256": "94a929648de045f779c4d0cbe36adb938453b5b2ae5514c2f5d9a65a3576b919",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-cow-yard.js",
+      "bytes": 3428,
+      "sha256": "2e042cd0bc8227f100c0dc7f02b74cc86a2f903a6d9ce9b6291ce77f596acd9d",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
+      "path": "game/client/unified-world-part-meshes.js",
+      "bytes": 5009,
+      "sha256": "5d989737d44f2c40d1906d78e25c73526e9a8ffe3e3656f7067a91f48911a2a2",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 63471,
-      "sha256": "028e98cb04fe252b1634827ff7d33cd9c8352119cbe97995e3ced6ada9624409",
+      "bytes": 63625,
+      "sha256": "f88de95b50557eb7f327b7e53980617fdc07253a15ea8ac31b6ab5df6a0bb734",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
       "path": "game/client/unified-world-style.js",
       "bytes": 644,
-      "sha256": "a9a96a3f0f2037869b822c5bc86ffb9d15f5b07b726a8d375faf8a11aba6defb",
+      "sha256": "1f363254a916586c5eecb88e3307fc0835d76707be2fac8e64c8e4ceb469dd53",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
       "path": "game/client/unified-world-environment.js",
-      "bytes": 3082,
-      "sha256": "2e9bf3344535e63d97c396f221610e7390afc8fc865ff843791e1ef7ccee44f9",
+      "bytes": 3111,
+      "sha256": "0d3ef184a3d0e086af9b4a6a37223dabf9a22f101cfc3121f685ba29a0e47e45",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
       "path": "game/client/unified-world-structures.js",
-      "bytes": 3957,
-      "sha256": "d5053d12cc799552b183c37b4e5e440ce9fe2459c23c83f332b4b7d681ac76e0",
+      "bytes": 3214,
+      "sha256": "ece7dfa21d850f28c5a2a3dc7bf3a66c02fc112e84a7154fb537135c6566a26c",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -86,8 +128,8 @@
     },
     {
       "path": "game/client/unified-world-lighting.js",
-      "bytes": 1807,
-      "sha256": "61a515a24e9256b1b84e6bbb7a156b05d66164a8ca7a3593f99a1996a394d1e9",
+      "bytes": 1961,
+      "sha256": "33795dff8efcb3c1c916f815183a56cfacd7b30c3a5e0a5d430bfc3cfb7be026",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -212,8 +254,8 @@
     },
     {
       "path": "game/client/unified-world-sprites.js",
-      "bytes": 17373,
-      "sha256": "7652d66b47e3f993997025955422c147cec86b5a0d6a0905586510933f01a296",
+      "bytes": 17624,
+      "sha256": "161d3e4d72617512d946066cbcbfed7a6b05f1fd03d0e723ce7fb959afaeffc9",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -321,7 +363,7 @@
       "modelPath": "tools/art/chicken.mjs",
       "modelSha256": "316e204c1bc7b350ff8459d5176b3aaaf262106d80b866e6608fda51cc36b6cb",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "9c045a28b3d0a12f68be7908bcd74d4d4d4684c3712cd0cf1781242562944f7e",
+      "generatorSha256": "abd813f139ceb50673069a76a99ec798f0140bb0545f9874cfbb563da16a778e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
@@ -343,7 +385,7 @@
       "modelPath": "tools/art/chicken.mjs",
       "modelSha256": "316e204c1bc7b350ff8459d5176b3aaaf262106d80b866e6608fda51cc36b6cb",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "9c045a28b3d0a12f68be7908bcd74d4d4d4684c3712cd0cf1781242562944f7e",
+      "generatorSha256": "abd813f139ceb50673069a76a99ec798f0140bb0545f9874cfbb563da16a778e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
@@ -357,19 +399,19 @@
     {
       "path": "game/client/assets/world/cow.high.png",
       "metadata": "game/client/assets/world/cow.high.json",
-      "bytes": 764387,
-      "sha256": "e4d98de05798842b994843fd08da25c7d99b462ffd30f3482de08475507abada",
-      "metadataSha256": "14b80baec5ce9daadb67702f9f68d8be991825528edb0d5df270c09fe3e60292",
+      "bytes": 1079899,
+      "sha256": "816c3d6be9e9e01f7c2f32efddbb959e14d6724d4fa27b023a642631e1874c40",
+      "metadataSha256": "6ba6d673d2accc434f1c097ad6b873f1af4ffd1468b41ab164c30c666478cc35",
       "modulePath": "game/client/assets/world/cow.high.js",
-      "moduleSha256": "635d4529842b956a5ecd8be89648e505adb683e75f99c979900708d0e1a7d82b",
+      "moduleSha256": "1131b9b92dc7266a3fd988663c06b3854daeac89962b25bb131fbfac6a939452",
       "modelPath": "tools/art/cow.mjs",
-      "modelSha256": "e34e6d1f328002be87931a857915d59f1820a74d235cc2c6d567c14c6171986d",
+      "modelSha256": "3dcb96452b9b709b8f6a3087fd144d63965ad7e4569c910e7adfbbd042eb3f6f",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "9c045a28b3d0a12f68be7908bcd74d4d4d4684c3712cd0cf1781242562944f7e",
+      "generatorSha256": "abd813f139ceb50673069a76a99ec798f0140bb0545f9874cfbb563da16a778e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
-        "modelSha256": "e34e6d1f328002be87931a857915d59f1820a74d235cc2c6d567c14c6171986d",
+        "modelSha256": "3dcb96452b9b709b8f6a3087fd144d63965ad7e4569c910e7adfbbd042eb3f6f",
         "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
         "three": "0.187.0",
         "chromium": "156.0.8078.80",
@@ -379,19 +421,19 @@
     {
       "path": "game/client/assets/world/cow.low.png",
       "metadata": "game/client/assets/world/cow.low.json",
-      "bytes": 288139,
-      "sha256": "291a88fded83dc2441437c6ca848c7867bef1bb825ae3952aa2f6bcf750ab07e",
-      "metadataSha256": "56242be54f885ecd83f690d83f3105847634d8b5182a33d3678e917003007126",
+      "bytes": 352323,
+      "sha256": "19b0775c18e54d357fa5e25410dbc9a6374205dc5df861ac623b4ee3c00721bc",
+      "metadataSha256": "b83207ca64cad83fbf9d1110e3d72ac612ae3e30858d191137cea7e94d880526",
       "modulePath": "game/client/assets/world/cow.low.js",
-      "moduleSha256": "b7601094abc63f643059d26272875b932691f57d5cefb3146f4933e155159cbf",
+      "moduleSha256": "6f52824b6014ee02e4ed817ddd706250f09018d5729d0ff8475ee02bfa2787b6",
       "modelPath": "tools/art/cow.mjs",
-      "modelSha256": "e34e6d1f328002be87931a857915d59f1820a74d235cc2c6d567c14c6171986d",
+      "modelSha256": "3dcb96452b9b709b8f6a3087fd144d63965ad7e4569c910e7adfbbd042eb3f6f",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "9c045a28b3d0a12f68be7908bcd74d4d4d4684c3712cd0cf1781242562944f7e",
+      "generatorSha256": "abd813f139ceb50673069a76a99ec798f0140bb0545f9874cfbb563da16a778e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
-        "modelSha256": "e34e6d1f328002be87931a857915d59f1820a74d235cc2c6d567c14c6171986d",
+        "modelSha256": "3dcb96452b9b709b8f6a3087fd144d63965ad7e4569c910e7adfbbd042eb3f6f",
         "artSha256": "c7428f4d8a00240b8583b1f80bfe63730b174db65b473597c3cd05ecb051dcd5",
         "three": "0.187.0",
         "chromium": "156.0.8078.80",
@@ -409,7 +451,7 @@
       "modelPath": "tools/art/fish.mjs",
       "modelSha256": "ac7e9ba1f03a57520457083b4a1016f93d0fd57b88a4467ca8cb2206106e936f",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "9c045a28b3d0a12f68be7908bcd74d4d4d4684c3712cd0cf1781242562944f7e",
+      "generatorSha256": "abd813f139ceb50673069a76a99ec798f0140bb0545f9874cfbb563da16a778e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
@@ -431,7 +473,7 @@
       "modelPath": "tools/art/fish.mjs",
       "modelSha256": "ac7e9ba1f03a57520457083b4a1016f93d0fd57b88a4467ca8cb2206106e936f",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "9c045a28b3d0a12f68be7908bcd74d4d4d4684c3712cd0cf1781242562944f7e",
+      "generatorSha256": "abd813f139ceb50673069a76a99ec798f0140bb0545f9874cfbb563da16a778e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
@@ -453,7 +495,7 @@
       "modelPath": "tools/art/goat.mjs",
       "modelSha256": "882ae9514c47743c3847a4c9fb5e109945bc012fcacd86a2d4ba8e4fbd18dcf9",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "9c045a28b3d0a12f68be7908bcd74d4d4d4684c3712cd0cf1781242562944f7e",
+      "generatorSha256": "abd813f139ceb50673069a76a99ec798f0140bb0545f9874cfbb563da16a778e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
@@ -475,7 +517,7 @@
       "modelPath": "tools/art/goat.mjs",
       "modelSha256": "882ae9514c47743c3847a4c9fb5e109945bc012fcacd86a2d4ba8e4fbd18dcf9",
       "generatorPath": "tools/generate-world-atlas.mjs",
-      "generatorSha256": "9c045a28b3d0a12f68be7908bcd74d4d4d4684c3712cd0cf1781242562944f7e",
+      "generatorSha256": "abd813f139ceb50673069a76a99ec798f0140bb0545f9874cfbb563da16a778e",
       "origin": "Original repository-authored procedural 3D rig rendered offline; project-controlled art, no external sprite content",
       "source": {
         "generator": "myfarmtwin-world-atlas-v1",
