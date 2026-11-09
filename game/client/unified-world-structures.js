@@ -1,15 +1,17 @@
 import {WORLD_STYLE as S} from './unified-world-style.js';
 import {cowBarnParts} from './unified-cow-barn.js';
+import {chickenCoopParts} from './unified-cozy-chicken.js';
 /** Actual owned building silhouette/upgrade detail, sharing the same unit cube.
  * @param {Readonly<import('./unified-world-model.js').WorldEntity>} e
  * @returns {import('./unified-world-environment.js').EnvironmentPart[]} */
 export function structureParts(e){
  if(e.kind==='cowBarn')return cowBarnParts(e);
- if(!['coop','market','goatShelter'].includes(e.kind))return[];
+ if(e.kind==='coop')return chickenCoopParts(e);
+ if(!['market','goatShelter'].includes(e.kind))return[];
  const w=e.width,d=e.depth,h=e.height,market=e.kind==='market',rise=market?.55:.65,run=w/2+.15,slope=Math.atan2(rise,run),panel=Math.hypot(run,rise),cream='#fff1cd',dark='#5f5941',wood=S.trunk,parts=/** @type {import('./unified-world-environment.js').EnvironmentPart[]} */([]);
  /** @param {number} x @param {number} y @param {number} z @param {number} width @param {number} height @param {number} depth @param {string} color @param {{tilt?:number,rotation?:number,fixed?:boolean,feature?:string,fine?:boolean,shape?:'gable',coveredTop?:boolean}} [extra] */
  const add=(x,y,z,width,height,depth,color,extra={})=>parts.push({x,y,z,width,height,depth,color,...extra});
- const wall=e.kind==='coop'?S.wood:'#e4c994';add(0,market?.325:h/2,market?.58:0,w,market?.65:h,market?.65:d,wall,{feature:'body',coveredTop:!market});
+ const wall='#e4c994';add(0,market?.325:h/2,market?.58:0,w,market?.65:h,market?.65:d,wall,{feature:'body',coveredTop:!market});
  if(!market)for(const side of [-1,1])add(0,h,side*(d/2+.02),w,rise,.04,wall,{shape:'gable',rotation:side===1?0:Math.PI,feature:'gable-infill'});
  for(const side of [-1,1]){add(side*run/2,h+rise/2,0,panel,.13,d+.3,S.roof,{tilt:-side*slope,feature:'roof'});for(const z of [-d/2-.025,d/2+.025])add(side*run/2,h+rise/2+.03,z,panel,.065,.085,wood,{tilt:-side*slope,fixed:true,feature:'roof-frame'});}
  add(0,h+rise+.035,0,.12,.1,d+.35,wood,{fixed:true,feature:'roof-frame'});

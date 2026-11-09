@@ -6,3 +6,16 @@ export const visibleSpritePoint=async(page,id)=>page.evaluate(async id=>{
  const{Vector3,Vector2,Raycaster}=await import('/play/vendor/three/three.module.js'),{spriteOpaque}=await import('/play/unified-world-sprites.js'),scene=window.__qaScene,camera=window.__qaCamera,canvas=document.querySelector('#world canvas'),r=canvas.getBoundingClientRect();scene.updateMatrixWorld(true);camera.updateMatrixWorld(true);let sprite;const visible=[];scene.traverseVisible(o=>{if(o.isSprite&&o.userData.entityId===id)sprite=o;if((o.isMesh||o.isSprite)&&!o.userData.pickThrough)visible.push(o);});if(!sprite?.userData.atlas)return null;
  const{asset,pose}=sprite.userData.atlas,p=sprite.getWorldPosition(new Vector3()).project(camera),scale=sprite.getWorldScale(new Vector3()),w=scale.x/(camera.right-camera.left)*r.width,h=scale.y/(camera.top-camera.bottom)*r.height,left=r.left+(p.x+1)*r.width/2-sprite.center.x*w,top=r.top+(1-p.y)*r.height/2-(1-sprite.center.y)*h,candidates=[];for(let y=1;y<pose.height-1;y++)for(let x=1;x<pose.width-1;x++)if(asset.pixels[((pose.y+y)*asset.meta.width+pose.x+x)*4+3]>=240)candidates.push({x,y,score:(x-pose.width*.5)**2+(y-pose.height*.6)**2});candidates.sort((a,b)=>a.score-b.score);const ray=new Raycaster();for(const c of candidates){const x=left+(c.x+.5)/pose.width*w,y=top+(c.y+.5)/pose.height*h;if(x<r.left||x>r.right||y<r.top||y>r.bottom||document.elementFromPoint(x,y)!==canvas)continue;ray.setFromCamera(new Vector2((x-r.left)/r.width*2-1,1-(y-r.top)/r.height*2),camera);const hit=ray.intersectObjects(visible,false).find(h=>spriteOpaque(h.object,h.uv));if(!hit)continue;let owner=hit.object;while(owner.parent&&!owner.userData.entityId)owner=owner.parent;if(owner.userData.entityId===id)return{x,y};}return null;
 },id);
+
+// Closing a mobile care panel changes the drawable height asynchronously.
+// Wait for the actual renderer camera to match that real viewport before
+// deriving an independent pointer coordinate; never move a target or force it.
+export const settleWorldProjection=async page=>page.evaluate(async()=>{
+ const{createFarmCamera}=await import('/play/unified-world-camera.js');let previous='',stable=0;const start=performance.now();
+ while(performance.now()-start<3000){
+  await new Promise(requestAnimationFrame);const host=document.querySelector('#unified-preview'),r=host.querySelector('canvas').getBoundingClientRect(),d=host.dataset,c=createFarmCamera(),v=c.view();c.rotate(Number(d.heading));c.pan(Number(d.panX)-v.x,Number(d.panZ)-v.z);c.zoomBy(Number(d.zoom)/v.zoom);const f=c.frame(r.width/r.height),actual=window.__qaCamera,key=JSON.stringify([r.x,r.y,r.width,r.height,d.heading,d.panX,d.panZ,d.zoom]);
+  const matches=actual&&Math.abs(actual.right-f.halfWidth)<1e-7&&Math.abs(actual.top-f.halfHeight)<1e-7&&Math.abs(actual.position.x-f.x-32*f.dx)<1e-7&&Math.abs(actual.position.z-f.z-32*f.dz)<1e-7;
+  stable=matches&&key===previous?stable+1:0;previous=key;if(stable>=2)return;
+ }
+ throw Error('QA camera projection did not settle against the actual drawable viewport');
+});
