@@ -50,6 +50,13 @@
   ],
   "proceduralSources": [
     {
+      "path": "game/client/unified-world-reveal.js",
+      "bytes": 4916,
+      "sha256": "aa79f8ffba234cfbe9cd1cea6841a0689f1585bda04b2a010fe2d992eb4a5cd6",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
       "path": "game/client/unified-world-part-lod.js",
       "bytes": 3817,
       "sha256": "89ff5e9452f3cb52141380826d16b72878e5a1b548e0b53a8bd2784cc1d29807",
@@ -163,8 +170,8 @@
     },
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 61887,
-      "sha256": "98c63baac997c77fea4ca84d06fa04165d7961506211918ea94434b458c276d3",
+      "bytes": 61340,
+      "sha256": "a0653e533a82ba188035ee4bb0afe84cc66ebc8b6f6ad339eaefacc76f0dbe14",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -226,8 +233,8 @@
     },
     {
       "path": "game/client/unified-world-shell.js",
-      "bytes": 17459,
-      "sha256": "742501e926588c24c11fe797cc0504558c9d3f8faa0d41dee74e5a6bc6742271",
+      "bytes": 17998,
+      "sha256": "4ad9f1352cc0db9fde36c26d90dbf7ed93fd2ca219526facd24a6196316963b1",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -261,8 +268,8 @@
     },
     {
       "path": "game/client/unified-world-bootstrap.js",
-      "bytes": 5796,
-      "sha256": "9b1fe29a2820ec99e13baa8f81444edcd01ba20d97f815e23b32b9c9efea64cb",
+      "bytes": 5824,
+      "sha256": "f5e052ede9779857622e86c07265ff9ec35c52af819643882daa6aaad14edfe1",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },

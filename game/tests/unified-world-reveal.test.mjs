@@ -18,3 +18,7 @@ test('read-only native Goat/Cow targets can be revealed beside real short UI at 
 test('manual zoom can reframe without changing its requested value, and impossible UI leaves the camera unchanged',()=>{
  const camera=createFarmCamera();camera.focus('cow');camera.zoomBy(1.44);const foot={x:19,z:8.5},extent={width:3.8,up:3.116,down:.684};revealCamera(camera,foot,extent,portrait.stage,[portrait.care,portrait.tools]);camera.zoomBy(1.2);const zoom=camera.view().zoom;revealCamera(camera,foot,extent,portrait.stage,[portrait.care,portrait.tools],true);assert.equal(camera.view().zoom,zoom);const before=camera.view();assert.equal(revealCamera(camera,foot,extent,portrait.stage,[portrait.stage]),false);assert.deepEqual(camera.view(),before);
 });
+test('small portrait retains its original 148px care cap so a barn selected from full-fit can reach the visible band',async()=>{
+ const state=deserialize(await readFile(new URL('./fixtures/unified-world/v5-mixed.json',import.meta.url),'utf8')),snapshot=readWorldSnapshot(state,{cow:cowSnapshot(state)}),barn=snapshot.entities.find(e=>e.kind==='cowBarn');assert.ok(barn);const stage={left:10,right:310,top:160,bottom:418},care={left:8,right:312,top:268,bottom:416};
+ for(let h=0;h<4;h++){const camera=createFarmCamera();camera.fit();camera.rotate(h);revealCamera(camera,barn,selectionExtent(barn),stage,[care]);const p=camera.project(barn,300/258),x=10+(p.x+1)*150,y=160+(p.y+1)*129;assert.ok(selectionFreeRects(stage,[care]).some(r=>x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom),JSON.stringify({h,x,y,view:camera.view()}));}
+});

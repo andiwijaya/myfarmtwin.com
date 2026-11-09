@@ -477,7 +477,7 @@ dialog::backdrop{background:#18362966;backdrop-filter:blur(3px)}
 .unified-shell .world-map-bar select{max-width:96px;font-size:13px}
 .unified-shell .world-map-bar summary{font-size:11px;padding:6px}
 .unified-shell.world-has-context .world-current-task{display:none}
-.unified-shell [data-world-context]{bottom:calc(var(--world-tool-bottom) + 70px);max-height:min(45svh,var(--world-care-max-height,max(148px,calc(var(--world-map-height,400px) - 110px))))}
+.unified-shell [data-world-context]{bottom:calc(var(--world-tool-bottom) + 70px);max-height:min(45svh,max(148px,calc(var(--world-map-height,400px) - 110px)),var(--world-care-max-height,100svh))}
 @media(max-width:1023px),(pointer:coarse){.unified-shell .hud{padding:4px 6px;gap:4px}
 .unified-shell .world-current-task{min-height:44px;padding:5px 10px;display:block}
 .unified-shell .world-current-task .world-area-status{display:none}
@@ -524,3 +524,13 @@ dialog::backdrop{background:#18362966;backdrop-filter:blur(3px)}
  .unified-shell .world-weather-content{position:fixed;top:108px;right:max(8px,var(--world-safe-right));max-width:calc(100vw - 16px)}
  .unified-shell [data-world-context] :is(.cow-panel-heading,.goat-panel-heading,.chicken-panel-heading) h2{font-size:20px;line-height:1.2;margin:4px 0}
 }
+/* In a short touch landscape the modeless sheet owns the right side. Keep
+   closed tool disclosures in the free left strip, rather than under its header. */
+@media(max-height:520px) and (orientation:landscape){
+ .unified-shell.world-has-context{--world-care-width:min(360px,50vw,calc(100vw - 260px - var(--world-safe-left) - var(--world-safe-right)))}
+ .unified-shell.world-has-context [data-world-context]{width:var(--world-care-width)}
+ .unified-shell.world-has-context .world-map-bar{left:4px;right:auto;width:min(260px,calc(100% - var(--world-care-width) - 12px));max-width:none;justify-content:flex-start}
+ .unified-shell.world-has-context .world-map-bar select{width:72px;max-width:72px;padding:4px;font-size:11px}
+ .unified-shell.world-has-context .world-map-bar summary{padding:4px;font-size:11px}
+}
+@media(min-width:1024px) and (max-height:520px) and (orientation:landscape) and (hover:hover) and (pointer:fine){.unified-shell.world-has-context{--world-care-width:420px}}
