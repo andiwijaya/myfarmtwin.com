@@ -58,8 +58,8 @@
     },
     {
       "path": "game/client/unified-cozy-landscape.js",
-      "bytes": 3664,
-      "sha256": "92459155bf7059b35c7166a7be9031338fdd1dcada707e720b01205e79835dad",
+      "bytes": 3214,
+      "sha256": "ac5d61f84ef1062a7b4c4a6d870ac1b8738df75b465d89ae1d6b58fcc5075fea",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -156,8 +156,8 @@
     },
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 61601,
-      "sha256": "75bbb3a0c0046d1bd6f7e95b08dd8b1f82108fa1df0dddd4c4bae6402c769d65",
+      "bytes": 61592,
+      "sha256": "127caba3ed6a74804f5ea02c3a89782bc223a8d428ad736020d1351cb09b0a29",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
