@@ -532,5 +532,8 @@ dialog::backdrop{background:#18362966;backdrop-filter:blur(3px)}
  .unified-shell.world-has-context .world-map-bar{left:4px;right:auto;width:min(260px,calc(100% - var(--world-care-width) - 12px));max-width:none;justify-content:flex-start}
  .unified-shell.world-has-context .world-map-bar select{width:72px;max-width:72px;padding:4px;font-size:11px}
  .unified-shell.world-has-context .world-map-bar summary{padding:4px;font-size:11px}
+ .unified-shell [data-world-context]>:is(.cow-panel-heading,.goat-panel-heading,.chicken-panel-heading,.world-context-heading){gap:8px;padding:2px 0}
+ .unified-shell [data-world-context]>:is(.cow-panel-heading,.goat-panel-heading,.chicken-panel-heading,.world-context-heading) h2{min-width:0;margin:0;font-size:18px;line-height:1.15}
+ .unified-shell [data-world-context] .close-panel{flex-shrink:0;padding:6px;min-width:44px;min-height:44px}
 }
 @media(min-width:1024px) and (max-height:520px) and (orientation:landscape) and (hover:hover) and (pointer:fine){.unified-shell.world-has-context{--world-care-width:420px}}

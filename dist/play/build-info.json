@@ -35,12 +35,12 @@
     {
       "name": "index.html",
       "bytes": 12968,
-      "sha256": "0d22165e7fc30bdc248eb3ddc71f609a8a3b2363f178503adb8c69250d4c7f7c"
+      "sha256": "b2ab6f66272c9a102e08b85fb9f70e9c3ca1434cdf2748d5322269a9938f96fe"
     },
     {
       "name": "style.css",
-      "bytes": 43835,
-      "sha256": "7b54d1af79fb259df1719f69149fff014fa7ea8d56c555c997bbb553615fef30"
+      "bytes": 44277,
+      "sha256": "644e91c473b4fad71b057f34cc6e6b4fccf6dc95d3594f97a884c6a8cac40c87"
     },
     {
       "name": "unified-world-bootstrap-4NVZSFAB.js",
