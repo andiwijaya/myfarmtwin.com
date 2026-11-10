@@ -22,3 +22,6 @@ a:focus-visible,select:focus-visible{outline:3px solid #916b16;outline-offset:5p
 @media(max-width:600px){.site-header{height:76px;padding:0 20px}.brand{font-size:19px}.home-main{padding-top:24px}.game-card{width:400px;border-radius:22px}.card-content{padding:24px}.game-card h1{font-size:34px}.card-description{font-size:14px}.card-bottom{gap:12px}.card-action{padding:12px 17px;gap:13px}.card-highlights{grid-template-columns:1fr;padding:20px 24px;gap:16px}.card-highlights li{display:flex;gap:12px}.feature-mark{display:grid;width:34px;height:34px}.feature-mark svg{width:19px;height:19px}.card-highlights h2{font-size:14px;margin-bottom:4px}.card-highlights p{font-size:12px;line-height:1.5}}
 @media(max-width:359px){.brand{font-size:18px;gap:8px}.card-content{padding:22px 20px}.game-card h1{font-size:31px}.card-description{font-size:13px}.card-bottom{gap:10px}.card-action{padding:12px 14px;gap:10px}.play-note{font-size:10px}.card-highlights{padding:20px}.card-highlights h2{font-size:13px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+
+.card-caption{margin:12px 0 0;text-align:center;font-size:11px;line-height:1.5;color:#536455}
+@media(max-width:1023px){.card-caption{margin:0;padding:10px 16px;background:#e8eedb}}
