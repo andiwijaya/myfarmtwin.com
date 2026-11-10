@@ -9,12 +9,17 @@
     "sequential": true,
     "exclusiveSlotRequired": true,
     "maxSlotMinutes": 15,
-    "currentMandatoryStopUTC": "2026-11-10T10:00:00Z",
+    "currentMandatoryStopUTC": null,
     "privateLocalChromeOnly": true,
     "clearSubsetFilters": true,
     "noPushDeploy": true,
     "stopOnFailure": true,
-    "reusePriorGatesOnlyAfterExactRebuildBridge": true
+    "reusePriorGatesOnlyAfterExactRebuildBridge": true,
+    "previousMandatoryStopUTC": "2026-11-10T10:00:00Z",
+    "resumedUTC": "2026-11-10T12:27:39Z",
+    "resumeInstruction": "Andi: ayou bud, lanjut dua dua nya (via parent transcript)",
+    "workCutoffPolicy": "Earlier stop honored. No new daily cutoff supplied after explicit resume. Enforce a fresh parent-coordinated slot; tools requiring COZY_WORK_STOP_UTC may use that slot end as a per-run cutoff, subject to any newer earlier owner cutoff.",
+    "publicationScope": "No push/deploy during E01. Existing cozy release authorization remains subject to all pre-release checks and E02 branch/pipeline verification; live tests follow the authorized deployment."
   },
   "core": {
     "before": "node tools/cozy-artifact-bridge.mjs --before",
