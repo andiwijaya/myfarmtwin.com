@@ -33,6 +33,8 @@ The desktop camera rail exposes zoom, four angles, pan, Fit and Reset directly. 
 
 `npm run e2e` runs 3D entry/error/retry, all-five gameplay, menus, missions and save-protection suites through visible UI. `npm run compat` checks eight portrait/landscape sizes in both languages with safe-inset emulation and fully reachable native care buttons; `node tools/unified-camera-workspace-e2e.mjs` checks direct camera controls and resize without remounting. `npm run chicken` covers paid chicken upgrades, care, feeder service, orders and sales. `npm run performance` measures actual WebGL readiness and submissions, with explicit mobile CPU/network emulation. Separate commands include `npm run homepage`, `npm run homepage:cache`, `npm run seo`, `npm run security`, `npm run audit:client`, `npm run balance`, and `npm run endurance`. Earlier Classic/Canvas diagnostic scripts are historical and are not release gates for the removed renderer. Browser runners accept `PLAYWRIGHT_CHROMIUM_EXECUTABLE`, `QA_DIR` and (where supported) `BASE_URL`; secondary-browser homepage checks also accept `QA_BROWSER`, `PLAYWRIGHT_SECONDARY_MODULE` and `PLAYWRIGHT_FIREFOX_EXECUTABLE`.
 
+The current cozy release matrix and artifact-rebuild requirements are declared in [COZY_RELEASE_E01_PLAN.json](docs/COZY_RELEASE_E01_PLAN.json). Its phases require coordinated exclusive slots while the shared laptop is testing another project; a prepared plan or byte-equality rehearsal does not count as completed release tests.
+
 ## Structure
 
 - `dist/`: existing editorial pages/media and deploy-ready `/play/`.

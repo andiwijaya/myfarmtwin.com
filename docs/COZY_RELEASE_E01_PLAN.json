@@ -1,0 +1,143 @@
+{
+  "kind": "myfarmtwin-cozy-e01-plan-v1",
+  "prepared": "2026-11-10",
+  "baselineCommit": "0106228b300571e3f3314da97e2e0df8cc28a357",
+  "receiptSHA256": "58f9962fd99bf8b4e2f0b6e534d02ef0ccdc5ed9cb1d926603370829724281e7",
+  "distTree": "f848fadfc227c03e750cfe87a41f1ceb5dbea3c4",
+  "status": "Prepared only; E01 not executed or accepted",
+  "policy": {
+    "sequential": true,
+    "exclusiveSlotRequired": true,
+    "maxSlotMinutes": 15,
+    "currentMandatoryStopUTC": "2026-11-10T10:00:00Z",
+    "privateLocalChromeOnly": true,
+    "clearSubsetFilters": true,
+    "noPushDeploy": true,
+    "stopOnFailure": true,
+    "reusePriorGatesOnlyAfterExactRebuildBridge": true
+  },
+  "core": {
+    "before": "node tools/cozy-artifact-bridge.mjs --before",
+    "commands": [
+      "npm run lint",
+      "npm run typecheck",
+      "npm test",
+      "npm run balance",
+      "npm run endurance",
+      "npm run build",
+      "node tools/unified-asset-manifest.mjs",
+      "npm run audit:client",
+      "node tools/unified-build-audit.mjs",
+      "node tools/unified-package-integrity.mjs"
+    ],
+    "after": "node tools/cozy-artifact-bridge.mjs --verify",
+    "note": "Freeze every raw dist byte, build once, require exact replay of the accepted artifact. Standard original media/build and committed-package audits still apply."
+  },
+  "phases": {
+    "gameplay-a": [
+      [
+        "cozy-five-area-e2e",
+        "five-area-gate.json",
+        4
+      ],
+      [
+        "cozy-crop-parity-e2e",
+        "crop-parity.json",
+        4
+      ],
+      [
+        "cozy-chicken-parity-e2e",
+        "chicken-parity.json",
+        4
+      ],
+      [
+        "unified-goat-parity-e2e",
+        "goat-parity.json",
+        4
+      ]
+    ],
+    "gameplay-b": [
+      [
+        "cozy-cow-activity-e2e",
+        "cow-activity.json",
+        4
+      ],
+      [
+        "cozy-fish-e2e",
+        "fish.json",
+        4
+      ],
+      [
+        "cozy-environment-e2e",
+        "interactions.json",
+        4
+      ],
+      [
+        "cozy-objective-rewards-e2e",
+        "objectives.json",
+        4
+      ]
+    ],
+    "hardening": [
+      [
+        "unified-3d-only-e2e",
+        "entry.json",
+        8
+      ],
+      [
+        "unified-menu-e2e",
+        "menus.json",
+        4
+      ],
+      [
+        "cozy-save-protection-e2e",
+        "save-protection.json",
+        21
+      ],
+      [
+        "cozy-input-e2e",
+        "input.json",
+        6
+      ],
+      [
+        "cozy-responsive-care-e2e",
+        "responsive.json",
+        16
+      ],
+      [
+        "cozy-contact-e2e",
+        "contact.json",
+        4
+      ]
+    ]
+  },
+  "retainedProofs": [
+    {
+      "path": "qa-artifacts/cozy-world-v1/d07-proof.json",
+      "accepted": "D07Accepted",
+      "scope": "Exact alpha pixels, loading/real15minute-soak; retain current receipt and unchanged artifact only"
+    },
+    {
+      "path": "qa-artifacts/cozy-world-v1/d08-proof.json",
+      "accepted": "D08Accepted",
+      "scope": "Homepage39cases, actual source/product pixels, protected progress/cache; retain exact homepage assets"
+    },
+    {
+      "path": "qa-artifacts/cozy-world-v1/d09-proof.json",
+      "accepted": "D09Accepted",
+      "scope": "Current CSP/Fish/SEO/advisory/committed-byte integrity; current dist tree and fresh advisory required"
+    }
+  ],
+  "excludedHistorical": [
+    {
+      "script": "unified-market-parity-e2e.mjs",
+      "reason": "Contains removed Canvas backend; current stronger replacement cozy-environment-e2e checks four-view/three-quality Market/waymark triangles and native sales"
+    },
+    {
+      "script": "unified-release-regression.mjs",
+      "reason": "Old general/animals lanes include removed Classic selectors; use explicit current14suite91profile matrix instead"
+    }
+  ],
+  "requiredBrowserSuites": 14,
+  "requiredBrowserProfiles": 91
+}
