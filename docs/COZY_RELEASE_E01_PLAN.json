@@ -4,7 +4,7 @@
   "baselineCommit": "0106228b300571e3f3314da97e2e0df8cc28a357",
   "receiptSHA256": "58f9962fd99bf8b4e2f0b6e534d02ef0ccdc5ed9cb1d926603370829724281e7",
   "distTree": "f848fadfc227c03e750cfe87a41f1ceb5dbea3c4",
-  "status": "Prepared only; E01 not executed or accepted",
+  "status": "E01 accepted26/30:536unit and91browser profiles; E02-E05 pending",
   "policy": {
     "sequential": true,
     "exclusiveSlotRequired": true,
@@ -29,14 +29,22 @@
       "npm test",
       "npm run balance",
       "npm run endurance",
-      "npm run build",
+      "npm --prefix <QA_DIR>/isolated-build run build",
       "node tools/unified-asset-manifest.mjs",
       "npm run audit:client",
       "node tools/unified-build-audit.mjs",
       "node tools/unified-package-integrity.mjs"
     ],
     "after": "node tools/cozy-artifact-bridge.mjs --verify",
-    "note": "Freeze every raw dist byte, build once, require exact replay of the accepted artifact. Standard original media/build and committed-package audits still apply."
+    "note": "Freeze root artifact. Build via the same checked-in npm script in ignored QA staging, with generated receipt/chunks absent before build. Require exact staged/root242-file match and untouched preview bytes. Original media/build and committed-package audits still apply.",
+    "isolatedBuild": {
+      "prepare": "node tools/cozy-isolated-build.mjs --prepare",
+      "verify": "node tools/cozy-isolated-build.mjs --verify",
+      "preserveUserPreviewPort": 4177,
+      "generatedOutputsOmittedBeforeBuild": true,
+      "inputs": "Exact client/build-tool/npm metadata and pinned upstream Three copies; esbuild resolves the unchanged installed pinned package",
+      "requireAllRawDistBytesEqual": true
+    }
   },
   "phases": {
     "gameplay-a": [
@@ -144,5 +152,6 @@
     }
   ],
   "requiredBrowserSuites": 14,
-  "requiredBrowserProfiles": 91
+  "requiredBrowserProfiles": 91,
+  "evidence": "qa-artifacts/cozy-world-v1/e01-proof.json"
 }
