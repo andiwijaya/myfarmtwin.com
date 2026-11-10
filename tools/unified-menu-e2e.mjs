@@ -1,6 +1,8 @@
+import {cozyQATarget,cozyLiveSlot} from './cozy-qa-target.mjs';
+if(process.env.BASE_URL)await cozyQATarget();
 import {cozyLocalSlot} from './cozy-local-slot.mjs';
 import {createHash} from 'node:crypto';
-const cozyEnd=process.env.COZY_QA_SLOT?cozyLocalSlot():null;let cozyTimer=null,cozyExpired=false;
+const cozyEnd=process.env.COZY_QA_SLOT?(process.env.BASE_URL?cozyLiveSlot():cozyLocalSlot()):null;let cozyTimer=null,cozyExpired=false;
 import {worldObject} from './unified-shell-ui.mjs';
 import {chromium} from 'playwright';import {settledPage} from './settled-page.mjs';import {unifiedQATarget} from './unified-qa-target.mjs';import {makeFullWorldFarm} from './unified-full-farm.mjs';import {dispatch} from '../game/client/engine.js';import {serialize,deserialize} from '../game/client/save-schema.js';import {readFile,writeFile,mkdir} from 'node:fs/promises';import assert from 'node:assert/strict';
 const qa=process.env.QA_DIR||'qa-artifacts/unified-m6-menus';await mkdir(qa,{recursive:true});const farm=makeFullWorldFarm(await readFile('game/tests/fixtures/unified-world/v5-mixed.json','utf8')),target=await unifiedQATarget(),base=target.base,browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE}),report={base,profiles:[],errors:[],scope:'Six menus operate the original live DOM and native accepted commands. Disposable desktop/touch emulation; no physical-device claims.'};

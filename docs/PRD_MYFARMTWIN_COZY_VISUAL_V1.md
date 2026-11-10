@@ -36,7 +36,7 @@ Original procedural models and geometry are preferred. Keep notices and provenan
 
 The existing atlas contract declares exactly 60 MiB combined high+low RGBA storage, below 64 MiB; this is not measured VRAM. Cow high is 256px/cell (4096px-wide sheet), low 128px (2048px-wide sheet). Increasing atlas resolution cannot solve tiny normal-view silhouettes and must not silently exceed hardware/storage limits. Reuse geometry/materials, instance static decoration, cull fine detail and measure actual draw calls, triangles, textures, downloads, heap and successful render submissions. Contact/AO decals must be named honestly; do not claim dynamic physical shadows or physical-display FPS. Native-care and complete-art readiness stay separate from the <=5s core-map target under the existing mobile emulation.
 
-## Living micro-feature checklist - 26/30 (86.7%)
+## Living micro-feature checklist - 30/30 (100%)
 
 - [x] A01 Source, art/license inventory and immutable baseline identity recorded; no GPU work or user changes disturbed.
 - [x] A02 Fixed-camera actual baseline desktop/phone captures and renderer/download profile, in a parent-coordinated slot.
@@ -64,10 +64,10 @@ The existing atlas contract declares exactly 60 MiB combined high+low RGBA stora
 - [x] D08 Homepage uses actual latest gameplay captures, accurate bilingual copy and direct 3D entry.
 - [x] D09 Final provenance/media/editorial/security/SEO/integrity checks.
 - [x] E01 Unit/lint/type/build, deterministic canonical package and all applicable local regressions pass.
-- [ ] E02 Reconcile actual branch/remote/live/pipeline and current release authorization; publish only the tested artifact.
-- [ ] E03 Live desktop/phone function, camera, data and gameplay verification with synthetic isolated saves.
-- [ ] E04 Live cold/warm loading and actual encoding; distinguish map/care/art readiness and emulation/physical limits.
-- [ ] E05 Close evidence/checklist, retain failures and a V5-capable 3D-only rollback; report exact source/deployment and limitations.
+- [x] E02 Reconcile actual branch/remote/live/pipeline and current release authorization; publish only the tested artifact. Matching successful Cloudflare/GitHub deployment,241 public Git-exact resources and3 receipt origins verified.
+- [x] E03 Live desktop/phone function, camera, data and gameplay verification with synthetic isolated saves.100 accepted cases/571 actual PNGs; first13-profile responsive timeout retained and excluded, full fresh16 rerun passes unchanged readiness limit.
+- [x] E04 Live cold/warm loading and actual encoding; distinguish map/care/art readiness and emulation/physical limits. Desktop/phone controlled60s profiles pass, including actual public Brotli and phone cold map2.91s/care4.31s/art9.07s.
+- [x] E05 Close evidence/checklist, retain failures and a V5-capable 3D-only rollback; report exact source/deployment and limitations. Independent final acceptance30/30; production/source/preview rechecked, owned QA closed, user preview restored and kept at4177.
 
 ## E02 light preflight, 10November14:14UTC -26/30, publication pending
 

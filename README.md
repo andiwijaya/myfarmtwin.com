@@ -27,6 +27,8 @@ The original 82-feature checkpoint is in `docs/PRD_MYFARMTWIN_UNIFIED_3D_WORLD_V
 
 Cozy visual-refresh acceptance and release readiness are tracked in [the living visual checklist](docs/PRD_MYFARMTWIN_COZY_VISUAL_V1.md). Actual homepage capture provenance is in [COZY_HOMEPAGE_CAPTURE.json](docs/COZY_HOMEPAGE_CAPTURE.json); the older deployment documents describe historical releases. Local source-pattern checks can run without a browser with `node tools/security-source-audit.mjs`. They do not replace browser CSP, dependency-advisory or release checks.
 
+The cozy upgrade is published and verified at **30/30**, production source `f2836be`, Cloudflare deployment `85946a2a`. [The production report](docs/COZY_WORLD_PRODUCTION_RELEASE.md) records canonical integrity,100 live cases, actual desktop/phone-emulated loading, retained failed attempts and the V5-capable3D-only rollback. Physical Android/display FPS/VRAM are not claimed. Live cozy QA uses explicit `COZY_LIVE_RELEASE=parent-authorized`, a fresh coordinated slot and a matching public receipt; ordinary local acceptance remains isolated.
+
 ## Verification
 
 The desktop camera rail exposes zoom, four angles, pan, Fit and Reset directly. Mouse wheel over the farm zooms; drag pans. Touch uses drag/pinch and six direct thumb buttons. Help retains keyboard and HTML camera alternatives. Fit shows all terrain; Reset/Home restores the closer 135% starting view. See [camera workspace acceptance](docs/UNIFIED_WORLD_CAMERA_WORKSPACE.md) for the camera follow-up and evidence.

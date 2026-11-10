@@ -1,5 +1,7 @@
+import {cozyQATarget,cozyLiveSlot} from './cozy-qa-target.mjs';
+if(process.env.BASE_URL)await cozyQATarget();
 import {cozyLocalSlot} from './cozy-local-slot.mjs';
-const cozyEnd=process.env.COZY_QA_SLOT?cozyLocalSlot():null;let cozyExpired=false,cozyTimer=null;
+const cozyEnd=process.env.COZY_QA_SLOT?(process.env.BASE_URL?cozyLiveSlot():cozyLocalSlot()):null;let cozyExpired=false,cozyTimer=null;
 import {chromium} from 'playwright';
 import {startServer} from './serve.mjs';
 import {mkdir,writeFile,readFile} from 'node:fs/promises';

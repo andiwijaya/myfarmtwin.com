@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {chromium} from 'playwright';
-import {startServer} from './serve.mjs';
+import {cozyQATarget} from './cozy-qa-target.mjs';
 import {worldCamera,worldObject} from './unified-shell-ui.mjs';
 import {visibleSpritePoint,settleWorldProjection} from './unified-sprite-point.mjs';
 import {touchPoint} from './unified-touch-point.mjs';
@@ -35,7 +35,7 @@ await mkdir(qa,{recursive:true});
 await writeFile(qa+'/native-preparation.json',JSON.stringify({raw:farm.raw,commands:farm.commands,funding:farm.funding},null,2));
 const report={receiptSHA256:hash(JSON.stringify(JSON.parse(await readFile('dist/play/build-info.json','utf8')))),fixtureSHA256:hash(farm.raw),modelSHA256:models,selectedProfiles:selected||null,profiles:[],errors:[],consoleErrors:[],scope:(selected?'Explicit subset; not a fresh full four-profile matrix. ':'')+'Four species/four headings, real frontmost opaque-ray picks from a different selection, native feet and current radial contact-AO at forced High, exact paused native save. Mobile also checks a real 20 CSS-pixel silhouette miss within the production 22px alpha-aware reach. Still/reduced-motion geometry only; animation activity coverage is separate. Isolated Windows headless touch emulation, not physical Android/performance/loading.'};
 assert.ok(Date.now()<end,'Slot expired during native fixture preparation');
-const server=await startServer(0,undefined,{assetCompression:true,assetCache:true});let browser=null,timer=null,expired=false;
+const target=await cozyQATarget(),base=target.base;report.base=base;report.live=target.live;let browser=null,timer=null,expired=false;
 try{
  browser=await chromium.launch({headless:true,timeout:Math.min(30000,end-Date.now()),executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE||'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'});
  timer=setTimeout(()=>{expired=true;void browser.close();},Math.max(0,end-Date.now()));
@@ -46,7 +46,7 @@ try{
   try{
    await context.addInitScript(raw=>{localStorage.setItem('myfarmtwin.save.v1',raw);window.__qaIntervals=0;const set=window.setInterval.bind(window);window.setInterval=(...args)=>{window.__qaIntervals++;return set(...args);};},farm.raw);
    const page=await context.newPage();page.on('pageerror',e=>report.errors.push({name,error:e.message}));page.on('console',m=>{if(m.type()==='error')report.consoleErrors.push({name,error:m.text()});});
-   await page.goto(`http://127.0.0.1:${server.address().port}/play/`);await page.locator('#language').selectOption(locale);
+   await page.goto(base+'/play/');await page.locator('#language').selectOption(locale);
    await page.waitForFunction(()=>{const d=document.querySelector('#unified-preview')?.dataset;return d?.renderer==='three'&&d.controlsReady==='true'&&Number(d.spriteActors)>0&&d.spriteActors===d.spriteReady;});
    await page.evaluate(async()=>{const{Scene}=await import('/play/vendor/three/three.module.js'),after=Scene.prototype.onAfterRender;window.__qaScenes=new Set();window.__qaCameras=new Set();Scene.prototype.onAfterRender=function(renderer,...args){after.call(this,renderer,...args);window.__qaScene=this;window.__qaCamera=args[1];window.__qaScenes.add(this);window.__qaCameras.add(args[1]);};window.__qaCanvas=document.querySelector('#world canvas');});
    await page.locator('select[data-world-quality]').selectOption('high');await worldCamera(page,'fit');
@@ -100,4 +100,4 @@ try{
  }
  assert.equal(report.profiles.length,selected?.length||4);assert.deepEqual(report.errors,[]);assert.deepEqual(report.consoleErrors,[]);assert.equal(expired,false);
 }catch(error){report.failure=String(error.stack||error);throw error;}
-finally{if(timer)clearTimeout(timer);try{await browser?.close();}finally{server.closeAllConnections();await new Promise(resolve=>server.close(resolve));await writeFile(qa+'/contact.json',JSON.stringify({...report,slotExpired:expired},null,2));}}
+finally{if(timer)clearTimeout(timer);try{await browser?.close();}finally{await target.close();await writeFile(qa+'/contact.json',JSON.stringify({...report,slotExpired:expired},null,2));}}

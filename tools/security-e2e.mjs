@@ -1,6 +1,8 @@
+import {cozyQATarget,cozyLiveSlot} from './cozy-qa-target.mjs';
+if(process.env.BASE_URL)await cozyQATarget();
 import {auditSecuritySource} from './security-source-audit.mjs';
 import {cozyLocalSlot} from './cozy-local-slot.mjs';
-const cozyEnd=process.env.COZY_QA_SLOT?cozyLocalSlot():null;let cozyExpired=false,cozyTimer=null;
+const cozyEnd=process.env.COZY_QA_SLOT?(process.env.BASE_URL?cozyLiveSlot():cozyLocalSlot()):null;let cozyExpired=false,cozyTimer=null;
 import {worldObject,openWorldSettings} from './unified-shell-ui.mjs';
 import {settledPage} from './settled-page.mjs';
 import {SAVE_VERSION,serialize} from '../game/client/save-schema.js';
