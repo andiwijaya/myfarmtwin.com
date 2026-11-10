@@ -1,1 +1,1 @@
-export * from './world-loader-MOFSPJ3J.js';
+export * from './world-loader-FC4P6E5J.js';

@@ -212,7 +212,7 @@ export function mountUnifiedPreview(host,state,locale,options={}){
   // Pointerup already selects the object and can reveal its care sheet under
   // the finger. Cancel the following touch compatibility click so it cannot
   // activate a newly exposed action. HTML controls keep their normal taps.
-  stage.addEventListener('touchend',event=>{if(event.target===canvas)event.preventDefault();},{passive:false,signal:abort.signal});
+  stage.addEventListener('touchend',event=>{if(event.target===canvas&&event.cancelable)event.preventDefault();},{passive:false,signal:abort.signal});
  stage.addEventListener('pointercancel',event=>{gestures.up(event.pointerId,event.clientX,event.clientY,true);},{signal:abort.signal});
  stage.addEventListener('lostpointercapture',event=>{gestures.up(event.pointerId,event.clientX,event.clientY,true);},{signal:abort.signal});
  list.addEventListener('click',event=>{const button=/** @type {HTMLElement} */(event.target).closest('[data-preview-select]'),id=button?.getAttribute('data-preview-select');if(id&&button instanceof HTMLElement)select(id,button);},{signal:abort.signal});

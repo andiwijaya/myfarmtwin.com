@@ -21,7 +21,7 @@
       "notice": "dist/play/vendor/three/LICENSE.txt"
     },
     {
-      "path": "dist/play/vendor/three/chunks/unified-world-webgl-R4DOSNKO.js",
+      "path": "dist/play/vendor/three/chunks/unified-world-webgl-2L3DQQLQ.js",
       "bytes": 357275,
       "sha256": "426361a2030391ecc85c1c033836b131ad2ed4f606087856702759e9b112a4b7",
       "sourcePackage": "three@0.187.0",
@@ -170,8 +170,8 @@
     },
     {
       "path": "game/client/unified-world-preview.js",
-      "bytes": 61340,
-      "sha256": "a0653e533a82ba188035ee4bb0afe84cc66ebc8b6f6ad339eaefacc76f0dbe14",
+      "bytes": 61358,
+      "sha256": "2d2dfca1739f6d3772ba2bf103be81fd9e37030b270c5d7bb084c8473faae454",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
