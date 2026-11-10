@@ -18,3 +18,12 @@ A shared read-only security-source-audit.mjs scans195project-owned client text f
 Security/SEO/Fish/package runners are prepared with optional coordinated local slot/cutoff and cleanup for the cozy workflow. Basic security adds a fixed paused native fixture and whole protected-storage-map equality after malicious import. Fish security now enters current3D Settings/camera rather than retired area selectors, retaining8current/future xwidth/language cases,32malformed import attempts, native supply-debt disclosure and exact primary/backup/archive/reload protection. SEO checks the actual declared cozy1200x630 social PNG instead of a preserved old illustration. Local canonical-package verification retains raw Git byte checks, with per-file deadline validation and cleanup restricted to its own HTTP server/child.
 
 These prepared browser/HTTP suites have NOT run for D09 yet; current advisory scan, canonical package, full release suite and live policy/header verification remain pending. No source/economy/save/schema/production header or dependency change, browser/build/heavy test, push or deploy occurred in this preparation checkpoint. Daily stop remains17:00WIB/10:00UTC10November; next exclusive verification slot must be coordinated with Zebra.
+
+
+## Cozy D09 local verification accepted,10 November2026
+
+Current evidence supersedes the preceding preparation-only status: desktop/mobile core CSP/HTML-import/whole-save-map checks pass;8Fish current/future xEN/ID x320/1440 cases pass with32malformed imports and exact primary/backup/archive/reload preservation. No external game requests or observed page/CSP violations.9SEO routes/15responsive navigation checks and actual1200x630 cozy social PNG pass.
+
+Committed dist tree f848fadfc227c03e750cfe87a41f1ceb5dbea3c4 from79492b7 validates242files/14receipt entries, with241actual local HTTP objects matching Git SHA256 exactly (_headers serves only as policy). Read-only registry npm audit snapshot2026-11-10T08:04:48.9738902Z exits0 with0advisories across all severities; no dependency update/install/fix. Current provenance/MIT/pins/source patterns pass. See ignored d09-proof.json and the cozy visual checklist for full hashes/scope.
+
+D09 is accepted25/30; full E01 release regressions and E02-E05 pipeline/release/live/rollback gates remain open. All local test resources closed by08:06:13UTC. No push/deploy or physical-device/live/penetration-test claim.
