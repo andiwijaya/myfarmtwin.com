@@ -25,6 +25,8 @@ The owner authorized 3D as the sole experience and removal of Classic/Canvas wor
 
 The original 82-feature checkpoint is in `docs/PRD_MYFARMTWIN_UNIFIED_3D_WORLD_V1.md`; its later owner-directed 3D-only release is tracked in `docs/UNIFIED_WORLD_3D_ONLY_RELEASE.md`. Both distinguish headless/mobile emulation from physical-device testing. Production history is in `docs/UNIFIED_WORLD_DEPLOYMENT.md`. Existing editorial pages and shared media are preserved; homepage updates are explicitly audited separately.
 
+Cozy visual-refresh acceptance and release readiness are tracked in [the living visual checklist](docs/PRD_MYFARMTWIN_COZY_VISUAL_V1.md). Actual homepage capture provenance is in [COZY_HOMEPAGE_CAPTURE.json](docs/COZY_HOMEPAGE_CAPTURE.json); the older deployment documents describe historical releases. Local source-pattern checks can run without a browser with `node tools/security-source-audit.mjs`. They do not replace browser CSP, dependency-advisory or release checks.
+
 ## Verification
 
 The desktop camera rail exposes zoom, four angles, pan, Fit and Reset directly. Mouse wheel over the farm zooms; drag pans. Touch uses drag/pinch and six direct thumb buttons. Help retains keyboard and HTML camera alternatives. Fit shows all terrain; Reset/Home restores the closer 135% starting view. See [camera workspace acceptance](docs/UNIFIED_WORLD_CAMERA_WORKSPACE.md) for the camera follow-up and evidence.
