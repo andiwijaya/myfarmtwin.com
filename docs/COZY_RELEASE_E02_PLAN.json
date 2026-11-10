@@ -1,0 +1,122 @@
+{
+  "kind": "myfarmtwin-cozy-release-e02-plan-v1",
+  "preparedAtUTC": "2026-11-10T14:12:32.704Z",
+  "status": "preflight-verified-awaiting-coordinated-release-live-slot",
+  "E02Accepted": false,
+  "completedFeatures": 26,
+  "totalFeatures": 30,
+  "authorization": {
+    "scope": "This MyFarmTwin cozy visual upgrade, after release gates pass; no Zebra publication",
+    "ownerDirection": "ok bud mulai, full autonomous, dan boleh deploy kalau sudah selesai",
+    "latestParentDirection": "E01 lulus. Lanjutkan E02 dan persiapan rilis secara mandiri menggunakan pemeriksaan ringan sementara Zebra memakai slot berat. Pertahankan preview pengguna. Rilis dan tes live sudah diizinkan setelah seluruh syarat terpenuhi; laporkan kesiapan dan kebutuhan slot berikutnya.",
+    "additionalRoutineConfirmationRequired": false,
+    "exclusiveSlotRequiredForBrowserAndHeavyWork": true,
+    "newDailyStopSuppliedAfterEveningResume": false
+  },
+  "candidate": {
+    "branch": "cozy-world-v1",
+    "acceptedRegressionCommit": "cf5462764bd0c49462312f085206028e573a7fd8",
+    "distTree": "f848fadfc227c03e750cfe87a41f1ceb5dbea3c4",
+    "buildReceiptSHA256": "58f9962fd99bf8b4e2f0b6e534d02ef0ccdc5ed9cb1d926603370829724281e7",
+    "E01Proof": "qa-artifacts/cozy-world-v1/e01-proof.json",
+    "unitPassed": 536,
+    "fullBrowserSuites": 14,
+    "fullBrowserProfiles": 91,
+    "canonicalPublishedFiles": 242,
+    "canonicalHTTPObjectsVerifiedLocally": 241,
+    "rootPreviewPort": 4177,
+    "rootPreviewStoppedOrRebuilt": false,
+    "receiptHashMethod": "SHA256(JSON.stringify(JSON.parse(build-info.json))) as used by accepted E01 proof",
+    "buildReceiptRawSHA256": "32eba35bfa24b15a82e3acdd03bf68b6fe286ddb36a96b53718b8709e93fca34",
+    "distRawFilesRechecked": 242
+  },
+  "observedProduction": {
+    "source": "ee47d531d145930c18fe046bd2b9b409ebb9d828",
+    "distTree": "1c9cd1094f054d0242486d5228323a87d8f90823",
+    "cloudflareAccount": "de3db9734efdbc946c1265eda87842d7",
+    "cloudflareProject": "myfarmtwin-com",
+    "deployment": "544d6f3b-6886-4b1c-90c7-1a4a4af47708",
+    "immutableOrigin": "https://544d6f3b.myfarmtwin-com.pages.dev",
+    "deploymentStage": "success",
+    "githubCheck": "Cloudflare Pages: completed/success, matching source and deployment",
+    "sourceType": "github",
+    "repository": "andiwijaya/myfarmtwin.com",
+    "productionBranch": "main",
+    "productionAutomaticDeploymentsEnabled": true,
+    "buildCommand": "",
+    "buildRoot": "",
+    "buildOutput": "dist",
+    "publicOrigins": [
+      "https://myfarmtwin.com",
+      "https://www.myfarmtwin.com"
+    ],
+    "freshHTTPProbeScope": "Three decoded objects (homepage, play HTML, build receipt) at both public origins and provider-returned immutable origin: nine exact Git matches. Not a full live gameplay or whole-package test.",
+    "evidenceDirectory": "qa-artifacts/cozy-world-v1/e02-preflight",
+    "recheckImmediatelyBeforePush": true
+  },
+  "publication": {
+    "method": "One ordinary non-force fast-forward Git push of the current reviewed candidate to origin main through the existing Cloudflare Git integration",
+    "remoteExpectedSource": "ee47d531d145930c18fe046bd2b9b409ebb9d828",
+    "candidateDescendsFromProduction": true,
+    "localMainIsStaleDoNotPublishIt": true,
+    "beforePush": [
+      "Coordinate an exclusive release/live browser slot; preserve the user preview at port4177",
+      "Re-read actual remote main and provider canonical production; stop to reconcile unexpected changes",
+      "Require clean candidate, exact accepted dist tree/receipt, retained proof hashes and current dependency advisory evidence",
+      "Inspect dry-run push result, then publish the verified current HEAD without force or unrelated changes"
+    ],
+    "afterPush": [
+      "Observe actual provider deployment and GitHub Cloudflare check for the pushed source; do not treat an accepted push as successful deployment",
+      "Verify all241 decoded public resource bodies against canonical Git, build receipts at public and provider-returned immutable origins, and actual CSP/cache/encoding",
+      "Run E03 disposable-context desktop/phone native gameplay, camera, entry/error/retry, save and homepage flows with synthetic fixtures",
+      "Run E04 public cold/warm loading with no overlapping browser suites and report map, native care and all-art readiness separately",
+      "Close own QA resources, retain failed attempts, complete E05 only after actual live results"
+    ],
+    "excluded": [
+      "force push",
+      "unnecessary Actions runs",
+      "manual asset upload",
+      "Sites deployment",
+      "provider build setting changes",
+      "DNS/security/analytics changes",
+      "cache purge",
+      "dependency installation",
+      "user profile or save access"
+    ],
+    "pushExecuted": false,
+    "deploymentExecuted": false,
+    "dryRun": {
+      "executed": true,
+      "exitCode": 0,
+      "remoteSource": "ee47d531d145930c18fe046bd2b9b409ebb9d828",
+      "candidateSource": "cf5462764bd0c49462312f085206028e573a7fd8",
+      "remoteMutated": false
+    }
+  },
+  "rollback": {
+    "targetSource": "ee47d531d145930c18fe046bd2b9b409ebb9d828",
+    "targetDistTree": "1c9cd1094f054d0242486d5228323a87d8f90823",
+    "targetSuccessfulDeployment": "544d6f3b-6886-4b1c-90c7-1a4a4af47708",
+    "experience": "webgl-3d-only",
+    "saveKey": "myfarmtwin.save.v1",
+    "saveSchema": 5,
+    "nativeModulesComparedWithCandidate": 117,
+    "nativeCanonicalBytesIdentical": true,
+    "compatibilityBasis": "Identical native simulation/save modules plus accepted current V0-V5 protection regression; no separate rollback browser run in this light turn",
+    "onReleaseFailure": "Stop rollout, retain evidence, recheck actual project state, then use the existing provider rollback mechanism for this verified successful 3D-only deployment if needed. Confirm public receipt and save/gameplay afterward. Never force-reset remote history or restore Classic2D.",
+    "rollbackExecuted": false
+  },
+  "limitations": {
+    "browserOrBuildExecutedThisLightTurn": false,
+    "productionGameActionsExecutedThisTurn": false,
+    "physicalAndroidTested": false,
+    "displayFPSOrVRAMMeasured": false,
+    "liveE03AndE04Accepted": false,
+    "remainingGates": [
+      "E02 authorized publication and observed deployment",
+      "E03 live functionality",
+      "E04 actual public loading and encoding",
+      "E05 final evidence and handoff"
+    ]
+  }
+}
