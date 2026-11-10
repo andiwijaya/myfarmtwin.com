@@ -10,11 +10,14 @@ import {deserialize,serialize} from '../game/client/save-schema.js';
 assert.ok(process.argv.slice(2).every(a=>a==='--accept-d07'));
 const accept=process.argv.includes('--accept-d07'),qa=process.env.QA_DIR||'qa-artifacts/cozy-world-v1';
 const hash=b=>createHash('sha256').update(b).digest('hex'),json=async p=>JSON.parse(await readFile(p,'utf8'));
-const receipt=hash(JSON.stringify(await json('dist/play/build-info.json'))),loading=await json(join(qa,'d07-loading-proof.json'));
+// New attempts keep the failed first run and its receipt-bound loading proof intact.
+const loadingName=process.env.COZY_D07_LOADING_PROOF||'d07-loading-proof.json',soakName=process.env.COZY_D07_SOAK_DIR||'d07-soak-first';
+assert.match(loadingName,/^[a-z0-9-]+\.json$/);assert.match(soakName,/^[a-z0-9-]+$/);
+const receipt=hash(JSON.stringify(await json('dist/play/build-info.json'))),loading=await json(join(qa,loadingName));
 assert.equal(loading.receiptSHA256,receipt);assert.equal(loading.controlledProfilesPassed,2);assert.equal(loading.coldWarmSamplesPerProfile,1);assert.equal(loading.real15MinuteSoakExecuted,false);
 const loadBytes=await readFile(loading.report.path),load=JSON.parse(loadBytes);assert.equal(hash(loadBytes),loading.report.sha256);assert.equal(load.buildReceiptSHA256,receipt);assert.equal(load.loadOnly,false);assert.equal(load.runs.length,2);assert.deepEqual(load.errors,[]);assert.deepEqual(load.consoleErrors,[]);assert.deepEqual(load.failures,[]);assert.equal(load.slotExpired,false);
 for(const p of load.runs){assert.ok(p.windowMs>=60000);assert.ok(p.firstMapMs<=5000&&p.warmBoot.firstMapMs<=5000);assert.ok(p.trustedInputResponseMs<=100&&p.warmBoot.trustedInputResponseMs<=100);assert.ok(p.successfulRenderHz>=(p.mobile?30:50)&&p.medianRenderHz>=(p.mobile?30:50));assert.ok(p.heapGrowthMiB<20);assert.equal(p.intervals,1);assert.equal(p.saveAndLedgerExact,true);assert.equal(p.reducedMotionStopsAndResumes,true);}
-const dir=join(qa,'d07-soak-first'),bytes=await readFile(join(dir,'animation-soak.json')),r=JSON.parse(bytes);
+const dir=join(qa,soakName),bytes=await readFile(join(dir,'animation-soak.json')),r=JSON.parse(bytes);
 assert.equal(r.buildReceiptSHA256,receipt);assert.ok(!r.failure);assert.deepEqual(r.errors,[]);assert.deepEqual(r.consoleErrors,[]);assert.equal(r.slotExpired,false);assert.equal(r.minimumAcceptanceWallMs,900000);assert.ok(r.requestedWallDurationMs>=900000);assert.ok(r.wallElapsedMs>=r.requestedWallDurationMs);assert.equal(r.acceptanceDurationMet,true);
 for(const flag of ['fullNativeSaveLedgerExact','oneSceneCameraClockCanvas','noHistoricalOrDuplicateAnimals','reloadExact'])assert.equal(r[flag],true,flag);
 assert.ok(r.samples.length>=25);assert.ok(r.samples[0].elapsedMs<10000);assert.ok(r.samples.at(-1).elapsedMs>=r.requestedWallDurationMs-60000);for(let i=1;i<r.samples.length;i++)assert.ok(r.samples[i].elapsedMs>r.samples[i-1].elapsedMs&&r.samples[i].tick>=r.samples[i-1].tick);

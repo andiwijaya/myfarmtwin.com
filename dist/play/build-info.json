@@ -5,10 +5,10 @@
   "esbuild": "0.28.2",
   "sourceMaps": false,
   "entries": {
-    "loader": "world-loader-FC4P6E5J.js",
-    "main": "main-RDWSPSIB.js",
-    "bootstrap": "unified-world-bootstrap-S4KTGJZ7.js",
-    "world": "unified-world-preview-TJREJIKK.js",
+    "loader": "world-loader-IMBXCDXE.js",
+    "main": "main-AMCNV4VB.js",
+    "bootstrap": "unified-world-bootstrap-OWRLBY3Z.js",
+    "world": "unified-world-preview-HUK4V4JQ.js",
     "cpu": "vendor/three/three.module-ZULN4FYF.js"
   },
   "defaultCore": [
@@ -35,7 +35,7 @@
     {
       "name": "index.html",
       "bytes": 12968,
-      "sha256": "7b073fc5fb61dca1c4aecf6d398e2b1eab068ee35079fee57726d38908d3b24a"
+      "sha256": "345c41a5c35ca485fe948a0d4afb4792537bccbf28bffa52a976818dfd007838"
     },
     {
       "name": "style.css",
@@ -43,14 +43,14 @@
       "sha256": "644e91c473b4fad71b057f34cc6e6b4fccf6dc95d3594f97a884c6a8cac40c87"
     },
     {
-      "name": "unified-world-bootstrap-S4KTGJZ7.js",
+      "name": "unified-world-bootstrap-OWRLBY3Z.js",
       "bytes": 3632,
-      "sha256": "68bc35a25bac2d40583bad2b4268ad3392b6993f8769cb4a7f6f3f3eabc0dd68"
+      "sha256": "de0e816b515a469a3ade6710024d4cc87d86175a927acdc3d57a2e3e81af4446"
     },
     {
-      "name": "unified-world-preview-TJREJIKK.js",
-      "bytes": 163438,
-      "sha256": "049097a95158d3a99b3c64967ddcd388425e811efd0d545970890c0246e9a239"
+      "name": "unified-world-preview-HUK4V4JQ.js",
+      "bytes": 163732,
+      "sha256": "2d520c5226fb42261de400eed3136e3846649f63cef82fd48ca9444936a228a6"
     },
     {
       "name": "vendor/game/chunks/chunk-6J75SRKQ.js",
@@ -63,31 +63,31 @@
       "sha256": "d08e93dcb9991e4b16634bc4a5f615289cee28607969755346fec45817e27a58"
     },
     {
-      "name": "vendor/three/chunks/unified-world-webgl-2L3DQQLQ.js",
+      "name": "vendor/three/chunks/unified-world-webgl-R4DOSNKO.js",
       "bytes": 357275,
       "sha256": "426361a2030391ecc85c1c033836b131ad2ed4f606087856702759e9b112a4b7"
     },
     {
-      "name": "world-loader-FC4P6E5J.js",
+      "name": "world-loader-IMBXCDXE.js",
       "bytes": 751,
-      "sha256": "18a79001e31a4c3644fdb9d88af307cd0436b2685d103d13581a9ea33fb8e056"
+      "sha256": "4b9dc8c04de53ef5fbdc9bd8aa0a366e8b3524d3b8e70fd42dc16e1519ae0a30"
     }
   ],
   "emitted": [
     {
-      "name": "main-RDWSPSIB.js",
+      "name": "main-AMCNV4VB.js",
       "bytes": 222379,
-      "sha256": "bf6a9410cd5a6c7f56a9624a377c033950c796943a84fe3f0b074723e15d6f61"
+      "sha256": "08861839dbed5110973adc820b15ae80be4e952bf60851affd98e3fe9ba48697"
     },
     {
-      "name": "unified-world-bootstrap-S4KTGJZ7.js",
+      "name": "unified-world-bootstrap-OWRLBY3Z.js",
       "bytes": 3632,
-      "sha256": "68bc35a25bac2d40583bad2b4268ad3392b6993f8769cb4a7f6f3f3eabc0dd68"
+      "sha256": "de0e816b515a469a3ade6710024d4cc87d86175a927acdc3d57a2e3e81af4446"
     },
     {
-      "name": "unified-world-preview-TJREJIKK.js",
-      "bytes": 163438,
-      "sha256": "049097a95158d3a99b3c64967ddcd388425e811efd0d545970890c0246e9a239"
+      "name": "unified-world-preview-HUK4V4JQ.js",
+      "bytes": 163732,
+      "sha256": "2d520c5226fb42261de400eed3136e3846649f63cef82fd48ca9444936a228a6"
     },
     {
       "name": "vendor/game/chunks/chunk-6J75SRKQ.js",
@@ -100,7 +100,7 @@
       "sha256": "d08e93dcb9991e4b16634bc4a5f615289cee28607969755346fec45817e27a58"
     },
     {
-      "name": "vendor/three/chunks/unified-world-webgl-2L3DQQLQ.js",
+      "name": "vendor/three/chunks/unified-world-webgl-R4DOSNKO.js",
       "bytes": 357275,
       "sha256": "426361a2030391ecc85c1c033836b131ad2ed4f606087856702759e9b112a4b7"
     },
@@ -110,11 +110,11 @@
       "sha256": "98322021b87752753893ab0af57eaf317c99c9b494a8c3b0760da26e812ef07d"
     },
     {
-      "name": "world-loader-FC4P6E5J.js",
+      "name": "world-loader-IMBXCDXE.js",
       "bytes": 751,
-      "sha256": "18a79001e31a4c3644fdb9d88af307cd0436b2685d103d13581a9ea33fb8e056"
+      "sha256": "4b9dc8c04de53ef5fbdc9bd8aa0a366e8b3524d3b8e70fd42dc16e1519ae0a30"
     }
   ],
-  "lazyWebGL": "vendor/three/chunks/unified-world-webgl-2L3DQQLQ.js",
+  "lazyWebGL": "vendor/three/chunks/unified-world-webgl-R4DOSNKO.js",
   "retainedStandaloneModules": true
 }

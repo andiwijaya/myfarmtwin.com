@@ -21,7 +21,7 @@
       "notice": "dist/play/vendor/three/LICENSE.txt"
     },
     {
-      "path": "dist/play/vendor/three/chunks/unified-world-webgl-2L3DQQLQ.js",
+      "path": "dist/play/vendor/three/chunks/unified-world-webgl-R4DOSNKO.js",
       "bytes": 357275,
       "sha256": "426361a2030391ecc85c1c033836b131ad2ed4f606087856702759e9b112a4b7",
       "sourcePackage": "three@0.187.0",
@@ -330,9 +330,16 @@
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
     {
+      "path": "game/client/unified-world-alpha.js",
+      "bytes": 578,
+      "sha256": "9881821c8161f30a0539eed9cbda554881dc76e3a4fb8d03b762603b3c2ff7b0",
+      "representation": "UTF-8 with LF; portable repository-source checksum",
+      "origin": "Original work authored for this repository under the current task; no external asset content"
+    },
+    {
       "path": "game/client/unified-world-sprites.js",
-      "bytes": 17008,
-      "sha256": "f85c278239d3da99aa4c632544dc9b8eeb1a4c707ddd8e031b7fece2983b4fd5",
+      "bytes": 17183,
+      "sha256": "47afe49d680d54d3a38bb8ece52f4f2e6cab34abc64c9131e4ea5335f4a0cbd1",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },
@@ -359,8 +366,8 @@
     },
     {
       "path": "game/client/unified-world-contact.js",
-      "bytes": 1994,
-      "sha256": "8496b2b8ca25f62764ebf4929bba9a4c24ec4685e4944b1728a9ce94d2ddb9da",
+      "bytes": 1980,
+      "sha256": "da3352af9b8c550f7e7361b97410089d13055b3cabba28d42b93be7ef8bb55d2",
       "representation": "UTF-8 with LF; portable repository-source checksum",
       "origin": "Original work authored for this repository under the current task; no external asset content"
     },

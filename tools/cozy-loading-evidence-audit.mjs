@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {readFile,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+const qa='qa-artifacts/cozy-world-v1',name=process.env.COZY_LOADING_REPORT_DIR;
+assert.match(name||'',/^[a-z0-9-]+$/,'Explicit completed local report directory');
+const path=qa+'/'+name+'/feasibility.json',bytes=await readFile(path),r=JSON.parse(bytes),hash=b=>createHash('sha256').update(b).digest('hex'),receipt=hash(JSON.stringify(JSON.parse(await readFile('dist/play/build-info.json','utf8'))));
+assert.equal(r.buildReceiptSHA256,receipt);assert.equal(r.loadOnly,false);assert.equal(r.runs.length,2);assert.equal(r.runs.filter(p=>p.mobile).length,1);assert.deepEqual(r.errors,[]);assert.deepEqual(r.consoleErrors,[]);assert.deepEqual(r.failures,[]);assert.equal(r.slotExpired,false);
+for(const p of r.runs){assert.ok(p.windowMs>=60000);assert.ok(p.firstMapMs<=5000&&p.warmBoot.firstMapMs<=5000);assert.ok(p.trustedInputResponseMs<=100&&p.warmBoot.trustedInputResponseMs<=100);assert.ok(p.successfulRenderHz>=(p.mobile?30:50)&&p.medianRenderHz>=(p.mobile?30:50));assert.ok(p.heapGrowthMiB<20);assert.equal(p.intervals,1);assert.equal(p.saveAndLedgerExact,true);assert.equal(p.reducedMotionStopsAndResumes,true);}
+const proof={D07Accepted:false,completedFeatures:22,totalFeatures:30,receiptSHA256:receipt,report:{path,sha256:hash(bytes)},controlledProfilesPassed:2,coldWarmSamplesPerProfile:1,rows:r.runs.map(p=>({mobile:p.mobile,mapMs:p.firstMapMs,careMs:p.controlsReadyMs,completeSpriteMs:p.spriteReadyMs,warmMapMs:p.warmBoot.firstMapMs,warmCareMs:p.warmBoot.controlsReadyMs,warmCompleteSpriteMs:p.warmBoot.spriteReadyMs,coldTransferBytes:p.networkSummary.transferBytes,warmTransferBytes:p.warmBoot.totalTransferBytes,sampleMs:p.windowMs,successfulSubmitHz:p.successfulRenderHz,medianSubmitHz:p.medianRenderHz,postGCHeapGrowthMiB:p.heapGrowthMiB})),localTransportOnly:true,physicalAndroid:false,displayFPSMeasured:false,VRAMBytesMeasured:false,real15MinuteSoakExecuted:false,push:false,deploy:false};
+await writeFile(qa+'/d07-alpha-loading-proof.json',JSON.stringify(proof,null,2)+'\n');console.log(JSON.stringify(proof,null,2));
