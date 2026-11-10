@@ -1,0 +1,44 @@
+{
+  "kind": "myfarmtwin-cozy-home-v1",
+  "receiptSHA256": "58f9962fd99bf8b4e2f0b6e534d02ef0ccdc5ed9cb1d926603370829724281e7",
+  "fixtureSHA256": "666a3a58d4eeeba8416fa6f7b27a689c306dba5a341a374c47a4fe035a351f73",
+  "tick": 1602,
+  "method": "Actual untouched game canvas and viewport. Crop/Chicken/Goat/Cow/Fish in one world; HTML viewport social includes the real HUD. No art generation or screenshot editing.",
+  "selected": [
+    {
+      "name": "hero",
+      "path": "qa-artifacts/cozy-world-v1/d08-capture/hero-h0.png",
+      "width": 1316,
+      "height": 754,
+      "sha256": "4c1ac58162530478c7e418c243415b4905d91b9adad3874d22083a1e858ac2f9",
+      "renderer": "three",
+      "heading": 0,
+      "zoom": 1,
+      "x": 5,
+      "z": 0,
+      "actors": 23,
+      "ready": 23,
+      "atlas": "high",
+      "productionPath": "dist/assets/farm-world-cozy-v1.png"
+    },
+    {
+      "name": "social",
+      "path": "qa-artifacts/cozy-world-v1/d08-capture/social-h0.png",
+      "width": 1200,
+      "height": 630,
+      "sha256": "4b0f94c3d3b25a4743993071559efc663caa48148b5cbde82c2ad28b2fdb5298",
+      "renderer": "three",
+      "heading": 0,
+      "zoom": 1,
+      "x": 5,
+      "z": 0,
+      "actors": 23,
+      "ready": 23,
+      "atlas": "high",
+      "productionPath": "dist/assets/farm-world-cozy-social-v1.png"
+    }
+  ],
+  "originalPixelsUnchanged": true,
+  "source": "Original MyFarmTwin gameplay with native paid synthetic fixture; no external assets",
+  "physicalDevice": false
+}
