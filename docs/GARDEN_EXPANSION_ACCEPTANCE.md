@@ -157,7 +157,7 @@ Homepage passes **24 bilingual surfaces plus three fallback cases**, save
 preservation, keyboard/game entry and 24 protected prior-release assets. Final
 SEO checks preserve nine routes and 15 editorial layouts with the new social PNG.
 
-Remaining: **21/22** (production preflight/deploy and live verification). The
+Remaining: checklist items **21 and 22** (production preflight/deploy and live verification). The
 previous public V5 deployment is not a playable rollback for V6 saves. Before
 publishing, prepare/verify a V6-compatible rollback using the native-compatible
 corn checkpoint `7503ca9` or a forward fix; never downgrade/reset saves. Owner's
