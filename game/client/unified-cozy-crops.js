@@ -1,6 +1,12 @@
 import {COZY_ART} from './unified-cozy-art.js';
 import {cropParts} from './unified-world-crops.js';
 import {compileWorldParts} from './unified-world-part-meshes.js';
+import {gardenVariant} from './garden-growth.js';
+
+/** Geometry is identical for a species/stage/plant. Native bed IDs affect only
+ * transforms; retain shared triangles until the last owning mesh releases them.
+ * @type {Map<string,import('three').Mesh[]>} */
+const plantGeometry=new Map();
 
 /** @typedef {import('./unified-world-environment.js').EnvironmentPart} Part */
 /** Native bed footprint and soil surface stay unchanged; water affects soil
@@ -28,15 +34,21 @@ export function cropBedParts(e){
  * @param {import('three').MeshLambertMaterial} material
  * @returns {import('three').Mesh[]} */
 export function createCropMeshes(e,material){
- const parts=e.crop?cropParts(e.crop):[],staticParts=cropBedParts(e),canopies=/** @type {Map<number,import('./unified-world-crops.js').CropPart[]>} */(new Map());
+ const parts=e.crop?cropParts(e.crop):[],staticParts=cropBedParts(e),plants=/** @type {Map<number,import('./unified-world-crops.js').CropPart[]>} */(new Map());
  /** @param {Readonly<import('./unified-world-crops.js').CropPart>} p @returns {Part} */
  const convert=p=>({x:p.x,y:p.y,z:p.z,width:p.w,height:p.h,depth:p.d,color:p.color,pitch:p.rx,rotation:p.ry,tilt:p.rz,shape:p.shape,feature:p.feature,startupOptional:false});
- for(const part of parts){if(part.leaf){const list=canopies.get(part.plant)||[];list.push(part);canopies.set(part.plant,list);}else staticParts.push(convert(part));}
+ for(const part of parts){if(part.plant>=0){const list=plants.get(part.plant)||[];list.push(part);plants.set(part.plant,list);}else staticParts.push(convert(part));}
  const meshes=compileWorldParts(staticParts,material);
- for(const [plant,leaves]of canopies){
-  const stem=parts.find(p=>p.plant===plant&&(p.feature==='lettuce-heart'||p.feature==='tomato-stem'||p.feature==='corn-stem'));if(!stem)throw new Error('Missing native plant anchor');
-  const relative=leaves.map(p=>({...convert(p),x:p.x-stem.x,y:p.y-.12,z:p.z-stem.z}));
-  for(const mesh of compileWorldParts(relative,material,{preserveFaces:true})){mesh.position.set(stem.x,.12,stem.z);mesh.userData.cropLeaf=true;mesh.userData.cropLeafCount=leaves.length;mesh.userData.restZ=0;meshes.push(mesh);}
+ for(const [plant,body]of plants){
+  const stem=body.find(p=>p.feature==='lettuce-heart'||p.feature==='tomato-stem'||p.feature==='corn-stem'||p.feature==='corn-seed');if(!stem)throw new Error('Missing native plant anchor');
+  const relative=body.map(p=>({...convert(p),x:p.x-stem.x,y:p.y-.12,z:p.z-stem.z})),variant=gardenVariant(e.id,plant);
+  const key=e.crop?.type+':'+e.crop?.stage+':'+plant;let templates=plantGeometry.get(key);
+  if(!templates){templates=compileWorldParts(relative,material,{preserveFaces:true});for(const template of templates){template.geometry.userData.gardenShared=true;template.geometry.userData.gardenRefs=0;template.geometry.userData.gardenRelease=()=>plantGeometry.delete(key);}plantGeometry.set(key,templates);}
+  for(const template of templates){
+   const mesh=template.clone();mesh.material=material;mesh.geometry.userData.gardenRefs++;
+   mesh.position.set(stem.x,.12,stem.z);mesh.userData.cropPlant=true;mesh.userData.cropLeaf=body.some(p=>p.leaf);mesh.userData.cropLeafCount=body.filter(p=>p.leaf).length;mesh.userData.restZ=0;mesh.userData.gardenVariant=variant;
+   mesh.rotation.y=variant.turn;mesh.scale.set(variant.width,variant.height,variant.width);meshes.push(mesh);
+  }
  }
  return meshes;
 }

@@ -1,9 +1,15 @@
-import {cp,mkdir,copyFile,readFile,writeFile} from 'node:fs/promises';
-import {resolve,join} from 'node:path';
+import {cp,mkdir,copyFile,readFile,writeFile,rm,lstat,realpath} from 'node:fs/promises';
+import {resolve,join,sep} from 'node:path';
+import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {build} from './build.mjs';
 // Build beside ignored QA data; never replace the user's existing dist preview.
 const root=resolve('qa-artifacts/garden/build');
+assert.equal(root,join(resolve('qa-artifacts/garden'),'build'));
+assert.ok(root.startsWith(resolve('qa-artifacts/garden')+sep));
+try{assert.equal((await lstat(root)).isSymbolicLink(),false);assert.equal((await realpath(root)).toLowerCase(),root.toLowerCase());}catch(e){if(e.code!=='ENOENT')throw e;}
+// Exact verified generated build only. Failed receipts/captures live beside it.
+await rm(root,{recursive:true,force:true});
 await mkdir(root,{recursive:true});
 await cp('game/client',join(root,'game/client'),{recursive:true});
 await cp('dist',join(root,'dist'),{recursive:true});

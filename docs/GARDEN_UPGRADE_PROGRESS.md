@@ -39,9 +39,18 @@
 - Codex **internal browser (IAB)** fresh-farm buy/plant/water/Next day also
   visibly verified `Corn · Sprout · 20%` and disabled early harvest. All testing
   remains isolated; no Windows/native app takeover or personal Chrome/profile.
-- Next increment: reusable smooth visual growth, whole-stem/leaf wind,
-  deterministic plant variation and upgraded plant appearance, then dense
-  garden picking/performance regression. No garden production deployment yet.
+- **F3 accepted:** upgraded lettuce/tomato/corn models, reusable 320ms native-
+  progress easing, stable-ID height/size/rotation, whole-stem/leaf wind, retained
+  accepted harvest pop, shared plant buffers with last-owner disposal.
+- F3 validation: **549/549 full tests PASS**, typecheck PASS; actual desktop/phone
+  24-bed mixed-garden growth/wind/intermediate-transform samples, reduced-motion
+  and Low stop/resume, one original interval/canvas, confirmed import/backup,
+  accepted harvest receipt and exact native other-area state. **64 plants / eight
+  shared geometries**. Eight actual dense PNGs; desktop/phone pixels inspected.
+- Current main checklist: **11/22 accepted (50%)**, excluding initial audit.
+  Next: worst-case tall-corn picking, complete mobile/five-area/data/security
+  regression, controlled performance and production build/release. No garden
+  production deployment yet.
 - Further commands run under `tools/garden-run.mjs` with the ignored owner work
   window ending `2026-11-11T10:00:00Z`; its hard stop targets only its own child.
 

@@ -20,13 +20,13 @@ Cloudflare Pages project remains `myfarmtwin-com`, output `dist`.
 - [x] 4. Add corn seeds, inventory, prices, harvest and sale end to end.
 - [x] 5. Implement five corn growth stages with mature height about 2–3 world units.
 - [x] 6. Verify the full plant/care/grow/harvest/sell/replant loop.
-- [ ] 7. Improve real 3D lettuce/tomato/corn geometry and deterministic variation.
-- [ ] 8. Reusable simulation-driven growth and gentle wind/harvest animation.
+- [x] 7. Improve real 3D lettuce/tomato/corn geometry and deterministic variation.
+- [x] 8. Reusable simulation-driven growth and gentle wind/harvest animation.
 - [ ] 9. Honor pause, reduced motion, low graphics and hidden-tab behavior.
 - [ ] 10. Keep tall plants selectable without blocking adjacent care controls.
-- [ ] 11. Retain irrigation, water, economy, upgrades and original progression.
+- [x] 11. Retain irrigation, water, economy, upgrades and original progression.
 - [x] 12. Strict old-save migration with original-byte retention and quota safety.
-- [ ] 13. Unit/integration tests for placement, growth, actions and economy.
+- [x] 13. Unit/integration tests for placement, growth, actions and economy.
 - [ ] 14. Save/load, import/export, backup, recovery and stale-tab tests.
 - [ ] 15. Automated real-3D stage, animation, collision and picking harness.
 - [ ] 16. Camera/keyboard/mouse/touch and EN/ID responsive checks.
@@ -68,3 +68,19 @@ Actual mature desktop pixels were inspected. An additional **Codex internal
 browser** (IAB) fresh-farm flow verified buying corn, selecting it, planting,
 watering and Next day: visible `Corn · Sprout · 20%`, harvest disabled. No native
 Windows input, personal Chrome attachment or personal save was used.
+
+F3 visual/growth acceptance: **549/549 native tests PASS**, strict typecheck PASS.
+Rounded lettuce hearts/curled leaves, supported tomatoes with green/ripe fruit,
+and broader corn leaves retain real closed 3D geometry. Stable-ID variations
+change transforms without game RNG. Native progress is eased for 320 ms on the
+existing RAF; elapsed renderer time can never advance native progress. Whole
+plants sway with a bounded angle. Shared plant buffers are reference-counted;
+the last owner alone disposes them, verified by tests.
+Desktop and phone browser profiles pass actual intermediate scale/wind samples,
+reduced-motion and Low static poses, resume, accepted harvest pop, exact native
+save/other-area state, one original interval/canvas, and confirmed dense-save
+import with exact prior backup. **64 plants / eight unique plant geometries**
+were observed in the actual scene. Eight dense mixed-garden PNGs and receipts
+are in `growth/`; unit/full logs include `f3-growth-unit.log`, `f3-final-tests.log`.
+Actual desktop/phone dense pixels were inspected. Dense picking, comprehensive
+regression and controlled loading remain separate pending acceptance gates.

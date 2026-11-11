@@ -70,5 +70,7 @@ export function compileWorldParts(parts,material,options={}){
 /** Release only per-entity baked geometry; shared cubes/materials stay alive.
  * @param {import('three').Object3D} root */
 export function disposePartMeshes(root){
- const seen=new Set();root.traverse(object=>{if(!(object instanceof Mesh))return;/** @type {WorldPartLod|undefined} */const lod=object.userData.worldPartLod;const geometries=[object.geometry,...lod?[lod.full,lod.overview]:[]];for(const geometry of geometries)if(geometry?.userData.worldOwned&&!geometry.userData.worldReleased&&!seen.has(geometry)){seen.add(geometry);geometry.userData.worldReleased=true;geometry.dispose();}if(lod){lod.disposed=true;lod.createOverview=null;}});
+ const seen=new Set();root.traverse(object=>{if(!(object instanceof Mesh))return;
+  if(object.geometry.userData.gardenShared){if(!object.userData.gardenGeometryReleased){object.userData.gardenGeometryReleased=true;const geometry=object.geometry;geometry.userData.gardenRefs--;if(geometry.userData.gardenRefs===0&&!geometry.userData.worldReleased){geometry.userData.worldReleased=true;geometry.dispose();geometry.userData.gardenRelease();}}return;}
+  /** @type {WorldPartLod|undefined} */const lod=object.userData.worldPartLod;const geometries=[object.geometry,...lod?[lod.full,lod.overview]:[]];for(const geometry of geometries)if(geometry?.userData.worldOwned&&!geometry.userData.worldReleased&&!seen.has(geometry)){seen.add(geometry);geometry.userData.worldReleased=true;geometry.dispose();}if(lod){lod.disposed=true;lod.createOverview=null;}});
 }

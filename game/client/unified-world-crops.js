@@ -15,8 +15,8 @@ export function cropParts(crop){
    if(stage===0){add(plant,'corn-seed','foliage',x,.135,z,.045,.03,.035,'#d7b263');continue;}
    add(plant,'corn-stem','cylinder',x,.12+height/2,z,.022+stage*.004,height,.022+stage*.004,'#71994b');
    for(let i=0;i<count;i++){
-    const side=i%2?1:-1,y=.12+height*(.16+i*.075),length=[0,.11,.22,.32,.38][stage];
-    add(plant,'corn-leaf','leaf',x+side*length*.24,y,z+(i%3-1)*.025,.045+stage*.015,.025,length,i%2?'#7eac52':'#5f9146',-.3,side*Math.PI/2,side*.18,true);
+    const side=i%2?1:-1,y=.12+height*(.16+i*.075),length=[0,.11,.22,.34,.42][stage];
+    add(plant,'corn-leaf','leaf',x+side*length*.24,y,z+(i%3-1)*.025,.045+stage*.02,.025,length,i%2?'#8bb65b':'#65964b',-.38,side*Math.PI/2,side*.18,true);
    }
    if(stage>=3){
     const y=.12+height*.57;
@@ -27,17 +27,18 @@ export function cropParts(crop){
    }
   }
  }else if(crop.type==='lettuce'){
-  const size=[.065,.1,.135,.165][stage],centers=[[-.23,-.22],[.23,-.22],[-.23,.22],[.23,.22]],count=stage===0?2:stage===1?4:6;
+  const size=[.065,.1,.135,.165][stage],centers=[[-.23,-.22],[.23,-.22],[-.23,.22],[.23,.22]],count=stage===0?2:stage===1?4:stage===2?6:7;
   for(const [plant,[x,z]]of centers.entries()){
-   add(plant,'lettuce-heart','foliage',x,.12+size*.35,z,size*.8,size*.7,size*.8,'#84b35c');
-   for(let i=0;i<count;i++){const a=i*Math.PI*2/count+plant*.18,depth=size*1.35,r=depth/2-.006;add(plant,'lettuce-leaf','leaf',x+Math.sin(a)*r,.14+size*.3,z+Math.cos(a)*r,size*.92,.022+size*.06,depth,i%2?'#79a954':'#96be68',-.35,a,0,true);}
+   add(plant,'lettuce-heart','foliage',x,.12+size*.475,z,size*.9,size*.95,size*.9,'#9bc575');
+   for(let i=0;i<count;i++){const a=i*Math.PI*2/count+plant*.18,depth=size*1.35,r=depth/2-.006;add(plant,'lettuce-leaf','leaf',x+Math.sin(a)*r,.14+size*.3,z+Math.cos(a)*r,size*.92,.028+size*.08,depth,i%2?'#79a954':'#a5c979',-.48,a,0,true);}
   }
  }else{
   const height=[.13,.28,.49,.7][stage],count=stage===0?2:stage===1?4:6;
   for(const [plant,x]of [-.22,.22].entries()){
    add(plant,'tomato-stem','cylinder',x,.12+height/2,0,.028,height,.028,'#65894b');
    for(let i=0;i<count;i++){const side=i%2?1:-1,y=.12+height*(.25+Math.floor(i/2)*.23),depth=[.12,.15,.18,.2][stage],a=side*Math.PI/2,offset=depth/2-.006;add(plant,'tomato-leaf','leaf',x+side*offset,y,Math.floor(i/2)%2?.035:-.035,[.085,.11,.14,.16][stage],.025,depth,i%2?'#6d9d4e':p.leaf,-.25,a,side*.08,true);}
-   if(stage===2)for(const [dx,dz]of [[-.025,0],[.025,0],[0,.025]])add(plant,'tomato-flower','foliage',x+dx,.51,dz,.045,.035,.045,'#e5c66f');
+   if(stage===2){for(const [dx,dz]of [[-.025,0],[.025,0],[0,.025]])add(plant,'tomato-flower','foliage',x+dx,.51,dz,.045,.035,.045,'#e5c66f');add(plant,'tomato-unripe','foliage',x+.06,.41,.04,.065,.07,.065,'#9caf58');}
+   if(stage>=2)add(plant,'tomato-branch','cylinder',x+.035,.43,.025,.018,.13,.018,'#6e934d',.2,0,-.65,true);
    if(stage===3)for(const [dx,y,z]of [[-.07,.43,.04],[.07,.53,.035],[.04,.35,-.05]]){add(plant,'tomato-fruit','foliage',x+dx,y,z,.1,.105,.1,'#c96642');add(plant,'tomato-calyx','leaf',x+dx,y+.053,z,.055,.012,.055,'#6d914b');}
   }
   if(stage>=2){for(const x of [-.36,.36])add(-1,'tomato-stake','cylinder',x,.48,.1,.035,.72,.035,'#ba8a59');add(-1,'tomato-tie','bevel',0,.85,.1,.75,.035,.035,'#ba8a59');}
