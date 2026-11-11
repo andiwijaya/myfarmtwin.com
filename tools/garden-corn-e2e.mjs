@@ -52,9 +52,13 @@ try{
    await worldObject(page,'field.plot.0');await send('harvest','#harvest',{plot:0});assert.equal(expected.inventory.at(-1).type,'corn');await page.keyboard.press('Escape');
    await page.locator('[data-world-menu=market]').click();const lot=expected.inventory.at(-1);await send('sell',`[data-sell="${lot.id}"]`,{lot:lot.id});await send('buySeed','[data-buy-seed=corn]',{crop:'corn'});await page.locator('#close-market').click();
    await worldObject(page,'field.plot.0');await page.locator('#crop-choice').selectOption('corn');await send('plant','#plant',{plot:0,crop:'corn'});await page.keyboard.press('Escape');
-   await openWorldSettings(page);if(!await page.locator('#data-tools').evaluate(d=>d.open))await page.locator('#data-tools summary').click();
-   const [file]=await Promise.all([page.waitForEvent('download'),page.locator('#export-save').click()]);const exported=await readFile(await file.path(),'utf8');assert.equal(exported,serialize(expected));assert.deepEqual(deserialize(exported),expected);
-   report.profiles.push({name,commands,days,stages,paidCornLoop:true,originalArchived:true,exactStateLedgerAfterEveryCommand:true,matureReload:true,exportExact:true,replant:true});console.log(JSON.stringify({name,commands,days,stages:[...seen],pass:true}));
+   let exportDownload='skipped-owner-instruction';
+   if(process.env.QA_ALLOW_DOWNLOADS==='owner-authorized'){
+    await openWorldSettings(page);if(!await page.locator('#data-tools').evaluate(d=>d.open))await page.locator('#data-tools summary').click();
+    const [file]=await Promise.all([page.waitForEvent('download'),page.locator('#export-save').click()]);const exported=await readFile(await file.path(),'utf8');assert.equal(exported,serialize(expected));assert.deepEqual(deserialize(exported),expected);exportDownload='passed';
+   }
+   assert.deepEqual(deserialize(serialize(expected)),expected);
+   report.profiles.push({name,commands,days,stages,paidCornLoop:true,originalArchived:true,exactStateLedgerAfterEveryCommand:true,matureReload:true,exportDownload,serializedRoundtrip:true,replant:true});console.log(JSON.stringify({name,commands,days,stages:[...seen],pass:true}));
   }finally{await context.close();}
  }
  assert.deepEqual(report.errors,[]);assert.deepEqual(report.consoleErrors,[]);assert.deepEqual(report.failedRequests,[]);

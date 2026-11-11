@@ -2,7 +2,7 @@
 
 Practical growing, farm projects, useful gear, and food grown with intention. The editorial website stays static; **Play Farm** at `/play/` adds a bilingual EN/ID farm life game.
 
-Plant lettuce and tomatoes, manage soil water and seeded weather, harvest/sell, fulfil neighbourhood orders, build irrigation, upgrade efficiency and expand to eight beds. FarmGirl guides the first loop. Browser-local save/resume, export/import, backup recovery and confirmed reset keep progress portable. The optional Engineering Lab explains the educational model; it is not an agronomy prediction.
+Plant lettuce, tomatoes and corn, manage soil water and seeded weather, harvest/sell, fulfil neighbourhood orders, build irrigation, upgrade efficiency and expand to 24 beds. FarmGirl guides the first loop. Browser-local save/resume, export/import, backup recovery and confirmed reset keep progress portable. The optional Engineering Lab explains the educational model; it is not an agronomy prediction.
 
 ## Local development
 
@@ -49,3 +49,13 @@ The current cozy release matrix and artifact-rebuild requirements are declared i
 Public hosting is the audited Cloudflare Pages `myfarmtwin-com` project, GitHub `andiwijaya/myfarmtwin.com` branch `main`, output `dist`. See M0 audit and release report for the exact published commit and rollback. No GitHub Actions workflow is required. Retain the approved original FarmGirl PNG; the game uses its small WebP derivative.
 
 The EN/ID homepage now contains one live-game card, without FarmGirl imagery, published as an approved follow-on after V1. `npm run homepage` verifies its layouts, language/keyboard behavior, save preservation, game entry and exact retained release assets. See `docs/HOMEPAGE_INCREMENT.md` for the exact production source/deployment, scope and live-test evidence.
+
+## Garden expansion candidate
+
+The local 24-bed/five-stage-corn candidate is verified at **20/22** acceptance
+items; production deployment and live verification remain pending at the owner
+17:00 WIB stop on 11 November 2026. See [the garden acceptance and handoff](docs/GARDEN_EXPANSION_ACCEPTANCE.md)
+and [progress checkpoint](docs/GARDEN_UPGRADE_PROGRESS.md). Local dist now matches
+the accepted isolated artifact (246 files). Browser download tests are skipped
+by owner instruction. Keep a V6-compatible rollback before publishing; the older
+public V5 renderer cannot resume V6 primary saves.

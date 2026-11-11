@@ -3,11 +3,12 @@ import {startServer} from './serve.mjs';
 import {worldCamera} from './unified-shell-ui.mjs';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import assert from 'node:assert/strict';
+import {deserialize,serialize} from '../game/client/save-schema.js';
 
 // Local-only camera workspace acceptance. No live URL or personal browser data.
 const qa=process.env.QA_DIR||'qa-artifacts/camera-layout/workspace';
 await mkdir(qa,{recursive:true});
-const raw=await readFile('game/tests/fixtures/unified-world/v5-mixed.json','utf8'),server=await startServer(0),browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE}),report={profiles:[],errors:[],limitations:'Isolated desktop and touch emulation; no physical Android or hardware performance claim.'};
+const raw=serialize(deserialize(await readFile('game/tests/fixtures/unified-world/v5-mixed.json','utf8'))),server=await startServer(0),browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE}),report={profiles:[],errors:[],limitations:'Isolated desktop and touch emulation; no physical Android or hardware performance claim.'};
 try{
  for(const [width,height,touch]of [[1894,822,false],[1440,900,false],[390,844,true],[568,320,true]]){
   const name=`${width}x${height}`,context=await browser.newContext({viewport:{width,height},isMobile:touch,hasTouch:touch,reducedMotion:'reduce'});

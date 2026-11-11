@@ -1,9 +1,10 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {Group,MeshLambertMaterial,Vector3} from 'three';
+import {Group,MeshLambertMaterial,Vector3,Scene,OrthographicCamera} from 'three';
 import {cropGrowthSize,cropModelSize,gardenVariant,createGardenGrowth} from '../client/garden-growth.js';
 import {createCropMeshes} from '../client/unified-cozy-crops.js';
 import {disposePartMeshes} from '../client/unified-world-part-meshes.js';
 import {CROPS} from '../client/config.js';
+import {createWorldPartLod} from '../client/unified-world-part-lod.js';
 const entity=(id,progress=.5)=>({id,kind:'plot',zone:'field',domainId:0,x:0,z:0,width:.92,depth:.92,height:.13,value:.5,crop:{type:'tomato',stage:2,progress,quality:1,plantedTick:1}});
 
 test('garden growth remains bounded by observed native progress, eases once and never grows from elapsed render time',()=>{
@@ -34,4 +35,10 @@ test('all growth stages, variation and wind remain inside a clear plot slot with
   disposePartMeshes(group);
  }
  material.dispose();
+});
+test('shared moving overview retains closed faces and both detail buffers release only after the last owner',()=>{
+ const material=new MeshLambertMaterial({vertexColors:true}),scene=new Scene(),camera=new OrthographicCamera(-3,3,3,-3,.1,100),a=new Group(),b=new Group();camera.position.set(4,5,4);camera.lookAt(0,0,0);camera.updateProjectionMatrix();a.add(...createCropMeshes(entity('field.plot.0'),material));b.add(...createCropMeshes(entity('field.plot.1'),material));scene.add(a,b);
+ const x=a.children.find(m=>m.userData.cropPlant),y=b.children.find(m=>m.userData.cropPlant),full=x.geometry;createWorldPartLod().update(scene,camera,10);const overview=x.geometry;
+ assert.notEqual(overview,full);assert.equal(y.geometry,overview);assert.ok(overview.getAttribute('position').count<full.getAttribute('position').count);assert.equal(overview.userData.worldTriangleStats.preserveFaces,true);
+ let fullReleased=0,overviewReleased=0;full.addEventListener('dispose',()=>fullReleased++);overview.addEventListener('dispose',()=>overviewReleased++);disposePartMeshes(a);assert.equal(fullReleased,0);assert.equal(overviewReleased,0);disposePartMeshes(b);disposePartMeshes(a);disposePartMeshes(b);assert.equal(fullReleased,1);assert.equal(overviewReleased,1);assert.equal(x.userData.gardenLease.disposed,true);material.dispose();
 });

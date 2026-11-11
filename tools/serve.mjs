@@ -4,7 +4,7 @@ import {resolve,extname,sep} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {createHash} from 'node:crypto';
 import {gzipSync} from 'node:zlib';
-export async function startServer(port=4177,root=resolve('dist'),options={assetCache:false}){
+export async function startServer(port=4177,root=resolve(process.env.QA_DIST_ROOT||'dist'),options={assetCache:false}){
  const rules=[];let active=null;let policy='';try{policy=await readFile(resolve(root,'_headers'),'utf8');}catch{/* No custom policy in a baseline fixture. */}for(const line of policy.split(/\r?\n/)){if(!line.trim()||line.trim().startsWith('#'))continue;if(!/^\s/.test(line)){active={pattern:line.trim(),headers:{}};rules.push(active);}else if(active){const colon=line.indexOf(':');if(colon>0)active.headers[line.slice(0,colon).trim().toLowerCase()]=line.slice(colon+1).trim();}}
  const server=http.createServer(async(req,res)=>{
   try{

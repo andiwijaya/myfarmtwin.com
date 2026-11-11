@@ -1,0 +1,7 @@
+import assert from 'node:assert/strict';import {readFile,writeFile,copyFile} from 'node:fs/promises';import {createHash} from 'node:crypto';
+const hash=b=>createHash('sha256').update(b).digest('hex'),manifest=JSON.parse(await readFile('qa-artifacts/garden/home-capture/captures.json','utf8'));
+const selected=[];
+for(const name of ['hero','social']){const capture=manifest.captures.find(c=>c.name===name&&c.heading===0),bytes=await readFile(capture.path);assert.equal(hash(bytes),capture.sha256);assert.equal(capture.width,name==='hero'?1316:1200);assert.equal(capture.height,name==='hero'?754:630);const target='dist/assets/farm-world-garden'+(name==='social'?'-social':'')+'-v1.png';await copyFile(capture.path,target);await copyFile(capture.path,'qa-artifacts/garden/build/'+target);selected.push({...capture,productionPath:target});}
+let html=await readFile('dist/index.html','utf8');assert.ok(html.includes('farm-world-cozy-v1.png')||html.includes('farm-world-garden-v1.png'));html=html.replaceAll('farm-world-cozy-v1.png','farm-world-garden-v1.png').replaceAll('farm-world-cozy-social-v1.png','farm-world-garden-social-v1.png');await writeFile('dist/index.html',html);await writeFile('qa-artifacts/garden/build/dist/index.html',html);
+await writeFile('docs/GARDEN_HOMEPAGE_CAPTURE.json',JSON.stringify({...manifest,selected,published:false,scope:'Local candidate; production awaits the remaining release gates.'},null,2)+'\n');
+console.log(JSON.stringify({selected:selected.map(c=>c.productionPath),localOnly:true}));

@@ -1,0 +1,8 @@
+import assert from 'node:assert/strict';import {readFile,readdir,writeFile,lstat} from 'node:fs/promises';import {resolve,join} from 'node:path';import {createHash} from 'node:crypto';
+const hash=b=>createHash('sha256').update(b).digest('hex'),stage=resolve('qa-artifacts/garden/build/dist'),root=resolve('dist');
+const receipt=JSON.parse(await readFile(join(stage,'play/build-info.json'),'utf8'));
+for(const f of [...receipt.emitted,...receipt.defaultCore]){const b=await readFile(join(stage,'play',f.name));assert.equal(b.length,f.bytes);assert.equal(hash(b),f.sha256,f.name);}
+assert.deepEqual(await readFile(join(stage,'play/vendor/three/LICENSE.txt')),await readFile('node_modules/three/LICENSE'));
+const files=[];async function walk(dir,rel=''){for(const e of await readdir(join(dir,rel),{withFileTypes:true})){const p=join(rel,e.name);assert.equal((await lstat(join(dir,p))).isSymbolicLink(),false);if(e.isDirectory())await walk(dir,p);else files.push(p);}}await walk(root);
+for(const p of files)assert.deepEqual(await readFile(join(root,p)),await readFile(join(stage,p)),p+' differs from accepted isolated artifact');
+const proof={files:files.length,rootAndIsolatedByteExact:true,receiptRawSHA256:hash(await readFile(join(root,'play/build-info.json'))),emitted:receipt.emitted.length,defaultCore:receipt.defaultCore.length,threeLicenseExact:true,atUTC:new Date().toISOString(),productionPublished:false};await writeFile('qa-artifacts/garden/artifact-proof.json',JSON.stringify(proof,null,2));console.log(JSON.stringify(proof));

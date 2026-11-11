@@ -23,10 +23,10 @@
   inspected. Earlier failed harness attempts are retained and not counted.
 - Source save schema moves to V6; original raw sources archive under
   `myfarmtwin.save.before-garden.v5` before any primary replacement.
-- QA builds use `qa-artifacts/garden/build/`; root `dist` and production remain
-  unchanged. All browser contexts are disposable; no personal save/profile used.
+- QA builds use `qa-artifacts/garden/build/`; root `dist` now contains the accepted local candidate; production remains
+  unpushed. All browser contexts are disposable; no personal save/profile used.
 - Evidence: `qa-artifacts/garden/`, baseline logs beside it. Owned QA resources
-  clean up on completion. No owned persistent preview server has been started.
+  clean up on completion. Short-lived internal previews were started and closed; their ports are verified closed.
 - **F2 accepted:** corn seeds/care/inventory/harvest/sale/replant, five native
   stages and real 3D stalk/leaves/husk/cob. Mature model is about 2.7 units
   including soil/tassel. Fictional balance: 18 Coins seed, 120 ideal game hours,
@@ -47,10 +47,48 @@
   and Low stop/resume, one original interval/canvas, confirmed import/backup,
   accepted harvest receipt and exact native other-area state. **64 plants / eight
   shared geometries**. Eight actual dense PNGs; desktop/phone pixels inspected.
-- Current main checklist: **11/22 accepted (50%)**, excluding initial audit.
+- Current main checklist: **20/22 accepted (90.9%)**, excluding initial audit.
   Next: worst-case tall-corn picking, complete mobile/five-area/data/security
   regression, controlled performance and production build/release. No garden
   production deployment yet.
+- **F4 picking accepted:** 192 trusted mouse/touch picks on all 24 mature tall
+  corn beds across four headings, reachable harvest controls, original native
+  save exact. No invisible hit proxy. Evidence: `picking/picking.json` and PNGs.
+- At **16:05 WIB**, execution resumed after a **4.5-hour stalled internal-browser
+  file-chooser operation**. The import reached the confirmation preview only;
+  this IAB import is not accepted/completed. Earlier automated confirmed import
+  already passed separately. The task-owned preview self-closed normally at
+  11:32 WIB after its two-minute TTL; the internal tab was closed at resumption.
+  No additional implementation or tests ran during that stalled tool call.
+- Owner reiterated the **17:00 WIB stop**. Remaining pre-stop work focuses on
+  bounded verification and a clear checkpoint; deployment remains gated.
+- Further accepted verification: 16 bilingual responsive/safe-inset/all-six-care
+  profiles, four camera workspace profiles, six trusted keyboard/mouse/CDP-touch
+  profiles, and two clock/visibility/lifecycle/reduced-motion profiles. Actual
+  CDP freeze is tested; `document.hidden` handler input is explicitly simulated.
+- All-five journeys: **940 native UI commands**, nine days in each of four
+  desktop/phone × EN/ID profiles. Native care, production, sales, RNG/weather,
+  ledger/whole-save after every command and reload pass. Startup eight profiles,
+  menus four and objectives four pass. Full browser data matrix is in progress.
+- Security/CSP/malicious-import checks pass desktop/phone, no external requests
+  or policy violations. SEO nine routes/15 editorial widths pass. Official npm
+  advisory audit: **zero vulnerabilities**, no dependency changes.
+- Full data matrix now **21/21 PASS**: original V0–V5 archive bytes, migration,
+  corruption/future preservation, quota, import/cancel/reset/restore, real two-tab
+  races. Corrected the old harness quota assertion to compare durable migrated
+  V6 bytes; no application fix was needed. Failed first attempt retained.
+- Every bed loop: **192 UI actions / two profiles**, harvesting/selling/replanting
+  all 24 corn beds; inventory capacity reached once/profile and native sale
+  recovery worked. Other-area state, tick and RNG remained exact; reload passed.
+- **Owner says to skip download tests** because they request approval. No future
+  browser download/export or internal file-chooser flow is to be triggered.
+  Mark skipped checks explicitly; use serialization/validation/roundtrip instead.
+  Earlier completed exports remain historical evidence. Corn/data runners now
+  skip downloads by default, requiring explicit owner reauthorization to enable.
+- Updated 90-day scenario now grows to 24 beds and includes all three crops;
+  daily save/reload/replay/economy checks pass. Its explicit 90-day save budget
+  scales from the old eight-bed 250KB budget to 750KB for 24 beds; the actual
+  strict untrusted-save maximum stays 2MB. No game economy threshold was changed.
 - Further commands run under `tools/garden-run.mjs` with the ignored owner work
   window ending `2026-11-11T10:00:00Z`; its hard stop targets only its own child.
 
@@ -119,3 +157,19 @@ First feature: presentation-only eight-bed layout within the existing garden
 bounds. Preserve native plot coordinates and irrigation coverage, all costs,
 stable selection IDs and save schema. Verify geometry, old-save immutability,
 other-zone parity and actual desktop/phone picking before accepting.
+
+## Final local handoff before 17:00 WIB
+
+Owner stop instruction is active. Local acceptance **20/22 (90.9%)**; remaining
+production preflight/deploy and live verification are pending for home. Final
+550/550 tests, typecheck, all-bed harvest/sell/replant, tall picking, animation,
+data, responsive, input, security, npm advisory, SEO and homepage gates pass.
+Render budget passed after optimization: desktop 60.0 submissions/s / 28,024
+triangles; phone emulation 55.7 / 23,038. No physical Android FPS claim.
+Canonical dist and isolated QA match across 246 files. Root dist is now updated
+locally, including actual garden hero/social captures. No Git push/deploy.
+Download tests are disabled by default per owner. Both owned IAB preview ports
+are verified closed. Detailed evidence and exact continuation/rollback concerns
+are in GARDEN_EXPANSION_ACCEPTANCE.md.
+
+Checkpoint recorded UTC: 2026-11-11T09:58:45.738318+00:00

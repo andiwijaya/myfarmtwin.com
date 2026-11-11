@@ -97,3 +97,6 @@ Object.assign(messages.en,{exportBeforeFish:'Export pre-Fish original'},GOAT_MES
 /** @param {string} next */
 export function setLocale(next){locale=messages[next]?next:'en';try{localStorage.setItem('myfarmtwin.locale',locale);}catch{/* Optional preference storage unavailable. */}document.documentElement.lang=locale;}
 export function translate(){document.documentElement.lang=locale;document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t(el.getAttribute('data-i18n')||'');});}
+
+Object.assign(messages.en,{corn:'Corn',cornSeed:'Seed',youngPlant:'Young plant',tallPlant:'Tall plant'});
+Object.assign(messages.id,{corn:'Jagung',cornSeed:'Benih',youngPlant:'Tanaman muda',tallPlant:'Tanaman tinggi'});

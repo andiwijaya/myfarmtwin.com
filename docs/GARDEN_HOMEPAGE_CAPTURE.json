@@ -1,0 +1,95 @@
+{
+  "fixtureSHA256": "9a12f5e4710640cd48b6dee799258ea0cb0f0cd5a0f1e36a1de51ece28f56e6d",
+  "receiptRawSHA256": "98ec95ee922da15ada966b55bbb2c66c4757c3a1c3de1f8fca091108a0cd3aa5",
+  "method": "Unedited actual rendered game canvas/viewport. Native paid synthetic 24-bed garden. No image generation, CSS art changes, compositing, personal save or browser takeover.",
+  "captures": [
+    {
+      "name": "hero",
+      "heading": 0,
+      "path": "qa-artifacts/garden/home-capture/hero-h0.png",
+      "width": 1316,
+      "height": 754,
+      "sha256": "6087afae5fbdf5b6e457b559cc9d7693fb15ee63f266333614deecb870fda0c2"
+    },
+    {
+      "name": "hero",
+      "heading": 1,
+      "path": "qa-artifacts/garden/home-capture/hero-h1.png",
+      "width": 1316,
+      "height": 754,
+      "sha256": "38e8f8d6003b3201b8a64b27115be838bb44e118e3c1c1d3a06c40d2785be228"
+    },
+    {
+      "name": "hero",
+      "heading": 2,
+      "path": "qa-artifacts/garden/home-capture/hero-h2.png",
+      "width": 1316,
+      "height": 754,
+      "sha256": "c73edc6b0b2548ff1776686d828cb002c606b10ee0c9d57320bf32aa594153a6"
+    },
+    {
+      "name": "hero",
+      "heading": 3,
+      "path": "qa-artifacts/garden/home-capture/hero-h3.png",
+      "width": 1316,
+      "height": 754,
+      "sha256": "70db87947be33044f5c9fe624c502cb567c80ae9bb4c6116620959516d9cb167"
+    },
+    {
+      "name": "social",
+      "heading": 0,
+      "path": "qa-artifacts/garden/home-capture/social-h0.png",
+      "width": 1200,
+      "height": 630,
+      "sha256": "e16184bc1939485b59fbc574ed344fc89419712879e1999b57945833c7ed9b0c"
+    },
+    {
+      "name": "social",
+      "heading": 1,
+      "path": "qa-artifacts/garden/home-capture/social-h1.png",
+      "width": 1200,
+      "height": 630,
+      "sha256": "addc4ebcb36ee286e308f71d4c1e67340dda2d9780abbd9c4108298140c61631"
+    },
+    {
+      "name": "social",
+      "heading": 2,
+      "path": "qa-artifacts/garden/home-capture/social-h2.png",
+      "width": 1200,
+      "height": 630,
+      "sha256": "afbab3f1f63650792dfb0dfab2060e3a2d43df488e82cbede5cc15b2788ee3f6"
+    },
+    {
+      "name": "social",
+      "heading": 3,
+      "path": "qa-artifacts/garden/home-capture/social-h3.png",
+      "width": 1200,
+      "height": 630,
+      "sha256": "884ec46ef316af7a33164f91aa09671d72452a401aa538dc5d551e622463facd"
+    }
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "selected": [
+    {
+      "name": "hero",
+      "heading": 0,
+      "path": "qa-artifacts/garden/home-capture/hero-h0.png",
+      "width": 1316,
+      "height": 754,
+      "sha256": "6087afae5fbdf5b6e457b559cc9d7693fb15ee63f266333614deecb870fda0c2",
+      "productionPath": "dist/assets/farm-world-garden-v1.png"
+    },
+    {
+      "name": "social",
+      "heading": 0,
+      "path": "qa-artifacts/garden/home-capture/social-h0.png",
+      "width": 1200,
+      "height": 630,
+      "sha256": "e16184bc1939485b59fbc574ed344fc89419712879e1999b57945833c7ed9b0c",
+      "productionPath": "dist/assets/farm-world-garden-social-v1.png"
+    }
+  ],
+  "published": false,
+  "scope": "Local candidate; production awaits the remaining release gates."
+}

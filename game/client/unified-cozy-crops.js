@@ -38,14 +38,14 @@ export function createCropMeshes(e,material){
  /** @param {Readonly<import('./unified-world-crops.js').CropPart>} p @returns {Part} */
  const convert=p=>({x:p.x,y:p.y,z:p.z,width:p.w,height:p.h,depth:p.d,color:p.color,pitch:p.rx,rotation:p.ry,tilt:p.rz,shape:p.shape,feature:p.feature,startupOptional:false});
  for(const part of parts){if(part.plant>=0){const list=plants.get(part.plant)||[];list.push(part);plants.set(part.plant,list);}else staticParts.push(convert(part));}
- const meshes=compileWorldParts(staticParts,material);
+ const meshes=compileWorldParts(staticParts,material,{compactGardenBed:true});
  for(const [plant,body]of plants){
   const stem=body.find(p=>p.feature==='lettuce-heart'||p.feature==='tomato-stem'||p.feature==='corn-stem'||p.feature==='corn-seed');if(!stem)throw new Error('Missing native plant anchor');
   const relative=body.map(p=>({...convert(p),x:p.x-stem.x,y:p.y-.12,z:p.z-stem.z})),variant=gardenVariant(e.id,plant);
   const key=e.crop?.type+':'+e.crop?.stage+':'+plant;let templates=plantGeometry.get(key);
-  if(!templates){templates=compileWorldParts(relative,material,{preserveFaces:true});for(const template of templates){template.geometry.userData.gardenShared=true;template.geometry.userData.gardenRefs=0;template.geometry.userData.gardenRelease=()=>plantGeometry.delete(key);}plantGeometry.set(key,templates);}
+  if(!templates){templates=compileWorldParts(relative,material,{preserveFaces:true});for(const template of templates){const full=template.geometry;full.userData.gardenShared=true;full.userData.gardenRefs=0;full.userData.gardenLod={full,overview:null,disposed:false,refs:0,createOverview:()=>compileWorldParts(relative,material,{preserveFaces:true,overview:true,compactMoving:true})[0].geometry,release:()=>plantGeometry.delete(key)};}plantGeometry.set(key,templates);}
   for(const template of templates){
-   const mesh=template.clone();mesh.material=material;mesh.geometry.userData.gardenRefs++;
+   const mesh=template.clone(),lease=template.geometry.userData.gardenLod;mesh.material=material;lease.refs++;lease.full.userData.gardenRefs=lease.refs;mesh.userData.gardenLease=lease;mesh.userData.worldPartLod=lease;
    mesh.position.set(stem.x,.12,stem.z);mesh.userData.cropPlant=true;mesh.userData.cropLeaf=body.some(p=>p.leaf);mesh.userData.cropLeafCount=body.filter(p=>p.leaf).length;mesh.userData.restZ=0;mesh.userData.gardenVariant=variant;
    mesh.rotation.y=variant.turn;mesh.scale.set(variant.width,variant.height,variant.width);meshes.push(mesh);
   }
