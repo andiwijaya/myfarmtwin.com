@@ -196,3 +196,15 @@ profiles plus all 555 native tests pass. Corrected output: 247 files, raw receip
 `e29365d00240b7af244c2037029f3c4e4e15624b986ccc0a2d5b453d30010d05`.
 Matching rollback rebuilt with identical current native modules and earlier
 visual implementation. Corrected publication/live checks remain pending.
+
+## Final startup gate
+
+`607808e` deployed successfully with 24 immediate beds and passed eight live
+function/data/visual suites. Responsive360-ID exposed a real parser race:
+the async head module could request market-dialog before HTML parsing reached it.
+The exact failure reproduces with a four-second delayed HTML tail. Normal
+deferred module execution fixes it; four streamed-page profiles and two visible
+EN/ID 24-bed guide profiles pass. Native engine/storage/render sources stay exact
+from `607808e`; only source HTML and locale copy change. Final artifact receipt
+`320923541ea6685deb157ea1193161a1191f722fb04e8f3da858104e63323770`.
+Final startup/layout checks, matching rollback and live completion remain pending.

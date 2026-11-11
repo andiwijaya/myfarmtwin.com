@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFile,readdir,writeFile,cp,unlink,lstat} from 'node:fs/promises';
 import {resolve,join} from 'node:path';import {createHash} from 'node:crypto';
-const root=resolve('dist'),stage=resolve('qa-artifacts/garden/build/dist'),hash=b=>createHash('sha256').update(b).digest('hex');
+const root=resolve('dist'),stage=resolve(process.env.GARDEN_FINAL_COPY==='1'?'qa-artifacts/garden/final-build/dist':'qa-artifacts/garden/build/dist'),hash=b=>createHash('sha256').update(b).digest('hex');
 assert.equal(root,join(process.cwd(),'dist'));assert.equal((await lstat(root)).isSymbolicLink(),false);
 const next=JSON.parse(await readFile(join(stage,'play/build-info.json'),'utf8')),old=JSON.parse(await readFile(join(root,'play/build-info.json'),'utf8'));
 const bound=new Set([...next.emitted,...next.defaultCore].map(f=>'play/'+f.name));

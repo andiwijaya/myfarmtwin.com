@@ -221,6 +221,32 @@ Root and isolated candidate match across 247 files; receipt raw SHA256:
 Evidence: `active-native-accepted.log`, `active-local-final/`, `active-save-local/`.
 Remaining gates apply to this corrected artifact and its matching rollback.
 
+### Streamed-HTML startup fix and final candidate
+
+Corrected release `607808e` passed live active-entry6, corn4, all-bed2,
+five-area2 (470 commands), save-safety21, tall picking2 (192 picks), growth2
+and entry8. Its first responsive attempt passed three profiles, then failed at
+360x740-ID with a real console error: `Missing interface: market-dialog`.
+The rendered world/assets were ready, but native controls were not. The failed
+responsive report/screenshots and incomplete run remain under `live-active/`;
+they do not count as full responsive/final acceptance.
+
+A deterministic loopback streamed-HTML test reproduced the exact console error
+by withholding the market-dialog tail for four seconds. The head's async module
+could mount the shell/controller while the parser had not reached that dialog.
+The final page uses the normal deferred module entry: fetch remains concurrent,
+execution waits for complete HTML parsing. Four EN/ID desktop/phone delayed-tail
+profiles now pass with usable market controls, exact native saves and no console
+errors. No increased readiness timeout or test retry masks the bug.
+
+The same final candidate corrects EN/ID tutorial copy to 24 beds and facility
+upgrades. Both actual visible guide profiles pass with unchanged native saves.
+Only `game/client/index.html` and `locales.js` change from `607808e`; native
+simulation, storage and renderer sources remain unchanged. Final receipt:
+`320923541ea6685deb157ea1193161a1191f722fb04e8f3da858104e63323770`.
+Root/final isolated artifact parity, deferred-entry/layout regression, matching
+rollback rehearsal, final deployment and live completion are checked separately.
+
 Remote main was read-only verified at 16:53 WIB as
 `f2836be675bcde489617c8e354d01390be594546`. Nothing was pushed. Both owned
 internal-preview ports 59269 and 62193 return ECONNREFUSED at closing check.

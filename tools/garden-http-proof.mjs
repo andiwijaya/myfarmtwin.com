@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';
+import {mkdir,writeFile} from 'node:fs/promises';import {createHash} from 'node:crypto';import {join} from 'node:path';
+const ref=process.env.SOURCE_REF;assert.match(ref||'',/^[a-f0-9]{40}$/);
+const base=new URL(process.env.BASE_URL||'https://myfarmtwin.com');assert.equal(base.protocol,'https:');assert.equal(base.pathname,'/');assert.equal(base.username+base.password+base.port+base.search+base.hash,'');assert.ok(['myfarmtwin.com','www.myfarmtwin.com'].includes(base.hostname)||/^[a-f0-9]{8}\.myfarmtwin-com\.pages\.dev$/.test(base.hostname));
+const qa=process.env.QA_DIR||'qa-artifacts/garden/http-proof';await mkdir(qa,{recursive:true});
+const git=(args,input)=>execFileSync('git',args,{input,maxBuffer:128*1024*1024});
+const files=git(['ls-tree','-r','-z',ref,'dist']).toString().split('\0').filter(Boolean).map(line=>{const [meta,path]=line.split('\t');return {path,blob:meta.split(' ')[2]};}).filter(f=>f.path!=='dist/_headers');
+const batch=git(['cat-file','--batch'],files.map(f=>f.blob+'\n').join(''));let offset=0;
+for(const f of files){const end=batch.indexOf(10,offset),header=batch.subarray(offset,end).toString().split(' '),size=Number(header[2]);assert.equal(header[0],f.blob);assert.equal(header[1],'blob');assert.ok(Number.isSafeInteger(size));f.bytes=batch.subarray(end+1,end+1+size);offset=end+1+size+1;}
+assert.equal(offset,batch.length);const hash=b=>createHash('sha256').update(b).digest('hex');
+const report={atUTC:new Date().toISOString(),sourceRef:ref,base:base.origin,concurrency:4,resources:[],mismatches:[],errors:[]};let cursor=0;
+await Promise.all(Array.from({length:4},async()=>{while(cursor<files.length){const f=files[cursor++],route=f.path.slice(4).replace(/index\.html$/,'');try{const r=await fetch(base.origin+route,{signal:AbortSignal.timeout(30000)});assert.equal(r.status,200,route);const actual=Buffer.from(await r.arrayBuffer()),match=hash(actual)===hash(f.bytes);report.resources.push({route,bytes:actual.length,sha256:hash(actual),match,encoding:r.headers.get('content-encoding'),contentType:r.headers.get('content-type')});if(!match)report.mismatches.push(route);}catch(e){report.errors.push({route,error:String(e)});}}}));
+report.resources.sort((a,b)=>a.route.localeCompare(b.route));await writeFile(join(qa,'integrity.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({base:report.base,sourceRef:ref,resources:report.resources.length,mismatches:report.mismatches,errors:report.errors}));assert.equal(report.resources.length,files.length);assert.deepEqual(report.mismatches,[]);assert.deepEqual(report.errors,[]);

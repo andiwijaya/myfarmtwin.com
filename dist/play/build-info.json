@@ -5,8 +5,8 @@
   "esbuild": "0.28.2",
   "sourceMaps": false,
   "entries": {
-    "loader": "world-loader-NQNSZRE3.js",
-    "main": "main-QFHMAOSN.js",
+    "loader": "world-loader-Y3MLDOLP.js",
+    "main": "main-BGVPZXPD.js",
     "bootstrap": "unified-world-bootstrap-UJGW2OK5.js",
     "world": "unified-world-preview-MUWVHMEI.js",
     "cpu": "vendor/three/three.module-ZULN4FYF.js"
@@ -34,8 +34,8 @@
     },
     {
       "name": "index.html",
-      "bytes": 12968,
-      "sha256": "3427b83b06196e69ae6d1224829b2bf1145ac6dfa6182234cd0ebff1847cbd2a"
+      "bytes": 12965,
+      "sha256": "3397d983554a0ddd2a350412d574b77659a630ca8d612e3b6ba1acef623eeb08"
     },
     {
       "name": "style.css",
@@ -68,16 +68,16 @@
       "sha256": "426361a2030391ecc85c1c033836b131ad2ed4f606087856702759e9b112a4b7"
     },
     {
-      "name": "world-loader-NQNSZRE3.js",
+      "name": "world-loader-Y3MLDOLP.js",
       "bytes": 751,
-      "sha256": "19d93ecf9334dcaabbf388bf5610f7919bef93ff768e383064a6fa8c5e1b6c96"
+      "sha256": "fd97f777efd84c7ba785e5f456f5694e62327ace4b1109f398c7dd011ea9b575"
     }
   ],
   "emitted": [
     {
-      "name": "main-QFHMAOSN.js",
-      "bytes": 222629,
-      "sha256": "57aa7c453c1c232f468b8a908ba64b640db8d7ae2182b3b66415a30a36996a62"
+      "name": "main-BGVPZXPD.js",
+      "bytes": 222677,
+      "sha256": "69c479bfb525c69960010a7c98bac460a7472521b7cc50bcd499cab01d7fdb28"
     },
     {
       "name": "unified-world-bootstrap-UJGW2OK5.js",
@@ -110,9 +110,9 @@
       "sha256": "98322021b87752753893ab0af57eaf317c99c9b494a8c3b0760da26e812ef07d"
     },
     {
-      "name": "world-loader-NQNSZRE3.js",
+      "name": "world-loader-Y3MLDOLP.js",
       "bytes": 751,
-      "sha256": "19d93ecf9334dcaabbf388bf5610f7919bef93ff768e383064a6fa8c5e1b6c96"
+      "sha256": "fd97f777efd84c7ba785e5f456f5694e62327ace4b1109f398c7dd011ea9b575"
     }
   ],
   "lazyWebGL": "vendor/three/chunks/unified-world-webgl-R4DOSNKO.js",

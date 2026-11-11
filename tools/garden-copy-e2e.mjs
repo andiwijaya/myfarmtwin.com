@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';import {chromium} from 'playwright';
+import {mkdir,writeFile} from 'node:fs/promises';import {gardenQATarget} from './garden-qa-target.mjs';
+import {createState} from '../game/client/engine.js';import {serialize} from '../game/client/save-schema.js';
+const qa=process.env.QA_DIR||'qa-artifacts/garden/final-copy-local';await mkdir(qa,{recursive:true});const target=await gardenQATarget(),report={base:target.base,profiles:[],errors:[],consoleErrors:[]};let browser;
+try{browser=await chromium.launch({headless:true,executablePath:'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'});
+ for(const locale of ['en','id']){const context=await browser.newContext({viewport:{width:locale==='id'?390:1440,height:locale==='id'?844:1000},isMobile:locale==='id',hasTouch:locale==='id',reducedMotion:'reduce'});
+  try{const page=await context.newPage();page.on('pageerror',e=>report.errors.push(e.message));page.on('console',m=>{if(m.type()==='error')report.consoleErrors.push(m.text());});await page.goto(target.base+'/play/');await page.waitForFunction(()=>document.querySelector('#unified-preview')?.dataset.controlsReady==='true');await page.locator('#language').selectOption(locale);await page.locator('[data-world-menu=missions]').click();const detail=page.locator('#mission-detail');if(!await detail.isVisible())await page.locator('#guide-toggle').click();assert.equal(await detail.isVisible(),true);const text=await detail.innerText();assert.match(text,/24/);assert.doesNotMatch(text,/three beds|tiga petak|Three empty|Tiga petak/);assert.equal(await page.locator('[data-preview-select^="field.plot."]').count(),24);assert.equal(await page.evaluate(()=>localStorage.getItem('myfarmtwin.save.v1')),serialize(createState()));await page.screenshot({path:`${qa}/${locale}-24-bed-guide.png`,fullPage:true});report.profiles.push({locale,text,activeBeds:24,nativeSaveExact:true});console.log(JSON.stringify(report.profiles.at(-1)));}finally{await context.close();}
+ }
+ assert.deepEqual(report.errors,[]);assert.deepEqual(report.consoleErrors,[]);
+}catch(e){report.failure=String(e.stack||e);throw e;}
+finally{await browser?.close();await target.close();await writeFile(`${qa}/copy.json`,JSON.stringify(report,null,2));}

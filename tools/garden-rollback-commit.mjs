@@ -6,10 +6,10 @@ import {createHash} from 'node:crypto';
 
 // Prepare a deployable rollback with a separate temporary Git index.
 // No checkout, reset, user index changes or production activation.
-const root=resolve('qa-artifacts/garden/rollback-v6-active'),qa=resolve('qa-artifacts/garden/rollback-active-publication');await mkdir(qa,{recursive:true});
+const final=process.env.GARDEN_FINAL_COPY==='1',root=resolve(final?'qa-artifacts/garden/rollback-v6-final-ready':'qa-artifacts/garden/rollback-v6-active'),qa=resolve(final?'qa-artifacts/garden/rollback-final-publication':'qa-artifacts/garden/rollback-active-publication');await mkdir(qa,{recursive:true});
 const env={...process.env,GIT_INDEX_FILE:join(qa,'index')};
 const git=(args,input)=>execFileSync('git',args,{env,input,maxBuffer:32*1024*1024});
-const parent=git(['rev-parse','HEAD']).toString().trim(),branch='codex/garden-active-v6-rollback';
+const parent=git(['rev-parse','HEAD']).toString().trim(),branch=final?'codex/garden-final-v6-rollback':'codex/garden-active-v6-rollback';
 try{git(['show-ref','--verify','--quiet','refs/heads/'+branch]);throw new Error('Rollback branch already exists; inspect instead of overwriting');}catch(e){if(e.status!==1)throw e;}
 git(['read-tree',parent]);
 const old=git(['ls-files','-z','--','game/client','dist']);git(['update-index','--force-remove','-z','--stdin'],old);

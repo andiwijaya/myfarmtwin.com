@@ -4,8 +4,8 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {build} from './build.mjs';
 // Build beside ignored QA data; never replace the user's existing dist preview.
-const root=resolve('qa-artifacts/garden/build');
-assert.equal(root,join(resolve('qa-artifacts/garden'),'build'));
+const final=process.env.GARDEN_FINAL_COPY==='1',name=final?'final-build':'build',root=resolve('qa-artifacts/garden',name);
+assert.equal(root,join(resolve('qa-artifacts/garden'),name));
 assert.ok(root.startsWith(resolve('qa-artifacts/garden')+sep));
 try{assert.equal((await lstat(root)).isSymbolicLink(),false);assert.equal((await realpath(root)).toLowerCase(),root.toLowerCase());}catch(e){if(e.code!=='ENOENT')throw e;}
 // Exact verified generated build only. Failed receipts/captures live beside it.
@@ -18,5 +18,5 @@ for(const p of ['package.json','package-lock.json','tools/three-cpu-entry.mjs','
 }
 await build(root);
 const bytes=await readFile(join(root,'dist/play/build-info.json'));
-await writeFile('qa-artifacts/garden/build-result.json',JSON.stringify({root,receiptSHA256:createHash('sha256').update(bytes).digest('hex'),rootDistWritten:false},null,2));
+await writeFile(final?'qa-artifacts/garden/final-build-result.json':'qa-artifacts/garden/build-result.json',JSON.stringify({root,receiptSHA256:createHash('sha256').update(bytes).digest('hex'),rootDistWritten:false},null,2));
 console.log(root);
