@@ -90,6 +90,9 @@
       "productionPath": "dist/assets/farm-world-garden-social-v1.png"
     }
   ],
-  "published": false,
-  "scope": "Local candidate; production awaits the remaining release gates."
+  "published": true,
+  "scope": "Published original unedited 24-bed game captures; final release retains the same plant/scene renderer.",
+  "productionSource": "d4025da144ead1754119ae6e5a1839983838ebfd",
+  "productionDeployment": "e63311c4-295b-4117-b6d4-9d635f3f6ac4",
+  "publicationVerifiedAtUTC": "2026-11-11T14:29:54.997Z"
 }

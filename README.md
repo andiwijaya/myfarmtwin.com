@@ -50,16 +50,23 @@ Public hosting is the audited Cloudflare Pages `myfarmtwin-com` project, GitHub 
 
 The EN/ID homepage now contains one live-game card, without FarmGirl imagery, published as an approved follow-on after V1. `npm run homepage` verifies its layouts, language/keyboard behavior, save preservation, game entry and exact retained release assets. See `docs/HOMEPAGE_INCREMENT.md` for the exact production source/deployment, scope and live-test evidence.
 
-## Garden expansion candidate
+## Garden expansion release
 
-The corrected garden candidate gives new and existing players **24 active beds
-immediately**. Missing empty beds are added on player load with exact original
-save retention; existing plants, funds, seeds, inventory and progression survive.
-Schema remains V6, which already supports all 24 beds. The initial publication
-only increased paid capacity and was corrected after the owner's live feedback.
-The corrected native suite passes **555/555**; six player-entry and 21 save-safety
-browser profiles pass locally. Corrected deployment/live acceptance remains
-pending; see [the acceptance record](docs/GARDEN_EXPANSION_ACCEPTANCE.md) and
-[progress checkpoint](docs/GARDEN_UPGRADE_PROGRESS.md). Root and isolated output
-match across 247 files. Download tests stay skipped. Keep a matching V6-compatible
-rollback; the old V5 renderer cannot resume V6 primary saves.
+Garden acceptance is **22/22 (100%)**. Production source is d4025da, deployed
+11 November 2026 at 21:22 WIB. New and existing players receive 24 active beds
+immediately, with exact original-save retention and preserved native progress.
+Corn has five stages; real 3D crops share geometry and support growth/wind and
+harvest feedback. The streamed-HTML startup race and old three-bed guide text
+are fixed.
+
+555/555 native tests pass. Final entry, 16 responsive profiles, security,
+homepage/SEO, controlled performance and bilingual guidance pass live; retained
+native gameplay/data/render suites apply through verified unchanged source. All
+247 packaged files and 246 served resources per public/www/immutable origin match
+the canonical artifact. Download tests stay skipped; mobile results are emulation.
+
+See [the production report](docs/GARDEN_PRODUCTION_RELEASE.md),
+[completed checklist](docs/GARDEN_EXPANSION_ACCEPTANCE.md),
+[progress checkpoint](docs/GARDEN_UPGRADE_PROGRESS.md) and
+[V6 rollback runbook](docs/GARDEN_V6_ROLLBACK.md). The matching fallback is
+63fe192 on codex/garden-final-v6-rollback; earlier V5/three-bed targets are superseded.

@@ -36,8 +36,8 @@ Cloudflare Pages project remains `myfarmtwin-com`, output `dist`.
 - [x] 18. Measure dense-garden loading/rendering; disclose emulation limits.
 - [x] 19. Production build, dependency/security checks and editorial preservation.
 - [x] 20. Capture actual before/after screenshots; update game homepage capture.
-- [ ] 21. Deploy only after applicable acceptance and regression gates pass.
-- [ ] 22. Verify live artifact, console/assets and gameplay; report deployment.
+- [x] 21. Deploy only after applicable acceptance and regression gates pass.
+- [x] 22. Verify live artifact, console/assets and gameplay; report deployment.
 
 Check an item only after passing its relevant tests. Partial implementations and
 failed attempts remain explicitly pending. No personal browser/profile/save access.
@@ -246,6 +246,41 @@ simulation, storage and renderer sources remain unchanged. Final receipt:
 `320923541ea6685deb157ea1193161a1191f722fb04e8f3da858104e63323770`.
 Root/final isolated artifact parity, deferred-entry/layout regression, matching
 rollback rehearsal, final deployment and live completion are checked separately.
+
+### Final acceptance: 22/22 complete
+
+Accepted 2026-11-11T14:40:04Z after the final evidence audit passed. Production
+source `d4025da144ead1754119ae6e5a1839983838ebfd`, deployment
+`e63311c4-295b-4117-b6d4-9d635f3f6ac4`, successful at 14:22:33.633382Z
+(21:22 WIB). GitHub Cloudflare check, public/www/immutable receipts and all
+246 served resources per origin match the canonical 247-file package. Twelve
+JS/CSS objects are compressed. Final raw receipt remains `32092354...` above.
+
+Final live suites pass: immediate beds: 6; entry/WebGL/retry/bookmarks: 8;
+responsive: 16; security: 2; homepage: 24 surfaces plus 3 fallbacks; SEO: 9 routes and 15
+layouts; controlled performance: 2; bilingual visible guide: 2. Retained native
+corn/all-bed/five-area/save/picking/growth suites remain applicable through the
+verified unchanged simulation/storage/renderer sources. Details and evidence
+boundaries are in GARDEN_PRODUCTION_RELEASE.md. Failed responsive and obsolete
+three-bed homepage-assertion attempts remain excluded; accepted homepage rerun
+is under `live-final-tail-accepted/`. The application was unchanged for that
+test-only assertion correction.
+
+Controlled final desktop cold/warm map 1.238/0.435s, full art 2.318/0.897s,
+60.01 submissions/s, 28,024 triangles, 256 calls, +0.486MiB post-GC heap.
+Phone emulation cold/warm map 4.906/1.918s, full art 10.047/2.829s,
+60.02 submissions/s, 23,038 triangles, 189 calls, +0.314MiB heap. Single cold/warm
+sample and 20-second measurement per profile, not physical Android/display FPS
+or a guarantee of network loading time.
+
+Final matching V6 rollback `63fe192972f86f4317969c91bf8d572e9569d6c6`, branch
+`codex/garden-final-v6-rollback`, successful preview `e4d33b2c-9889-467d-9550-1cbabeee133f`.
+All 245 served resources match; 149 native modules match after EOL normalization;
+six local and six preview entry profiles, 192 local all-bed commands and two
+guide profiles pass. Activation requires the fresh checks in GARDEN_V6_ROLLBACK.md.
+Download tests remain skipped. Owned browser contexts/tabs/servers are closed;
+the user's preview at port 4177 and personal desktop/browser profiles are preserved.
+Ignored authoritative proof: `qa-artifacts/garden/final-acceptance.json`.
 
 Remote main was read-only verified at 16:53 WIB as
 `f2836be675bcde489617c8e354d01390be594546`. Nothing was pushed. Both owned

@@ -208,3 +208,19 @@ EN/ID 24-bed guide profiles pass. Native engine/storage/render sources stay exac
 from `607808e`; only source HTML and locale copy change. Final artifact receipt
 `320923541ea6685deb157ea1193161a1191f722fb04e8f3da858104e63323770`.
 Final startup/layout checks, matching rollback and live completion remain pending.
+
+## Completed release checkpoint
+
+All 22/22 acceptance items pass. Final evidence audited at 2026-11-11T14:40:04.297Z.
+Production source d4025da144ead1754119ae6e5a1839983838ebfd, deployment e63311c4-295b-4117-b6d4-9d635f3f6ac4;
+public/www/immutable resources and receipts match. Final entry/responsive/security,
+homepage/SEO, controlled performance and EN/ID guidance pass live. Native suite
+555/555 and six retained native browser suites remain verified through unchanged
+engine/storage/renderer source. Failed responsive and obsolete homepage-assertion
+attempts stay excluded; exact scope and measurements are in GARDEN_PRODUCTION_RELEASE.md.
+
+Matching V6 rollback 63fe192972f86f4317969c91bf8d572e9569d6c6 on codex/garden-final-v6-rollback is tested
+locally and in preview with 24 immediate beds and the same startup fix. Runbook
+requires fresh main/provider verification before activation. Download tests stay
+skipped. Owned QA resources close; user's preview at 4177 is preserved.
+Production main stays on d4025da; final docs/evidence checkpoint is separate.
