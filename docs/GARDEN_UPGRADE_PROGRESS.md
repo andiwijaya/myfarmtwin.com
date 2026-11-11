@@ -173,3 +173,14 @@ are verified closed. Detailed evidence and exact continuation/rollback concerns
 are in GARDEN_EXPANSION_ACCEPTANCE.md.
 
 Checkpoint recorded UTC: 2026-11-11T09:58:45.738318+00:00
+
+## Home resume, 11 November 2026
+
+Owner resumed from `ce555ae`, explicitly authorizing autonomous completion and
+immediate deployment after gates. Stop-at-17:00 is superseded; downloads remain
+skipped and browser testing remains isolated/internal without desktop takeover.
+V6-compatible fallback rebuilt from `7503ca9` source: 148 native modules match
+after EOL normalization; all-24-bed desktop/phone loop (192 commands) and the
+21-profile save safety matrix pass. Primary artifact remains the accepted 246
+files and raw receipt `98ec95ee922da15ada966b55bbb2c66c4757c3a1c3de1f8fca091108a0cd3aa5`.
+Next: publish rollback preview, deploy main and verify public production.

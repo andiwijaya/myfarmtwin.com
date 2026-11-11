@@ -1,13 +1,13 @@
 import assert from 'node:assert/strict';import {chromium} from 'playwright';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';import {resolve} from 'node:path';
-import {startServer} from './serve.mjs';import {worldObject} from './unified-shell-ui.mjs';
+import {gardenQATarget} from './garden-qa-target.mjs';import {worldObject} from './unified-shell-ui.mjs';
 import {dispatch} from '../game/client/engine.js';import {deserialize,serialize} from '../game/client/save-schema.js';
 const qa=process.env.QA_DIR||'qa-artifacts/garden/all-beds-loop';await mkdir(qa,{recursive:true});
-const raw=await readFile('qa-artifacts/garden/picking/24-mature-corn.json','utf8'),server=await startServer(0,resolve('qa-artifacts/garden/build/dist'));let browser;
+const raw=await readFile('qa-artifacts/garden/picking/24-mature-corn.json','utf8'),server=await gardenQATarget();let browser;
 const report={profiles:[],errors:[],consoleErrors:[],scope:'Native harvest/sell/buy/replant on every one of 24 beds, including bounded inventory handling. Trusted ordinary UI, exact native state/ledger after every command. Synthetic saves only.'};
 try{browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE||'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'});
  for(const mobile of [false,true]){const name=mobile?'phone-id':'desktop-en',context=await browser.newContext({viewport:mobile?{width:390,height:844}:{width:1440,height:1000},hasTouch:mobile,isMobile:mobile,reducedMotion:'reduce'});let expected=deserialize(raw),commands=0,capacityStops=0;
-  try{await context.addInitScript(raw=>{if(!localStorage.getItem('garden-loop')){localStorage.setItem('myfarmtwin.save.v1',raw);localStorage.setItem('garden-loop','1');}},raw);const page=await context.newPage();page.on('pageerror',e=>report.errors.push({name,error:e.message}));page.on('console',m=>{if(m.type()==='error')report.consoleErrors.push({name,error:m.text()});});await page.goto(`http://127.0.0.1:${server.address().port}/play/`);await page.waitForFunction(()=>document.querySelector('#unified-preview')?.dataset.controlsReady==='true');await page.locator('#language').selectOption(mobile?'id':'en');
+  try{await context.addInitScript(raw=>{if(!localStorage.getItem('garden-loop')){localStorage.setItem('myfarmtwin.save.v1',raw);localStorage.setItem('garden-loop','1');}},raw);const page=await context.newPage();page.on('pageerror',e=>report.errors.push({name,error:e.message}));page.on('console',m=>{if(m.type()==='error')report.consoleErrors.push({name,error:m.text()});});await page.goto(server.base+'/play/');await page.waitForFunction(()=>document.querySelector('#unified-preview')?.dataset.controlsReady==='true');await page.locator('#language').selectOption(mobile?'id':'en');
    const exact=async()=>page.waitForFunction(raw=>localStorage.getItem('myfarmtwin.save.v1')===raw,serialize(expected));
    const send=async(type,selector,extra={})=>{await page.locator(selector).click();const r=dispatch(expected,{id:expected.revision+1,type,...extra});assert.ok(r.ok,type+': '+r.error);expected=r.state;commands++;await exact();};
    const sellAll=async()=>{await page.keyboard.press('Escape');await page.locator('[data-world-menu=market]').click();for(const lot of [...expected.inventory])await send('sell',`[data-sell="${lot.id}"]`,{lot:lot.id});await page.locator('#close-market').click();};
@@ -19,4 +19,4 @@ try{browser=await chromium.launch({headless:true,executablePath:process.env.PLAY
   }finally{await context.close();}
  }
  assert.deepEqual(report.errors,[]);assert.deepEqual(report.consoleErrors,[]);
-}catch(e){report.failure=String(e.stack||e);throw e;}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await writeFile(`${qa}/all-beds.json`,JSON.stringify(report,null,2));}
+}catch(e){report.failure=String(e.stack||e);throw e;}finally{await browser?.close();await server.close();await writeFile(`${qa}/all-beds.json`,JSON.stringify(report,null,2));}

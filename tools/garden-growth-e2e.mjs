@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
-import {startServer} from './serve.mjs';
+import {gardenQATarget} from './garden-qa-target.mjs';
 import {worldCamera,worldObject} from './unified-shell-ui.mjs';
 import {makeGardenScenario} from './garden-scenario.mjs';
 import {dispatch} from '../game/client/engine.js';
@@ -10,7 +10,7 @@ import {deserialize,serialize} from '../game/client/save-schema.js';
 
 const qa=process.env.QA_DIR||'qa-artifacts/garden/growth';await mkdir(qa,{recursive:true});
 const farm=await makeGardenScenario();await writeFile(`${qa}/dense-mixed.json`,farm.raw);await writeFile(`${qa}/dense-planted.json`,farm.planted);
-const server=await startServer(0,resolve('qa-artifacts/garden/build/dist'));let browser;
+const server=await gardenQATarget();let browser;
 const report={profiles:[],errors:[],consoleErrors:[],failedRequests:[],funding:farm.funding,limits:'Phone is desktop touch emulation. Timing measures render submissions and scene transforms, not physical display FPS.'};
 try{
  browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE||'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'});
@@ -19,7 +19,7 @@ try{
   try{
    await context.addInitScript(raw=>{if(!localStorage.getItem('garden-growth-installed')){localStorage.setItem('myfarmtwin.save.v1',raw);localStorage.setItem('garden-growth-installed','1');}window.__gardenIntervals=0;const set=window.setInterval.bind(window);window.setInterval=(...args)=>{window.__gardenIntervals++;return set(...args);};},farm.planted);
    const page=await context.newPage();page.on('pageerror',e=>report.errors.push({name,error:e.message}));page.on('console',m=>{if(m.type()==='error')report.consoleErrors.push({name,error:m.text()});});page.on('requestfailed',r=>report.failedRequests.push({name,url:r.url()}));
-   await page.goto(`http://127.0.0.1:${server.address().port}/play/`);await page.waitForFunction(()=>{const d=document.querySelector('#unified-preview')?.dataset;return d?.controlsReady==='true'&&d.spriteActors===d.spriteReady;});
+   await page.goto(server.base+'/play/');await page.waitForFunction(()=>{const d=document.querySelector('#unified-preview')?.dataset;return d?.controlsReady==='true'&&d.spriteActors===d.spriteReady;});
    await page.evaluate(async()=>{const {Scene}=await import('/play/vendor/three/three.module.js'),original=Scene.prototype.onAfterRender;window.__gardenFrames=[];Scene.prototype.onAfterRender=function(renderer,scene,camera,...args){original.call(this,renderer,scene,camera,...args);window.__gardenScene=this;window.__gardenCamera=camera;const group=this.children.find(o=>o.userData.entityId==='field.plot.3'),mesh=group?.children.find(o=>o.userData.cropPlant);if(mesh){window.__gardenFrames.push({time:performance.now(),scale:mesh.scale.y,wind:mesh.rotation.z,calls:renderer.info.render.calls,triangles:renderer.info.render.triangles});if(window.__gardenFrames.length>300)window.__gardenFrames.shift();}};});
    await worldCamera(page,'field');await page.waitForFunction(()=>window.__gardenFrames?.length>=5);
    let expected=deserialize(farm.planted);const next=dispatch(expected,{id:expected.revision+1,type:'nextDay'});assert.ok(next.ok);expected=next.state;
@@ -48,4 +48,4 @@ try{
  }
  assert.deepEqual(report.errors,[]);assert.deepEqual(report.consoleErrors,[]);assert.deepEqual(report.failedRequests,[]);
 }catch(e){report.failure=String(e.stack||e);throw e;}
-finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await writeFile(`${qa}/growth.json`,JSON.stringify(report,null,2));}
+finally{await browser?.close();await server.close();await writeFile(`${qa}/growth.json`,JSON.stringify(report,null,2));}

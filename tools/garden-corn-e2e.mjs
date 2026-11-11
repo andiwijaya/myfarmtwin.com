@@ -2,14 +2,14 @@ import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
-import {startServer} from './serve.mjs';
+import {gardenQATarget} from './garden-qa-target.mjs';
 import {worldCamera,worldObject,openWorldSettings} from './unified-shell-ui.mjs';
 import {dispatch} from '../game/client/engine.js';
 import {deserialize,serialize} from '../game/client/save-schema.js';
 
 const qa=process.env.QA_DIR||'qa-artifacts/garden/corn';await mkdir(qa,{recursive:true});
 const raw=await readFile('game/tests/fixtures/unified-world/v5-mixed.json','utf8');
-const server=await startServer(0,resolve('qa-artifacts/garden/build/dist'));
+const server=await gardenQATarget();
 let browser;const report={profiles:[],errors:[],consoleErrors:[],failedRequests:[],limits:'Isolated Chrome; phone is touch emulation, not physical Android.'};
 try{
  browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE||'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'});
@@ -18,7 +18,7 @@ try{
   try{
    await context.addInitScript(raw=>{if(!localStorage.getItem('garden-corn-qa')){localStorage.setItem('myfarmtwin.save.v1',raw);localStorage.setItem('garden-corn-qa','1');}},raw);
    const page=await context.newPage();page.on('pageerror',e=>report.errors.push({name,error:e.message}));page.on('console',m=>{if(m.type()==='error')report.consoleErrors.push({name,error:m.text()});});page.on('requestfailed',r=>report.failedRequests.push({name,url:r.url()}));
-   await page.goto(`http://127.0.0.1:${server.address().port}/play/`);await page.waitForFunction(()=>document.querySelector('#unified-preview')?.dataset.controlsReady==='true');await page.locator('#language').selectOption(locale);
+   await page.goto(server.base+'/play/');await page.waitForFunction(()=>document.querySelector('#unified-preview')?.dataset.controlsReady==='true');await page.locator('#language').selectOption(locale);
    const exact=async()=>page.waitForFunction(raw=>localStorage.getItem('myfarmtwin.save.v1')===raw,serialize(expected));
    const send=async(type,selector,extra={})=>{await page.locator(selector).click();const r=dispatch(expected,{id:expected.revision+1,type,...extra});assert.ok(r.ok,type+': '+r.error);expected=r.state;commands++;await exact();};
    await exact();assert.equal(await page.evaluate(()=>localStorage.getItem('myfarmtwin.save.before-garden.v5')),raw);
@@ -63,4 +63,4 @@ try{
  }
  assert.deepEqual(report.errors,[]);assert.deepEqual(report.consoleErrors,[]);assert.deepEqual(report.failedRequests,[]);
 }catch(e){report.failure=String(e.stack||e);throw e;}
-finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await writeFile(`${qa}/corn.json`,JSON.stringify(report,null,2));}
+finally{await browser?.close();await server.close();await writeFile(`${qa}/corn.json`,JSON.stringify(report,null,2));}

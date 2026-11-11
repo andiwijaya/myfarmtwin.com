@@ -1,8 +1,10 @@
 # Vegetable Farm Expansion and 3D Enhancement
 
 Owner specification: pasted document of 11 November 2026, accepted for autonomous
-implementation, testing and deployment in the current chat. Work stops at
-**17:00 WIB (10:00 UTC) on 11 November 2026**, with a resumable checkpoint.
+implementation, testing and deployment in the current chat. The 17:00 WIB stop
+was honored at checkpoint `ce555ae`. The owner resumed from home on 11 November
+2026, authorizing autonomous completion through V6 rollback, deployment and live
+verification, and explicitly confirmed immediate deployment when ready.
 This replaces the earlier eight-bed/four-stage proposal. Functionality first.
 
 Starting checkout: `C:\MyFarmTwin`, `cozy-world-v1`, `bda6fd1`.
@@ -164,6 +166,29 @@ corn checkpoint `7503ca9` or a forward fix; never downgrade/reset saves. Owner's
 publication authority persists, but the 17:00 WIB stop takes precedence. Resume
 only on a new owner instruction at home. Browser download tests stay skipped;
 no routine approval/download/file-chooser flow is to be triggered.
+
+### Home resume and V6 rollback preparation
+
+Resumed from clean `ce555ae`; remote main freshly verified as `f2836be`.
+The previous stop is superseded by explicit owner resumption. No new deadline
+was requested. Download checks remain skipped; no desktop takeover.
+
+Rebuilt checkpoint `7503ca9` from its source into an isolated V6 fallback:
+its old tracked V5 dist was not reused. All 148 compared native modules match
+current source after EOL normalization. Rehearsal passes desktop EN/phone ID:
+192 commands, harvest/sell/buy/replant all 24 corn beds and exact reload/save,
+other zones, clock and RNG. The complete 21-profile save-protection matrix
+also passes on that fallback, including original-byte migration, future/corrupt
+saves, quota/collision handling and true two-tab pointer races. Downloads skipped.
+Evidence: `rollback-build.json`, `rollback-v6-rehearsal/`, `rollback-v6-data/`.
+
+Production native bytes/receipt are unchanged from accepted local candidate.
+107 working-copy text files had CRLF only; both root and QA copies are now
+canonical Git bytes. All 246 files still match and receipt SHA remains `98ec95ee...`.
+Existing Cloudflare OAuth refreshed noninteractively. Authenticated provider
+inspection confirms GitHub `main`, automatic production/preview deployments,
+empty build command/root and `dist` output; no provider settings changed.
+Preview rollback publication and primary deployment/live verification remain pending.
 
 Remote main was read-only verified at 16:53 WIB as
 `f2836be675bcde489617c8e354d01390be594546`. Nothing was pushed. Both owned
