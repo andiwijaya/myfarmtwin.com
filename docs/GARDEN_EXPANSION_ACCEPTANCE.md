@@ -16,7 +16,7 @@ Cloudflare Pages project remains `myfarmtwin-com`, output `dist`.
 
 - [x] Audit initial layout, crop engine, strict saves, rendering and QA entry points.
       Three initial beds; eight maximum paid beds; two crop types; schema V5.
-- [x] 1. Expand capacity to 24 paid functional beds, with proportional rows and paths.
+- [x] 1. Provide 24 immediately active functional beds, with proportional rows and paths.
 - [x] 2. Preserve roads, market, other zones and collision-free placement.
 - [x] 3. Verify every bed can be selected and used on desktop and touch emulation.
 - [x] 4. Add corn seeds, inventory, prices, harvest and sale end to end.
@@ -189,6 +189,37 @@ Existing Cloudflare OAuth refreshed noninteractively. Authenticated provider
 inspection confirms GitHub `main`, automatic production/preview deployments,
 empty build command/root and `dist` output; no provider settings changed.
 Preview rollback publication and primary deployment/live verification remain pending.
+
+### Correction following live owner feedback
+
+The initial production publication `5473f0e` succeeded at 13:23:50Z, but retained
+three starting beds and required paid upgrades to reach 24. The owner correctly
+identified that this did not satisfy the original brief's 20–24 active beds.
+That initial publication is not final acceptance. Its interrupted live run is
+retained under `live/`; do not count it as the corrected release's full QA.
+
+The corrected native factory creates 24 functional empty beds immediately.
+Player session load/import/recovery opts into an additive active-garden upgrade:
+strictly validate the actual V0–V6 source, retain its exact bytes under
+`myfarmtwin.save.before-active-garden`, then append only missing empty beds and
+write through the original save lock/CAS/backup path. Existing plot objects,
+plants, wallet, seeds, inventory, ledger, clock, RNG, mission and other areas
+remain exact at load. A second load makes no writes. V6 already represents 24
+beds, so the schema remains V6. Pure historical format readers remain available.
+Collision/quota/future failures retain original bytes and block unsafe writes.
+
+Corrected **555/555 native tests**, lint/typecheck and 185-module source audit
+pass. Historical three-bed pump/expansion tests use explicit legacy inputs;
+old-era synthetic fixture builders obey their eight-bed schema cap. Crop-choice
+balance comparisons use the same three planted beds and original wallet, while
+all 24 beds remain available. No prices or player cash/seed grants changed.
+Six actual desktop/phone entry profiles pass: fresh, V5 and already-published V6
+with 24 beds immediately, paid seeds where needed, bed 24 plant/water, retained
+raw archives and exact reload. All 21 browser save-protection profiles pass again.
+Root and isolated candidate match across 247 files; receipt raw SHA256:
+`e29365d00240b7af244c2037029f3c4e4e15624b986ccc0a2d5b453d30010d05`.
+Evidence: `active-native-accepted.log`, `active-local-final/`, `active-save-local/`.
+Remaining gates apply to this corrected artifact and its matching rollback.
 
 Remote main was read-only verified at 16:53 WIB as
 `f2836be675bcde489617c8e354d01390be594546`. Nothing was pushed. Both owned

@@ -1,5 +1,6 @@
 import {cozyLocalSlot} from './cozy-local-slot.mjs';
-const cozyEnd=process.env.COZY_QA_SLOT?cozyLocalSlot():null;let cozyExpired=false,cozyTimer=null;
+import {cozyLiveSlot} from './cozy-qa-target.mjs';
+const cozyEnd=process.env.COZY_QA_SLOT?(process.env.BASE_URL?cozyLiveSlot():cozyLocalSlot()):null;let cozyExpired=false,cozyTimer=null;
 import {chromium} from 'playwright';import {startServer} from './serve.mjs';import {readFile,writeFile,mkdir} from 'node:fs/promises';import {execFileSync} from 'node:child_process';import {join} from 'node:path';import {tmpdir} from 'node:os';import assert from 'node:assert/strict';
 const server=process.env.BASE_URL?null:await startServer(0),base=process.env.BASE_URL||'http://127.0.0.1:'+server.address().port,qa=process.env.QA_DIR||join(tmpdir(),'myfarmtwin-qa');await mkdir(qa,{recursive:true});const browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE});const routes=['/','/learn/','/grow/','/farm/','/kitchen/','/projects/','/gear/','/about/','/play/'],report={at:new Date().toISOString(),base,routes:[],layouts:[],errors:[]};
 if(cozyEnd)cozyTimer=setTimeout(()=>{cozyExpired=true;void browser.close();},Math.max(0,cozyEnd-Date.now()));

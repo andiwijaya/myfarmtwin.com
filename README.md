@@ -2,7 +2,7 @@
 
 Practical growing, farm projects, useful gear, and food grown with intention. The editorial website stays static; **Play Farm** at `/play/` adds a bilingual EN/ID farm life game.
 
-Plant lettuce, tomatoes and corn, manage soil water and seeded weather, harvest/sell, fulfil neighbourhood orders, build irrigation, upgrade efficiency and expand to 24 beds. FarmGirl guides the first loop. Browser-local save/resume, export/import, backup recovery and confirmed reset keep progress portable. The optional Engineering Lab explains the educational model; it is not an agronomy prediction.
+Plant lettuce, tomatoes and corn across 24 immediately active beds, manage soil water and seeded weather, harvest/sell, fulfil neighbourhood orders, build irrigation and upgrade efficiency. FarmGirl guides the first loop. Browser-local save/resume, export/import, backup recovery and confirmed reset keep progress portable. The optional Engineering Lab explains the educational model; it is not an agronomy prediction.
 
 ## Local development
 
@@ -52,10 +52,14 @@ The EN/ID homepage now contains one live-game card, without FarmGirl imagery, pu
 
 ## Garden expansion candidate
 
-The local 24-bed/five-stage-corn candidate is verified at **20/22** acceptance
-items; production deployment and live verification remain pending at the owner
-17:00 WIB stop on 11 November 2026. See [the garden acceptance and handoff](docs/GARDEN_EXPANSION_ACCEPTANCE.md)
-and [progress checkpoint](docs/GARDEN_UPGRADE_PROGRESS.md). Local dist now matches
-the accepted isolated artifact (246 files). Browser download tests are skipped
-by owner instruction. Keep a V6-compatible rollback before publishing; the older
-public V5 renderer cannot resume V6 primary saves.
+The corrected garden candidate gives new and existing players **24 active beds
+immediately**. Missing empty beds are added on player load with exact original
+save retention; existing plants, funds, seeds, inventory and progression survive.
+Schema remains V6, which already supports all 24 beds. The initial publication
+only increased paid capacity and was corrected after the owner's live feedback.
+The corrected native suite passes **555/555**; six player-entry and 21 save-safety
+browser profiles pass locally. Corrected deployment/live acceptance remains
+pending; see [the acceptance record](docs/GARDEN_EXPANSION_ACCEPTANCE.md) and
+[progress checkpoint](docs/GARDEN_UPGRADE_PROGRESS.md). Root and isolated output
+match across 247 files. Download tests stay skipped. Keep a matching V6-compatible
+rollback; the old V5 renderer cannot resume V6 primary saves.

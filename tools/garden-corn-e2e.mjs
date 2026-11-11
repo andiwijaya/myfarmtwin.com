@@ -5,7 +5,7 @@ import {resolve} from 'node:path';
 import {gardenQATarget} from './garden-qa-target.mjs';
 import {worldCamera,worldObject,openWorldSettings} from './unified-shell-ui.mjs';
 import {dispatch} from '../game/client/engine.js';
-import {deserialize,serialize} from '../game/client/save-schema.js';
+import {serialize} from '../game/client/save-schema.js';import {deserialize} from './active-garden-qa.mjs';
 
 const qa=process.env.QA_DIR||'qa-artifacts/garden/corn';await mkdir(qa,{recursive:true});
 const raw=await readFile('game/tests/fixtures/unified-world/v5-mixed.json','utf8');

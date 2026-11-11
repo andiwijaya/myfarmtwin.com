@@ -184,3 +184,15 @@ after EOL normalization; all-24-bed desktop/phone loop (192 commands) and the
 21-profile save safety matrix pass. Primary artifact remains the accepted 246
 files and raw receipt `98ec95ee922da15ada966b55bbb2c66c4757c3a1c3de1f8fca091108a0cd3aa5`.
 Next: publish rollback preview, deploy main and verify public production.
+
+## Immediate active-bed correction
+
+Owner live feedback exposed three starting beds in the initial publication
+`5473f0e`. Paid capacity was the wrong interpretation of the original brief.
+Corrected candidate starts with 24 active beds and upgrades old V0–V6 player
+loads additively with exact original-byte archives. Original plot/progress/funds
+remain; no reset or wallet/seed grant. Six browser entry and 21 data-safety
+profiles plus all 555 native tests pass. Corrected output: 247 files, raw receipt
+`e29365d00240b7af244c2037029f3c4e4e15624b986ccc0a2d5b453d30010d05`.
+Matching rollback rebuilt with identical current native modules and earlier
+visual implementation. Corrected publication/live checks remain pending.

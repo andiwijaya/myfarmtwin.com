@@ -1,3 +1,4 @@
+import {activateGarden} from '../game/client/active-garden.js';
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
@@ -17,7 +18,7 @@ if(!initial.paused)initial=native(initial,'pause');
 if(!initial.pump.built)initial=native(initial,'buyPump');
 for(const p of [...initial.plots])if(p.crop){assert.equal(p.crop.progress,1);initial=native(initial,'harvest',{plot:p.id});}
 for(const lot of [...initial.inventory])initial=native(initial,'sell',{lot:lot.id});
-const raw=serialize(initial);assert.ok(initial.coins>5000);assert.equal(initial.mission.step,7);
+initial=activateGarden(initial);const raw=serialize(initial);assert.ok(initial.coins>5000);assert.equal(initial.mission.step,7);
 const server=await startServer(0,resolve('qa-artifacts/garden/build/dist'));
 let browser;const report={profiles:[],errors:[],consoleErrors:[],failedRequests:[],funding:{recipe:'30 native mixed economy days',coins:initial.coins},limits:'Phone is touch emulation on desktop Chrome.'};
 try{

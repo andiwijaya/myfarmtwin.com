@@ -4,7 +4,7 @@ import {unifiedQATarget} from './unified-qa-target.mjs';
 import {worldCamera,worldObject} from './unified-shell-ui.mjs';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import assert from 'node:assert/strict';
-import {deserialize,serialize} from '../game/client/save-schema.js';
+import {serialize} from '../game/client/save-schema.js';import {deserialize} from './active-garden-qa.mjs';
 const coordinated=!!process.env.COZY_QA_SLOT,end=Date.parse(process.env.COZY_SLOT_END_UTC||'');
 if(coordinated){assert.equal(process.env.COZY_QA_SLOT,'parent-confirmed');assert.ok(/Z$/.test(process.env.COZY_SLOT_END_UTC||'')&&Number.isFinite(end)&&end>Date.now()&&end-Date.now()<=15*60_000,'Current coordinated deadline required');}
 if(coordinated&&process.env.COZY_WORK_STOP_UTC)assert.ok(/Z$/.test(process.env.COZY_WORK_STOP_UTC)&&Date.parse(process.env.COZY_WORK_STOP_UTC)>=end,'Current work cutoff must bound the slot');
