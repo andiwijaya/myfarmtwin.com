@@ -38,7 +38,9 @@ export async function verify(){
   const raw=await readFile(new URL(file.name,root)),expected=await readFile(new URL(file.name+'.expected',root),'utf8');
   assert.equal(digest(raw),file.sha256,file.name+' input bytes');
   assert.equal(raw.length,file.bytes,file.name+' size');assert.equal(digest(expected),file.expectedSha256,file.name+' expected bytes');
-  const state=deserialize(raw.toString());assert.equal(serialize(state),expected,file.name+' migration changed');
+  const state=deserialize(raw.toString()),prior=JSON.parse(expected).state,projected=structuredClone(state);projected.saveVersion=prior.saveVersion;
+  assert.deepEqual(projected,prior,file.name+' original fields changed');
+  assert.equal(serialize(state),serialize(deserialize(expected)),file.name+' migration changed');
   assert.deepEqual(farmSemantics(deserialize(serialize(state))),farmSemantics(state));
  }
  return {fixtures:manifest.fixtures.length,versions:[...new Set(manifest.fixtures.map(f=>f.sourceVersion))],saveVersion:SAVE_VERSION,exact:true,synthetic:true};

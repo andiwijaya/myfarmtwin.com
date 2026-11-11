@@ -10,7 +10,7 @@ const zone=(id,area,anchor,entry)=>Object.freeze({id,bounds:area,anchor,entry});
 export const WORLD_BOUNDS=bounds(-20,-25,30,25);
 export const FARM_ZONE_IDS=Object.freeze(/** @type {const} */(['field','chicken','goat','cow','fish']));
 export const ZONE_REGISTRY=Object.freeze({
- field:zone('field',bounds(-10,1,0,8),point(-4,4),point(-4,2.2)),
+ field:zone('field',bounds(-10,1,0,8),point(-5.5,5.3),point(-4,2.2)),
  chicken:zone('chicken',bounds(-10,-11,0,-2),point(-4,-6),point(-4,-2.2)),
  goat:zone('goat',bounds(9,-18,25,-6),point(17,-12),point(17,-6.4)),
  cow:zone('cow',bounds(12,3,27,14),point(19,8.5),point(19,3.4)),

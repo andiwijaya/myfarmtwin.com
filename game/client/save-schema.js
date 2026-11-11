@@ -6,7 +6,7 @@ import {COW_COST_TYPES,COW_LEDGER_TYPES} from './cow-config.js';
 import {GOAT_COST_TYPES,GOAT_LEDGER_TYPES} from './goat-config.js';
 import {validateChickenEconomy} from './chicken-save-checks.js';
 import {CURRENT_SAVE_VERSION} from './config.js';import {createChickenState} from './chicken-state.js';
-import {assertInvariants} from './invariants.js';import {INITIAL_PLOTS,EXPANSION,CROP_IDS,CROPS,ORDERS,WEATHER} from './config.js';
+import {assertInvariants} from './invariants.js';import {INITIAL_PLOTS,EXPANSION,CROP_IDS,CROPS,ORDERS,WEATHER,LIMITS} from './config.js';
 const COST_TYPES=[...FISH_COST_TYPES,...COW_COST_TYPES,...GOAT_COST_TYPES,'seed_purchase','water_cost','facility_purchase','feed_purchase','care_cost','coop_upgrade','hen_purchase','feeder_upgrade','feeder_service','shade_purchase'];const REVENUE_TYPES=[...FISH_REVENUE_TYPES,'cow_recovery_grant','cow_starter_grant','cow_milk_sale','cow_order_bonus','goat_sale','goat_starter_grant','sale_revenue','mission_reward','egg_sale'];const CHICKEN_TYPES=['feed_purchase','care_cost','coop_upgrade','hen_purchase','feeder_upgrade','feeder_service','shade_purchase','egg_sale'];
 export const SAVE_VERSION=CURRENT_SAVE_VERSION;export const MAX_SAVE_BYTES=2_000_000;
 /** @param {unknown} value @param {string[]} keys @returns {Record<string,any>} */
@@ -24,7 +24,7 @@ function validateVersion(value,version,copy=true){
  const s=object(value,['saveVersion','revision','tick','seed','rng','weather','paused','speed','coins','water','careCredits','seeds','plots','inventory','ledger','mission','pump','stats','completedOrders','followups','nextLot',...(version>=2?['chicken']:[]),...(version>=3?['goat']:[]),...(version>=4?['cow']:[]),...(version>=5?['fish']:[])]);
  if(s.saveVersion!==version)throw new Error('Unsupported save version');integer(s.revision);integer(s.tick);integer(s.seed,0,0xffffffff);integer(s.rng,0,0xffffffff);if(!Object.keys(WEATHER).includes(s.weather))throw new Error('Invalid weather');boolean(s.paused);if(![1,2].includes(s.speed))throw new Error('Invalid speed');integer(s.coins);number(s.water,0,240);integer(s.careCredits,0,1);integer(s.nextLot,1);
  const seeds=object(s.seeds,['lettuce','tomato']);for(const c of CROP_IDS)integer(seeds[c],0,99);
- const positions=[...INITIAL_PLOTS,...EXPANSION.cells],plots=array(s.plots,8);if(plots.length<3)throw new Error('Missing beds');
+ const positions=[...INITIAL_PLOTS,...EXPANSION.cells],plots=array(s.plots,version<6?8:LIMITS.plots);if(plots.length<3)throw new Error('Missing beds');
  for(let i=0;i<plots.length;i++){
   const p=object(plots[i],['id','x','y','soilWaterMm','soilCapacityMm','crop','waterAppliedMm','careCost','lastWaterTick','history']);if(p.id!==i||p.x!==positions[i].x||p.y!==positions[i].y||p.soilCapacityMm!==50)throw new Error('Invalid plot placement');number(p.soilWaterMm,0,50);number(p.waterAppliedMm);number(p.careCost);integer(p.lastWaterTick,-1,s.tick);
   let previous=-1;for(const item of array(p.history,48)){const h=object(item,['tick','water','growth']);integer(h.tick,0,s.tick);if(h.tick<=previous)throw new Error('History order');previous=h.tick;number(h.water,0,50);number(h.growth,0,1);}
@@ -53,5 +53,6 @@ export function deserialize(text){
  if(envelope.saveVersion===2){const old=validateVersion(envelope.state,2);return validateState({...old,saveVersion:SAVE_VERSION,goat:createGoatState(),cow:createCowState(),fish:createFishState()});}
  if(envelope.saveVersion===3){const old=validateVersion(envelope.state,3);return validateState({...old,saveVersion:SAVE_VERSION,cow:createCowState(),fish:createFishState()});}
  if(envelope.saveVersion===4){const old=validateVersion(envelope.state,4);return validateState({...old,saveVersion:SAVE_VERSION,fish:createFishState()});}
+ if(envelope.saveVersion===5){const old=validateVersion(envelope.state,5);return validateState({...old,saveVersion:SAVE_VERSION});}
  if(typeof envelope.saveVersion==='number'&&envelope.saveVersion>SAVE_VERSION)throw new Error('saveNewer');if(envelope.saveVersion!==SAVE_VERSION)throw new Error('Unsupported save version');return validateState(envelope.state);
 }

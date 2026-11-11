@@ -1,4 +1,5 @@
 import {BoxGeometry,Mesh,MeshLambertMaterial,Color,Float32BufferAttribute} from 'three';
+import {gardenPathParts} from './garden-layout.js';
 import {COZY_ART} from './unified-cozy-art.js';import {WORLD_STYLE} from './unified-world-style.js';import {WORLD_BOUNDS} from './unified-world-registry.js';
 /** @typedef {import('./unified-world-environment.js').EnvironmentPart} Part */
 export const LANDSCAPE_ORDER=Object.freeze({terrain:-4,ground:-3,path:-2,detail:-1});
@@ -20,7 +21,7 @@ export function createCozyTerrain(material){
  * existing care pads and connected trails supply the local ground hierarchy.
  * This background paint stays at y=0 and never covers native contact surfaces.
  * @returns {Part[]} */
-export function landscapeGroundParts(){return[{x:5,y:0,z:1,width:5.5,height:.0001,depth:4.4,color:'#c0aa78',shape:'disc',fixed:true,startupOptional:true,feature:'market-approach'}];}
+export function landscapeGroundParts(){return[{x:5,y:0,z:1,width:5.5,height:.0001,depth:4.4,color:'#c0aa78',shape:'disc',fixed:true,startupOptional:true,feature:'market-approach'},...gardenPathParts()];}
 /** Same bilingual camera-sign owners/locations; no simulation entities added.
  * @param {{width:number,depth:number}} sign @returns {Part[]} */
 export function waymarkParts(sign){const p=COZY_ART.palette;return[
