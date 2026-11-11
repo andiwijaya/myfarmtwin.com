@@ -21,7 +21,7 @@ import {applyGoatCommand,tickGoat} from './goat-runtime.js';
 import {advanceGoatMission,awardGoatRewards} from './goat-missions.js';
 import {advanceChickenMission,awardChickenRewards} from './chicken-missions.js';
 /** @typedef {'sunny'|'cloudy'|'rainy'|'hot'} Weather */
-/** @typedef {'lettuce'|'tomato'} CropId */
+/** @typedef {'lettuce'|'tomato'|'corn'} CropId */
 /** @typedef {{type:CropId,progress:number,quality:number,stage:number,plantedTick:number}} Crop */
 /** @typedef {{id:number,x:number,y:number,soilWaterMm:number,soilCapacityMm:number,crop:Crop|null,waterAppliedMm:number,careCost:number,lastWaterTick:number,history:{tick:number,water:number,growth:number}[]}} Plot */
 /** @typedef {{id:string,tick:number,type:string,amount:number,balance:number}} LedgerEntry */
@@ -31,9 +31,9 @@ import {advanceChickenMission,awardChickenRewards} from './chicken-missions.js';
 /** @typedef {{id:number,type:CommandType,plot?:number,crop?:CropId,lot?:number,order?:string,eggLot?:string,goatId?:string,cowId?:string,cowLot?:string,cowLots?:string[],cowQuote?:string,cowOrder?:string,cowStorage?:'can'|'cooler',paddock?:number,quotePrice?:number,fishPond?:number,fishAmountG?:number,fishCount?:number,fishCohort?:string,fishLot?:string,fishContract?:string}} Command */
 /** @typedef {{type:string,plot?:number,amount?:number,cowId?:string}} DomainEvent */
 /** @param {number} [seed] @returns {State} */
-export function createState(seed=6321){return {saveVersion:CURRENT_SAVE_VERSION,revision:0,tick:0,seed:seed>>>0,rng:seed>>>0,weather:'sunny',paused:true,speed:1,coins:STARTER.coins,water:STARTER.water,careCredits:0,seeds:{lettuce:STARTER.seeds,tomato:0},plots:INITIAL_PLOTS.map(p=>({...p,soilWaterMm:12,soilCapacityMm:50,crop:null,waterAppliedMm:0,careCost:0,lastWaterTick:-1,history:[]})),inventory:[],ledger:[],mission:{step:0,rewards:[]},pump:{built:false,on:false,efficient:false,runHours:0,stopReason:''},stats:{planted:0,watered:0,cared:0,harvested:0,sold:0,hotCare:0,orders:0},completedOrders:[],followups:{order:false,hotCare:false,efficiency:false},nextLot:1,chicken:createChickenState(),goat:createGoatState(),cow:createCowState(),fish:createFishState()};}
+export function createState(seed=6321){return {saveVersion:CURRENT_SAVE_VERSION,revision:0,tick:0,seed:seed>>>0,rng:seed>>>0,weather:'sunny',paused:true,speed:1,coins:STARTER.coins,water:STARTER.water,careCredits:0,seeds:{lettuce:STARTER.seeds,tomato:0,corn:0},plots:INITIAL_PLOTS.map(p=>({...p,soilWaterMm:12,soilCapacityMm:50,crop:null,waterAppliedMm:0,careCost:0,lastWaterTick:-1,history:[]})),inventory:[],ledger:[],mission:{step:0,rewards:[]},pump:{built:false,on:false,efficient:false,runHours:0,stopReason:''},stats:{planted:0,watered:0,cared:0,harvested:0,sold:0,hotCare:0,orders:0},completedOrders:[],followups:{order:false,hotCare:false,efficiency:false},nextLot:1,chicken:createChickenState(),goat:createGoatState(),cow:createCowState(),fish:createFishState()};}
 /** @param {State} state */
-export const recoveryAvailable=state=>state.coins<CROPS.lettuce.seedPrice&&state.seeds.lettuce+state.seeds.tomato===0&&state.inventory.length===0&&!state.plots.some(p=>p.crop);
+export const recoveryAvailable=state=>state.coins<CROPS.lettuce.seedPrice&&CROP_IDS.every(c=>state.seeds[c]===0)&&state.inventory.length===0&&!state.plots.some(p=>p.crop);
 /** @param {State} state */
 export const expansionPrice=state=>EXPANSION.price+EXPANSION.increment*(state.plots.length-INITIAL_PLOTS.length);
 /** @param {{x:number,y:number}} plot */

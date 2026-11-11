@@ -17,15 +17,15 @@ Cloudflare Pages project remains `myfarmtwin-com`, output `dist`.
 - [x] 1. Expand capacity to 24 paid functional beds, with proportional rows and paths.
 - [x] 2. Preserve roads, market, other zones and collision-free placement.
 - [x] 3. Verify every bed can be selected and used on desktop and touch emulation.
-- [ ] 4. Add corn seeds, inventory, prices, harvest and sale end to end.
-- [ ] 5. Implement five corn growth stages with mature height about 2–3 world units.
-- [ ] 6. Verify the full plant/care/grow/harvest/sell/replant loop.
+- [x] 4. Add corn seeds, inventory, prices, harvest and sale end to end.
+- [x] 5. Implement five corn growth stages with mature height about 2–3 world units.
+- [x] 6. Verify the full plant/care/grow/harvest/sell/replant loop.
 - [ ] 7. Improve real 3D lettuce/tomato/corn geometry and deterministic variation.
 - [ ] 8. Reusable simulation-driven growth and gentle wind/harvest animation.
 - [ ] 9. Honor pause, reduced motion, low graphics and hidden-tab behavior.
 - [ ] 10. Keep tall plants selectable without blocking adjacent care controls.
 - [ ] 11. Retain irrigation, water, economy, upgrades and original progression.
-- [ ] 12. Strict old-save migration with original-byte retention and quota safety.
+- [x] 12. Strict old-save migration with original-byte retention and quota safety.
 - [ ] 13. Unit/integration tests for placement, growth, actions and economy.
 - [ ] 14. Save/load, import/export, backup, recovery and stale-tab tests.
 - [ ] 15. Automated real-3D stage, animation, collision and picking harness.
@@ -55,3 +55,16 @@ state/ledger checks and four exact reloads. Evidence: `layout/layout.json`,
 `qa-artifacts/garden/`. Failed harness attempts are retained separately.
 Implementation, checks and evidence are recorded in `GARDEN_UPGRADE_PROGRESS.md`
 and ignored `qa-artifacts/garden/`.
+
+F2 corn acceptance: **544/544 native tests PASS**, typecheck PASS. The original
+V0–V5 fixture and rollback-reader bytes/hashes remain immutable. Legacy semantic
+projections assert the new `corn` seed count is exactly zero before comparing
+every original field; strict legacy input still rejects corn/new fields.
+Four browser profiles each pass 20 native UI actions over seven simulation days,
+all five stages, real rendered 2–3-unit mature height, harvest/sale/replant, exact
+whole save/ledger, mature reload and byte-exact exported JSON (80 actions,
+20 stage PNGs). Receipts: `corn/corn.json`, `corn-e2e.log`, `f2-accepted-tests.log`.
+Actual mature desktop pixels were inspected. An additional **Codex internal
+browser** (IAB) fresh-farm flow verified buying corn, selecting it, planting,
+watering and Next day: visible `Corn · Sprout · 20%`, harvest disabled. No native
+Windows input, personal Chrome attachment or personal save was used.

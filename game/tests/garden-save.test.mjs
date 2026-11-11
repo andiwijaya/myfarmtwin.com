@@ -1,3 +1,4 @@
+import {legacyGarden} from './garden-legacy-helper.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
 import {deserialize,serialize,SAVE_VERSION} from '../client/save-schema.js';
 import {SaveSession,SAVE_KEY,BACKUP_KEY,PRE_V6_KEY,QUARANTINE_KEY} from '../client/storage.js';
@@ -7,7 +8,7 @@ function memory(entries=[],fail=''){const map=new Map(entries);return {map,stora
 test('V5 migration preserves every original farm field and exact original bytes before writing V6',()=>{
  const old=JSON.parse(raw).state,{map,storage}=memory([[SAVE_KEY,raw]]),session=new SaveSession(storage),result=session.load();
  assert.equal(result.status,'saveMigrated');assert.equal(result.state.saveVersion,SAVE_VERSION);
- const prior=structuredClone(result.state);prior.saveVersion=5;assert.deepEqual(prior,old);
+ const prior=legacyGarden(result.state);prior.saveVersion=5;assert.deepEqual(prior,old);
  assert.equal(map.get(PRE_V6_KEY),raw);assert.equal(map.get(BACKUP_KEY),raw);assert.equal(session.original(),raw);
  const before=[...map];assert.equal(new SaveSession(storage).load().status,'saveResumed');assert.deepEqual([...map],before);
 });

@@ -27,8 +27,21 @@
   unchanged. All browser contexts are disposable; no personal save/profile used.
 - Evidence: `qa-artifacts/garden/`, baseline logs beside it. Owned QA resources
   clean up on completion. No owned persistent preview server has been started.
-- Next increment: native corn crop/inventory/economy with five simulation stages,
-  then its real 3D growth/animation acceptance. No garden production deployment yet.
+- **F2 accepted:** corn seeds/care/inventory/harvest/sale/replant, five native
+  stages and real 3D stalk/leaves/husk/cob. Mature model is about 2.7 units
+  including soil/tassel. Fictional balance: 18 Coins seed, 120 ideal game hours,
+  16 mm/day, base yield four, 30 Coins/unit before actual quality.
+- F2 validation: **544/544 tests PASS**, typecheck PASS; **4/4 browser profiles**,
+  80 native UI actions, seven simulation days/profile, five rendered stages,
+  exact native saves/ledger, mature reload, export and replant. Actual 20 stage
+  screenshots under `qa-artifacts/garden/corn/`. Immutable legacy fixture hashes
+  retained; explicit zero-corn projection covers additive migration.
+- Codex **internal browser (IAB)** fresh-farm buy/plant/water/Next day also
+  visibly verified `Corn · Sprout · 20%` and disabled early harvest. All testing
+  remains isolated; no Windows/native app takeover or personal Chrome/profile.
+- Next increment: reusable smooth visual growth, whole-stem/leaf wind,
+  deterministic plant variation and upgraded plant appearance, then dense
+  garden picking/performance regression. No garden production deployment yet.
 - Further commands run under `tools/garden-run.mjs` with the ignored owner work
   window ending `2026-11-11T10:00:00Z`; its hard stop targets only its own child.
 

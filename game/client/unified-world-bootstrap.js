@@ -23,7 +23,7 @@ async function prepare(renderer=import('./unified-world-preview.js')){
  previewOptions.onAssetProgress=assetProgress;previewOptions.onDispose=()=>restoreControls();
  function restoreControls(remove=true){for(const {node,disabled:value}of disabled)node.disabled=value;disabled.length=0;if(remove)notice.remove();}
  try{
-  for(const id of ['hud-day','hud-coins','hud-water','hud-seeds']){const node=document.getElementById(id);if(node)node.textContent=String(id==='hud-day'?Math.floor(state.tick/24)+1:id==='hud-coins'?state.coins:id==='hud-water'?Math.floor(state.water):state.seeds.lettuce+state.seeds.tomato);}
+  for(const id of ['hud-day','hud-coins','hud-water','hud-seeds']){const node=document.getElementById(id);if(node)node.textContent=String(id==='hud-day'?Math.floor(state.tick/24)+1:id==='hud-coins'?state.coins:id==='hud-water'?Math.floor(state.water):Object.values(state.seeds).reduce((a,b)=>a+b,0));}
   world.replaceChildren(host);world.hidden=false;world.classList.add('unified-world');preview=api.mountUnifiedPreview(host,state,locale,previewOptions);shell=api.createWorldShell(shellOptions);shell.update(locale);const bar=host.querySelector('.world-map-bar');bar?.after(notice);
   for(const node of document.querySelectorAll('#pause,#speed,#next-day,#language,#world-menus button,#world-current-task'))if(node instanceof HTMLButtonElement||node instanceof HTMLSelectElement){disabled.push({node,disabled:node.disabled});node.disabled=true;}
   const weather=document.querySelector('#weather-event');if(weather instanceof HTMLElement)weather.hidden=true;
