@@ -1,0 +1,863 @@
+{
+  "kind": "myfarmtwin-cozy-release-evidence-v2",
+  "dateWIB": "2026-11-15",
+  "source": "f0b6fa91ffa42d0b691da316133847a4cabbeffc",
+  "deployment": {
+    "id": "2080cc0c-489a-41a7-b54e-e700e600e79b",
+    "immutableOrigin": "https://2080cc0c.myfarmtwin-com.pages.dev",
+    "canonicalOrigin": "https://myfarmtwin.com",
+    "status": "completed/success",
+    "evidence": "GitHub Cloudflare Pages check-run 132768835643 after main promotion; both public origins verified inside IAB",
+    "controlPlaneNote": "The legacy direct Cloudflare OAuth observer returned HTTP 401. It was not used as proof of deployment. Native GitHub deployment status and actual canonical/immutable browser resource parity provide release evidence."
+  },
+  "entry": "app-QXJW6TRQ.js",
+  "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+  "production": {
+    "kind": "myfarmtwin-cozy-production-internal-browser-v2",
+    "source": "f0b6fa91ffa42d0b691da316133847a4cabbeffc",
+    "deployment": "2080cc0c-489a-41a7-b54e-e700e600e79b",
+    "immutableOrigin": "https://2080cc0c.myfarmtwin-com.pages.dev",
+    "canonicalOrigin": "https://myfarmtwin.com",
+    "entry": "app-QXJW6TRQ.js",
+    "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+    "checks": [
+      {
+        "id": "fresh-production-entry",
+        "ok": true,
+        "coins": 120,
+        "beds": 24,
+        "models": 22
+      },
+      {
+        "id": "harvest-three-lettuce-and-sell-conserved",
+        "ok": true,
+        "coinsBefore": 154,
+        "coinsAfter": 178,
+        "quantity": 3
+      },
+      {
+        "id": "six-hour-milk-production-and-conserved-collection",
+        "ok": true,
+        "milkMl": 9000
+      },
+      {
+        "id": "interior-orbit-zoom-does-not-write-save",
+        "ok": true
+      },
+      {
+        "id": "invalid-stocked-building-move-rejected-cancel-exact",
+        "ok": true
+      },
+      {
+        "id": "stocked-barn-move-rotate-and-exact-reload",
+        "ok": true,
+        "position": {
+          "x": 7.5,
+          "z": -4,
+          "rotation": 3.141592653589793
+        },
+        "cows": 3
+      },
+      {
+        "id": "language-change-readonly",
+        "ok": true
+      },
+      {
+        "id": "text-backup-restores-exactly",
+        "ok": true
+      },
+      {
+        "id": "renderer-independent-recovery-reader",
+        "ok": true
+      },
+      {
+        "id": "canonical-homepage-return-readonly",
+        "ok": true
+      },
+      {
+        "id": "all-visible-geometry-glb-production",
+        "ok": true,
+        "models": 22,
+        "nonGlbMeshes": 0
+      }
+    ],
+    "canonical": {
+      "id": "canonical-player-origin-readonly-export-and-camera",
+      "ok": true,
+      "exportEqual": true,
+      "models": "22",
+      "glbOnly": "true",
+      "syntheticImported": false,
+      "gameActions": 0,
+      "notes": "Unstarted cow area was inspected without accepting its starter kit; interior gameplay was checked on the isolated deployment origin."
+    },
+    "integrity": {
+      "immutable": {
+        "ok": true,
+        "files": 30,
+        "glbs": 22
+      },
+      "canonical": {
+        "ok": true,
+        "files": 30,
+        "glbs": 22
+      }
+    },
+    "world": {
+      "animalModels": "17",
+      "animationStates": "{\"eat\":3,\"idle\":6,\"swim\":8}",
+      "camera": "{\"x\":41.68,\"y\":39.39,\"z\":47.92}",
+      "cropBatches": "8",
+      "cropPlants": "128",
+      "drawCalls": "1155",
+      "frameMedianMs": "32.90",
+      "frameP95Ms": "33.80",
+      "geometries": "282",
+      "glbOnly": "true",
+      "inventory": "0",
+      "land": "{\"minX\":-28,\"maxX\":28,\"minZ\":-24,\"maxZ\":24}",
+      "loadMs": "1038",
+      "lodFar": "20",
+      "lodNear": "0",
+      "materialClones": "0",
+      "meshes": "850",
+      "models": "22",
+      "modelsReady": "true",
+      "nonGlbMeshes": "0",
+      "quality": "auto",
+      "revision": "100",
+      "saveStatus": "saveSaved",
+      "selected": "overview",
+      "textures": "49",
+      "triangles": "963000",
+      "view": "overview"
+    },
+    "console": {
+      "immutableCurrentOriginErrorsWarnings": 0,
+      "canonicalCurrentOriginErrorsWarnings": 0
+    },
+    "privacy": "Only synthetic farm data was imported and mutated, on the new immutable deployment origin. Canonical player exports were compared in memory and never written to a fixture, repository, screenshot, or public receipt.",
+    "limitations": [
+      "No physical device, Safari, native touch/pinch, hardware FPS/VRAM, thermal/battery or spoken screen-reader test",
+      "No clipboard, upload or download tests",
+      "Broad migration/economy journey belongs to earlier unchanged-domain preview; final production run is a bounded smoke journey"
+    ]
+  },
+  "resourceIntegrity": {
+    "canonical": {
+      "kind": "myfarmtwin-internal-browser-integrity-v2",
+      "origin": "https://myfarmtwin.com",
+      "entry": "app-QXJW6TRQ.js",
+      "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+      "files": 30,
+      "glbs": 22,
+      "ok": true,
+      "results": [
+        {
+          "url": "/play/",
+          "status": 200,
+          "bytes": 7270,
+          "mime": "text/html; charset=utf-8",
+          "sha256": "3d2892e511d298b8e2fd5f03e971c4a003d86f3271c095791544614382c8ca7d",
+          "expected": "3d2892e511d298b8e2fd5f03e971c4a003d86f3271c095791544614382c8ca7d",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/barn.glb",
+          "status": 200,
+          "bytes": 875472,
+          "mime": "model/gltf-binary",
+          "sha256": "25a177e03f24debe3581990244132950d1a240b94ec9bf727b0e5353f05780c2",
+          "expected": "25a177e03f24debe3581990244132950d1a240b94ec9bf727b0e5353f05780c2",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/bed.glb",
+          "status": 200,
+          "bytes": 238304,
+          "mime": "model/gltf-binary",
+          "sha256": "870e3c2dabd03544fe74956756f6c285336b168942b57f674190fdc7a85a0435",
+          "expected": "870e3c2dabd03544fe74956756f6c285336b168942b57f674190fdc7a85a0435",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/cow.glb",
+          "status": 200,
+          "bytes": 417292,
+          "mime": "model/gltf-binary",
+          "sha256": "540c61f55ca892fed09c0d55c1b43414a8dbe0ede2ad847167799ae91f6d5a2b",
+          "expected": "540c61f55ca892fed09c0d55c1b43414a8dbe0ede2ad847167799ae91f6d5a2b",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/crops.glb",
+          "status": 200,
+          "bytes": 319836,
+          "mime": "model/gltf-binary",
+          "sha256": "90d9b1778adf73d98ca01c0e30f3bf0f393762b936ddc38f8e20f7adffe61421",
+          "expected": "90d9b1778adf73d98ca01c0e30f3bf0f393762b936ddc38f8e20f7adffe61421",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/fence.glb",
+          "status": 200,
+          "bytes": 117212,
+          "mime": "model/gltf-binary",
+          "sha256": "9279a59094589199b831ec5cab81fb877df6d3d288600f7f55345768985fa7c3",
+          "expected": "9279a59094589199b831ec5cab81fb877df6d3d288600f7f55345768985fa7c3",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/path.glb",
+          "status": 200,
+          "bytes": 106940,
+          "mime": "model/gltf-binary",
+          "sha256": "82c3235227a7739aa34e8e73cd0e0560e82db095fbd0932a1cef2c645f998329",
+          "expected": "82c3235227a7739aa34e8e73cd0e0560e82db095fbd0932a1cef2c645f998329",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/props.glb",
+          "status": 200,
+          "bytes": 450732,
+          "mime": "model/gltf-binary",
+          "sha256": "7cf9088a13a74b0d17b7b2d0616198cfb5d0da6a86203c9cbd1b545eddb6455e",
+          "expected": "7cf9088a13a74b0d17b7b2d0616198cfb5d0da6a86203c9cbd1b545eddb6455e",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/vegetation.glb",
+          "status": 200,
+          "bytes": 483124,
+          "mime": "model/gltf-binary",
+          "sha256": "b74c620fba1635bd1cb4f4c1b3fcfadf75af2248a9b4cf67a62505beb547ea92",
+          "expected": "b74c620fba1635bd1cb4f4c1b3fcfadf75af2248a9b4cf67a62505beb547ea92",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world-manifest.json",
+          "status": 200,
+          "bytes": 32990,
+          "mime": "application/json",
+          "sha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+          "expected": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/chicken-far.glb",
+          "status": 200,
+          "bytes": 420140,
+          "mime": "model/gltf-binary",
+          "sha256": "e17beb84ef96c33828a2cb4db1f988ef69f269d71ccfaa5a7cec09932d08caf4",
+          "expected": "e17beb84ef96c33828a2cb4db1f988ef69f269d71ccfaa5a7cec09932d08caf4",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/chicken.glb",
+          "status": 200,
+          "bytes": 871760,
+          "mime": "model/gltf-binary",
+          "sha256": "d32c55992932d3abeeba101569541ab375fc36b985f794e5adc8cf3c0c92c5a2",
+          "expected": "d32c55992932d3abeeba101569541ab375fc36b985f794e5adc8cf3c0c92c5a2",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/coop.glb",
+          "status": 200,
+          "bytes": 1807756,
+          "mime": "model/gltf-binary",
+          "sha256": "16151052d2bce3ca5535b72353c9d0c054609165331c7a1c394ef19a37789158",
+          "expected": "16151052d2bce3ca5535b72353c9d0c054609165331c7a1c394ef19a37789158",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/fish-far.glb",
+          "status": 200,
+          "bytes": 171520,
+          "mime": "model/gltf-binary",
+          "sha256": "1fc90b3167b09f7d7ce1bf105ad30a54d7042d2a57f2d39e951b3365dd655dd0",
+          "expected": "1fc90b3167b09f7d7ce1bf105ad30a54d7042d2a57f2d39e951b3365dd655dd0",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/fish.glb",
+          "status": 200,
+          "bytes": 281164,
+          "mime": "model/gltf-binary",
+          "sha256": "0af87d402bc700f85ddb7046964c9028b1eb4af3ff893333381b918ebab11dbf",
+          "expected": "0af87d402bc700f85ddb7046964c9028b1eb4af3ff893333381b918ebab11dbf",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/goat-far.glb",
+          "status": 200,
+          "bytes": 476384,
+          "mime": "model/gltf-binary",
+          "sha256": "9ef76ecfca403278cf0ad27bd6e0d4f7f98129ec359e28e0e5dc00580e76fce8",
+          "expected": "9ef76ecfca403278cf0ad27bd6e0d4f7f98129ec359e28e0e5dc00580e76fce8",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/goat-kid-far.glb",
+          "status": 200,
+          "bytes": 460836,
+          "mime": "model/gltf-binary",
+          "sha256": "25b907e30baf41e0ab6f909be6a60ce70944a55a02b502212619cc84f48ebf85",
+          "expected": "25b907e30baf41e0ab6f909be6a60ce70944a55a02b502212619cc84f48ebf85",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/goat-kid.glb",
+          "status": 200,
+          "bytes": 719844,
+          "mime": "model/gltf-binary",
+          "sha256": "899cf03233c2e9bdcc395ebf4fbc2c8b889128626852a8931f0e2c4720bea7c3",
+          "expected": "899cf03233c2e9bdcc395ebf4fbc2c8b889128626852a8931f0e2c4720bea7c3",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/goat-shelter.glb",
+          "status": 200,
+          "bytes": 1647128,
+          "mime": "model/gltf-binary",
+          "sha256": "87a2e8200d6807ce227b0518b9c470e8892891fa1df6b3090d907a0d6f9c5a53",
+          "expected": "87a2e8200d6807ce227b0518b9c470e8892891fa1df6b3090d907a0d6f9c5a53",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/goat.glb",
+          "status": 200,
+          "bytes": 847232,
+          "mime": "model/gltf-binary",
+          "sha256": "e8eb5dc4df82e4ea3b494674f76c0d74ece4ad2225521e9c4d3fbca5ec243720",
+          "expected": "e8eb5dc4df82e4ea3b494674f76c0d74ece4ad2225521e9c4d3fbca5ec243720",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/market.glb",
+          "status": 200,
+          "bytes": 2157684,
+          "mime": "model/gltf-binary",
+          "sha256": "c40be41e85f6068867108efd6daf09e12726b833efb0225fb001a13fe734a807",
+          "expected": "c40be41e85f6068867108efd6daf09e12726b833efb0225fb001a13fe734a807",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/pond.glb",
+          "status": 200,
+          "bytes": 558036,
+          "mime": "model/gltf-binary",
+          "sha256": "2b2a36231bc4a059fa578fdf0bfdee8cedce01e371f4a2dafe7e895fab3bda9b",
+          "expected": "2b2a36231bc4a059fa578fdf0bfdee8cedce01e371f4a2dafe7e895fab3bda9b",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/terrain.glb",
+          "status": 200,
+          "bytes": 803172,
+          "mime": "model/gltf-binary",
+          "sha256": "a93a84ee021eea3a62f9f44617bce7d9802ec5f708a18ba5507b81d7e7afd5ec",
+          "expected": "a93a84ee021eea3a62f9f44617bce7d9802ec5f708a18ba5507b81d7e7afd5ec",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/vegetation-far.glb",
+          "status": 200,
+          "bytes": 169716,
+          "mime": "model/gltf-binary",
+          "sha256": "364f6a72135c3cf2776d0bf962774d5a602007424b3470c9e45887c3e5758e5a",
+          "expected": "364f6a72135c3cf2776d0bf962774d5a602007424b3470c9e45887c3e5758e5a",
+          "ok": true
+        },
+        {
+          "url": "/play/cozy/app-QXJW6TRQ.js",
+          "status": 200,
+          "bytes": 720304,
+          "mime": "application/javascript",
+          "sha256": "16c206f79dd4c6c6a0e2866fd9cffed43e2c9efc76ea6b12c680ff6dd072fdb3",
+          "expected": "16c206f79dd4c6c6a0e2866fd9cffed43e2c9efc76ea6b12c680ff6dd072fdb3",
+          "ok": true
+        },
+        {
+          "url": "/play/cozy/chunks/chunk-PZDGL33N.js",
+          "status": 200,
+          "bytes": 194505,
+          "mime": "application/javascript",
+          "sha256": "112dfbfcd56859f718ad24b848e42de41740253cca6fa48c8d96fcee8e5836f7",
+          "expected": "112dfbfcd56859f718ad24b848e42de41740253cca6fa48c8d96fcee8e5836f7",
+          "ok": true
+        },
+        {
+          "url": "/play/cozy/integrity-LL76RTOU.js",
+          "status": 200,
+          "bytes": 1894,
+          "mime": "application/javascript",
+          "sha256": "92a251dcc0b642c6b2d15f5bca91318905a91ddfba8d9ac7b146d2c72aa1e3e0",
+          "expected": "92a251dcc0b642c6b2d15f5bca91318905a91ddfba8d9ac7b146d2c72aa1e3e0",
+          "ok": true
+        },
+        {
+          "url": "/play/cozy/recovery-2UXJQDFZ.js",
+          "status": 200,
+          "bytes": 2515,
+          "mime": "application/javascript",
+          "sha256": "a7de34419a67e7d638467375abc533ef8678310c7ac015ebcd26301825aec625",
+          "expected": "a7de34419a67e7d638467375abc533ef8678310c7ac015ebcd26301825aec625",
+          "ok": true
+        },
+        {
+          "url": "/play/cozy/style.css",
+          "status": 200,
+          "bytes": 19654,
+          "mime": "text/css; charset=utf-8",
+          "sha256": "020325a4fc861012c8574f8fc2581ac594d6756afdbb70f383ac05ca360f8296",
+          "expected": "020325a4fc861012c8574f8fc2581ac594d6756afdbb70f383ac05ca360f8296",
+          "ok": true
+        },
+        {
+          "url": "/play/glb/",
+          "status": 200,
+          "bytes": 7270,
+          "mime": "text/html; charset=utf-8",
+          "sha256": "3d2892e511d298b8e2fd5f03e971c4a003d86f3271c095791544614382c8ca7d",
+          "expected": "3d2892e511d298b8e2fd5f03e971c4a003d86f3271c095791544614382c8ca7d",
+          "ok": true
+        }
+      ]
+    },
+    "immutable": {
+      "kind": "myfarmtwin-internal-browser-integrity-v2",
+      "origin": "https://2080cc0c.myfarmtwin-com.pages.dev",
+      "entry": "app-QXJW6TRQ.js",
+      "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+      "files": 30,
+      "glbs": 22,
+      "ok": true,
+      "results": [
+        {
+          "url": "/play/",
+          "status": 200,
+          "bytes": 7270,
+          "mime": "text/html; charset=utf-8",
+          "sha256": "3d2892e511d298b8e2fd5f03e971c4a003d86f3271c095791544614382c8ca7d",
+          "expected": "3d2892e511d298b8e2fd5f03e971c4a003d86f3271c095791544614382c8ca7d",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/barn.glb",
+          "status": 200,
+          "bytes": 875472,
+          "mime": "model/gltf-binary",
+          "sha256": "25a177e03f24debe3581990244132950d1a240b94ec9bf727b0e5353f05780c2",
+          "expected": "25a177e03f24debe3581990244132950d1a240b94ec9bf727b0e5353f05780c2",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/bed.glb",
+          "status": 200,
+          "bytes": 238304,
+          "mime": "model/gltf-binary",
+          "sha256": "870e3c2dabd03544fe74956756f6c285336b168942b57f674190fdc7a85a0435",
+          "expected": "870e3c2dabd03544fe74956756f6c285336b168942b57f674190fdc7a85a0435",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/cow.glb",
+          "status": 200,
+          "bytes": 417292,
+          "mime": "model/gltf-binary",
+          "sha256": "540c61f55ca892fed09c0d55c1b43414a8dbe0ede2ad847167799ae91f6d5a2b",
+          "expected": "540c61f55ca892fed09c0d55c1b43414a8dbe0ede2ad847167799ae91f6d5a2b",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/crops.glb",
+          "status": 200,
+          "bytes": 319836,
+          "mime": "model/gltf-binary",
+          "sha256": "90d9b1778adf73d98ca01c0e30f3bf0f393762b936ddc38f8e20f7adffe61421",
+          "expected": "90d9b1778adf73d98ca01c0e30f3bf0f393762b936ddc38f8e20f7adffe61421",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/fence.glb",
+          "status": 200,
+          "bytes": 117212,
+          "mime": "model/gltf-binary",
+          "sha256": "9279a59094589199b831ec5cab81fb877df6d3d288600f7f55345768985fa7c3",
+          "expected": "9279a59094589199b831ec5cab81fb877df6d3d288600f7f55345768985fa7c3",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/path.glb",
+          "status": 200,
+          "bytes": 106940,
+          "mime": "model/gltf-binary",
+          "sha256": "82c3235227a7739aa34e8e73cd0e0560e82db095fbd0932a1cef2c645f998329",
+          "expected": "82c3235227a7739aa34e8e73cd0e0560e82db095fbd0932a1cef2c645f998329",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/props.glb",
+          "status": 200,
+          "bytes": 450732,
+          "mime": "model/gltf-binary",
+          "sha256": "7cf9088a13a74b0d17b7b2d0616198cfb5d0da6a86203c9cbd1b545eddb6455e",
+          "expected": "7cf9088a13a74b0d17b7b2d0616198cfb5d0da6a86203c9cbd1b545eddb6455e",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/vegetation.glb",
+          "status": 200,
+          "bytes": 483124,
+          "mime": "model/gltf-binary",
+          "sha256": "b74c620fba1635bd1cb4f4c1b3fcfadf75af2248a9b4cf67a62505beb547ea92",
+          "expected": "b74c620fba1635bd1cb4f4c1b3fcfadf75af2248a9b4cf67a62505beb547ea92",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world-manifest.json",
+          "status": 200,
+          "bytes": 32990,
+          "mime": "application/json",
+          "sha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+          "expected": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/chicken-far.glb",
+          "status": 200,
+          "bytes": 420140,
+          "mime": "model/gltf-binary",
+          "sha256": "e17beb84ef96c33828a2cb4db1f988ef69f269d71ccfaa5a7cec09932d08caf4",
+          "expected": "e17beb84ef96c33828a2cb4db1f988ef69f269d71ccfaa5a7cec09932d08caf4",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/chicken.glb",
+          "status": 200,
+          "bytes": 871760,
+          "mime": "model/gltf-binary",
+          "sha256": "d32c55992932d3abeeba101569541ab375fc36b985f794e5adc8cf3c0c92c5a2",
+          "expected": "d32c55992932d3abeeba101569541ab375fc36b985f794e5adc8cf3c0c92c5a2",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/coop.glb",
+          "status": 200,
+          "bytes": 1807756,
+          "mime": "model/gltf-binary",
+          "sha256": "16151052d2bce3ca5535b72353c9d0c054609165331c7a1c394ef19a37789158",
+          "expected": "16151052d2bce3ca5535b72353c9d0c054609165331c7a1c394ef19a37789158",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/fish-far.glb",
+          "status": 200,
+          "bytes": 171520,
+          "mime": "model/gltf-binary",
+          "sha256": "1fc90b3167b09f7d7ce1bf105ad30a54d7042d2a57f2d39e951b3365dd655dd0",
+          "expected": "1fc90b3167b09f7d7ce1bf105ad30a54d7042d2a57f2d39e951b3365dd655dd0",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/fish.glb",
+          "status": 200,
+          "bytes": 281164,
+          "mime": "model/gltf-binary",
+          "sha256": "0af87d402bc700f85ddb7046964c9028b1eb4af3ff893333381b918ebab11dbf",
+          "expected": "0af87d402bc700f85ddb7046964c9028b1eb4af3ff893333381b918ebab11dbf",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/goat-far.glb",
+          "status": 200,
+          "bytes": 476384,
+          "mime": "model/gltf-binary",
+          "sha256": "9ef76ecfca403278cf0ad27bd6e0d4f7f98129ec359e28e0e5dc00580e76fce8",
+          "expected": "9ef76ecfca403278cf0ad27bd6e0d4f7f98129ec359e28e0e5dc00580e76fce8",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/goat-kid-far.glb",
+          "status": 200,
+          "bytes": 460836,
+          "mime": "model/gltf-binary",
+          "sha256": "25b907e30baf41e0ab6f909be6a60ce70944a55a02b502212619cc84f48ebf85",
+          "expected": "25b907e30baf41e0ab6f909be6a60ce70944a55a02b502212619cc84f48ebf85",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/goat-kid.glb",
+          "status": 200,
+          "bytes": 719844,
+          "mime": "model/gltf-binary",
+          "sha256": "899cf03233c2e9bdcc395ebf4fbc2c8b889128626852a8931f0e2c4720bea7c3",
+          "expected": "899cf03233c2e9bdcc395ebf4fbc2c8b889128626852a8931f0e2c4720bea7c3",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/goat-shelter.glb",
+          "status": 200,
+          "bytes": 1647128,
+          "mime": "model/gltf-binary",
+          "sha256": "87a2e8200d6807ce227b0518b9c470e8892891fa1df6b3090d907a0d6f9c5a53",
+          "expected": "87a2e8200d6807ce227b0518b9c470e8892891fa1df6b3090d907a0d6f9c5a53",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/goat.glb",
+          "status": 200,
+          "bytes": 847232,
+          "mime": "model/gltf-binary",
+          "sha256": "e8eb5dc4df82e4ea3b494674f76c0d74ece4ad2225521e9c4d3fbca5ec243720",
+          "expected": "e8eb5dc4df82e4ea3b494674f76c0d74ece4ad2225521e9c4d3fbca5ec243720",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/market.glb",
+          "status": 200,
+          "bytes": 2157684,
+          "mime": "model/gltf-binary",
+          "sha256": "c40be41e85f6068867108efd6daf09e12726b833efb0225fb001a13fe734a807",
+          "expected": "c40be41e85f6068867108efd6daf09e12726b833efb0225fb001a13fe734a807",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/pond.glb",
+          "status": 200,
+          "bytes": 558036,
+          "mime": "model/gltf-binary",
+          "sha256": "2b2a36231bc4a059fa578fdf0bfdee8cedce01e371f4a2dafe7e895fab3bda9b",
+          "expected": "2b2a36231bc4a059fa578fdf0bfdee8cedce01e371f4a2dafe7e895fab3bda9b",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/terrain.glb",
+          "status": 200,
+          "bytes": 803172,
+          "mime": "model/gltf-binary",
+          "sha256": "a93a84ee021eea3a62f9f44617bce7d9802ec5f708a18ba5507b81d7e7afd5ec",
+          "expected": "a93a84ee021eea3a62f9f44617bce7d9802ec5f708a18ba5507b81d7e7afd5ec",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/vegetation-far.glb",
+          "status": 200,
+          "bytes": 169716,
+          "mime": "model/gltf-binary",
+          "sha256": "364f6a72135c3cf2776d0bf962774d5a602007424b3470c9e45887c3e5758e5a",
+          "expected": "364f6a72135c3cf2776d0bf962774d5a602007424b3470c9e45887c3e5758e5a",
+          "ok": true
+        },
+        {
+          "url": "/play/cozy/app-QXJW6TRQ.js",
+          "status": 200,
+          "bytes": 720304,
+          "mime": "application/javascript",
+          "sha256": "16c206f79dd4c6c6a0e2866fd9cffed43e2c9efc76ea6b12c680ff6dd072fdb3",
+          "expected": "16c206f79dd4c6c6a0e2866fd9cffed43e2c9efc76ea6b12c680ff6dd072fdb3",
+          "ok": true
+        },
+        {
+          "url": "/play/cozy/chunks/chunk-PZDGL33N.js",
+          "status": 200,
+          "bytes": 194505,
+          "mime": "application/javascript",
+          "sha256": "112dfbfcd56859f718ad24b848e42de41740253cca6fa48c8d96fcee8e5836f7",
+          "expected": "112dfbfcd56859f718ad24b848e42de41740253cca6fa48c8d96fcee8e5836f7",
+          "ok": true
+        },
+        {
+          "url": "/play/cozy/integrity-LL76RTOU.js",
+          "status": 200,
+          "bytes": 1894,
+          "mime": "application/javascript",
+          "sha256": "92a251dcc0b642c6b2d15f5bca91318905a91ddfba8d9ac7b146d2c72aa1e3e0",
+          "expected": "92a251dcc0b642c6b2d15f5bca91318905a91ddfba8d9ac7b146d2c72aa1e3e0",
+          "ok": true
+        },
+        {
+          "url": "/play/cozy/recovery-2UXJQDFZ.js",
+          "status": 200,
+          "bytes": 2515,
+          "mime": "application/javascript",
+          "sha256": "a7de34419a67e7d638467375abc533ef8678310c7ac015ebcd26301825aec625",
+          "expected": "a7de34419a67e7d638467375abc533ef8678310c7ac015ebcd26301825aec625",
+          "ok": true
+        },
+        {
+          "url": "/play/cozy/style.css",
+          "status": 200,
+          "bytes": 19654,
+          "mime": "text/css; charset=utf-8",
+          "sha256": "020325a4fc861012c8574f8fc2581ac594d6756afdbb70f383ac05ca360f8296",
+          "expected": "020325a4fc861012c8574f8fc2581ac594d6756afdbb70f383ac05ca360f8296",
+          "ok": true
+        },
+        {
+          "url": "/play/glb/",
+          "status": 200,
+          "bytes": 7270,
+          "mime": "text/html; charset=utf-8",
+          "sha256": "3d2892e511d298b8e2fd5f03e971c4a003d86f3271c095791544614382c8ca7d",
+          "expected": "3d2892e511d298b8e2fd5f03e971c4a003d86f3271c095791544614382c8ca7d",
+          "ok": true
+        }
+      ]
+    }
+  },
+  "finalPreview": {
+    "source": "f0b6fa91ffa42d0b691da316133847a4cabbeffc",
+    "url": "https://cd523c4d.myfarmtwin-com.pages.dev/play/",
+    "entry": "app-QXJW6TRQ.js",
+    "checks": [
+      {
+        "id": "dense24-bed-instanced-glb-scene",
+        "ok": true,
+        "metrics": {
+          "height": 720,
+          "width": 1280,
+          "world": {
+            "animalModels": "17",
+            "animationStates": "{\"walk\":3,\"rest\":6,\"swim\":8}",
+            "camera": "{\"x\":41.68,\"y\":39.39,\"z\":47.92}",
+            "cropBatches": "8",
+            "cropPlants": "128",
+            "drawCalls": "1155",
+            "frameMedianMs": "33.20",
+            "frameP95Ms": "33.60",
+            "geometries": "282",
+            "glbOnly": "true",
+            "inventory": "0",
+            "land": "{\"minX\":-28,\"maxX\":28,\"minZ\":-24,\"maxZ\":24}",
+            "loadMs": "12682",
+            "lodFar": "20",
+            "lodNear": "0",
+            "materialClones": "0",
+            "meshes": "850",
+            "models": "22",
+            "modelsReady": "true",
+            "nonGlbMeshes": "0",
+            "quality": "high",
+            "revision": "100",
+            "saveStatus": "saveSaved",
+            "selected": "overview",
+            "textures": "49",
+            "triangles": "963000",
+            "view": "overview"
+          }
+        }
+      },
+      {
+        "id": "instanced-plant-grow-harvest-move-and-snapshot-restore",
+        "ok": true
+      },
+      {
+        "id": "browser-computed-candidate-resource-sha256",
+        "ok": true,
+        "files": 30,
+        "glbs": 22,
+        "entry": "app-QXJW6TRQ.js"
+      },
+      {
+        "id": "final-phone-instant-navigation-and-instanced-picking",
+        "ok": true,
+        "viewport": {
+          "height": 844,
+          "scrollWidth": 375,
+          "width": 390
+        },
+        "selected": "bed.9"
+      },
+      {
+        "id": "paid-pump-and-shared-irrigation",
+        "ok": true,
+        "cost": 80,
+        "waterBefore": 358,
+        "waterAfter": 214
+      },
+      {
+        "id": "final-renderer-independent-save-reader",
+        "ok": true,
+        "p2ControlHidden": true,
+        "pendingControlHidden": true
+      },
+      {
+        "id": "warm-resource-plateau-repeated-interiors",
+        "ok": true,
+        "geometries": "397",
+        "textures": "58"
+      },
+      {
+        "id": "homepage-real-capture-language-entry-save-preserved",
+        "ok": true,
+        "image": "1280x720 original gameplay JPEG",
+        "locale": "ID+EN"
+      },
+      {
+        "id": "final-three-floor-correction-and-rehashed-models",
+        "ok": true,
+        "source": "f0b6fa91ffa42d0b691da316133847a4cabbeffc",
+        "resources": 30,
+        "glbs": 22,
+        "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+        "logs": []
+      }
+    ]
+  },
+  "sourceChecks": {
+    "retainedNonNetwork": 576,
+    "foundation": 52,
+    "foundationComposition": {
+      "domainStorage": 45,
+      "legacyJournalRecovery": 2,
+      "animationLifecycle": 1,
+      "delivery": 2,
+      "headers": 2
+    },
+    "doNotSumAsUnique": "Header cases overlap the retained regression group. Local HTTP gzip case was not run.",
+    "typecheck": "passed",
+    "khronos": {
+      "files": 22,
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "suppression": false
+    },
+    "poseSamples": 1694
+  },
+  "artifact": {
+    "kind": "myfarmtwin-cozy-static-artifact-v2",
+    "archive": "myfarmtwin-cozy-world-v2.tar.gz",
+    "bytes": 18383315,
+    "sha256": "dd0e1844ad530e2c122fe3105b60e028c67d99f5faaf211c1636649b7b2d1042",
+    "files": 302,
+    "staticGLBs": 23,
+    "runtimeGLBs": 22,
+    "staticGameByteParity": true,
+    "generatedMetadata": [
+      {
+        "path": "dist/.openai/hosting.json",
+        "source": "official Sites packager static normalization",
+        "sha256": "6314073fd473934398f9b73b893ec9214f34798572dbdeffdbac7e643fa81cf4"
+      }
+    ],
+    "unsafePaths": [],
+    "differences": []
+  },
+  "rollback": {
+    "kind": "myfarmtwin-cozy-recovery-v2",
+    "sourceEntry": "app-QXJW6TRQ.js",
+    "recoveryEntry": "recovery-2UXJQDFZ.js",
+    "htmlSha256": "d81417bc45ac875af348a14b9e4950cdf4b2a89e84f21f44731b82051ce37e45",
+    "preservesKeys": [
+      "myfarmtwin.cozy.save.v2",
+      "myfarmtwin.save.v1",
+      "myfarmtwin.glb.layout.v1"
+    ],
+    "mode": "read-export-and-explicit-legacy-recovery",
+    "recoveryTestURL": "/play/recovery/"
+  },
+  "captureNotes": "production-overview.jpg and production-cow-interior.jpg are actual IAB captures of synthetic developed farm on the immutable production origin. Canonical player save bytes were never written to this report."
+}
