@@ -51,6 +51,10 @@ The existing strict `deserialize()` remains the versioned native reader, followe
 
 The new balance is fictional game balance. Lettuce/tomato/corn base cycles are 18/30/42 active game-hours; hens lay on eight healthy hours, cows produce each shared hour, and young goats/fish grow over shorter active sessions. Missing care slows production and lowers condition within recovery floors. There is no breeding or permanent animal death.
 
+Supported native fish become harvestable at 500 g with either the starter-ready source or at least 240 hours of age (`fishStage`/`fishReady`); native validation caps live per-fish mass at 500 g. There is no supported native harvest-ready fish below 500 g. Every previously ready cohort therefore remains ready under the new 500 g rule, and the old age wait is removed. Accepted Cozy backups can contain heavier fish: clock advancement retains that mass and never decreases their saved growth. Harvest records their complete actual mass. Goat growth is likewise monotonic, including a lack-of-care clock advance.
+
+Automatic care tests actual transferable water, so a harmless remainder below 1 mL cannot abort the clock. Facility levels are bounded to 0–3 at import as well as purchase: the highest animal capacities are six cows, eleven goats and twelve hens, matching the production interior anchors. Supported native coop/shelter levels and mapped pond/barn upgrades fit this range.
+
 ## Transactions, safe import and recovery
 
 Primary key: `myfarmtwin.cozy.save.v2`. Rolling backup: `myfarmtwin.cozy.backup.v2`. Original archive: `myfarmtwin.cozy.original.v2`. Import and corrupt-recovery preimages use `myfarmtwin.cozy.before-import.v2` and `myfarmtwin.cozy.before-recovery.v2`.

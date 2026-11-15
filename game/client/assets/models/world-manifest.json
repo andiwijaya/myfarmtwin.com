@@ -201,7 +201,7 @@
     "source": "original geometry, PBR materials, embedded original base-color and tangent-space normal textures",
     "animation": "glTF transform animation on named articulated groups; no runtime procedural mesh replacement",
     "lod": "explicit original far assets; no device performance claim",
-    "totalBytesIncludingFarLODs": 14379000
+    "totalBytesIncludingFarLODs": 14401280
   },
   "assets": {
     "terrain": {
@@ -309,8 +309,8 @@
     "chicken": {
       "id": "chicken",
       "url": "/play/assets/models/world/chicken.glb",
-      "sha256": "f4135631e68eac93f17ac973d62ad57860ce151f0cb01570155189c3898f285d",
-      "bytes": 870824,
+      "sha256": "d32c55992932d3abeeba101569541ab375fc36b985f794e5adc8cf3c0c92c5a2",
+      "bytes": 871760,
       "uniqueTriangles": 21206,
       "meshes": 24,
       "nodes": 37,
@@ -367,8 +367,8 @@
         "far": {
           "id": "chickenFar",
           "url": "/play/assets/models/world/chicken-far.glb",
-          "sha256": "29170482b23592c76f59d02d8740aed5bf2334e52772f8d52a327e2ac61bbe78",
-          "bytes": 419204,
+          "sha256": "e17beb84ef96c33828a2cb4db1f988ef69f269d71ccfaa5a7cec09932d08caf4",
+          "bytes": 420140,
           "uniqueTriangles": 5274,
           "meshes": 20,
           "nodes": 33,
@@ -427,8 +427,8 @@
     "goatShelter": {
       "id": "goatShelter",
       "url": "/play/assets/models/world/goat-shelter.glb",
-      "sha256": "16eea0c28eb5b882346974b4d80af5cca2df247fb4274c3dcde7d3cbe4d4dbf2",
-      "bytes": 1646908,
+      "sha256": "87a2e8200d6807ce227b0518b9c470e8892891fa1df6b3090d907a0d6f9c5a53",
+      "bytes": 1647128,
       "uniqueTriangles": 11916,
       "meshes": 34,
       "nodes": 61,
@@ -489,8 +489,8 @@
     "goat": {
       "id": "goat",
       "url": "/play/assets/models/world/goat.glb",
-      "sha256": "b4c7be0c219f0053882baa3035a4b8074c6b9135462d1e0eee7acc6f268bbde4",
-      "bytes": 846136,
+      "sha256": "e8eb5dc4df82e4ea3b494674f76c0d74ece4ad2225521e9c4d3fbca5ec243720",
+      "bytes": 847232,
       "uniqueTriangles": 17544,
       "meshes": 32,
       "nodes": 50,
@@ -552,8 +552,8 @@
         "far": {
           "id": "goatFar",
           "url": "/play/assets/models/world/goat-far.glb",
-          "sha256": "d5d3b75fae103dea9dda743addc3fae76af30efe670cab6a8951b32360d53419",
-          "bytes": 475288,
+          "sha256": "9ef76ecfca403278cf0ad27bd6e0d4f7f98129ec359e28e0e5dc00580e76fce8",
+          "bytes": 476384,
           "uniqueTriangles": 4062,
           "meshes": 26,
           "nodes": 44,
@@ -616,8 +616,8 @@
     "goatKid": {
       "id": "goatKid",
       "url": "/play/assets/models/world/goat-kid.glb",
-      "sha256": "c0c737afc7b956897dc9db98cad3d0fc9ea6ce35391dc2a591b87ce90427f3e0",
-      "bytes": 718748,
+      "sha256": "899cf03233c2e9bdcc395ebf4fbc2c8b889128626852a8931f0e2c4720bea7c3",
+      "bytes": 719844,
       "uniqueTriangles": 12744,
       "meshes": 31,
       "nodes": 49,
@@ -678,8 +678,8 @@
         "far": {
           "id": "goatKidFar",
           "url": "/play/assets/models/world/goat-kid-far.glb",
-          "sha256": "cadf2be877013ad5a168784bfd9ff620ed0167a3af75800d9c8fc216b4c92d83",
-          "bytes": 459740,
+          "sha256": "25b907e30baf41e0ab6f909be6a60ce70944a55a02b502212619cc84f48ebf85",
+          "bytes": 460836,
           "uniqueTriangles": 3606,
           "meshes": 25,
           "nodes": 43,
@@ -972,9 +972,9 @@
     "barn": {
       "id": "barn",
       "url": "/play/assets/models/prototype/barn.glb",
-      "sha256": "ee5d4496d9e11fb82dbe58abdf0e45d6ea7924e2f133338e6443d79ecd4dbba7",
-      "bytes": 860988,
-      "uniqueTriangles": 11872,
+      "sha256": "2217185f2ee56340fb4df8afc45b3d325e2931ed57d4c4c63afff6f1ca83c996",
+      "bytes": 875472,
+      "uniqueTriangles": 12192,
       "meshes": 18,
       "nodes": 28,
       "textures": 3,
@@ -1025,8 +1025,8 @@
     "cow": {
       "id": "cow",
       "url": "/play/assets/models/prototype/cow.glb",
-      "sha256": "742ec6addd2f2f55d5fd38c2fd8f08a36ed1d7ab54a03860ea2302878aff5b29",
-      "bytes": 415972,
+      "sha256": "540c61f55ca892fed09c0d55c1b43414a8dbe0ede2ad847167799ae91f6d5a2b",
+      "bytes": 417292,
       "uniqueTriangles": 12766,
       "meshes": 35,
       "nodes": 53,

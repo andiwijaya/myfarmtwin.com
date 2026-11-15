@@ -91,7 +91,7 @@ export function createGoatShelter(){
  }
  for(const s of [-1,1])for(const z of [-1.15,1.35]){for(const y of [.67,1.14,1.57])box(stalls,'pen_cross_rail',M.timber,s*3.23,y,z,3.9,.09,.08);for(const x of [s*1.3,s*5.1])box(stalls,'cross_partition_post',M.timber,x,.99,z,.1,1.3,.1);}
  const equipment=group(root,'equipment');
- for(const s of [-1,1]){trough(equipment,'green_fodder_trough_'+s,s*1.7,.34,-2.65,{length:2.4});trough(equipment,'clean_water_trough_'+s,s*4.55,.34,2.8,{water:true,length:1.05});}
+ for(const s of [-1,1]){const feed=trough(equipment,'green_fodder_trough_'+s,s*1.7,.34,-2.65,{length:2.4});feed.rotation.y=Math.PI/2;trough(equipment,'clean_water_trough_'+s,s*4.55,.34,2.8,{water:true,length:1.05});}
  // Bamboo hay racks, each with a separate state-driven feed_contents node.
  for(const side of [-1,1]){
   const rack=group(equipment,'wall_hay_rack_'+side,[side*4.95,.34,-2.7]);

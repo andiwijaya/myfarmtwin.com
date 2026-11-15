@@ -118,12 +118,17 @@ export function createBarn(){
  for(let x=-4.6;x<=4.61;x+=.3)box(walls,'back_wall_slat',materials.timber,x,1.36,-3.94,.14,.9,.09);
  box(walls,'back_top_rail',materials.timber,0,1.9,-3.92,10,.12,.1);
  const stalls=new Group();stalls.name='stalls';root.add(stalls);
- for(const x of [-4.1,-2.3,2.3,4.1])for(const z of [-2.65,.3]){
-  beam(stalls,'stall_upright',materials.steel,[x,.07,z],[x,1.15,z],.037,10);
-  beam(stalls,'stall_divider',materials.steel,[x,1.1,z],[x,1.1,z+1.7],.033,10);
+ // Six full adult stalls face the center service aisle. Dividers follow
+ // each cow's longitudinal X axis; three generous rows fit on either side.
+ for(const side of [-1,1])for(const z of [-3.35,-1.1,1.1,3.35]){
+  for(const x of [side*1.55,side*4.7])beam(stalls,'stall_upright',materials.steel,[x,.07,z],[x,1.15,z],.037,10);
+  beam(stalls,'stall_divider',materials.steel,[side*1.55,1.1,z],[side*4.7,1.1,z],.033,10);
  }
- for(const side of [-1,1]){beam(stalls,'stall_neck_rail',materials.steel,[side*1.55,.95,-3.3],[side*1.55,.95,2.4],.036,10);}
- const equipment=new Group();equipment.name='equipment';root.add(equipment);trough(equipment,'feed_trough',-3,2.8,false);trough(equipment,'water_trough',3,2.8,true);pail(equipment,'milk_pail',-.4,2.6);
+ // The rail is slightly inset to clear the whole rest/idle muzzle envelope.
+ for(const side of [-1,1])beam(stalls,'stall_neck_rail',materials.steel,[side*1.5,.95,-3.3],[side*1.5,.95,3.3],.036,10);
+ const equipment=new Group();equipment.name='equipment';root.add(equipment);
+ for(const [name,x,water]of [['feed_trough',-1.05,false],['water_trough',1.05,true]]){const g=trough(equipment,name,x,0,water);g.rotation.y=Math.PI/2;g.scale.x=2.6;}
+ pail(equipment,'milk_pail',-.4,2.6);
  for(const x of [-.45,.45])box(equipment,'wash_station_leg',materials.timber,x,.45,-3.05,.08,.9,.08);box(equipment,'wash_station_top',materials.timber,0,.92,-3.05,1.25,.1,.65);
  mesh(equipment,'milking_can',new CylinderGeometry(.24,.28,.7,24),materials.steel,.1,.35,-3.05);mesh(equipment,'can_lid',new CylinderGeometry(.2,.25,.06,24),materials.steel,.1,.73,-3.05);
  const roof=new Group();roof.name='roof';roof.userData={cameraCutaway:true};root.add(roof);

@@ -1,0 +1,146 @@
+{
+  "kind": "cozy-world-exported-floor-contact-v2",
+  "scope": "Actual exported walk/rest channels evaluated with Three AnimationMixer,121 samples/clip/model,precise visible vertex bounds; no browser visual/anatomical or physical-dynamics claim",
+  "results": [
+    {
+      "id": "chicken",
+      "clip": "walk",
+      "samples": 121,
+      "durationSeconds": 0.699999988079071,
+      "standingMinY": 0.0013438068926334146,
+      "minimumY": 0.001293734089005058,
+      "midCycleMaximumY": 0.7527944150567054,
+      "passed": true
+    },
+    {
+      "id": "chicken",
+      "clip": "rest",
+      "samples": 121,
+      "durationSeconds": 6,
+      "standingMinY": 0.0013438068926334146,
+      "minimumY": 0.0012904043211056232,
+      "midCycleMaximumY": 0.6018311184644699,
+      "passed": true
+    },
+    {
+      "id": "chickenFar",
+      "clip": "walk",
+      "samples": 121,
+      "durationSeconds": 0.699999988079071,
+      "standingMinY": 0.001326931327581382,
+      "minimumY": 0.0012768542560642193,
+      "midCycleMaximumY": 0.752792038321495,
+      "passed": true
+    },
+    {
+      "id": "chickenFar",
+      "clip": "rest",
+      "samples": 121,
+      "durationSeconds": 6,
+      "standingMinY": 0.001326931327581382,
+      "minimumY": 0.0012735287561353795,
+      "midCycleMaximumY": 0.6018311184644699,
+      "passed": true
+    },
+    {
+      "id": "goat",
+      "clip": "walk",
+      "samples": 121,
+      "durationSeconds": 0.8999999761581421,
+      "standingMinY": 0.0009999963641166287,
+      "minimumY": 0.0009628767080332584,
+      "midCycleMaximumY": 1.4320770530216396,
+      "passed": true
+    },
+    {
+      "id": "goat",
+      "clip": "rest",
+      "samples": 121,
+      "durationSeconds": 6,
+      "standingMinY": 0.0009999963641166287,
+      "minimumY": 0.0007304076898632383,
+      "midCycleMaximumY": 1.0967708274616033,
+      "passed": true
+    },
+    {
+      "id": "goatFar",
+      "clip": "walk",
+      "samples": 121,
+      "durationSeconds": 0.8999999761581421,
+      "standingMinY": 0.0009999963641166287,
+      "minimumY": 0.0009628767080332584,
+      "midCycleMaximumY": 1.4320770530216396,
+      "passed": true
+    },
+    {
+      "id": "goatFar",
+      "clip": "rest",
+      "samples": 121,
+      "durationSeconds": 6,
+      "standingMinY": 0.0009999963641166287,
+      "minimumY": 0.0007304076898632383,
+      "midCycleMaximumY": 1.0967708274616033,
+      "passed": true
+    },
+    {
+      "id": "goatKid",
+      "clip": "walk",
+      "samples": 121,
+      "durationSeconds": 0.8999999761581421,
+      "standingMinY": 0.0005899978548287999,
+      "minimumY": 0.0005680973811399426,
+      "midCycleMaximumY": 0.7736349657485262,
+      "passed": true
+    },
+    {
+      "id": "goatKid",
+      "clip": "rest",
+      "samples": 121,
+      "durationSeconds": 6,
+      "standingMinY": 0.0005899978548287999,
+      "minimumY": 0.0004309406748549474,
+      "midCycleMaximumY": 0.5795370308605472,
+      "passed": true
+    },
+    {
+      "id": "goatKidFar",
+      "clip": "walk",
+      "samples": 121,
+      "durationSeconds": 0.8999999761581421,
+      "standingMinY": 0.0005899978548287999,
+      "minimumY": 0.0005680973811399426,
+      "midCycleMaximumY": 0.7736349657485262,
+      "passed": true
+    },
+    {
+      "id": "goatKidFar",
+      "clip": "rest",
+      "samples": 121,
+      "durationSeconds": 6,
+      "standingMinY": 0.0005899978548287999,
+      "minimumY": 0.0004309406748549474,
+      "midCycleMaximumY": 0.5795370308605472,
+      "passed": true
+    },
+    {
+      "id": "cow",
+      "clip": "walk",
+      "samples": 121,
+      "durationSeconds": 1.2000000476837158,
+      "standingMinY": 1.6808509861743204e-8,
+      "minimumY": -0.000031133197436694626,
+      "midCycleMaximumY": 1.718586455360055,
+      "passed": true
+    },
+    {
+      "id": "cow",
+      "clip": "rest",
+      "samples": 121,
+      "durationSeconds": 6,
+      "standingMinY": 1.6808509861743204e-8,
+      "minimumY": -0.00023395323502625742,
+      "midCycleMaximumY": 1.3721169351329647,
+      "passed": true
+    }
+  ]
+}

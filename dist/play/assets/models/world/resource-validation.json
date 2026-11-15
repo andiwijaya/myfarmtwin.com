@@ -9,12 +9,12 @@
   },
   "logicalAssets": 17,
   "files": 22,
-  "bytes": 14305532,
+  "bytes": 14401280,
   "results": [
     {
       "id": "terrain",
-      "sha256": "f9314dd7d92aa32964732f5f45a8cccf5c292edc51a5861ceccd09b3962669eb",
-      "bytes": 704772,
+      "sha256": "a93a84ee021eea3a62f9f44617bce7d9802ec5f708a18ba5507b81d7e7afd5ec",
+      "bytes": 803172,
       "nodes": 3,
       "meshes": 2,
       "images": 3,
@@ -36,8 +36,8 @@
     },
     {
       "id": "coop",
-      "sha256": "d540ce4fbdca871b9db25491826c8497318d344e1e341526d5d26c9f13304adf",
-      "bytes": 1843420,
+      "sha256": "cddf9828b5b8b4529969db0fe9bfc1b1efd75a8ed2b4b8dd902e4fbc632aa4df",
+      "bytes": 1807756,
       "nodes": 53,
       "meshes": 32,
       "images": 8,
@@ -59,21 +59,23 @@
     },
     {
       "id": "chicken",
-      "sha256": "a52fa039a98f07fcb6bc8edcd014a065be05c2c71fd06f2d12273567ca0b09e2",
-      "bytes": 802280,
-      "nodes": 27,
-      "meshes": 19,
+      "sha256": "d32c55992932d3abeeba101569541ab375fc36b985f794e5adc8cf3c0c92c5a2",
+      "bytes": 871760,
+      "nodes": 37,
+      "meshes": 24,
       "images": 2,
       "normalMaps": 3,
       "animations": [
         "idle",
         "walk",
-        "eat"
+        "eat",
+        "drink",
+        "rest"
       ],
       "bounds": {
         "min": [
           -0.44936085283756255,
-          0.0013438016176223755,
+          0.0013438068926334146,
           -0.1838921105861664
         ],
         "max": [
@@ -86,21 +88,23 @@
     },
     {
       "id": "chickenFar",
-      "sha256": "940d7b3faa60f7d0f5d3b5ec1230d50c2341c87abc0530f26a4048429efc23b8",
-      "bytes": 412600,
-      "nodes": 26,
-      "meshes": 18,
+      "sha256": "e17beb84ef96c33828a2cb4db1f988ef69f269d71ccfaa5a7cec09932d08caf4",
+      "bytes": 420140,
+      "nodes": 33,
+      "meshes": 20,
       "images": 2,
       "normalMaps": 3,
       "animations": [
         "idle",
         "walk",
-        "eat"
+        "eat",
+        "drink",
+        "rest"
       ],
       "bounds": {
         "min": [
           -0.44936085283756255,
-          0.00132693350315094,
+          0.001326931327581382,
           -0.18349018901586533
         ],
         "max": [
@@ -113,8 +117,8 @@
     },
     {
       "id": "goatShelter",
-      "sha256": "2940205ee524f34e930ea89637b359e68b4c92f649d6355ffb9b3c2fb245d7bb",
-      "bytes": 1510840,
+      "sha256": "87a2e8200d6807ce227b0518b9c470e8892891fa1df6b3090d907a0d6f9c5a53",
+      "bytes": 1647128,
       "nodes": 61,
       "meshes": 34,
       "images": 8,
@@ -136,25 +140,27 @@
     },
     {
       "id": "goat",
-      "sha256": "5035f2ee77b3e21421f27e6f7a8e98ba24917f6b1d4cc9e09ccbf0c467b22dd6",
-      "bytes": 800408,
-      "nodes": 33,
-      "meshes": 24,
+      "sha256": "e8eb5dc4df82e4ea3b494674f76c0d74ece4ad2225521e9c4d3fbca5ec243720",
+      "bytes": 847232,
+      "nodes": 50,
+      "meshes": 32,
       "images": 2,
       "normalMaps": 3,
       "animations": [
         "idle",
         "walk",
-        "eat"
+        "eat",
+        "drink",
+        "rest"
       ],
       "bounds": {
         "min": [
           -0.6818788838386536,
-          0.0009999942779540527,
+          0.0009999963641166287,
           -0.24000000357627868
         ],
         "max": [
-          0.9440000021457672,
+          0.9440000021457673,
           1.42923135638237,
           0.24000000357627868
         ]
@@ -163,25 +169,27 @@
     },
     {
       "id": "goatFar",
-      "sha256": "cc5bbcc5cae863a045c2068c2bf357ec052880facdd79f87f5085e61ef38bc76",
-      "bytes": 451948,
-      "nodes": 31,
-      "meshes": 22,
+      "sha256": "9ef76ecfca403278cf0ad27bd6e0d4f7f98129ec359e28e0e5dc00580e76fce8",
+      "bytes": 476384,
+      "nodes": 44,
+      "meshes": 26,
       "images": 2,
       "normalMaps": 2,
       "animations": [
         "idle",
         "walk",
-        "eat"
+        "eat",
+        "drink",
+        "rest"
       ],
       "bounds": {
         "min": [
           -0.6814229083061218,
-          0.0009999942779540527,
+          0.0009999963641166287,
           -0.23559508621692657
         ],
         "max": [
-          0.9440000021457672,
+          0.9440000021457673,
           1.42923135638237,
           0.23559508621692657
         ]
@@ -190,26 +198,28 @@
     },
     {
       "id": "goatKid",
-      "sha256": "f236ec80b4975751b6ccd3bbd16c5f1de1f02c3062eb0508b6c6380325fc1e3b",
-      "bytes": 669840,
-      "nodes": 32,
-      "meshes": 23,
+      "sha256": "899cf03233c2e9bdcc395ebf4fbc2c8b889128626852a8931f0e2c4720bea7c3",
+      "bytes": 719844,
+      "nodes": 49,
+      "meshes": 31,
       "images": 2,
       "normalMaps": 3,
       "animations": [
         "idle",
         "walk",
-        "eat"
+        "eat",
+        "drink",
+        "rest"
       ],
       "bounds": {
         "min": [
           -0.4023085414648056,
-          0.0005899966239928944,
+          0.0005899978548287999,
           -0.14324327718192337
         ],
         "max": [
           0.5841118014305829,
-          0.7719560047686099,
+          0.77195600476861,
           0.14324327718192337
         ]
       },
@@ -217,26 +227,28 @@
     },
     {
       "id": "goatKidFar",
-      "sha256": "c5b2c0b9651437b0993ed4fc0d346f7126e0b0964a0d80b4d39515dc60e50fc8",
-      "bytes": 437076,
-      "nodes": 30,
-      "meshes": 21,
+      "sha256": "25b907e30baf41e0ab6f909be6a60ce70944a55a02b502212619cc84f48ebf85",
+      "bytes": 460836,
+      "nodes": 43,
+      "meshes": 25,
       "images": 2,
       "normalMaps": 2,
       "animations": [
         "idle",
         "walk",
-        "eat"
+        "eat",
+        "drink",
+        "rest"
       ],
       "bounds": {
         "min": [
           -0.4020395159006119,
-          0.0005899966239928944,
+          0.0005899978548287999,
           -0.14268788313591477
         ],
         "max": [
           0.5841118014305829,
-          0.7719560047686099,
+          0.77195600476861,
           0.14268788313591477
         ]
       },
@@ -244,8 +256,8 @@
     },
     {
       "id": "pond",
-      "sha256": "a6de9f4a4f882ddfd036c79fc511445df1063bed9de40c463eda4c69679b1476",
-      "bytes": 599340,
+      "sha256": "2b2a36231bc4a059fa578fdf0bfdee8cedce01e371f4a2dafe7e895fab3bda9b",
+      "bytes": 558036,
       "nodes": 25,
       "meshes": 16,
       "images": 5,
@@ -267,8 +279,8 @@
     },
     {
       "id": "fish",
-      "sha256": "82940fe8facbaf6a2d72d62e4687f6bce0f1db33aad08d1145c78d61305b7d55",
-      "bytes": 303344,
+      "sha256": "0af87d402bc700f85ddb7046964c9028b1eb4af3ff893333381b918ebab11dbf",
+      "bytes": 281164,
       "nodes": 17,
       "meshes": 13,
       "images": 2,
@@ -293,8 +305,8 @@
     },
     {
       "id": "fishFar",
-      "sha256": "d26b600928f7d46c37175eb2f432aab42da7b05338c451938ab2791a175dee98",
-      "bytes": 174340,
+      "sha256": "1fc90b3167b09f7d7ce1bf105ad30a54d7042d2a57f2d39e951b3365dd655dd0",
+      "bytes": 171520,
       "nodes": 12,
       "meshes": 8,
       "images": 2,
@@ -319,8 +331,8 @@
     },
     {
       "id": "market",
-      "sha256": "a7bbd4ae2d54f697e11984bd055ae98f9cd5330cf4ce0c31521358d3ffb7249f",
-      "bytes": 2138920,
+      "sha256": "6f0e2b737a233a8c02a92ebead1af417623a67a88c9577ec3104b9f5b8d1841f",
+      "bytes": 2157680,
       "nodes": 79,
       "meshes": 47,
       "images": 5,
@@ -342,8 +354,8 @@
     },
     {
       "id": "barn",
-      "sha256": "70e3c448ec585af2b26c6e905ade7f91a959601795bd293e9ce99de5e121e369",
-      "bytes": 912464,
+      "sha256": "2217185f2ee56340fb4df8afc45b3d325e2931ed57d4c4c63afff6f1ca83c996",
+      "bytes": 875472,
       "nodes": 28,
       "meshes": 18,
       "images": 3,
@@ -365,21 +377,23 @@
     },
     {
       "id": "cow",
-      "sha256": "94d4e1dee5f1503fb16b6d3043a4d36fd99fbcc51b6cf7115bc95a4ab64eabe2",
-      "bytes": 454740,
-      "nodes": 35,
-      "meshes": 26,
+      "sha256": "540c61f55ca892fed09c0d55c1b43414a8dbe0ede2ad847167799ae91f6d5a2b",
+      "bytes": 417292,
+      "nodes": 53,
+      "meshes": 35,
       "images": 1,
       "normalMaps": 0,
       "animations": [
         "idle",
         "walk",
-        "eat"
+        "eat",
+        "drink",
+        "rest"
       ],
       "bounds": {
         "min": [
           -1.2616652679443359,
-          1.6689300497141346e-8,
+          1.6808509861743204e-8,
           -0.43999999642372134
         ],
         "max": [
@@ -415,8 +429,8 @@
     },
     {
       "id": "crops",
-      "sha256": "68a86e05727ad6694236ee6794cd4e27db7c82802def397a3d7e27fbdd4a0d01",
-      "bytes": 399580,
+      "sha256": "90d9b1778adf73d98ca01c0e30f3bf0f393762b936ddc38f8e20f7adffe61421",
+      "bytes": 319836,
       "nodes": 44,
       "meshes": 30,
       "images": 0,
@@ -438,8 +452,8 @@
     },
     {
       "id": "props",
-      "sha256": "e391f138e8fa376e656da315d9e47f8a71bae372831e2c1f44cdfa80ab09a91d",
-      "bytes": 464876,
+      "sha256": "7cf9088a13a74b0d17b7b2d0616198cfb5d0da6a86203c9cbd1b545eddb6455e",
+      "bytes": 450732,
       "nodes": 20,
       "meshes": 12,
       "images": 2,
@@ -461,8 +475,8 @@
     },
     {
       "id": "vegetation",
-      "sha256": "84474328ba64013a652398b09f1191a03e18eda83c6fe40895a21bd9a3672e48",
-      "bytes": 566756,
+      "sha256": "b74c620fba1635bd1cb4f4c1b3fcfadf75af2248a9b4cf67a62505beb547ea92",
+      "bytes": 483124,
       "nodes": 16,
       "meshes": 11,
       "images": 1,
@@ -484,8 +498,8 @@
     },
     {
       "id": "vegetationFar",
-      "sha256": "45d7fbf9685cf6a32a430046d82cd1968eeee3831dde492543882e48e8d07cc1",
-      "bytes": 187996,
+      "sha256": "364f6a72135c3cf2776d0bf962774d5a602007424b3470c9e45887c3e5758e5a",
+      "bytes": 169716,
       "nodes": 14,
       "meshes": 9,
       "images": 1,
@@ -507,8 +521,8 @@
     },
     {
       "id": "path",
-      "sha256": "08e08e2a41840575bab146f6686ce3518913d358614eeaaedda2243c537c50d6",
-      "bytes": 114476,
+      "sha256": "82c3235227a7739aa34e8e73cd0e0560e82db095fbd0932a1cef2c645f998329",
+      "bytes": 106940,
       "nodes": 3,
       "meshes": 2,
       "images": 1,
