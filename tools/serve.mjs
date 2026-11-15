@@ -4,8 +4,9 @@ import {resolve,extname,sep} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {createHash} from 'node:crypto';
 import {gzipSync} from 'node:zlib';
+import {parseHeaderRules,headersForPath} from './pages-headers.mjs';
 export async function startServer(port=4177,root=resolve(process.env.QA_DIST_ROOT||'dist'),options={assetCache:false}){
- const rules=[];let active=null;let policy='';try{policy=await readFile(resolve(root,'_headers'),'utf8');}catch{/* No custom policy in a baseline fixture. */}for(const line of policy.split(/\r?\n/)){if(!line.trim()||line.trim().startsWith('#'))continue;if(!/^\s/.test(line)){active={pattern:line.trim(),headers:{}};rules.push(active);}else if(active){const colon=line.indexOf(':');if(colon>0)active.headers[line.slice(0,colon).trim().toLowerCase()]=line.slice(colon+1).trim();}}
+ let policy='';try{policy=await readFile(resolve(root,'_headers'),'utf8');}catch{/* No custom policy in a baseline fixture. */}const rules=parseHeaderRules(policy);
  const server=http.createServer(async(req,res)=>{
   try{
    const pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
@@ -15,7 +16,7 @@ export async function startServer(port=4177,root=resolve(process.env.QA_DIST_ROO
    if((await stat(file)).isDirectory())file=resolve(file,'index.html');
    let body=await readFile(file);
    const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.glb':'model/gltf-binary','.json':'application/json','.xml':'application/xml','.txt':'text/plain'};
-   const security={};for(const rule of rules)if(rule.pattern.endsWith('*')?pathname.startsWith(rule.pattern.slice(0,-1)):pathname===rule.pattern)Object.assign(security,rule.headers);
+   const security=headersForPath(rules,pathname);
    const headers={'content-type':mime[extname(file)]||'application/octet-stream','cache-control':'no-store',...security};
    // Explicit QA mode reproduces the observed live browser asset cache. It is
    // never part of dist or Cloudflare configuration; normal local serving stays unchanged.

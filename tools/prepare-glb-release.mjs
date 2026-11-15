@@ -4,6 +4,7 @@ import {createHash} from 'node:crypto';
 
 const root=process.cwd(),files=new Set(['.gitattributes','dist/_headers','tools/build.mjs','tools/serve.mjs','tools/build-glb-prototype.mjs','tools/serve-glb-preview.mjs','tools/prepare-glb-release.mjs','tools/glb-prototype-e2e.mjs','tools/glb-prototype-journeys.mjs','tools/glb-prototype-browser-helper.mjs','game/client/index.html','dist/play/index.html','dist/play/build-info.json','game/client/glb-prototype-app.js','game/client/glb-prototype-world.js','game/client/glb-prototype-state.js','dist/play/glb-prototype-app.js','dist/play/glb-prototype-world.js','dist/play/glb-prototype-state.js','game/tests/glb-prototype-state.test.mjs','docs/PRD_MYFARMTWIN_GLB_UPGRADE_V1.md','docs/GLB_PROTOTYPE_PROGRESS.md','docs/GLB_PROTOTYPE_SAVE_CONTRACT.md','docs/GLB_PROTOTYPE_ASSET_CATALOG.md']);
 files.add('tools/publish-glb-preview.mjs');
+files.add('tools/pages-headers.mjs');files.add('game/tests/glb-headers.test.mjs');
 // These retained standalone files have newline-only canonical build changes;
 // include their exact bytes so the complete deployed artifact matches the ZIP.
 files.add('dist/play/chicken-market.js');files.add('dist/play/data-tools.js');

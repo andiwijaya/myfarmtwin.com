@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {readFile,readdir} from 'node:fs/promises';
 import {resolve,relative,join,extname,sep} from 'node:path';
 import {createHash} from 'node:crypto';
+import {parseHeaderRules,headersForPath} from './pages-headers.mjs';
 
 export const ORIGIN='https://myfarmtwin.local';
 const contentTypes={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json','.glb':'model/gltf-binary','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml'};
@@ -14,8 +15,7 @@ export async function freezeArtifact(root=resolve('dist')){
  async function walk(directory){for(const item of await readdir(directory,{withFileTypes:true})){const path=join(directory,item.name);if(item.isSymbolicLink())throw Error('Artifact symlink is not an accepted input');if(item.isDirectory())await walk(path);else files.set('/'+relative(root,path).split(sep).join('/'),await readFile(path));}}
  await walk(join(root,'play'));
  for(const name of ['_headers','favicon.svg']){try{files.set('/'+name,await readFile(join(root,name)));}catch(error){if(error.code!=='ENOENT')throw error;}}
- const rules=[];let active=null;
- for(const line of files.get('/_headers').toString('utf8').split(/\r?\n/)){if(!line.trim()||line.trim().startsWith('#'))continue;if(!/^\s/.test(line)){active={pattern:line.trim(),headers:{}};rules.push(active);}else if(active){const colon=line.indexOf(':');if(colon>0)active.headers[line.slice(0,colon).trim().toLowerCase()]=line.slice(colon+1).trim();}}
+ const rules=parseHeaderRules(files.get('/_headers').toString('utf8'));
  const receipt=files.get('/play/glb/build-info.json');assert.ok(receipt,'Build the prototype before the browser journey');
  const proof={receiptSHA256:hash(receipt),headersSHA256:hash(files.get('/_headers')),files:files.size,bytes:[...files.values()].reduce((n,b)=>n+b.length,0)};
  return {files,rules,proof,async current(){const [receiptNow,headersNow]=await Promise.all([readFile(join(root,'play/glb/build-info.json')),readFile(join(root,'_headers'))]);return hash(receiptNow)===proof.receiptSHA256&&hash(headersNow)===proof.headersSHA256;}};
@@ -31,7 +31,7 @@ export async function routeArtifact(context,artifact,entry,{failModel}={}){
    if(failModel?.(path)){entry.expectedFailures.push({url:raw,kind:'injected-model-404'});await route.fulfill({status:404,contentType:'text/plain',body:'Synthetic model failure'});return;}
    const body=artifact.files.get(path);if(!body){entry.unexpectedRequests.push(raw);await route.fulfill({status:404,body:'Artifact file not found'});return;}
    const headers={'content-type':contentTypes[extname(path)]||'application/octet-stream'};
-   for(const rule of artifact.rules)if(rule.pattern.endsWith('*')?url.pathname.startsWith(rule.pattern.slice(0,-1)):url.pathname===rule.pattern)Object.assign(headers,rule.headers);
+   Object.assign(headers,headersForPath(artifact.rules,url.pathname));
    entry.resources[path]={bytes:body.length,sha256:hash(body),contentType:headers['content-type']};
    await route.fulfill({status:200,headers,body});
   }catch(error){entry.unexpectedRequests.push({url:raw,error:String(error)});await route.fulfill({status:500,body:'Artifact routing error'});}

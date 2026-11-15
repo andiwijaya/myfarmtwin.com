@@ -18,9 +18,9 @@ git(['fetch','--no-tags','origin','main']);
 assert.equal(git(['merge-base','--is-ancestor','FETCH_HEAD','HEAD']),'','Remote source advanced; reconcile before publishing.');
 const current=git(['branch','--show-current']);if(current!==branch)git(['switch','-c',branch]);
 git(['add','--pathspec-from-file=qa-artifacts/glb-upgrade/release/pathspec.txt']);
-const staged=git(['diff','--cached','--name-only']).split('\n').filter(Boolean);assert.deepEqual([...staged].sort(),files.map(f=>f.path).sort());
+const staged=git(['diff','--cached','--name-only']).split('\n').filter(Boolean);assert.ok(staged.every(path=>files.some(file=>file.path===path)),'Stage only the declared release files.');
 for(const file of files.filter(f=>f.path.startsWith('dist/'))){const actual=git(['rev-parse',':'+file.path]);assert.equal(actual,file.gitSha,'The deployed artifact must retain exact bytes: '+file.path);}
-git(['-c','user.name=MyFarmTwin','-c','user.email=hello@myfarmtwin.com','commit','-m','Add tropical GLB garden and cow-barn prototype with protected native saves']);
+if(staged.length)git(['-c','user.name=MyFarmTwin','-c','user.email=hello@myfarmtwin.com','commit','-m',process.argv[2]||'Add tropical GLB garden and cow-barn prototype with protected native saves']);
 const sha=git(['rev-parse','HEAD']);
 git(['push','origin','HEAD:refs/heads/'+branch]);
 const remote=git(['ls-remote','origin','refs/heads/'+branch]).split(/\s+/)[0];assert.equal(remote,sha);
