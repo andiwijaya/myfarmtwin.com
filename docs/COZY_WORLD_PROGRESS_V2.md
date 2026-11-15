@@ -10,7 +10,7 @@ Pemilik mengotorisasi penyelesaian otonom seluruh tahap, publikasi source/model 
 - [x] P3: satu domain cozy/bisnis untuk lima area, stok, transaksi, pesanan, perkembangan, serta bangun/pindah/putar/perluasan. Siklus dan transaksi lintas area diverifikasi di browser internal.
 - [x] P4: terrain besar, ayam/coop, kambing/shelter, kolam/ikan, market, interior, dan sumber GLB seluruh model. 22 file runtime, termasuk lima LOD jauh; seluruh model scene yang diperiksa mempunyai sumber GLB.
 - [ ] P5: cahaya waktu farm, air/angin, animasi, kamera per bangunan, loading, profil kualitas, serta pengelolaan resource.
-- [ ] P6: migrasi V0–V6/P2, arsip asli, impor/ekspor/pemulihan, konflik multi-tab, QA gameplay dan responsive di browser internal.
+- [x] P6: migrasi V0–V6/P2, arsip asli, impor/ekspor/pemulihan, konflik multi-tab, QA gameplay dan responsive di browser internal. Detail sumber, batas dan hasil: `COZY_WORLD_RELEASE_V2.md`.
 - [ ] P7: artifact/checksum, preview teruji, deploy produksi, kesamaan artifact publik, tes produksi, serta laporan akhir.
 
 ## Keputusan implementasi

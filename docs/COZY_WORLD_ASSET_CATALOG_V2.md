@@ -1,6 +1,6 @@
 # Katalog aset GLB Cozy World V2
 
-Tanggal authoring dan validasi: **15 November 2026**. Manifest acuan adalah `game/client/assets/models/world-manifest.json`, versi 2. Ada **17 aset logis**, **22 berkas GLB** termasuk lima varian jarak jauh, dengan total **14.401.280 byte** sebelum kompresi HTTP. Empat belas berkas GLB baru berada di `world/`; delapan aset prototipe digunakan langsung melalui URL aslinya. Tidak ada model, foto tekstur, HDRI, atau media pihak ketiga yang diunduh.
+Tanggal authoring dan validasi: **15 November 2026**. Manifest acuan adalah `game/client/assets/models/world-manifest.json`, versi 2. Ada **17 aset logis**, **22 berkas GLB** termasuk lima varian jarak jauh, dengan total **14.401.284 byte** sebelum kompresi HTTP. Empat belas berkas GLB baru berada di `world/`; delapan aset prototipe digunakan langsung melalui URL aslinya. Tidak ada model, foto tekstur, HDRI, atau media pihak ketiga yang diunduh.
 
 Seluruh geometri yang terlihat disediakan sebagai GLB. Siluet organik, fasilitas interior, permukaan air, tanah, jalan, dan vegetasi dibuat di tahap authoring lalu diekspor. Fungsi geometri pada `tools/art/` berjalan di Node saat pembuatan aset dan bukan pembuat mesh di renderer game.
 
@@ -18,7 +18,7 @@ Gaya visual mengikuti keputusan produk: semi-realistis yang hangat, peternakan t
 | `goatKid` | Anak kambing dengan kepala relatif lebih besar dan bakal tanduk; tidak sekadar mengecilkan semua proporsi dewasa | 719.844 | 12.744 |
 | `pond` | Kolam bundar sudut 12 × 10 m, dinding/lantai, air transparan bermaterial ripple, suplai/drain tersaring, pompa, platform, aerator paddle dan gelembung | 558.036 | 8.420 |
 | `fish` | Nila: tubuh pipih lateral, pola sisik, operkulum, mata/lip, sirip punggung berduri, ekor kipas dan sirip dada terartikulasi | 281.164 | 5.668 |
-| `market` | Pasar 7 × 6 m dengan gudang: atap tanah liat, dinding plester/bambu, meja hasil panen, peti sayuran, rak stok, karung, timbangan, bel dan perkakas | 2.157.680 | 52.172 |
+| `market` | Pasar 7 × 6 m dengan gudang: atap tanah liat, dinding plester/bambu, meja hasil panen, peti sayuran, rak stok, karung, timbangan, bel dan perkakas | 2.157.684 | 52.172 |
 | `barn` | Kandang sapi prototipe lengkap 10 × 8 m, dipakai ulang tanpa duplikasi berkas | 875.472 | 12.192 |
 | `cow` | Sapi perah asli prototipe, dengan tambahan joint leher/lutut/kuku serta pose minum dan istirahat; bentuk berdiri dan jumlah segitiga dipertahankan | 417.292 | 12.766 |
 | `bed` | Tanah bed beralur dan bingkai kayu; luas tanam 1,5 × 1,8 m | 238.304 | 1.788 |
@@ -109,6 +109,20 @@ Koordinat berikut berada dalam ruang lokal bangunan. Tambahkan rotasi bangunan k
 Y kambing tengah mengikuti bagian atas alas jerami `0.3775`; kambing lainnya mengikuti papan lantai `0.34`. Y sapi mengikuti alas dengan permukaan `0.0355`, sedangkan ayam mengikuti litter dengan permukaan `0.034`. Anak kambing dapat memakai anchor dewasa yang sama.
 
 Envelope X/Z dari seluruh clip yang disampel: sapi sekitar `X = -1.262…1.618`, `Z = ±0.44`; kambing sekitar `X = -0.705…0.963`, `Z = ±0.24`; ayam sekitar `X = -0.449…0.451`, `Z = -0.185…0.189`. Susunan enam sapi memberikan jarak terhadap divider Z sekitar 0,62 m atau lebih, dan jarak minimum terhadap neck rail sekitar 0,046 m sebelum pergeseran kosmetik. Batasi pergeseran horizontal hewan sekitar 0,03 m di anchor agar tidak menghabiskan clearance bagian belakang kandang dan rail barn. Jangkauan moncong ke isi trough belum merupakan simulasi kontak fisik atau navigasi mencari makan.
+
+### Koreksi permukaan slab dari closeup browser
+
+Closeup interior sapi memperlihatkan rumput bergaris pada lorong akibat permukaan slab yang coplanar dengan terrain `Y = 0`. Perbaikannya hanya menaikkan slab barn/coop dari center `-0.09` ke `-0.084` dengan tinggi tetap `0.18`, dan slab market dari center `-0.08` ke `-0.074` dengan tinggi tetap `0.16`. Permukaan beton kini `Y = 0.006`. Pivot, `interiorFloorY` sebagai referensi penempatan, bedding, drain dan seluruh anchor hewan dipertahankan. Bagian atas drain `0.008` tetap di atas beton. Tidak ada bangunan atau seluruh kelompok lantai yang digeser.
+
+SHA-256 setelah koreksi slab:
+
+| GLB | SHA-256 | Byte |
+| --- | --- | ---: |
+| `prototype/barn.glb` | `25a177e03f24debe3581990244132950d1a240b94ec9bf727b0e5353f05780c2` | 875.472 |
+| `world/coop.glb` | `16151052d2bce3ca5535b72353c9d0c054609165331c7a1c394ef19a37789158` | 1.807.756 |
+| `world/market.glb` | `c40be41e85f6068867108efd6daf09e12726b833efb0225fb001a13fe734a807` | 2.157.684 |
+
+Prototype dan world manifest sudah diregenerasi; resource/determinisme 22/22 lolos dan Khronos kembali menghasilkan 0 error, 0 warning, 0 info pada seluruh 22 GLB. Perubahan byte hanya pada tiga GLB di tabel tersebut.
 
 ## Reproduksi dan bukti validasi
 

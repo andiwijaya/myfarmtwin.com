@@ -201,7 +201,7 @@
     "source": "original geometry, PBR materials, embedded original base-color and tangent-space normal textures",
     "animation": "glTF transform animation on named articulated groups; no runtime procedural mesh replacement",
     "lod": "explicit original far assets; no device performance claim",
-    "totalBytesIncludingFarLODs": 14401280
+    "totalBytesIncludingFarLODs": 14401284
   },
   "assets": {
     "terrain": {
@@ -247,7 +247,7 @@
     "coop": {
       "id": "coop",
       "url": "/play/assets/models/world/coop.glb",
-      "sha256": "cddf9828b5b8b4529969db0fe9bfc1b1efd75a8ed2b4b8dd902e4fbc632aa4df",
+      "sha256": "16151052d2bce3ca5535b72353c9d0c054609165331c7a1c394ef19a37789158",
       "bytes": 1807756,
       "uniqueTriangles": 23992,
       "meshes": 32,
@@ -257,7 +257,7 @@
       "bounds": {
         "min": [
           -4.954999923706055,
-          -0.18,
+          -0.174,
           -3.9649999141693115
         ],
         "max": [
@@ -914,8 +914,8 @@
     "market": {
       "id": "market",
       "url": "/play/assets/models/world/market.glb",
-      "sha256": "6f0e2b737a233a8c02a92ebead1af417623a67a88c9577ec3104b9f5b8d1841f",
-      "bytes": 2157680,
+      "sha256": "c40be41e85f6068867108efd6daf09e12726b833efb0225fb001a13fe734a807",
+      "bytes": 2157684,
       "uniqueTriangles": 52172,
       "meshes": 47,
       "nodes": 79,
@@ -924,7 +924,7 @@
       "bounds": {
         "min": [
           -3.9549999237060547,
-          -0.16,
+          -0.154,
           -3.515000104904175
         ],
         "max": [
@@ -972,7 +972,7 @@
     "barn": {
       "id": "barn",
       "url": "/play/assets/models/prototype/barn.glb",
-      "sha256": "2217185f2ee56340fb4df8afc45b3d325e2931ed57d4c4c63afff6f1ca83c996",
+      "sha256": "25a177e03f24debe3581990244132950d1a240b94ec9bf727b0e5353f05780c2",
       "bytes": 875472,
       "uniqueTriangles": 12192,
       "meshes": 18,
@@ -982,7 +982,7 @@
       "bounds": {
         "min": [
           -5.469459056854248,
-          -0.18,
+          -0.174,
           -4.599999904632568
         ],
         "max": [

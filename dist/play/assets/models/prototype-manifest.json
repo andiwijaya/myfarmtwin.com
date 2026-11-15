@@ -114,7 +114,7 @@
     "barn": {
       "id": "barn",
       "url": "./prototype/barn.glb",
-      "sha256": "2217185f2ee56340fb4df8afc45b3d325e2931ed57d4c4c63afff6f1ca83c996",
+      "sha256": "25a177e03f24debe3581990244132950d1a240b94ec9bf727b0e5353f05780c2",
       "bytes": 875472,
       "uniqueTriangles": 12192,
       "meshes": 18,
@@ -124,7 +124,7 @@
       "bounds": {
         "min": [
           -5.469459056854248,
-          -0.18,
+          -0.174,
           -4.599999904632568
         ],
         "max": [

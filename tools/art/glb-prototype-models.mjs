@@ -91,7 +91,7 @@ function pail(parent,name,x=0,z=0){const g=new Group();g.name=name;g.position.se
 
 export function createBarn(){
  const root=new Group();root.name='barn';root.userData={footprint:[10,8],front:'+Z',interiorTarget:[0,1.3,0]};
- const floor=new Group();floor.name='floor';root.add(floor);box(floor,'foundation_slab',materials.concrete,0,-.09,0,10.5,.18,8.5);
+ const floor=new Group();floor.name='floor';root.add(floor);box(floor,'foundation_slab',materials.concrete,0,-.084,0,10.5,.18,8.5);
  for(const x of [-3.1,3.1])box(floor,'bedding_mat',materials.straw,x,.018,-.7,3.1,.035,5.4);
  // Center gutter gives an actual readable aisle and material hierarchy.
  for(const s of [-1,1])box(floor,'drain_channel',materials.dark,s*1.08,.002,0,.09,.012,7.8);

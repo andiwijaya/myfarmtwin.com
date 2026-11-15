@@ -48,7 +48,7 @@ function poultryDrinker(parent,x,z){
 
 export function createCoop(){
  const root=group(null,'coop');root.userData={footprint:[9,7],front:'+Z',floorPivot:true,interiorFloorY:0,interiorTarget:[0,.8,-.3]};
- const floor=group(root,'floor');box(floor,'lime_concrete_foundation',M.plaster,0,-.09,0,9,.18,7);
+ const floor=group(root,'floor');box(floor,'lime_concrete_foundation',M.plaster,0,-.084,0,9,.18,7);
  box(floor,'dry_rice_husk_bedding',M.straw,0,.017,-.4,8.45,.034,5.7);for(const s of [-1,1])box(floor,'drain_gutter',M.dark,s*4.18,.005,0,.09,.014,6.55);
  timberFrame(root,8.65,6.65,{eave:2.45,rise:1.12});gableRoof(root,'roof',9.8,7.8,2.49,1.16);
  const walls=group(root,'walls');
@@ -137,7 +137,7 @@ export function createPond(){
 function produceCrate(parent,name,x,y,z,kind){const c=crate(parent,name,x,y,z,.72,.36,.58),produce=group(c,'produce');for(let i=0;i<12;i++){const xx=-.23+(i%4)*.15,zz=-.17+Math.floor(i/4)*.16;if(kind==='tomato'){round(produce,'ripe_harvested_tomato',M.red,xx,.3,zz,.073,.065,.073,18);for(let k=0;k<4;k++)blade(produce,'small_tomato_calyx',M.stem,[xx,.366,zz],[xx+Math.cos(k*1.57)*.045,.36,zz+Math.sin(k*1.57)*.045],.01,.004,4);}else if(kind==='corn'){const ear=round(produce,'golden_corn_cob',M.yellow,xx,.3,zz,.036,.04,.16,18);ear.rotation.y=.15*(i%3);if(i%3===0)blade(produce,'peeled_green_corn_husk',M.leafLight,[xx,.27,zz-.13],[xx+.08,.32,zz+.1],.03,.06,7);}else{for(let k=0;k<6;k++)blade(produce,'harvested_green_leaf',k%3?M.leafLight:M.leaf,[xx,.22,zz],[xx+Math.cos(k*2.4)*.10,.27+(k%3)*.025,zz+Math.sin(k*2.4)*.1],.04,.035,7);}}return c;}
 export function createMarket(){
  const root=group(null,'market');root.userData={footprint:[7,6],floorPivot:true,front:'+Z',interiorFloorY:0,interiorTarget:[0,1,0]};
- const floor=group(root,'floor');box(floor,'warm_concrete_market_slab',M.plaster,0,-.08,0,7,.16,6);for(let i=0;i<10;i++)box(floor,'entry_terracotta_paver',M.brick,-3.15+i*.7,.012,2.65,.64,.024,.49);
+ const floor=group(root,'floor');box(floor,'warm_concrete_market_slab',M.plaster,0,-.074,0,7,.16,6);for(let i=0;i<10;i++)box(floor,'entry_terracotta_paver',M.brick,-3.15+i*.7,.012,2.65,.64,.024,.49);
  timberFrame(root,6.65,5.65,{eave:2.7,rise:1.15});gableRoof(root,'roof',7.8,6.9,2.76,1.17,{clay:true});
  const walls=group(root,'walls');
  box(walls,'warehouse_back_plasterwall',M.plaster,0,1.19,-2.84,6.7,2.38,.16);
