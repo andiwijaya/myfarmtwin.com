@@ -1,5 +1,21 @@
 # MyFarmTwin.com
 
+## Current tropical GLB world — Cozy V2
+
+The full upgrade is implemented at `/play/`; the former `/play/glb/` preview uses the same entry, authoritative economy, and local save. All visible 3D geometry comes from the original GLB library: garden/crop stages, chickens and coop, goats and raised shelter, cows and barn, tilapia and pond/water/aerator, market/interior, terrain and tropical environment. The world manifest references 17 logical assets and five far LODs, with 22 validated GLBs.
+
+The new cozy/business loop has faster crops, readable feed/water/cleanliness needs, finite production and stock, graded sales, orders, capacity upgrades and automatic care. Players can build multiple facilities, move/rotate their stocked buildings for free, buy additional beds, lay paths/fences, and expand owned land. The original 24 beds remain immediately usable. Clicking an area approaches it smoothly; continuous orbit, zoom, pan and barn interiors follow its current placement.
+
+Cozy V2 stores progress and placement atomically under `myfarmtwin.cozy.save.v2`. Supported V0–V6 and P2 progress is mapped with exact original bytes retained. Changed scientific mechanics have explicit value/ownership equivalents, including graded old lots, service credit, active cow orders and goat pasture. There is no login or offline punishment. Text export/import, validated previous-backup recovery, stale-tab protection, and a renderer-independent reader at `/play/recovery/` preserve recovery paths. A compatible rollback retains that reader; reverting to old V6 code alone cannot interpret later V2 progress.
+
+See [the P3–P7 checklist](docs/COZY_WORLD_PROGRESS_V2.md), [asset catalog](docs/COZY_WORLD_ASSET_CATALOG_V2.md), [save/migration contract](docs/COZY_WORLD_SAVE_CONTRACT_V2.md), and [acceptance matrix](docs/COZY_WORLD_ACCEPTANCE_MATRIX.md). The production release report records the exact source and deployment once public verification is complete.
+
+Current UI acceptance uses **only the Codex internal browser**, with no desktop takeover or standalone browser launch. Native/domain regression, strict type checks, build/delivery checks and the official Khronos validator run separately as CLI checks. `/play/integrity/` computes actual public resource SHA-256s inside the browser and never accesses farm storage. Device-size viewports and RAF observations are not physical-device FPS, battery, thermal, touch or Safari measurements.
+
+## Historical native releases and tooling
+
+The sections below describe earlier releases and retained tooling. Their renderer, save schema, entry receipts, camera controls and standalone browser runners are historical; they are not the active Cozy V2 experience or the current browser-testing instructions.
+
 Practical growing, farm projects, useful gear, and food grown with intention. The editorial website stays static; **Play Farm** at `/play/` adds a bilingual EN/ID farm life game.
 
 Plant lettuce, tomatoes and corn across 24 immediately active beds, manage soil water and seeded weather, harvest/sell, fulfil neighbourhood orders, build irrigation and upgrade efficiency. FarmGirl guides the first loop. Browser-local save/resume, export/import, backup recovery and confirmed reset keep progress portable. The optional Engineering Lab explains the educational model; it is not an agronomy prediction.
@@ -50,9 +66,9 @@ Public hosting is the audited Cloudflare Pages `myfarmtwin-com` project, GitHub 
 
 The EN/ID homepage now contains one live-game card, without FarmGirl imagery, published as an approved follow-on after V1. `npm run homepage` verifies its layouts, language/keyboard behavior, save preservation, game entry and exact retained release assets. See `docs/HOMEPAGE_INCREMENT.md` for the exact production source/deployment, scope and live-test evidence.
 
-## Tropical GLB prototype
+## Historical tropical GLB prototype (P0–P2)
 
-The tropical GLB garden/cow prototype is live at **[/play/glb/](https://myfarmtwin.com/play/glb/)**, with its own EN/ID interface, nine original GLB model files, orbit/interior camera, native garden/cow loops and protected layout editing. The complete farm remains `/play/`, sharing the same V6 native progress and all 24 beds. This is the completed P0-P2 prototype; all-five-area GLB conversion and the larger gameplay redesign are later stages.
+The tropical GLB garden/cow prototype was released at `/play/glb/` with its own EN/ID interface, nine original model files, orbit/interior camera, native garden/cow loops and protected layout editing. Its source and evidence remain as the completed P0–P2 checkpoint. Both public game paths now use the full Cozy V2 upgrade described above.
 
 Production source `0f9dcb6`, Cloudflare deployment `b7c790d8`, is verified through the Codex internal browser. See [the prototype release report](docs/GLB_PROTOTYPE_RELEASE.md), [progress/checklist](docs/GLB_PROTOTYPE_PROGRESS.md), [asset catalog](docs/GLB_PROTOTYPE_ASSET_CATALOG.md) and [save contract](docs/GLB_PROTOTYPE_SAVE_CONTRACT.md) for observed checks and explicit device/test limits.
 

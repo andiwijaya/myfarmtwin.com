@@ -47,3 +47,6 @@
 
 /play/integrity/index.html
   Cache-Control: public, max-age=0, must-revalidate, no-transform
+
+/play/assets/models/world-manifest.json
+  Cache-Control: public, max-age=0, must-revalidate

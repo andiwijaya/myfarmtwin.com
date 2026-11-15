@@ -9,6 +9,6 @@ await mkdir(target,{recursive:true});await cp(resolve(root,'dist'),target,{recur
 const html=await readFile(resolve(root,'dist/play/recovery/index.html'));
 for(const path of ['play/index.html','play/glb/index.html','play/cozy/index.html'])await writeFile(resolve(target,path),html);
 const source=JSON.parse(await readFile(resolve(root,'dist/play/build-info.json'),'utf8'));
-const receipt={kind:'myfarmtwin-cozy-recovery-v2',sourceEntry:source.entry,recoveryEntry:source.recoveryEntry,htmlSha256:createHash('sha256').update(html).digest('hex'),preservesKeys:['myfarmtwin.cozy.save.v2','myfarmtwin.save.v1','myfarmtwin.glb.layout.v1'],mode:'read-and-export-only',recoveryTestURL:'/play/recovery/'};
+const receipt={kind:'myfarmtwin-cozy-recovery-v2',sourceEntry:source.entry,recoveryEntry:source.recoveryEntry,htmlSha256:createHash('sha256').update(html).digest('hex'),preservesKeys:['myfarmtwin.cozy.save.v2','myfarmtwin.save.v1','myfarmtwin.glb.layout.v1'],mode:'read-export-and-explicit-legacy-recovery',recoveryTestURL:'/play/recovery/'};
 await writeFile(resolve(target,'play/build-info.json'),JSON.stringify(receipt,null,2)+'\n');
 console.log(JSON.stringify({output:relative(root,target),...receipt}));

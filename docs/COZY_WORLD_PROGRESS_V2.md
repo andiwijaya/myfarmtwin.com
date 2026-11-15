@@ -47,3 +47,11 @@ Preview awal `f1300c2` menemukan error `AnimationObjectGroup.uncacheRoot` setela
 45 tes domain/storage terakhir lolos. Kelompok foundation terbaru 50 tes juga lolos, terdiri dari 45 domain/storage, dua delivery, satu lifecycle animasi, dan dua header (header tumpang tindih dengan regresi 576). Semua angka kelompok tidak dijumlah ulang sebagai tes unik.
 
 Farm padat untuk QA berasal dari 100 command sah dan memuat 24 tanaman. Screenshot serta observasi frame/resource dicatat di `qa-artifacts/cozy-world/internal-browser/`. Angka RAF browser internal bukan FPS perangkat fisik. P5/P6 masih menunggu pemeriksaan ulang build terakhir; P7 belum dipromosikan ke produksi.
+
+### Penyempurnaan kandidat akhir
+
+Profil padat memperlihatkan sekitar 1.800 draw call ketika setiap tanaman digandakan sebagai mesh tersendiri. Tanaman sekarang dibatch melalui instancing dari geometry GLB yang sama; picking instance tetap mengarah ke ID bed, animasi angin memakai transform instance, dan tahap tumbuh serta pindah/panen membangun ulang batch secara terukur. Ini mempertahankan geometri dekat sambil mengurangi overhead pengiriman gambar. Perbandingan aktual dicatat setelah kandidat baru dimuat di browser.
+
+URL model diberi versi dari checksum manifest agar browser pemain yang pernah membuka P2 tidak menggunakan barn/sapi lama yang masih tercache. Manifest direvalidasi. Source geometry tetap sama dan resource publik diuji menggunakan hash bytes yang dihitung langsung dalam halaman browser internal `/play/integrity/`.
+
+Pemulihan tanpa 3D juga menyediakan penyelesaian jurnal P2 yang valid di bawah Web Lock, dengan ekspor cabang P2 dan primary V2 tetap terpisah. Dua tes tambahan membuktikan primary V2 tidak berubah, jurnal tidak mengulang command, dan konflik/read-only tidak menulis. Data corrupt atau versi lebih baru tetap dilindungi.

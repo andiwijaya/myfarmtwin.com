@@ -12,24 +12,24 @@
   ],
   "saveVersion": 2,
   "three": "0.187.0",
-  "entry": "app-RLF4Z5S6.js",
-  "recoveryEntry": "recovery-REEKVGM5.js",
+  "entry": "app-QXJW6TRQ.js",
+  "recoveryEntry": "recovery-2UXJQDFZ.js",
   "integrityEntry": "integrity-LL76RTOU.js",
   "emitted": [
     {
-      "name": "app-RLF4Z5S6.js",
-      "bytes": 718668,
-      "sha256": "c093677719d9b25e5faf19c6692404c4b550331b471ba16c4774f21a4b316368"
+      "name": "app-QXJW6TRQ.js",
+      "bytes": 720304,
+      "sha256": "16c206f79dd4c6c6a0e2866fd9cffed43e2c9efc76ea6b12c680ff6dd072fdb3"
     },
     {
-      "name": "recovery-REEKVGM5.js",
-      "bytes": 1127,
-      "sha256": "6390fbe94d31fae8d0d8f6878203a2b109a12665a6281eb11da32f826f24947b"
+      "name": "recovery-2UXJQDFZ.js",
+      "bytes": 2515,
+      "sha256": "a7de34419a67e7d638467375abc533ef8678310c7ac015ebcd26301825aec625"
     },
     {
-      "name": "chunks/chunk-G5P53H2X.js",
-      "bytes": 112843,
-      "sha256": "4d3e56294fa792582bf9b70329b1e51204b2561d62d5c48a8aa4fed053180245"
+      "name": "chunks/chunk-PZDGL33N.js",
+      "bytes": 194505,
+      "sha256": "112dfbfcd56859f718ad24b848e42de41740253cca6fa48c8d96fcee8e5836f7"
     },
     {
       "name": "integrity-LL76RTOU.js",
@@ -1204,7 +1204,7 @@
     }
   },
   "manifestSha256": "e10a793b28076f7bb4c16fe18e8373b0e5916a92ca3ca86be5b455b0a74332f3",
-  "htmlSha256": "fe28334d9e00944c263d299f6aba259f44c3cddc5f0e25b20fd0a51aacd92096",
+  "htmlSha256": "3d2892e511d298b8e2fd5f03e971c4a003d86f3271c095791544614382c8ca7d",
   "cssSha256": "020325a4fc861012c8574f8fc2581ac594d6756afdbb70f383ac05ca360f8296",
   "inputs": [
     "game/client/active-garden.js",
@@ -1241,6 +1241,7 @@
     "game/client/cozy-app.js",
     "game/client/cozy-domain.js",
     "game/client/cozy-integrity.js",
+    "game/client/cozy-legacy-recovery.js",
     "game/client/cozy-placement.js",
     "game/client/cozy-recovery.js",
     "game/client/cozy-storage.js",
