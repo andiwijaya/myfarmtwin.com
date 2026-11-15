@@ -7,8 +7,8 @@ Pemilik mengotorisasi penyelesaian otonom seluruh tahap, publikasi source/model 
 ## Checklist pelaksanaan
 
 - [x] P0–P2: prototipe kebun dan kandang sapi dirilis; bukti terpisah di `GLB_PROTOTYPE_PROGRESS.md`.
-- [ ] P3: satu domain cozy/bisnis untuk lima area, stok, transaksi, pesanan, perkembangan, serta bangun/pindah/putar/perluasan.
-- [ ] P4: terrain besar, ayam/coop, kambing/shelter, kolam/ikan, market, interior, dan sumber GLB seluruh model.
+- [x] P3: satu domain cozy/bisnis untuk lima area, stok, transaksi, pesanan, perkembangan, serta bangun/pindah/putar/perluasan. Siklus dan transaksi lintas area diverifikasi di browser internal.
+- [x] P4: terrain besar, ayam/coop, kambing/shelter, kolam/ikan, market, interior, dan sumber GLB seluruh model. 22 file runtime, termasuk lima LOD jauh; seluruh model scene yang diperiksa mempunyai sumber GLB.
 - [ ] P5: cahaya waktu farm, air/angin, animasi, kamera per bangunan, loading, profil kualitas, serta pengelolaan resource.
 - [ ] P6: migrasi V0–V6/P2, arsip asli, impor/ekspor/pemulihan, konflik multi-tab, QA gameplay dan responsive di browser internal.
 - [ ] P7: artifact/checksum, preview teruji, deploy produksi, kesamaan artifact publik, tes produksi, serta laporan akhir.
@@ -31,3 +31,19 @@ Belum ada klaim P3–P7 selesai atau live. Hasil unit, validasi model, preview, 
 - `cozy-world.js` mengelola satu scene GLB, animasi dekat/jauh, instancing lingkungan, kamera interior mengikuti transform, dan audit provenance mesh. Grafik tidak menulis state farm.
 - Pemulihan tanpa WebGL dan artifact rollback yang mempertahankan pembaca V2 disiapkan. Pengembalian kode V6 saja tidak dianggap rollback kompatibel.
 - Pengujian interaksi, kualitas visual, responsive dan produksi masih menunggu build preview stabil. P3–P7 belum ditandai selesai.
+
+### Checkpoint browser internal — sumber `c64ab60`
+
+Preview `https://b7449934.myfarmtwin-com.pages.dev/play/` memuat seluruh 22 GLB. Tiga tanaman selesai ditanam, disiram, dipanen, dan dipakai dalam tiga pesanan lintas area. Ayam, sapi, kambing, dan ikan melalui produksi/penjualan/pembelian yang sah. Perawatan yang kurang memperlambat ikan; setelah dibersihkan dan diganti air, ikan kembali tumbuh dan dipanen tanpa kehilangan ternak.
+
+Pindah/putar kandang mempertahankan seluruh isi dan tidak memotong uang; preview collision/luar lahan/batal tidak mengubah save. Kandang tambahan berbayar tidak mengulang starter kit. Bed ke-25 dan perluasan lahan berhasil dibeli. Reload, impor rusak, dua pemulihan snapshot, backup sebelumnya, alias `/play/glb/`, konflik dua tab, dan pembaca pemulihan V2 diverifikasi lewat UI.
+
+Fixture V0–V5 serta V6/P2 kaya berhasil diimpor dengan uang dan byte sumber asli tetap sama. Fixture P2 mempertahankan barn `x=9,z=8,rotation=π/2` dan seluruh 24 bed. Cadangan besar dibaca per potongan textarea untuk menghindari batas keluaran alat; ini bukan pemotongan data aplikasi.
+
+Pengukuran viewport aktual (bukan hanya permintaan override) berhasil pada 320×740, 390×844, 768×1024, 844×390, dan 1440×900 tanpa overflow horizontal. Klik model pada viewport 390×844 tidak melakukan aksi farm. Navigasi otomatis ke panel ponsel disederhanakan menjadi perpindahan langsung setelah ditemukan pergeseran halaman saat kontrol dipilih cepat.
+
+Preview awal `f1300c2` menemukan error `AnimationObjectGroup.uncacheRoot` setelah panen. Implementasi kini memakai mixer terpisah per root dekat/jauh; tes regresi lifecycle dan pengulangan panen/jual/impor di browser berikutnya lolos tanpa error. Posisi hewan dan sekat/trough kandang diselaraskan dengan kapasitas model.
+
+45 tes domain/storage terakhir lolos. Kelompok foundation terbaru 50 tes juga lolos, terdiri dari 45 domain/storage, dua delivery, satu lifecycle animasi, dan dua header (header tumpang tindih dengan regresi 576). Semua angka kelompok tidak dijumlah ulang sebagai tes unik.
+
+Farm padat untuk QA berasal dari 100 command sah dan memuat 24 tanaman. Screenshot serta observasi frame/resource dicatat di `qa-artifacts/cozy-world/internal-browser/`. Angka RAF browser internal bukan FPS perangkat fisik. P5/P6 masih menunggu pemeriksaan ulang build terakhir; P7 belum dipromosikan ke produksi.
