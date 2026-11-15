@@ -1,0 +1,366 @@
+{
+  "version": 1,
+  "format": "glTF 2.0 GLB",
+  "authoringDate": "2026-11-15",
+  "author": "MyFarmTwin original repository authoring",
+  "license": "Original project assets; procedural texture and geometry source included in tools/art/glb-prototype-*.mjs",
+  "externalResources": false,
+  "units": "meters",
+  "up": "+Y",
+  "cowForward": "+X",
+  "dimensions": {
+    "terrain": [
+      48,
+      40
+    ],
+    "barn": [
+      10,
+      8
+    ],
+    "bed": [
+      1.5,
+      1.8
+    ],
+    "fenceLength": 2,
+    "path": [
+      2,
+      2
+    ]
+  },
+  "roles": {
+    "barn": {
+      "roof": "roof",
+      "walls": "walls",
+      "frame": "frame",
+      "floor": "floor",
+      "stalls": "stalls",
+      "equipment": "equipment"
+    },
+    "cow": {
+      "head": "head",
+      "tail": "tail",
+      "legs": [
+        "leg_front_left",
+        "leg_front_right",
+        "leg_rear_left",
+        "leg_rear_right"
+      ]
+    },
+    "crops": {
+      "lettuce": [
+        "lettuce_0",
+        "lettuce_1",
+        "lettuce_2",
+        "lettuce_3"
+      ],
+      "tomato": [
+        "tomato_0",
+        "tomato_1",
+        "tomato_2",
+        "tomato_3"
+      ],
+      "corn": [
+        "corn_0",
+        "corn_1",
+        "corn_2",
+        "corn_3",
+        "corn_4"
+      ]
+    },
+    "vegetation": [
+      "banana",
+      "palm",
+      "grass",
+      "shrub"
+    ],
+    "props": [
+      "feed_trough",
+      "water_trough",
+      "milk_pail",
+      "crate",
+      "feed_bag",
+      "pump",
+      "rock"
+    ]
+  },
+  "assets": {
+    "terrain": {
+      "id": "terrain",
+      "url": "./prototype/terrain.glb",
+      "sha256": "2528eafe2a0e34c9ffd0fdd48e2f9f94e8808df8696f00c9077dd6a4f6f4327d",
+      "bytes": 227708,
+      "uniqueTriangles": 3852,
+      "meshes": 2,
+      "nodes": 3,
+      "textures": 2,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -24,
+          -0.995,
+          -20
+        ],
+        "max": [
+          24,
+          0.03795723617076874,
+          20
+        ]
+      },
+      "templates": [
+        "continuous_grass_ground",
+        "earth_cross_section"
+      ]
+    },
+    "barn": {
+      "id": "barn",
+      "url": "./prototype/barn.glb",
+      "sha256": "70e3c448ec585af2b26c6e905ade7f91a959601795bd293e9ce99de5e121e369",
+      "bytes": 912464,
+      "uniqueTriangles": 11872,
+      "meshes": 18,
+      "nodes": 28,
+      "textures": 3,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -5.469459056854248,
+          -0.18,
+          -4.599999904632568
+        ],
+        "max": [
+          5.469459056854248,
+          4.76201868057251,
+          4.599999904632568
+        ]
+      },
+      "templates": [
+        "floor",
+        "frame",
+        "walls",
+        "stalls",
+        "equipment",
+        "roof"
+      ]
+    },
+    "cow": {
+      "id": "cow",
+      "url": "./prototype/cow.glb",
+      "sha256": "94d4e1dee5f1503fb16b6d3043a4d36fd99fbcc51b6cf7115bc95a4ab64eabe2",
+      "bytes": 454740,
+      "uniqueTriangles": 12766,
+      "meshes": 26,
+      "nodes": 35,
+      "textures": 1,
+      "animations": [
+        "idle",
+        "walk",
+        "eat"
+      ],
+      "bounds": {
+        "min": [
+          -1.2616652679443359,
+          1.6689300497141346e-8,
+          -0.43999999642372134
+        ],
+        "max": [
+          1.6099999833106995,
+          1.709999994635582,
+          0.43999999642372134
+        ]
+      },
+      "templates": [
+        "throat_dewlap",
+        "head",
+        "leg_front_left",
+        "leg_front_right",
+        "leg_rear_left",
+        "leg_rear_right",
+        "tail",
+        "woven_collar",
+        "collar_buckle",
+        "ear_tag",
+        "cow_cream_and_charcoal_dairy_coat",
+        "cow_soft_warm_inner_skin"
+      ]
+    },
+    "bed": {
+      "id": "bed",
+      "url": "./prototype/bed.glb",
+      "sha256": "870e3c2dabd03544fe74956756f6c285336b168942b57f674190fdc7a85a0435",
+      "bytes": 238304,
+      "uniqueTriangles": 1788,
+      "meshes": 2,
+      "nodes": 3,
+      "textures": 2,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -0.8050000071525574,
+          0,
+          -0.9750000238418579
+        ],
+        "max": [
+          0.8050000071525574,
+          0.12999999523162842,
+          0.9750000238418579
+        ]
+      },
+      "templates": [
+        "bed_moist_tropical_loam",
+        "bed_warm_weathered_hardwood"
+      ]
+    },
+    "crops": {
+      "id": "crops",
+      "url": "./prototype/crops.glb",
+      "sha256": "68a86e05727ad6694236ee6794cd4e27db7c82802def397a3d7e27fbdd4a0d01",
+      "bytes": 399580,
+      "uniqueTriangles": 10888,
+      "meshes": 30,
+      "nodes": 44,
+      "textures": 0,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -0.5061700344085693,
+          -0.002269444055855274,
+          -0.5165309309959412
+        ],
+        "max": [
+          0.5199999809265137,
+          2.2420942783355713,
+          0.4958411455154419
+        ]
+      },
+      "templates": [
+        "lettuce_0",
+        "lettuce_1",
+        "lettuce_2",
+        "lettuce_3",
+        "tomato_0",
+        "tomato_1",
+        "tomato_2",
+        "tomato_3",
+        "corn_0",
+        "corn_1",
+        "corn_2",
+        "corn_3",
+        "corn_4"
+      ]
+    },
+    "vegetation": {
+      "id": "vegetation",
+      "url": "./prototype/vegetation.glb",
+      "sha256": "84474328ba64013a652398b09f1191a03e18eda83c6fe40895a21bd9a3672e48",
+      "bytes": 566756,
+      "uniqueTriangles": 12962,
+      "meshes": 11,
+      "nodes": 16,
+      "textures": 1,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -1.8539490699768066,
+          -0.007752757053822279,
+          -2.1529581546783447
+        ],
+        "max": [
+          2.4826080799102783,
+          4.515624046325684,
+          2.070836067199707
+        ]
+      },
+      "templates": [
+        "banana",
+        "palm",
+        "grass",
+        "shrub"
+      ]
+    },
+    "fence": {
+      "id": "fence",
+      "url": "./prototype/fence.glb",
+      "sha256": "9279a59094589199b831ec5cab81fb877df6d3d288600f7f55345768985fa7c3",
+      "bytes": 117212,
+      "uniqueTriangles": 64,
+      "meshes": 1,
+      "nodes": 2,
+      "textures": 1,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -1.0636396408081055,
+          0,
+          -0.06363961100578308
+        ],
+        "max": [
+          1.0636396408081055,
+          1.190000057220459,
+          0.06363961100578308
+        ]
+      },
+      "templates": [
+        "fence_warm_weathered_hardwood"
+      ]
+    },
+    "path": {
+      "id": "path",
+      "url": "./prototype/path.glb",
+      "sha256": "08e08e2a41840575bab146f6686ce3518913d358614eeaaedda2243c537c50d6",
+      "bytes": 114476,
+      "uniqueTriangles": 1212,
+      "meshes": 2,
+      "nodes": 3,
+      "textures": 1,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -1,
+          0,
+          -1
+        ],
+        "max": [
+          1,
+          0.03700000047683716,
+          1
+        ]
+      },
+      "templates": [
+        "compacted_soil_path",
+        "path_warm_lime_concrete"
+      ]
+    },
+    "props": {
+      "id": "props",
+      "url": "./prototype/props.glb",
+      "sha256": "e391f138e8fa376e656da315d9e47f8a71bae372831e2c1f44cdfa80ab09a91d",
+      "bytes": 464876,
+      "uniqueTriangles": 2348,
+      "meshes": 12,
+      "nodes": 20,
+      "textures": 2,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -1.100000023841858,
+          -0.20218439102172853,
+          -0.5209734439849854
+        ],
+        "max": [
+          1.100000023841858,
+          0.78104168176651,
+          0.607393205165863
+        ]
+      },
+      "templates": [
+        "feed_trough",
+        "water_trough",
+        "milk_pail",
+        "crate",
+        "feed_bag",
+        "pump",
+        "rock"
+      ]
+    }
+  }
+}

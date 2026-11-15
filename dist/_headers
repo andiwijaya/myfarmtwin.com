@@ -14,6 +14,15 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 
 # Protect HTML from edge beacon injection; permit normal JS/CSS compression.
+/play/glb/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' blob:; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+
+/play/glb/
+  Cache-Control: public, max-age=0, must-revalidate, no-transform
+
+/play/glb/index.html
+  Cache-Control: public, max-age=0, must-revalidate, no-transform
+
 /play/
   Cache-Control: public, max-age=0, must-revalidate, no-transform
 

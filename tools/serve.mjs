@@ -14,7 +14,7 @@ export async function startServer(port=4177,root=resolve(process.env.QA_DIST_ROO
    if(file!==root&&!file.startsWith(root+sep)){res.writeHead(403);res.end();return;}
    if((await stat(file)).isDirectory())file=resolve(file,'index.html');
    let body=await readFile(file);
-   const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.json':'application/json','.xml':'application/xml','.txt':'text/plain'};
+   const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.glb':'model/gltf-binary','.json':'application/json','.xml':'application/xml','.txt':'text/plain'};
    const security={};for(const rule of rules)if(rule.pattern.endsWith('*')?pathname.startsWith(rule.pattern.slice(0,-1)):pathname===rule.pattern)Object.assign(security,rule.headers);
    const headers={'content-type':mime[extname(file)]||'application/octet-stream','cache-control':'no-store',...security};
    // Explicit QA mode reproduces the observed live browser asset cache. It is

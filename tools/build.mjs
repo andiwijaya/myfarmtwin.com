@@ -2,6 +2,7 @@ import { resolve, relative, join } from 'node:path';
 import { readdir, mkdir, copyFile, lstat, readFile, writeFile, unlink } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import {bundleWorld} from './bundle-world.mjs';
+import {buildGLBPrototype} from './build-glb-prototype.mjs';
 
 /** Copy game/client and the 3D renderer's pinned vendor files into dist/play only. Never empties output. */
 export async function build(root=process.cwd(),{bundle=true}={}) {
@@ -20,9 +21,9 @@ export async function build(root=process.cwd(),{bundle=true}={}) {
       else if(['unified-cozy-landscape.js','unified-world-preview.js','unified-world-sprite-hit.js','unified-world-sprites.js','unified-world-webgl.js','unified-world-batches.js','unified-world-part-meshes.js','unified-world-part-lod.js','unified-world-part-pruning.js','unified-cozy-contact.js'].includes(entry.name)){
         const body=await readFile(from,'utf8');
         if(!body.includes("from 'three'"))throw new Error('Preview vendor import missing');
-        await writeFile(to,body.replace("from 'three'","from './vendor/three/three.module.js'"));preview=true;
-      }else if(canonicalText.has(relative(source,from)))await writeFile(to,(await readFile(from,'utf8')).replaceAll('\r\n','\n'));
-      else if(/\.(html|css|js|svg|json|webp|png)$/.test(entry.name)) await copyFile(from,to);
+        await writeFile(to,body.replace("from 'three'","from './vendor/three/three.module.js'").replaceAll('\r\n','\n'));preview=true;
+      }else if(canonicalText.has(relative(source,from))||/\.(html|css|js|svg|json)$/.test(entry.name))await writeFile(to,(await readFile(from,'utf8')).replaceAll('\r\n','\n'));
+      else if(/\.(html|css|js|svg|json|webp|png|glb)$/.test(entry.name)) await copyFile(from,to);
     }
   }
   await copy(source,target);
@@ -39,6 +40,8 @@ export async function build(root=process.cwd(),{bundle=true}={}) {
     await writeFile(join(output,'version.json'),JSON.stringify({name:'three',version:pkg.version,license:'MIT',sourceMaps:false})+'\n');
     if(bundle)await bundleWorld(root);
   }
+  let hasPrototype=false;try{hasPrototype=(await lstat(join(source,'glb-prototype-app.js'))).isFile();}catch(error){if(error.code!=='ENOENT')throw error;}
+  if(hasPrototype)await buildGLBPrototype(root);
   console.log('Built only dist/play; editorial files preserved.');
 }
 if(import.meta.url===pathToFileURL(process.argv[1]).href) await build();
