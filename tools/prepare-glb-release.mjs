@@ -6,6 +6,7 @@ const root=process.cwd(),files=new Set(['.gitattributes','dist/_headers','tools/
 files.add('tools/publish-glb-preview.mjs');
 files.add('tools/pages-headers.mjs');files.add('game/tests/glb-headers.test.mjs');
 files.add('docs/GLB_PROTOTYPE_RELEASE.md');
+files.add('README.md');
 // These retained standalone files have newline-only canonical build changes;
 // include their exact bytes so the complete deployed artifact matches the ZIP.
 files.add('dist/play/chicken-market.js');files.add('dist/play/data-tools.js');

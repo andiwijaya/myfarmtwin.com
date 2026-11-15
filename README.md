@@ -50,6 +50,12 @@ Public hosting is the audited Cloudflare Pages `myfarmtwin-com` project, GitHub 
 
 The EN/ID homepage now contains one live-game card, without FarmGirl imagery, published as an approved follow-on after V1. `npm run homepage` verifies its layouts, language/keyboard behavior, save preservation, game entry and exact retained release assets. See `docs/HOMEPAGE_INCREMENT.md` for the exact production source/deployment, scope and live-test evidence.
 
+## Tropical GLB prototype
+
+The tropical GLB garden/cow prototype is live at **[/play/glb/](https://myfarmtwin.com/play/glb/)**, with its own EN/ID interface, nine original GLB model files, orbit/interior camera, native garden/cow loops and protected layout editing. The complete farm remains `/play/`, sharing the same V6 native progress and all 24 beds. This is the completed P0-P2 prototype; all-five-area GLB conversion and the larger gameplay redesign are later stages.
+
+Production source `0f9dcb6`, Cloudflare deployment `b7c790d8`, is verified through the Codex internal browser. See [the prototype release report](docs/GLB_PROTOTYPE_RELEASE.md), [progress/checklist](docs/GLB_PROTOTYPE_PROGRESS.md), [asset catalog](docs/GLB_PROTOTYPE_ASSET_CATALOG.md) and [save contract](docs/GLB_PROTOTYPE_SAVE_CONTRACT.md) for observed checks and explicit device/test limits.
+
 ## Garden expansion release
 
 Garden acceptance is **22/22 (100%)**. Production source is d4025da, deployed

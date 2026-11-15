@@ -15,7 +15,7 @@ The save schema and native engine are unchanged. All 24 beds, other farm areas, 
 ## Accepted evidence
 
 - 575/575 non-network native tests pass (`native-final.log`); the negotiated-localhost HTTP/cache case was excluded because loopback networking is denied.
-- 25/25 targeted foundation tests passed before the final header fix; two additional Pages header merge/detach regressions pass.
+- Final targeted foundation/domain/header rerun: 27/27 PASS (`release-checks.log`), including two Pages merge/detach regressions. These overlap the earlier native suite.
 - Strict typecheck, structural/resource validation for all nine GLBs, deterministic exports, source syntax and exact staged runtime bytes pass at the recorded checkpoints.
 - Actual Cloudflare preview source: `b23a0c20fba276b27eb9acbdd7e48f541f3c2bea`; deployment `b9713469-d74e-449a-b376-8e5866637c2e`; URL `https://b9713469.myfarmtwin-com.pages.dev/play/glb/`.
 - Codex internal browser: 23 observed check groups, recorded in ignored `qa-artifacts/glb-upgrade/internal-browser/preview-report.json`. These cover real garden/cow economics, placement/cancellation, paid pump/free kit, exact reload/import round trips, invalid import, real stale tabs, full rotation/back, five viewport overflow checks, nine GLB loads and unchanged paused data in the original full farm.
@@ -29,6 +29,17 @@ The previous production source `d4025da144ead1754119ae6e5a1839983838ebfd` uses t
 
 Viewport checks are not physical Android/iOS validation; the internal browser does not establish native hardware touch/pinch, display FPS, thermal/battery, GPU memory, Safari or spoken screen-reader behavior. This pass does not claim injected-model-404 or deliberate context-loss testing. Scene counters are a bounded observation, not a benchmark guarantee. Full artistic realism and all-farm conversion are not claimed for this prototype.
 
-## Production status
+## Production verification
 
-Pending promotion of the tested artifact and public internal-browser verification. This document must be updated with the actual production source/deployment after success; the preview is not proof of production publication.
+**Live and verified:** `https://myfarmtwin.com/play/glb/`.
+
+- Production source: `0f9dcb65fe39a82b5c88f87f1faa34bf668b4287`.
+- Cloudflare deployment: `b7c790d8-7267-46e5-992b-fa827c5a8517`, successful GitHub Cloudflare check.
+- Immutable production: `https://b7c790d8.myfarmtwin-com.pages.dev/play/glb/`.
+- Canonical served parsed build receipt exactly equals the local, preview-tested receipt; all nine GLB URLs are observed loading without console errors.
+- Ten observed public internal-browser groups pass: canonical map/24 beds, non-mutating phone-size selection/camera, assets, receipt equality, original full-farm entry/link/data preservation, plus fresh immutable-origin garden/cow/sales/interior/exact reload journeys.
+- Canonical saved progress was kept unchanged. Real post-deploy gameplay testing used the previously unused immutable production origin; no personal desktop/browser profile was controlled.
+- Actual proof: `qa-artifacts/glb-upgrade/internal-browser/production-report.json`, `production-interior-id.jpg` and `production-overview-id.jpg`.
+- All eight native runtime emitted chunks remain identical to the previous production artifact. Native schema remains V6.
+
+The deployable TAR.GZ has SHA-256 `ac60647bb249e6491d715ec7670521f90b3c49c695fe80891d246a97152c0a8a`; it contains 286 entries and nine GLBs. Final documentation/evidence commits remain on the prototype branch after the production source so reporting does not trigger another production deployment.
