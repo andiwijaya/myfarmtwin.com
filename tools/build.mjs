@@ -3,6 +3,7 @@ import { readdir, mkdir, copyFile, lstat, readFile, writeFile, unlink } from 'no
 import { pathToFileURL } from 'node:url';
 import {bundleWorld} from './bundle-world.mjs';
 import {buildGLBPrototype} from './build-glb-prototype.mjs';
+import {buildCozyWorld} from './build-cozy-world.mjs';
 
 /** Copy game/client and the 3D renderer's pinned vendor files into dist/play only. Never empties output. */
 export async function build(root=process.cwd(),{bundle=true}={}) {
@@ -30,7 +31,8 @@ export async function build(root=process.cwd(),{bundle=true}={}) {
   // Exact retired presentation files only; editorial output is never emptied.
   for(const name of ['world.js','camera.js','isometric.js','chicken-view.js','chicken-layout.js','goat-view.js','cow-view.js','fish-view.js','fish-scene.js','unified-world-canvas.js','preview-loader.js']){try{await unlink(join(target,name));}catch(error){if(error.code!=='ENOENT')throw error;}}
 
-  if(preview){
+  let hasCozy=false;try{hasCozy=(await lstat(join(source,'cozy-app.js'))).isFile();}catch(error){if(error.code!=='ENOENT')throw error;}
+  if(preview&&!hasCozy){
     const vendor=resolve(root,'node_modules/three'),pkg=JSON.parse(await readFile(join(vendor,'package.json'),'utf8'));
     if(pkg.version!=='0.187.0')throw new Error('Expected pinned Three.js 0.187.0');
     const output=join(target,'vendor/three');await mkdir(output,{recursive:true});
@@ -41,7 +43,7 @@ export async function build(root=process.cwd(),{bundle=true}={}) {
     if(bundle)await bundleWorld(root);
   }
   let hasPrototype=false;try{hasPrototype=(await lstat(join(source,'glb-prototype-app.js'))).isFile();}catch(error){if(error.code!=='ENOENT')throw error;}
-  if(hasPrototype)await buildGLBPrototype(root);
+  if(hasCozy)await buildCozyWorld(root);else if(hasPrototype)await buildGLBPrototype(root);
   console.log('Built only dist/play; editorial files preserved.');
 }
 if(import.meta.url===pathToFileURL(process.argv[1]).href) await build();

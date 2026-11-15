@@ -1,7 +1,7 @@
 # MyFarmTwin: upgrade GLB, farm tropis Indonesia, dan gameplay baru
 
 Tanggal: 15 November 2026 (WIB).
-Status: implementasi P0-P2 berjalan setelah otorisasi pemilik pada 15 November 2026. Progres dan bukti terbaru: [GLB_PROTOTYPE_PROGRESS.md](GLB_PROTOTYPE_PROGRESS.md).
+Status: P0–P2 telah dirilis dan diverifikasi. Pemilik mengotorisasi implementasi otonom P3–P7, seluruh area GLB, gameplay baru, deploy, dan pengujian hanya melalui browser internal pada 15 November 2026. Progres tahap penuh: [COZY_WORLD_PROGRESS_V2.md](COZY_WORLD_PROGRESS_V2.md). Bukti prototipe: [GLB_PROTOTYPE_PROGRESS.md](GLB_PROTOTYPE_PROGRESS.md).
 Baseline yang diperiksa: checkout `cozy-world-v1`, commit `dbccee9`.
 Dokumen ini menetapkan arah upgrade berikutnya; checklist rilis lama tetap menjadi catatan historis.
 

@@ -114,8 +114,8 @@
     "barn": {
       "id": "barn",
       "url": "./prototype/barn.glb",
-      "sha256": "70e3c448ec585af2b26c6e905ade7f91a959601795bd293e9ce99de5e121e369",
-      "bytes": 912464,
+      "sha256": "ee5d4496d9e11fb82dbe58abdf0e45d6ea7924e2f133338e6443d79ecd4dbba7",
+      "bytes": 860988,
       "uniqueTriangles": 11872,
       "meshes": 18,
       "nodes": 28,
@@ -145,21 +145,23 @@
     "cow": {
       "id": "cow",
       "url": "./prototype/cow.glb",
-      "sha256": "94d4e1dee5f1503fb16b6d3043a4d36fd99fbcc51b6cf7115bc95a4ab64eabe2",
-      "bytes": 454740,
+      "sha256": "742ec6addd2f2f55d5fd38c2fd8f08a36ed1d7ab54a03860ea2302878aff5b29",
+      "bytes": 415972,
       "uniqueTriangles": 12766,
-      "meshes": 26,
-      "nodes": 35,
+      "meshes": 35,
+      "nodes": 53,
       "textures": 1,
       "animations": [
         "idle",
         "walk",
-        "eat"
+        "eat",
+        "drink",
+        "rest"
       ],
       "bounds": {
         "min": [
           -1.2616652679443359,
-          1.6689300497141346e-8,
+          1.6808509861743204e-8,
           -0.43999999642372134
         ],
         "max": [
@@ -169,17 +171,13 @@
         ]
       },
       "templates": [
-        "throat_dewlap",
-        "head",
+        "organic_torso",
         "leg_front_left",
         "leg_front_right",
         "leg_rear_left",
         "leg_rear_right",
         "tail",
-        "woven_collar",
-        "collar_buckle",
-        "ear_tag",
-        "cow_cream_and_charcoal_dairy_coat",
+        "neck",
         "cow_soft_warm_inner_skin"
       ]
     },
@@ -213,8 +211,8 @@
     "crops": {
       "id": "crops",
       "url": "./prototype/crops.glb",
-      "sha256": "68a86e05727ad6694236ee6794cd4e27db7c82802def397a3d7e27fbdd4a0d01",
-      "bytes": 399580,
+      "sha256": "90d9b1778adf73d98ca01c0e30f3bf0f393762b936ddc38f8e20f7adffe61421",
+      "bytes": 319836,
       "uniqueTriangles": 10888,
       "meshes": 30,
       "nodes": 44,
@@ -251,8 +249,8 @@
     "vegetation": {
       "id": "vegetation",
       "url": "./prototype/vegetation.glb",
-      "sha256": "84474328ba64013a652398b09f1191a03e18eda83c6fe40895a21bd9a3672e48",
-      "bytes": 566756,
+      "sha256": "b74c620fba1635bd1cb4f4c1b3fcfadf75af2248a9b4cf67a62505beb547ea92",
+      "bytes": 483124,
       "uniqueTriangles": 12962,
       "meshes": 11,
       "nodes": 16,
@@ -306,8 +304,8 @@
     "path": {
       "id": "path",
       "url": "./prototype/path.glb",
-      "sha256": "08e08e2a41840575bab146f6686ce3518913d358614eeaaedda2243c537c50d6",
-      "bytes": 114476,
+      "sha256": "82c3235227a7739aa34e8e73cd0e0560e82db095fbd0932a1cef2c645f998329",
+      "bytes": 106940,
       "uniqueTriangles": 1212,
       "meshes": 2,
       "nodes": 3,
@@ -333,8 +331,8 @@
     "props": {
       "id": "props",
       "url": "./prototype/props.glb",
-      "sha256": "e391f138e8fa376e656da315d9e47f8a71bae372831e2c1f44cdfa80ab09a91d",
-      "bytes": 464876,
+      "sha256": "7cf9088a13a74b0d17b7b2d0616198cfb5d0da6a86203c9cbd1b545eddb6455e",
+      "bytes": 450732,
       "uniqueTriangles": 2348,
       "meshes": 12,
       "nodes": 20,

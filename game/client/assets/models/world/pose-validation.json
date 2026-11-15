@@ -1,0 +1,69 @@
+{
+  "kind": "cozy-world-exported-rest-floor-contact-v2",
+  "scope": "Actual exported rest channels evaluated with Three AnimationMixer,121 samples/model,precise visible vertex bounds; no browser visual/anatomical or physical-dynamics claim",
+  "results": [
+    {
+      "id": "chicken",
+      "samples": 121,
+      "durationSeconds": 6,
+      "standingMinY": 0.0013438068926334146,
+      "minimumRestY": 0.0012904043211056232,
+      "restingMaximumY": 0.6018311184644699,
+      "passed": true
+    },
+    {
+      "id": "chickenFar",
+      "samples": 121,
+      "durationSeconds": 6,
+      "standingMinY": 0.001326931327581382,
+      "minimumRestY": 0.0012735287561353795,
+      "restingMaximumY": 0.6018311184644699,
+      "passed": true
+    },
+    {
+      "id": "goat",
+      "samples": 121,
+      "durationSeconds": 6,
+      "standingMinY": 0.0009999963641166287,
+      "minimumRestY": 0.0007304076898632383,
+      "restingMaximumY": 1.0967708274616033,
+      "passed": true
+    },
+    {
+      "id": "goatFar",
+      "samples": 121,
+      "durationSeconds": 6,
+      "standingMinY": 0.0009999963641166287,
+      "minimumRestY": 0.0007304076898632383,
+      "restingMaximumY": 1.0967708274616033,
+      "passed": true
+    },
+    {
+      "id": "goatKid",
+      "samples": 121,
+      "durationSeconds": 6,
+      "standingMinY": 0.0005899978548287999,
+      "minimumRestY": 0.0004309406748549474,
+      "restingMaximumY": 0.5795370308605472,
+      "passed": true
+    },
+    {
+      "id": "goatKidFar",
+      "samples": 121,
+      "durationSeconds": 6,
+      "standingMinY": 0.0005899978548287999,
+      "minimumRestY": 0.0004309406748549474,
+      "restingMaximumY": 0.5795370308605472,
+      "passed": true
+    },
+    {
+      "id": "cow",
+      "samples": 121,
+      "durationSeconds": 6,
+      "standingMinY": 1.6808509861743204e-8,
+      "minimumRestY": -0.00023395323502625742,
+      "restingMaximumY": 1.3721169351329647,
+      "passed": true
+    }
+  ]
+}

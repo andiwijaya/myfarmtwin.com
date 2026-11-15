@@ -1,0 +1,488 @@
+{
+  "format": "MyFarmTwinCozyFixtureSources",
+  "version": 1,
+  "createdFor": "P3-P7 migration and all-area acceptance",
+  "source": "Synthetic valid native history only; never a personal browser profile",
+  "generation": "node tools/cozy-world-fixtures.mjs",
+  "optionalQACopy": "node tools/cozy-world-fixtures.mjs --qa",
+  "canonicalSchema": 6,
+  "sourceValidation": "Every native output passes serialize/deserialize roundtrip; source legacy fixtures pass strict deserialization; P2 layout passes validatePrototypeLayout.",
+  "legacySources": [
+    {
+      "path": "game/tests/fixtures/unified-world/v0-fresh.json",
+      "bytes": 926,
+      "sha256": "357f97671742bd7a2a5b3cd3c37d1d8e2b094582d0b5faec81745160b2afbf2c"
+    },
+    {
+      "path": "game/tests/fixtures/unified-world/v1-mixed.json",
+      "bytes": 20252,
+      "sha256": "55831bf1c48c1e335f81f39f74228bf14ba1424071dabdf04285b8fa784b5b75"
+    },
+    {
+      "path": "game/tests/fixtures/unified-world/v2-mixed.json",
+      "bytes": 57214,
+      "sha256": "f1e45bd7477897a03694ecdcaa57f2ed3c577ef06440f2c15ec435587bdfb979"
+    },
+    {
+      "path": "game/tests/fixtures/unified-world/v3-mixed.json",
+      "bytes": 53275,
+      "sha256": "901698aa230ec9708bfc1a661b24f4836cc8bb802a90173c662f10671930ed18"
+    },
+    {
+      "path": "game/tests/fixtures/unified-world/v4-mixed.json",
+      "bytes": 104213,
+      "sha256": "e74f4bb2b89828e3b2e5331aeb7bf31c4879d4dc0d0d2d01d492a4ba33efeeb0"
+    },
+    {
+      "path": "game/tests/fixtures/unified-world/v5-mixed.json",
+      "bytes": 126391,
+      "sha256": "1534f9254307355b94828ca256012eb8980d4ecbe7d4c273afbc85b4fc1c0302"
+    }
+  ],
+  "files": [
+    {
+      "name": "v6-fresh.json",
+      "bytes": 7228,
+      "sha256": "eae9a6a5c0f667b4bddd3a90c7943f92c592ae559ee73051f3cfd4a4daa26c34"
+    },
+    {
+      "name": "v6-all-areas-baseline.json",
+      "bytes": 129228,
+      "sha256": "b218997f2348589ec6ed6078b39d6cd1acc4d89fe5e5684daf6629500aec168a"
+    },
+    {
+      "name": "v6-rich-all-areas.json",
+      "bytes": 213376,
+      "sha256": "f4e14d11ac61393e1eaa89ba3ae602e807706dd8212fdc2c5fe86550345babd9"
+    },
+    {
+      "name": "v6-rich-summary.json",
+      "bytes": 8393,
+      "sha256": "5058d5b8b46cde8e6c32484481ec0d001150e8fd4aca7c3edca803539014fab2"
+    },
+    {
+      "name": "p2-rich-moved-bundle.json",
+      "bytes": 243749,
+      "sha256": "0ec1f90f8fa507e33671c020740012224532a00505fc137353cdf260dcb2f2ab"
+    },
+    {
+      "name": "p2-rich-moved-layout.json",
+      "bytes": 1876,
+      "sha256": "80a2048dcd6f8e2b584743643456c8b9b00df8cf7bd0f40e61c495d32fffd157"
+    },
+    {
+      "name": "dispatch-recipe.json",
+      "bytes": 15899,
+      "sha256": "498ec87e47759fa5bcd7f88d8de4e4ab7c5ef5b579db6993f4066f79bd3c1ec8"
+    }
+  ],
+  "summary": {
+    "saveVersion": 6,
+    "revision": 2275,
+    "tick": 1369,
+    "coins": 454,
+    "water": 66.56000000000003,
+    "beds": 24,
+    "plants": [
+      {
+        "id": 0,
+        "type": "lettuce",
+        "progress": 0.017708333333333333,
+        "stage": 0
+      },
+      {
+        "id": 1,
+        "type": "tomato",
+        "progress": 0.008854166666666666,
+        "stage": 0
+      },
+      {
+        "id": 5,
+        "type": "corn",
+        "progress": 0.007083333333333333,
+        "stage": 0
+      },
+      {
+        "id": 9,
+        "type": "corn",
+        "progress": 1,
+        "stage": 4
+      }
+    ],
+    "seeds": {
+      "lettuce": 0,
+      "tomato": 0,
+      "corn": 0
+    },
+    "cropLots": [
+      {
+        "id": 30,
+        "type": "lettuce",
+        "quantity": 1,
+        "quality": 0.6840000000000003
+      },
+      {
+        "id": 31,
+        "type": "tomato",
+        "quantity": 1,
+        "quality": 1
+      },
+      {
+        "id": 32,
+        "type": "corn",
+        "quantity": 4,
+        "quality": 1
+      },
+      {
+        "id": 33,
+        "type": "tomato",
+        "quantity": 4,
+        "quality": 1
+      },
+      {
+        "id": 34,
+        "type": "tomato",
+        "quantity": 4,
+        "quality": 1
+      },
+      {
+        "id": 35,
+        "type": "tomato",
+        "quantity": 4,
+        "quality": 1
+      }
+    ],
+    "completedOrders": [
+      "salad",
+      "tomatoBox",
+      "mixedBasket"
+    ],
+    "pump": {
+      "built": true,
+      "on": false,
+      "efficient": true,
+      "runHours": 0,
+      "stopReason": ""
+    },
+    "chicken": {
+      "hens": [
+        "chicken.hen.1",
+        "chicken.hen.2",
+        "chicken.hen.3",
+        "chicken.hen.4"
+      ],
+      "pending": 3,
+      "inventory": [
+        {
+          "id": "chicken.lot.31",
+          "grade": "A",
+          "quantity": 2,
+          "collectedDay": 52,
+          "sourceCoop": "chicken.coop.1"
+        },
+        {
+          "id": "chicken.lot.32",
+          "grade": "A",
+          "quantity": 3,
+          "collectedDay": 53,
+          "sourceCoop": "chicken.coop.1"
+        },
+        {
+          "id": "chicken.lot.33",
+          "grade": "A",
+          "quantity": 4,
+          "collectedDay": 54,
+          "sourceCoop": "chicken.coop.1"
+        },
+        {
+          "id": "chicken.lot.34",
+          "grade": "A",
+          "quantity": 4,
+          "collectedDay": 55,
+          "sourceCoop": "chicken.coop.1"
+        },
+        {
+          "id": "chicken.lot.35",
+          "grade": "A",
+          "quantity": 2,
+          "collectedDay": 56,
+          "sourceCoop": "chicken.coop.1"
+        }
+      ],
+      "feedStoreG": 0,
+      "coop": {
+        "id": "chicken.coop.1",
+        "level": 1,
+        "feedG": 1841.6666666666474,
+        "waterL": 6.7450000000000045,
+        "cleanliness": 99.33333333333333,
+        "feedCare": 0.9999999999999911,
+        "waterCare": 0.9999999999999911,
+        "autoFeeder": true,
+        "autoOn": true,
+        "shade": true,
+        "lastCleanTick": 1368,
+        "lastAutoTick": -24,
+        "pending": [
+          {
+            "id": "chicken.egg.57.1",
+            "henId": "chicken.hen.1",
+            "day": 57,
+            "grade": "A"
+          },
+          {
+            "id": "chicken.egg.57.2",
+            "henId": "chicken.hen.2",
+            "day": 57,
+            "grade": "A"
+          },
+          {
+            "id": "chicken.egg.57.3",
+            "henId": "chicken.hen.3",
+            "day": 57,
+            "grade": "A"
+          }
+        ],
+        "healthyHours": 1,
+        "dayFeedUsedG": 18.333333333333332,
+        "dayWaterUsedL": 0.055
+      },
+      "eggOrders": 1
+    },
+    "goat": {
+      "ids": [
+        "goat.bought.2",
+        "goat.bought.3",
+        "goat.bought.4",
+        "goat.bought.5"
+      ],
+      "hayStockG": 12000,
+      "feederG": 7291.25,
+      "troughMl": 31125,
+      "shelter": {
+        "level": 1,
+        "cleanliness": 79.58333333333341,
+        "lastCleanTick": 1368,
+        "careUpgrade": true
+      },
+      "paddocks": [
+        {
+          "id": 0,
+          "biomassG": 3440,
+          "restHours": 145,
+          "usedG": 13576.25,
+          "regrownG": 11016.25
+        },
+        {
+          "id": 1,
+          "biomassG": 3.4375000000000004,
+          "restHours": 0,
+          "usedG": 6855,
+          "regrownG": 858.4375
+        }
+      ],
+      "activePaddock": 1,
+      "sales": 4
+    },
+    "cow": {
+      "ids": [
+        "cow.starter.a",
+        "cow.starter.b",
+        "cow.bought.1"
+      ],
+      "reservoirs": [
+        {
+          "id": "cow.starter.a",
+          "milkReadyMl": 243
+        },
+        {
+          "id": "cow.starter.b",
+          "milkReadyMl": 243
+        },
+        {
+          "id": "cow.bought.1",
+          "milkReadyMl": 243
+        }
+      ],
+      "lots": [
+        {
+          "id": "cow.milk.171",
+          "cowId": "cow.starter.a",
+          "collectedTick": 744,
+          "remainingVolumeMl": 6922,
+          "gradeAtMilking": "A",
+          "freshnessScore": 0,
+          "storage": "cooler"
+        },
+        {
+          "id": "cow.milk.172",
+          "cowId": "cow.starter.b",
+          "collectedTick": 744,
+          "remainingVolumeMl": 6922,
+          "gradeAtMilking": "A",
+          "freshnessScore": 0,
+          "storage": "cooler"
+        },
+        {
+          "id": "cow.milk.173",
+          "cowId": "cow.bought.1",
+          "collectedTick": 744,
+          "remainingVolumeMl": 6922,
+          "gradeAtMilking": "A",
+          "freshnessScore": 0,
+          "storage": "cooler"
+        },
+        {
+          "id": "cow.milk.174",
+          "cowId": "cow.starter.a",
+          "collectedTick": 1368,
+          "remainingVolumeMl": 8500,
+          "gradeAtMilking": "A",
+          "freshnessScore": 900,
+          "storage": "can"
+        },
+        {
+          "id": "cow.milk.175",
+          "cowId": "cow.starter.b",
+          "collectedTick": 1368,
+          "remainingVolumeMl": 10000,
+          "gradeAtMilking": "A",
+          "freshnessScore": 900,
+          "storage": "can"
+        },
+        {
+          "id": "cow.milk.176",
+          "cowId": "cow.bought.1",
+          "collectedTick": 1368,
+          "remainingVolumeMl": 10000,
+          "gradeAtMilking": "A",
+          "freshnessScore": 975,
+          "storage": "cooler"
+        }
+      ],
+      "feedStoreG": 14667,
+      "feedTrough": {
+        "normal": 23001,
+        "starter": 0,
+        "recovery": 0
+      },
+      "waterTrough": {
+        "normal": 144375,
+        "starter": 0,
+        "recovery": 0
+      },
+      "barn": {
+        "expanded": true,
+        "troughUpgrade": true,
+        "shade": true,
+        "sanitation": true,
+        "cleanliness": 100,
+        "soilRemainder": 9,
+        "standCleanliness": 97,
+        "canCleanliness": 97
+      },
+      "cooler": {
+        "owned": true,
+        "enabled": true,
+        "paidTicks": 5,
+        "status": "cooling"
+      },
+      "orders": {
+        "acceptedId": "cow.volume",
+        "completedIds": [
+          "cow.delivery"
+        ],
+        "records": [
+          {
+            "id": "cow.delivery",
+            "saleId": 171,
+            "tick": 1368,
+            "volumeMl": 1500,
+            "milkNumerator": 9000,
+            "bonus": 8
+          }
+        ]
+      }
+    },
+    "fish": {
+      "ponds": [
+        {
+          "id": 1,
+          "volumeL": 4000,
+          "cohorts": [
+            {
+              "id": "fish.cohort.3",
+              "species": "tilapia",
+              "source": "purchase",
+              "acquiredTick": 768,
+              "count": 2,
+              "massG": 500,
+              "condition": 983,
+              "lastFedTick": 1369,
+              "growthRemainder": 0
+            }
+          ],
+          "aeratorOn": true,
+          "efficient": true,
+          "biofilter": true,
+          "autoFeeder": true,
+          "airPaidTicks": 11,
+          "filterPaidTicks": 23
+        },
+        {
+          "id": 2,
+          "volumeL": 4000,
+          "cohorts": [
+            {
+              "id": "fish.cohort.4",
+              "species": "tilapia",
+              "source": "purchase",
+              "acquiredTick": 1224,
+              "count": 2,
+              "massG": 209,
+              "condition": 981,
+              "lastFedTick": 1369,
+              "growthRemainder": 1072
+            }
+          ],
+          "aeratorOn": true,
+          "efficient": false,
+          "biofilter": false,
+          "autoFeeder": false,
+          "airPaidTicks": 5,
+          "filterPaidTicks": 0
+        }
+      ],
+      "lots": [
+        {
+          "id": "fish.lot.3",
+          "pondId": 1,
+          "cohortId": "fish.cohort.3",
+          "count": 2,
+          "massG": 1000,
+          "grade": "A",
+          "harvestedTick": 1368
+        }
+      ],
+      "feed": {
+        "starter": 0,
+        "normal": 1464,
+        "recovery": 0
+      },
+      "water": {
+        "starter": 0,
+        "normal": 200,
+        "recovery": 0
+      },
+      "air": {
+        "starter": 0,
+        "recovery": 0
+      },
+      "contracts": [
+        "fish.delivery",
+        "fish.quality"
+      ]
+    },
+    "ledgerEntries": 818
+  }
+}

@@ -1,0 +1,1033 @@
+{
+  "sourcePath": "game/tests/fixtures/unified-world/v5-mixed.json",
+  "sourceSHA256": "1534f9254307355b94828ca256012eb8980d4ecbe7d4c273afbc85b4fc1c0302",
+  "sourceMigration": "deserialize then activateGarden; no raw native field edits",
+  "commands": [
+    {
+      "id": 2059,
+      "type": "harvest",
+      "plot": 0
+    },
+    {
+      "id": 2060,
+      "type": "harvest",
+      "plot": 1
+    },
+    {
+      "id": 2061,
+      "type": "buyPump"
+    },
+    {
+      "id": 2062,
+      "type": "upgradeEfficiency"
+    },
+    {
+      "id": 2063,
+      "type": "order",
+      "order": "salad"
+    },
+    {
+      "id": 2064,
+      "type": "buySeed",
+      "crop": "tomato"
+    },
+    {
+      "id": 2065,
+      "type": "plant",
+      "crop": "tomato",
+      "plot": 3
+    },
+    {
+      "id": 2066,
+      "type": "buySeed",
+      "crop": "corn"
+    },
+    {
+      "id": 2067,
+      "type": "plant",
+      "crop": "corn",
+      "plot": 4
+    },
+    {
+      "id": 2068,
+      "type": "buySeed",
+      "crop": "tomato"
+    },
+    {
+      "id": 2069,
+      "type": "plant",
+      "crop": "tomato",
+      "plot": 6
+    },
+    {
+      "id": 2070,
+      "type": "buySeed",
+      "crop": "tomato"
+    },
+    {
+      "id": 2071,
+      "type": "plant",
+      "crop": "tomato",
+      "plot": 7
+    },
+    {
+      "id": 2072,
+      "type": "buySeed",
+      "crop": "tomato"
+    },
+    {
+      "id": 2073,
+      "type": "plant",
+      "crop": "tomato",
+      "plot": 8
+    },
+    {
+      "id": 2074,
+      "type": "buySeed",
+      "crop": "corn"
+    },
+    {
+      "id": 2075,
+      "type": "plant",
+      "crop": "corn",
+      "plot": 9
+    },
+    {
+      "id": 2076,
+      "type": "collectEggs"
+    },
+    {
+      "id": 2077,
+      "type": "upgradeCoop"
+    },
+    {
+      "id": 2078,
+      "type": "buyHen"
+    },
+    {
+      "id": 2079,
+      "type": "buyHen"
+    },
+    {
+      "id": 2080,
+      "type": "upgradeFeeder"
+    },
+    {
+      "id": 2081,
+      "type": "toggleFeeder"
+    },
+    {
+      "id": 2082,
+      "type": "addShade"
+    },
+    {
+      "id": 2083,
+      "type": "upgradeGoatShelter"
+    },
+    {
+      "id": 2084,
+      "type": "upgradeGoatCare"
+    },
+    {
+      "id": 2085,
+      "type": "unlockPaddock"
+    },
+    {
+      "id": 2086,
+      "type": "rotatePaddock",
+      "paddock": 1
+    },
+    {
+      "id": 2087,
+      "type": "buyGoat"
+    },
+    {
+      "id": 2088,
+      "type": "fish.buyFilter",
+      "fishPond": 1
+    },
+    {
+      "id": 2089,
+      "type": "fish.buyFeeder",
+      "fishPond": 1
+    },
+    {
+      "id": 2090,
+      "type": "fish.expand",
+      "fishPond": 1
+    },
+    {
+      "id": 2091,
+      "type": "fish.stock",
+      "fishPond": 2,
+      "fishCount": 2
+    },
+    {
+      "id": 2092,
+      "type": "fish.aerate",
+      "fishPond": 2
+    },
+    {
+      "id": 2093,
+      "type": "fish.buyWater",
+      "fishPond": 1
+    },
+    {
+      "id": 2094,
+      "type": "buyFeed"
+    },
+    {
+      "id": 2095,
+      "type": "feedHens"
+    },
+    {
+      "id": 2096,
+      "type": "refill"
+    },
+    {
+      "id": 2097,
+      "type": "waterHens"
+    },
+    {
+      "id": 2098,
+      "type": "cleanCoop"
+    },
+    {
+      "id": 2099,
+      "type": "buyHay"
+    },
+    {
+      "id": 2100,
+      "type": "feedGoats"
+    },
+    {
+      "id": 2101,
+      "type": "refill"
+    },
+    {
+      "id": 2102,
+      "type": "waterGoats"
+    },
+    {
+      "id": 2103,
+      "type": "cleanGoatShelter"
+    },
+    {
+      "id": 2104,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2105,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2106,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2107,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2108,
+      "type": "feedCows"
+    },
+    {
+      "id": 2109,
+      "type": "waterCows"
+    },
+    {
+      "id": 2110,
+      "type": "cleanCowBarn"
+    },
+    {
+      "id": 2111,
+      "type": "fish.buyFeed",
+      "fishPond": 1
+    },
+    {
+      "id": 2112,
+      "type": "fish.feed",
+      "fishPond": 1
+    },
+    {
+      "id": 2113,
+      "type": "fish.feed",
+      "fishPond": 2
+    },
+    {
+      "id": 2114,
+      "type": "water",
+      "plot": 2
+    },
+    {
+      "id": 2115,
+      "type": "refill"
+    },
+    {
+      "id": 2116,
+      "type": "water",
+      "plot": 3
+    },
+    {
+      "id": 2117,
+      "type": "water",
+      "plot": 4
+    },
+    {
+      "id": 2118,
+      "type": "water",
+      "plot": 6
+    },
+    {
+      "id": 2119,
+      "type": "water",
+      "plot": 7
+    },
+    {
+      "id": 2120,
+      "type": "refill"
+    },
+    {
+      "id": 2121,
+      "type": "water",
+      "plot": 8
+    },
+    {
+      "id": 2122,
+      "type": "water",
+      "plot": 9
+    },
+    {
+      "id": 2123,
+      "type": "nextDay"
+    },
+    {
+      "id": 2124,
+      "type": "collectEggs"
+    },
+    {
+      "id": 2125,
+      "type": "chickenOrder"
+    },
+    {
+      "id": 2126,
+      "type": "cleanCoop"
+    },
+    {
+      "id": 2127,
+      "type": "buyHay"
+    },
+    {
+      "id": 2128,
+      "type": "cleanGoatShelter"
+    },
+    {
+      "id": 2129,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2130,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2131,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2132,
+      "type": "feedCows"
+    },
+    {
+      "id": 2133,
+      "type": "refill"
+    },
+    {
+      "id": 2134,
+      "type": "waterCows"
+    },
+    {
+      "id": 2135,
+      "type": "cleanCowBarn"
+    },
+    {
+      "id": 2136,
+      "type": "fish.feed",
+      "fishPond": 1
+    },
+    {
+      "id": 2137,
+      "type": "fish.feed",
+      "fishPond": 2
+    },
+    {
+      "id": 2138,
+      "type": "refill"
+    },
+    {
+      "id": 2139,
+      "type": "water",
+      "plot": 2
+    },
+    {
+      "id": 2140,
+      "type": "water",
+      "plot": 3
+    },
+    {
+      "id": 2141,
+      "type": "water",
+      "plot": 4
+    },
+    {
+      "id": 2142,
+      "type": "water",
+      "plot": 6
+    },
+    {
+      "id": 2143,
+      "type": "refill"
+    },
+    {
+      "id": 2144,
+      "type": "water",
+      "plot": 7
+    },
+    {
+      "id": 2145,
+      "type": "water",
+      "plot": 8
+    },
+    {
+      "id": 2146,
+      "type": "water",
+      "plot": 9
+    },
+    {
+      "id": 2147,
+      "type": "nextDay"
+    },
+    {
+      "id": 2148,
+      "type": "collectEggs"
+    },
+    {
+      "id": 2149,
+      "type": "cleanCoop"
+    },
+    {
+      "id": 2150,
+      "type": "buyHay"
+    },
+    {
+      "id": 2151,
+      "type": "cleanGoatShelter"
+    },
+    {
+      "id": 2152,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2153,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2154,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2155,
+      "type": "feedCows"
+    },
+    {
+      "id": 2156,
+      "type": "refill"
+    },
+    {
+      "id": 2157,
+      "type": "waterCows"
+    },
+    {
+      "id": 2158,
+      "type": "cleanCowBarn"
+    },
+    {
+      "id": 2159,
+      "type": "fish.buyFeed",
+      "fishPond": 1
+    },
+    {
+      "id": 2160,
+      "type": "fish.feed",
+      "fishPond": 1
+    },
+    {
+      "id": 2161,
+      "type": "fish.feed",
+      "fishPond": 2
+    },
+    {
+      "id": 2162,
+      "type": "water",
+      "plot": 2
+    },
+    {
+      "id": 2163,
+      "type": "water",
+      "plot": 3
+    },
+    {
+      "id": 2164,
+      "type": "refill"
+    },
+    {
+      "id": 2165,
+      "type": "water",
+      "plot": 4
+    },
+    {
+      "id": 2166,
+      "type": "water",
+      "plot": 6
+    },
+    {
+      "id": 2167,
+      "type": "water",
+      "plot": 7
+    },
+    {
+      "id": 2168,
+      "type": "water",
+      "plot": 8
+    },
+    {
+      "id": 2169,
+      "type": "refill"
+    },
+    {
+      "id": 2170,
+      "type": "water",
+      "plot": 9
+    },
+    {
+      "id": 2171,
+      "type": "nextDay"
+    },
+    {
+      "id": 2172,
+      "type": "collectEggs"
+    },
+    {
+      "id": 2173,
+      "type": "cleanCoop"
+    },
+    {
+      "id": 2174,
+      "type": "feedGoats"
+    },
+    {
+      "id": 2175,
+      "type": "cleanGoatShelter"
+    },
+    {
+      "id": 2176,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2177,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2178,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2179,
+      "type": "feedCows"
+    },
+    {
+      "id": 2180,
+      "type": "refill"
+    },
+    {
+      "id": 2181,
+      "type": "waterCows"
+    },
+    {
+      "id": 2182,
+      "type": "cleanCowBarn"
+    },
+    {
+      "id": 2183,
+      "type": "fish.feed",
+      "fishPond": 1
+    },
+    {
+      "id": 2184,
+      "type": "fish.feed",
+      "fishPond": 2
+    },
+    {
+      "id": 2185,
+      "type": "nextDay"
+    },
+    {
+      "id": 2186,
+      "type": "collectEggs"
+    },
+    {
+      "id": 2187,
+      "type": "buyFeed"
+    },
+    {
+      "id": 2188,
+      "type": "feedHens"
+    },
+    {
+      "id": 2189,
+      "type": "cleanCoop"
+    },
+    {
+      "id": 2190,
+      "type": "buyHay"
+    },
+    {
+      "id": 2191,
+      "type": "refill"
+    },
+    {
+      "id": 2192,
+      "type": "waterGoats"
+    },
+    {
+      "id": 2193,
+      "type": "cleanGoatShelter"
+    },
+    {
+      "id": 2194,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2195,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2196,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2197,
+      "type": "feedCows"
+    },
+    {
+      "id": 2198,
+      "type": "waterCows"
+    },
+    {
+      "id": 2199,
+      "type": "cleanCowBarn"
+    },
+    {
+      "id": 2200,
+      "type": "fish.feed",
+      "fishPond": 1
+    },
+    {
+      "id": 2201,
+      "type": "fish.feed",
+      "fishPond": 2
+    },
+    {
+      "id": 2202,
+      "type": "nextDay"
+    },
+    {
+      "id": 2203,
+      "type": "collectEggs"
+    },
+    {
+      "id": 2204,
+      "type": "refill"
+    },
+    {
+      "id": 2205,
+      "type": "waterHens"
+    },
+    {
+      "id": 2206,
+      "type": "cleanCoop"
+    },
+    {
+      "id": 2207,
+      "type": "buyHay"
+    },
+    {
+      "id": 2208,
+      "type": "cleanGoatShelter"
+    },
+    {
+      "id": 2209,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2210,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2211,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2212,
+      "type": "feedCows"
+    },
+    {
+      "id": 2213,
+      "type": "waterCows"
+    },
+    {
+      "id": 2214,
+      "type": "cleanCowBarn"
+    },
+    {
+      "id": 2215,
+      "type": "fish.feed",
+      "fishPond": 1
+    },
+    {
+      "id": 2216,
+      "type": "fish.feed",
+      "fishPond": 2
+    },
+    {
+      "id": 2217,
+      "type": "refill"
+    },
+    {
+      "id": 2218,
+      "type": "water",
+      "plot": 3
+    },
+    {
+      "id": 2219,
+      "type": "water",
+      "plot": 4
+    },
+    {
+      "id": 2220,
+      "type": "water",
+      "plot": 6
+    },
+    {
+      "id": 2221,
+      "type": "water",
+      "plot": 7
+    },
+    {
+      "id": 2222,
+      "type": "refill"
+    },
+    {
+      "id": 2223,
+      "type": "water",
+      "plot": 8
+    },
+    {
+      "id": 2224,
+      "type": "water",
+      "plot": 9
+    },
+    {
+      "id": 2225,
+      "type": "nextDay"
+    },
+    {
+      "id": 2226,
+      "type": "cleanCoop"
+    },
+    {
+      "id": 2227,
+      "type": "cleanGoatShelter"
+    },
+    {
+      "id": 2228,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2229,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2230,
+      "type": "buyCowFeed"
+    },
+    {
+      "id": 2231,
+      "type": "feedCows"
+    },
+    {
+      "id": 2232,
+      "type": "refill"
+    },
+    {
+      "id": 2233,
+      "type": "waterCows"
+    },
+    {
+      "id": 2234,
+      "type": "cleanCowBarn"
+    },
+    {
+      "id": 2235,
+      "type": "fish.buyFeed",
+      "fishPond": 1
+    },
+    {
+      "id": 2236,
+      "type": "fish.feed",
+      "fishPond": 1
+    },
+    {
+      "id": 2237,
+      "type": "fish.feed",
+      "fishPond": 2
+    },
+    {
+      "id": 2238,
+      "type": "water",
+      "plot": 2
+    },
+    {
+      "id": 2239,
+      "type": "water",
+      "plot": 3
+    },
+    {
+      "id": 2240,
+      "type": "refill"
+    },
+    {
+      "id": 2241,
+      "type": "water",
+      "plot": 6
+    },
+    {
+      "id": 2242,
+      "type": "water",
+      "plot": 7
+    },
+    {
+      "id": 2243,
+      "type": "water",
+      "plot": 8
+    },
+    {
+      "id": 2244,
+      "type": "harvest",
+      "plot": 2
+    },
+    {
+      "id": 2245,
+      "type": "harvest",
+      "plot": 3
+    },
+    {
+      "id": 2246,
+      "type": "harvest",
+      "plot": 4
+    },
+    {
+      "id": 2247,
+      "type": "harvest",
+      "plot": 6
+    },
+    {
+      "id": 2248,
+      "type": "harvest",
+      "plot": 7
+    },
+    {
+      "id": 2249,
+      "type": "harvest",
+      "plot": 8
+    },
+    {
+      "id": 2250,
+      "type": "order",
+      "order": "tomatoBox"
+    },
+    {
+      "id": 2251,
+      "type": "order",
+      "order": "mixedBasket"
+    },
+    {
+      "id": 2252,
+      "type": "buySeed",
+      "crop": "lettuce"
+    },
+    {
+      "id": 2253,
+      "type": "plant",
+      "crop": "lettuce",
+      "plot": 0
+    },
+    {
+      "id": 2254,
+      "type": "water",
+      "plot": 0
+    },
+    {
+      "id": 2255,
+      "type": "buySeed",
+      "crop": "tomato"
+    },
+    {
+      "id": 2256,
+      "type": "plant",
+      "crop": "tomato",
+      "plot": 1
+    },
+    {
+      "id": 2257,
+      "type": "refill"
+    },
+    {
+      "id": 2258,
+      "type": "water",
+      "plot": 1
+    },
+    {
+      "id": 2259,
+      "type": "buySeed",
+      "crop": "corn"
+    },
+    {
+      "id": 2260,
+      "type": "plant",
+      "crop": "corn",
+      "plot": 5
+    },
+    {
+      "id": 2261,
+      "type": "water",
+      "plot": 5
+    },
+    {
+      "id": 2262,
+      "type": "cleanCowStand"
+    },
+    {
+      "id": 2263,
+      "type": "cleanCowCan"
+    },
+    {
+      "id": 2264,
+      "type": "milkCow",
+      "cowId": "cow.starter.a",
+      "cowStorage": "can"
+    },
+    {
+      "id": 2265,
+      "type": "milkCow",
+      "cowId": "cow.starter.b",
+      "cowStorage": "can"
+    },
+    {
+      "id": 2266,
+      "type": "milkCow",
+      "cowId": "cow.bought.1",
+      "cowStorage": "cooler"
+    },
+    {
+      "id": 2267,
+      "type": "acceptCowOrder",
+      "cowOrder": "cow.delivery"
+    },
+    {
+      "id": 2268,
+      "type": "sellCowMilk",
+      "cowLots": [
+        "cow.milk.174",
+        "cow.milk.175",
+        "cow.milk.176"
+      ],
+      "cowOrder": "cow.delivery",
+      "cowQuote": "[2267,1368,44,\"cow.v1.1-b2\",\"cow.delivery\",[[\"cow.milk.174\",10000,1368,1000,\"A\",\"can\"],[\"cow.milk.175\",10000,1368,1000,\"A\",\"can\"],[\"cow.milk.176\",10000,1368,1000,\"A\",\"cooler\"]]]"
+    },
+    {
+      "id": 2269,
+      "type": "acceptCowOrder",
+      "cowOrder": "cow.volume"
+    },
+    {
+      "id": 2270,
+      "type": "fish.harvest",
+      "fishPond": 1,
+      "fishCohort": "fish.cohort.3",
+      "fishCount": 2
+    },
+    {
+      "id": 2271,
+      "type": "fish.claimContract",
+      "fishPond": 1,
+      "fishContract": "fish.delivery"
+    },
+    {
+      "id": 2272,
+      "type": "fish.claimContract",
+      "fishPond": 1,
+      "fishContract": "fish.quality"
+    },
+    {
+      "id": 2273,
+      "type": "pause"
+    },
+    {
+      "id": 2274,
+      "type": "tick"
+    },
+    {
+      "id": 2275,
+      "type": "pause"
+    }
+  ],
+  "resultNativeSHA256": "f4e14d11ac61393e1eaa89ba3ae602e807706dd8212fdc2c5fe86550345babd9",
+  "layoutOperations": [
+    {
+      "type": "move",
+      "id": "bed.0",
+      "x": -16,
+      "z": 8,
+      "rotation": 1.5707963267948966
+    },
+    {
+      "type": "move",
+      "id": "barn",
+      "x": 9,
+      "z": 8,
+      "rotation": 1.5707963267948966
+    },
+    {
+      "type": "build",
+      "kind": "path",
+      "x": 0,
+      "z": 12,
+      "rotation": 0
+    },
+    {
+      "type": "build",
+      "kind": "fence",
+      "x": -20,
+      "z": 14,
+      "rotation": 0
+    },
+    {
+      "type": "build",
+      "kind": "banana",
+      "x": -19,
+      "z": 9,
+      "rotation": 0
+    }
+  ]
+}

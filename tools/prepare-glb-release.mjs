@@ -1,17 +1,12 @@
-import {readFile,readdir,mkdir,writeFile} from 'node:fs/promises';
-import {resolve,relative,sep} from 'node:path';
+import {readFile,writeFile,mkdir,lstat} from 'node:fs/promises';
+import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-
-const root=process.cwd(),files=new Set(['.gitattributes','dist/_headers','tools/build.mjs','tools/serve.mjs','tools/build-glb-prototype.mjs','tools/serve-glb-preview.mjs','tools/prepare-glb-release.mjs','tools/glb-prototype-e2e.mjs','tools/glb-prototype-journeys.mjs','tools/glb-prototype-browser-helper.mjs','game/client/index.html','dist/play/index.html','dist/play/build-info.json','game/client/glb-prototype-app.js','game/client/glb-prototype-world.js','game/client/glb-prototype-state.js','dist/play/glb-prototype-app.js','dist/play/glb-prototype-world.js','dist/play/glb-prototype-state.js','game/tests/glb-prototype-state.test.mjs','docs/PRD_MYFARMTWIN_GLB_UPGRADE_V1.md','docs/GLB_PROTOTYPE_PROGRESS.md','docs/GLB_PROTOTYPE_SAVE_CONTRACT.md','docs/GLB_PROTOTYPE_ASSET_CATALOG.md']);
-files.add('tools/publish-glb-preview.mjs');
-files.add('tools/pages-headers.mjs');files.add('game/tests/glb-headers.test.mjs');
-files.add('docs/GLB_PROTOTYPE_RELEASE.md');
-files.add('README.md');
-// These retained standalone files have newline-only canonical build changes;
-// include their exact bytes so the complete deployed artifact matches the ZIP.
-files.add('dist/play/chicken-market.js');files.add('dist/play/data-tools.js');
-async function walk(dir){for(const item of await readdir(resolve(root,dir),{withFileTypes:true})){const name=dir+'/'+item.name;if(item.isSymbolicLink())throw Error('No release symlinks');if(item.isDirectory())await walk(name);else files.add(name);}}
-for(const dir of ['game/client/glb','game/client/assets/models','dist/play/glb','dist/play/assets/models'])await walk(dir);
-for(const item of await readdir(resolve(root,'tools/art')))if(/^glb-prototype-.*\.mjs$/.test(item))files.add('tools/art/'+item);
-const manifest=[];for(const name of [...files].sort()){const path=resolve(root,name);if(!relative(root,path)||relative(root,path).startsWith('..'+sep))throw Error('Unsafe release input');const bytes=await readFile(path),gitSha=createHash('sha1').update(Buffer.from('blob '+bytes.length+'\0')).update(bytes).digest('hex');manifest.push({path:name,bytes:bytes.length,gitSha,sha256:createHash('sha256').update(bytes).digest('hex'),binary:name.endsWith('.glb')});}
-await mkdir('qa-artifacts/glb-upgrade/release',{recursive:true});await writeFile('qa-artifacts/glb-upgrade/release/files.json',JSON.stringify(manifest,null,2));console.log(JSON.stringify({files:manifest.length,totalBytes:manifest.reduce((n,f)=>n+f.bytes,0),uniqueBlobs:new Set(manifest.map(f=>f.gitSha)).size}));
+// The checkout was clean at the P3-P7 start. Own only the declared game,
+// source-art, build, documentation and editorial-promotion release paths.
+const git=args=>execFileSync('git',args,{encoding:'utf8'});
+const modified=git(['diff','--name-only','-z','HEAD']).split('\0').filter(Boolean),added=git(['ls-files','--others','--exclude-standard','-z']).split('\0').filter(Boolean);
+const paths=[...new Set([...modified,...added])].sort();
+const owned=p=>/^game\/(?:client|tests)\//.test(p)||/^dist\/play\//.test(p)||/^tools\/(?:art\/|(?:build|prepare-glb-release|prepare-cozy-rollback|publish-glb-preview|pages-headers|cozy-world-fixtures)[\w-]*\.mjs$)/.test(p)||/^docs\/(?:COZY_WORLD|PRD_MYFARMTWIN|GLB_PROTOTYPE)[\w./-]*/.test(p)||['package.json','package-lock.json','README.md','.gitattributes','dist/_headers','dist/index.html','dist/home-promo-v3.js'].includes(p)||/^dist\/assets\/myfarmtwin-cozy-/.test(p);
+if(!paths.length)throw Error('No release changes');for(const p of paths)if(!owned(p))throw Error('Unrelated path requires review: '+p);
+const files=[];for(const path of paths){let bytes;try{if((await lstat(path)).isSymbolicLink())throw Error('No symlinks');bytes=await readFile(path);}catch(error){if(error.code!=='ENOENT')throw error;files.push({path,deleted:true,beforeGitSha:git(['rev-parse','HEAD:'+path]).trim()});continue;}files.push({path,bytes:bytes.length,gitSha:createHash('sha1').update(Buffer.from('blob '+bytes.length+'\0')).update(bytes).digest('hex'),sha256:createHash('sha256').update(bytes).digest('hex'),binary:path.endsWith('.glb')});}
+await mkdir('qa-artifacts/glb-upgrade/release',{recursive:true});await writeFile('qa-artifacts/glb-upgrade/release/files.json',JSON.stringify(files,null,2)+'\n');console.log(JSON.stringify({files:files.length,deletions:files.filter(f=>f.deleted).length,totalBytes:files.reduce((n,f)=>n+(f.bytes||0),0)}));
