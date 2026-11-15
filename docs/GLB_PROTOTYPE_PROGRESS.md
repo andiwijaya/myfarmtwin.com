@@ -6,7 +6,7 @@ Owner instruction: implement autonomously from P0 through the prototype, update 
 
 ## Current checkpoint
 
-Prototype implementation and local build are prepared. The owner explicitly approved publishing prototype source, model-authoring scripts and the nine original GLBs to the public `andiwijaya/myfarmtwin.com` repository on `codex/glb-prototype-20261115`, then continuing through internal-browser checks, deployment and public testing. This supersedes the earlier publication approval block; publication is resuming. Internal-browser confirmation after publication remains pending. The prototype is a distinct `/play/glb/` entry; the complete existing farm remains `/play/`. Both use the same native V6 farm/economy, with a separate strict layout sidecar. The new scene contains only imported GLB model geometry.
+P0/P1 implementation and bounded P2 preview acceptance are complete. The owner explicitly approved public source/model publication. Preview source `b23a0c20fba276b27eb9acbdd7e48f541f3c2bea` is successfully deployed at `https://b9713469.myfarmtwin-com.pages.dev/play/glb/`; its served parsed build receipt matches the prepared artifact. **23 observed internal-browser check groups pass**, with explicit limits below. Production promotion and public verification are the remaining release steps. The prototype is a distinct `/play/glb/` entry; the complete existing farm remains `/play/`. Both use the same native V6 farm/economy, with a separate strict layout sidecar. The new scene contains only imported GLB model geometry.
 
 ## P0: product and foundation
 
@@ -17,7 +17,7 @@ Prototype implementation and local build are prepared. The owner explicitly appr
 - [x] Define original GLB authoring, meter/Y-up conventions, templates and model manifest.
 - [x] Define free transform sidecar, real native purchases, bounded explicitly free decorative kit, collision and owned bounds.
 - [x] Define original-byte archives, strict import/export bundle, multi-tab conflicts and interrupted-save journal.
-- [ ] Recheck exact public artifact and owning deployment before publication. The registered Sites record is historical (version 0, no active native URL); current public hosting is the existing GitHub/Cloudflare Pages pipeline, not a newly created Site.
+- [x] Reconcile public preview artifact and owning deployment. The successful Cloudflare GitHub check identifies source `b23a0c2` and deployment `b9713469-d74e-449a-b376-8e5866637c2e`; its parsed served receipt equals local. The registered Sites record is historical (version 0, no active native URL); hosting remains the existing GitHub/Cloudflare Pages pipeline.
 
 Foundation documents: `GLB_PROTOTYPE_SAVE_CONTRACT.md`, `GLB_PROTOTYPE_ASSET_CATALOG.md` and the approved PRD.
 
@@ -41,11 +41,11 @@ Foundation documents: `GLB_PROTOTYPE_SAVE_CONTRACT.md`, `GLB_PROTOTYPE_ASSET_CAT
 - [x] Local layout/save bundle UI with text export/import; no test downloads or uploads.
 - [x] EN/ID interface, object/button alternatives, desktop and responsive layout implementation.
 - [x] Initial offline-artifact browser smoke: 24 beds, opening/camera no writes, explicit two-cow starter, actual model/interior capture, no console/page/request errors.
-- [ ] Complete garden/cow economic journeys through the visible UI.
-- [ ] Complete move/build/cancel/import/reload, legacy and cross-tab browser journeys.
-- [ ] Complete final desktop/phone/tablet visual and responsive review.
-- [ ] Record bounded renderer/animation/scene/resource observations and limitations.
-- [ ] Prepare tested artifact, compatible rollback and updated documentation.
+- [x] Complete garden/cow economic journeys through the visible internal-browser UI: three crop families, lettuce harvest/sale, actual care, opening milk and subsequent production/sale.
+- [x] Complete move/build/cancel/import/reload and actual stale-tab browser journeys; original complete farm resumes the same paused data exactly. Legacy V0-V5 mapping remains covered by native fixtures, not a claimed new browser matrix.
+- [x] Review desktop and phone-size UI, with horizontal-overflow checks at 320x740, 390x844, 768x1024, 1024x768 and 1440x900. These are viewport checks, not five independent full gameplay profiles or physical devices.
+- [x] Record observed scene counters (one interior sample: 453 submissions/draw calls and 391,798 triangles), nine loaded GLB URLs and zero new-origin console errors. No physical FPS/GPU-memory claim.
+- [x] Prepare tested source/artifact and V6-compatible rollback plan. Native engine/storage/schema source is unchanged; the original full-farm runtime resumes the prototype's V6 data. Rollback uses an ordinary revert/fast-forward deployment, preserving sidecar and original archives.
 - [ ] Deploy via the existing authorized public pipeline and verify public resources/behavior.
 
 ## Verification receipts and retained failures
@@ -58,6 +58,8 @@ Foundation documents: `GLB_PROTOTYPE_SAVE_CONTRACT.md`, `GLB_PROTOTYPE_ASSET_CAT
 - The phone run exposed a real touch compatibility click-through: selecting a bed from pointerup immediately scrolled the new Plant button under the pending touch click. Picking now occurs on the completed canvas click. Internal-browser confirmation of this fix is pending; the failed phone run is not counted as acceptance.
 - Owner steering: from this point onward use **only the Codex internal browser** for visual/interaction testing, never a personal browser or desktop control. Standalone headless browser runners were closed and will not be relaunched in this task.
 - Transient ghost/selection materials, removed crop objects, animation mixers and unused cached GLB resources now have explicit ownership/disposal. Back navigation restores its matching location/context.
+- Successful internal-browser receipt: `qa-artifacts/glb-upgrade/internal-browser/preview-report.json`, 23 observed groups on the actual Cloudflare preview. `preview-interior-en.jpg` is an actual internal-browser capture. Phone-size canvas/object selection preserved the exact exported bundle; actual hardware touch/pinch remains untested.
+- The first Cloudflare preview `798d8ad` failed GLB fetch because Pages combines CSP values from matching rules. The prototype now explicitly detaches the broad CSP before setting its own scoped self/blob policy. Native routes retain `connect-src 'none'`. Two new header regression tests pass; local header handling now models Pages merge/detach semantics. The failed deployment is retained as history, not accepted visual evidence.
 - Initial browser smoke PASS, `qa-artifacts/glb-upgrade/browser-secure/report.json`, one desktop ID profile. This is not the final full browser matrix.
 - Initial ordinary headless localhost run failed with `ERR_NETWORK_ACCESS_DENIED`; the internal-browser localhost attempt also timed out. No elevated test run or owner approval was requested. Offline browser integration uses actual dist files through Playwright request fulfilment at a secure synthetic origin, with the prototype CSP. This does not measure server/CDN transport.
 - First offline browser attempt used an insecure origin (Web Locks unavailable) and exposed a real blob-texture CSP issue. Retained failure: `qa-artifacts/glb-upgrade/browser/report.json`; corrected secure-origin smoke is separate.
