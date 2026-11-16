@@ -53,8 +53,3 @@ dist/play/cozy/** text eol=lf
 dist/play/recovery/** text eol=lf
 dist/play/cozy/*.js -text whitespace=cr-at-eol,-space-before-tab,-blank-at-eol,-blank-at-eof
 dist/play/cozy/chunks/** -text whitespace=cr-at-eol,-space-before-tab,-blank-at-eol,-blank-at-eof
-
-# The authoritative toolbar preview keeps receipt-bound bytes intact.
-dist/play/toolbar-preview/** text eol=lf
-dist/play/toolbar-preview/cozy/*.js -text whitespace=cr-at-eol,-space-before-tab,-blank-at-eol,-blank-at-eof
-dist/play/toolbar-preview/cozy/chunks/** -text whitespace=cr-at-eol,-space-before-tab,-blank-at-eol,-blank-at-eof
