@@ -50,3 +50,9 @@
 
 /play/assets/models/world-manifest.json
   Cache-Control: public, max-age=0, must-revalidate
+
+# Official-domain camera preview; the primary game is unchanged.
+/play/camera-preview/
+  Cache-Control: no-cache, no-transform
+/play/camera-preview/*
+  Cache-Control: no-cache, no-transform
