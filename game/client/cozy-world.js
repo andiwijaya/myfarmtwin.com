@@ -27,7 +27,7 @@ export class CozyWorld{
   this.camera=new THREE.PerspectiveCamera(43,1,.08,240);this.camera.position.set(42,36,46);
   this.renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.toneMapping=THREE.ACESFilmicToneMapping;this.renderer.toneMappingExposure=1.06;this.renderer.shadowMap.enabled=true;this.renderer.shadowMap.type=THREE.PCFShadowMap;
   this.renderer.domElement.setAttribute('aria-label','Farm tropis 3D / Three-dimensional tropical farm');this.renderer.domElement.tabIndex=0;host.append(this.renderer.domElement);this.setQuality('auto');
-  this.controls=new OrbitControls(this.camera,this.renderer.domElement);this.controls.target.set(0,.7,0);this.controls.enableDamping=true;this.controls.dampingFactor=.085;this.controls.minDistance=2;this.controls.maxDistance=170;this.controls.minPolarAngle=.12;this.controls.maxPolarAngle=Math.PI*.475;this.controls.screenSpacePanning=false;this.controls.zoomSpeed=.8;this.controls.rotateSpeed=.65;this.controls.addEventListener('start',()=>{this.transition=null;this.beginCameraInteraction();});this.controls.addEventListener('change',()=>this.queueCameraPreference());
+  this.controls=new OrbitControls(this.camera,this.renderer.domElement);this.controls.target.set(0,.7,0);this.controls.enableDamping=true;this.controls.dampingFactor=.085;this.controls.minDistance=2;this.controls.maxDistance=170;this.controls.minPolarAngle=.12;this.controls.maxPolarAngle=Math.PI*.475;this.controls.screenSpacePanning=false;this.controls.zoomSpeed=.8;this.controls.rotateSpeed=.65;this.controls.addEventListener('start',()=>{this.transition=null;this.beginCameraInteraction();});this.controls.addEventListener('change',()=>this.queueCameraPreference());this.controls.addEventListener('end',()=>this.flushCameraPreference(true));
   this.hemi=new THREE.HemisphereLight('#e8f1ff','#aaa082',1.6);this.scene.add(this.hemi);this.sun=new THREE.DirectionalLight('#fff1d8',3.1);this.sun.position.set(-24,38,20);this.sun.castShadow=true;this.sun.shadow.mapSize.set(2048,2048);Object.assign(this.sun.shadow.camera,{left:-44,right:44,top:35,bottom:-35,near:1,far:130});this.sun.shadow.normalBias=.045;this.sun.shadow.bias=-.00012;this.scene.add(this.sun);
   this.fill=new THREE.PointLight('#ffe6b7',12,15,2);this.scene.add(this.fill);this.landscape=new THREE.Group();this.scene.add(this.landscape);
   this.raycaster=new THREE.Raycaster();this.pointer=new THREE.Vector2();this.groundPlane=new THREE.Plane(UP,0);this.abort=new AbortController();this.down={x:Infinity,y:Infinity};const canvas=this.renderer.domElement;
@@ -80,7 +80,8 @@ export class CozyWorld{
   if(!this.cameraPreferenceReady||!this.cameraInteraction||this.cameraPreferenceSaving||this.disposed)return;
   this.cameraPreferenceDirty=true;window.clearTimeout(this.cameraSaveTimer);this.cameraSaveTimer=window.setTimeout(()=>this.flushCameraPreference(),250);
  }
- flushCameraPreference(){
+ /** @param {boolean} [keepTracking] */
+ flushCameraPreference(keepTracking=false){
   window.clearTimeout(this.cameraSaveTimer);this.cameraSaveTimer=0;
   if(!this.cameraPreferenceReady||!this.cameraPreferenceDirty||this.cameraPreferenceSaving)return;
   this.cameraPreferenceSaving=true;
@@ -90,7 +91,7 @@ export class CozyWorld{
    if(snapshot&&raw!==this.cameraPreferenceSignature){let stored=false;try{stored=writeCameraPreference(localStorage,snapshot,this.cameraPreferenceRaw);}catch{/* Optional UI storage. */}
     this.cameraPreferenceSignature=stored?raw:'';if(stored){this.cameraPreferenceRaw=raw;this.host.dataset.cameraSaved='true';}
    }
-  }finally{this.cameraPreferenceSaving=false;}
+  }finally{this.cameraPreferenceSaving=false;if(keepTracking&&this.cameraPreferenceReady&&!this.disposed){this.cameraInteraction=true;this.cameraPreferenceDirty=true;this.queueCameraPreference();}}
  }
  resize(){const rect=this.host.getBoundingClientRect();if(rect.width<1||rect.height<1)return;this.camera.aspect=rect.width/rect.height;this.camera.updateProjectionMatrix();this.renderer.setSize(rect.width,rect.height,false);}
  /** @param {string} quality */
@@ -160,11 +161,11 @@ export class CozyWorld{
  moveCamera(target,position){if(matchMedia('(prefers-reduced-motion: reduce)').matches){this.controls.target.copy(target);this.camera.position.copy(position);this.controls.update();this.transition=null;}else this.transition={target,position,fromTarget:this.controls.target.clone(),fromPosition:this.camera.position.clone(),start:performance.now()};}
  back(){this.beginCameraInteraction();const view=this.history.pop();if(view){this.currentView=view.id;this.setInterior(view.interior);this.camera.fov=view.fov;this.camera.zoom=view.zoom;this.camera.updateProjectionMatrix();this.moveCamera(view.target,view.position);this.host.dataset.view=view.id;return view.id;}this.focus('overview',false);return 'overview';}
  /** @param {number} factor */
- zoom(factor){this.beginCameraInteraction();this.transition=null;const offset=this.camera.position.clone().sub(this.controls.target);offset.setLength(clamp(offset.length()*factor,this.controls.minDistance,this.controls.maxDistance));this.camera.position.copy(this.controls.target).add(offset);this.controls.update();}
+ zoom(factor){this.beginCameraInteraction();this.transition=null;const offset=this.camera.position.clone().sub(this.controls.target);offset.setLength(clamp(offset.length()*factor,this.controls.minDistance,this.controls.maxDistance));this.camera.position.copy(this.controls.target).add(offset);this.controls.update();this.flushCameraPreference(true);}
  /** @param {number} angle */
- rotate(angle){this.beginCameraInteraction();this.transition=null;const offset=this.camera.position.clone().sub(this.controls.target).applyAxisAngle(UP,angle);this.camera.position.copy(this.controls.target).add(offset);this.controls.update();}
+ rotate(angle){this.beginCameraInteraction();this.transition=null;const offset=this.camera.position.clone().sub(this.controls.target).applyAxisAngle(UP,angle);this.camera.position.copy(this.controls.target).add(offset);this.controls.update();this.flushCameraPreference(true);}
  /** @param {number} right @param {number} forward */
- pan(right,forward){this.beginCameraInteraction();this.transition=null;const amount=Math.max(.15,this.camera.position.distanceTo(this.controls.target)*.055),side=v(1,0,0).applyQuaternion(this.camera.quaternion);side.y=0;side.normalize();const ahead=new THREE.Vector3().crossVectors(UP,side).normalize();const offset=side.multiplyScalar(right*amount).add(ahead.multiplyScalar(forward*amount));this.controls.target.add(offset);this.camera.position.add(offset);this.controls.update();this.constrainCamera();}
+ pan(right,forward){this.beginCameraInteraction();this.transition=null;const amount=Math.max(.15,this.camera.position.distanceTo(this.controls.target)*.055),side=v(1,0,0).applyQuaternion(this.camera.quaternion);side.y=0;side.normalize();const ahead=new THREE.Vector3().crossVectors(UP,side).normalize();const offset=side.multiplyScalar(right*amount).add(ahead.multiplyScalar(forward*amount));this.controls.target.add(offset);this.camera.position.add(offset);this.controls.update();this.constrainCamera();this.flushCameraPreference(true);}
  /** @param {any} item */
  preview(item){if(this.ghost){this.discard(this.ghost);this.ghost=null;}this.placing=!!item;if(!item)return;const ghost=this.itemModel(item);ghost.position.set(item.x,.04,item.z);ghost.rotation.y=item.rotation;ghost.traverse(node=>{if(node instanceof THREE.Mesh){const mats=(Array.isArray(node.material)?node.material:[node.material]).map(mat=>{const clone=mat.clone();clone.transparent=true;clone.opacity=.48;clone.depthWrite=false;this.ownedMaterials.add(clone);return clone;});node.material=Array.isArray(node.material)?mats:mats[0];node.userData.ownedMaterials=true;node.castShadow=false;}});this.ghost=ghost;this.scene.add(ghost);}
  /** @param {boolean} valid */
