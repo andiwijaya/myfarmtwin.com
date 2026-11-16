@@ -50,3 +50,9 @@
 
 /play/assets/models/world-manifest.json
   Cache-Control: public, max-age=0, must-revalidate
+
+# Official-domain toolbar preview; the primary game remains unchanged.
+/play/toolbar-preview/
+  Cache-Control: no-cache, no-transform
+/play/toolbar-preview/*
+  Cache-Control: no-cache, no-transform
