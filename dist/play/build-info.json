@@ -12,14 +12,14 @@
   ],
   "saveVersion": 2,
   "three": "0.187.0",
-  "entry": "app-4PURYOGI.js",
+  "entry": "app-KU5HXF2G.js",
   "recoveryEntry": "recovery-2UXJQDFZ.js",
   "integrityEntry": "integrity-LL76RTOU.js",
   "emitted": [
     {
-      "name": "app-4PURYOGI.js",
-      "bytes": 721103,
-      "sha256": "a7490af6de02682ab8a2929f6f35ed4b7dcb5666b45126acc21c50dfe4e7c165"
+      "name": "app-KU5HXF2G.js",
+      "bytes": 728179,
+      "sha256": "bbf9ce298518aa61de303faedaaac496b89367518f1f3425db0160f45e7c5e62"
     },
     {
       "name": "recovery-2UXJQDFZ.js",
@@ -1204,7 +1204,7 @@
     }
   },
   "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
-  "htmlSha256": "6fa0ed635d9768e339ff10507395871e9f818bbbeb1373ecb7eceac2241c186e",
+  "htmlSha256": "964791ce501c3d690921a96e651b4a84426b3ef10f9141f0e9619deeb06f5c39",
   "cssSha256": "18225fa9772c3f4126b5c66b348a23db1e849ab54d9b02f2b8ad244a6e2f6e4e",
   "inputs": [
     "game/client/active-garden.js",
@@ -1239,6 +1239,7 @@
     "game/client/cow-welfare.js",
     "game/client/cozy-animation.js",
     "game/client/cozy-app.js",
+    "game/client/cozy-camera-preference.js",
     "game/client/cozy-domain.js",
     "game/client/cozy-integrity.js",
     "game/client/cozy-legacy-recovery.js",
