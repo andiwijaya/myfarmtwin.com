@@ -1,0 +1,86 @@
+{
+  "kind": "myfarmtwin-area-camera-release-v1",
+  "date": "2026-11-17",
+  "status": "candidate-validated-production-activation-pending",
+  "lastViewKey": "myfarmtwin.ui.camera.v1",
+  "perViewKeyPrefix": "myfarmtwin.ui.camera.view.v1:",
+  "toolbarKeyUnchanged": true,
+  "sourceChecks": {
+    "typecheck": "pass",
+    "cameraTests": {
+      "passed": 18,
+      "failed": 0
+    },
+    "deliveryAndHeaderTests": {
+      "passed": 4,
+      "failed": 0
+    },
+    "build": "pass"
+  },
+  "preview": {
+    "date": "2026-11-17",
+    "candidateSource": "b9ce7c4f1dfd5bd0aa40da1c36f74b82c179082b",
+    "url": "https://myfarmtwin.com/play/area-camera-preview/",
+    "entry": "app-EGVGKWVV.js",
+    "browser": "Codex internal browser (IAB)",
+    "tests": {
+      "legacyGlobalPose": true,
+      "phoneGardenBarnIndependentRoundtrips": true,
+      "desktopCoopGoatPondIndependentRoundtrips": true,
+      "overviewRoundtrip": true,
+      "marketExteriorInteriorIndependent": true,
+      "interiorRoundtrip": true,
+      "gardenAndInteriorRefresh": true,
+      "gardenAndBarnAfterTabReopen": true,
+      "twoTabsDifferentAreasAndImmediateClose": true,
+      "twoTabsSameAreaLatestGestureAndImmediateClose": true,
+      "farmExportEqualsUntouchedOriginalTab": true,
+      "resourceIntegrity": true
+    },
+    "resources": 30,
+    "glbs": 22,
+    "measuredViewports": [
+      {
+        "width": 390,
+        "height": 844
+      },
+      {
+        "width": 1440,
+        "height": 900
+      }
+    ],
+    "poseTolerance": 0.001,
+    "interruptionRecovered": true,
+    "baselineRecovery": "Original raw comparator was lost during browser session reset; recaptured from untouched original preceding-runtime tab and compared exactly with the candidate. No farm commands were issued.",
+    "limits": [
+      "Viewport emulation; no physical phone or browser-process restart",
+      "No native pinch/drag gestures",
+      "Existing market interior used; livestock areas were unstarted"
+    ]
+  },
+  "promotionParity": {
+    "entry": "app-EGVGKWVV.js",
+    "emittedBytes": 928536,
+    "exactCandidateJsCssManifestAndModels": true,
+    "htmlEqualExceptAssetPrefix": true,
+    "temporaryPreviewRemoved": true,
+    "htmlSha256": "d13a6e83aaf1d8b995b755d087a2dc3e7fd5a10c96ef1745aca31dc194cb9545",
+    "cssSha256": "18225fa9772c3f4126b5c66b348a23db1e849ab54d9b02f2b8ad244a6e2f6e4e",
+    "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b"
+  },
+  "artifact": {
+    "filename": "myfarmtwin-area-camera-20261117.tar.gz",
+    "bytes": 18391436,
+    "sha256": "ebf576d2cf0df61dbdee231216135bc634458c2a1a39c91b47115c60563296aa",
+    "verifiedFiles": 303,
+    "matchesDist": true,
+    "normalizedHostingMetadata": true,
+    "temporaryPreviewExcluded": true
+  },
+  "farmEquality": {
+    "equal": true,
+    "comparator": "Untouched original production tab with preceding runtime; no farm commands issued",
+    "rawPlayerDataWritten": false
+  },
+  "production": null
+}

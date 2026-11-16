@@ -53,8 +53,3 @@ dist/play/cozy/** text eol=lf
 dist/play/recovery/** text eol=lf
 dist/play/cozy/*.js -text whitespace=cr-at-eol,-space-before-tab,-blank-at-eol,-blank-at-eof
 dist/play/cozy/chunks/** -text whitespace=cr-at-eol,-space-before-tab,-blank-at-eol,-blank-at-eof
-
-# Preserve exact area-camera-preview resource bytes.
-dist/play/area-camera-preview/** text eol=lf
-dist/play/area-camera-preview/cozy/*.js -text whitespace=cr-at-eol,-space-before-tab,-blank-at-eol,-blank-at-eof
-dist/play/area-camera-preview/cozy/chunks/** -text whitespace=cr-at-eol,-space-before-tab,-blank-at-eol,-blank-at-eof

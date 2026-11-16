@@ -50,9 +50,3 @@
 
 /play/assets/models/world-manifest.json
   Cache-Control: public, max-age=0, must-revalidate
-
-# Isolated area-camera preview; primary game bytes remain unchanged.
-/play/area-camera-preview/
-  Cache-Control: no-cache, no-transform
-/play/area-camera-preview/*
-  Cache-Control: no-cache, no-transform

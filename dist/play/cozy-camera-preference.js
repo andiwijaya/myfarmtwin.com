@@ -1,4 +1,5 @@
 export const CAMERA_PREFERENCE_KEY='myfarmtwin.ui.camera.v1';
+export const CAMERA_VIEW_PREFIX='myfarmtwin.ui.camera.view.v1:';
 /** @typedef {{id:string,x:number,z:number,rotation:number}} CameraAnchor */
 /** @typedef {{version:1,view:string,position:number[],target:number[],fov:number,zoom:number,anchor:CameraAnchor|null,changedAt:number}} CameraPreference */
 /** @typedef {{id:string,kind:string,x:number,z:number,rotation:number}} CameraItem */
@@ -23,16 +24,31 @@ export function validateCameraPreference(value){
  if(a!==null&&(!a||typeof a!=='object'||Array.isArray(a)||Object.keys(a).length!==4||!['id','x','z','rotation'].every(key=>Object.hasOwn(a,key))||!identifier(a.id)||!numberIn(a.x,-42,42)||!numberIn(a.z,-32,32)||!numberIn(a.rotation,-Math.PI*2-.0001,Math.PI*2+.0001)))return null;
  return{version:1,view:d.view,position:[...d.position],target:[...d.target],fov:d.fov,zoom:d.zoom,anchor:a===null?null:{id:a.id,x:a.x,z:a.z,rotation:a.rotation},changedAt:d.changedAt??0};
 }
-/** @param {PreferenceStorage} storage */
-export function readCameraPreference(storage){
- let raw=null;try{raw=storage.getItem(CAMERA_PREFERENCE_KEY);if(raw===null||raw.length>4096)return{raw,value:null};return{raw,value:validateCameraPreference(JSON.parse(raw))};}
+/** @param {PreferenceStorage} storage @param {string} key */
+function readPreference(storage,key){
+ let raw=null;try{raw=storage.getItem(key);if(raw===null||raw.length>4096)return{raw,value:null};return{raw,value:validateCameraPreference(JSON.parse(raw))};}
  catch{return{raw,value:null};}
+}
+/** @param {PreferenceStorage} storage */
+export function readCameraPreference(storage){return readPreference(storage,CAMERA_PREFERENCE_KEY);}
+/** @param {string} view */
+export function cameraViewPreferenceKey(view){return identifier(view)?CAMERA_VIEW_PREFIX+view:null;}
+/** Separate keys let different tabs retain different areas without replacing a shared map.
+ * @param {PreferenceStorage} storage @param {string} view */
+export function readCameraViewPreference(storage,view){
+ const key=cameraViewPreferenceKey(view);if(!key)return{raw:null,value:null};const record=readPreference(storage,key);
+ return{raw:record.raw,value:record.value?.view===view?record.value:null};
+}
+/** @param {PreferenceStorage} storage @param {unknown} value */
+export function writeCameraViewPreference(storage,value){
+ const valid=validateCameraPreference(value);if(!valid)return false;const key=cameraViewPreferenceKey(valid.view);if(!key)return false;
+ try{const current=readCameraViewPreference(storage,valid.view).value;if(current&&current.changedAt>valid.changedAt)return false;storage.setItem(key,JSON.stringify(valid));return true;}catch{return false;}
 }
 /** A pending older tab may not replace a newer camera preference.
  * @param {PreferenceStorage} storage @param {unknown} value @param {string|null} expectedRaw */
 export function writeCameraPreference(storage,value,expectedRaw){
  const valid=validateCameraPreference(value);if(!valid)return false;
- try{const currentRaw=storage.getItem(CAMERA_PREFERENCE_KEY);if(currentRaw!==expectedRaw){let current=null;try{current=validateCameraPreference(JSON.parse(currentRaw||'null'));}catch{/* Preserve an unrecognized concurrent value. */}if(!current||current.changedAt>=valid.changedAt)return false;}storage.setItem(CAMERA_PREFERENCE_KEY,JSON.stringify(valid));return true;}
+ try{const currentRaw=storage.getItem(CAMERA_PREFERENCE_KEY);let current=null;try{current=validateCameraPreference(JSON.parse(currentRaw||'null'));}catch{/* Preserve an unrecognized concurrent value. */}if(current&&current.changedAt>valid.changedAt)return false;if(currentRaw!==expectedRaw&&(!current||current.changedAt>=valid.changedAt))return false;storage.setItem(CAMERA_PREFERENCE_KEY,JSON.stringify(valid));return true;}
  catch{return false;}
 }
 /** @param {CameraPreference} saved @param {(id:string)=>CameraItem|undefined} findItem */

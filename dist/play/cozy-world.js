@@ -3,7 +3,7 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {clone as cloneSkeleton} from 'three/addons/utils/SkeletonUtils.js';
 import {createAnimalAnimation} from './cozy-animation.js';
-import {CAMERA_PREFERENCE_KEY,validateCameraPreference,readCameraPreference,writeCameraPreference,resolveCameraPreference} from './cozy-camera-preference.js';
+import {CAMERA_PREFERENCE_KEY,cameraViewPreferenceKey,validateCameraPreference,readCameraPreference,writeCameraPreference,readCameraViewPreference,writeCameraViewPreference,resolveCameraPreference} from './cozy-camera-preference.js';
 
 const v=(/** @type {number} */x,/** @type {number} */y,/** @type {number} */z)=>new THREE.Vector3(x,y,z);
 const clamp=THREE.MathUtils.clamp,UP=v(0,1,0);
@@ -39,7 +39,7 @@ export class CozyWorld{
   canvas.addEventListener('keydown',e=>{if(e.key==='Home'){e.preventDefault();this.focus('overview');this.options.onCameraView?.('overview');}else if(e.key==='+'||e.key==='='){e.preventDefault();this.zoom(.82);}else if(e.key==='-'){e.preventDefault();this.zoom(1.22);}else if(e.key==='ArrowLeft'){e.preventDefault();this.rotate(-Math.PI/8);}else if(e.key==='ArrowRight'){e.preventDefault();this.rotate(Math.PI/8);}else if(e.key==='Escape')this.options.onCameraView?.(this.back());},{signal:this.abort.signal});
   this.resizeObserver=new ResizeObserver(()=>this.resize());this.resizeObserver.observe(host);this.resize();
   document.addEventListener('visibilitychange',()=>{if(document.hidden)this.flushCameraPreference();},{signal:this.abort.signal});
-  window.addEventListener('storage',event=>{if(event.key===CAMERA_PREFERENCE_KEY&&event.newValue!==event.oldValue){let incoming=null;try{incoming=validateCameraPreference(JSON.parse(event.newValue||'null'));}catch{/* Invalid optional preference. */}this.cameraPreferenceRaw=event.newValue;if(this.cameraPreferenceDirty&&incoming&&this.cameraInteractionAt>incoming.changedAt)return;window.clearTimeout(this.cameraSaveTimer);this.cameraPreferenceDirty=false;this.cameraInteraction=false;this.cameraInteractionAt=Math.max(this.cameraInteractionAt,incoming?.changedAt||0);this.cameraPreferenceSignature='';}},{signal:this.abort.signal});
+  window.addEventListener('storage',event=>this.cameraPreferenceChanged(event),{signal:this.abort.signal});
   // Expanding below-scene controls changes the host size, not the chosen view.
   let windowWidth=window.innerWidth;window.addEventListener('resize',()=>{this.resize();const widthChanged=window.innerWidth!==windowWidth;windowWidth=window.innerWidth;if(widthChanged&&this.currentView==='overview'&&this.items.size)this.focus('overview',false);},{signal:this.abort.signal});
  }
@@ -58,9 +58,38 @@ export class CozyWorld{
   return validateCameraPreference({version:1,view:this.currentView,position:this.camera.position.toArray().map(round),target:this.controls.target.toArray().map(round),fov:round(this.camera.fov),zoom:round(this.camera.zoom),anchor:item?{id:item.id,x:round(item.x),z:round(item.z),rotation:round(item.rotation)}:null,changedAt:this.cameraInteractionAt});
  }
  finishCameraTransition(){if(this.transition){this.camera.position.copy(this.transition.position);this.controls.target.copy(this.transition.target);this.transition=null;}}
+ /** @param {string} view */
+ savedCameraView(view){
+  try{const area=readCameraViewPreference(localStorage,view).value,last=readCameraPreference(localStorage).value;
+   return last?.view===view&&(!area||last.changedAt>area.changedAt)?last:area;
+  }catch{return null;}
+ }
+ /** @param {string} view @param {import('./cozy-camera-preference.js').CameraPreference|null} [saved] */
+ restoreCameraView(view,saved=this.savedCameraView(view)){
+  if(!saved||saved.view!==view||!resolveCameraPreference(saved,id=>this.cameraItem(id)).applyPose)return false;
+  this.camera.fov=saved.fov;this.camera.zoom=saved.zoom;this.camera.updateProjectionMatrix();
+  this.moveCamera(v(.../** @type {[number,number,number]} */(saved.target)),v(.../** @type {[number,number,number]} */(saved.position)));
+  this.host.dataset.cameraViewRestored='exact';return true;
+ }
+ /** Preserve the outgoing destination before changing its context, including a legacy-only pose. */
+ rememberCameraView(){
+  if(!this.cameraPreferenceReady)return;this.flushCameraPreference();this.finishCameraTransition();
+  try{if(!readCameraViewPreference(localStorage,this.currentView).value)writeCameraViewPreference(localStorage,this.savedCameraView(this.currentView)||this.cameraSnapshot());}catch{/* Optional UI storage. */}
+ }
+ /** @param {StorageEvent} event */
+ cameraPreferenceChanged(event){
+  if(event.newValue===event.oldValue)return;
+  if(event.key===CAMERA_PREFERENCE_KEY)this.cameraPreferenceRaw=event.newValue;
+  else if(event.key!==cameraViewPreferenceKey(this.currentView))return;
+  let incoming=null;try{incoming=validateCameraPreference(JSON.parse(event.newValue||'null'));}catch{/* Invalid optional preference. */}
+  // Another area must not cancel a pending save for this area's camera.
+  if(!incoming||incoming.view!==this.currentView)return;
+  if(this.cameraPreferenceDirty&&this.cameraInteractionAt>incoming.changedAt)return;
+  window.clearTimeout(this.cameraSaveTimer);this.cameraPreferenceDirty=false;this.cameraInteraction=false;this.cameraInteractionAt=Math.max(this.cameraInteractionAt,incoming.changedAt);this.cameraPreferenceSignature='';
+ }
  restoreCameraPreference(){
   if(this.disposed)return null;
-  const hadInput=this.cameraInteraction;let saved=null;try{const record=readCameraPreference(localStorage);saved=record.value;if(!hadInput){this.cameraPreferenceRaw=record.raw;this.cameraInteractionAt=record.value?.changedAt||0;}}catch{/* Optional UI storage. */}
+  const hadInput=this.cameraInteraction;let saved=null;try{const record=readCameraPreference(localStorage);saved=record.value;if(saved)saved=this.savedCameraView(saved.view)||saved;if(!hadInput){this.cameraPreferenceRaw=record.raw;this.cameraInteractionAt=saved?.changedAt||0;}}catch{/* Optional UI storage. */}
   let restored=null;
   if(saved&&!hadInput){
    const resolution=resolveCameraPreference(saved,id=>this.cameraItem(id));this.focus(resolution.view,false);this.finishCameraTransition();
@@ -88,8 +117,8 @@ export class CozyWorld{
   try{
    this.finishCameraTransition();this.controls.update();this.constrainCamera();this.camera.lookAt(this.controls.target);this.camera.updateProjectionMatrix();
    const snapshot=this.cameraSnapshot(),raw=JSON.stringify(snapshot);this.cameraPreferenceDirty=false;this.cameraInteraction=false;
-   if(snapshot&&raw!==this.cameraPreferenceSignature){let stored=false;try{stored=writeCameraPreference(localStorage,snapshot,this.cameraPreferenceRaw);}catch{/* Optional UI storage. */}
-    this.cameraPreferenceSignature=stored?raw:'';if(stored){this.cameraPreferenceRaw=raw;this.host.dataset.cameraSaved='true';}
+   if(snapshot&&raw!==this.cameraPreferenceSignature){let stored=false,areaStored=false;try{areaStored=writeCameraViewPreference(localStorage,snapshot);stored=writeCameraPreference(localStorage,snapshot,this.cameraPreferenceRaw);}catch{/* Optional UI storage. */}
+    this.cameraPreferenceSignature=areaStored?raw:'';if(stored)this.cameraPreferenceRaw=raw;if(areaStored)this.host.dataset.cameraSaved='true';
    }
   }finally{this.cameraPreferenceSaving=false;if(keepTracking&&this.cameraPreferenceReady&&!this.disposed){this.cameraInteraction=true;this.cameraPreferenceDirty=true;this.queueCameraPreference();}}
  }
@@ -156,10 +185,10 @@ export class CozyWorld{
  /** @param {string} id */
  removeAnimal(id){const entry=this.animals.get(id);if(entry){entry.animation.dispose();this.animals.delete(id);}}
  /** @param {string} target @param {boolean} [remember] */
- focus(target,remember=true){if(remember)this.beginCameraInteraction();if(remember&&target!==this.currentView){this.history.push({id:this.currentView,target:this.controls.target.clone(),position:this.camera.position.clone(),interior:this.interiorId,fov:this.camera.fov,zoom:this.camera.zoom});if(this.history.length>15)this.history.shift();}this.currentView=target;const inside=target.startsWith('inside:'),entityId=inside?target.slice(7):target;let item=this.items.get(entityId),point=v(0,.7,0),offset=v(42,36,46);if(this.animals.has(entityId)){const animal=this.animals.get(entityId);item=animal.item;this.setInterior(item.id,true);point=animal.group.position.clone().add(v(0,.6,0));offset=v(2.8,1.7,3.3).applyAxisAngle(UP,item.rotation);}else{this.setInterior(inside?entityId:'',true);if(target==='overview'&&this.items.size){const list=[...this.items.values()].filter(p=>!['tree','banana','grass','fence','path'].includes(p.kind)),xs=list.map(p=>p.x),zs=list.map(p=>p.z),span=Math.max(Math.max(...xs)-Math.min(...xs)+16,Math.max(...zs)-Math.min(...zs)+14);point=v((Math.max(...xs)+Math.min(...xs))/2,.7,(Math.max(...zs)+Math.min(...zs))/2);offset=v(span*.7,span*.62,span*.8).multiplyScalar(Math.max(1.2,1.1/this.camera.aspect));if(this.camera.aspect<.95){this.camera.fov=50;this.camera.updateProjectionMatrix();}}else if(target==='garden'){const beds=[...this.items.values()].filter(p=>p.kind==='bed');if(beds.length)point=beds.reduce((sum,p)=>sum.add(v(p.x,.5,p.z)),v(0,0,0)).multiplyScalar(1/beds.length);offset=v(10,13,16);}else if(item){point=v(item.x,inside?1:0.7,item.z);if(inside)offset=v(.1,1.3,2.8).applyAxisAngle(UP,item.rotation);else{const size=BUILDING_SIZES[/** @type {keyof typeof BUILDING_SIZES} */(item.kind)];offset=(size?v(size[0]*.95,size[0]*.75,size[1]*1.4):v(4,5,6)).applyAxisAngle(UP,item.rotation);}}}this.moveCamera(point,point.clone().add(offset));this.host.dataset.view=target;}
+ focus(target,remember=true){if(remember){this.rememberCameraView();this.beginCameraInteraction();}if(remember&&target!==this.currentView){this.history.push({id:this.currentView,preference:this.cameraSnapshot(),target:this.controls.target.clone(),position:this.camera.position.clone(),interior:this.interiorId,fov:this.camera.fov,zoom:this.camera.zoom});if(this.history.length>15)this.history.shift();}this.currentView=target;this.camera.zoom=1;this.host.dataset.cameraViewRestored='default';const inside=target.startsWith('inside:'),entityId=inside?target.slice(7):target;let item=this.items.get(entityId),point=v(0,.7,0),offset=v(42,36,46);if(this.animals.has(entityId)){const animal=this.animals.get(entityId);item=animal.item;this.setInterior(item.id,true);point=animal.group.position.clone().add(v(0,.6,0));offset=v(2.8,1.7,3.3).applyAxisAngle(UP,item.rotation);}else{this.setInterior(inside?entityId:'',true);if(target==='overview'&&this.items.size){const list=[...this.items.values()].filter(p=>!['tree','banana','grass','fence','path'].includes(p.kind)),xs=list.map(p=>p.x),zs=list.map(p=>p.z),span=Math.max(Math.max(...xs)-Math.min(...xs)+16,Math.max(...zs)-Math.min(...zs)+14);point=v((Math.max(...xs)+Math.min(...xs))/2,.7,(Math.max(...zs)+Math.min(...zs))/2);offset=v(span*.7,span*.62,span*.8).multiplyScalar(Math.max(1.2,1.1/this.camera.aspect));if(this.camera.aspect<.95){this.camera.fov=50;this.camera.updateProjectionMatrix();}}else if(target==='garden'){const beds=[...this.items.values()].filter(p=>p.kind==='bed');if(beds.length)point=beds.reduce((sum,p)=>sum.add(v(p.x,.5,p.z)),v(0,0,0)).multiplyScalar(1/beds.length);offset=v(10,13,16);}else if(item){point=v(item.x,inside?1:0.7,item.z);if(inside)offset=v(.1,1.3,2.8).applyAxisAngle(UP,item.rotation);else{const size=BUILDING_SIZES[/** @type {keyof typeof BUILDING_SIZES} */(item.kind)];offset=(size?v(size[0]*.95,size[0]*.75,size[1]*1.4):v(4,5,6)).applyAxisAngle(UP,item.rotation);}}}this.moveCamera(point,point.clone().add(offset));if(remember&&this.cameraPreferenceReady)this.restoreCameraView(target);this.host.dataset.view=target;}
  /** @param {THREE.Vector3} target @param {THREE.Vector3} position */
  moveCamera(target,position){if(matchMedia('(prefers-reduced-motion: reduce)').matches){this.controls.target.copy(target);this.camera.position.copy(position);this.controls.update();this.transition=null;}else this.transition={target,position,fromTarget:this.controls.target.clone(),fromPosition:this.camera.position.clone(),start:performance.now()};}
- back(){this.beginCameraInteraction();const view=this.history.pop();if(view){this.currentView=view.id;this.setInterior(view.interior);this.camera.fov=view.fov;this.camera.zoom=view.zoom;this.camera.updateProjectionMatrix();this.moveCamera(view.target,view.position);this.host.dataset.view=view.id;return view.id;}this.focus('overview',false);return 'overview';}
+ back(){this.rememberCameraView();this.beginCameraInteraction();const previous=this.history.pop(),id=previous?.id||'overview',saved=this.savedCameraView(id)||previous?.preference||null,view=saved?resolveCameraPreference(saved,itemId=>this.cameraItem(itemId)).view:id;this.focus(view,false);this.restoreCameraView(view,saved);return view;}
  /** @param {number} factor */
  zoom(factor){this.beginCameraInteraction();this.transition=null;const offset=this.camera.position.clone().sub(this.controls.target);offset.setLength(clamp(offset.length()*factor,this.controls.minDistance,this.controls.maxDistance));this.camera.position.copy(this.controls.target).add(offset);this.controls.update();this.flushCameraPreference(true);}
  /** @param {number} angle */
