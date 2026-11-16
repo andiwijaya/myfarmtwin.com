@@ -4,7 +4,7 @@ import {PerspectiveCamera,PointLight} from 'three';
 import {CAMERA_PREFERENCE_KEY,validateCameraPreference,readCameraPreference,writeCameraPreference,resolveCameraPreference} from '../client/cozy-camera-preference.js';
 import {CozyWorld} from '../client/cozy-world.js';
 
-const snapshot=()=>({version:1,view:'overview',position:[42,36,46],target:[0,.7,0],fov:50,zoom:1,anchor:null});
+const snapshot=()=>({version:1,view:'overview',position:[42,36,46],target:[0,.7,0],fov:50,zoom:1,anchor:null,changedAt:1});
 const store=()=>{const values=new Map([['myfarmtwin.cozy.save.v2','original farm bytes'],['myfarmtwin.save.v1','original native bytes']]);return{values,getItem:key=>values.get(key)??null,setItem:(key,value)=>values.set(key,value)};};
 
 test('camera position, target and projection roundtrip only through the separate UI key',()=>{
@@ -29,7 +29,7 @@ test('invalid interiors and deleted animal targets cannot restore an incoherent 
  assert.deepEqual(resolveCameraPreference({...snapshot(),view:'barn'},()=>undefined),{view:'barn',applyPose:true});
 });
 test('an older pending tab cannot overwrite a newer camera preference',()=>{
- const storage=store(),first=snapshot();assert.equal(writeCameraPreference(storage,first,null),true);const original=storage.getItem(CAMERA_PREFERENCE_KEY),newer={...first,position:[30,22,36]};assert.equal(writeCameraPreference(storage,newer,original),true);
+ const storage=store(),first=snapshot();assert.equal(writeCameraPreference(storage,first,null),true);const original=storage.getItem(CAMERA_PREFERENCE_KEY),newer={...first,position:[30,22,36],changedAt:3};assert.equal(writeCameraPreference(storage,newer,original),true);
  assert.equal(writeCameraPreference(storage,{...first,position:[20,18,24]},original),false);assert.deepEqual(readCameraPreference(storage).value,newer);
 });
 test('optional camera storage failure never escapes or touches farm data',()=>{
@@ -42,4 +42,13 @@ test('reapplying the same interior during farm sync preserves restored FOV and z
  fixture.camera.zoom=1.25;CozyWorld.prototype.setInterior.call(fixture,'');assert.equal(fixture.camera.fov,50);assert.equal(fixture.camera.zoom,1.25);
  CozyWorld.prototype.setInterior.call(fixture,'market');assert.equal(fixture.camera.fov,54);fixture.camera.fov=57;CozyWorld.prototype.setInterior.call(fixture,'market');assert.equal(fixture.camera.fov,57);
  CozyWorld.prototype.setInterior.call(fixture,'',true);assert.equal(fixture.camera.fov,43);
+});
+
+test('the newest gesture wins when an older debounce happens to write first',()=>{
+ const storage=store(),first=snapshot();writeCameraPreference(storage,first,null);const sharedRaw=storage.getItem(CAMERA_PREFERENCE_KEY);
+ const older={...first,position:[20,18,24],changedAt:2},newer={...first,position:[30,22,36],changedAt:3};
+ assert.equal(writeCameraPreference(storage,older,sharedRaw),true);assert.equal(writeCameraPreference(storage,newer,sharedRaw),true);assert.equal(writeCameraPreference(storage,older,sharedRaw),false);assert.deepEqual(readCameraPreference(storage).value,newer);
+});
+test('earlier camera snapshots without a gesture time remain readable',()=>{
+ const legacy=snapshot();delete legacy.changedAt;assert.equal(validateCameraPreference(legacy).changedAt,0);
 });

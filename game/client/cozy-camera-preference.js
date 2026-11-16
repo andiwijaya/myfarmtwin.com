@@ -1,6 +1,6 @@
 export const CAMERA_PREFERENCE_KEY='myfarmtwin.ui.camera.v1';
 /** @typedef {{id:string,x:number,z:number,rotation:number}} CameraAnchor */
-/** @typedef {{version:1,view:string,position:number[],target:number[],fov:number,zoom:number,anchor:CameraAnchor|null}} CameraPreference */
+/** @typedef {{version:1,view:string,position:number[],target:number[],fov:number,zoom:number,anchor:CameraAnchor|null,changedAt:number}} CameraPreference */
 /** @typedef {{id:string,kind:string,x:number,z:number,rotation:number}} CameraItem */
 /** @typedef {Pick<Storage,'getItem'|'setItem'>} PreferenceStorage */
 const names=['version','view','position','target','fov','zoom','anchor'];
@@ -15,13 +15,13 @@ const vector=value=>Array.isArray(value)&&value.length===3&&value.every(n=>numbe
 export function validateCameraPreference(value){
  if(!value||typeof value!=='object'||Array.isArray(value))return null;
  const d=/** @type {any} */(value);
- if(Object.keys(d).length!==names.length||!names.every(key=>Object.hasOwn(d,key))||d.version!==1||!identifier(d.view)||!vector(d.position)||!vector(d.target)||!numberIn(d.fov,20,80)||!numberIn(d.zoom,.25,4))return null;
+ if(Object.keys(d).length!==names.length+(Object.hasOwn(d,'changedAt')?1:0)||!names.every(key=>Object.hasOwn(d,key))||(Object.hasOwn(d,'changedAt')&&!numberIn(d.changedAt,0,8.64e15))||d.version!==1||!identifier(d.view)||!vector(d.position)||!vector(d.target)||!numberIn(d.fov,20,80)||!numberIn(d.zoom,.25,4))return null;
  if(!numberIn(d.position[1],.32,300)||!numberIn(d.target[0],-42,42)||!numberIn(d.target[1],.08,4)||!numberIn(d.target[2],-32,32))return null;
  const distance=Math.hypot(...d.position.map((/** @type {number} */n,/** @type {number} */i)=>n-d.target[i]));
  if(distance<.2||distance>220)return null;
  const a=d.anchor;
  if(a!==null&&(!a||typeof a!=='object'||Array.isArray(a)||Object.keys(a).length!==4||!['id','x','z','rotation'].every(key=>Object.hasOwn(a,key))||!identifier(a.id)||!numberIn(a.x,-42,42)||!numberIn(a.z,-32,32)||!numberIn(a.rotation,-Math.PI*2-.0001,Math.PI*2+.0001)))return null;
- return{version:1,view:d.view,position:[...d.position],target:[...d.target],fov:d.fov,zoom:d.zoom,anchor:a===null?null:{id:a.id,x:a.x,z:a.z,rotation:a.rotation}};
+ return{version:1,view:d.view,position:[...d.position],target:[...d.target],fov:d.fov,zoom:d.zoom,anchor:a===null?null:{id:a.id,x:a.x,z:a.z,rotation:a.rotation},changedAt:d.changedAt??0};
 }
 /** @param {PreferenceStorage} storage */
 export function readCameraPreference(storage){
@@ -32,7 +32,7 @@ export function readCameraPreference(storage){
  * @param {PreferenceStorage} storage @param {unknown} value @param {string|null} expectedRaw */
 export function writeCameraPreference(storage,value,expectedRaw){
  const valid=validateCameraPreference(value);if(!valid)return false;
- try{if(storage.getItem(CAMERA_PREFERENCE_KEY)!==expectedRaw)return false;storage.setItem(CAMERA_PREFERENCE_KEY,JSON.stringify(valid));return true;}
+ try{const currentRaw=storage.getItem(CAMERA_PREFERENCE_KEY);if(currentRaw!==expectedRaw){let current=null;try{current=validateCameraPreference(JSON.parse(currentRaw||'null'));}catch{/* Preserve an unrecognized concurrent value. */}if(!current||current.changedAt>=valid.changedAt)return false;}storage.setItem(CAMERA_PREFERENCE_KEY,JSON.stringify(valid));return true;}
  catch{return false;}
 }
 /** @param {CameraPreference} saved @param {(id:string)=>CameraItem|undefined} findItem */

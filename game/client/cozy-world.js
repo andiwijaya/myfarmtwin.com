@@ -12,7 +12,7 @@ const BUILDING_SIZES={barn:[10,8,3.5],coop:[9,7,3.2],goatShelter:[11,9,3.8],pond
 export class CozyWorld{
  /** @param {HTMLElement} host @param {any} options */
  constructor(host,options){
-  this.host=host;this.options=options;this.disposed=false;this.cameraPreferenceReady=false;this.cameraInteraction=false;this.cameraPreferenceDirty=false;this.cameraPreferenceSaving=false;this.cameraSaveTimer=0;this.cameraPreferenceSignature='';/** @type {string|null} */this.cameraPreferenceRaw=null;this.frame=0;this.lastTime=0;this.selected='';this.currentView='overview';this.interiorId='';this.placing=false;this.key='';this.landLevel=-1;/** @type {THREE.Group|null} */this.landMarkers=null;this.quality='auto';this.modelCount=0;this.loadStarted=performance.now();
+  this.host=host;this.options=options;this.disposed=false;this.cameraPreferenceReady=false;this.cameraInteraction=false;this.cameraPreferenceDirty=false;this.cameraPreferenceSaving=false;this.cameraSaveTimer=0;this.cameraInteractionAt=0;this.cameraPreferenceSignature='';/** @type {string|null} */this.cameraPreferenceRaw=null;this.frame=0;this.lastTime=0;this.selected='';this.currentView='overview';this.interiorId='';this.placing=false;this.key='';this.landLevel=-1;/** @type {THREE.Group|null} */this.landMarkers=null;this.quality='auto';this.modelCount=0;this.loadStarted=performance.now();
   /** @type {Map<string,any>} */this.models=new Map();
   /** @type {Map<string,THREE.Group>} */this.entities=new Map();
   /** @type {Map<string,any>} */this.animals=new Map();
@@ -39,7 +39,7 @@ export class CozyWorld{
   canvas.addEventListener('keydown',e=>{if(e.key==='Home'){e.preventDefault();this.focus('overview');this.options.onCameraView?.('overview');}else if(e.key==='+'||e.key==='='){e.preventDefault();this.zoom(.82);}else if(e.key==='-'){e.preventDefault();this.zoom(1.22);}else if(e.key==='ArrowLeft'){e.preventDefault();this.rotate(-Math.PI/8);}else if(e.key==='ArrowRight'){e.preventDefault();this.rotate(Math.PI/8);}else if(e.key==='Escape')this.options.onCameraView?.(this.back());},{signal:this.abort.signal});
   this.resizeObserver=new ResizeObserver(()=>this.resize());this.resizeObserver.observe(host);this.resize();
   document.addEventListener('visibilitychange',()=>{if(document.hidden)this.flushCameraPreference();},{signal:this.abort.signal});
-  window.addEventListener('storage',event=>{if(event.key===CAMERA_PREFERENCE_KEY&&event.newValue!==event.oldValue){window.clearTimeout(this.cameraSaveTimer);this.cameraPreferenceDirty=false;this.cameraInteraction=false;this.cameraPreferenceRaw=event.newValue;this.cameraPreferenceSignature='';}},{signal:this.abort.signal});
+  window.addEventListener('storage',event=>{if(event.key===CAMERA_PREFERENCE_KEY&&event.newValue!==event.oldValue){let incoming=null;try{incoming=validateCameraPreference(JSON.parse(event.newValue||'null'));}catch{/* Invalid optional preference. */}this.cameraPreferenceRaw=event.newValue;if(this.cameraPreferenceDirty&&incoming&&this.cameraInteractionAt>incoming.changedAt)return;window.clearTimeout(this.cameraSaveTimer);this.cameraPreferenceDirty=false;this.cameraInteraction=false;this.cameraInteractionAt=Math.max(this.cameraInteractionAt,incoming?.changedAt||0);this.cameraPreferenceSignature='';}},{signal:this.abort.signal});
   // Expanding below-scene controls changes the host size, not the chosen view.
   let windowWidth=window.innerWidth;window.addEventListener('resize',()=>{this.resize();const widthChanged=window.innerWidth!==windowWidth;windowWidth=window.innerWidth;if(widthChanged&&this.currentView==='overview'&&this.items.size)this.focus('overview',false);},{signal:this.abort.signal});
  }
@@ -55,12 +55,12 @@ export class CozyWorld{
  cameraItem(view){const id=view.startsWith('inside:')?view.slice(7):view;return this.items.get(id)||this.animals.get(id)?.item;}
  cameraSnapshot(){
   const round=(/** @type {number} */n)=>Math.round(n*1e6)/1e6,item=this.cameraItem(this.currentView);
-  return validateCameraPreference({version:1,view:this.currentView,position:this.camera.position.toArray().map(round),target:this.controls.target.toArray().map(round),fov:round(this.camera.fov),zoom:round(this.camera.zoom),anchor:item?{id:item.id,x:round(item.x),z:round(item.z),rotation:round(item.rotation)}:null});
+  return validateCameraPreference({version:1,view:this.currentView,position:this.camera.position.toArray().map(round),target:this.controls.target.toArray().map(round),fov:round(this.camera.fov),zoom:round(this.camera.zoom),anchor:item?{id:item.id,x:round(item.x),z:round(item.z),rotation:round(item.rotation)}:null,changedAt:this.cameraInteractionAt});
  }
  finishCameraTransition(){if(this.transition){this.camera.position.copy(this.transition.position);this.controls.target.copy(this.transition.target);this.transition=null;}}
  restoreCameraPreference(){
   if(this.disposed)return null;
-  const hadInput=this.cameraInteraction;let saved=null;try{const record=readCameraPreference(localStorage);saved=record.value;if(!hadInput)this.cameraPreferenceRaw=record.raw;}catch{/* Optional UI storage. */}
+  const hadInput=this.cameraInteraction;let saved=null;try{const record=readCameraPreference(localStorage);saved=record.value;if(!hadInput){this.cameraPreferenceRaw=record.raw;this.cameraInteractionAt=record.value?.changedAt||0;}}catch{/* Optional UI storage. */}
   let restored=null;
   if(saved&&!hadInput){
    const resolution=resolveCameraPreference(saved,id=>this.cameraItem(id));this.focus(resolution.view,false);this.finishCameraTransition();
@@ -73,7 +73,7 @@ export class CozyWorld{
   return restored;
  }
  beginCameraInteraction(){
-  this.cameraInteraction=true;try{this.cameraPreferenceRaw=localStorage.getItem(CAMERA_PREFERENCE_KEY);}catch{/* Optional UI storage. */}
+  this.cameraInteraction=true;let observedAt=0;try{const record=readCameraPreference(localStorage);this.cameraPreferenceRaw=record.raw;observedAt=record.value?.changedAt||0;}catch{/* Optional UI storage. */}this.cameraInteractionAt=Math.max(Date.now(),performance.timeOrigin+performance.now(),this.cameraInteractionAt+.001,observedAt+.001);
   if(this.cameraPreferenceReady){this.cameraPreferenceDirty=true;this.queueCameraPreference();}
  }
  queueCameraPreference(){
