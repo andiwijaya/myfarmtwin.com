@@ -1,7 +1,7 @@
 {
   "kind": "myfarmtwin-area-camera-release-v1",
   "date": "2026-11-17",
-  "status": "candidate-validated-production-activation-pending",
+  "status": "deployed-and-verified",
   "lastViewKey": "myfarmtwin.ui.camera.v1",
   "perViewKeyPrefix": "myfarmtwin.ui.camera.view.v1:",
   "toolbarKeyUnchanged": true,
@@ -82,5 +82,59 @@
     "comparator": "Untouched original production tab with preceding runtime; no farm commands issued",
     "rawPlayerDataWritten": false
   },
-  "production": null
+  "production": {
+    "date": "2026-11-17",
+    "atUTC": "2026-11-16T22:28:42.104Z",
+    "url": "https://myfarmtwin.com/play/",
+    "source": "2e08967ed138f80ee96b7c38bbe295a3222a5bda",
+    "entry": "app-EGVGKWVV.js",
+    "deployment": "6de8146d-6696-47d0-8599-5c2fae89ac84",
+    "checkRun": 133658460999,
+    "browser": "Codex internal browser (IAB)",
+    "tests": {
+      "phoneGardenReturn": true,
+      "phoneBarnReturn": true,
+      "gardenRefresh": true,
+      "gardenTabReopen": true,
+      "barnAfterTabReopen": true,
+      "marketExteriorIndependent": true,
+      "interiorReturn": true,
+      "interiorRefresh": true,
+      "farmExportEqualsUntouchedOriginalTab": true,
+      "phoneToolbarBelowCanvas": true,
+      "desktopToolbarBelowCanvas": true,
+      "noHorizontalOverflow": true,
+      "integrity": true
+    },
+    "phoneLayout": {
+      "collapsed": true,
+      "height": 844,
+      "horizontalOverflow": false,
+      "toolbarBelowCanvas": true,
+      "width": 390
+    },
+    "desktopLayout": {
+      "collapsed": true,
+      "height": 900,
+      "horizontalOverflow": false,
+      "toolbarBelowCanvas": true,
+      "width": 1440
+    },
+    "resources": 30,
+    "glbs": 22,
+    "warningsAndErrors": 0,
+    "poseTolerance": 0.001,
+    "finalView": "overview",
+    "finalToolbar": "collapsed",
+    "limits": [
+      "Phone viewport emulation, not a physical phone",
+      "No browser-process restart, private-mode retention or native pinch/drag test",
+      "Existing market interior exercised; livestock areas were unstarted",
+      "No farm commands, starters, imports, clipboard or file-transfer actions"
+    ]
+  },
+  "screenshots": [
+    "production-phone-garden-return.jpg",
+    "production-desktop-interior-return.jpg"
+  ]
 }

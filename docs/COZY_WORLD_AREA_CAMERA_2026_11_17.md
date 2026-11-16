@@ -1,6 +1,6 @@
 # MyFarmTwin camera memory per area — 17 November 2026
 
-Implementation and release evidence for remembering each farm view independently.
+Status: implemented, tested in the internal browser, deployed and verified at https://myfarmtwin.com/play/ .
 
 ## Behavior
 
@@ -45,7 +45,17 @@ The records are under `qa-artifacts/cozy-area-camera-20261117/`: `preview-browse
 
 ## Release record
 
-The machine-readable companion `COZY_WORLD_AREA_CAMERA_2026_11_17.json` records the final deployment status, artifact parity and any later browser recovery. Temporary preview routes/rules are removed from the final artifact. Production activation uses the exact JavaScript/CSS/manifest/model bytes of the observed candidate, with only the HTML asset path prefix changed.
+Application source: `2e08967ed138f80ee96b7c38bbe295a3222a5bda`. Cloudflare production deployment: `6de8146d-6696-47d0-8599-5c2fae89ac84`; GitHub Cloudflare Pages check `133658460999` reached completed/success. The active entry is `app-EGVGKWVV.js`. The separate branch preview is not the production receipt.
+
+Thirteen production browser groups passed. At a measured 390×844 viewport, independently modified garden and cow-area cameras returned correctly, garden refresh retained its exact pose, and closing/reopening the actual test tab retained both areas. At a measured 1440×900 viewport, the market exterior and interior returned to their separate poses and interior refresh retained its exact pose and context. Both layouts kept the collapsed toolbar below the canvas without horizontal page overflow. Camera-vector, FOV and zoom comparisons used tolerance 0.001 and exact view IDs; gesture timestamps were excluded.
+
+The canonical `/play/integrity/` page passed SHA-256, byte-count and MIME checks on all 30 resources, including 22 GLBs, for the activated entry. Production-tab warnings/errors were zero. The final production farm export remained byte-identical to the untouched original preceding-runtime tab. No raw player bytes were written to disk or the repository.
+
+Actual screenshots: `qa-artifacts/cozy-area-camera-20261117/production-phone-garden-return.jpg` and `production-desktop-interior-return.jpg`. The final test view is the whole farm with the toolbar collapsed. Temporary viewport overrides were reset, owned preview/integrity tabs were closed, and the canonical production tab was left available.
+
+The archive `myfarmtwin-area-camera-20261117.tar.gz` is 18,391,436 bytes, SHA-256 `ebf576d2cf0df61dbdee231216135bc634458c2a1a39c91b47115c60563296aa`. All 302 regular static site files match final dist bytes; normalized official hosting metadata makes 303 verified files. Temporary preview routes/rules are removed from the artifact, and no QA/player data is included. Production activation uses the exact JavaScript/CSS/manifest/model bytes of the observed candidate, with only the HTML asset path prefix changed.
+
+The machine-readable companion `COZY_WORLD_AREA_CAMERA_2026_11_17.json` records the completed release. Local receipts include `promotion-parity.json`, `artifact.json`, `production-browser.json`, `production-phone-browser.json` and `production-integrity.json` under `qa-artifacts/cozy-area-camera-20261117/`. Documentation-only commits after the application activation do not change the deployed bundle.
 
 ## Checklist
 
@@ -55,5 +65,5 @@ The machine-readable companion `COZY_WORLD_AREA_CAMERA_2026_11_17.json` records 
 - [x] Pass local type/build and focused camera/delivery checks.
 - [x] Confirm the primary garden/cow-area and market/interior roundtrips in the internal browser.
 - [x] Recover and complete additional-area, actual tab reopen, multi-tab and candidate-integrity checks.
-- [ ] Verify the activated canonical production page.
-- [ ] Record the final production deployment and artifact receipt.
+- [x] Verify the activated canonical production page.
+- [x] Record the final production deployment and artifact receipt.
