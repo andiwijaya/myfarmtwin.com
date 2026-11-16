@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="id">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <title>Farm Tropis — MyFarmTwin</title><meta name="description" content="Bangun farm tropis Indonesia milikmu. Berkebun, pelihara ayam, kambing, sapi dan ikan, penuhi pesanan, lalu tata lahan sesukamu.">
+ <meta name="robots" content="noindex,follow"><link rel="canonical" href="https://myfarmtwin.com/play/">
+ <link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/play/reset-camera-preview/cozy/style.css?v=94fd9a5193525340"><script type="module" src="/play/reset-camera-preview/cozy/app-TM5TBGTL.js"></script>
+</head>
+<body>
+ <a class="skip" href="#care">Lewati ke kontrol / Skip to controls</a>
+ <header class="topbar"><a class="brand" href="/">My<span>Farm</span>Twin<i> / farm tropis</i></a><div class="top-actions"><label class="quality"><span class="sr">Kualitas / Quality</span><select id="quality"><option value="auto">Auto</option><option value="high">High</option><option value="balanced">Balanced</option></select></label><label class="language"><span class="sr">Bahasa / Language</span><select id="language"><option value="id">ID</option><option value="en">EN</option></select></label><button id="data-open" aria-label="Data farm / Farm data">☷</button></div></header>
+ <main id="app">
+  <section class="world-shell" aria-label="Farm">
+   <div class="world-heading"><p class="eyebrow" id="edition">FARM TROPIS INDONESIA</p><h1 id="view-title">Sedikit lahan.<br>Banyak kehidupan.</h1><p id="view-subtitle">Tumbuh dengan caramu sendiri.</p></div>
+   <div class="world-viewport">
+    <div id="world" aria-busy="true"></div>
+    <div id="loading" class="loading"><div class="loading-card"><span class="leaf-mark">✦</span><p class="eyebrow">MYFARMTWIN</p><h2 id="loading-title">Menyiapkan farm tropis kamu</h2><p id="loading-detail">Memuat tanah, tanaman, dan kehidupan…</p><progress id="load-progress" max="17" value="0"></progress><button id="retry" hidden>Muat ulang / Reload</button></div></div>
+   </div>
+   <section class="farm-controls" aria-label="Kontrol farm / Farm controls">
+    <details id="farm-toolbar" class="toolbar-disclosure">
+     <summary class="toolbar-summary" aria-controls="toolbar-content"><span id="toolbar-title">Kontrol</span><span class="toolbar-preview"><span><small id="toolbar-day-label">HARI</small><strong id="toolbar-day-value">1 · 06:00</strong></span><span><small id="toolbar-coins-label">KOIN</small><strong id="toolbar-coins-value">120</strong></span></span><span class="toolbar-toggle"><span id="toolbar-expand-label" class="toolbar-expand-label">Buka</span><span id="toolbar-collapse-label" class="toolbar-collapse-label">Tutup</span><span class="toolbar-chevron" aria-hidden="true">⌄</span></span></summary>
+     <div id="toolbar-content" class="toolbar-content">
+      <div class="resources" aria-label="Sumber daya"><div><span id="day-label">HARI</span><strong id="day-value">1 · 06:00</strong></div><div><span id="coin-label">KOIN</span><strong id="coin-value">120</strong></div><div><span id="level-label">LEVEL</span><strong id="level-value">1</strong></div><div><span id="beds-label">BED AKTIF</span><strong id="beds-value">24</strong></div></div>
+      <nav class="destinations" aria-label="Jelajahi farm"><button data-view="overview" class="active"><span>⌂</span><b id="nav-overview">Farm</b></button><button data-view="garden"><span>♧</span><b id="nav-garden">Kebun</b></button><button data-view="coop"><span>♙</span><b id="nav-coop">Ayam</b></button><button data-view="goatShelter"><span>♞</span><b id="nav-goat">Kambing</b></button><button data-view="barn"><span>♜</span><b id="nav-cow">Sapi</b></button><button data-view="pond"><span>≈</span><b id="nav-fish">Ikan</b></button><button data-view="market"><span>▤</span><b id="nav-market">Market</b></button></nav>
+      <div class="world-actions">
+       <div class="camera-tools" role="group" aria-label="Kamera / Camera"><button data-camera="in" aria-label="Zoom in">+</button><button data-camera="out" aria-label="Zoom out">−</button><button data-camera="left" aria-label="Putar kiri / Rotate left">↶</button><button data-camera="right" aria-label="Putar kanan / Rotate right">↷</button><button data-camera="pan" aria-label="Geser kamera / Pan camera" aria-expanded="false">✥</button><button data-camera="back" aria-label="Kembali / Back">↩</button><button data-camera="overview" aria-label="Seluruh farm / Whole farm">⌂</button></div>
+       <button id="camera-reset" data-camera="reset" class="camera-reset" aria-label="Reset kamera area ini / Reset this area's camera" disabled><span aria-hidden="true">⟲</span><span id="camera-reset-label">Reset kamera</span></button>
+       <button id="build-open" class="floating-build"><span aria-hidden="true">＋</span><b id="nav-build">Tata lahan</b></button>
+      </div>
+      <div id="pan-tools" class="pan-tools" role="group" aria-label="Geser kamera / Pan camera" hidden><button data-pan="up" aria-label="Geser atas / Pan up">↑</button><button data-pan="left" aria-label="Geser kiri / Pan left">←</button><button data-pan="right" aria-label="Geser kanan / Pan right">→</button><button data-pan="down" aria-label="Geser bawah / Pan down">↓</button></div>
+      <div class="world-bottom"><p id="gesture-hint">Seret untuk putar · Gulir/cubit untuk zoom · Ketuk objek</p><div class="location"><span class="live-dot"></span><span id="location-label">SELURUH FARM</span></div></div>
+     </div>
+    </details>
+    <section id="placement" class="placement-panel" hidden aria-label="Penempatan"><p class="eyebrow" id="placement-label">ATUR POSISI</p><h2 id="placement-title">Pindahkan bed</h2><p id="placement-help">Ketuk tanah atau ubah koordinat. Belum ada perubahan sampai dikonfirmasi.</p><div class="coordinate-inputs"><label>X<input id="place-x" type="number" step=".5" min="-42" max="42"></label><label>Z<input id="place-z" type="number" step=".5" min="-32" max="32"></label><label id="rotation-label">Sudut<select id="place-rotation"><option value="0">0°</option><option value="1.5707963267948966">90°</option><option value="3.141592653589793">180°</option><option value="4.71238898038469">270°</option></select></label></div><p id="placement-valid" role="status"></p><div class="placement-actions"><button id="placement-cancel">Batal</button><button id="placement-confirm" class="primary">Simpan posisi</button></div></section>
+    <div id="toast" role="status" aria-live="polite"></div>
+   </section>
+  </section>
+  <aside id="care" class="care-panel" tabindex="-1"><div class="panel-top"><p class="eyebrow" id="panel-eyebrow">CATATAN FARM</p><span class="panel-symbol">✦</span></div><div id="care-content"></div><section class="clock"><div><span class="eyebrow" id="clock-label">WAKTU FARM</span><strong id="clock-time">Hari 1</strong></div><button id="pause">▶ Jalan</button><button id="advance">+6 jam</button><button id="advance-day">+24 jam</button></section><p class="save-note" id="save-status" role="status">Membaca progres tersimpan…</p></aside>
+ </main>
+ <dialog id="build-dialog"><form method="dialog" class="dialog-heading"><div><p class="eyebrow" id="build-eyebrow">RUANG UNTUK TUMBUH</p><h2 id="build-title">Tata farm sesukamu</h2></div><button aria-label="Tutup / Close">×</button></form><p id="build-help">Pilih bangunan, atur posisi, lalu konfirmasi. Memindahkan fasilitas milikmu gratis.</p><div id="build-catalog"></div></dialog>
+
+ <dialog id="data-dialog"><form method="dialog" class="dialog-heading"><div><p class="eyebrow">MYFARMTWIN</p><h2 id="data-title">Progres & data</h2></div><button aria-label="Tutup / Close">×</button></form><p id="data-help">Cadangan mencakup farm, tata letak, dan arsip progres lama. Simpan salinan teks di tempat aman.</p><label for="save-text" id="save-text-label">Salinan farm</label><textarea id="save-text" spellcheck="false" rows="9"></textarea><div class="data-actions"><button id="export-data">Tampilkan cadangan</button><button id="import-data" class="primary">Impor dari teks</button><button id="recover-data">Pulihkan cadangan sebelumnya</button><button id="legacy-data">Tampilkan arsip farm lama</button></div><p id="data-status" role="status"></p><a class="recovery-link" href="/play/recovery/">Buka pemulihan tanpa 3D / Open recovery without 3D ↗</a></dialog>
+ <script type="application/json" id="cozy-meta">{"version":2,"phase":"P3-P7","areas":["garden","chicken","goat","cow","fish","market"],"save":"cozy-v2-atomic"}</script>
+</body>
+</html>

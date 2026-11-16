@@ -82,3 +82,44 @@ test('moved buildings refocus from their current layout and removed targets do n
  w.items.get('barn.1').x=14;w.focus('barn.1');const moved=settle(w);assert.notDeepEqual(moved.position,original.position);assert.equal(moved.target[0],14);assert.equal(w.host.dataset.cameraViewRestored,'default');
  w.focus('garden');settle(w);w.items.delete('barn.1');assert.equal(w.back(),'overview');assert.equal(settle(w).view,'overview');
 }));
+
+test('reset replaces only the active camera with its initial pose and restores it in a fresh world',()=>{
+ const s=storage();let initial;
+ withWorld(w=>{
+  w.focus('barn');settle(w);w.zoom(.8);settle(w);w.focus('garden');initial=settle(w);w.zoom(.6);w.rotate(.4);w.pan(1,0);settle(w);
+  s.setItem('myfarmtwin.ui.toolbar-expanded.v1','expanded');const other=[...s.values].filter(([key])=>![CAMERA_PREFERENCE_KEY,cameraViewPreferenceKey('garden')].includes(key)),historyLength=w.history.length;
+  assert.equal(w.resetCamera(),'garden');assert.deepEqual(geometry(w.cameraSnapshot()),geometry(initial));assert.equal(w.history.length,historyLength);
+  assert.deepEqual(geometry(readCameraViewPreference(s,'garden').value),geometry(initial));assert.deepEqual(geometry(readCameraPreference(s).value),geometry(initial));
+  for(const [key,bytes]of other)assert.equal(s.getItem(key),bytes,key);assert.equal(w.host.dataset.cameraViewRestored,'reset');
+ },s);
+ withWorld(w=>{assert.equal(w.restoreCameraPreference(),'garden');assert.deepEqual(geometry(w.cameraSnapshot()),geometry(initial));},s);
+});
+
+test('interior reset preserves its active building and the independent exterior camera',()=>withWorld((w,s)=>{
+ w.focus('barn');settle(w);w.zoom(.8);settle(w);const exterior=s.getItem(cameraViewPreferenceKey('barn'));
+ w.focus('inside:barn');const initial=settle(w);w.zoom(.8);w.rotate(.3);w.camera.fov=61;w.camera.zoom=1.4;w.beginCameraInteraction();settle(w);
+ assert.equal(w.resetCamera(),'inside:barn');assert.equal(w.interiorId,'barn');assert.deepEqual(geometry(w.cameraSnapshot()),geometry(initial));assert.equal(w.camera.fov,54);assert.equal(w.camera.zoom,1);assert.equal(s.getItem(cameraViewPreferenceKey('barn')),exterior);
+}));
+
+test('reset cancels a pending transition and drains old inertia before setting the initial pose',()=>withWorld(w=>{
+ w.focus('barn');const initial=settle(w);w.zoom(.7);settle(w);w.focus('garden');settle(w);w.focus('barn');assert.ok(w.transition);
+ let pending=true;w.controls.update=()=>{if(pending){w.camera.position.add(new Vector3(3,0,1));w.controls.target.add(new Vector3(1,0,0));if(!w.controls.enableDamping)pending=false;}};
+ w.resetCamera();assert.equal(pending,false);assert.equal(w.transition,null);assert.equal(w.controls.enableDamping,true);assert.deepEqual(geometry(w.cameraSnapshot()),geometry(initial));
+ w.controls.update();assert.deepEqual(geometry(w.cameraSnapshot()),geometry(initial));assert.deepEqual(geometry(JSON.parse(w.host.dataset.cameraState)),geometry(initial));
+}));
+
+test('an older same-area save cannot overwrite the reset camera',()=>withWorld((w,s)=>{
+ w.focus('garden');const initial=settle(w);w.zoom(.7);const old=settle(w),oldRaw=s.getItem(CAMERA_PREFERENCE_KEY);
+ w.resetCamera();assert.ok(readCameraPreference(s).value.changedAt>old.changedAt);
+ assert.equal(writeCameraViewPreference(s,old),false);assert.equal(writeCameraPreference(s,old,oldRaw),false);assert.equal(writeCameraPreference(s,old,s.getItem(CAMERA_PREFERENCE_KEY)),false);
+ assert.deepEqual(geometry(readCameraPreference(s).value),geometry(initial));assert.deepEqual(geometry(readCameraViewPreference(s,'garden').value),geometry(initial));
+}));
+
+test('reset is guarded before readiness and remains usable with unavailable preference storage',()=>withWorld((w,s)=>{
+ w.focus('garden');const initial=settle(w);w.zoom(.7);settle(w);w.focus('barn');settle(w);w.focus('garden');settle(w);
+ const current=geometry(w.cameraSnapshot()),bytes=[...s.values];w.cameraPreferenceReady=false;w.resetCamera();assert.deepEqual(geometry(w.cameraSnapshot()),current);assert.deepEqual([...s.values],bytes);w.cameraPreferenceReady=true;
+ const otherHistory=w.history.filter(h=>h.id!=='garden').map(h=>JSON.stringify(h));s.getItem=()=>{throw Error('unavailable');};s.setItem=()=>{throw Error('quota');};
+ assert.equal(w.resetCamera(),'garden');assert.deepEqual(geometry(w.cameraSnapshot()),geometry(initial));assert.deepEqual(w.history.filter(h=>h.id!=='garden').map(h=>JSON.stringify(h)),otherHistory);
+ for(const entry of w.history.filter(h=>h.id==='garden'))assert.deepEqual(geometry(entry.preference),geometry(initial));
+ w.focus('barn');settle(w);assert.equal(w.back(),'garden');assert.deepEqual(geometry(settle(w)),geometry(initial));
+}));
