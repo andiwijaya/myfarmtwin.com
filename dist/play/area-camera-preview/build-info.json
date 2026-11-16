@@ -1,0 +1,1296 @@
+{
+  "kind": "myfarmtwin-cozy-world-v2",
+  "phase": "P3-P7",
+  "experience": "tropical-glb-world",
+  "areas": [
+    "garden",
+    "chicken",
+    "goat",
+    "cow",
+    "fish",
+    "market"
+  ],
+  "saveVersion": 2,
+  "three": "0.187.0",
+  "entry": "app-EGVGKWVV.js",
+  "recoveryEntry": "recovery-2UXJQDFZ.js",
+  "integrityEntry": "integrity-LL76RTOU.js",
+  "emitted": [
+    {
+      "name": "app-EGVGKWVV.js",
+      "bytes": 729622,
+      "sha256": "7749f7e3b0362a99bc920e4e15003d41faa3ba3ef529c32282a47fda6f0eada9"
+    },
+    {
+      "name": "recovery-2UXJQDFZ.js",
+      "bytes": 2515,
+      "sha256": "a7de34419a67e7d638467375abc533ef8678310c7ac015ebcd26301825aec625"
+    },
+    {
+      "name": "chunks/chunk-PZDGL33N.js",
+      "bytes": 194505,
+      "sha256": "112dfbfcd56859f718ad24b848e42de41740253cca6fa48c8d96fcee8e5836f7"
+    },
+    {
+      "name": "integrity-LL76RTOU.js",
+      "bytes": 1894,
+      "sha256": "92a251dcc0b642c6b2d15f5bca91318905a91ddfba8d9ac7b146d2c72aa1e3e0"
+    }
+  ],
+  "assets": {
+    "terrain": {
+      "id": "terrain",
+      "url": "/play/assets/models/world/terrain.glb",
+      "sha256": "a93a84ee021eea3a62f9f44617bce7d9802ec5f708a18ba5507b81d7e7afd5ec",
+      "bytes": 803172,
+      "uniqueTriangles": 11980,
+      "meshes": 2,
+      "nodes": 3,
+      "textures": 3,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -44,
+          -0.9,
+          -34
+        ],
+        "max": [
+          44,
+          0,
+          34
+        ]
+      },
+      "templates": [
+        "continuous_flat_tropical_pasture",
+        "exposed_original_tropical_subsoil"
+      ],
+      "normalMaps": 1,
+      "footprint": [
+        88,
+        68
+      ],
+      "buildableSurfaceY": 0,
+      "semanticRole": "continuous environment terrain",
+      "roles": {
+        "ground": "continuous_flat_tropical_pasture"
+      },
+      "floorPivot": true,
+      "authoredBy": "MyFarmTwin original repository authoring",
+      "externalResources": false
+    },
+    "coop": {
+      "id": "coop",
+      "url": "/play/assets/models/world/coop.glb",
+      "sha256": "16151052d2bce3ca5535b72353c9d0c054609165331c7a1c394ef19a37789158",
+      "bytes": 1807756,
+      "uniqueTriangles": 23992,
+      "meshes": 32,
+      "nodes": 53,
+      "textures": 8,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -4.954999923706055,
+          -0.174,
+          -3.9649999141693115
+        ],
+        "max": [
+          4.954999923706055,
+          3.7274999618530273,
+          4.6657505179077905
+        ]
+      },
+      "templates": [
+        "floor",
+        "frame",
+        "roof",
+        "walls",
+        "equipment",
+        "nests",
+        "nest_eggs",
+        "roosts"
+      ],
+      "normalMaps": 3,
+      "footprint": [
+        9,
+        7
+      ],
+      "interiorFloorY": 0,
+      "interiorTarget": [
+        0,
+        0.8,
+        -0.3
+      ],
+      "front": "+Z",
+      "semanticRole": "chicken building with complete interior",
+      "roles": {
+        "roof": "roof",
+        "floor": "floor",
+        "frame": "frame",
+        "walls": "walls",
+        "equipment": "equipment",
+        "nests": "nests",
+        "eggs": "nest_eggs",
+        "feed": "feed_contents",
+        "water": "water_contents",
+        "roosts": "roosts",
+        "gate": "entry_gate"
+      },
+      "floorPivot": true,
+      "authoredBy": "MyFarmTwin original repository authoring",
+      "externalResources": false
+    },
+    "chicken": {
+      "id": "chicken",
+      "url": "/play/assets/models/world/chicken.glb",
+      "sha256": "d32c55992932d3abeeba101569541ab375fc36b985f794e5adc8cf3c0c92c5a2",
+      "bytes": 871760,
+      "uniqueTriangles": 21206,
+      "meshes": 24,
+      "nodes": 37,
+      "textures": 2,
+      "animations": [
+        "idle",
+        "walk",
+        "eat",
+        "drink",
+        "rest"
+      ],
+      "bounds": {
+        "min": [
+          -0.44936085283756255,
+          0.0013438068926334146,
+          -0.1838921105861664
+        ],
+        "max": [
+          0.3879999965429306,
+          0.7249999967217445,
+          0.1887911616265774
+        ]
+      },
+      "templates": [
+        "body",
+        "neck",
+        "tail",
+        "leg_left",
+        "leg_right"
+      ],
+      "normalMaps": 1,
+      "forward": "+X",
+      "semanticRole": "kampung hen",
+      "maxCloseInstancesSuggested": 12,
+      "roles": {
+        "head": "head",
+        "tail": "tail",
+        "body": "body",
+        "legs": [
+          "leg_left",
+          "leg_right"
+        ],
+        "wings": [
+          "wing_left",
+          "wing_right"
+        ]
+      },
+      "floorPivot": true,
+      "authoredBy": "MyFarmTwin original repository authoring",
+      "externalResources": false,
+      "lod": {
+        "strategy": "authored far GLB with matching template and articulation names",
+        "distance": 24,
+        "far": {
+          "id": "chickenFar",
+          "url": "/play/assets/models/world/chicken-far.glb",
+          "sha256": "e17beb84ef96c33828a2cb4db1f988ef69f269d71ccfaa5a7cec09932d08caf4",
+          "bytes": 420140,
+          "uniqueTriangles": 5274,
+          "meshes": 20,
+          "nodes": 33,
+          "textures": 2,
+          "animations": [
+            "idle",
+            "walk",
+            "eat",
+            "drink",
+            "rest"
+          ],
+          "bounds": {
+            "min": [
+              -0.44936085283756255,
+              0.001326931327581382,
+              -0.18349018901586533
+            ],
+            "max": [
+              0.3879999965429306,
+              0.7249999967217445,
+              0.18886916548013688
+            ]
+          },
+          "templates": [
+            "body",
+            "neck",
+            "tail",
+            "leg_left",
+            "leg_right"
+          ],
+          "normalMaps": 1,
+          "roles": {
+            "head": "head",
+            "tail": "tail",
+            "body": "body",
+            "legs": [
+              "leg_left",
+              "leg_right"
+            ],
+            "wings": [
+              "wing_left",
+              "wing_right"
+            ]
+          },
+          "floorPivot": true,
+          "authoredBy": "MyFarmTwin original repository authoring",
+          "externalResources": false,
+          "distance": 24
+        },
+        "near": {
+          "url": "/play/assets/models/world/chicken.glb",
+          "distance": 0
+        }
+      }
+    },
+    "goatShelter": {
+      "id": "goatShelter",
+      "url": "/play/assets/models/world/goat-shelter.glb",
+      "sha256": "87a2e8200d6807ce227b0518b9c470e8892891fa1df6b3090d907a0d6f9c5a53",
+      "bytes": 1647128,
+      "uniqueTriangles": 11916,
+      "meshes": 34,
+      "nodes": 61,
+      "textures": 8,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -5.954999923706055,
+          -0.04731473699212074,
+          -4.965000152587891
+        ],
+        "max": [
+          5.954999923706055,
+          4.347499847412109,
+          5.323832302093505
+        ]
+      },
+      "templates": [
+        "floor",
+        "frame",
+        "roof",
+        "walls",
+        "stalls",
+        "equipment",
+        "bedding",
+        "feed_contents",
+        "water_contents"
+      ],
+      "normalMaps": 3,
+      "footprint": [
+        11,
+        9
+      ],
+      "interiorFloorY": 0.34,
+      "interiorTarget": [
+        0,
+        1.1,
+        -0.3
+      ],
+      "front": "+Z",
+      "semanticRole": "raised ventilated goat shelter with complete interior",
+      "roles": {
+        "roof": "roof",
+        "floor": "floor",
+        "frame": "frame",
+        "walls": "walls",
+        "stalls": "stalls",
+        "equipment": "equipment",
+        "feed": "feed_contents",
+        "water": "water_contents",
+        "bedding": "bedding",
+        "ramp": "entry_ramp"
+      },
+      "floorPivot": true,
+      "authoredBy": "MyFarmTwin original repository authoring",
+      "externalResources": false
+    },
+    "goat": {
+      "id": "goat",
+      "url": "/play/assets/models/world/goat.glb",
+      "sha256": "e8eb5dc4df82e4ea3b494674f76c0d74ece4ad2225521e9c4d3fbca5ec243720",
+      "bytes": 847232,
+      "uniqueTriangles": 17544,
+      "meshes": 32,
+      "nodes": 50,
+      "textures": 2,
+      "animations": [
+        "idle",
+        "walk",
+        "eat",
+        "drink",
+        "rest"
+      ],
+      "bounds": {
+        "min": [
+          -0.6818788838386536,
+          0.0009999963641166287,
+          -0.24000000357627868
+        ],
+        "max": [
+          0.9440000021457673,
+          1.42923135638237,
+          0.24000000357627868
+        ]
+      },
+      "templates": [
+        "slender_deep_goat_torso",
+        "neck",
+        "leg_front_left",
+        "leg_front_right",
+        "leg_rear_left",
+        "leg_rear_right",
+        "tail",
+        "goat_soft_brown_goat_markings",
+        "goat_soft_warm_inner_skin"
+      ],
+      "normalMaps": 1,
+      "forward": "+X",
+      "semanticRole": "adult Peranakan Etawa inspired goat",
+      "maxCloseInstancesSuggested": 8,
+      "roles": {
+        "head": "head",
+        "tail": "tail",
+        "ears": [
+          "ear_left",
+          "ear_right"
+        ],
+        "legs": [
+          "leg_front_left",
+          "leg_front_right",
+          "leg_rear_left",
+          "leg_rear_right"
+        ]
+      },
+      "floorPivot": true,
+      "authoredBy": "MyFarmTwin original repository authoring",
+      "externalResources": false,
+      "lod": {
+        "strategy": "authored far GLB with matching template and articulation names",
+        "distance": 28,
+        "far": {
+          "id": "goatFar",
+          "url": "/play/assets/models/world/goat-far.glb",
+          "sha256": "9ef76ecfca403278cf0ad27bd6e0d4f7f98129ec359e28e0e5dc00580e76fce8",
+          "bytes": 476384,
+          "uniqueTriangles": 4062,
+          "meshes": 26,
+          "nodes": 44,
+          "textures": 2,
+          "animations": [
+            "idle",
+            "walk",
+            "eat",
+            "drink",
+            "rest"
+          ],
+          "bounds": {
+            "min": [
+              -0.6814229083061218,
+              0.0009999963641166287,
+              -0.23559508621692657
+            ],
+            "max": [
+              0.9440000021457673,
+              1.42923135638237,
+              0.23559508621692657
+            ]
+          },
+          "templates": [
+            "slender_deep_goat_torso",
+            "neck",
+            "leg_front_left",
+            "leg_front_right",
+            "leg_rear_left",
+            "leg_rear_right",
+            "tail",
+            "goat_soft_warm_inner_skin"
+          ],
+          "normalMaps": 1,
+          "roles": {
+            "head": "head",
+            "tail": "tail",
+            "ears": [
+              "ear_left",
+              "ear_right"
+            ],
+            "legs": [
+              "leg_front_left",
+              "leg_front_right",
+              "leg_rear_left",
+              "leg_rear_right"
+            ]
+          },
+          "floorPivot": true,
+          "authoredBy": "MyFarmTwin original repository authoring",
+          "externalResources": false,
+          "distance": 28
+        },
+        "near": {
+          "url": "/play/assets/models/world/goat.glb",
+          "distance": 0
+        }
+      }
+    },
+    "goatKid": {
+      "id": "goatKid",
+      "url": "/play/assets/models/world/goat-kid.glb",
+      "sha256": "899cf03233c2e9bdcc395ebf4fbc2c8b889128626852a8931f0e2c4720bea7c3",
+      "bytes": 719844,
+      "uniqueTriangles": 12744,
+      "meshes": 31,
+      "nodes": 49,
+      "textures": 2,
+      "animations": [
+        "idle",
+        "walk",
+        "eat",
+        "drink",
+        "rest"
+      ],
+      "bounds": {
+        "min": [
+          -0.4023085414648056,
+          0.0005899978548287999,
+          -0.14324327718192337
+        ],
+        "max": [
+          0.5841118014305829,
+          0.77195600476861,
+          0.14324327718192337
+        ]
+      },
+      "templates": [
+        "slender_deep_goat_torso",
+        "neck",
+        "leg_front_left",
+        "leg_front_right",
+        "leg_rear_left",
+        "leg_rear_right",
+        "tail",
+        "goat_kid_soft_brown_goat_markings"
+      ],
+      "normalMaps": 1,
+      "forward": "+X",
+      "semanticRole": "goat kid with independently enlarged head and horn buds",
+      "maxCloseInstancesSuggested": 8,
+      "roles": {
+        "head": "head",
+        "tail": "tail",
+        "ears": [
+          "ear_left",
+          "ear_right"
+        ],
+        "legs": [
+          "leg_front_left",
+          "leg_front_right",
+          "leg_rear_left",
+          "leg_rear_right"
+        ]
+      },
+      "floorPivot": true,
+      "authoredBy": "MyFarmTwin original repository authoring",
+      "externalResources": false,
+      "lod": {
+        "strategy": "authored far GLB with matching template and articulation names",
+        "distance": 24,
+        "far": {
+          "id": "goatKidFar",
+          "url": "/play/assets/models/world/goat-kid-far.glb",
+          "sha256": "25b907e30baf41e0ab6f909be6a60ce70944a55a02b502212619cc84f48ebf85",
+          "bytes": 460836,
+          "uniqueTriangles": 3606,
+          "meshes": 25,
+          "nodes": 43,
+          "textures": 2,
+          "animations": [
+            "idle",
+            "walk",
+            "eat",
+            "drink",
+            "rest"
+          ],
+          "bounds": {
+            "min": [
+              -0.4020395159006119,
+              0.0005899978548287999,
+              -0.14268788313591477
+            ],
+            "max": [
+              0.5841118014305829,
+              0.77195600476861,
+              0.14268788313591477
+            ]
+          },
+          "templates": [
+            "slender_deep_goat_torso",
+            "neck",
+            "leg_front_left",
+            "leg_front_right",
+            "leg_rear_left",
+            "leg_rear_right",
+            "tail"
+          ],
+          "normalMaps": 1,
+          "roles": {
+            "head": "head",
+            "tail": "tail",
+            "ears": [
+              "ear_left",
+              "ear_right"
+            ],
+            "legs": [
+              "leg_front_left",
+              "leg_front_right",
+              "leg_rear_left",
+              "leg_rear_right"
+            ]
+          },
+          "floorPivot": true,
+          "authoredBy": "MyFarmTwin original repository authoring",
+          "externalResources": false,
+          "distance": 24
+        },
+        "near": {
+          "url": "/play/assets/models/world/goat-kid.glb",
+          "distance": 0
+        }
+      }
+    },
+    "pond": {
+      "id": "pond",
+      "url": "/play/assets/models/world/pond.glb",
+      "sha256": "2b2a36231bc4a059fa578fdf0bfdee8cedce01e371f4a2dafe7e895fab3bda9b",
+      "bytes": 558036,
+      "uniqueTriangles": 8420,
+      "meshes": 16,
+      "nodes": 25,
+      "textures": 5,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -6,
+          0.014999999664723873,
+          -5
+        ],
+        "max": [
+          6.080007553100586,
+          1.3095000141859054,
+          5
+        ]
+      },
+      "templates": [
+        "rim",
+        "pond_lined_floor",
+        "water_contents",
+        "equipment",
+        "aerator"
+      ],
+      "normalMaps": 2,
+      "footprint": [
+        12,
+        10
+      ],
+      "interiorFloorY": 0.12,
+      "waterSurfaceY": 0.52,
+      "fishRootY": 0.17,
+      "fishRegion": [
+        [
+          -4.6,
+          0.14,
+          -3.6
+        ],
+        [
+          4.6,
+          0.25,
+          3.6
+        ]
+      ],
+      "front": "+Z",
+      "semanticRole": "raised rounded tilapia pond with aerator and service equipment",
+      "roles": {
+        "water": "water_contents",
+        "waterSurface": "water_surface",
+        "floor": "pond_lined_floor",
+        "rim": "rim",
+        "equipment": "equipment",
+        "aerator": "aerator",
+        "rotor": "aerator_rotor",
+        "bubbles": "aerator_bubbles"
+      },
+      "floorPivot": true,
+      "authoredBy": "MyFarmTwin original repository authoring",
+      "externalResources": false
+    },
+    "fish": {
+      "id": "fish",
+      "url": "/play/assets/models/world/fish.glb",
+      "sha256": "0af87d402bc700f85ddb7046964c9028b1eb4af3ff893333381b918ebab11dbf",
+      "bytes": 281164,
+      "uniqueTriangles": 5668,
+      "meshes": 13,
+      "nodes": 17,
+      "textures": 2,
+      "animations": [
+        "idle",
+        "swim"
+      ],
+      "bounds": {
+        "min": [
+          -0.2551365211606026,
+          0.009537731297314167,
+          -0.08555360600352288
+        ],
+        "max": [
+          0.18324990570545197,
+          0.23751187324523926,
+          0.08555360600352288
+        ]
+      },
+      "templates": [
+        "laterally_compressed_tilapia_body",
+        "tail",
+        "fin_left",
+        "fin_right",
+        "small_tilapia_mouth",
+        "fish_fine_translucent_olive_fins",
+        "fish_tilapia_fine_fin_rays",
+        "fish_dark_brown_wet_eye",
+        "fish_ivory_horn",
+        "fish_eye_catchlight"
+      ],
+      "normalMaps": 1,
+      "forward": "+X",
+      "semanticRole": "Nile tilapia",
+      "maxCloseInstancesSuggested": 24,
+      "roles": {
+        "tail": "tail",
+        "fins": [
+          "fin_left",
+          "fin_right"
+        ]
+      },
+      "floorPivot": true,
+      "authoredBy": "MyFarmTwin original repository authoring",
+      "externalResources": false,
+      "lod": {
+        "strategy": "authored far GLB with matching template and articulation names",
+        "distance": 18,
+        "far": {
+          "id": "fishFar",
+          "url": "/play/assets/models/world/fish-far.glb",
+          "sha256": "1fc90b3167b09f7d7ce1bf105ad30a54d7042d2a57f2d39e951b3365dd655dd0",
+          "bytes": 171520,
+          "uniqueTriangles": 1000,
+          "meshes": 8,
+          "nodes": 12,
+          "textures": 2,
+          "animations": [
+            "idle",
+            "swim"
+          ],
+          "bounds": {
+            "min": [
+              -0.25499999672174456,
+              0.009999999776482582,
+              -0.08500000178813935
+            ],
+            "max": [
+              0.18342658877372742,
+              0.2370000034570694,
+              0.08500000178813935
+            ]
+          },
+          "templates": [
+            "laterally_compressed_tilapia_body",
+            "tail",
+            "fin_left",
+            "fin_right",
+            "small_tilapia_mouth",
+            "fish_fine_translucent_olive_fins",
+            "fish_dark_brown_wet_eye",
+            "fish_ivory_horn"
+          ],
+          "normalMaps": 1,
+          "roles": {
+            "tail": "tail",
+            "fins": [
+              "fin_left",
+              "fin_right"
+            ]
+          },
+          "floorPivot": true,
+          "authoredBy": "MyFarmTwin original repository authoring",
+          "externalResources": false,
+          "distance": 18
+        },
+        "near": {
+          "url": "/play/assets/models/world/fish.glb",
+          "distance": 0
+        }
+      }
+    },
+    "market": {
+      "id": "market",
+      "url": "/play/assets/models/world/market.glb",
+      "sha256": "c40be41e85f6068867108efd6daf09e12726b833efb0225fb001a13fe734a807",
+      "bytes": 2157684,
+      "uniqueTriangles": 52172,
+      "meshes": 47,
+      "nodes": 79,
+      "textures": 5,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -3.9549999237060547,
+          -0.154,
+          -3.515000104904175
+        ],
+        "max": [
+          3.9549999237060547,
+          4.007500171661377,
+          3.515000104904175
+        ]
+      },
+      "templates": [
+        "floor",
+        "frame",
+        "roof",
+        "walls",
+        "equipment",
+        "stock_contents",
+        "warehouse_shelves"
+      ],
+      "normalMaps": 2,
+      "footprint": [
+        7,
+        6
+      ],
+      "interiorFloorY": 0,
+      "interiorTarget": [
+        0,
+        1,
+        0
+      ],
+      "front": "+Z",
+      "semanticRole": "local produce market and stock warehouse",
+      "roles": {
+        "roof": "roof",
+        "floor": "floor",
+        "frame": "frame",
+        "walls": "walls",
+        "equipment": "equipment",
+        "stock": "stock_contents",
+        "shelves": "warehouse_shelves",
+        "orderCrate": "order_crate"
+      },
+      "floorPivot": true,
+      "authoredBy": "MyFarmTwin original repository authoring",
+      "externalResources": false
+    },
+    "barn": {
+      "id": "barn",
+      "url": "/play/assets/models/prototype/barn.glb",
+      "sha256": "25a177e03f24debe3581990244132950d1a240b94ec9bf727b0e5353f05780c2",
+      "bytes": 875472,
+      "uniqueTriangles": 12192,
+      "meshes": 18,
+      "nodes": 28,
+      "textures": 3,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -5.469459056854248,
+          -0.174,
+          -4.599999904632568
+        ],
+        "max": [
+          5.469459056854248,
+          4.76201868057251,
+          4.599999904632568
+        ]
+      },
+      "templates": [
+        "floor",
+        "frame",
+        "walls",
+        "stalls",
+        "equipment",
+        "roof"
+      ],
+      "roles": {
+        "roof": "roof",
+        "walls": "walls",
+        "frame": "frame",
+        "floor": "floor",
+        "stalls": "stalls",
+        "equipment": "equipment"
+      },
+      "floorPivot": true,
+      "reusedOriginalPrototype": true,
+      "externalResources": false,
+      "footprint": [
+        10,
+        8
+      ],
+      "interiorFloorY": 0,
+      "interiorTarget": [
+        0,
+        1.3,
+        0
+      ],
+      "front": "+Z"
+    },
+    "cow": {
+      "id": "cow",
+      "url": "/play/assets/models/prototype/cow.glb",
+      "sha256": "540c61f55ca892fed09c0d55c1b43414a8dbe0ede2ad847167799ae91f6d5a2b",
+      "bytes": 417292,
+      "uniqueTriangles": 12766,
+      "meshes": 35,
+      "nodes": 53,
+      "textures": 1,
+      "animations": [
+        "idle",
+        "walk",
+        "eat",
+        "drink",
+        "rest"
+      ],
+      "bounds": {
+        "min": [
+          -1.2616652679443359,
+          1.6808509861743204e-08,
+          -0.43999999642372134
+        ],
+        "max": [
+          1.6099999833106995,
+          1.709999994635582,
+          0.43999999642372134
+        ]
+      },
+      "templates": [
+        "organic_torso",
+        "leg_front_left",
+        "leg_front_right",
+        "leg_rear_left",
+        "leg_rear_right",
+        "tail",
+        "neck",
+        "cow_soft_warm_inner_skin"
+      ],
+      "roles": {
+        "head": "head",
+        "tail": "tail",
+        "legs": [
+          "leg_front_left",
+          "leg_front_right",
+          "leg_rear_left",
+          "leg_rear_right"
+        ]
+      },
+      "floorPivot": true,
+      "reusedOriginalPrototype": true,
+      "externalResources": false,
+      "forward": "+X"
+    },
+    "bed": {
+      "id": "bed",
+      "url": "/play/assets/models/prototype/bed.glb",
+      "sha256": "870e3c2dabd03544fe74956756f6c285336b168942b57f674190fdc7a85a0435",
+      "bytes": 238304,
+      "uniqueTriangles": 1788,
+      "meshes": 2,
+      "nodes": 3,
+      "textures": 2,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -0.8050000071525574,
+          0,
+          -0.9750000238418579
+        ],
+        "max": [
+          0.8050000071525574,
+          0.12999999523162842,
+          0.9750000238418579
+        ]
+      },
+      "templates": [
+        "bed_moist_tropical_loam",
+        "bed_warm_weathered_hardwood"
+      ],
+      "roles": {},
+      "floorPivot": true,
+      "reusedOriginalPrototype": true,
+      "externalResources": false,
+      "footprint": [
+        1.5,
+        1.8
+      ]
+    },
+    "crops": {
+      "id": "crops",
+      "url": "/play/assets/models/prototype/crops.glb",
+      "sha256": "90d9b1778adf73d98ca01c0e30f3bf0f393762b936ddc38f8e20f7adffe61421",
+      "bytes": 319836,
+      "uniqueTriangles": 10888,
+      "meshes": 30,
+      "nodes": 44,
+      "textures": 0,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -0.5061700344085693,
+          -0.002269444055855274,
+          -0.5165309309959412
+        ],
+        "max": [
+          0.5199999809265137,
+          2.2420942783355713,
+          0.4958411455154419
+        ]
+      },
+      "templates": [
+        "lettuce_0",
+        "lettuce_1",
+        "lettuce_2",
+        "lettuce_3",
+        "tomato_0",
+        "tomato_1",
+        "tomato_2",
+        "tomato_3",
+        "corn_0",
+        "corn_1",
+        "corn_2",
+        "corn_3",
+        "corn_4"
+      ],
+      "roles": {
+        "lettuce": [
+          "lettuce_0",
+          "lettuce_1",
+          "lettuce_2",
+          "lettuce_3"
+        ],
+        "tomato": [
+          "tomato_0",
+          "tomato_1",
+          "tomato_2",
+          "tomato_3"
+        ],
+        "corn": [
+          "corn_0",
+          "corn_1",
+          "corn_2",
+          "corn_3",
+          "corn_4"
+        ]
+      },
+      "floorPivot": true,
+      "reusedOriginalPrototype": true,
+      "externalResources": false
+    },
+    "props": {
+      "id": "props",
+      "url": "/play/assets/models/prototype/props.glb",
+      "sha256": "7cf9088a13a74b0d17b7b2d0616198cfb5d0da6a86203c9cbd1b545eddb6455e",
+      "bytes": 450732,
+      "uniqueTriangles": 2348,
+      "meshes": 12,
+      "nodes": 20,
+      "textures": 2,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -1.100000023841858,
+          -0.20218439102172853,
+          -0.5209734439849854
+        ],
+        "max": [
+          1.100000023841858,
+          0.78104168176651,
+          0.607393205165863
+        ]
+      },
+      "templates": [
+        "feed_trough",
+        "water_trough",
+        "milk_pail",
+        "crate",
+        "feed_bag",
+        "pump",
+        "rock"
+      ],
+      "roles": [
+        "feed_trough",
+        "water_trough",
+        "milk_pail",
+        "crate",
+        "feed_bag",
+        "pump",
+        "rock"
+      ],
+      "floorPivot": true,
+      "reusedOriginalPrototype": true,
+      "externalResources": false
+    },
+    "vegetation": {
+      "id": "vegetation",
+      "url": "/play/assets/models/prototype/vegetation.glb",
+      "sha256": "b74c620fba1635bd1cb4f4c1b3fcfadf75af2248a9b4cf67a62505beb547ea92",
+      "bytes": 483124,
+      "uniqueTriangles": 12962,
+      "meshes": 11,
+      "nodes": 16,
+      "textures": 1,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -1.8539490699768066,
+          -0.007752757053822279,
+          -2.1529581546783447
+        ],
+        "max": [
+          2.4826080799102783,
+          4.515624046325684,
+          2.070836067199707
+        ]
+      },
+      "templates": [
+        "banana",
+        "palm",
+        "grass",
+        "shrub"
+      ],
+      "roles": [
+        "banana",
+        "palm",
+        "grass",
+        "shrub"
+      ],
+      "floorPivot": true,
+      "reusedOriginalPrototype": true,
+      "externalResources": false,
+      "lod": {
+        "strategy": "authored far GLB with matching template and articulation names",
+        "distance": 27,
+        "far": {
+          "id": "vegetationFar",
+          "url": "/play/assets/models/world/vegetation-far.glb",
+          "sha256": "364f6a72135c3cf2776d0bf962774d5a602007424b3470c9e45887c3e5758e5a",
+          "bytes": 169716,
+          "uniqueTriangles": 1640,
+          "meshes": 9,
+          "nodes": 14,
+          "textures": 1,
+          "animations": [],
+          "bounds": {
+            "min": [
+              -1.8512132167816162,
+              -0.008180925622582436,
+              -2.1517155170440674
+            ],
+            "max": [
+              2.4820525646209717,
+              4.5029296875,
+              2.0495805740356445
+            ]
+          },
+          "templates": [
+            "banana",
+            "palm",
+            "grass",
+            "shrub"
+          ],
+          "normalMaps": 0,
+          "roles": [
+            "banana",
+            "palm",
+            "grass",
+            "shrub"
+          ],
+          "floorPivot": true,
+          "authoredBy": "MyFarmTwin original repository authoring",
+          "externalResources": false,
+          "distance": 27
+        },
+        "near": {
+          "url": "/play/assets/models/prototype/vegetation.glb",
+          "distance": 0
+        }
+      }
+    },
+    "path": {
+      "id": "path",
+      "url": "/play/assets/models/prototype/path.glb",
+      "sha256": "82c3235227a7739aa34e8e73cd0e0560e82db095fbd0932a1cef2c645f998329",
+      "bytes": 106940,
+      "uniqueTriangles": 1212,
+      "meshes": 2,
+      "nodes": 3,
+      "textures": 1,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -1,
+          0,
+          -1
+        ],
+        "max": [
+          1,
+          0.03700000047683716,
+          1
+        ]
+      },
+      "templates": [
+        "compacted_soil_path",
+        "path_warm_lime_concrete"
+      ],
+      "roles": {},
+      "floorPivot": true,
+      "reusedOriginalPrototype": true,
+      "externalResources": false,
+      "footprint": [
+        2,
+        2
+      ]
+    },
+    "fence": {
+      "id": "fence",
+      "url": "/play/assets/models/prototype/fence.glb",
+      "sha256": "9279a59094589199b831ec5cab81fb877df6d3d288600f7f55345768985fa7c3",
+      "bytes": 117212,
+      "uniqueTriangles": 64,
+      "meshes": 1,
+      "nodes": 2,
+      "textures": 1,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -1.0636396408081055,
+          0,
+          -0.06363961100578308
+        ],
+        "max": [
+          1.0636396408081055,
+          1.190000057220459,
+          0.06363961100578308
+        ]
+      },
+      "templates": [
+        "fence_warm_weathered_hardwood"
+      ],
+      "roles": {},
+      "floorPivot": true,
+      "reusedOriginalPrototype": true,
+      "externalResources": false,
+      "length": 2
+    }
+  },
+  "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+  "htmlSha256": "dedd25f4fcb6dd081567b6f88864faa578d8cefd70cf1edc18e386029567c935",
+  "cssSha256": "18225fa9772c3f4126b5c66b348a23db1e849ab54d9b02f2b8ad244a6e2f6e4e",
+  "inputs": [
+    "game/client/active-garden.js",
+    "game/client/chicken-commands.js",
+    "game/client/chicken-config.js",
+    "game/client/chicken-eggs.js",
+    "game/client/chicken-missions.js",
+    "game/client/chicken-runtime.js",
+    "game/client/chicken-save-checks.js",
+    "game/client/chicken-state.js",
+    "game/client/chicken-welfare.js",
+    "game/client/config.js",
+    "game/client/cow-care.js",
+    "game/client/cow-commands.js",
+    "game/client/cow-config.js",
+    "game/client/cow-feed.js",
+    "game/client/cow-lab.js",
+    "game/client/cow-math.js",
+    "game/client/cow-milk.js",
+    "game/client/cow-milking.js",
+    "game/client/cow-missions.js",
+    "game/client/cow-order-policy.js",
+    "game/client/cow-purchase.js",
+    "game/client/cow-recovery.js",
+    "game/client/cow-runtime.js",
+    "game/client/cow-sales.js",
+    "game/client/cow-save-checks.js",
+    "game/client/cow-state.js",
+    "game/client/cow-storage.js",
+    "game/client/cow-upgrades.js",
+    "game/client/cow-water.js",
+    "game/client/cow-welfare.js",
+    "game/client/cozy-animation.js",
+    "game/client/cozy-app.js",
+    "game/client/cozy-camera-preference.js",
+    "game/client/cozy-domain.js",
+    "game/client/cozy-integrity.js",
+    "game/client/cozy-legacy-recovery.js",
+    "game/client/cozy-placement.js",
+    "game/client/cozy-recovery.js",
+    "game/client/cozy-storage.js",
+    "game/client/cozy-world.js",
+    "game/client/engine.js",
+    "game/client/features.js",
+    "game/client/fish-aerator.js",
+    "game/client/fish-commands.js",
+    "game/client/fish-config.js",
+    "game/client/fish-contracts.js",
+    "game/client/fish-energy.js",
+    "game/client/fish-feed.js",
+    "game/client/fish-feeder.js",
+    "game/client/fish-filter.js",
+    "game/client/fish-goals.js",
+    "game/client/fish-growth.js",
+    "game/client/fish-harvest.js",
+    "game/client/fish-missions.js",
+    "game/client/fish-oxygen.js",
+    "game/client/fish-recovery.js",
+    "game/client/fish-runtime.js",
+    "game/client/fish-sales.js",
+    "game/client/fish-save-checks.js",
+    "game/client/fish-state.js",
+    "game/client/fish-stock.js",
+    "game/client/fish-support.js",
+    "game/client/fish-upgrades.js",
+    "game/client/fish-validation.js",
+    "game/client/fish-waste.js",
+    "game/client/fish-water.js",
+    "game/client/glb-prototype-state.js",
+    "game/client/goat-commands.js",
+    "game/client/goat-config.js",
+    "game/client/goat-growth.js",
+    "game/client/goat-insights.js",
+    "game/client/goat-market-policy.js",
+    "game/client/goat-missions.js",
+    "game/client/goat-pasture.js",
+    "game/client/goat-runtime.js",
+    "game/client/goat-save-checks.js",
+    "game/client/goat-state.js",
+    "game/client/goat-welfare.js",
+    "game/client/invariants.js",
+    "game/client/missions.js",
+    "game/client/save-lock.js",
+    "game/client/save-schema.js",
+    "game/client/storage.js",
+    "game/client/water.js"
+  ],
+  "legacyVisibleModules": false
+}
