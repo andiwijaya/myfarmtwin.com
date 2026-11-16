@@ -10,6 +10,16 @@ function el(id){const e=document.getElementById(id);if(!e)throw Error('Missing i
 /** @param {string} id */const input=id=>/** @type {HTMLInputElement} */(el(id));
 /** @param {string} id */const dialog=id=>/** @type {HTMLDialogElement} */(el(id));
 /** @type {'id'|'en'} */let language='id';try{language=localStorage.getItem('myfarmtwin.locale')==='en'?'en':'id';}catch{/* Optional preference. */}
+// UI preference stays separate from all farm progress and migration keys.
+const toolbarPreferenceKey='myfarmtwin.ui.toolbar-expanded.v1';
+const toolbar=/** @type {HTMLDetailsElement} */(el('farm-toolbar'));
+try{toolbar.open=localStorage.getItem(toolbarPreferenceKey)==='expanded';}catch{/* Optional preference. */}
+let lastToolbarOpen=toolbar.open;
+toolbar.addEventListener('toggle',()=>{
+ const open=toolbar.open;if(open===lastToolbarOpen)return;
+ lastToolbarOpen=open;
+ try{localStorage.setItem(toolbarPreferenceKey,open?'expanded':'collapsed');}catch{/* Keep native controls usable when preference storage is unavailable. */}
+});
 /** @param {string} id @param {string} en */const L=(id,en)=>language==='id'?id:en;
 /** @param {number} n @param {number} [digits] */const fmt=(n,digits=0)=>Number(n).toLocaleString(language,{maximumFractionDigits:digits});
 /** @param {string} tag @param {string} [text] @param {string} [className] */
