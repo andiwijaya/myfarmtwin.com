@@ -12,14 +12,14 @@
   ],
   "saveVersion": 2,
   "three": "0.187.0",
-  "entry": "app-4EV74STN.js",
+  "entry": "app-4PURYOGI.js",
   "recoveryEntry": "recovery-2UXJQDFZ.js",
   "integrityEntry": "integrity-LL76RTOU.js",
   "emitted": [
     {
-      "name": "app-4EV74STN.js",
-      "bytes": 720837,
-      "sha256": "f70c0d8016394bb2ee4632280dbe6f60df538faec7017e4c73a51928ed3a12f7"
+      "name": "app-4PURYOGI.js",
+      "bytes": 721103,
+      "sha256": "a7490af6de02682ab8a2929f6f35ed4b7dcb5666b45126acc21c50dfe4e7c165"
     },
     {
       "name": "recovery-2UXJQDFZ.js",
@@ -1204,7 +1204,7 @@
     }
   },
   "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
-  "htmlSha256": "1b902e2cb51dae04f3b7fc964dfa2ea5fafdc470c6064fa50fc4e69ee0030bd9",
+  "htmlSha256": "6fa0ed635d9768e339ff10507395871e9f818bbbeb1373ecb7eceac2241c186e",
   "cssSha256": "18225fa9772c3f4126b5c66b348a23db1e849ab54d9b02f2b8ad244a6e2f6e4e",
   "inputs": [
     "game/client/active-garden.js",
