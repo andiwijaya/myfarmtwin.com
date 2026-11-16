@@ -38,7 +38,7 @@ export class CozyWorld{
   canvas.addEventListener('keydown',e=>{if(e.key==='Home'){e.preventDefault();this.focus('overview');}else if(e.key==='+'||e.key==='='){e.preventDefault();this.zoom(.82);}else if(e.key==='-'){e.preventDefault();this.zoom(1.22);}else if(e.key==='ArrowLeft'){e.preventDefault();this.rotate(-Math.PI/8);}else if(e.key==='ArrowRight'){e.preventDefault();this.rotate(Math.PI/8);}else if(e.key==='Escape')this.options.onSelect(this.back());},{signal:this.abort.signal});
   this.resizeObserver=new ResizeObserver(()=>this.resize());this.resizeObserver.observe(host);this.resize();
   // Expanding below-scene controls changes the host size, not the chosen view.
-  window.addEventListener('resize',()=>{this.resize();if(this.currentView==='overview'&&this.items.size)this.focus('overview',false);},{signal:this.abort.signal});
+  let windowWidth=window.innerWidth;window.addEventListener('resize',()=>{this.resize();const widthChanged=window.innerWidth!==windowWidth;windowWidth=window.innerWidth;if(widthChanged&&this.currentView==='overview'&&this.items.size)this.focus('overview',false);},{signal:this.abort.signal});
  }
  async load(){
   const response=await fetch('/play/assets/models/world-manifest.json',{cache:'no-cache'});if(!response.ok)throw Error('Manifest unavailable');this.manifest=await response.json();const assets=this.manifest.assets,loader=new GLTFLoader(),names=Object.keys(assets);this.modelCount=names.length+names.filter(n=>assets[n].lod?.far).length;let ready=0;
