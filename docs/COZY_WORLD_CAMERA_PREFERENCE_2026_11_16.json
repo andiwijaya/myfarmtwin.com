@@ -1,0 +1,136 @@
+{
+  "kind": "myfarmtwin-camera-preference-release-v1",
+  "status": "deployed-and-verified",
+  "date": "2026-11-16",
+  "uiStorageKey": "myfarmtwin.ui.camera.v1",
+  "toolbarStorageKey": "myfarmtwin.ui.toolbar-expanded.v1",
+  "savedFields": [
+    "position",
+    "target",
+    "fov",
+    "zoom",
+    "view",
+    "anchor",
+    "changedAt"
+  ],
+  "farmSaveUntouched": true,
+  "browserTesting": "Codex internal browser only",
+  "sourceChecks": {
+    "typecheck": "pass",
+    "cameraTests": {
+      "passed": 9,
+      "failed": 0
+    },
+    "deliveryAndHeaderTests": {
+      "passed": 4,
+      "failed": 0
+    },
+    "build": "pass"
+  },
+  "preview": {
+    "date": "2026-11-16T14:19:12.649Z",
+    "url": "https://myfarmtwin.com/play/camera-preview/",
+    "entry": "app-KU5HXF2G.js",
+    "candidateSource": "63737755987d2c7e60c4ba7287bb6b3a9fdedac6",
+    "browser": "Codex internal browser (IAB)",
+    "tests": {
+      "manualGardenZoomOrbitPanRefresh": true,
+      "manualGardenReopen": true,
+      "interiorZoomOrbitRefresh": true,
+      "interiorReopen": true,
+      "backRestoresExactPose": true,
+      "toolbarCollapseRefreshRetainsCamera": true,
+      "twoTabLatestGestureImmediateCloseReopen": true,
+      "farmSaveByteIdentical": true,
+      "resourceIntegrity": true
+    },
+    "poseTolerance": 0.001,
+    "limits": [
+      "Phone viewport emulation, not physical-device evidence",
+      "No browser-process restart or native pinch/drag performed",
+      "Read-only farm journeys; no gameplay commands or save imports"
+    ]
+  },
+  "promotionParity": {
+    "entry": "app-KU5HXF2G.js",
+    "emittedBytes": 927093,
+    "exactTestedJsCssManifestAndGlbs": true,
+    "htmlEqualExceptAssetPrefix": true,
+    "temporaryPreviewRemoved": true,
+    "htmlSha256": "964791ce501c3d690921a96e651b4a84426b3ef10f9141f0e9619deeb06f5c39",
+    "cssSha256": "18225fa9772c3f4126b5c66b348a23db1e849ab54d9b02f2b8ad244a6e2f6e4e",
+    "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b"
+  },
+  "production": {
+    "date": "2026-11-16T14:24:21.099Z",
+    "url": "https://myfarmtwin.com/play/",
+    "entry": "app-KU5HXF2G.js",
+    "source": "be5d95e68b6aee06de9b5cd28152e06ac9c0a99e",
+    "deployment": "c84c3870-0632-4284-b869-4d87a5306045",
+    "checkRun": 133360338973,
+    "browser": "Codex internal browser (IAB)",
+    "tests": {
+      "phoneGardenZoomOrbitPanRefresh": true,
+      "phoneGardenTabReopen": true,
+      "desktopInteriorRefresh": true,
+      "desktopInteriorTabReopen": true,
+      "finalOverviewRefresh": true,
+      "farmSaveByteIdentical": true,
+      "phoneToolbarBelowCanvas": true,
+      "desktopToolbarBelowCanvas": true,
+      "noHorizontalOverflow": true,
+      "integrity": true
+    },
+    "phoneLayout": {
+      "canvasBottom": 683.3333358764648,
+      "collapsed": true,
+      "height": 844,
+      "horizontalOverflow": false,
+      "noCanvasOverlap": true,
+      "toolbarTop": 691,
+      "width": 390
+    },
+    "desktopLayout": {
+      "collapsed": true,
+      "height": 900,
+      "horizontalOverflow": false,
+      "noCanvasOverlap": true,
+      "width": 1440
+    },
+    "resources": 30,
+    "glbs": 22,
+    "warningsAndErrors": 0,
+    "poseTolerance": 0.001,
+    "finalView": "overview",
+    "finalToolbar": "collapsed",
+    "limits": [
+      "Phone viewport emulation, not a physical phone",
+      "Browser-process restart, private-mode retention and native pinch/drag were not exercised",
+      "No gameplay commands or imported saves"
+    ]
+  },
+  "deployment": {
+    "source": "be5d95e68b6aee06de9b5cd28152e06ac9c0a99e",
+    "branch": "main",
+    "deployment": "c84c3870-0632-4284-b869-4d87a5306045",
+    "checkRun": 133360338973,
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://myfarmtwin.com/play/",
+    "immutableDeployment": "https://c84c3870.myfarmtwin-com.pages.dev"
+  },
+  "artifact": {
+    "bytes": 18390395,
+    "sha256": "7bce45c61dd9a0cc38356760a8762873475b5179c2eb195ca29cbe7bc7891bc2",
+    "verifiedFiles": 303,
+    "matchesDist": true,
+    "normalizedHostingMetadata": true,
+    "temporaryPreviewExcluded": true,
+    "filename": "myfarmtwin-camera-preference-20261116.tar.gz"
+  },
+  "screenshots": [
+    "production-garden-after-reopen.jpg",
+    "production-interior-after-refresh.jpg",
+    "production-overview-after-refresh.jpg"
+  ]
+}
