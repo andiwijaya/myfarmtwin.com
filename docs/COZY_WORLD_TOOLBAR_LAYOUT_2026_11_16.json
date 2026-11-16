@@ -1,0 +1,2579 @@
+{
+  "kind": "myfarmtwin-toolbar-layout-release-20261116",
+  "preview": {
+    "source": "139eac9262925ee2dbd2dbf801abdebbef58046a",
+    "origin": "https://4fa9d1ca.myfarmtwin-com.pages.dev",
+    "entry": "app-S342P2LL.js",
+    "checks": [
+      {
+        "id": "six-responsive-layouts",
+        "ok": true,
+        "sizes": [
+          {
+            "height": 740,
+            "scrollWidth": 305,
+            "width": 320
+          },
+          {
+            "height": 844,
+            "scrollWidth": 375,
+            "width": 390
+          },
+          {
+            "height": 1024,
+            "scrollWidth": 753,
+            "width": 768
+          },
+          {
+            "height": 390,
+            "scrollWidth": 829,
+            "width": 844
+          },
+          {
+            "height": 768,
+            "scrollWidth": 1009,
+            "width": 1024
+          },
+          {
+            "height": 900,
+            "scrollWidth": 1440,
+            "width": 1440
+          }
+        ]
+      },
+      {
+        "id": "seven-area-navigation-readonly",
+        "ok": true,
+        "areas": [
+          "garden",
+          "coop",
+          "goatShelter",
+          "barn",
+          "pond",
+          "market",
+          "overview"
+        ]
+      },
+      {
+        "id": "zoom-orbit-expanded-pan-readonly",
+        "ok": true
+      },
+      {
+        "id": "build-preview-valid-placement-and-cancel-exact",
+        "ok": true
+      },
+      {
+        "id": "move-editor-revealed-from-care-panel-and-cancel-exact",
+        "ok": true,
+        "placement": {
+          "bottom": 283.08333334326744,
+          "top": 0.3020833432674408,
+          "viewportHeight": 844
+        }
+      },
+      {
+        "id": "interior-toolbar-and-keyboard-return",
+        "ok": true
+      },
+      {
+        "id": "english-phone-layout-no-overlap",
+        "ok": true
+      },
+      {
+        "id": "reload-preserves-complete-save-exactly",
+        "ok": true
+      },
+      {
+        "id": "actual-browser-resource-integrity",
+        "ok": true,
+        "files": 30,
+        "glbs": 22
+      }
+    ],
+    "samples": [
+      {
+        "buttonOverlaps": [],
+        "canvas": {
+          "bottom": 478.2395935058594,
+          "height": 309.4583435058594,
+          "right": 304.66668701171875,
+          "width": 304.66668701171875,
+          "x": 0,
+          "y": 168.78125
+        },
+        "canvasOverlaps": [],
+        "groups": [
+          {
+            "bottom": 168.11458587646484,
+            "height": 111.11458587646484,
+            "position": "static",
+            "right": 304.66668701171875,
+            "selector": ".world-heading",
+            "width": 304.66668701171875,
+            "x": 0,
+            "y": 57
+          },
+          {
+            "bottom": 547.90625,
+            "height": 57,
+            "position": "static",
+            "right": 290.66668701171875,
+            "selector": ".resources",
+            "width": 276.66668701171875,
+            "x": 14,
+            "y": 490.90625
+          },
+          {
+            "bottom": 659.2395858764648,
+            "height": 101.33333587646484,
+            "position": "static",
+            "right": 290.66668701171875,
+            "selector": ".destinations",
+            "width": 276.66668701171875,
+            "x": 14,
+            "y": 557.90625
+          },
+          {
+            "bottom": 720.5729598999023,
+            "height": 51.33333587646485,
+            "position": "static",
+            "right": 290.66668701171875,
+            "selector": ".camera-tools",
+            "width": 276.66668701171875,
+            "x": 14,
+            "y": 669.2396240234375
+          },
+          {
+            "bottom": 780.5729370117188,
+            "height": 52,
+            "position": "static",
+            "right": 290.66668701171875,
+            "selector": "#build-open",
+            "width": 276.66668701171875,
+            "x": 14,
+            "y": 728.5729370117188
+          },
+          {
+            "bottom": 822.7396049499512,
+            "height": 32.16666793823242,
+            "position": "static",
+            "right": 290.66668701171875,
+            "selector": ".world-bottom",
+            "width": 276.66668701171875,
+            "x": 14,
+            "y": 790.5729370117188
+          },
+          {
+            "bottom": 850.7396240234375,
+            "height": 18,
+            "position": "static",
+            "right": 290.66668701171875,
+            "selector": "#toast",
+            "width": 276.66668701171875,
+            "x": 14,
+            "y": 832.7396240234375
+          }
+        ],
+        "minimumButtonHeight": 44,
+        "viewport": {
+          "height": 740,
+          "scrollWidth": 305,
+          "width": 320
+        },
+        "world": {
+          "animalModels": "17",
+          "animationStates": "{\"eat\":3,\"rest\":3,\"idle\":3,\"swim\":8}",
+          "camera": "{\"x\":41.68,\"y\":39.39,\"z\":47.92}",
+          "cropBatches": "8",
+          "cropPlants": "128",
+          "drawCalls": "1151",
+          "frameMedianMs": "16.70",
+          "frameP95Ms": "16.80",
+          "geometries": "282",
+          "glbOnly": "true",
+          "inventory": "0",
+          "land": "{\"minX\":-28,\"maxX\":28,\"minZ\":-24,\"maxZ\":24}",
+          "loadMs": "4051",
+          "lodFar": "20",
+          "lodNear": "0",
+          "materialClones": "0",
+          "meshes": "850",
+          "models": "22",
+          "modelsReady": "true",
+          "nonGlbMeshes": "0",
+          "quality": "auto",
+          "revision": "100",
+          "saveStatus": "saveSaved",
+          "selected": "overview",
+          "textures": "49",
+          "triangles": "962744",
+          "view": "overview"
+        }
+      },
+      {
+        "buttonOverlaps": [],
+        "canvas": {
+          "bottom": 521.9270935058594,
+          "height": 353.1458435058594,
+          "right": 374.6666870117187,
+          "width": 374.6666870117187,
+          "x": 0,
+          "y": 168.78125
+        },
+        "canvasOverlaps": [],
+        "groups": [
+          {
+            "bottom": 168.11458587646484,
+            "height": 111.11458587646484,
+            "position": "static",
+            "right": 374.6666870117187,
+            "selector": ".world-heading",
+            "width": 374.6666870117187,
+            "x": 0,
+            "y": 57
+          },
+          {
+            "bottom": 591.59375,
+            "height": 57,
+            "position": "static",
+            "right": 360.6666870117187,
+            "selector": ".resources",
+            "width": 346.66668701171875,
+            "x": 14,
+            "y": 534.59375
+          },
+          {
+            "bottom": 702.9270858764648,
+            "height": 101.33333587646484,
+            "position": "static",
+            "right": 360.6666870117187,
+            "selector": ".destinations",
+            "width": 346.66668701171875,
+            "x": 14,
+            "y": 601.59375
+          },
+          {
+            "bottom": 764.2604598999023,
+            "height": 51.33333587646485,
+            "position": "static",
+            "right": 360.6666870117187,
+            "selector": ".camera-tools",
+            "width": 346.66668701171875,
+            "x": 14,
+            "y": 712.9271240234375
+          },
+          {
+            "bottom": 824.2604370117188,
+            "height": 52,
+            "position": "static",
+            "right": 360.6666870117187,
+            "selector": "#build-open",
+            "width": 346.66668701171875,
+            "x": 14,
+            "y": 772.2604370117188
+          },
+          {
+            "bottom": 847.7604370117188,
+            "height": 13.5,
+            "position": "static",
+            "right": 360.6666870117187,
+            "selector": ".world-bottom",
+            "width": 346.66668701171875,
+            "x": 14,
+            "y": 834.2604370117188
+          },
+          {
+            "bottom": 875.7604370117188,
+            "height": 18,
+            "position": "static",
+            "right": 360.6666870117187,
+            "selector": "#toast",
+            "width": 346.66668701171875,
+            "x": 14,
+            "y": 857.7604370117188
+          }
+        ],
+        "minimumButtonHeight": 44,
+        "viewport": {
+          "height": 844,
+          "scrollWidth": 375,
+          "width": 390
+        },
+        "world": {
+          "animalModels": "17",
+          "animationStates": "{\"eat\":3,\"rest\":3,\"idle\":3,\"swim\":8}",
+          "camera": "{\"x\":41.68,\"y\":39.39,\"z\":47.92}",
+          "cropBatches": "8",
+          "cropPlants": "128",
+          "drawCalls": "1151",
+          "frameMedianMs": "16.70",
+          "frameP95Ms": "16.80",
+          "geometries": "282",
+          "glbOnly": "true",
+          "inventory": "0",
+          "land": "{\"minX\":-28,\"maxX\":28,\"minZ\":-24,\"maxZ\":24}",
+          "loadMs": "4051",
+          "lodFar": "20",
+          "lodNear": "0",
+          "materialClones": "0",
+          "meshes": "850",
+          "models": "22",
+          "modelsReady": "true",
+          "nonGlbMeshes": "0",
+          "quality": "auto",
+          "revision": "100",
+          "saveStatus": "saveSaved",
+          "selected": "overview",
+          "textures": "49",
+          "triangles": "962744",
+          "view": "overview"
+        }
+      },
+      {
+        "buttonOverlaps": [],
+        "canvas": {
+          "bottom": 664.3229370117188,
+          "height": 469.6979370117187,
+          "right": 752.6666870117188,
+          "width": 752.6666870117188,
+          "x": 0,
+          "y": 194.625
+        },
+        "canvasOverlaps": [],
+        "groups": [
+          {
+            "bottom": 193.95833587646484,
+            "height": 125.95833587646484,
+            "position": "static",
+            "right": 752.6666870117188,
+            "selector": ".world-heading",
+            "width": 752.6666870117188,
+            "x": 0,
+            "y": 68
+          },
+          {
+            "bottom": 739.3229598999023,
+            "height": 58.33333587646485,
+            "position": "static",
+            "right": 728.6666870117188,
+            "selector": ".resources",
+            "width": 704.6666870117188,
+            "x": 24,
+            "y": 680.9896240234375
+          },
+          {
+            "bottom": 813.9896049499512,
+            "height": 62.66666793823242,
+            "position": "static",
+            "right": 728.6666870117188,
+            "selector": ".destinations",
+            "width": 704.6666870117188,
+            "x": 24,
+            "y": 751.3229370117188
+          },
+          {
+            "bottom": 879.3229598999023,
+            "height": 53.33333587646485,
+            "position": "static",
+            "right": 602.125,
+            "selector": ".camera-tools",
+            "width": 578.125,
+            "x": 24,
+            "y": 825.9896240234375
+          },
+          {
+            "bottom": 878.65625,
+            "height": 52,
+            "position": "static",
+            "right": 728.6666717529297,
+            "selector": "#build-open",
+            "width": 116.54167175292967,
+            "x": 612.125,
+            "y": 826.65625
+          },
+          {
+            "bottom": 906.3229370117188,
+            "height": 15,
+            "position": "static",
+            "right": 728.6666870117188,
+            "selector": ".world-bottom",
+            "width": 704.6666870117188,
+            "x": 24,
+            "y": 891.3229370117188
+          },
+          {
+            "bottom": 936.3229370117188,
+            "height": 18,
+            "position": "static",
+            "right": 728.6666870117188,
+            "selector": "#toast",
+            "width": 704.6666870117188,
+            "x": 24,
+            "y": 918.3229370117188
+          }
+        ],
+        "minimumButtonHeight": 44,
+        "viewport": {
+          "height": 1024,
+          "scrollWidth": 753,
+          "width": 768
+        },
+        "world": {
+          "animalModels": "17",
+          "animationStates": "{\"eat\":3,\"rest\":3,\"idle\":3,\"swim\":8}",
+          "camera": "{\"x\":41.68,\"y\":39.39,\"z\":47.92}",
+          "cropBatches": "8",
+          "cropPlants": "128",
+          "drawCalls": "1151",
+          "frameMedianMs": "16.70",
+          "frameP95Ms": "16.80",
+          "geometries": "282",
+          "glbOnly": "true",
+          "inventory": "0",
+          "land": "{\"minX\":-28,\"maxX\":28,\"minZ\":-24,\"maxZ\":24}",
+          "loadMs": "4051",
+          "lodFar": "20",
+          "lodNear": "0",
+          "materialClones": "0",
+          "meshes": "850",
+          "models": "22",
+          "modelsReady": "true",
+          "nonGlbMeshes": "0",
+          "quality": "auto",
+          "revision": "100",
+          "saveStatus": "saveSaved",
+          "selected": "overview",
+          "textures": "49",
+          "triangles": "962744",
+          "view": "overview"
+        }
+      },
+      {
+        "buttonOverlaps": [],
+        "canvas": {
+          "bottom": 453.2916870117187,
+          "height": 258.66668701171875,
+          "right": 828.6666870117188,
+          "width": 828.6666870117188,
+          "x": 0,
+          "y": 194.625
+        },
+        "canvasOverlaps": [],
+        "groups": [
+          {
+            "bottom": 193.95833587646484,
+            "height": 125.95833587646484,
+            "position": "static",
+            "right": 828.6666870117188,
+            "selector": ".world-heading",
+            "width": 828.6666870117188,
+            "x": 0,
+            "y": 68
+          },
+          {
+            "bottom": 528.2916793823242,
+            "height": 58.33333587646485,
+            "position": "static",
+            "right": 804.6666870117188,
+            "selector": ".resources",
+            "width": 780.6666870117188,
+            "x": 24,
+            "y": 469.9583435058594
+          },
+          {
+            "bottom": 602.9583549499512,
+            "height": 62.66666793823242,
+            "position": "static",
+            "right": 804.6666870117188,
+            "selector": ".destinations",
+            "width": 780.6666870117188,
+            "x": 24,
+            "y": 540.2916870117188
+          },
+          {
+            "bottom": 668.2917098999023,
+            "height": 53.33333587646485,
+            "position": "static",
+            "right": 678.125,
+            "selector": ".camera-tools",
+            "width": 654.125,
+            "x": 24,
+            "y": 614.9583740234375
+          },
+          {
+            "bottom": 667.625,
+            "height": 52,
+            "position": "static",
+            "right": 804.6666717529297,
+            "selector": "#build-open",
+            "width": 116.54167175292967,
+            "x": 688.125,
+            "y": 615.625
+          },
+          {
+            "bottom": 695.2916870117188,
+            "height": 15,
+            "position": "static",
+            "right": 804.6666870117188,
+            "selector": ".world-bottom",
+            "width": 780.6666870117188,
+            "x": 24,
+            "y": 680.2916870117188
+          },
+          {
+            "bottom": 725.2916870117188,
+            "height": 18,
+            "position": "static",
+            "right": 804.6666870117188,
+            "selector": "#toast",
+            "width": 780.6666870117188,
+            "x": 24,
+            "y": 707.2916870117188
+          }
+        ],
+        "minimumButtonHeight": 44,
+        "viewport": {
+          "height": 390,
+          "scrollWidth": 829,
+          "width": 844
+        },
+        "world": {
+          "animalModels": "17",
+          "animationStates": "{\"eat\":3,\"rest\":3,\"idle\":3,\"swim\":8}",
+          "camera": "{\"x\":41.68,\"y\":39.39,\"z\":47.92}",
+          "cropBatches": "8",
+          "cropPlants": "128",
+          "drawCalls": "1151",
+          "frameMedianMs": "16.70",
+          "frameP95Ms": "16.80",
+          "geometries": "282",
+          "glbOnly": "true",
+          "inventory": "0",
+          "land": "{\"minX\":-28,\"maxX\":28,\"minZ\":-24,\"maxZ\":24}",
+          "loadMs": "4051",
+          "lodFar": "20",
+          "lodNear": "0",
+          "materialClones": "0",
+          "meshes": "850",
+          "models": "22",
+          "modelsReady": "true",
+          "nonGlbMeshes": "0",
+          "quality": "auto",
+          "revision": "100",
+          "saveStatus": "saveSaved",
+          "selected": "overview",
+          "textures": "49",
+          "triangles": "962744",
+          "view": "overview"
+        }
+      },
+      {
+        "buttonOverlaps": [],
+        "canvas": {
+          "bottom": 513.2916870117188,
+          "height": 318.66668701171875,
+          "right": 703.6666870117188,
+          "width": 703.6666870117188,
+          "x": 0,
+          "y": 194.625
+        },
+        "canvasOverlaps": [],
+        "groups": [
+          {
+            "bottom": 193.95833587646484,
+            "height": 125.95833587646484,
+            "position": "static",
+            "right": 703.6666870117188,
+            "selector": ".world-heading",
+            "width": 703.6666870117188,
+            "x": 0,
+            "y": 68
+          },
+          {
+            "bottom": 588.2917098999023,
+            "height": 58.33333587646485,
+            "position": "static",
+            "right": 679.6666870117188,
+            "selector": ".resources",
+            "width": 655.6666870117188,
+            "x": 24,
+            "y": 529.9583740234375
+          },
+          {
+            "bottom": 662.9583549499512,
+            "height": 62.66666793823242,
+            "position": "static",
+            "right": 679.6666870117188,
+            "selector": ".destinations",
+            "width": 655.6666870117188,
+            "x": 24,
+            "y": 600.2916870117188
+          },
+          {
+            "bottom": 728.2917098999023,
+            "height": 53.33333587646485,
+            "position": "static",
+            "right": 553.125,
+            "selector": ".camera-tools",
+            "width": 529.125,
+            "x": 24,
+            "y": 674.9583740234375
+          },
+          {
+            "bottom": 727.625,
+            "height": 52,
+            "position": "static",
+            "right": 679.6666717529297,
+            "selector": "#build-open",
+            "width": 116.54167175292967,
+            "x": 563.125,
+            "y": 675.625
+          },
+          {
+            "bottom": 755.2916870117188,
+            "height": 15,
+            "position": "static",
+            "right": 679.6666870117188,
+            "selector": ".world-bottom",
+            "width": 655.6666870117188,
+            "x": 24,
+            "y": 740.2916870117188
+          },
+          {
+            "bottom": 785.2916870117188,
+            "height": 18,
+            "position": "static",
+            "right": 679.6666870117188,
+            "selector": "#toast",
+            "width": 655.6666870117188,
+            "x": 24,
+            "y": 767.2916870117188
+          }
+        ],
+        "minimumButtonHeight": 44,
+        "viewport": {
+          "height": 768,
+          "scrollWidth": 1009,
+          "width": 1024
+        },
+        "world": {
+          "animalModels": "17",
+          "animationStates": "{\"eat\":3,\"rest\":3,\"idle\":3,\"swim\":8}",
+          "camera": "{\"x\":41.68,\"y\":39.39,\"z\":47.92}",
+          "cropBatches": "8",
+          "cropPlants": "128",
+          "drawCalls": "1155",
+          "frameMedianMs": "16.70",
+          "frameP95Ms": "16.80",
+          "geometries": "282",
+          "glbOnly": "true",
+          "inventory": "0",
+          "land": "{\"minX\":-28,\"maxX\":28,\"minZ\":-24,\"maxZ\":24}",
+          "loadMs": "4051",
+          "lodFar": "20",
+          "lodNear": "0",
+          "materialClones": "0",
+          "meshes": "850",
+          "models": "22",
+          "modelsReady": "true",
+          "nonGlbMeshes": "0",
+          "quality": "auto",
+          "revision": "100",
+          "saveStatus": "saveSaved",
+          "selected": "overview",
+          "textures": "49",
+          "triangles": "963000",
+          "view": "overview"
+        }
+      },
+      {
+        "buttonOverlaps": [],
+        "canvas": {
+          "bottom": 616,
+          "height": 421.375,
+          "right": 1098,
+          "width": 1098,
+          "x": 0,
+          "y": 194.625
+        },
+        "canvasOverlaps": [],
+        "groups": [
+          {
+            "bottom": 193.95833587646484,
+            "height": 125.95833587646484,
+            "position": "static",
+            "right": 1098,
+            "selector": ".world-heading",
+            "width": 1098,
+            "x": 0,
+            "y": 68
+          },
+          {
+            "bottom": 691.0000228881836,
+            "height": 58.33333587646485,
+            "position": "static",
+            "right": 1074,
+            "selector": ".resources",
+            "width": 1050,
+            "x": 24,
+            "y": 632.6666870117188
+          },
+          {
+            "bottom": 765.6666679382324,
+            "height": 62.66666793823242,
+            "position": "static",
+            "right": 1074,
+            "selector": ".destinations",
+            "width": 1050,
+            "x": 24,
+            "y": 703
+          },
+          {
+            "bottom": 831.0000228881836,
+            "height": 53.33333587646485,
+            "position": "static",
+            "right": 947.4583740234376,
+            "selector": ".camera-tools",
+            "width": 923.4583740234376,
+            "x": 24,
+            "y": 777.6666870117188
+          },
+          {
+            "bottom": 830.3333740234375,
+            "height": 52,
+            "position": "static",
+            "right": 1074.0000457763672,
+            "selector": "#build-open",
+            "width": 116.54167175292967,
+            "x": 957.4583740234376,
+            "y": 778.3333740234375
+          },
+          {
+            "bottom": 858,
+            "height": 15,
+            "position": "static",
+            "right": 1074,
+            "selector": ".world-bottom",
+            "width": 1050,
+            "x": 24,
+            "y": 843
+          },
+          {
+            "bottom": 888,
+            "height": 18,
+            "position": "static",
+            "right": 1074,
+            "selector": "#toast",
+            "width": 1050,
+            "x": 24,
+            "y": 870
+          }
+        ],
+        "minimumButtonHeight": 44,
+        "viewport": {
+          "height": 900,
+          "scrollWidth": 1440,
+          "width": 1440
+        },
+        "world": {
+          "animalModels": "17",
+          "animationStates": "{\"eat\":3,\"rest\":3,\"idle\":3,\"swim\":8}",
+          "camera": "{\"x\":41.68,\"y\":39.39,\"z\":47.92}",
+          "cropBatches": "8",
+          "cropPlants": "128",
+          "drawCalls": "1155",
+          "frameMedianMs": "16.70",
+          "frameP95Ms": "16.80",
+          "geometries": "282",
+          "glbOnly": "true",
+          "inventory": "0",
+          "land": "{\"minX\":-28,\"maxX\":28,\"minZ\":-24,\"maxZ\":24}",
+          "loadMs": "4051",
+          "lodFar": "20",
+          "lodNear": "0",
+          "materialClones": "0",
+          "meshes": "850",
+          "models": "22",
+          "modelsReady": "true",
+          "nonGlbMeshes": "0",
+          "quality": "auto",
+          "revision": "100",
+          "saveStatus": "saveSaved",
+          "selected": "overview",
+          "textures": "49",
+          "triangles": "963000",
+          "view": "overview"
+        }
+      }
+    ],
+    "expandedPan": {
+      "buttonOverlaps": [],
+      "canvas": {
+        "bottom": 548.6666870117188,
+        "height": 354.04168701171875,
+        "right": 1098,
+        "width": 1098,
+        "x": 0,
+        "y": 194.625
+      },
+      "canvasOverlaps": [],
+      "groups": [
+        {
+          "bottom": 193.95833587646484,
+          "height": 125.95833587646484,
+          "position": "static",
+          "right": 1098,
+          "selector": ".world-heading",
+          "width": 1098,
+          "x": 0,
+          "y": 68
+        },
+        {
+          "bottom": 623.6667098999023,
+          "height": 58.33333587646485,
+          "position": "static",
+          "right": 1074,
+          "selector": ".resources",
+          "width": 1050,
+          "x": 24,
+          "y": 565.3333740234375
+        },
+        {
+          "bottom": 698.3333549499512,
+          "height": 62.66666793823242,
+          "position": "static",
+          "right": 1074,
+          "selector": ".destinations",
+          "width": 1050,
+          "x": 24,
+          "y": 635.6666870117188
+        },
+        {
+          "bottom": 763.6667098999023,
+          "height": 53.33333587646485,
+          "position": "static",
+          "right": 947.4583740234376,
+          "selector": ".camera-tools",
+          "width": 923.4583740234376,
+          "x": 24,
+          "y": 710.3333740234375
+        },
+        {
+          "bottom": 763,
+          "height": 52,
+          "position": "static",
+          "right": 1074.0000457763672,
+          "selector": "#build-open",
+          "width": 116.54167175292967,
+          "x": 957.4583740234376,
+          "y": 711
+        },
+        {
+          "bottom": 831.0000228881836,
+          "height": 55.33333587646485,
+          "position": "static",
+          "right": 1074,
+          "selector": "#pan-tools",
+          "width": 1050,
+          "x": 24,
+          "y": 775.6666870117188
+        },
+        {
+          "bottom": 858,
+          "height": 15,
+          "position": "static",
+          "right": 1074,
+          "selector": ".world-bottom",
+          "width": 1050,
+          "x": 24,
+          "y": 843
+        },
+        {
+          "bottom": 888,
+          "height": 18,
+          "position": "static",
+          "right": 1074,
+          "selector": "#toast",
+          "width": 1050,
+          "x": 24,
+          "y": 870
+        }
+      ],
+      "minimumButtonHeight": 44,
+      "viewport": {
+        "height": 900,
+        "scrollWidth": 1440,
+        "width": 1440
+      },
+      "world": {
+        "animalModels": "17",
+        "animationStates": "{\"eat\":3,\"idle\":3,\"walk\":3,\"swim\":8}",
+        "camera": "{\"x\":42.69,\"y\":37.38,\"z\":41.07}",
+        "cropBatches": "8",
+        "cropPlants": "128",
+        "drawCalls": "1155",
+        "frameMedianMs": "16.90",
+        "frameP95Ms": "50.00",
+        "geometries": "282",
+        "glbOnly": "true",
+        "inventory": "0",
+        "land": "{\"minX\":-28,\"maxX\":28,\"minZ\":-24,\"maxZ\":24}",
+        "loadMs": "4051",
+        "lodFar": "20",
+        "lodNear": "0",
+        "materialClones": "0",
+        "meshes": "850",
+        "models": "22",
+        "modelsReady": "true",
+        "nonGlbMeshes": "0",
+        "quality": "auto",
+        "revision": "100",
+        "saveStatus": "saveSaved",
+        "selected": "overview",
+        "textures": "49",
+        "triangles": "963000",
+        "view": "overview"
+      }
+    },
+    "placement": {
+      "buttonOverlaps": [],
+      "canvas": {
+        "bottom": 521.9270935058594,
+        "height": 353.1458435058594,
+        "right": 374.6666870117187,
+        "width": 374.6666870117187,
+        "x": 0,
+        "y": 168.78125
+      },
+      "canvasOverlaps": [],
+      "groups": [
+        {
+          "bottom": 168.11458587646484,
+          "height": 111.11458587646484,
+          "position": "static",
+          "right": 374.6666870117187,
+          "selector": ".world-heading",
+          "width": 374.6666870117187,
+          "x": 0,
+          "y": 57
+        },
+        {
+          "bottom": 591.59375,
+          "height": 57,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": ".resources",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 534.59375
+        },
+        {
+          "bottom": 702.9270858764648,
+          "height": 101.33333587646484,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": ".destinations",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 601.59375
+        },
+        {
+          "bottom": 764.2604293823242,
+          "height": 51.33333587646485,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": ".camera-tools",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 712.9270935058594
+        },
+        {
+          "bottom": 824.2604370117188,
+          "height": 52,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": "#build-open",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 772.2604370117188
+        },
+        {
+          "bottom": 1117.0416870117188,
+          "height": 282.78125,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": "#placement",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 834.2604370117188
+        },
+        {
+          "bottom": 1140.5416870117188,
+          "height": 13.5,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": ".world-bottom",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 1127.0416870117188
+        },
+        {
+          "bottom": 1168.5416870117188,
+          "height": 18,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": "#toast",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 1150.5416870117188
+        }
+      ],
+      "minimumButtonHeight": 42,
+      "viewport": {
+        "height": 844,
+        "scrollWidth": 375,
+        "width": 390
+      },
+      "world": {
+        "animalModels": "17",
+        "animationStates": "{\"eat\":3,\"rest\":6,\"swim\":8}",
+        "camera": "{\"x\":41.68,\"y\":39.39,\"z\":47.92}",
+        "cropBatches": "8",
+        "cropPlants": "128",
+        "drawCalls": "1151",
+        "frameMedianMs": "16.70",
+        "frameP95Ms": "33.10",
+        "geometries": "387",
+        "glbOnly": "true",
+        "inventory": "0",
+        "land": "{\"minX\":-28,\"maxX\":28,\"minZ\":-24,\"maxZ\":24}",
+        "loadMs": "4051",
+        "lodFar": "20",
+        "lodNear": "0",
+        "materialClones": "0",
+        "meshes": "850",
+        "models": "22",
+        "modelsReady": "true",
+        "nonGlbMeshes": "0",
+        "quality": "auto",
+        "revision": "100",
+        "saveStatus": "saveSaved",
+        "selected": "overview",
+        "textures": "57",
+        "triangles": "962744",
+        "view": "overview"
+      }
+    },
+    "english": {
+      "buttonOverlaps": [],
+      "canvas": {
+        "bottom": 521.9270935058594,
+        "height": 353.1458435058594,
+        "right": 374.6666870117187,
+        "width": 374.6666870117187,
+        "x": 0,
+        "y": 168.78125
+      },
+      "canvasOverlaps": [],
+      "groups": [
+        {
+          "bottom": 168.11458587646484,
+          "height": 111.11458587646484,
+          "position": "static",
+          "right": 374.6666870117187,
+          "selector": ".world-heading",
+          "width": 374.6666870117187,
+          "x": 0,
+          "y": 57
+        },
+        {
+          "bottom": 591.59375,
+          "height": 57,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": ".resources",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 534.59375
+        },
+        {
+          "bottom": 702.9270858764648,
+          "height": 101.33333587646484,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": ".destinations",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 601.59375
+        },
+        {
+          "bottom": 764.2604598999023,
+          "height": 51.33333587646485,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": ".camera-tools",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 712.9271240234375
+        },
+        {
+          "bottom": 824.2604370117188,
+          "height": 52,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": "#build-open",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 772.2604370117188
+        },
+        {
+          "bottom": 847.7604370117188,
+          "height": 13.5,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": ".world-bottom",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 834.2604370117188
+        },
+        {
+          "bottom": 875.7604370117188,
+          "height": 18,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": "#toast",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 857.7604370117188
+        }
+      ],
+      "minimumButtonHeight": 44,
+      "viewport": {
+        "height": 844,
+        "scrollWidth": 375,
+        "width": 390
+      },
+      "world": {
+        "animalModels": "17",
+        "animationStates": "{\"rest\":6,\"idle\":3,\"swim\":8}",
+        "camera": "{\"x\":41.68,\"y\":39.39,\"z\":47.92}",
+        "cropBatches": "8",
+        "cropPlants": "128",
+        "drawCalls": "1151",
+        "frameMedianMs": "16.70",
+        "frameP95Ms": "17.00",
+        "geometries": "387",
+        "glbOnly": "true",
+        "inventory": "0",
+        "land": "{\"minX\":-28,\"maxX\":28,\"minZ\":-24,\"maxZ\":24}",
+        "loadMs": "4051",
+        "lodFar": "20",
+        "lodNear": "0",
+        "materialClones": "0",
+        "meshes": "850",
+        "models": "22",
+        "modelsReady": "true",
+        "nonGlbMeshes": "0",
+        "quality": "auto",
+        "revision": "100",
+        "saveStatus": "saveSaved",
+        "selected": "overview",
+        "textures": "57",
+        "triangles": "962744",
+        "view": "overview"
+      }
+    },
+    "interior": {
+      "buttonOverlaps": [],
+      "canvas": {
+        "bottom": 477.3019714355469,
+        "height": 353.1458435058594,
+        "right": 374.6666870117187,
+        "width": 374.6666870117187,
+        "x": 0,
+        "y": 124.1561279296875
+      },
+      "canvasOverlaps": [],
+      "groups": [
+        {
+          "bottom": 123.48946380615234,
+          "height": 66.48958587646484,
+          "position": "static",
+          "right": 374.6666870117187,
+          "selector": ".world-heading",
+          "width": 374.6666870117187,
+          "x": 0,
+          "y": 56.9998779296875
+        },
+        {
+          "bottom": 546.9686889648438,
+          "height": 57,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": ".resources",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 489.96868896484375
+        },
+        {
+          "bottom": 658.3020248413086,
+          "height": 101.33333587646484,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": ".destinations",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 556.9686889648438
+        },
+        {
+          "bottom": 719.6353378295898,
+          "height": 51.33333587646485,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": ".camera-tools",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 668.302001953125
+        },
+        {
+          "bottom": 779.6353759765625,
+          "height": 52,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": "#build-open",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 727.6353759765625
+        },
+        {
+          "bottom": 803.1353759765625,
+          "height": 13.5,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": ".world-bottom",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 789.6353759765625
+        },
+        {
+          "bottom": 831.1353759765625,
+          "height": 18,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": "#toast",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 813.1353759765625
+        }
+      ],
+      "minimumButtonHeight": 44,
+      "viewport": {
+        "height": 844,
+        "scrollWidth": 375,
+        "width": 390
+      },
+      "world": {
+        "animalModels": "17",
+        "animationStates": "{\"eat\":3,\"walk\":3,\"idle\":3,\"swim\":8}",
+        "camera": "{\"x\":16.5,\"y\":8.2,\"z\":7.2}",
+        "cropBatches": "8",
+        "cropPlants": "128",
+        "drawCalls": "848",
+        "frameMedianMs": "16.70",
+        "frameP95Ms": "33.10",
+        "geometries": "387",
+        "glbOnly": "true",
+        "inventory": "0",
+        "land": "{\"minX\":-28,\"maxX\":28,\"minZ\":-24,\"maxZ\":24}",
+        "loadMs": "4051",
+        "lodFar": "12",
+        "lodNear": "8",
+        "materialClones": "0",
+        "meshes": "850",
+        "models": "22",
+        "modelsReady": "true",
+        "nonGlbMeshes": "0",
+        "quality": "auto",
+        "revision": "100",
+        "saveStatus": "saveSaved",
+        "selected": "inside:barn",
+        "textures": "57",
+        "triangles": "859472",
+        "view": "inside:barn"
+      }
+    },
+    "integrity": {
+      "kind": "myfarmtwin-internal-browser-integrity-v2",
+      "origin": "https://4fa9d1ca.myfarmtwin-com.pages.dev",
+      "entry": "app-S342P2LL.js",
+      "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+      "files": 30,
+      "glbs": 22,
+      "ok": true,
+      "results": [
+        {
+          "url": "/play/",
+          "status": 200,
+          "bytes": 7535,
+          "mime": "text/html; charset=utf-8",
+          "sha256": "fe4c78bdff8550e82b2e0eba82737b3f073a399942372156697de2b6477bd50d",
+          "expected": "fe4c78bdff8550e82b2e0eba82737b3f073a399942372156697de2b6477bd50d",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/barn.glb",
+          "status": 200,
+          "bytes": 875472,
+          "mime": "model/gltf-binary",
+          "sha256": "25a177e03f24debe3581990244132950d1a240b94ec9bf727b0e5353f05780c2",
+          "expected": "25a177e03f24debe3581990244132950d1a240b94ec9bf727b0e5353f05780c2",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/bed.glb",
+          "status": 200,
+          "bytes": 238304,
+          "mime": "model/gltf-binary",
+          "sha256": "870e3c2dabd03544fe74956756f6c285336b168942b57f674190fdc7a85a0435",
+          "expected": "870e3c2dabd03544fe74956756f6c285336b168942b57f674190fdc7a85a0435",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/cow.glb",
+          "status": 200,
+          "bytes": 417292,
+          "mime": "model/gltf-binary",
+          "sha256": "540c61f55ca892fed09c0d55c1b43414a8dbe0ede2ad847167799ae91f6d5a2b",
+          "expected": "540c61f55ca892fed09c0d55c1b43414a8dbe0ede2ad847167799ae91f6d5a2b",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/crops.glb",
+          "status": 200,
+          "bytes": 319836,
+          "mime": "model/gltf-binary",
+          "sha256": "90d9b1778adf73d98ca01c0e30f3bf0f393762b936ddc38f8e20f7adffe61421",
+          "expected": "90d9b1778adf73d98ca01c0e30f3bf0f393762b936ddc38f8e20f7adffe61421",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/fence.glb",
+          "status": 200,
+          "bytes": 117212,
+          "mime": "model/gltf-binary",
+          "sha256": "9279a59094589199b831ec5cab81fb877df6d3d288600f7f55345768985fa7c3",
+          "expected": "9279a59094589199b831ec5cab81fb877df6d3d288600f7f55345768985fa7c3",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/path.glb",
+          "status": 200,
+          "bytes": 106940,
+          "mime": "model/gltf-binary",
+          "sha256": "82c3235227a7739aa34e8e73cd0e0560e82db095fbd0932a1cef2c645f998329",
+          "expected": "82c3235227a7739aa34e8e73cd0e0560e82db095fbd0932a1cef2c645f998329",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/props.glb",
+          "status": 200,
+          "bytes": 450732,
+          "mime": "model/gltf-binary",
+          "sha256": "7cf9088a13a74b0d17b7b2d0616198cfb5d0da6a86203c9cbd1b545eddb6455e",
+          "expected": "7cf9088a13a74b0d17b7b2d0616198cfb5d0da6a86203c9cbd1b545eddb6455e",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/prototype/vegetation.glb",
+          "status": 200,
+          "bytes": 483124,
+          "mime": "model/gltf-binary",
+          "sha256": "b74c620fba1635bd1cb4f4c1b3fcfadf75af2248a9b4cf67a62505beb547ea92",
+          "expected": "b74c620fba1635bd1cb4f4c1b3fcfadf75af2248a9b4cf67a62505beb547ea92",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world-manifest.json",
+          "status": 200,
+          "bytes": 32990,
+          "mime": "application/json",
+          "sha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+          "expected": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/chicken-far.glb",
+          "status": 200,
+          "bytes": 420140,
+          "mime": "model/gltf-binary",
+          "sha256": "e17beb84ef96c33828a2cb4db1f988ef69f269d71ccfaa5a7cec09932d08caf4",
+          "expected": "e17beb84ef96c33828a2cb4db1f988ef69f269d71ccfaa5a7cec09932d08caf4",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/chicken.glb",
+          "status": 200,
+          "bytes": 871760,
+          "mime": "model/gltf-binary",
+          "sha256": "d32c55992932d3abeeba101569541ab375fc36b985f794e5adc8cf3c0c92c5a2",
+          "expected": "d32c55992932d3abeeba101569541ab375fc36b985f794e5adc8cf3c0c92c5a2",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/coop.glb",
+          "status": 200,
+          "bytes": 1807756,
+          "mime": "model/gltf-binary",
+          "sha256": "16151052d2bce3ca5535b72353c9d0c054609165331c7a1c394ef19a37789158",
+          "expected": "16151052d2bce3ca5535b72353c9d0c054609165331c7a1c394ef19a37789158",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/fish-far.glb",
+          "status": 200,
+          "bytes": 171520,
+          "mime": "model/gltf-binary",
+          "sha256": "1fc90b3167b09f7d7ce1bf105ad30a54d7042d2a57f2d39e951b3365dd655dd0",
+          "expected": "1fc90b3167b09f7d7ce1bf105ad30a54d7042d2a57f2d39e951b3365dd655dd0",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/fish.glb",
+          "status": 200,
+          "bytes": 281164,
+          "mime": "model/gltf-binary",
+          "sha256": "0af87d402bc700f85ddb7046964c9028b1eb4af3ff893333381b918ebab11dbf",
+          "expected": "0af87d402bc700f85ddb7046964c9028b1eb4af3ff893333381b918ebab11dbf",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/goat-far.glb",
+          "status": 200,
+          "bytes": 476384,
+          "mime": "model/gltf-binary",
+          "sha256": "9ef76ecfca403278cf0ad27bd6e0d4f7f98129ec359e28e0e5dc00580e76fce8",
+          "expected": "9ef76ecfca403278cf0ad27bd6e0d4f7f98129ec359e28e0e5dc00580e76fce8",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/goat-kid-far.glb",
+          "status": 200,
+          "bytes": 460836,
+          "mime": "model/gltf-binary",
+          "sha256": "25b907e30baf41e0ab6f909be6a60ce70944a55a02b502212619cc84f48ebf85",
+          "expected": "25b907e30baf41e0ab6f909be6a60ce70944a55a02b502212619cc84f48ebf85",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/goat-kid.glb",
+          "status": 200,
+          "bytes": 719844,
+          "mime": "model/gltf-binary",
+          "sha256": "899cf03233c2e9bdcc395ebf4fbc2c8b889128626852a8931f0e2c4720bea7c3",
+          "expected": "899cf03233c2e9bdcc395ebf4fbc2c8b889128626852a8931f0e2c4720bea7c3",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/goat-shelter.glb",
+          "status": 200,
+          "bytes": 1647128,
+          "mime": "model/gltf-binary",
+          "sha256": "87a2e8200d6807ce227b0518b9c470e8892891fa1df6b3090d907a0d6f9c5a53",
+          "expected": "87a2e8200d6807ce227b0518b9c470e8892891fa1df6b3090d907a0d6f9c5a53",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/goat.glb",
+          "status": 200,
+          "bytes": 847232,
+          "mime": "model/gltf-binary",
+          "sha256": "e8eb5dc4df82e4ea3b494674f76c0d74ece4ad2225521e9c4d3fbca5ec243720",
+          "expected": "e8eb5dc4df82e4ea3b494674f76c0d74ece4ad2225521e9c4d3fbca5ec243720",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/market.glb",
+          "status": 200,
+          "bytes": 2157684,
+          "mime": "model/gltf-binary",
+          "sha256": "c40be41e85f6068867108efd6daf09e12726b833efb0225fb001a13fe734a807",
+          "expected": "c40be41e85f6068867108efd6daf09e12726b833efb0225fb001a13fe734a807",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/pond.glb",
+          "status": 200,
+          "bytes": 558036,
+          "mime": "model/gltf-binary",
+          "sha256": "2b2a36231bc4a059fa578fdf0bfdee8cedce01e371f4a2dafe7e895fab3bda9b",
+          "expected": "2b2a36231bc4a059fa578fdf0bfdee8cedce01e371f4a2dafe7e895fab3bda9b",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/terrain.glb",
+          "status": 200,
+          "bytes": 803172,
+          "mime": "model/gltf-binary",
+          "sha256": "a93a84ee021eea3a62f9f44617bce7d9802ec5f708a18ba5507b81d7e7afd5ec",
+          "expected": "a93a84ee021eea3a62f9f44617bce7d9802ec5f708a18ba5507b81d7e7afd5ec",
+          "ok": true
+        },
+        {
+          "url": "/play/assets/models/world/vegetation-far.glb",
+          "status": 200,
+          "bytes": 169716,
+          "mime": "model/gltf-binary",
+          "sha256": "364f6a72135c3cf2776d0bf962774d5a602007424b3470c9e45887c3e5758e5a",
+          "expected": "364f6a72135c3cf2776d0bf962774d5a602007424b3470c9e45887c3e5758e5a",
+          "ok": true
+        },
+        {
+          "url": "/play/cozy/app-S342P2LL.js",
+          "status": 200,
+          "bytes": 720373,
+          "mime": "application/javascript",
+          "sha256": "759c77f162fbec30e0ecceaab708a32635cce5b898e7c4b201297082aa7926eb",
+          "expected": "759c77f162fbec30e0ecceaab708a32635cce5b898e7c4b201297082aa7926eb",
+          "ok": true
+        },
+        {
+          "url": "/play/cozy/chunks/chunk-PZDGL33N.js",
+          "status": 200,
+          "bytes": 194505,
+          "mime": "application/javascript",
+          "sha256": "112dfbfcd56859f718ad24b848e42de41740253cca6fa48c8d96fcee8e5836f7",
+          "expected": "112dfbfcd56859f718ad24b848e42de41740253cca6fa48c8d96fcee8e5836f7",
+          "ok": true
+        },
+        {
+          "url": "/play/cozy/integrity-LL76RTOU.js",
+          "status": 200,
+          "bytes": 1894,
+          "mime": "application/javascript",
+          "sha256": "92a251dcc0b642c6b2d15f5bca91318905a91ddfba8d9ac7b146d2c72aa1e3e0",
+          "expected": "92a251dcc0b642c6b2d15f5bca91318905a91ddfba8d9ac7b146d2c72aa1e3e0",
+          "ok": true
+        },
+        {
+          "url": "/play/cozy/recovery-2UXJQDFZ.js",
+          "status": 200,
+          "bytes": 2515,
+          "mime": "application/javascript",
+          "sha256": "a7de34419a67e7d638467375abc533ef8678310c7ac015ebcd26301825aec625",
+          "expected": "a7de34419a67e7d638467375abc533ef8678310c7ac015ebcd26301825aec625",
+          "ok": true
+        },
+        {
+          "url": "/play/cozy/style.css",
+          "status": 200,
+          "bytes": 24869,
+          "mime": "text/css; charset=utf-8",
+          "sha256": "f4ef8e109e0f476fdc35d7531e013268f5c77cfb728bb49397816fc69175fdea",
+          "expected": "f4ef8e109e0f476fdc35d7531e013268f5c77cfb728bb49397816fc69175fdea",
+          "ok": true
+        },
+        {
+          "url": "/play/glb/",
+          "status": 200,
+          "bytes": 7535,
+          "mime": "text/html; charset=utf-8",
+          "sha256": "fe4c78bdff8550e82b2e0eba82737b3f073a399942372156697de2b6477bd50d",
+          "expected": "fe4c78bdff8550e82b2e0eba82737b3f073a399942372156697de2b6477bd50d",
+          "ok": true
+        }
+      ]
+    },
+    "currentOriginErrorsWarnings": 0
+  },
+  "production": {
+    "dateWIB": "2026-11-16",
+    "source": "139eac9262925ee2dbd2dbf801abdebbef58046a",
+    "deployment": "dee3daaa-39a6-4e57-a4ca-9c432bb77070",
+    "status": "completed/success",
+    "entry": "app-S342P2LL.js",
+    "immutableOrigin": "https://dee3daaa.myfarmtwin-com.pages.dev",
+    "canonicalOrigin": "https://myfarmtwin.com",
+    "phone": {
+      "buttonOverlaps": [],
+      "canvas": {
+        "bottom": 521.9270935058594,
+        "height": 353.1458435058594,
+        "right": 374.6666870117187,
+        "width": 374.6666870117187,
+        "x": 0,
+        "y": 168.78125
+      },
+      "canvasOverlaps": [],
+      "groups": [
+        {
+          "bottom": 168.11458587646484,
+          "height": 111.11458587646484,
+          "position": "static",
+          "right": 374.6666870117187,
+          "selector": ".world-heading",
+          "width": 374.6666870117187,
+          "x": 0,
+          "y": 57
+        },
+        {
+          "bottom": 591.59375,
+          "height": 57,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": ".resources",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 534.59375
+        },
+        {
+          "bottom": 702.9270858764648,
+          "height": 101.33333587646484,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": ".destinations",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 601.59375
+        },
+        {
+          "bottom": 764.2604598999023,
+          "height": 51.33333587646485,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": ".camera-tools",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 712.9271240234375
+        },
+        {
+          "bottom": 824.2604370117188,
+          "height": 52,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": "#build-open",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 772.2604370117188
+        },
+        {
+          "bottom": 847.7604370117188,
+          "height": 13.5,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": ".world-bottom",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 834.2604370117188
+        },
+        {
+          "bottom": 875.7604370117188,
+          "height": 18,
+          "position": "static",
+          "right": 360.6666870117187,
+          "selector": "#toast",
+          "width": 346.66668701171875,
+          "x": 14,
+          "y": 857.7604370117188
+        }
+      ],
+      "minimumButtonHeight": 44,
+      "viewport": {
+        "height": 844,
+        "scrollWidth": 375,
+        "width": 390
+      },
+      "world": {
+        "animalModels": "17",
+        "animationStates": "{\"eat\":3,\"walk\":3,\"idle\":3,\"swim\":8}",
+        "camera": "{\"x\":41.68,\"y\":39.39,\"z\":47.92}",
+        "cropBatches": "8",
+        "cropPlants": "128",
+        "drawCalls": "1151",
+        "frameMedianMs": "33.10",
+        "frameP95Ms": "50.00",
+        "geometries": "282",
+        "glbOnly": "true",
+        "inventory": "0",
+        "land": "{\"minX\":-28,\"maxX\":28,\"minZ\":-24,\"maxZ\":24}",
+        "loadMs": "4737",
+        "lodFar": "20",
+        "lodNear": "0",
+        "materialClones": "0",
+        "meshes": "850",
+        "models": "22",
+        "modelsReady": "true",
+        "nonGlbMeshes": "0",
+        "quality": "auto",
+        "revision": "100",
+        "saveStatus": "saveSaved",
+        "selected": "overview",
+        "textures": "49",
+        "triangles": "962744",
+        "view": "overview"
+      }
+    },
+    "desktop": {
+      "buttonOverlaps": [],
+      "canvas": {
+        "bottom": 616,
+        "height": 421.375,
+        "right": 1098,
+        "width": 1098,
+        "x": 0,
+        "y": 194.625
+      },
+      "canvasOverlaps": [],
+      "groups": [
+        {
+          "bottom": 193.95833587646484,
+          "height": 125.95833587646484,
+          "position": "static",
+          "right": 1098,
+          "selector": ".world-heading",
+          "width": 1098,
+          "x": 0,
+          "y": 68
+        },
+        {
+          "bottom": 691.0000228881836,
+          "height": 58.33333587646485,
+          "position": "static",
+          "right": 1074,
+          "selector": ".resources",
+          "width": 1050,
+          "x": 24,
+          "y": 632.6666870117188
+        },
+        {
+          "bottom": 765.6666679382324,
+          "height": 62.66666793823242,
+          "position": "static",
+          "right": 1074,
+          "selector": ".destinations",
+          "width": 1050,
+          "x": 24,
+          "y": 703
+        },
+        {
+          "bottom": 831.0000228881836,
+          "height": 53.33333587646485,
+          "position": "static",
+          "right": 947.4583740234376,
+          "selector": ".camera-tools",
+          "width": 923.4583740234376,
+          "x": 24,
+          "y": 777.6666870117188
+        },
+        {
+          "bottom": 830.3333740234375,
+          "height": 52,
+          "position": "static",
+          "right": 1074.0000457763672,
+          "selector": "#build-open",
+          "width": 116.54167175292967,
+          "x": 957.4583740234376,
+          "y": 778.3333740234375
+        },
+        {
+          "bottom": 858,
+          "height": 15,
+          "position": "static",
+          "right": 1074,
+          "selector": ".world-bottom",
+          "width": 1050,
+          "x": 24,
+          "y": 843
+        },
+        {
+          "bottom": 888,
+          "height": 18,
+          "position": "static",
+          "right": 1074,
+          "selector": "#toast",
+          "width": 1050,
+          "x": 24,
+          "y": 870
+        }
+      ],
+      "minimumButtonHeight": 44,
+      "viewport": {
+        "height": 900,
+        "scrollWidth": 1440,
+        "width": 1440
+      },
+      "world": {
+        "animalModels": "17",
+        "animationStates": "{\"eat\":3,\"walk\":3,\"idle\":3,\"swim\":8}",
+        "camera": "{\"x\":41.68,\"y\":39.39,\"z\":47.92}",
+        "cropBatches": "8",
+        "cropPlants": "128",
+        "drawCalls": "1151",
+        "frameMedianMs": "33.10",
+        "frameP95Ms": "50.00",
+        "geometries": "282",
+        "glbOnly": "true",
+        "inventory": "0",
+        "land": "{\"minX\":-28,\"maxX\":28,\"minZ\":-24,\"maxZ\":24}",
+        "loadMs": "4737",
+        "lodFar": "20",
+        "lodNear": "0",
+        "materialClones": "0",
+        "meshes": "850",
+        "models": "22",
+        "modelsReady": "true",
+        "nonGlbMeshes": "0",
+        "quality": "auto",
+        "revision": "100",
+        "saveStatus": "saveSaved",
+        "selected": "overview",
+        "textures": "49",
+        "triangles": "962744",
+        "view": "overview"
+      }
+    },
+    "expandedPan": {
+      "buttonOverlaps": [],
+      "canvas": {
+        "bottom": 548.6666870117188,
+        "height": 354.04168701171875,
+        "right": 1098,
+        "width": 1098,
+        "x": 0,
+        "y": 194.625
+      },
+      "canvasOverlaps": [],
+      "groups": [
+        {
+          "bottom": 193.95833587646484,
+          "height": 125.95833587646484,
+          "position": "static",
+          "right": 1098,
+          "selector": ".world-heading",
+          "width": 1098,
+          "x": 0,
+          "y": 68
+        },
+        {
+          "bottom": 623.6667098999023,
+          "height": 58.33333587646485,
+          "position": "static",
+          "right": 1074,
+          "selector": ".resources",
+          "width": 1050,
+          "x": 24,
+          "y": 565.3333740234375
+        },
+        {
+          "bottom": 698.3333549499512,
+          "height": 62.66666793823242,
+          "position": "static",
+          "right": 1074,
+          "selector": ".destinations",
+          "width": 1050,
+          "x": 24,
+          "y": 635.6666870117188
+        },
+        {
+          "bottom": 763.6667098999023,
+          "height": 53.33333587646485,
+          "position": "static",
+          "right": 947.4583740234376,
+          "selector": ".camera-tools",
+          "width": 923.4583740234376,
+          "x": 24,
+          "y": 710.3333740234375
+        },
+        {
+          "bottom": 763,
+          "height": 52,
+          "position": "static",
+          "right": 1074.0000457763672,
+          "selector": "#build-open",
+          "width": 116.54167175292967,
+          "x": 957.4583740234376,
+          "y": 711
+        },
+        {
+          "bottom": 831.0000228881836,
+          "height": 55.33333587646485,
+          "position": "static",
+          "right": 1074,
+          "selector": "#pan-tools",
+          "width": 1050,
+          "x": 24,
+          "y": 775.6666870117188
+        },
+        {
+          "bottom": 858,
+          "height": 15,
+          "position": "static",
+          "right": 1074,
+          "selector": ".world-bottom",
+          "width": 1050,
+          "x": 24,
+          "y": 843
+        },
+        {
+          "bottom": 888,
+          "height": 18,
+          "position": "static",
+          "right": 1074,
+          "selector": "#toast",
+          "width": 1050,
+          "x": 24,
+          "y": 870
+        }
+      ],
+      "minimumButtonHeight": 44,
+      "viewport": {
+        "height": 900,
+        "scrollWidth": 1440,
+        "width": 1440
+      },
+      "world": {
+        "animalModels": "17",
+        "animationStates": "{\"eat\":3,\"walk\":3,\"idle\":3,\"swim\":8}",
+        "camera": "{\"x\":41.68,\"y\":39.39,\"z\":47.92}",
+        "cropBatches": "8",
+        "cropPlants": "128",
+        "drawCalls": "1155",
+        "frameMedianMs": "33.10",
+        "frameP95Ms": "50.00",
+        "geometries": "282",
+        "glbOnly": "true",
+        "inventory": "0",
+        "land": "{\"minX\":-28,\"maxX\":28,\"minZ\":-24,\"maxZ\":24}",
+        "loadMs": "4737",
+        "lodFar": "20",
+        "lodNear": "0",
+        "materialClones": "0",
+        "meshes": "850",
+        "models": "22",
+        "modelsReady": "true",
+        "nonGlbMeshes": "0",
+        "quality": "auto",
+        "revision": "100",
+        "saveStatus": "saveSaved",
+        "selected": "overview",
+        "textures": "49",
+        "triangles": "963000",
+        "view": "overview"
+      }
+    },
+    "canonical": {
+      "viewport": {
+        "height": 844,
+        "scrollWidth": 375,
+        "width": 390
+      },
+      "canvas": {
+        "bottom": 521.9270935058594,
+        "height": 353.1458435058594,
+        "right": 374.6666870117187,
+        "width": 374.6666870117187,
+        "x": 0,
+        "y": 168.78125
+      },
+      "canvasOverlaps": [],
+      "buttonOverlaps": [],
+      "saveExportUnchanged": true,
+      "syntheticImported": false,
+      "gameActions": 0
+    },
+    "integrity": {
+      "immutable": {
+        "kind": "myfarmtwin-internal-browser-integrity-v2",
+        "origin": "https://dee3daaa.myfarmtwin-com.pages.dev",
+        "entry": "app-S342P2LL.js",
+        "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+        "files": 30,
+        "glbs": 22,
+        "ok": true,
+        "results": [
+          {
+            "url": "/play/",
+            "status": 200,
+            "bytes": 7535,
+            "mime": "text/html; charset=utf-8",
+            "sha256": "fe4c78bdff8550e82b2e0eba82737b3f073a399942372156697de2b6477bd50d",
+            "expected": "fe4c78bdff8550e82b2e0eba82737b3f073a399942372156697de2b6477bd50d",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/prototype/barn.glb",
+            "status": 200,
+            "bytes": 875472,
+            "mime": "model/gltf-binary",
+            "sha256": "25a177e03f24debe3581990244132950d1a240b94ec9bf727b0e5353f05780c2",
+            "expected": "25a177e03f24debe3581990244132950d1a240b94ec9bf727b0e5353f05780c2",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/prototype/bed.glb",
+            "status": 200,
+            "bytes": 238304,
+            "mime": "model/gltf-binary",
+            "sha256": "870e3c2dabd03544fe74956756f6c285336b168942b57f674190fdc7a85a0435",
+            "expected": "870e3c2dabd03544fe74956756f6c285336b168942b57f674190fdc7a85a0435",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/prototype/cow.glb",
+            "status": 200,
+            "bytes": 417292,
+            "mime": "model/gltf-binary",
+            "sha256": "540c61f55ca892fed09c0d55c1b43414a8dbe0ede2ad847167799ae91f6d5a2b",
+            "expected": "540c61f55ca892fed09c0d55c1b43414a8dbe0ede2ad847167799ae91f6d5a2b",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/prototype/crops.glb",
+            "status": 200,
+            "bytes": 319836,
+            "mime": "model/gltf-binary",
+            "sha256": "90d9b1778adf73d98ca01c0e30f3bf0f393762b936ddc38f8e20f7adffe61421",
+            "expected": "90d9b1778adf73d98ca01c0e30f3bf0f393762b936ddc38f8e20f7adffe61421",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/prototype/fence.glb",
+            "status": 200,
+            "bytes": 117212,
+            "mime": "model/gltf-binary",
+            "sha256": "9279a59094589199b831ec5cab81fb877df6d3d288600f7f55345768985fa7c3",
+            "expected": "9279a59094589199b831ec5cab81fb877df6d3d288600f7f55345768985fa7c3",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/prototype/path.glb",
+            "status": 200,
+            "bytes": 106940,
+            "mime": "model/gltf-binary",
+            "sha256": "82c3235227a7739aa34e8e73cd0e0560e82db095fbd0932a1cef2c645f998329",
+            "expected": "82c3235227a7739aa34e8e73cd0e0560e82db095fbd0932a1cef2c645f998329",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/prototype/props.glb",
+            "status": 200,
+            "bytes": 450732,
+            "mime": "model/gltf-binary",
+            "sha256": "7cf9088a13a74b0d17b7b2d0616198cfb5d0da6a86203c9cbd1b545eddb6455e",
+            "expected": "7cf9088a13a74b0d17b7b2d0616198cfb5d0da6a86203c9cbd1b545eddb6455e",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/prototype/vegetation.glb",
+            "status": 200,
+            "bytes": 483124,
+            "mime": "model/gltf-binary",
+            "sha256": "b74c620fba1635bd1cb4f4c1b3fcfadf75af2248a9b4cf67a62505beb547ea92",
+            "expected": "b74c620fba1635bd1cb4f4c1b3fcfadf75af2248a9b4cf67a62505beb547ea92",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world-manifest.json",
+            "status": 200,
+            "bytes": 32990,
+            "mime": "application/json",
+            "sha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+            "expected": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/chicken-far.glb",
+            "status": 200,
+            "bytes": 420140,
+            "mime": "model/gltf-binary",
+            "sha256": "e17beb84ef96c33828a2cb4db1f988ef69f269d71ccfaa5a7cec09932d08caf4",
+            "expected": "e17beb84ef96c33828a2cb4db1f988ef69f269d71ccfaa5a7cec09932d08caf4",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/chicken.glb",
+            "status": 200,
+            "bytes": 871760,
+            "mime": "model/gltf-binary",
+            "sha256": "d32c55992932d3abeeba101569541ab375fc36b985f794e5adc8cf3c0c92c5a2",
+            "expected": "d32c55992932d3abeeba101569541ab375fc36b985f794e5adc8cf3c0c92c5a2",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/coop.glb",
+            "status": 200,
+            "bytes": 1807756,
+            "mime": "model/gltf-binary",
+            "sha256": "16151052d2bce3ca5535b72353c9d0c054609165331c7a1c394ef19a37789158",
+            "expected": "16151052d2bce3ca5535b72353c9d0c054609165331c7a1c394ef19a37789158",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/fish-far.glb",
+            "status": 200,
+            "bytes": 171520,
+            "mime": "model/gltf-binary",
+            "sha256": "1fc90b3167b09f7d7ce1bf105ad30a54d7042d2a57f2d39e951b3365dd655dd0",
+            "expected": "1fc90b3167b09f7d7ce1bf105ad30a54d7042d2a57f2d39e951b3365dd655dd0",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/fish.glb",
+            "status": 200,
+            "bytes": 281164,
+            "mime": "model/gltf-binary",
+            "sha256": "0af87d402bc700f85ddb7046964c9028b1eb4af3ff893333381b918ebab11dbf",
+            "expected": "0af87d402bc700f85ddb7046964c9028b1eb4af3ff893333381b918ebab11dbf",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/goat-far.glb",
+            "status": 200,
+            "bytes": 476384,
+            "mime": "model/gltf-binary",
+            "sha256": "9ef76ecfca403278cf0ad27bd6e0d4f7f98129ec359e28e0e5dc00580e76fce8",
+            "expected": "9ef76ecfca403278cf0ad27bd6e0d4f7f98129ec359e28e0e5dc00580e76fce8",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/goat-kid-far.glb",
+            "status": 200,
+            "bytes": 460836,
+            "mime": "model/gltf-binary",
+            "sha256": "25b907e30baf41e0ab6f909be6a60ce70944a55a02b502212619cc84f48ebf85",
+            "expected": "25b907e30baf41e0ab6f909be6a60ce70944a55a02b502212619cc84f48ebf85",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/goat-kid.glb",
+            "status": 200,
+            "bytes": 719844,
+            "mime": "model/gltf-binary",
+            "sha256": "899cf03233c2e9bdcc395ebf4fbc2c8b889128626852a8931f0e2c4720bea7c3",
+            "expected": "899cf03233c2e9bdcc395ebf4fbc2c8b889128626852a8931f0e2c4720bea7c3",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/goat-shelter.glb",
+            "status": 200,
+            "bytes": 1647128,
+            "mime": "model/gltf-binary",
+            "sha256": "87a2e8200d6807ce227b0518b9c470e8892891fa1df6b3090d907a0d6f9c5a53",
+            "expected": "87a2e8200d6807ce227b0518b9c470e8892891fa1df6b3090d907a0d6f9c5a53",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/goat.glb",
+            "status": 200,
+            "bytes": 847232,
+            "mime": "model/gltf-binary",
+            "sha256": "e8eb5dc4df82e4ea3b494674f76c0d74ece4ad2225521e9c4d3fbca5ec243720",
+            "expected": "e8eb5dc4df82e4ea3b494674f76c0d74ece4ad2225521e9c4d3fbca5ec243720",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/market.glb",
+            "status": 200,
+            "bytes": 2157684,
+            "mime": "model/gltf-binary",
+            "sha256": "c40be41e85f6068867108efd6daf09e12726b833efb0225fb001a13fe734a807",
+            "expected": "c40be41e85f6068867108efd6daf09e12726b833efb0225fb001a13fe734a807",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/pond.glb",
+            "status": 200,
+            "bytes": 558036,
+            "mime": "model/gltf-binary",
+            "sha256": "2b2a36231bc4a059fa578fdf0bfdee8cedce01e371f4a2dafe7e895fab3bda9b",
+            "expected": "2b2a36231bc4a059fa578fdf0bfdee8cedce01e371f4a2dafe7e895fab3bda9b",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/terrain.glb",
+            "status": 200,
+            "bytes": 803172,
+            "mime": "model/gltf-binary",
+            "sha256": "a93a84ee021eea3a62f9f44617bce7d9802ec5f708a18ba5507b81d7e7afd5ec",
+            "expected": "a93a84ee021eea3a62f9f44617bce7d9802ec5f708a18ba5507b81d7e7afd5ec",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/vegetation-far.glb",
+            "status": 200,
+            "bytes": 169716,
+            "mime": "model/gltf-binary",
+            "sha256": "364f6a72135c3cf2776d0bf962774d5a602007424b3470c9e45887c3e5758e5a",
+            "expected": "364f6a72135c3cf2776d0bf962774d5a602007424b3470c9e45887c3e5758e5a",
+            "ok": true
+          },
+          {
+            "url": "/play/cozy/app-S342P2LL.js",
+            "status": 200,
+            "bytes": 720373,
+            "mime": "application/javascript",
+            "sha256": "759c77f162fbec30e0ecceaab708a32635cce5b898e7c4b201297082aa7926eb",
+            "expected": "759c77f162fbec30e0ecceaab708a32635cce5b898e7c4b201297082aa7926eb",
+            "ok": true
+          },
+          {
+            "url": "/play/cozy/chunks/chunk-PZDGL33N.js",
+            "status": 200,
+            "bytes": 194505,
+            "mime": "application/javascript",
+            "sha256": "112dfbfcd56859f718ad24b848e42de41740253cca6fa48c8d96fcee8e5836f7",
+            "expected": "112dfbfcd56859f718ad24b848e42de41740253cca6fa48c8d96fcee8e5836f7",
+            "ok": true
+          },
+          {
+            "url": "/play/cozy/integrity-LL76RTOU.js",
+            "status": 200,
+            "bytes": 1894,
+            "mime": "application/javascript",
+            "sha256": "92a251dcc0b642c6b2d15f5bca91318905a91ddfba8d9ac7b146d2c72aa1e3e0",
+            "expected": "92a251dcc0b642c6b2d15f5bca91318905a91ddfba8d9ac7b146d2c72aa1e3e0",
+            "ok": true
+          },
+          {
+            "url": "/play/cozy/recovery-2UXJQDFZ.js",
+            "status": 200,
+            "bytes": 2515,
+            "mime": "application/javascript",
+            "sha256": "a7de34419a67e7d638467375abc533ef8678310c7ac015ebcd26301825aec625",
+            "expected": "a7de34419a67e7d638467375abc533ef8678310c7ac015ebcd26301825aec625",
+            "ok": true
+          },
+          {
+            "url": "/play/cozy/style.css",
+            "status": 200,
+            "bytes": 24869,
+            "mime": "text/css; charset=utf-8",
+            "sha256": "f4ef8e109e0f476fdc35d7531e013268f5c77cfb728bb49397816fc69175fdea",
+            "expected": "f4ef8e109e0f476fdc35d7531e013268f5c77cfb728bb49397816fc69175fdea",
+            "ok": true
+          },
+          {
+            "url": "/play/glb/",
+            "status": 200,
+            "bytes": 7535,
+            "mime": "text/html; charset=utf-8",
+            "sha256": "fe4c78bdff8550e82b2e0eba82737b3f073a399942372156697de2b6477bd50d",
+            "expected": "fe4c78bdff8550e82b2e0eba82737b3f073a399942372156697de2b6477bd50d",
+            "ok": true
+          }
+        ]
+      },
+      "canonical": {
+        "kind": "myfarmtwin-internal-browser-integrity-v2",
+        "origin": "https://myfarmtwin.com",
+        "entry": "app-S342P2LL.js",
+        "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+        "files": 30,
+        "glbs": 22,
+        "ok": true,
+        "results": [
+          {
+            "url": "/play/",
+            "status": 200,
+            "bytes": 7535,
+            "mime": "text/html; charset=utf-8",
+            "sha256": "fe4c78bdff8550e82b2e0eba82737b3f073a399942372156697de2b6477bd50d",
+            "expected": "fe4c78bdff8550e82b2e0eba82737b3f073a399942372156697de2b6477bd50d",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/prototype/barn.glb",
+            "status": 200,
+            "bytes": 875472,
+            "mime": "model/gltf-binary",
+            "sha256": "25a177e03f24debe3581990244132950d1a240b94ec9bf727b0e5353f05780c2",
+            "expected": "25a177e03f24debe3581990244132950d1a240b94ec9bf727b0e5353f05780c2",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/prototype/bed.glb",
+            "status": 200,
+            "bytes": 238304,
+            "mime": "model/gltf-binary",
+            "sha256": "870e3c2dabd03544fe74956756f6c285336b168942b57f674190fdc7a85a0435",
+            "expected": "870e3c2dabd03544fe74956756f6c285336b168942b57f674190fdc7a85a0435",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/prototype/cow.glb",
+            "status": 200,
+            "bytes": 417292,
+            "mime": "model/gltf-binary",
+            "sha256": "540c61f55ca892fed09c0d55c1b43414a8dbe0ede2ad847167799ae91f6d5a2b",
+            "expected": "540c61f55ca892fed09c0d55c1b43414a8dbe0ede2ad847167799ae91f6d5a2b",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/prototype/crops.glb",
+            "status": 200,
+            "bytes": 319836,
+            "mime": "model/gltf-binary",
+            "sha256": "90d9b1778adf73d98ca01c0e30f3bf0f393762b936ddc38f8e20f7adffe61421",
+            "expected": "90d9b1778adf73d98ca01c0e30f3bf0f393762b936ddc38f8e20f7adffe61421",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/prototype/fence.glb",
+            "status": 200,
+            "bytes": 117212,
+            "mime": "model/gltf-binary",
+            "sha256": "9279a59094589199b831ec5cab81fb877df6d3d288600f7f55345768985fa7c3",
+            "expected": "9279a59094589199b831ec5cab81fb877df6d3d288600f7f55345768985fa7c3",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/prototype/path.glb",
+            "status": 200,
+            "bytes": 106940,
+            "mime": "model/gltf-binary",
+            "sha256": "82c3235227a7739aa34e8e73cd0e0560e82db095fbd0932a1cef2c645f998329",
+            "expected": "82c3235227a7739aa34e8e73cd0e0560e82db095fbd0932a1cef2c645f998329",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/prototype/props.glb",
+            "status": 200,
+            "bytes": 450732,
+            "mime": "model/gltf-binary",
+            "sha256": "7cf9088a13a74b0d17b7b2d0616198cfb5d0da6a86203c9cbd1b545eddb6455e",
+            "expected": "7cf9088a13a74b0d17b7b2d0616198cfb5d0da6a86203c9cbd1b545eddb6455e",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/prototype/vegetation.glb",
+            "status": 200,
+            "bytes": 483124,
+            "mime": "model/gltf-binary",
+            "sha256": "b74c620fba1635bd1cb4f4c1b3fcfadf75af2248a9b4cf67a62505beb547ea92",
+            "expected": "b74c620fba1635bd1cb4f4c1b3fcfadf75af2248a9b4cf67a62505beb547ea92",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world-manifest.json",
+            "status": 200,
+            "bytes": 32990,
+            "mime": "application/json",
+            "sha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+            "expected": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/chicken-far.glb",
+            "status": 200,
+            "bytes": 420140,
+            "mime": "model/gltf-binary",
+            "sha256": "e17beb84ef96c33828a2cb4db1f988ef69f269d71ccfaa5a7cec09932d08caf4",
+            "expected": "e17beb84ef96c33828a2cb4db1f988ef69f269d71ccfaa5a7cec09932d08caf4",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/chicken.glb",
+            "status": 200,
+            "bytes": 871760,
+            "mime": "model/gltf-binary",
+            "sha256": "d32c55992932d3abeeba101569541ab375fc36b985f794e5adc8cf3c0c92c5a2",
+            "expected": "d32c55992932d3abeeba101569541ab375fc36b985f794e5adc8cf3c0c92c5a2",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/coop.glb",
+            "status": 200,
+            "bytes": 1807756,
+            "mime": "model/gltf-binary",
+            "sha256": "16151052d2bce3ca5535b72353c9d0c054609165331c7a1c394ef19a37789158",
+            "expected": "16151052d2bce3ca5535b72353c9d0c054609165331c7a1c394ef19a37789158",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/fish-far.glb",
+            "status": 200,
+            "bytes": 171520,
+            "mime": "model/gltf-binary",
+            "sha256": "1fc90b3167b09f7d7ce1bf105ad30a54d7042d2a57f2d39e951b3365dd655dd0",
+            "expected": "1fc90b3167b09f7d7ce1bf105ad30a54d7042d2a57f2d39e951b3365dd655dd0",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/fish.glb",
+            "status": 200,
+            "bytes": 281164,
+            "mime": "model/gltf-binary",
+            "sha256": "0af87d402bc700f85ddb7046964c9028b1eb4af3ff893333381b918ebab11dbf",
+            "expected": "0af87d402bc700f85ddb7046964c9028b1eb4af3ff893333381b918ebab11dbf",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/goat-far.glb",
+            "status": 200,
+            "bytes": 476384,
+            "mime": "model/gltf-binary",
+            "sha256": "9ef76ecfca403278cf0ad27bd6e0d4f7f98129ec359e28e0e5dc00580e76fce8",
+            "expected": "9ef76ecfca403278cf0ad27bd6e0d4f7f98129ec359e28e0e5dc00580e76fce8",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/goat-kid-far.glb",
+            "status": 200,
+            "bytes": 460836,
+            "mime": "model/gltf-binary",
+            "sha256": "25b907e30baf41e0ab6f909be6a60ce70944a55a02b502212619cc84f48ebf85",
+            "expected": "25b907e30baf41e0ab6f909be6a60ce70944a55a02b502212619cc84f48ebf85",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/goat-kid.glb",
+            "status": 200,
+            "bytes": 719844,
+            "mime": "model/gltf-binary",
+            "sha256": "899cf03233c2e9bdcc395ebf4fbc2c8b889128626852a8931f0e2c4720bea7c3",
+            "expected": "899cf03233c2e9bdcc395ebf4fbc2c8b889128626852a8931f0e2c4720bea7c3",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/goat-shelter.glb",
+            "status": 200,
+            "bytes": 1647128,
+            "mime": "model/gltf-binary",
+            "sha256": "87a2e8200d6807ce227b0518b9c470e8892891fa1df6b3090d907a0d6f9c5a53",
+            "expected": "87a2e8200d6807ce227b0518b9c470e8892891fa1df6b3090d907a0d6f9c5a53",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/goat.glb",
+            "status": 200,
+            "bytes": 847232,
+            "mime": "model/gltf-binary",
+            "sha256": "e8eb5dc4df82e4ea3b494674f76c0d74ece4ad2225521e9c4d3fbca5ec243720",
+            "expected": "e8eb5dc4df82e4ea3b494674f76c0d74ece4ad2225521e9c4d3fbca5ec243720",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/market.glb",
+            "status": 200,
+            "bytes": 2157684,
+            "mime": "model/gltf-binary",
+            "sha256": "c40be41e85f6068867108efd6daf09e12726b833efb0225fb001a13fe734a807",
+            "expected": "c40be41e85f6068867108efd6daf09e12726b833efb0225fb001a13fe734a807",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/pond.glb",
+            "status": 200,
+            "bytes": 558036,
+            "mime": "model/gltf-binary",
+            "sha256": "2b2a36231bc4a059fa578fdf0bfdee8cedce01e371f4a2dafe7e895fab3bda9b",
+            "expected": "2b2a36231bc4a059fa578fdf0bfdee8cedce01e371f4a2dafe7e895fab3bda9b",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/terrain.glb",
+            "status": 200,
+            "bytes": 803172,
+            "mime": "model/gltf-binary",
+            "sha256": "a93a84ee021eea3a62f9f44617bce7d9802ec5f708a18ba5507b81d7e7afd5ec",
+            "expected": "a93a84ee021eea3a62f9f44617bce7d9802ec5f708a18ba5507b81d7e7afd5ec",
+            "ok": true
+          },
+          {
+            "url": "/play/assets/models/world/vegetation-far.glb",
+            "status": 200,
+            "bytes": 169716,
+            "mime": "model/gltf-binary",
+            "sha256": "364f6a72135c3cf2776d0bf962774d5a602007424b3470c9e45887c3e5758e5a",
+            "expected": "364f6a72135c3cf2776d0bf962774d5a602007424b3470c9e45887c3e5758e5a",
+            "ok": true
+          },
+          {
+            "url": "/play/cozy/app-S342P2LL.js",
+            "status": 200,
+            "bytes": 720373,
+            "mime": "application/javascript",
+            "sha256": "759c77f162fbec30e0ecceaab708a32635cce5b898e7c4b201297082aa7926eb",
+            "expected": "759c77f162fbec30e0ecceaab708a32635cce5b898e7c4b201297082aa7926eb",
+            "ok": true
+          },
+          {
+            "url": "/play/cozy/chunks/chunk-PZDGL33N.js",
+            "status": 200,
+            "bytes": 194505,
+            "mime": "application/javascript",
+            "sha256": "112dfbfcd56859f718ad24b848e42de41740253cca6fa48c8d96fcee8e5836f7",
+            "expected": "112dfbfcd56859f718ad24b848e42de41740253cca6fa48c8d96fcee8e5836f7",
+            "ok": true
+          },
+          {
+            "url": "/play/cozy/integrity-LL76RTOU.js",
+            "status": 200,
+            "bytes": 1894,
+            "mime": "application/javascript",
+            "sha256": "92a251dcc0b642c6b2d15f5bca91318905a91ddfba8d9ac7b146d2c72aa1e3e0",
+            "expected": "92a251dcc0b642c6b2d15f5bca91318905a91ddfba8d9ac7b146d2c72aa1e3e0",
+            "ok": true
+          },
+          {
+            "url": "/play/cozy/recovery-2UXJQDFZ.js",
+            "status": 200,
+            "bytes": 2515,
+            "mime": "application/javascript",
+            "sha256": "a7de34419a67e7d638467375abc533ef8678310c7ac015ebcd26301825aec625",
+            "expected": "a7de34419a67e7d638467375abc533ef8678310c7ac015ebcd26301825aec625",
+            "ok": true
+          },
+          {
+            "url": "/play/cozy/style.css",
+            "status": 200,
+            "bytes": 24869,
+            "mime": "text/css; charset=utf-8",
+            "sha256": "f4ef8e109e0f476fdc35d7531e013268f5c77cfb728bb49397816fc69175fdea",
+            "expected": "f4ef8e109e0f476fdc35d7531e013268f5c77cfb728bb49397816fc69175fdea",
+            "ok": true
+          },
+          {
+            "url": "/play/glb/",
+            "status": 200,
+            "bytes": 7535,
+            "mime": "text/html; charset=utf-8",
+            "sha256": "fe4c78bdff8550e82b2e0eba82737b3f073a399942372156697de2b6477bd50d",
+            "expected": "fe4c78bdff8550e82b2e0eba82737b3f073a399942372156697de2b6477bd50d",
+            "ok": true
+          }
+        ]
+      }
+    },
+    "console": {
+      "immutableErrorsWarnings": 0,
+      "canonicalErrorsWarnings": 0
+    },
+    "privacy": "All fixture imports and screenshots use synthetic data on the isolated immutable deployment origin. Actual canonical player save bytes were only compared in memory and never written to files or reports.",
+    "limitations": [
+      "Responsive tests use internal desktop-browser viewports, not physical phones or native touch",
+      "Local preview was unreachable from IAB; all actual UI acceptance used deployed Cloudflare preview and production"
+    ]
+  },
+  "artifact": {
+    "archive": "myfarmtwin-toolbar-layout-20261116.tar.gz",
+    "bytes": 18384964,
+    "sha256": "150d5d7bb0f5cabb0093676fe3bab61fb8e0c9da806b8b7cfe824e29aad1079d",
+    "files": 302,
+    "gameByteParity": true,
+    "generatedHostingMetadata": [
+      "dist/.openai/hosting.json"
+    ],
+    "runtimeGLBs": 22,
+    "staticGLBs": 23
+  },
+  "sourceChecks": {
+    "build": "passed",
+    "typecheck": "passed",
+    "deliveryAndHeaderTests": {
+      "passed": 4,
+      "failed": 0
+    },
+    "scope": "No new domain tests added or broad game regressions repeated for this bounded layout change. Assets, simulation, placement rules and storage schemas are unchanged."
+  },
+  "privacy": "Only synthetic fixture data is present; canonical player save bytes were compared in memory and were never saved or published."
+}
