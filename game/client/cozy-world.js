@@ -37,6 +37,8 @@ export class CozyWorld{
   canvas.addEventListener('pointercancel',()=>{this.down={x:Infinity,y:Infinity};},{signal:this.abort.signal});
   canvas.addEventListener('keydown',e=>{if(e.key==='Home'){e.preventDefault();this.focus('overview');}else if(e.key==='+'||e.key==='='){e.preventDefault();this.zoom(.82);}else if(e.key==='-'){e.preventDefault();this.zoom(1.22);}else if(e.key==='ArrowLeft'){e.preventDefault();this.rotate(-Math.PI/8);}else if(e.key==='ArrowRight'){e.preventDefault();this.rotate(Math.PI/8);}else if(e.key==='Escape')this.options.onSelect(this.back());},{signal:this.abort.signal});
   this.resizeObserver=new ResizeObserver(()=>this.resize());this.resizeObserver.observe(host);this.resize();
+  // Expanding below-scene controls changes the host size, not the chosen view.
+  window.addEventListener('resize',()=>{this.resize();if(this.currentView==='overview'&&this.items.size)this.focus('overview',false);},{signal:this.abort.signal});
  }
  async load(){
   const response=await fetch('/play/assets/models/world-manifest.json',{cache:'no-cache'});if(!response.ok)throw Error('Manifest unavailable');this.manifest=await response.json();const assets=this.manifest.assets,loader=new GLTFLoader(),names=Object.keys(assets);this.modelCount=names.length+names.filter(n=>assets[n].lod?.far).length;let ready=0;
@@ -46,7 +48,7 @@ export class CozyWorld{
   await Promise.all(Array.from({length:3},async()=>{while(index<ordered.length){const name=ordered[index++],entry=name.endsWith(':far')?assets[name.slice(0,-4)].lod.far:assets[name];if(!entry)continue;const model=await loader.loadAsync(entry.url+'?v='+entry.sha256.slice(0,16));if(this.disposed){this.releaseModel(model);continue;}this.models.set(name,model);this.options.onProgress(++ready,this.modelCount);}}));
   if(this.disposed)return;this.createLandscape();this.host.dataset.modelsReady='true';this.host.dataset.models=String(this.models.size);this.host.dataset.glbOnly='true';this.host.dataset.loadMs=String(Math.round(performance.now()-this.loadStarted));this.frame=requestAnimationFrame(t=>this.animate(t));
  }
- resize(){const rect=this.host.getBoundingClientRect();if(rect.width<1||rect.height<1)return;this.camera.aspect=rect.width/rect.height;this.camera.updateProjectionMatrix();this.renderer.setSize(rect.width,rect.height,false);if(this.currentView==='overview'&&this.items.size)this.focus('overview',false);}
+ resize(){const rect=this.host.getBoundingClientRect();if(rect.width<1||rect.height<1)return;this.camera.aspect=rect.width/rect.height;this.camera.updateProjectionMatrix();this.renderer.setSize(rect.width,rect.height,false);}
  /** @param {string} quality */
  setQuality(quality){this.quality=quality;const ratio=quality==='high'?2:quality==='balanced'?1:Math.min(window.devicePixelRatio||1,1.5);this.renderer.setPixelRatio(ratio);this.host.dataset.quality=quality;if(this.controls)this.resize();}
  /** @param {string} name @param {string} [node] */
