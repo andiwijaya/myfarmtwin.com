@@ -6,9 +6,9 @@
  * @param {{blocked:boolean,available:(action:CameraHistoryAction)=>boolean,run:(action:CameraHistoryAction)=>boolean}} handlers
  */
 export function handleCameraResetShortcut(event,handlers){
- if(handlers.blocked||event.defaultPrevented||event.repeat||event.isComposing||!event.ctrlKey||event.altKey||event.metaKey||event.shiftKey)return false;
- const key=event.key.toLowerCase();if(key!=='z'&&key!=='y')return false;
- const action=key==='z'?'undo-reset':'redo-reset';
+ if(handlers.blocked||event.defaultPrevented||event.repeat||event.isComposing||!event.ctrlKey||event.altKey||event.metaKey)return false;
+ const key=event.key.toLowerCase();if(key!=='z'&&key!=='y'||key==='y'&&event.shiftKey)return false;
+ const action=key==='z'&&!event.shiftKey?'undo-reset':'redo-reset';
  if(!handlers.available(action)||!handlers.run(action))return false;
  event.preventDefault();return true;
 }
