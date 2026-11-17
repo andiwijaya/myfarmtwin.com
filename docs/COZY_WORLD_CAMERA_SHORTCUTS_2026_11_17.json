@@ -172,6 +172,118 @@
     "noSymlinksOrUnsafePaths": true
   },
   "production": {
-    "status": "pending"
+    "status": "verified",
+    "deployment": {
+      "kind": "myfarmtwin-camera-shortcuts-production-deployment-v1",
+      "repository": "andiwijaya/myfarmtwin.com",
+      "source": "0c53073c4cbe8ceb5dcbbc31825a40819dffb1ae",
+      "entry": "app-637GUJQ7.js",
+      "productionDeployment": "56ba19c7-5c26-4547-8444-4e5690988411",
+      "checkId": 133825561117,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://myfarmtwin.com/play/",
+      "mainVerified": true
+    },
+    "browser": {
+      "kind": "myfarmtwin-camera-shortcuts-production-iab-acceptance-v1",
+      "url": "https://myfarmtwin.com/play/",
+      "source": "0c53073c4cbe8ceb5dcbbc31825a40819dffb1ae",
+      "entry": "app-637GUJQ7.js",
+      "checks": {
+        "farmMatchesPreview": true,
+        "metadataCorrect": true,
+        "meaningfulReset": true,
+        "ctrlZExactCollapsed": true,
+        "redoAvailableAfterCtrlZ": true,
+        "ctrlYExactCollapsed": true,
+        "undoAvailableAfterCtrlY": true,
+        "unavailableRedoIgnored": true,
+        "toolbarRemainsCollapsed": true,
+        "selectEditingSkipped": true,
+        "nativeTextUndoWorks": true,
+        "textUndoSkipsCamera": true,
+        "nativeTextRedoWorks": true,
+        "textRedoSkipsCamera": true,
+        "modalButtonSkipped": true,
+        "preResetZoomPoseObserved": true,
+        "shortcutsResumeAfterDialog": true,
+        "availableCameraRedoSkippedWhileTyping": true,
+        "nativeTextRedoWithAvailableCameraRedo": true,
+        "pendingRedoAfterRefresh": true,
+        "ctrlYAfterRefreshExact": true,
+        "otherAreaCameraExact": true,
+        "interiorZoomPoseObserved": true,
+        "interiorCtrlZExact": true,
+        "interiorCtrlYExact": true,
+        "interiorContextPreserved": true,
+        "exteriorCameraExact": true,
+        "gardenHistoryUnaffectedByInterior": true,
+        "shortcutsWorkAtPhoneViewport": true,
+        "tooltipHintsCorrect": true,
+        "utf8LabelsCorrect": true,
+        "farmByteIdentical": true
+      },
+      "layouts": {
+        "desktop": {
+          "buttonHeights": [
+            44,
+            44,
+            44,
+            46
+          ],
+          "height": 720,
+          "horizontalOverflow": false,
+          "labelsFit": true,
+          "noButtonOverlap": true,
+          "sameRow": true,
+          "toolbarBelowCanvas": true,
+          "width": 1280
+        },
+        "phone390": {
+          "buttonHeights": [
+            46.66666793823242,
+            46.66666793823242,
+            46.66666793823242,
+            46.66666793823242
+          ],
+          "height": 844,
+          "horizontalOverflow": false,
+          "labelsFit": true,
+          "noButtonOverlap": true,
+          "sameRow": true,
+          "toolbarBelowCanvas": true,
+          "width": 390
+        }
+      },
+      "warningsOrErrors": [],
+      "integrity": {
+        "ok": true,
+        "files": 30,
+        "glbs": 22
+      },
+      "poseOracle": "Wait for the independently calculated zoom pose through DOM attributes before taking a pre-reset sample. Wait for navigation and a fresh ready document after reload. production-oracle-note.json retains the initial stale samples and corrected checks.",
+      "scope": "Existing canonical tab refreshed and reused, with no duplicate game renderer. Native internal-browser Ctrl key presses and synthetic textarea text, no import. No gameplay commands, clipboard, file transfers or desktop takeover. Complete farm exports compared in memory only. Phone viewport emulation.",
+      "cleanup": {
+        "originalOverviewPoseRestored": true,
+        "originalToolbarRestored": true,
+        "originalLocaleRestored": true,
+        "viewportReset": true,
+        "farmByteIdentical": true,
+        "canonicalTabRetained": "21",
+        "noDuplicateGameTabs": true
+      }
+    },
+    "integrity": {
+      "entry": "app-637GUJQ7.js",
+      "files": 30,
+      "glbs": 22,
+      "allSha256BytesAndMimeMatch": true
+    },
+    "oracleNote": "production-oracle-note.json retains initial stale diagnostic samples and the corrected zoom/navigation waits.",
+    "captures": [
+      "qa-artifacts/cozy-camera-shortcuts-20261117/production-desktop-ctrl-z.jpg",
+      "qa-artifacts/cozy-camera-shortcuts-20261117/production-phone-ctrl-z.jpg"
+    ]
   }
 }

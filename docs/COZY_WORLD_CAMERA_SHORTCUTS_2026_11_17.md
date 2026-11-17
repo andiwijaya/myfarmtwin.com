@@ -55,7 +55,19 @@ Archive `myfarmtwin-camera-shortcuts-20261117.tar.gz`: 18,397,128 bytes, SHA-256
 
 ## Production acceptance
 
-Primary activation and canonical production browser checks are pending in this release-preparation snapshot. The machine-readable companion will receive the final source, deployment and browser receipts.
+Application source `0c53073c4cbe8ceb5dcbbc31825a40819dffb1ae` is active on `main`. Cloudflare production deployment `56ba19c7-5c26-4547-8444-4e5690988411` reached completed/success under native GitHub check `133825561117`. The canonical `/play/` page loads `app-637GUJQ7.js`; this receipt is separate from the branch preview.
+
+All 32 final production browser checks passed on the existing canonical tab, refreshed to the new version. Ctrl+Z/Ctrl+Y restore exact before/reset geometry and projection with the toolbar collapsed, and availability follows the action. Unavailable Redo is ignored. Focused selects, native textarea Undo/Redo and a focused modal close button preserve the camera. The positive editing guard is also exercised while camera Redo is available. Shortcuts resume after dialog closure and Ctrl+Y works after refresh.
+
+The independent cow-area camera remains exact. Interior Ctrl+Z/Ctrl+Y restore exact poses and retain interior context, while the exterior remains exact. Returning to the garden preserves its own exact history. Controls also work at the measured 390×844 phone viewport. Both that phone layout and measured 1280×720 desktop retain fitting labels, at least 44px targets, no button overlap or horizontal overflow, and the toolbar below the canvas. Shortcut metadata/tooltips and UTF-8 labels remain correct.
+
+The renderer publishes its diagnostic camera state once per second. An initial live pre-reset sample lagged the zoom, and a rapid reload sequence also needed a fresh navigation boundary. Final checks independently calculate the 1.25× garden or 0.8× interior zoom pose from a synchronous reset snapshot, wait for that expected pose with documented DOM locator conditions, then compare Undo/Redo. Reload checks register navigation before reloading and wait for the new ready document. The initial samples and successful corrected comparisons are retained in `production-oracle-note.json`; no source change was needed for these test-oracle corrections.
+
+Canonical `/play/integrity/` passes SHA-256, byte count and MIME for all 30 resources, including 22 GLBs. Current application warnings/errors are zero, and the full farm export remains byte-identical to the original in-memory comparator. No gameplay command, import or raw-player-data file is introduced.
+
+Actual captures are `qa-artifacts/cozy-camera-shortcuts-20261117/production-desktop-ctrl-z.jpg` and `production-phone-ctrl-z.jpg`. Machine-readable receipts are `production-browser.json`, `production-integrity.json` and `production-deployment.json`. Phone evidence uses viewport emulation. Temporary viewport overrides are reset before restoring the original whole-farm pose, which matches exactly; original toolbar and locale are restored. The existing canonical tab is retained and no duplicate game renderer remains.
+
+The companion JSON contains the final deployment and browser receipts. Documentation-only commits after application activation do not alter the live bundle.
 
 ## Checklist
 
@@ -65,5 +77,5 @@ Primary activation and canonical production browser checks are pending in this r
 - [x] Pass typecheck, 49 camera checks, build and four delivery checks.
 - [x] Complete internal-browser candidate acceptance and record the controlled repeat.
 - [x] Reproduce tested bytes, remove the preview and verify the archive.
-- [ ] Activate the tested application and confirm production deployment success.
-- [ ] Verify shortcuts on canonical production, capture screenshots and complete receipts.
+- [x] Activate the tested application and confirm production deployment success.
+- [x] Verify shortcuts on canonical production, capture screenshots and complete receipts.
