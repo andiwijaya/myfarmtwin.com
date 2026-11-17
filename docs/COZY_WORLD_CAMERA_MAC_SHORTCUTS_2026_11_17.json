@@ -509,6 +509,388 @@
     "allDistFilesExact": true
   },
   "production": {
-    "status": "pending activation after preview acceptance"
+    "deployment": {
+      "source": "8587c4a1774a58e3d04e8fa0f3fff1117f55274f",
+      "branch": "main",
+      "check": 133849945445,
+      "deployment": "5822c135-fb26-483e-a608-260a33648146",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://myfarmtwin.com/play/",
+      "verification": "Native completed production Cloudflare check; separate from branch preview."
+    },
+    "browser": {
+      "kind": "myfarmtwin-camera-mac-shortcuts-iab-production-v1",
+      "source": "8587c4a1774a58e3d04e8fa0f3fff1117f55274f",
+      "url": "https://myfarmtwin.com/play/",
+      "entry": "app-D22JK6D3.js",
+      "checks": {
+        "liveEntry": true,
+        "shortcutMetadata": true,
+        "cmdTooltips": true,
+        "toolbarRestoredOnRefresh": true,
+        "farmBaselineExact": true,
+        "cmdUndoExactCollapsed": true,
+        "cmdRedoExactCollapsed": true,
+        "toolbarRemainedCollapsed": true,
+        "unavailableCmdRedoIgnored": true,
+        "cmdYIgnored": true,
+        "mixedModifiersIgnored": true,
+        "selectEditingGuard": true,
+        "cmdTypingUndoGuard": true,
+        "cmdTypingRedoGuard": true,
+        "nativeTextUndo": true,
+        "nativeTextRedo": true,
+        "modalButtonGuard": true,
+        "cmdResumesAfterDialog": true,
+        "ctrlYInteroperates": true,
+        "ctrlAlternateStillWorks": true,
+        "pendingRedoAfterRefresh": true,
+        "cmdRedoAfterRefresh": true,
+        "barnResetUnchanged": true,
+        "barnBeforeUnchanged": true,
+        "gardenHistoryRetained": true,
+        "desktopLayoutSafe": true,
+        "interiorCmdUndoExact": true,
+        "interiorCmdRedoExact": true,
+        "exteriorUnchanged": true,
+        "phoneCmdUndoExact": true,
+        "phoneCmdRedoExact": true,
+        "phoneLayoutSafe": true,
+        "farmBytesUnchanged": true,
+        "noWarningsOrErrors": true,
+        "originalOverviewRestored": true,
+        "originalToolbarRestored": true,
+        "originalLocaleRestored": true
+      },
+      "count": 37,
+      "allPassed": true,
+      "desktop": {
+        "buttonHeights": [
+          44,
+          44,
+          44,
+          46
+        ],
+        "height": 720,
+        "horizontalOverflow": false,
+        "labelsFit": true,
+        "noButtonOverlap": true,
+        "sameRow": true,
+        "toolbarBelowCanvas": true,
+        "width": 1280
+      },
+      "phone": {
+        "buttonHeights": [
+          46.66666793823242,
+          46.66666793823242,
+          46.66666793823242,
+          46.66666793823242
+        ],
+        "height": 844,
+        "horizontalOverflow": false,
+        "labelsFit": true,
+        "noButtonOverlap": true,
+        "sameRow": true,
+        "toolbarBelowCanvas": true,
+        "width": 390
+      },
+      "metadata": {
+        "entry": "/play/cozy/app-D22JK6D3.js",
+        "redo": "Control+Y Control+Shift+Z Meta+Shift+Z",
+        "redoTitle": "Redo reset kamera area ini \u00c2\u00b7 Ctrl+Y / Ctrl+Shift+Z / Cmd+Shift+Z / Redo this area's camera reset \u00c2\u00b7 Ctrl+Y / Ctrl+Shift+Z / Cmd+Shift+Z",
+        "undo": "Control+Z Meta+Z",
+        "undoTitle": "Undo reset kamera area ini \u00c2\u00b7 Ctrl+Z / Cmd+Z / Undo this area's camera reset \u00c2\u00b7 Ctrl+Z / Cmd+Z"
+      },
+      "logs": [],
+      "limits": [
+        "Meta/Cmd key events were exercised in the internal browser; no physical Mac or Safari test.",
+        "Phone layout uses viewport emulation. Desktop 1280x720 was explicitly set before its final measurement and screenshot.",
+        "Cmd directions leave camera history pending while text/select/dialog controls are focused; native Ctrl text Undo/Redo is also verified.",
+        "The original canonical camera was synchronously captured through its existing reset pair before reload and restored through that same untouched pair after clearing the temporary viewport.",
+        "Farm export comparison stays in memory. No gameplay, import, clipboard, upload or download test used."
+      ]
+    },
+    "integrity": {
+      "entry": "app-D22JK6D3.js",
+      "files": 30,
+      "glbs": 22,
+      "kind": "myfarmtwin-internal-browser-integrity-v2",
+      "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+      "ok": true,
+      "origin": "https://myfarmtwin.com",
+      "results": [
+        {
+          "bytes": 9382,
+          "expected": "d01512389619f03ed411848b010950e09cd3882c7f9224487dce8b4766e0a251",
+          "mime": "text/html; charset=utf-8",
+          "ok": true,
+          "sha256": "d01512389619f03ed411848b010950e09cd3882c7f9224487dce8b4766e0a251",
+          "status": 200,
+          "url": "/play/"
+        },
+        {
+          "bytes": 875472,
+          "expected": "25a177e03f24debe3581990244132950d1a240b94ec9bf727b0e5353f05780c2",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "25a177e03f24debe3581990244132950d1a240b94ec9bf727b0e5353f05780c2",
+          "status": 200,
+          "url": "/play/assets/models/prototype/barn.glb"
+        },
+        {
+          "bytes": 238304,
+          "expected": "870e3c2dabd03544fe74956756f6c285336b168942b57f674190fdc7a85a0435",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "870e3c2dabd03544fe74956756f6c285336b168942b57f674190fdc7a85a0435",
+          "status": 200,
+          "url": "/play/assets/models/prototype/bed.glb"
+        },
+        {
+          "bytes": 417292,
+          "expected": "540c61f55ca892fed09c0d55c1b43414a8dbe0ede2ad847167799ae91f6d5a2b",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "540c61f55ca892fed09c0d55c1b43414a8dbe0ede2ad847167799ae91f6d5a2b",
+          "status": 200,
+          "url": "/play/assets/models/prototype/cow.glb"
+        },
+        {
+          "bytes": 319836,
+          "expected": "90d9b1778adf73d98ca01c0e30f3bf0f393762b936ddc38f8e20f7adffe61421",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "90d9b1778adf73d98ca01c0e30f3bf0f393762b936ddc38f8e20f7adffe61421",
+          "status": 200,
+          "url": "/play/assets/models/prototype/crops.glb"
+        },
+        {
+          "bytes": 117212,
+          "expected": "9279a59094589199b831ec5cab81fb877df6d3d288600f7f55345768985fa7c3",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "9279a59094589199b831ec5cab81fb877df6d3d288600f7f55345768985fa7c3",
+          "status": 200,
+          "url": "/play/assets/models/prototype/fence.glb"
+        },
+        {
+          "bytes": 106940,
+          "expected": "82c3235227a7739aa34e8e73cd0e0560e82db095fbd0932a1cef2c645f998329",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "82c3235227a7739aa34e8e73cd0e0560e82db095fbd0932a1cef2c645f998329",
+          "status": 200,
+          "url": "/play/assets/models/prototype/path.glb"
+        },
+        {
+          "bytes": 450732,
+          "expected": "7cf9088a13a74b0d17b7b2d0616198cfb5d0da6a86203c9cbd1b545eddb6455e",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "7cf9088a13a74b0d17b7b2d0616198cfb5d0da6a86203c9cbd1b545eddb6455e",
+          "status": 200,
+          "url": "/play/assets/models/prototype/props.glb"
+        },
+        {
+          "bytes": 483124,
+          "expected": "b74c620fba1635bd1cb4f4c1b3fcfadf75af2248a9b4cf67a62505beb547ea92",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "b74c620fba1635bd1cb4f4c1b3fcfadf75af2248a9b4cf67a62505beb547ea92",
+          "status": 200,
+          "url": "/play/assets/models/prototype/vegetation.glb"
+        },
+        {
+          "bytes": 32990,
+          "expected": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+          "mime": "application/json",
+          "ok": true,
+          "sha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
+          "status": 200,
+          "url": "/play/assets/models/world-manifest.json"
+        },
+        {
+          "bytes": 420140,
+          "expected": "e17beb84ef96c33828a2cb4db1f988ef69f269d71ccfaa5a7cec09932d08caf4",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "e17beb84ef96c33828a2cb4db1f988ef69f269d71ccfaa5a7cec09932d08caf4",
+          "status": 200,
+          "url": "/play/assets/models/world/chicken-far.glb"
+        },
+        {
+          "bytes": 871760,
+          "expected": "d32c55992932d3abeeba101569541ab375fc36b985f794e5adc8cf3c0c92c5a2",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "d32c55992932d3abeeba101569541ab375fc36b985f794e5adc8cf3c0c92c5a2",
+          "status": 200,
+          "url": "/play/assets/models/world/chicken.glb"
+        },
+        {
+          "bytes": 1807756,
+          "expected": "16151052d2bce3ca5535b72353c9d0c054609165331c7a1c394ef19a37789158",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "16151052d2bce3ca5535b72353c9d0c054609165331c7a1c394ef19a37789158",
+          "status": 200,
+          "url": "/play/assets/models/world/coop.glb"
+        },
+        {
+          "bytes": 171520,
+          "expected": "1fc90b3167b09f7d7ce1bf105ad30a54d7042d2a57f2d39e951b3365dd655dd0",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "1fc90b3167b09f7d7ce1bf105ad30a54d7042d2a57f2d39e951b3365dd655dd0",
+          "status": 200,
+          "url": "/play/assets/models/world/fish-far.glb"
+        },
+        {
+          "bytes": 281164,
+          "expected": "0af87d402bc700f85ddb7046964c9028b1eb4af3ff893333381b918ebab11dbf",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "0af87d402bc700f85ddb7046964c9028b1eb4af3ff893333381b918ebab11dbf",
+          "status": 200,
+          "url": "/play/assets/models/world/fish.glb"
+        },
+        {
+          "bytes": 476384,
+          "expected": "9ef76ecfca403278cf0ad27bd6e0d4f7f98129ec359e28e0e5dc00580e76fce8",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "9ef76ecfca403278cf0ad27bd6e0d4f7f98129ec359e28e0e5dc00580e76fce8",
+          "status": 200,
+          "url": "/play/assets/models/world/goat-far.glb"
+        },
+        {
+          "bytes": 460836,
+          "expected": "25b907e30baf41e0ab6f909be6a60ce70944a55a02b502212619cc84f48ebf85",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "25b907e30baf41e0ab6f909be6a60ce70944a55a02b502212619cc84f48ebf85",
+          "status": 200,
+          "url": "/play/assets/models/world/goat-kid-far.glb"
+        },
+        {
+          "bytes": 719844,
+          "expected": "899cf03233c2e9bdcc395ebf4fbc2c8b889128626852a8931f0e2c4720bea7c3",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "899cf03233c2e9bdcc395ebf4fbc2c8b889128626852a8931f0e2c4720bea7c3",
+          "status": 200,
+          "url": "/play/assets/models/world/goat-kid.glb"
+        },
+        {
+          "bytes": 1647128,
+          "expected": "87a2e8200d6807ce227b0518b9c470e8892891fa1df6b3090d907a0d6f9c5a53",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "87a2e8200d6807ce227b0518b9c470e8892891fa1df6b3090d907a0d6f9c5a53",
+          "status": 200,
+          "url": "/play/assets/models/world/goat-shelter.glb"
+        },
+        {
+          "bytes": 847232,
+          "expected": "e8eb5dc4df82e4ea3b494674f76c0d74ece4ad2225521e9c4d3fbca5ec243720",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "e8eb5dc4df82e4ea3b494674f76c0d74ece4ad2225521e9c4d3fbca5ec243720",
+          "status": 200,
+          "url": "/play/assets/models/world/goat.glb"
+        },
+        {
+          "bytes": 2157684,
+          "expected": "c40be41e85f6068867108efd6daf09e12726b833efb0225fb001a13fe734a807",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "c40be41e85f6068867108efd6daf09e12726b833efb0225fb001a13fe734a807",
+          "status": 200,
+          "url": "/play/assets/models/world/market.glb"
+        },
+        {
+          "bytes": 558036,
+          "expected": "2b2a36231bc4a059fa578fdf0bfdee8cedce01e371f4a2dafe7e895fab3bda9b",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "2b2a36231bc4a059fa578fdf0bfdee8cedce01e371f4a2dafe7e895fab3bda9b",
+          "status": 200,
+          "url": "/play/assets/models/world/pond.glb"
+        },
+        {
+          "bytes": 803172,
+          "expected": "a93a84ee021eea3a62f9f44617bce7d9802ec5f708a18ba5507b81d7e7afd5ec",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "a93a84ee021eea3a62f9f44617bce7d9802ec5f708a18ba5507b81d7e7afd5ec",
+          "status": 200,
+          "url": "/play/assets/models/world/terrain.glb"
+        },
+        {
+          "bytes": 169716,
+          "expected": "364f6a72135c3cf2776d0bf962774d5a602007424b3470c9e45887c3e5758e5a",
+          "mime": "model/gltf-binary",
+          "ok": true,
+          "sha256": "364f6a72135c3cf2776d0bf962774d5a602007424b3470c9e45887c3e5758e5a",
+          "status": 200,
+          "url": "/play/assets/models/world/vegetation-far.glb"
+        },
+        {
+          "bytes": 738267,
+          "expected": "b4874736318881a5b929b8172056dc34a7dc317d3a74f9167c7e053cccded31a",
+          "mime": "application/javascript",
+          "ok": true,
+          "sha256": "b4874736318881a5b929b8172056dc34a7dc317d3a74f9167c7e053cccded31a",
+          "status": 200,
+          "url": "/play/cozy/app-D22JK6D3.js"
+        },
+        {
+          "bytes": 194505,
+          "expected": "112dfbfcd56859f718ad24b848e42de41740253cca6fa48c8d96fcee8e5836f7",
+          "mime": "application/javascript",
+          "ok": true,
+          "sha256": "112dfbfcd56859f718ad24b848e42de41740253cca6fa48c8d96fcee8e5836f7",
+          "status": 200,
+          "url": "/play/cozy/chunks/chunk-PZDGL33N.js"
+        },
+        {
+          "bytes": 1894,
+          "expected": "92a251dcc0b642c6b2d15f5bca91318905a91ddfba8d9ac7b146d2c72aa1e3e0",
+          "mime": "application/javascript",
+          "ok": true,
+          "sha256": "92a251dcc0b642c6b2d15f5bca91318905a91ddfba8d9ac7b146d2c72aa1e3e0",
+          "status": 200,
+          "url": "/play/cozy/integrity-LL76RTOU.js"
+        },
+        {
+          "bytes": 2515,
+          "expected": "a7de34419a67e7d638467375abc533ef8678310c7ac015ebcd26301825aec625",
+          "mime": "application/javascript",
+          "ok": true,
+          "sha256": "a7de34419a67e7d638467375abc533ef8678310c7ac015ebcd26301825aec625",
+          "status": 200,
+          "url": "/play/cozy/recovery-2UXJQDFZ.js"
+        },
+        {
+          "bytes": 28829,
+          "expected": "03a5d74c34809c6cbcfbee85ae824989bdc5afdef78922bb5d2287ac437fa95a",
+          "mime": "text/css; charset=utf-8",
+          "ok": true,
+          "sha256": "03a5d74c34809c6cbcfbee85ae824989bdc5afdef78922bb5d2287ac437fa95a",
+          "status": 200,
+          "url": "/play/cozy/style.css"
+        },
+        {
+          "bytes": 9382,
+          "expected": "d01512389619f03ed411848b010950e09cd3882c7f9224487dce8b4766e0a251",
+          "mime": "text/html; charset=utf-8",
+          "ok": true,
+          "sha256": "d01512389619f03ed411848b010950e09cd3882c7f9224487dce8b4766e0a251",
+          "status": 200,
+          "url": "/play/glb/"
+        }
+      ]
+    }
   }
 }
