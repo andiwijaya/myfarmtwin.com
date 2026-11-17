@@ -4,6 +4,7 @@ import {PerspectiveCamera,PointLight,Vector3} from 'three';
 import {CozyWorld} from '../client/cozy-world.js';
 import {CAMERA_PREFERENCE_KEY,cameraViewPreferenceKey,readCameraPreference,writeCameraPreference,readCameraViewPreference,writeCameraViewPreference} from '../client/cozy-camera-preference.js';
 import {cameraResetUndoKey,readCameraResetUndo,writeCameraResetUndo,validateCameraResetUndo} from '../client/cozy-camera-reset-undo.js';
+import {handleCameraResetShortcut} from '../client/cozy-camera-shortcuts.js';
 
 const pose=(view='garden',changedAt=1)=>({version:1,view,position:[10,13,16],target:[0,.5,0],fov:43,zoom:1,anchor:null,changedAt});
 const storage=()=>{const values=new Map([['myfarmtwin.cozy.save.v2','untouched farm'],['myfarmtwin.save.v1','untouched legacy']]);return{values,getItem:key=>values.get(key)??null,setItem:(key,value)=>values.set(key,value)};};
@@ -16,6 +17,8 @@ function withWorld(run,store=storage()){
  try{return run(world,store);}finally{names.forEach((name,i)=>before[i]?Object.defineProperty(globalThis,name,before[i]):delete globalThis[name]);}
 }
 const settle=world=>{world.finishCameraTransition();world.flushCameraPreference();return world.cameraSnapshot();};
+const keyEvent=(key,patch={})=>({key,ctrlKey:true,altKey:false,metaKey:false,shiftKey:false,repeat:false,isComposing:false,defaultPrevented:false,preventCalls:0,preventDefault(){this.preventCalls++;},...patch});
+const shortcut=(world,event,blocked=false)=>handleCameraResetShortcut(event,{blocked,available:action=>action==='undo-reset'?world.canUndoCameraReset():world.canRedoCameraReset(),run:action=>!!(action==='undo-reset'?world.undoCameraReset():world.redoCameraReset())});
 
 test('each area and interior has an independent projection without changing farm keys',()=>{
  const s=storage(),garden=pose(),barn={...pose('barn',2),position:[22,16,28],fov:50,zoom:1.2},inside={...pose('inside:market',3),position:[-4,2,16],target:[-4,1,14],fov:54,anchor:{id:'market',x:-4,z:14,rotation:0}};
@@ -262,4 +265,34 @@ test('redo drains old inertia and an unfinished navigation before applying the s
  w.focus('garden');const initial=settle(w);w.zoom(.7);settle(w);w.resetCamera();w.undoCameraReset();w.focus('barn');settle(w);w.focus('garden');assert.ok(w.transition);
  let pending=true;w.controls.update=()=>{if(pending){w.camera.position.add(new Vector3(3,0,1));w.controls.target.add(new Vector3(1,0,0));if(!w.controls.enableDamping)pending=false;}};
  w.redoCameraReset();assert.equal(pending,false);assert.equal(w.transition,null);assert.equal(w.controls.enableDamping,true);assert.deepEqual(geometry(w.cameraSnapshot()),geometry(initial));w.controls.update();assert.deepEqual(geometry(w.cameraSnapshot()),geometry(initial));
+}));
+
+test('Ctrl+Z and Ctrl+Y use the real active-area commands and preserve other camera and farm bytes',()=>withWorld((w,s)=>{
+ w.focus('barn');settle(w);w.zoom(.8);settle(w);w.focus('garden');const initial=settle(w);w.zoom(.7);w.rotate(.3);const before=settle(w);w.resetCamera();
+ const other=[...s.values].filter(([key])=>![CAMERA_PREFERENCE_KEY,cameraViewPreferenceKey('garden'),cameraResetUndoKey('garden')].includes(key));
+ const undo=keyEvent('z');assert.equal(shortcut(w,undo),true);assert.equal(undo.preventCalls,1);assert.deepEqual(geometry(w.cameraSnapshot()),geometry(before));
+ const redo=keyEvent('y');assert.equal(shortcut(w,redo),true);assert.equal(redo.preventCalls,1);assert.deepEqual(geometry(w.cameraSnapshot()),geometry(initial));assert.equal(w.canUndoCameraReset(),true);
+ for(const [key,bytes]of other)assert.equal(s.getItem(key),bytes,key);
+}));
+
+test('keyboard shortcuts retain an active interior and support Caps Lock without changing its exterior',()=>withWorld((w,s)=>{
+ w.focus('barn');settle(w);w.zoom(.8);settle(w);const exterior=s.getItem(cameraViewPreferenceKey('barn'));w.focus('inside:barn');const initial=settle(w);w.zoom(.7);w.camera.fov=61;w.camera.zoom=1.3;w.beginCameraInteraction();const before=settle(w);w.resetCamera();
+ assert.equal(shortcut(w,keyEvent('Z')),true);assert.deepEqual(geometry(w.cameraSnapshot()),geometry(before));assert.equal(w.interiorId,'barn');
+ assert.equal(shortcut(w,keyEvent('Y')),true);assert.deepEqual(geometry(w.cameraSnapshot()),geometry(initial));assert.equal(w.interiorId,'barn');assert.equal(s.getItem(cameraViewPreferenceKey('barn')),exterior);
+}));
+
+test('editing contexts, other modifiers, consumed events, composition and held keys never trigger camera shortcuts',()=>withWorld((w,s)=>{
+ w.focus('garden');settle(w);w.zoom(.7);settle(w);w.resetCamera();
+ for(const key of ['z','y']){
+  if(key==='y')w.undoCameraReset();
+  const bytes=[...s.values],camera=geometry(w.cameraSnapshot());
+  for(const patch of [{ctrlKey:false},{altKey:true},{metaKey:true},{shiftKey:true},{repeat:true},{isComposing:true},{defaultPrevented:true},{key:'c'},{key:'Escape'}]){const e=keyEvent(key,patch);assert.equal(shortcut(w,e),false,JSON.stringify(patch));assert.equal(e.preventCalls,0);assert.deepEqual([...s.values],bytes);assert.deepEqual(geometry(w.cameraSnapshot()),camera);}
+  const e=keyEvent(key);assert.equal(shortcut(w,e,true),false);assert.equal(e.preventCalls,0);assert.deepEqual([...s.values],bytes);assert.deepEqual(geometry(w.cameraSnapshot()),camera);
+ }
+}));
+
+test('unavailable or failed camera shortcuts preserve native keyboard behavior and readiness guards',()=>withWorld((w,s)=>{
+ w.focus('garden');settle(w);const bytes=[...s.values];for(const key of ['z','y']){const e=keyEvent(key);assert.equal(shortcut(w,e),false);assert.equal(e.preventCalls,0);}assert.deepEqual([...s.values],bytes);
+ w.zoom(.7);settle(w);w.resetCamera();w.cameraPreferenceReady=false;const e=keyEvent('z');assert.equal(shortcut(w,e),false);assert.equal(e.preventCalls,0);w.cameraPreferenceReady=true;
+ const failed=keyEvent('z');assert.equal(handleCameraResetShortcut(failed,{blocked:false,available:()=>true,run:()=>false}),false);assert.equal(failed.preventCalls,0);assert.equal(w.canUndoCameraReset(),true);
 }));
