@@ -1,0 +1,189 @@
+{
+  "kind": "myfarmtwin-camera-redo-reset-release-v1",
+  "date": "2026-11-17",
+  "entry": "app-DY5IBTMK.js",
+  "candidateSource": "e965cafdfbf37d6b07fcd27753e81a449e5b98a4",
+  "checks": {
+    "kind": "myfarmtwin-camera-redo-reset-local-checks-v1",
+    "entry": "app-DY5IBTMK.js",
+    "typecheck": true,
+    "cameraTests": {
+      "passed": 45,
+      "newRedoCases": 12
+    },
+    "deliveryTests": {
+      "passed": 4
+    },
+    "build": {
+      "passed": true,
+      "emittedBytes": 936451
+    },
+    "feature": [
+      "Scoped reset/undo/redo pairs",
+      "Version 1 pending/consumed undo compatibility",
+      "Per-area durable state and anchor validation",
+      "Optional storage in-session fallback",
+      "Monotonic stale-record guard",
+      "Keyboard and bilingual UI with compact below-canvas controls"
+    ],
+    "browserAcceptance": "pending"
+  },
+  "preview": {
+    "kind": "myfarmtwin-camera-redo-reset-iab-acceptance-v1",
+    "url": "https://myfarmtwin.com/play/reset-camera-preview/",
+    "entry": "app-DY5IBTMK.js",
+    "candidateSource": "e965cafdfbf37d6b07fcd27753e81a449e5b98a4",
+    "checks": {
+      "initialRedoDisabled": true,
+      "meaningfulGardenReset": true,
+      "noRedoUntilUndo": true,
+      "repeatedResetKeepsOriginalUndo": true,
+      "redoEnabledAfterUndo": true,
+      "redoSurvivesRefresh": true,
+      "redoExactWithKeyboard": true,
+      "undoEnabledAfterRedo": true,
+      "redoDisabledAfterUse": true,
+      "englishFeedback": true,
+      "undoAfterRedoExact": true,
+      "otherAreaCameraExact": true,
+      "noRedoInUnrelatedArea": true,
+      "redoSurvivesRevisit": true,
+      "redoSurvivesTabReopen": true,
+      "reopenedBeforePoseExact": true,
+      "reopenedRedoExact": true,
+      "statePersistsAfterRedo": true,
+      "interiorUndoExact": true,
+      "interiorRedoEnabled": true,
+      "exteriorCameraExact": true,
+      "noInteriorRedoOnExterior": true,
+      "interiorRedoExact": true,
+      "interiorContextPreserved": true,
+      "independentGardenRedoStillPending": true,
+      "independentGardenRedoExact": true,
+      "otherTabRedoDisables": true,
+      "remoteRedoPersistsAfterReopen": true,
+      "newResetClearsRedo": true,
+      "newResetUndoUsesLatestPose": true,
+      "farmByteIdentical": true,
+      "otherAreaStillExactAtEnd": true,
+      "utf8LabelsCorrect": true
+    },
+    "layouts": {
+      "desktop": {
+        "buttonHeights": [
+          44,
+          44,
+          44,
+          46
+        ],
+        "height": 720,
+        "horizontalOverflow": false,
+        "labelsFit": true,
+        "noButtonOverlap": true,
+        "sameRow": true,
+        "toolbarBelowCanvas": true,
+        "width": 1280
+      },
+      "phone320": {
+        "buttonHeights": [
+          45.33333587646485,
+          45.33333587646485,
+          45.33333587646485,
+          45.33333587646485
+        ],
+        "height": 844,
+        "horizontalOverflow": false,
+        "labelsFit": true,
+        "noButtonOverlap": true,
+        "sameRow": true,
+        "toolbarBelowCanvas": true,
+        "width": 320
+      },
+      "phone320English": {
+        "buttonHeights": [
+          45.33333587646485,
+          45.33333587646485,
+          45.33333587646485,
+          45.33333587646485
+        ],
+        "height": 844,
+        "horizontalOverflow": false,
+        "labelsFit": true,
+        "noButtonOverlap": true,
+        "sameRow": true,
+        "toolbarBelowCanvas": true,
+        "width": 320
+      },
+      "phone390": {
+        "buttonHeights": [
+          46.66666793823242,
+          46.66666793823242,
+          46.66666793823242,
+          46.66666793823242
+        ],
+        "height": 844,
+        "horizontalOverflow": false,
+        "labelsFit": true,
+        "noButtonOverlap": true,
+        "sameRow": true,
+        "toolbarBelowCanvas": true,
+        "width": 390
+      }
+    },
+    "warningsOrErrors": [],
+    "integrity": {
+      "ok": true,
+      "files": 30,
+      "glbs": 22
+    },
+    "primary": {
+      "entry": "/play/cozy/app-GZX3LKFS.js",
+      "hasRedo": false
+    },
+    "scope": "Only internal browser UI; no farm clock, purchases, starters, planting, moving, imports, clipboard or downloads. Exports compared in memory only. Phone viewport emulation; no physical device, full browser-process restart or native drag/pinch test.",
+    "cleanup": {
+      "originalOverviewRestored": true,
+      "originalToolbarRestored": true,
+      "viewportReset": true,
+      "farmByteIdentical": true,
+      "ownedPreviewTabsClosed": true
+    }
+  },
+  "staging": {
+    "baseline": "2fa8b45600005968daedf25a3ec56cad03223b14",
+    "stage": "e965cafdfbf37d6b07fcd27753e81a449e5b98a4",
+    "comparedPrimaryFiles": 37,
+    "allPrimaryGitBlobsIdentical": true,
+    "candidateEntry": "app-DY5IBTMK.js",
+    "primaryEntry": "app-GZX3LKFS.js"
+  },
+  "parity": {
+    "kind": "myfarmtwin-camera-redo-reset-promotion-parity-v1",
+    "candidateSource": "e965cafdfbf37d6b07fcd27753e81a449e5b98a4",
+    "entry": "app-DY5IBTMK.js",
+    "emittedBytes": 936451,
+    "buildReceiptExact": true,
+    "primaryHtmlExact": true,
+    "candidateHtmlExactAfterAssetPrefixChange": true,
+    "sourceUnchangedAfterCandidateAcceptance": true,
+    "previewRouteRemoved": true,
+    "previewHeaderRulesRemoved": true,
+    "previewGitAttributesRemoved": true
+  },
+  "artifact": {
+    "kind": "myfarmtwin-camera-redo-reset-archive-v1",
+    "archive": "C:\\Users\\andi_\\.codex\\visualizations\\2026\\11\\15\\01a1dd60-e3b2-75c2-9c7c-a2d08361b7c6\\myfarmtwin-camera-redo-reset-20261117.tar.gz",
+    "bytes": 18397606,
+    "sha256": "cc0289dbefb7c31672a744d2a5199ad9b498b8ff61ff2bd756d8cb7b38a3c398",
+    "verifiedFiles": 304,
+    "distFiles": 303,
+    "normalizedHostingMetadataFiles": 1,
+    "allDistBytesMatch": true,
+    "noTemporaryPreview": true,
+    "noQaOrPlayerData": true,
+    "noSymlinksOrUnsafePaths": true
+  },
+  "production": {
+    "status": "pending"
+  }
+}

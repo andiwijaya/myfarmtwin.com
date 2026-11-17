@@ -118,8 +118,9 @@ export class CozyWorld{
   try{stored=readCameraResetUndo(localStorage,view);}catch{/* Optional UI storage. */}
   const memory=this.cameraResetUndos.get(view);return{...stored,value:memory&&(!stored.value||memory.changedAt>stored.value.changedAt)?memory:stored.value};
  }
- canUndoCameraReset(){if(this.disposed||!this.cameraPreferenceReady)return false;const record=this.cameraUndoRecord(this.currentView).value;if(!record?.before)return false;const resolution=resolveCameraPreference(record.before,id=>this.cameraItem(id));return resolution.view===this.currentView&&resolution.applyPose;}
- updateCameraUndoState(){const available=this.canUndoCameraReset();this.host.dataset.cameraUndoAvailable=String(available);this.options?.onCameraUndoChange?.(available);return available;}
+ canUndoCameraReset(){if(this.disposed||!this.cameraPreferenceReady)return false;const record=this.cameraUndoRecord(this.currentView).value;if(!record?.before||record.version===2&&record.state!=='reset')return false;const resolution=resolveCameraPreference(record.before,id=>this.cameraItem(id));return resolution.view===this.currentView&&resolution.applyPose;}
+ canRedoCameraReset(){if(this.disposed||!this.cameraPreferenceReady)return false;const record=this.cameraUndoRecord(this.currentView).value;if(record?.version!==2||record.state!=='undone')return false;return[record.before,record.reset].every(saved=>{if(!saved)return true;const resolution=resolveCameraPreference(saved,id=>this.cameraItem(id));return resolution.view===this.currentView&&resolution.applyPose;});}
+ updateCameraUndoState(){const available=this.canUndoCameraReset(),redo=this.canRedoCameraReset();this.host.dataset.cameraUndoAvailable=String(available);this.host.dataset.cameraRedoAvailable=String(redo);this.options?.onCameraUndoChange?.(available);this.options?.onCameraRedoChange?.(redo);return available;}
  /** @param {import('./cozy-camera-reset-undo.js').CameraResetUndo} record @param {string|null} expectedRaw @param {boolean} [consume] */
  saveCameraUndo(record,expectedRaw,consume=false){
   let result=/** @type {ReturnType<typeof writeCameraResetUndo>} */('unavailable');try{result=writeCameraResetUndo(localStorage,record,expectedRaw,consume);}catch{/* Keep undo usable in this session when storage is unavailable. */}
@@ -139,18 +140,26 @@ export class CozyWorld{
   const current=this.cameraSnapshot(),view=current?resolveCameraPreference(current,id=>this.cameraItem(id)).view:this.currentView;
   const previous=this.cameraUndoRecord(view);this.beginCameraInteraction();this.cameraInteractionAt=Math.max(this.cameraInteractionAt,(previous.value?.changedAt||0)+.001);this.applyImmediateCamera(view);
   const reset=this.cameraSnapshot();
-  if(current&&current.view===view&&!sameCameraPose(current,reset))this.saveCameraUndo({version:1,view,before:current,changedAt:this.cameraInteractionAt},previous.raw);
+  if(current&&current.view===view){const changed=!sameCameraPose(current,reset),record=previous.value,before=changed?current:record?.version===2&&record.state==='undone'&&this.canRedoCameraReset()?record.before:null;if(before)this.saveCameraUndo({version:2,view,before,reset,state:'reset',changedAt:this.cameraInteractionAt},previous.raw);}
   this.updateCameraHistory(view,reset);
   this.cameraPreferenceDirty=true;this.flushCameraPreference();this.host.dataset.cameraViewRestored='reset';this.host.dataset.cameraState=JSON.stringify(this.cameraSnapshot());
   this.updateCameraUndoState();return view;
  }
- /** Restore only the active area's latest useful pre-reset pose, once. */
+ /** Restore only the active area's pre-reset pose; retain its reset as redo. */
  undoCameraReset(){
   if(!this.canUndoCameraReset()){this.updateCameraUndoState();return null;}
   const view=this.currentView,record=this.cameraUndoRecord(view);if(!record.value?.before)return null;
   const before=record.value.before;this.beginCameraInteraction();this.cameraInteractionAt=Math.max(this.cameraInteractionAt,record.value.changedAt+.001);
-  if(!this.saveCameraUndo({version:1,view,before:null,changedAt:this.cameraInteractionAt},record.raw,true)){window.clearTimeout(this.cameraSaveTimer);this.cameraSaveTimer=0;this.cameraPreferenceDirty=false;this.cameraInteraction=false;this.updateCameraUndoState();return null;}
+  if(!this.saveCameraUndo({version:2,view,before,reset:record.value.version===2?record.value.reset:null,state:'undone',changedAt:this.cameraInteractionAt},record.raw,true)){window.clearTimeout(this.cameraSaveTimer);this.cameraSaveTimer=0;this.cameraPreferenceDirty=false;this.cameraInteraction=false;this.updateCameraUndoState();return null;}
   this.applyImmediateCamera(view,before);this.updateCameraHistory(view,this.cameraSnapshot());this.cameraPreferenceDirty=true;this.flushCameraPreference();this.host.dataset.cameraViewRestored='undo-reset';this.host.dataset.cameraState=JSON.stringify(this.cameraSnapshot());this.updateCameraUndoState();return view;
+ }
+ /** Reapply only the active area's undone reset, keeping Undo available again. */
+ redoCameraReset(){
+  if(!this.canRedoCameraReset()){this.updateCameraUndoState();return null;}
+  const view=this.currentView,record=this.cameraUndoRecord(view);if(record.value?.version!==2||record.value.state!=='undone')return null;
+  this.beginCameraInteraction();this.cameraInteractionAt=Math.max(this.cameraInteractionAt,record.value.changedAt+.001);
+  if(!this.saveCameraUndo({...record.value,state:'reset',changedAt:this.cameraInteractionAt},record.raw,true)){window.clearTimeout(this.cameraSaveTimer);this.cameraSaveTimer=0;this.cameraPreferenceDirty=false;this.cameraInteraction=false;this.updateCameraUndoState();return null;}
+  this.applyImmediateCamera(view,record.value.reset);this.updateCameraHistory(view,this.cameraSnapshot());this.cameraPreferenceDirty=true;this.flushCameraPreference();this.host.dataset.cameraViewRestored='redo-reset';this.host.dataset.cameraState=JSON.stringify(this.cameraSnapshot());this.updateCameraUndoState();return view;
  }
  /** @param {boolean} [keepTracking] */
  flushCameraPreference(keepTracking=false){

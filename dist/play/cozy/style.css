@@ -248,8 +248,8 @@
 .toolbar-content .destinations button span {font-size:18px;line-height:18px;}
 .toolbar-content .destinations button b {font-size:9px;}
 .toolbar-content .camera-tools {gap:2px;padding:2px;}
-.camera-reset,.camera-undo {display:inline-flex;align-items:center;justify-content:center;gap:6px;flex:0 1 auto;min-height:44px;padding:7px 10px;font-size:12px;white-space:nowrap;}
-.camera-reset>span[aria-hidden],.camera-undo>span[aria-hidden] {font-size:20px;line-height:1;}
+.camera-reset,.camera-undo,.camera-redo {display:inline-flex;align-items:center;justify-content:center;gap:6px;flex:0 1 auto;min-height:44px;padding:7px 10px;font-size:12px;white-space:nowrap;}
+.camera-reset>span[aria-hidden],.camera-undo>span[aria-hidden],.camera-redo>span[aria-hidden] {font-size:20px;line-height:1;}
 .toolbar-content .floating-build {min-height:44px;padding:7px 12px;}
 .toolbar-content .world-actions {gap:8px;}
 .toolbar-content .world-bottom {gap:5px 10px;}
@@ -270,10 +270,11 @@
  .toolbar-content {padding:8px;gap:7px;}
  .toolbar-content .destinations button {flex-direction:column;}
  .toolbar-content .camera-tools {flex:1 1 100%;}
- .toolbar-content .camera-reset,.toolbar-content .camera-undo,.toolbar-content .floating-build {flex:1 1 0;min-width:0;flex-direction:column;gap:2px;padding:5px 3px;font-size:10px;}
+ .toolbar-content .camera-reset,.toolbar-content .camera-undo,.toolbar-content .camera-redo,.toolbar-content .floating-build {flex:1 1 0;min-width:0;flex-direction:column;gap:2px;padding:5px 3px;font-size:10px;}
  .toolbar-content .floating-build span {font-size:20px;line-height:20px;}
 }
 @media(max-width:355px) {
+ .toolbar-content .camera-reset,.toolbar-content .camera-undo,.toolbar-content .camera-redo,.toolbar-content .floating-build {font-size:9px;padding-inline:2px;}
  .toolbar-summary {gap:8px;padding-inline:8px;}
  .toolbar-preview {gap:10px;}
  .toolbar-preview strong {font-size:11px;}
