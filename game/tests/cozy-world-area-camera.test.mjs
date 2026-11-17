@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {PerspectiveCamera,PointLight,Vector3} from 'three';
 import {CozyWorld} from '../client/cozy-world.js';
 import {CAMERA_PREFERENCE_KEY,cameraViewPreferenceKey,readCameraPreference,writeCameraPreference,readCameraViewPreference,writeCameraViewPreference} from '../client/cozy-camera-preference.js';
+import {cameraResetUndoKey,readCameraResetUndo,writeCameraResetUndo,validateCameraResetUndo} from '../client/cozy-camera-reset-undo.js';
 
 const pose=(view='garden',changedAt=1)=>({version:1,view,position:[10,13,16],target:[0,.5,0],fov:43,zoom:1,anchor:null,changedAt});
 const storage=()=>{const values=new Map([['myfarmtwin.cozy.save.v2','untouched farm'],['myfarmtwin.save.v1','untouched legacy']]);return{values,getItem:key=>values.get(key)??null,setItem:(key,value)=>values.set(key,value)};};
@@ -122,4 +123,64 @@ test('reset is guarded before readiness and remains usable with unavailable pref
  assert.equal(w.resetCamera(),'garden');assert.deepEqual(geometry(w.cameraSnapshot()),geometry(initial));assert.deepEqual(w.history.filter(h=>h.id!=='garden').map(h=>JSON.stringify(h)),otherHistory);
  for(const entry of w.history.filter(h=>h.id==='garden'))assert.deepEqual(geometry(entry.preference),geometry(initial));
  w.focus('barn');settle(w);assert.equal(w.back(),'garden');assert.deepEqual(geometry(settle(w)),geometry(initial));
+}));
+
+test('undo restores the exact active pre-reset pose once without changing any other camera or farm key',()=>withWorld((w,s)=>{
+ w.focus('barn');settle(w);w.zoom(.8);settle(w);w.focus('garden');settle(w);w.zoom(.7);w.rotate(.4);w.pan(1,0);w.camera.fov=58;w.camera.zoom=1.2;w.beginCameraInteraction();const before=settle(w);
+ assert.equal(w.canUndoCameraReset(),false);assert.equal(w.undoCameraReset(),null);
+ const other=[...s.values].filter(([key])=>![CAMERA_PREFERENCE_KEY,cameraViewPreferenceKey('garden'),cameraResetUndoKey('garden')].includes(key));w.resetCamera();assert.equal(w.canUndoCameraReset(),true);assert.equal(w.host.dataset.cameraUndoAvailable,'true');
+ assert.equal(w.undoCameraReset(),'garden');assert.deepEqual(geometry(w.cameraSnapshot()),geometry(before));assert.equal(w.canUndoCameraReset(),false);assert.equal(w.undoCameraReset(),null);assert.equal(readCameraResetUndo(s,'garden').value.before,null);
+ for(const [key,bytes]of other)assert.equal(s.getItem(key),bytes,key);assert.deepEqual(geometry(readCameraPreference(s).value),geometry(before));
+}));
+
+test('undo records belong to their areas and can be consumed independently',()=>withWorld(w=>{
+ w.focus('garden');settle(w);w.zoom(.7);const garden=settle(w);w.resetCamera();w.focus('barn');settle(w);w.rotate(.4);const barn=settle(w);w.resetCamera();
+ w.focus('garden');settle(w);assert.equal(w.canUndoCameraReset(),true);w.undoCameraReset();assert.deepEqual(geometry(w.cameraSnapshot()),geometry(garden));
+ w.focus('barn');settle(w);assert.equal(w.canUndoCameraReset(),true);w.undoCameraReset();assert.deepEqual(geometry(w.cameraSnapshot()),geometry(barn));w.focus('garden');settle(w);assert.equal(w.canUndoCameraReset(),false);
+}));
+
+test('a repeated default reset preserves useful undo through a fresh world, then consumption persists',()=>{
+ const s=storage();let before;
+ withWorld(w=>{w.focus('garden');settle(w);w.zoom(.7);before=settle(w);w.resetCamera();const raw=s.getItem(cameraResetUndoKey('garden'));w.resetCamera();assert.equal(s.getItem(cameraResetUndoKey('garden')),raw);},s);
+ withWorld(w=>{w.restoreCameraPreference();assert.equal(w.canUndoCameraReset(),true);assert.equal(w.undoCameraReset(),'garden');assert.deepEqual(geometry(w.cameraSnapshot()),geometry(before));},s);
+ withWorld(w=>{w.restoreCameraPreference();assert.equal(w.canUndoCameraReset(),false);assert.deepEqual(geometry(w.cameraSnapshot()),geometry(before));},s);
+});
+
+test('interior undo restores projection and interior context while preserving the exterior',()=>withWorld((w,s)=>{
+ w.focus('barn');settle(w);w.zoom(.8);settle(w);const exterior=s.getItem(cameraViewPreferenceKey('barn'));w.focus('inside:barn');settle(w);w.zoom(.8);w.rotate(.2);w.camera.fov=61;w.camera.zoom=1.3;w.beginCameraInteraction();const before=settle(w);
+ w.resetCamera();assert.equal(w.undoCameraReset(),'inside:barn');assert.equal(w.interiorId,'barn');assert.deepEqual(geometry(w.cameraSnapshot()),geometry(before));assert.equal(s.getItem(cameraViewPreferenceKey('barn')),exterior);
+}));
+
+test('moved or deleted building anchors disable undo without changing the camera',()=>withWorld(w=>{
+ w.items.set('barn.1',{id:'barn.1',kind:'barn',x:7,z:-4,rotation:0});w.focus('barn.1');settle(w);w.zoom(.7);settle(w);w.resetCamera();assert.equal(w.canUndoCameraReset(),true);
+ w.items.get('barn.1').x=14;const moved=geometry(w.cameraSnapshot());assert.equal(w.canUndoCameraReset(),false);assert.equal(w.undoCameraReset(),null);assert.deepEqual(geometry(w.cameraSnapshot()),moved);
+ w.items.delete('barn.1');assert.equal(w.canUndoCameraReset(),false);assert.equal(w.undoCameraReset(),null);
+}));
+
+test('undo remains usable in this session when preference reads or writes are unavailable',()=>{
+ for(const blockedRead of [false,true])withWorld((w,s)=>{w.focus('garden');settle(w);w.zoom(.7);const before=settle(w);s.setItem=()=>{throw Error('quota');};if(blockedRead)s.getItem=()=>{throw Error('unavailable');};w.resetCamera();assert.equal(w.canUndoCameraReset(),true);w.undoCameraReset();assert.deepEqual(geometry(w.cameraSnapshot()),geometry(before));assert.equal(w.canUndoCameraReset(),false);});
+});
+
+test('a newer reset in another tab supersedes old local undo and invalidates stale consumption',()=>withWorld((a,s)=>{
+ a.focus('garden');settle(a);a.zoom(.7);settle(a);a.resetCamera();const staleRaw=s.getItem(cameraResetUndoKey('garden'));let latestBefore;
+ withWorld(b=>{b.restoreCameraPreference();b.rotate(-.3);latestBefore=settle(b);b.resetCamera();},s);
+ const newer=readCameraResetUndo(s,'garden').value;assert.equal(writeCameraResetUndo(s,{version:1,view:'garden',before:null,changedAt:newer.changedAt+1},staleRaw,true),'conflict');
+ a.cameraPreferenceChanged({key:cameraResetUndoKey('garden'),oldValue:staleRaw,newValue:s.getItem(cameraResetUndoKey('garden'))});assert.equal(a.canUndoCameraReset(),true);a.undoCameraReset();assert.deepEqual(geometry(a.cameraSnapshot()),geometry(latestBefore));assert.equal(readCameraResetUndo(s,'garden').value.before,null);
+}));
+
+test('undo validation rejects corrupt, mismatched, future and oversized records',()=>{
+ const s=storage(),before=pose(),valid={version:1,view:'garden',before,changedAt:2};assert.deepEqual(validateCameraResetUndo(valid),valid);
+ for(const value of [null,{}, {...valid,version:2},{...valid,view:'../../save'},{...valid,before:pose('barn')},{...valid,changedAt:NaN},{...valid,changedAt:0},{...valid,extra:true},{...valid,before:{...before,zoom:Infinity}}])assert.equal(validateCameraResetUndo(value),null);
+ for(const raw of ['bad','x'.repeat(8193),JSON.stringify({...valid,view:'barn',before:pose('barn')})]){s.setItem(cameraResetUndoKey('garden'),raw);assert.equal(readCameraResetUndo(s,'garden').value,null);}
+ const record=readCameraResetUndo(s,'garden');assert.equal(writeCameraResetUndo(s,valid,record.raw),'stored');assert.equal(s.getItem('myfarmtwin.cozy.save.v2'),'untouched farm');assert.equal(cameraResetUndoKey('../farm'),null);
+});
+
+test('a consumed tombstone prevents an older reset from resurrecting its undo record',()=>{
+ const s=storage(),first={version:1,view:'garden',before:pose(),changedAt:2};assert.equal(writeCameraResetUndo(s,first,null),'stored');const oldRaw=s.getItem(cameraResetUndoKey('garden'));
+ assert.equal(writeCameraResetUndo(s,{...first,before:null,changedAt:3},oldRaw,true),'stored');assert.equal(writeCameraResetUndo(s,first,oldRaw),'conflict');assert.equal(readCameraResetUndo(s,'garden').value.before,null);
+});
+
+test('failed undo consumption leaves no pending write that could replace a newer camera',()=>withWorld((w,s)=>{
+ w.focus('garden');settle(w);w.zoom(.7);settle(w);w.resetCamera();const before=[...s.values],camera=geometry(w.cameraSnapshot());w.saveCameraUndo=()=>false;
+ assert.equal(w.undoCameraReset(),null);assert.equal(w.cameraPreferenceDirty,false);assert.equal(w.cameraInteraction,false);assert.equal(w.cameraSaveTimer,0);w.flushCameraPreference();assert.deepEqual([...s.values],before);assert.deepEqual(geometry(w.cameraSnapshot()),camera);
 }));

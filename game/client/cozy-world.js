@@ -4,6 +4,7 @@ import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {clone as cloneSkeleton} from 'three/addons/utils/SkeletonUtils.js';
 import {createAnimalAnimation} from './cozy-animation.js';
 import {CAMERA_PREFERENCE_KEY,cameraViewPreferenceKey,validateCameraPreference,readCameraPreference,writeCameraPreference,readCameraViewPreference,writeCameraViewPreference,resolveCameraPreference} from './cozy-camera-preference.js';
+import {CAMERA_RESET_UNDO_PREFIX,readCameraResetUndo,writeCameraResetUndo,sameCameraPose} from './cozy-camera-reset-undo.js';
 
 const v=(/** @type {number} */x,/** @type {number} */y,/** @type {number} */z)=>new THREE.Vector3(x,y,z);
 const clamp=THREE.MathUtils.clamp,UP=v(0,1,0);
@@ -19,6 +20,7 @@ export class CozyWorld{
   /** @type {Map<string,any>} */this.items=new Map();this.cropBatches=/** @type {THREE.InstancedMesh[]} */([]);this.cropKey='';this.windMatrix=new THREE.Matrix4();this.windRotation=new THREE.Matrix4();
   /** @type {Set<THREE.Material>} */this.ownedMaterials=new Set();
   /** @type {any[]} */this.history=[];
+  /** @type {Map<string,import('./cozy-camera-reset-undo.js').CameraResetUndo>} */this.cameraResetUndos=new Map();
   /** @type {THREE.Group|null} */this.ghost=null;
   /** @type {any} */this.transition=null;
   /** @type {any} */this.manifest=null;
@@ -78,6 +80,7 @@ export class CozyWorld{
  }
  /** @param {StorageEvent} event */
  cameraPreferenceChanged(event){
+  if(event.key===null||event.key.startsWith(CAMERA_RESET_UNDO_PREFIX)){if(event.newValue===null){if(event.key===null)this.cameraResetUndos?.clear();else this.cameraResetUndos?.delete(event.key.slice(CAMERA_RESET_UNDO_PREFIX.length));}this.updateCameraUndoState();return;}
   if(event.newValue===event.oldValue)return;
   if(event.key===CAMERA_PREFERENCE_KEY)this.cameraPreferenceRaw=event.newValue;
   else if(event.key!==cameraViewPreferenceKey(this.currentView))return;
@@ -99,7 +102,7 @@ export class CozyWorld{
   }else this.host.dataset.cameraRestored=hadInput?'new-input':'none';
   this.cameraPreferenceReady=true;this.cameraPreferenceSignature=JSON.stringify(this.cameraSnapshot());this.host.dataset.cameraState=this.cameraPreferenceSignature;
   if(hadInput){this.cameraPreferenceDirty=true;this.queueCameraPreference();}
-  return restored;
+  this.updateCameraUndoState();return restored;
  }
  beginCameraInteraction(){
   this.cameraInteraction=true;let observedAt=0;try{const record=readCameraPreference(localStorage);this.cameraPreferenceRaw=record.raw;observedAt=record.value?.changedAt||0;}catch{/* Optional UI storage. */}this.cameraInteractionAt=Math.max(Date.now(),performance.timeOrigin+performance.now(),this.cameraInteractionAt+.001,observedAt+.001);
@@ -109,21 +112,45 @@ export class CozyWorld{
   if(!this.cameraPreferenceReady||!this.cameraInteraction||this.cameraPreferenceSaving||this.disposed)return;
   this.cameraPreferenceDirty=true;window.clearTimeout(this.cameraSaveTimer);this.cameraSaveTimer=window.setTimeout(()=>this.flushCameraPreference(),250);
  }
- /** Reset only the active view, retaining every other area's camera preference. */
+ /** @param {string} view */
+ cameraUndoRecord(view){
+  this.cameraResetUndos??=new Map();let stored={raw:/** @type {string|null} */(null),value:/** @type {import('./cozy-camera-reset-undo.js').CameraResetUndo|null} */(null),available:false};
+  try{stored=readCameraResetUndo(localStorage,view);}catch{/* Optional UI storage. */}
+  const memory=this.cameraResetUndos.get(view);return{...stored,value:memory&&(!stored.value||memory.changedAt>stored.value.changedAt)?memory:stored.value};
+ }
+ canUndoCameraReset(){if(this.disposed||!this.cameraPreferenceReady)return false;const record=this.cameraUndoRecord(this.currentView).value;if(!record?.before)return false;const resolution=resolveCameraPreference(record.before,id=>this.cameraItem(id));return resolution.view===this.currentView&&resolution.applyPose;}
+ updateCameraUndoState(){const available=this.canUndoCameraReset();this.host.dataset.cameraUndoAvailable=String(available);this.options?.onCameraUndoChange?.(available);return available;}
+ /** @param {import('./cozy-camera-reset-undo.js').CameraResetUndo} record @param {string|null} expectedRaw @param {boolean} [consume] */
+ saveCameraUndo(record,expectedRaw,consume=false){
+  let result=/** @type {ReturnType<typeof writeCameraResetUndo>} */('unavailable');try{result=writeCameraResetUndo(localStorage,record,expectedRaw,consume);}catch{/* Keep undo usable in this session when storage is unavailable. */}
+  if(result==='stored'||result==='unavailable'){this.cameraResetUndos??=new Map();this.cameraResetUndos.set(record.view,record);return true;}return false;
+ }
+ /** @param {string} view @param {import('./cozy-camera-preference.js').CameraPreference|null} [saved] */
+ applyImmediateCamera(view,saved=null){
+  window.clearTimeout(this.cameraSaveTimer);this.cameraSaveTimer=0;const damping=this.controls.enableDamping;this.cameraPreferenceSaving=true;
+  try{this.transition=null;this.controls.enableDamping=false;this.controls.update();this.focus(view,false);this.finishCameraTransition();if(saved){this.camera.position.fromArray(saved.position);this.controls.target.fromArray(saved.target);this.camera.fov=saved.fov;this.camera.zoom=saved.zoom;}this.controls.update();this.constrainCamera();this.camera.lookAt(this.controls.target);this.camera.updateProjectionMatrix();}finally{this.controls.enableDamping=damping;this.cameraPreferenceSaving=false;}
+ }
+ /** @param {string} view @param {import('./cozy-camera-preference.js').CameraPreference|null} snapshot */
+ updateCameraHistory(view,snapshot){for(const previous of this.history)if(previous.id===view){previous.preference=snapshot;previous.target=this.controls.target.clone();previous.position=this.camera.position.clone();previous.interior=this.interiorId;previous.fov=this.camera.fov;previous.zoom=this.camera.zoom;}}
+ /** Reset only the active view, retaining one useful pre-reset pose for this area. */
  resetCamera(){
   if(this.disposed||!this.cameraPreferenceReady)return this.currentView;
+  this.finishCameraTransition();this.constrainCamera();
   const current=this.cameraSnapshot(),view=current?resolveCameraPreference(current,id=>this.cameraItem(id)).view:this.currentView;
-  this.beginCameraInteraction();window.clearTimeout(this.cameraSaveTimer);this.cameraSaveTimer=0;
-  const damping=this.controls.enableDamping;this.cameraPreferenceSaving=true;
-  try{
-   // Drain old orbit/pan inertia before applying the default destination.
-   this.transition=null;this.controls.enableDamping=false;this.controls.update();
-   this.focus(view,false);this.finishCameraTransition();this.controls.update();this.constrainCamera();this.camera.lookAt(this.controls.target);this.camera.updateProjectionMatrix();
-  }finally{this.controls.enableDamping=damping;this.cameraPreferenceSaving=false;}
+  const previous=this.cameraUndoRecord(view);this.beginCameraInteraction();this.cameraInteractionAt=Math.max(this.cameraInteractionAt,(previous.value?.changedAt||0)+.001);this.applyImmediateCamera(view);
   const reset=this.cameraSnapshot();
-  for(const previous of this.history)if(previous.id===view){previous.preference=reset;previous.target=this.controls.target.clone();previous.position=this.camera.position.clone();previous.interior=this.interiorId;previous.fov=this.camera.fov;previous.zoom=this.camera.zoom;}
+  if(current&&current.view===view&&!sameCameraPose(current,reset))this.saveCameraUndo({version:1,view,before:current,changedAt:this.cameraInteractionAt},previous.raw);
+  this.updateCameraHistory(view,reset);
   this.cameraPreferenceDirty=true;this.flushCameraPreference();this.host.dataset.cameraViewRestored='reset';this.host.dataset.cameraState=JSON.stringify(this.cameraSnapshot());
-  return view;
+  this.updateCameraUndoState();return view;
+ }
+ /** Restore only the active area's latest useful pre-reset pose, once. */
+ undoCameraReset(){
+  if(!this.canUndoCameraReset()){this.updateCameraUndoState();return null;}
+  const view=this.currentView,record=this.cameraUndoRecord(view);if(!record.value?.before)return null;
+  const before=record.value.before;this.beginCameraInteraction();this.cameraInteractionAt=Math.max(this.cameraInteractionAt,record.value.changedAt+.001);
+  if(!this.saveCameraUndo({version:1,view,before:null,changedAt:this.cameraInteractionAt},record.raw,true)){window.clearTimeout(this.cameraSaveTimer);this.cameraSaveTimer=0;this.cameraPreferenceDirty=false;this.cameraInteraction=false;this.updateCameraUndoState();return null;}
+  this.applyImmediateCamera(view,before);this.updateCameraHistory(view,this.cameraSnapshot());this.cameraPreferenceDirty=true;this.flushCameraPreference();this.host.dataset.cameraViewRestored='undo-reset';this.host.dataset.cameraState=JSON.stringify(this.cameraSnapshot());this.updateCameraUndoState();return view;
  }
  /** @param {boolean} [keepTracking] */
  flushCameraPreference(keepTracking=false){
@@ -164,7 +191,7 @@ export class CozyWorld{
    
    const facility=state.facilities.find((/** @type {any} */f)=>f.id===item.id);if(facility)this.syncFacility(group,facility,item);
   }
-  this.syncCrops(state,layout);const hour=state.tick%24,night=hour<5||hour>=20;this.sun.intensity=night?.7:hour<8||hour>=17?2.2:3.15;this.hemi.intensity=night?1.1:1.65;this.sun.color.set(hour<8||hour>=17?'#ffdfad':'#fff2da');this.renderer.toneMappingExposure=night?.85:1.06;const background=/** @type {THREE.Color} */(this.scene.background);background.set(night?'#879baa':'#d6e1ce');/** @type {THREE.Fog} */(this.scene.fog).color.copy(background);this.setInterior(this.interiorId);this.markSelection();this.audit();if(initial&&!this.cameraInteraction)this.focus('overview',false);
+  this.syncCrops(state,layout);const hour=state.tick%24,night=hour<5||hour>=20;this.sun.intensity=night?.7:hour<8||hour>=17?2.2:3.15;this.hemi.intensity=night?1.1:1.65;this.sun.color.set(hour<8||hour>=17?'#ffdfad':'#fff2da');this.renderer.toneMappingExposure=night?.85:1.06;const background=/** @type {THREE.Color} */(this.scene.background);background.set(night?'#879baa':'#d6e1ce');/** @type {THREE.Fog} */(this.scene.fog).color.copy(background);this.setInterior(this.interiorId);this.markSelection();this.audit();this.updateCameraUndoState();if(initial&&!this.cameraInteraction)this.focus('overview',false);
  }
  /** Instance every crop from its GLB template; instance picking keeps bed IDs.
   * @param {any} state @param {any} layout */
@@ -201,7 +228,7 @@ export class CozyWorld{
  /** @param {string} id */
  removeAnimal(id){const entry=this.animals.get(id);if(entry){entry.animation.dispose();this.animals.delete(id);}}
  /** @param {string} target @param {boolean} [remember] */
- focus(target,remember=true){if(remember){this.rememberCameraView();this.beginCameraInteraction();}if(remember&&target!==this.currentView){this.history.push({id:this.currentView,preference:this.cameraSnapshot(),target:this.controls.target.clone(),position:this.camera.position.clone(),interior:this.interiorId,fov:this.camera.fov,zoom:this.camera.zoom});if(this.history.length>15)this.history.shift();}this.currentView=target;this.camera.zoom=1;this.host.dataset.cameraViewRestored='default';const inside=target.startsWith('inside:'),entityId=inside?target.slice(7):target;let item=this.items.get(entityId),point=v(0,.7,0),offset=v(42,36,46);if(this.animals.has(entityId)){const animal=this.animals.get(entityId);item=animal.item;this.setInterior(item.id,true);point=animal.group.position.clone().add(v(0,.6,0));offset=v(2.8,1.7,3.3).applyAxisAngle(UP,item.rotation);}else{this.setInterior(inside?entityId:'',true);if(target==='overview'&&this.items.size){const list=[...this.items.values()].filter(p=>!['tree','banana','grass','fence','path'].includes(p.kind)),xs=list.map(p=>p.x),zs=list.map(p=>p.z),span=Math.max(Math.max(...xs)-Math.min(...xs)+16,Math.max(...zs)-Math.min(...zs)+14);point=v((Math.max(...xs)+Math.min(...xs))/2,.7,(Math.max(...zs)+Math.min(...zs))/2);offset=v(span*.7,span*.62,span*.8).multiplyScalar(Math.max(1.2,1.1/this.camera.aspect));if(this.camera.aspect<.95){this.camera.fov=50;this.camera.updateProjectionMatrix();}}else if(target==='garden'){const beds=[...this.items.values()].filter(p=>p.kind==='bed');if(beds.length)point=beds.reduce((sum,p)=>sum.add(v(p.x,.5,p.z)),v(0,0,0)).multiplyScalar(1/beds.length);offset=v(10,13,16);}else if(item){point=v(item.x,inside?1:0.7,item.z);if(inside)offset=v(.1,1.3,2.8).applyAxisAngle(UP,item.rotation);else{const size=BUILDING_SIZES[/** @type {keyof typeof BUILDING_SIZES} */(item.kind)];offset=(size?v(size[0]*.95,size[0]*.75,size[1]*1.4):v(4,5,6)).applyAxisAngle(UP,item.rotation);}}}this.moveCamera(point,point.clone().add(offset));if(remember&&this.cameraPreferenceReady)this.restoreCameraView(target);this.host.dataset.view=target;}
+ focus(target,remember=true){if(remember){this.rememberCameraView();this.beginCameraInteraction();}if(remember&&target!==this.currentView){this.history.push({id:this.currentView,preference:this.cameraSnapshot(),target:this.controls.target.clone(),position:this.camera.position.clone(),interior:this.interiorId,fov:this.camera.fov,zoom:this.camera.zoom});if(this.history.length>15)this.history.shift();}this.currentView=target;this.camera.zoom=1;this.host.dataset.cameraViewRestored='default';const inside=target.startsWith('inside:'),entityId=inside?target.slice(7):target;let item=this.items.get(entityId),point=v(0,.7,0),offset=v(42,36,46);if(this.animals.has(entityId)){const animal=this.animals.get(entityId);item=animal.item;this.setInterior(item.id,true);point=animal.group.position.clone().add(v(0,.6,0));offset=v(2.8,1.7,3.3).applyAxisAngle(UP,item.rotation);}else{this.setInterior(inside?entityId:'',true);if(target==='overview'&&this.items.size){const list=[...this.items.values()].filter(p=>!['tree','banana','grass','fence','path'].includes(p.kind)),xs=list.map(p=>p.x),zs=list.map(p=>p.z),span=Math.max(Math.max(...xs)-Math.min(...xs)+16,Math.max(...zs)-Math.min(...zs)+14);point=v((Math.max(...xs)+Math.min(...xs))/2,.7,(Math.max(...zs)+Math.min(...zs))/2);offset=v(span*.7,span*.62,span*.8).multiplyScalar(Math.max(1.2,1.1/this.camera.aspect));if(this.camera.aspect<.95){this.camera.fov=50;this.camera.updateProjectionMatrix();}}else if(target==='garden'){const beds=[...this.items.values()].filter(p=>p.kind==='bed');if(beds.length)point=beds.reduce((sum,p)=>sum.add(v(p.x,.5,p.z)),v(0,0,0)).multiplyScalar(1/beds.length);offset=v(10,13,16);}else if(item){point=v(item.x,inside?1:0.7,item.z);if(inside)offset=v(.1,1.3,2.8).applyAxisAngle(UP,item.rotation);else{const size=BUILDING_SIZES[/** @type {keyof typeof BUILDING_SIZES} */(item.kind)];offset=(size?v(size[0]*.95,size[0]*.75,size[1]*1.4):v(4,5,6)).applyAxisAngle(UP,item.rotation);}}}this.moveCamera(point,point.clone().add(offset));if(remember&&this.cameraPreferenceReady)this.restoreCameraView(target);this.host.dataset.view=target;this.updateCameraUndoState();}
  /** @param {THREE.Vector3} target @param {THREE.Vector3} position */
  moveCamera(target,position){if(matchMedia('(prefers-reduced-motion: reduce)').matches){this.controls.target.copy(target);this.camera.position.copy(position);this.controls.update();this.transition=null;}else this.transition={target,position,fromTarget:this.controls.target.clone(),fromPosition:this.camera.position.clone(),start:performance.now()};}
  back(){this.rememberCameraView();this.beginCameraInteraction();const previous=this.history.pop(),id=previous?.id||'overview',saved=this.savedCameraView(id)||previous?.preference||null,view=saved?resolveCameraPreference(saved,itemId=>this.cameraItem(itemId)).view:id;this.focus(view,false);this.restoreCameraView(view,saved);return view;}
