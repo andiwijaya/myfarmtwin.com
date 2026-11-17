@@ -41,7 +41,17 @@ The official package helper produces `myfarmtwin-hybrid-gesture-20261117.tar.gz`
 
 ## Production acceptance
 
-Activation and canonical browser verification are pending; final receipts will update this section and the companion JSON.
+Application source `a12d9aab7cc61fe9bbfb2e629b39faefcd07007a` is active on `main`. Cloudflare production deployment `705feaa6-9d48-4ba4-915d-5f57bf728d02` completed successfully under native GitHub check `133915392103`, independently of the branch preview. Canonical `/play/` loads `app-ERUJD5D5.js`.
+
+All 26 recorded production browser checks passed. The initial input/source marker and hint are valid, document mouse activity reports the last observed pointer, and a new observer handles native mouse input after reload. ID/EN rendering and four actual viewport/language layouts retain the input choice and match pre-change toolbar/button dimensions. Heights remain 259.83px at 1280×720 and 306.17px at 390×844, with a 13.5px hint line and no horizontal overflow.
+
+Fixed-viewport language changes preserve camera geometry through independently calculated zoom comparisons. Ctrl/Cmd Undo and Redo restore exact before/reset camera poses while collapsed. Editing keeps camera Redo pending, and Ctrl+Shift+Z remains functional after refresh. The keyboard formatter/dispatcher and camera-world source bytes match the preceding release. Primary-pointer fallback restarts on a new page; last observed input is intentionally in-memory and adds no storage key.
+
+Farm exports remain byte-identical to the original in-memory comparator. Current warnings/errors are empty. Canonical `/play/integrity/` passes SHA-256, byte counts and MIME for 30 resources, including 22 GLBs. Temporary viewport overrides are cleared, the original whole-farm pose is restored through its unchanged history pair and original toolbar/locale choices are retained. Only the original canonical tab remains open.
+
+The accepted preview's four stateful scenarios cover 68 explicit touch/mouse/fallback/localization/disposal observations using observer/formatter bytes identical to production. Physical hybrid hardware, native touch/pinch and real-device switching are not tested. Native mouse activity is verified separately on the actual production document. No download, upload, clipboard, import or gameplay test is used; raw farm exports stay in memory.
+
+Production viewport captures are `qa-artifacts/cozy-hybrid-gesture-20261117/production-desktop-hybrid.jpg` and `production-phone-viewport.jpg`. The input fixture has paired mouse/touch captures. An additional full-page diagnostic capture is retained separately and is not used for viewport dimension comparisons. Final browser, integrity and deployment JSON receipts are in the same directory and incorporated in the companion release JSON. The subsequent evidence-only documentation commit does not change the live runtime.
 
 ## Checklist
 
@@ -53,4 +63,4 @@ Activation and canonical browser verification are pending; final receipts will u
 - [x] Obtain authorization for official preview staging.
 - [x] Verify hybrid sequences and toolbar dimensions in the internal browser.
 - [x] Reproduce tested bytes, remove fixtures and verify the official package.
-- [ ] Deploy production and verify the canonical page without file-transfer tests.
+- [x] Deploy production and verify the canonical page without file-transfer tests.
