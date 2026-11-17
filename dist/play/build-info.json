@@ -12,14 +12,14 @@
   ],
   "saveVersion": 2,
   "three": "0.187.0",
-  "entry": "app-EGVGKWVV.js",
+  "entry": "app-TM5TBGTL.js",
   "recoveryEntry": "recovery-2UXJQDFZ.js",
   "integrityEntry": "integrity-LL76RTOU.js",
   "emitted": [
     {
-      "name": "app-EGVGKWVV.js",
-      "bytes": 729622,
-      "sha256": "7749f7e3b0362a99bc920e4e15003d41faa3ba3ef529c32282a47fda6f0eada9"
+      "name": "app-TM5TBGTL.js",
+      "bytes": 730922,
+      "sha256": "b61c239c5e342f133f8109798f7a6fb43042c5c2aa663006fa258c04410716d8"
     },
     {
       "name": "recovery-2UXJQDFZ.js",
@@ -1204,8 +1204,8 @@
     }
   },
   "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
-  "htmlSha256": "d13a6e83aaf1d8b995b755d087a2dc3e7fd5a10c96ef1745aca31dc194cb9545",
-  "cssSha256": "18225fa9772c3f4126b5c66b348a23db1e849ab54d9b02f2b8ad244a6e2f6e4e",
+  "htmlSha256": "f1b548c1e6e673d016861d5436dc78628e21a346df72d86c0c026ac751d6fbde",
+  "cssSha256": "94fd9a5193525340143e7dd1e0a143a37ad88e6f7bac266eccc0a85d8841eac8",
   "inputs": [
     "game/client/active-garden.js",
     "game/client/chicken-commands.js",

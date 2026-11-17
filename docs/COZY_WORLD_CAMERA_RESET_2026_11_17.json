@@ -1,0 +1,138 @@
+{
+  "kind": "myfarmtwin-active-camera-reset-release-v1",
+  "date": "2026-11-17",
+  "status": "candidate-validated-primary-activation-pending",
+  "candidateSource": "66f65e8ad0afd8c2c790a52ea66576336892e1fd",
+  "candidateEntry": "app-TM5TBGTL.js",
+  "candidatePreviewPath": "/play/reset-camera-preview/",
+  "primarySource": "2e08967ed138f80ee96b7c38bbe295a3222a5bda",
+  "primaryEntry": "app-EGVGKWVV.js",
+  "primaryResetActivated": false,
+  "sourceChecks": {
+    "typecheck": "pass",
+    "cameraTests": {
+      "passed": 23,
+      "failed": 0,
+      "resetSpecific": 5
+    },
+    "build": "pass",
+    "deliveryAndHeaderTests": {
+      "passed": 4,
+      "failed": 0
+    }
+  },
+  "scope": {
+    "replacesActiveViewPoseOnly": true,
+    "savesGlobalLastActivePose": true,
+    "deletesOtherAreaKeys": false,
+    "changesFarmProgress": false
+  },
+  "browserAcceptance": "pass",
+  "productionVerification": null,
+  "stagingSafety": {
+    "comparedPublicBlobs": 36,
+    "allPrimaryRuntimeAndReceiptsIdentical": true,
+    "mainHasResetControl": false,
+    "headerChangeOnlyPreviewPaths": true
+  },
+  "accessLimits": [
+    "Automatic review rejected main staging until the browser prerequisite or a new explicit permission is satisfied",
+    "Cloudflare branch preview triggered a browser lookalike warning; not bypassed",
+    "Loopback preview timed out; owned local server stopped"
+  ],
+  "pendingPermission": null,
+  "explicitPreviewPermission": {
+    "date": "2026-11-17",
+    "scope": "Expose only the official-domain preview through main before browser acceptance, with 36 primary blobs unchanged; activate the primary control after tests pass",
+    "granted": true
+  },
+  "preview": {
+    "date": "2026-11-17",
+    "url": "https://myfarmtwin.com/play/reset-camera-preview/",
+    "source": "66f65e8ad0afd8c2c790a52ea66576336892e1fd",
+    "entry": "app-TM5TBGTL.js",
+    "browser": "Codex internal browser (IAB)",
+    "tests": {
+      "gardenInitialPoseExact": true,
+      "activeGardenSelectionRetained": true,
+      "otherAreaCameraPreserved": true,
+      "resetRetainedOnRevisit": true,
+      "resetRetainedOnRefresh": true,
+      "resetRetainedOnActualTabReopen": true,
+      "interiorInitialPoseAndContext": true,
+      "exteriorCameraPreserved": true,
+      "englishKeyboardReset": true,
+      "resetDuringNavigationTransition": true,
+      "newestResetSurvivesImmediateCloseAndOlderTab": true,
+      "farmExportByteIdentical": true,
+      "phoneLayouts": true,
+      "desktopLayout": true,
+      "candidateIntegrity": true
+    },
+    "phone": {
+      "height": 844,
+      "horizontalOverflow": false,
+      "resetAndArrangeShareRow": true,
+      "resetHeight": 44,
+      "resetInsideViewport": true,
+      "resetLabelFits": true,
+      "toolbarBelowCanvas": true,
+      "width": 390
+    },
+    "narrowPhone": {
+      "horizontalOverflow": false,
+      "labelFits": true,
+      "resetBelowCanvas": true,
+      "resetHeight": 44,
+      "resetInsideViewport": true,
+      "sharesArrangeRow": true,
+      "width": 320
+    },
+    "desktop": {
+      "height": 720,
+      "horizontalOverflow": false,
+      "resetBelowCanvas": true,
+      "resetHeight": 44,
+      "resetLabelFits": true,
+      "toolbarBelowCanvas": true,
+      "width": 1280
+    },
+    "resources": 30,
+    "glbs": 22,
+    "poseTolerance": 0.001,
+    "oracle": "Garden preset derived in memory from the exported bed layout; market interior derived from its exported building transform and preset collision bounds.",
+    "limits": [
+      "Viewport emulation, not a physical phone",
+      "No browser-process restart or native pointer drag/pinch test",
+      "Pending inertia additionally checked with a renderer-free controls fixture",
+      "Existing market interior exercised; livestock areas were unstarted",
+      "No farm command, starter, import, clipboard or file-transfer test"
+    ]
+  },
+  "promotionParity": {
+    "entry": "app-TM5TBGTL.js",
+    "emittedBytes": 929836,
+    "exactTestedJsCssManifestAndGlbs": true,
+    "htmlEqualExceptAssetPrefix": true,
+    "temporaryPreviewRemoved": true,
+    "htmlSha256": "f1b548c1e6e673d016861d5436dc78628e21a346df72d86c0c026ac751d6fbde",
+    "cssSha256": "94fd9a5193525340143e7dd1e0a143a37ad88e6f7bac266eccc0a85d8841eac8",
+    "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b"
+  },
+  "previewDeployment": {
+    "source": "66f65e8ad0afd8c2c790a52ea66576336892e1fd",
+    "deployment": "9d3af370-5c35-41f1-a6c7-66f87f83ca7a",
+    "checkRun": 133704766347,
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "artifact": {
+    "filename": "myfarmtwin-camera-reset-20261117.tar.gz",
+    "bytes": 18392273,
+    "sha256": "dedb1388cd3ec4c8b79b6a3837710a867002a3478cd9b8d2d4ff69aa2e77cfc0",
+    "verifiedFiles": 303,
+    "matchesDist": true,
+    "normalizedHostingMetadata": true,
+    "temporaryPreviewExcluded": true
+  }
+}

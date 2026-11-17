@@ -109,6 +109,22 @@ export class CozyWorld{
   if(!this.cameraPreferenceReady||!this.cameraInteraction||this.cameraPreferenceSaving||this.disposed)return;
   this.cameraPreferenceDirty=true;window.clearTimeout(this.cameraSaveTimer);this.cameraSaveTimer=window.setTimeout(()=>this.flushCameraPreference(),250);
  }
+ /** Reset only the active view, retaining every other area's camera preference. */
+ resetCamera(){
+  if(this.disposed||!this.cameraPreferenceReady)return this.currentView;
+  const current=this.cameraSnapshot(),view=current?resolveCameraPreference(current,id=>this.cameraItem(id)).view:this.currentView;
+  this.beginCameraInteraction();window.clearTimeout(this.cameraSaveTimer);this.cameraSaveTimer=0;
+  const damping=this.controls.enableDamping;this.cameraPreferenceSaving=true;
+  try{
+   // Drain old orbit/pan inertia before applying the default destination.
+   this.transition=null;this.controls.enableDamping=false;this.controls.update();
+   this.focus(view,false);this.finishCameraTransition();this.controls.update();this.constrainCamera();this.camera.lookAt(this.controls.target);this.camera.updateProjectionMatrix();
+  }finally{this.controls.enableDamping=damping;this.cameraPreferenceSaving=false;}
+  const reset=this.cameraSnapshot();
+  for(const previous of this.history)if(previous.id===view){previous.preference=reset;previous.target=this.controls.target.clone();previous.position=this.camera.position.clone();previous.interior=this.interiorId;previous.fov=this.camera.fov;previous.zoom=this.camera.zoom;}
+  this.cameraPreferenceDirty=true;this.flushCameraPreference();this.host.dataset.cameraViewRestored='reset';this.host.dataset.cameraState=JSON.stringify(this.cameraSnapshot());
+  return view;
+ }
  /** @param {boolean} [keepTracking] */
  flushCameraPreference(keepTracking=false){
   window.clearTimeout(this.cameraSaveTimer);this.cameraSaveTimer=0;
