@@ -286,7 +286,7 @@ test('editing contexts, other modifiers, consumed events, composition and held k
  for(const key of ['z','y']){
   if(key==='y')w.undoCameraReset();
   const bytes=[...s.values],camera=geometry(w.cameraSnapshot());
-  for(const patch of [{ctrlKey:false},{altKey:true},{metaKey:true},{shiftKey:true},{repeat:true},{isComposing:true},{defaultPrevented:true},{key:'c'},{key:'Escape'}]){const e=keyEvent(key,patch);assert.equal(shortcut(w,e),false,JSON.stringify(patch));assert.equal(e.preventCalls,0);assert.deepEqual([...s.values],bytes);assert.deepEqual(geometry(w.cameraSnapshot()),camera);}
+  for(const patch of [{ctrlKey:false},{altKey:true},{metaKey:true},...(key==='y'?[{shiftKey:true}]:[]),{repeat:true},{isComposing:true},{defaultPrevented:true},{key:'c'},{key:'Escape'}]){const e=keyEvent(key,patch);assert.equal(shortcut(w,e),false,JSON.stringify(patch));assert.equal(e.preventCalls,0);assert.deepEqual([...s.values],bytes);assert.deepEqual(geometry(w.cameraSnapshot()),camera);}
   const e=keyEvent(key);assert.equal(shortcut(w,e,true),false);assert.equal(e.preventCalls,0);assert.deepEqual([...s.values],bytes);assert.deepEqual(geometry(w.cameraSnapshot()),camera);
  }
 }));
@@ -295,4 +295,21 @@ test('unavailable or failed camera shortcuts preserve native keyboard behavior a
  w.focus('garden');settle(w);const bytes=[...s.values];for(const key of ['z','y']){const e=keyEvent(key);assert.equal(shortcut(w,e),false);assert.equal(e.preventCalls,0);}assert.deepEqual([...s.values],bytes);
  w.zoom(.7);settle(w);w.resetCamera();w.cameraPreferenceReady=false;const e=keyEvent('z');assert.equal(shortcut(w,e),false);assert.equal(e.preventCalls,0);w.cameraPreferenceReady=true;
  const failed=keyEvent('z');assert.equal(handleCameraResetShortcut(failed,{blocked:false,available:()=>true,run:()=>false}),false);assert.equal(failed.preventCalls,0);assert.equal(w.canUndoCameraReset(),true);
+}));
+
+test('Ctrl+Shift+Z redoes the same active-area reset as Ctrl+Y while preserving other area bytes',()=>withWorld((w,s)=>{
+ w.focus('barn');settle(w);w.zoom(.8);settle(w);w.focus('garden');const initial=settle(w);w.zoom(.7);const before=settle(w);w.resetCamera();
+ const other=[...s.values].filter(([key])=>![CAMERA_PREFERENCE_KEY,cameraViewPreferenceKey('garden'),cameraResetUndoKey('garden')].includes(key));
+ assert.equal(shortcut(w,keyEvent('z',{shiftKey:true})),false);assert.equal(shortcut(w,keyEvent('z')),true);assert.deepEqual(geometry(w.cameraSnapshot()),geometry(before));
+ const alternate=keyEvent('Z',{shiftKey:true});assert.equal(shortcut(w,alternate),true);assert.equal(alternate.preventCalls,1);assert.deepEqual(geometry(w.cameraSnapshot()),geometry(initial));assert.equal(w.canUndoCameraReset(),true);
+ shortcut(w,keyEvent('z'));assert.equal(shortcut(w,keyEvent('y')),true);assert.deepEqual(geometry(w.cameraSnapshot()),geometry(initial));
+ for(const [key,bytes]of other)assert.equal(s.getItem(key),bytes,key);
+ w.focus('inside:barn');const interior=settle(w);w.zoom(.8);const insideBefore=settle(w);w.resetCamera();shortcut(w,keyEvent('z'));assert.deepEqual(geometry(w.cameraSnapshot()),geometry(insideBefore));assert.equal(shortcut(w,keyEvent('Z',{shiftKey:true})),true);assert.deepEqual(geometry(w.cameraSnapshot()),geometry(interior));assert.equal(w.interiorId,'barn');
+}));
+
+test('alternate redo preserves native editing and ignores extra modifiers, repeat, composition and unavailable state',()=>withWorld((w,s)=>{
+ w.focus('garden');settle(w);w.zoom(.7);settle(w);w.resetCamera();w.undoCameraReset();const bytes=[...s.values],camera=geometry(w.cameraSnapshot());
+ for(const patch of [{ctrlKey:false},{altKey:true},{metaKey:true},{repeat:true},{isComposing:true},{defaultPrevented:true},{key:'Y'}]){const e=keyEvent('Z',{shiftKey:true,...patch});assert.equal(shortcut(w,e),false);assert.equal(e.preventCalls,0);assert.deepEqual([...s.values],bytes);assert.deepEqual(geometry(w.cameraSnapshot()),camera);}
+ const editing=keyEvent('Z',{shiftKey:true});assert.equal(shortcut(w,editing,true),false);assert.equal(editing.preventCalls,0);assert.deepEqual([...s.values],bytes);
+ assert.equal(shortcut(w,keyEvent('Z',{shiftKey:true})),true);const consumed=keyEvent('Z',{shiftKey:true});assert.equal(shortcut(w,consumed),false);assert.equal(consumed.preventCalls,0);
 }));
