@@ -12,14 +12,14 @@
   ],
   "saveVersion": 2,
   "three": "0.187.0",
-  "entry": "app-TM5TBGTL.js",
+  "entry": "app-GZX3LKFS.js",
   "recoveryEntry": "recovery-2UXJQDFZ.js",
   "integrityEntry": "integrity-LL76RTOU.js",
   "emitted": [
     {
-      "name": "app-TM5TBGTL.js",
-      "bytes": 730922,
-      "sha256": "b61c239c5e342f133f8109798f7a6fb43042c5c2aa663006fa258c04410716d8"
+      "name": "app-GZX3LKFS.js",
+      "bytes": 735258,
+      "sha256": "b6b1e605baced8d073367d678301d22edd1844b4399fc4d2e69bb5270e3d3215"
     },
     {
       "name": "recovery-2UXJQDFZ.js",
@@ -1204,8 +1204,8 @@
     }
   },
   "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
-  "htmlSha256": "f1b548c1e6e673d016861d5436dc78628e21a346df72d86c0c026ac751d6fbde",
-  "cssSha256": "94fd9a5193525340143e7dd1e0a143a37ad88e6f7bac266eccc0a85d8841eac8",
+  "htmlSha256": "86783c30aeeb492a9025f781495c9bb566c3057c252757b66f82119a47cb2000",
+  "cssSha256": "ec1ce640207d227e75be75bb094e1af89002685f61eb36e0eaec275447b3c909",
   "inputs": [
     "game/client/active-garden.js",
     "game/client/chicken-commands.js",
@@ -1240,6 +1240,7 @@
     "game/client/cozy-animation.js",
     "game/client/cozy-app.js",
     "game/client/cozy-camera-preference.js",
+    "game/client/cozy-camera-reset-undo.js",
     "game/client/cozy-domain.js",
     "game/client/cozy-integrity.js",
     "game/client/cozy-legacy-recovery.js",

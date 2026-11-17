@@ -1,0 +1,126 @@
+{
+  "kind": "myfarmtwin-camera-undo-reset-release-v1",
+  "date": "2026-11-17",
+  "entry": "app-GZX3LKFS.js",
+  "candidateSource": "636af02b14b982ed83ae69c9d350d1754c396c0d",
+  "checks": {
+    "typecheck": true,
+    "cameraTests": {
+      "passed": 33,
+      "newUndoCases": 10
+    },
+    "deliveryTests": {
+      "passed": 4
+    },
+    "build": {
+      "passed": true,
+      "emittedBytes": 934172
+    }
+  },
+  "preview": {
+    "kind": "myfarmtwin-camera-undo-reset-iab-acceptance-v1",
+    "url": "https://myfarmtwin.com/play/reset-camera-preview/",
+    "entry": "app-GZX3LKFS.js",
+    "checks": {
+      "initiallyDisabled": true,
+      "enabledAfterReset": true,
+      "otherAreaExact": true,
+      "unrelatedAreaDisabled": true,
+      "pendingSurvivesRefresh": true,
+      "exactGardenRestore": true,
+      "consumedOnce": true,
+      "otherAreaAfterUndoExact": true,
+      "pendingSurvivesTabReopen": true,
+      "reopenRestoreExact": true,
+      "consumptionPersists": true,
+      "interiorEnabled": true,
+      "exteriorUnaffected": true,
+      "interiorRestoreExact": true,
+      "independentInterior": true,
+      "gardenStillPending": true,
+      "independentGarden": true,
+      "remoteConsumptionDisablesOlderTab": true,
+      "latestPersists": true,
+      "farmByteIdentical": true
+    },
+    "layouts": {
+      "phone320": {
+        "buttonHeights": [
+          46.66666793823242,
+          46.66666793823242,
+          46.66666793823242
+        ],
+        "height": 844,
+        "horizontalOverflow": false,
+        "labelsFit": true,
+        "noButtonOverlap": true,
+        "sameRow": true,
+        "toolbarBelowCanvas": true,
+        "width": 320
+      },
+      "phone390": {
+        "buttonHeights": [
+          46.66666793823242,
+          46.66666793823242,
+          46.66666793823242
+        ],
+        "height": 844,
+        "horizontalOverflow": false,
+        "labelsFit": true,
+        "noButtonOverlap": true,
+        "sameRow": true,
+        "toolbarBelowCanvas": true,
+        "width": 390
+      },
+      "desktop": {
+        "buttonHeights": [
+          44,
+          44,
+          46
+        ],
+        "height": 720,
+        "horizontalOverflow": false,
+        "labelsFit": true,
+        "noButtonOverlap": true,
+        "toolbarBelowCanvas": true,
+        "width": 1280
+      }
+    },
+    "consoleErrors": [],
+    "integrity": {
+      "ok": true,
+      "files": 30,
+      "glbs": 22
+    },
+    "scope": "UI navigation and camera controls only; no farm clock, purchases, planting, moving, imports, clipboard or downloads. Phone checks use IAB viewport emulation; no physical phone test."
+  },
+  "parity": {
+    "kind": "myfarmtwin-camera-undo-reset-promotion-parity-v1",
+    "candidateSource": "636af02b14b982ed83ae69c9d350d1754c396c0d",
+    "entry": "app-GZX3LKFS.js",
+    "buildReceiptExact": true,
+    "primaryHtmlExact": true,
+    "candidateHtmlExactAfterAssetPrefixChange": true,
+    "emittedBytes": 934172,
+    "previewRouteRemoved": true,
+    "previewHeaderRulesRemoved": true,
+    "previewGitAttributesRemoved": true,
+    "sourceUnchangedAfterCandidateAcceptance": true
+  },
+  "artifact": {
+    "kind": "myfarmtwin-camera-undo-reset-archive-v1",
+    "archive": "C:\\Users\\andi_\\.codex\\visualizations\\2026\\11\\15\\01a1dd60-e3b2-75c2-9c7c-a2d08361b7c6\\myfarmtwin-camera-undo-reset-20261117.tar.gz",
+    "bytes": 18396681,
+    "sha256": "7535dbc651e5fb2d44285adf6c5a9998973dc405fa79820fcf1ebdd6dad7db4d",
+    "verifiedFiles": 304,
+    "distFiles": 303,
+    "normalizedHostingMetadataFiles": 1,
+    "allDistBytesMatch": true,
+    "noTemporaryPreview": true,
+    "noQaOrPlayerData": true,
+    "noSymlinksOrUnsafePaths": true
+  },
+  "production": {
+    "status": "pending"
+  }
+}
