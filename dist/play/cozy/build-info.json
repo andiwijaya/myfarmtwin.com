@@ -12,14 +12,14 @@
   ],
   "saveVersion": 2,
   "three": "0.187.0",
-  "entry": "app-DY5IBTMK.js",
+  "entry": "app-637GUJQ7.js",
   "recoveryEntry": "recovery-2UXJQDFZ.js",
   "integrityEntry": "integrity-LL76RTOU.js",
   "emitted": [
     {
-      "name": "app-DY5IBTMK.js",
-      "bytes": 737537,
-      "sha256": "c91ff77c76d4b0cd420271b4b149ee72ace9410d13eb432baeb27870b0171548"
+      "name": "app-637GUJQ7.js",
+      "bytes": 738228,
+      "sha256": "ee582711f7743b7c6e1c5bca7e6268b7c6164f1b4e186188806be4973502986b"
     },
     {
       "name": "recovery-2UXJQDFZ.js",
@@ -1204,7 +1204,7 @@
     }
   },
   "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
-  "htmlSha256": "802f88dbf3e833f0a973ce48725392289bc98c78ff5db07b03749ea0589e1a77",
+  "htmlSha256": "7c90f36456e40f35dabb0dd61dce48d72964d8ed581ebe75089449c3379d60e3",
   "cssSha256": "03a5d74c34809c6cbcfbee85ae824989bdc5afdef78922bb5d2287ac437fa95a",
   "inputs": [
     "game/client/active-garden.js",
@@ -1241,6 +1241,7 @@
     "game/client/cozy-app.js",
     "game/client/cozy-camera-preference.js",
     "game/client/cozy-camera-reset-undo.js",
+    "game/client/cozy-camera-shortcuts.js",
     "game/client/cozy-domain.js",
     "game/client/cozy-integrity.js",
     "game/client/cozy-legacy-recovery.js",

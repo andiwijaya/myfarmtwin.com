@@ -1,0 +1,177 @@
+{
+  "kind": "myfarmtwin-camera-shortcuts-release-v1",
+  "date": "2026-11-17",
+  "entry": "app-637GUJQ7.js",
+  "candidateSource": "64e38469999bf89172d017403b694aa266332e02",
+  "checks": {
+    "kind": "myfarmtwin-camera-shortcuts-local-checks-v1",
+    "entry": "app-637GUJQ7.js",
+    "typecheck": true,
+    "cameraTests": {
+      "passed": 49,
+      "newShortcutCases": 4
+    },
+    "deliveryTests": {
+      "passed": 4
+    },
+    "build": {
+      "passed": true,
+      "emittedBytes": 937142
+    }
+  },
+  "preview": {
+    "kind": "myfarmtwin-camera-shortcuts-iab-acceptance-v1",
+    "url": "https://myfarmtwin.com/play/reset-camera-preview/",
+    "source": "64e38469999bf89172d017403b694aa266332e02",
+    "entry": "app-637GUJQ7.js",
+    "checks": {
+      "metadataCorrect": true,
+      "meaningfulReset": true,
+      "ctrlZExactCollapsed": true,
+      "redoEnabledAfterCtrlZ": true,
+      "ctrlYExactCollapsed": true,
+      "undoEnabledAfterCtrlY": true,
+      "toolbarStaysCollapsed": true,
+      "nonShortcutKeysIgnored": true,
+      "unavailableUndoIgnored": true,
+      "unavailableRedoIgnored": true,
+      "selectFocusSkipped": true,
+      "textareaCtrlZSkipsCamera": true,
+      "nativeTextUndoWorks": true,
+      "nativeTextRedoWorks": true,
+      "textareaCtrlYSkipsCamera": true,
+      "modalButtonFocusSkipped": true,
+      "englishUndoFeedback": true,
+      "englishRedoFeedback": true,
+      "shortcutsResumeAfterDialog": true,
+      "pendingRedoAfterRefresh": true,
+      "ctrlYAfterRefreshExact": true,
+      "ctrlZAfterTabReopenExact": true,
+      "otherAreaCameraExact": true,
+      "noCrossAreaHistoryFallback": true,
+      "editingSkipsAvailableCameraRedo": true,
+      "nativeTextRedoWhileCameraRedoAvailable": true,
+      "ctrlYAfterRevisitExact": true,
+      "interiorCtrlZExact": true,
+      "interiorCtrlYExact": true,
+      "interiorContextPreserved": true,
+      "exteriorCameraExact": true,
+      "gardenHistoryUnaffectedByInterior": true,
+      "isolatedInteriorCtrlZExact": true,
+      "isolatedInteriorCtrlYExact": true,
+      "gardenRedoAfterInteriorExact": true,
+      "gardenUndoAfterInteriorExact": true,
+      "tooltipHintsCorrect": true,
+      "utf8LabelsCorrect": true,
+      "farmByteIdentical": true
+    },
+    "layouts": {
+      "desktop": {
+        "buttonHeights": [
+          44,
+          44,
+          44,
+          46
+        ],
+        "height": 720,
+        "horizontalOverflow": false,
+        "labelsFit": true,
+        "noButtonOverlap": true,
+        "sameRow": true,
+        "toolbarBelowCanvas": true,
+        "width": 1280
+      },
+      "phone320": {
+        "buttonHeights": [
+          45.33333587646485,
+          45.33333587646485,
+          45.33333587646485,
+          45.33333587646485
+        ],
+        "height": 844,
+        "horizontalOverflow": false,
+        "labelsFit": true,
+        "noButtonOverlap": true,
+        "sameRow": true,
+        "toolbarBelowCanvas": true,
+        "width": 320
+      },
+      "phone390": {
+        "buttonHeights": [
+          46.66666793823242,
+          46.66666793823242,
+          46.66666793823242,
+          46.66666793823242
+        ],
+        "height": 844,
+        "horizontalOverflow": false,
+        "labelsFit": true,
+        "noButtonOverlap": true,
+        "sameRow": true,
+        "toolbarBelowCanvas": true,
+        "width": 390
+      }
+    },
+    "warningsOrErrors": [],
+    "integrity": {
+      "ok": true,
+      "files": 30,
+      "glbs": 22
+    },
+    "primary": {
+      "entry": "/play/cozy/app-DY5IBTMK.js",
+      "hasShortcutMetadata": false
+    },
+    "diagnostics": "browser-diagnostics.json records the initial exterior comparison and the successful controlled repeat after idle historical test tabs were closed.",
+    "scope": "Only internal browser UI and native keyboard presses. Text-undo tests used short synthetic text in the backup textarea without importing. No farm clock, purchases, starters, planting, moving, imports, clipboard, uploads or downloads. Farm exports compared in memory only. Phone viewport emulation; native repeat and IME guards covered by unit fixtures.",
+    "cleanup": {
+      "originalOverviewRestored": true,
+      "originalToolbarRestored": true,
+      "originalLocaleRestored": true,
+      "viewportReset": true,
+      "farmByteIdentical": true,
+      "olderIdleHistoricalTabsClosed": [
+        "2",
+        "10"
+      ],
+      "retainedActiveCanonicalTab": "21"
+    }
+  },
+  "staging": {
+    "baseline": "aec302903c20094ce72003e578a1f6b8075a9b20",
+    "stage": "64e38469999bf89172d017403b694aa266332e02",
+    "comparedPrimaryFiles": 37,
+    "allPrimaryGitBlobsIdentical": true,
+    "candidateEntry": "app-637GUJQ7.js",
+    "primaryEntry": "app-DY5IBTMK.js"
+  },
+  "parity": {
+    "kind": "myfarmtwin-camera-shortcuts-promotion-parity-v1",
+    "candidateSource": "64e38469999bf89172d017403b694aa266332e02",
+    "entry": "app-637GUJQ7.js",
+    "emittedBytes": 937142,
+    "buildReceiptExact": true,
+    "primaryHtmlExact": true,
+    "candidateHtmlExactAfterAssetPrefixChange": true,
+    "sourceUnchangedAfterCandidateAcceptance": true,
+    "previewRouteRemoved": true,
+    "previewHeaderRulesRemoved": true,
+    "previewGitAttributesRemoved": true
+  },
+  "artifact": {
+    "kind": "myfarmtwin-camera-shortcuts-archive-v1",
+    "archive": "C:\\Users\\andi_\\.codex\\visualizations\\2026\\11\\15\\01a1dd60-e3b2-75c2-9c7c-a2d08361b7c6\\myfarmtwin-camera-shortcuts-20261117.tar.gz",
+    "bytes": 18397128,
+    "sha256": "1a9f7dd9f203cdbbdb67d6c25f780a2eea6babf32ef19f181e6a32addeae1403",
+    "verifiedFiles": 305,
+    "distFiles": 304,
+    "normalizedHostingMetadataFiles": 1,
+    "allDistBytesMatch": true,
+    "noTemporaryPreview": true,
+    "noQaOrPlayerData": true,
+    "noSymlinksOrUnsafePaths": true
+  },
+  "production": {
+    "status": "pending"
+  }
+}
