@@ -121,6 +121,90 @@
     "noSymlinksOrUnsafePaths": true
   },
   "production": {
-    "status": "pending"
+    "status": "verified",
+    "deployment": {
+      "kind": "myfarmtwin-camera-undo-reset-production-deployment-v1",
+      "repository": "andiwijaya/myfarmtwin.com",
+      "source": "2fa8b45600005968daedf25a3ec56cad03223b14",
+      "entry": "app-GZX3LKFS.js",
+      "productionDeployment": "86348d21-2e7f-4778-979f-3d2357c97941",
+      "checkId": 133795538610,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://myfarmtwin.com/play/",
+      "mainVerified": true
+    },
+    "browser": {
+      "kind": "myfarmtwin-camera-undo-reset-production-iab-acceptance-v1",
+      "url": "https://myfarmtwin.com/play/",
+      "entry": "app-GZX3LKFS.js",
+      "checks": {
+        "farmMatchesPreview": true,
+        "meaningfulReset": true,
+        "enabledAfterReset": true,
+        "pendingSurvivesRefresh": true,
+        "exactGardenRestoreWithEnter": true,
+        "consumedOnce": true,
+        "otherAreaCameraExact": true,
+        "otherAreaUndoDisabled": true,
+        "gardenOnRevisitExact": true,
+        "pendingSurvivesActualTabReopen": true,
+        "reopenedUndoExact": true,
+        "consumptionPersistsThroughRefresh": true,
+        "farmByteIdentical": true
+      },
+      "layouts": {
+        "desktop": {
+          "buttonHeights": [
+            44,
+            44,
+            46
+          ],
+          "height": 720,
+          "horizontalOverflow": false,
+          "labelsFit": true,
+          "noButtonOverlap": true,
+          "toolbarBelowCanvas": true,
+          "width": 1280
+        },
+        "phone390": {
+          "buttonHeights": [
+            46.66666793823242,
+            46.66666793823242,
+            46.66666793823242
+          ],
+          "height": 844,
+          "horizontalOverflow": false,
+          "labelsFit": true,
+          "noButtonOverlap": true,
+          "sameRow": true,
+          "toolbarBelowCanvas": true,
+          "width": 390
+        }
+      },
+      "warningsOrErrors": [],
+      "integrity": {
+        "ok": true,
+        "files": 30,
+        "glbs": 22
+      },
+      "scope": "Only internal browser. Phone viewport emulation; no physical device test. No farm actions, imports, clipboard or file transfers. Farm exports compared in memory only.",
+      "cleanup": {
+        "originalToolbarRestored": true,
+        "originalOverviewRestored": true,
+        "viewportOverrideReset": true,
+        "onlyCanonicalDeliverableKept": true
+      }
+    },
+    "integrity": {
+      "entry": "app-GZX3LKFS.js",
+      "files": 30,
+      "glbs": 22,
+      "allSha256BytesAndMimeMatch": true
+    },
+    "captures": [
+      "qa-artifacts/cozy-undo-reset-20261117/production-phone-undo-available.jpg",
+      "qa-artifacts/cozy-undo-reset-20261117/production-desktop-undo-available.jpg"
+    ]
   }
 }

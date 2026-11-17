@@ -1,4 +1,4 @@
-# Undo reset camera per active area — 17 November 2026
+# Undo reset camera per active area â€” 17 November 2026
 
 The camera toolbar now offers **Undo reset** beside **Reset kamera**. A meaningful reset saves that active area's previous position, orbit target, field of view and zoom. Undo restores that exact pose without changing another area's camera or any farm progress.
 
@@ -36,8 +36,8 @@ All recorded candidate checks passed:
 - Existing market interior restores its exact independent pose and context; its exterior remains exact. English control/status feedback and keyboard activation work; Indonesian locale restored.
 - Garden and interior keep independent pending records, and consuming either leaves the other available.
 - A second tab consumes undo and closes immediately; the older tab disables its control, and a reopened tab retains the restored camera without resurrecting undo.
-- Measured 320×844 and 390×844 phone viewports keep all three action buttons on one row at 46.67px height, with fitting labels, no overlap or horizontal overflow, and the toolbar below the canvas.
-- Measured 1280×720 desktop keeps the toolbar below the canvas, fitting labels and no overlap or overflow. No candidate console errors were observed.
+- Measured 320Ã—844 and 390Ã—844 phone viewports keep all three action buttons on one row at 46.67px height, with fitting labels, no overlap or horizontal overflow, and the toolbar below the canvas.
+- Measured 1280Ã—720 desktop keeps the toolbar below the canvas, fitting labels and no overlap or overflow. No candidate console errors were observed.
 - The complete farm export remains byte-identical to the pre-test in-memory comparator.
 - Candidate integrity passes all 30 resources, including 22 GLBs, with SHA-256, byte-count and MIME verification.
 
@@ -53,7 +53,15 @@ Archive: `myfarmtwin-camera-undo-reset-20261117.tar.gz`, 18,396,681 bytes, SHA-2
 
 ## Production acceptance
 
-Application activation and canonical production browser verification are pending in this release-preparation snapshot. The machine-readable companion will be updated after those steps complete.
+Application source `2fa8b45600005968daedf25a3ec56cad03223b14` is active on `main`. Cloudflare production deployment `86348d21-2e7f-4778-979f-3d2357c97941` reached completed/success under native GitHub check `133795538610`. The canonical `/play/` page loads `app-GZX3LKFS.js`; this production receipt is separate from the branch preview.
+
+All 13 canonical production acceptance checks passed. The exact pre-reset garden position, target, FOV and zoom restore with native Enter; the control disables after consumption. Pending undo survives refresh and actual tab close/reopen, and consumed undo remains consumed after another refresh. The independently remembered cow-area camera stays exact, has no unrelated undo, and the garden's restored pose remains exact on revisit.
+
+Measured desktop 1280×720 and phone 390×844 layouts keep the toolbar below the canvas, fitting labels and no button overlap or horizontal overflow. The phone Reset, Undo and Arrange controls share one row at 46.67px height. The complete farm export remains byte-identical to the original in-memory comparator. Current production warnings/errors are zero. The canonical `/play/integrity/` check passes SHA-256, byte count and MIME for all 30 resources, including 22 GLBs.
+
+Actual production captures are `qa-artifacts/cozy-undo-reset-20261117/production-phone-undo-available.jpg` and `production-desktop-undo-available.jpg`. Machine-readable local evidence is `production-browser.json`, `production-integrity.json` and `production-deployment.json`. Phone evidence uses viewport emulation. The original collapsed toolbar and whole-farm context were restored, viewport overrides reset, and the canonical game tab retained as the deliverable. No farm actions or raw-player-data fixture were introduced.
+
+The companion JSON contains the final acceptance and deployment receipts. Documentation-only commits after application activation do not change its live bundle.
 
 ## Checklist
 
@@ -62,5 +70,5 @@ Application activation and canonical production browser verification are pending
 - [x] Pass typecheck, 33 camera checks, build and four delivery checks.
 - [x] Complete internal-browser candidate acceptance without changing farm progress.
 - [x] Reproduce the tested bytes, remove temporary preview and verify the archive.
-- [ ] Activate the tested primary application and confirm production deployment success.
-- [ ] Test canonical production in the internal browser and capture actual screenshots.
+- [x] Activate the tested primary application and confirm production deployment success.
+- [x] Test canonical production in the internal browser and capture actual screenshots.
