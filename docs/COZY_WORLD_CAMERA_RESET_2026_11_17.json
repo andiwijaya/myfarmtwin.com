@@ -1,13 +1,13 @@
 {
   "kind": "myfarmtwin-active-camera-reset-release-v1",
   "date": "2026-11-17",
-  "status": "candidate-validated-primary-activation-pending",
+  "status": "deployed-and-verified",
   "candidateSource": "66f65e8ad0afd8c2c790a52ea66576336892e1fd",
   "candidateEntry": "app-TM5TBGTL.js",
   "candidatePreviewPath": "/play/reset-camera-preview/",
-  "primarySource": "2e08967ed138f80ee96b7c38bbe295a3222a5bda",
-  "primaryEntry": "app-EGVGKWVV.js",
-  "primaryResetActivated": false,
+  "primarySource": "92d025089809fa21a41412644ce16d2728f5d6fe",
+  "primaryEntry": "app-TM5TBGTL.js",
+  "primaryResetActivated": true,
   "sourceChecks": {
     "typecheck": "pass",
     "cameraTests": {
@@ -28,18 +28,65 @@
     "changesFarmProgress": false
   },
   "browserAcceptance": "pass",
-  "productionVerification": null,
+  "productionVerification": {
+    "date": "2026-11-17",
+    "url": "https://myfarmtwin.com/play/",
+    "source": "92d025089809fa21a41412644ce16d2728f5d6fe",
+    "entry": "app-TM5TBGTL.js",
+    "deployment": "3cbffd9f-4f93-4051-b1dd-429af5893606",
+    "checkRun": 133712225637,
+    "browser": "Codex internal browser (IAB)",
+    "tests": {
+      "activeGardenInitialPose": true,
+      "otherAreaCameraPreserved": true,
+      "revisitRetainsReset": true,
+      "refreshRetainsReset": true,
+      "actualTabReopenRetainsReset": true,
+      "activeInteriorInitialPose": true,
+      "exteriorCameraPreserved": true,
+      "interiorRefreshRetainsReset": true,
+      "keyboardActivation": true,
+      "phoneLayout": true,
+      "desktopLayout": true,
+      "farmExportByteIdentical": true,
+      "resourceIntegrity": true
+    },
+    "phone": {
+      "height": 844,
+      "horizontalOverflow": false,
+      "resetAndArrangeShareRow": true,
+      "resetHeight": 44,
+      "resetLabelFits": true,
+      "toolbarBelowCanvas": true,
+      "width": 390
+    },
+    "desktop": {
+      "height": 900,
+      "horizontalOverflow": false,
+      "resetBelowCanvas": true,
+      "resetHeight": 44,
+      "toolbarBelowCanvas": true,
+      "width": 1440
+    },
+    "resources": 30,
+    "glbs": 22,
+    "warningsAndErrors": 0,
+    "poseTolerance": 0.001,
+    "originalToolbarExpanded": false,
+    "finalView": "overview",
+    "limits": [
+      "Viewport emulation; no physical phone or full browser-process restart",
+      "No native pointer drag/pinch acceptance; pending inertia covered in a renderer-free fixture",
+      "Existing market interior exercised; livestock areas were unstarted",
+      "No farm command, starter, import, clipboard or file-transfer test"
+    ]
+  },
   "stagingSafety": {
     "comparedPublicBlobs": 36,
     "allPrimaryRuntimeAndReceiptsIdentical": true,
     "mainHasResetControl": false,
     "headerChangeOnlyPreviewPaths": true
   },
-  "accessLimits": [
-    "Automatic review rejected main staging until the browser prerequisite or a new explicit permission is satisfied",
-    "Cloudflare branch preview triggered a browser lookalike warning; not bypassed",
-    "Loopback preview timed out; owned local server stopped"
-  ],
   "pendingPermission": null,
   "explicitPreviewPermission": {
     "date": "2026-11-17",
@@ -134,5 +181,16 @@
     "matchesDist": true,
     "normalizedHostingMetadata": true,
     "temporaryPreviewExcluded": true
-  }
+  },
+  "baselinePrimarySource": "2e08967ed138f80ee96b7c38bbe295a3222a5bda",
+  "previewAccessResolved": true,
+  "initialAccessLimits": [
+    "Automatic review rejected main staging until the browser prerequisite or a new explicit permission is satisfied",
+    "Cloudflare branch preview triggered a browser lookalike warning; not bypassed",
+    "Loopback preview timed out; owned local server stopped"
+  ],
+  "screenshots": [
+    "production-phone-reset.jpg",
+    "production-desktop-interior-reset.jpg"
+  ]
 }

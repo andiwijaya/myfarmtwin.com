@@ -1,6 +1,6 @@
 # MyFarmTwin reset for the active camera — 17 November 2026
 
-Status: implemented; local checks and official-domain internal-browser acceptance pass. Primary activation is pending.
+Status: implemented, tested in the internal browser, deployed and verified at https://myfarmtwin.com/play/ .
 
 ## Behavior
 
@@ -52,7 +52,23 @@ Evidence: `preview-browser.json`, `preview-integrity.json`, `primary-preserved-i
 
 Phone checks use viewport emulation. Physical phones, full browser-process restart and native pointer drag/pinch were not exercised. The pending-inertia case was checked with the renderer-free controls fixture described above. Livestock areas were unstarted in this player farm, so the actual market supplied the interior journey.
 
-## Remaining acceptance
+## Production verification and artifact
+
+Application source: `92d025089809fa21a41412644ce16d2728f5d6fe`. Cloudflare production deployment: `3cbffd9f-4f93-4051-b1dd-429af5893606`; native GitHub Cloudflare Pages check `133712225637` reached completed/success. The active entry is `app-TM5TBGTL.js`. The branch-preview deployment is separate from this production receipt.
+
+The final build reproduced the observed candidate's JavaScript, CSS, manifest and model bytes exactly. HTML matched with only the asset URL prefix changed. Temporary preview files, cache rules and Git attributes were removed before primary activation. No source implementation changed after candidate acceptance.
+
+All thirteen production browser groups passed. At a measured 390×844 phone viewport, garden reset matched its initial pose; the independently remembered cow-area camera stayed exact through navigation and actual tab reopening. Garden reset persisted through revisit, refresh and actual tab close/reopen. At a measured 1440×900 desktop viewport, interior reset matched the original interior pose and context, preserved the separate market exterior camera, persisted through refresh, and worked through native Enter activation. Both measured layouts kept the 44px reset button below the canvas with no horizontal overflow; the phone reset/arrange buttons shared a row.
+
+The production farm export remained byte-identical to the pre-test in-memory comparator. The canonical `/play/integrity/` page passed all 30 SHA-256/byte/MIME resource checks, including 22 GLBs, for the activated entry. Current production-tab warnings/errors: zero. No farm command or raw-player-data fixture was introduced.
+
+Actual captures: `qa-artifacts/cozy-reset-camera-20261117/production-phone-reset.jpg` and `production-desktop-interior-reset.jpg`. Temporary viewport overrides were reset, the owned original comparator tab was closed, and the canonical game tab was left available. The final view is the whole farm using its previously remembered pose. The original collapsed toolbar choice was restored.
+
+The archive `myfarmtwin-camera-reset-20261117.tar.gz` is 18,392,273 bytes, SHA-256 `dedb1388cd3ec4c8b79b6a3837710a867002a3478cd9b8d2d4ff69aa2e77cfc0`. All 302 regular static site files match final dist bytes; normalized official hosting metadata makes 303 verified files. The archive excludes temporary preview and QA/player data.
+
+The machine-readable companion is `COZY_WORLD_CAMERA_RESET_2026_11_17.json`. Local evidence additionally includes `promotion-parity.json`, `artifact.json`, `production-browser.json` and `production-integrity.json` under `qa-artifacts/cozy-reset-camera-20261117/`. Documentation-only source commits after application activation do not change the live bundle.
+
+## Checklist
 
 - [x] Open an approved preview in the internal browser.
 - [x] Change two area cameras, reset one to its initial pose, and verify the other remains exact.
@@ -60,5 +76,5 @@ Phone checks use viewport emulation. Physical phones, full browser-process resta
 - [x] Verify an interior reset preserves its independent exterior camera.
 - [x] Check language/keyboard access and phone/desktop layout below the canvas.
 - [x] Compare farm exports in memory only and verify candidate resource integrity.
-- [ ] Reproduce the tested bytes, remove the temporary preview and activate the primary control.
-- [ ] Verify the canonical production page and record actual screenshots and the release receipt.
+- [x] Reproduce the tested bytes, remove the temporary preview and activate the primary control.
+- [x] Verify the canonical production page and record actual screenshots and the release receipt.
