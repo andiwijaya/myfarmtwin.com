@@ -26,7 +26,7 @@
       "Monotonic stale-record guard",
       "Keyboard and bilingual UI with compact below-canvas controls"
     ],
-    "browserAcceptance": "pending"
+    "browserAcceptance": "passed"
   },
   "preview": {
     "kind": "myfarmtwin-camera-redo-reset-iab-acceptance-v1",
@@ -184,6 +184,106 @@
     "noSymlinksOrUnsafePaths": true
   },
   "production": {
-    "status": "pending"
+    "status": "verified",
+    "deployment": {
+      "kind": "myfarmtwin-camera-redo-reset-production-deployment-v1",
+      "repository": "andiwijaya/myfarmtwin.com",
+      "source": "aec302903c20094ce72003e578a1f6b8075a9b20",
+      "entry": "app-DY5IBTMK.js",
+      "productionDeployment": "d56e5850-4400-4a01-8fde-b2b698f1224d",
+      "checkId": 133810814561,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://myfarmtwin.com/play/",
+      "mainVerified": true
+    },
+    "browser": {
+      "kind": "myfarmtwin-camera-redo-reset-production-iab-acceptance-v1",
+      "url": "https://myfarmtwin.com/play/",
+      "entry": "app-DY5IBTMK.js",
+      "source": "aec302903c20094ce72003e578a1f6b8075a9b20",
+      "checks": {
+        "farmMatchesPreview": true,
+        "noRedoInUnrelatedArea": true,
+        "meaningfulReset": true,
+        "redoDisabledBeforeUndo": true,
+        "undoBeforeRedoExact": true,
+        "redoEnabledAfterUndo": true,
+        "pendingSurvivesRefresh": true,
+        "redoExactWithEnter": true,
+        "undoAvailableAfterRedo": true,
+        "redoDisabledAfterUse": true,
+        "otherAreaCameraExact": true,
+        "undoAfterRedoExact": true,
+        "pendingSurvivesActualTabReopen": true,
+        "beforePoseSurvivesReopen": true,
+        "reopenedRedoExact": true,
+        "statePersistsAfterRedoRefresh": true,
+        "interiorRedoAvailable": true,
+        "interiorRedoExact": true,
+        "interiorContextPreserved": true,
+        "farmByteIdentical": true,
+        "exteriorCameraExact": true,
+        "utf8LabelsCorrect": true
+      },
+      "layouts": {
+        "desktop": {
+          "buttonHeights": [
+            44,
+            44,
+            44,
+            46
+          ],
+          "height": 720,
+          "horizontalOverflow": false,
+          "labelsFit": true,
+          "noButtonOverlap": true,
+          "sameRow": true,
+          "toolbarBelowCanvas": true,
+          "width": 1280
+        },
+        "phone390": {
+          "buttonHeights": [
+            46.66666793823242,
+            46.66666793823242,
+            46.66666793823242,
+            46.66666793823242
+          ],
+          "height": 844,
+          "horizontalOverflow": false,
+          "labelsFit": true,
+          "noButtonOverlap": true,
+          "sameRow": true,
+          "toolbarBelowCanvas": true,
+          "width": 390
+        }
+      },
+      "warningsOrErrors": [],
+      "integrity": {
+        "ok": true,
+        "files": 30,
+        "glbs": 22
+      },
+      "scope": "Internal browser only. Phone viewport emulation, not physical device testing. Actual tab close/reopen. No farm commands, imports, clipboard or downloads; complete farm exports compared in memory only.",
+      "cleanup": {
+        "originalOverviewRestored": true,
+        "originalToolbarRestored": true,
+        "originalLocaleRestored": true,
+        "viewportReset": true,
+        "farmByteIdentical": true,
+        "canonicalGameTabRetained": true
+      }
+    },
+    "integrity": {
+      "entry": "app-DY5IBTMK.js",
+      "files": 30,
+      "glbs": 22,
+      "allSha256BytesAndMimeMatch": true
+    },
+    "captures": [
+      "qa-artifacts/cozy-redo-reset-20261117/production-phone-redo-available.jpg",
+      "qa-artifacts/cozy-redo-reset-20261117/production-desktop-redo-available.jpg",
+      "qa-artifacts/cozy-redo-reset-20261117/production-desktop-interior-redo.jpg"
+    ]
   }
 }

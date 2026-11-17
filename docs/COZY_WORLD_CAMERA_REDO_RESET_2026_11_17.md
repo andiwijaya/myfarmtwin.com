@@ -55,7 +55,15 @@ Archive `myfarmtwin-camera-redo-reset-20261117.tar.gz`: 18,397,606 bytes, SHA-25
 
 ## Production acceptance
 
-Primary activation and canonical production browser verification are pending in this release-preparation snapshot. The companion JSON will receive the final source, deployment and browser receipts.
+Application source `aec302903c20094ce72003e578a1f6b8075a9b20` is active on `main`. Cloudflare production deployment `d56e5850-4400-4a01-8fde-b2b698f1224d` reached completed/success under native GitHub check `133810814561`. The canonical `/play/` page loads `app-DY5IBTMK.js`. This receipt is separate from the branch-preview deployment.
+
+All 22 recorded canonical production browser checks passed. Meaningful Reset/Undo/Redo restores the exact before/reset geometry and projection, native Enter works, Redo disables after use and Undo enables again. Pending Redo survives refresh and actual tab close/reopen, and its resulting state persists after another refresh. The independent cow-area camera remains exact. Actual market interior Redo restores its exact reset and interior context, while the exterior camera remains exact.
+
+Measured 1280×720 desktop and 390×844 phone layouts keep all four actions in one row, labels fitting, no overlap or horizontal overflow and the toolbar below the canvas. Targets are at least 44px high; the phone actions measure 46.67px. UTF-8 labels remain correct. Current production warnings/errors are zero. The entire farm export remains byte-identical to the original in-memory comparator. Canonical `/play/integrity/` passes SHA-256, byte count and MIME for all 30 resources, including 22 GLBs.
+
+Actual captures: `qa-artifacts/cozy-redo-reset-20261117/production-phone-redo-available.jpg`, `production-desktop-redo-available.jpg` and `production-desktop-interior-redo.jpg`. Machine-readable evidence: `production-browser.json`, `production-integrity.json` and `production-deployment.json`. Phone checks use viewport emulation. No farm command or raw-player-data file is introduced.
+
+Original whole-farm context, collapsed toolbar and Indonesian locale are restored, temporary viewport overrides reset, and the canonical game tab is retained as the deliverable. The companion JSON contains the final receipts. Documentation-only commits after application activation do not alter its live bundle.
 
 ## Checklist
 
@@ -64,5 +72,5 @@ Primary activation and canonical production browser verification are pending in 
 - [x] Pass typecheck, 45 camera tests, build and four delivery checks.
 - [x] Complete 33 internal-browser preview checks plus phone/desktop layout and resource integrity.
 - [x] Reproduce the tested bytes, remove the temporary preview and verify the archive.
-- [ ] Activate the tested primary application and confirm production deployment success.
-- [ ] Test canonical production in the internal browser and capture actual screenshots.
+- [x] Activate the tested primary application and confirm production deployment success.
+- [x] Test canonical production in the internal browser and capture actual screenshots.
