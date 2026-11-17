@@ -18,6 +18,7 @@ function withWorld(run,store=storage()){
 }
 const settle=world=>{world.finishCameraTransition();world.flushCameraPreference();return world.cameraSnapshot();};
 const keyEvent=(key,patch={})=>({key,ctrlKey:true,altKey:false,metaKey:false,shiftKey:false,repeat:false,isComposing:false,defaultPrevented:false,preventCalls:0,preventDefault(){this.preventCalls++;},...patch});
+const macEvent=(key,patch={})=>keyEvent(key,{ctrlKey:false,metaKey:true,...patch});
 const shortcut=(world,event,blocked=false)=>handleCameraResetShortcut(event,{blocked,available:action=>action==='undo-reset'?world.canUndoCameraReset():world.canRedoCameraReset(),run:action=>!!(action==='undo-reset'?world.undoCameraReset():world.redoCameraReset())});
 
 test('each area and interior has an independent projection without changing farm keys',()=>{
@@ -312,4 +313,31 @@ test('alternate redo preserves native editing and ignores extra modifiers, repea
  for(const patch of [{ctrlKey:false},{altKey:true},{metaKey:true},{repeat:true},{isComposing:true},{defaultPrevented:true},{key:'Y'}]){const e=keyEvent('Z',{shiftKey:true,...patch});assert.equal(shortcut(w,e),false);assert.equal(e.preventCalls,0);assert.deepEqual([...s.values],bytes);assert.deepEqual(geometry(w.cameraSnapshot()),camera);}
  const editing=keyEvent('Z',{shiftKey:true});assert.equal(shortcut(w,editing,true),false);assert.equal(editing.preventCalls,0);assert.deepEqual([...s.values],bytes);
  assert.equal(shortcut(w,keyEvent('Z',{shiftKey:true})),true);const consumed=keyEvent('Z',{shiftKey:true});assert.equal(shortcut(w,consumed),false);assert.equal(consumed.preventCalls,0);
+}));
+
+test('Cmd+Z and Cmd+Shift+Z share active-area history with Ctrl and preserve other area and farm bytes',()=>withWorld((w,s)=>{
+ w.focus('barn');settle(w);w.zoom(.8);settle(w);w.focus('garden');const initial=settle(w);w.zoom(.7);w.rotate(.3);const before=settle(w);w.resetCamera();
+ const other=[...s.values].filter(([key])=>![CAMERA_PREFERENCE_KEY,cameraViewPreferenceKey('garden'),cameraResetUndoKey('garden')].includes(key));
+ const undo=macEvent('z');assert.equal(shortcut(w,undo),true);assert.equal(undo.preventCalls,1);assert.deepEqual(geometry(w.cameraSnapshot()),geometry(before));
+ const redo=macEvent('Z',{shiftKey:true});assert.equal(shortcut(w,redo),true);assert.equal(redo.preventCalls,1);assert.deepEqual(geometry(w.cameraSnapshot()),geometry(initial));
+ assert.equal(shortcut(w,keyEvent('z')),true);assert.equal(shortcut(w,macEvent('z',{shiftKey:true})),true);assert.equal(shortcut(w,macEvent('Z')),true);assert.equal(shortcut(w,keyEvent('y')),true);
+ for(const [key,bytes]of other)assert.equal(s.getItem(key),bytes,key);
+ const exterior=s.getItem(cameraViewPreferenceKey('barn'));w.focus('inside:barn');const inside=settle(w);w.zoom(.8);w.camera.fov=61;w.camera.zoom=1.3;w.beginCameraInteraction();const insideBefore=settle(w);w.resetCamera();
+ assert.equal(shortcut(w,macEvent('z')),true);assert.deepEqual(geometry(w.cameraSnapshot()),geometry(insideBefore));assert.equal(shortcut(w,macEvent('z',{shiftKey:true})),true);assert.deepEqual(geometry(w.cameraSnapshot()),geometry(inside));assert.equal(w.interiorId,'barn');assert.equal(s.getItem(cameraViewPreferenceKey('barn')),exterior);
+}));
+
+test('Cmd shortcuts leave editing, mixed modifiers, composition, repeats and unsupported keys to native behavior',()=>withWorld((w,s)=>{
+ w.focus('garden');settle(w);w.zoom(.7);settle(w);w.resetCamera();
+ for(const shiftKey of [false,true]){
+  if(shiftKey)w.undoCameraReset();const bytes=[...s.values],camera=geometry(w.cameraSnapshot());
+  for(const patch of [{metaKey:false},{ctrlKey:true},{altKey:true},{repeat:true},{isComposing:true},{defaultPrevented:true},{key:'y'},{key:'Escape'}]){const e=macEvent('z',{shiftKey,...patch});assert.equal(shortcut(w,e),false,JSON.stringify(patch));assert.equal(e.preventCalls,0);assert.deepEqual([...s.values],bytes);assert.deepEqual(geometry(w.cameraSnapshot()),camera);}
+  const editing=macEvent('z',{shiftKey});assert.equal(shortcut(w,editing,true),false);assert.equal(editing.preventCalls,0);assert.deepEqual([...s.values],bytes);assert.deepEqual(geometry(w.cameraSnapshot()),camera);
+ }
+}));
+
+test('unavailable Cmd history never uses another area and failed commands preserve native defaults',()=>withWorld((w,s)=>{
+ w.focus('garden');settle(w);w.zoom(.7);settle(w);w.resetCamera();w.focus('barn');settle(w);const bytes=[...s.values],camera=geometry(w.cameraSnapshot());
+ for(const shiftKey of [false,true]){const e=macEvent('z',{shiftKey});assert.equal(shortcut(w,e),false);assert.equal(e.preventCalls,0);}assert.deepEqual([...s.values],bytes);assert.deepEqual(geometry(w.cameraSnapshot()),camera);
+ w.focus('garden');settle(w);w.cameraPreferenceReady=false;const notReady=macEvent('z');assert.equal(shortcut(w,notReady),false);assert.equal(notReady.preventCalls,0);w.cameraPreferenceReady=true;
+ const failed=macEvent('z');assert.equal(handleCameraResetShortcut(failed,{blocked:false,available:()=>true,run:()=>false}),false);assert.equal(failed.preventCalls,0);assert.equal(w.canUndoCameraReset(),true);
 }));
