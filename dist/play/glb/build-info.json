@@ -12,14 +12,14 @@
   ],
   "saveVersion": 2,
   "three": "0.187.0",
-  "entry": "app-4MRNRDYA.js",
+  "entry": "app-ERUJD5D5.js",
   "recoveryEntry": "recovery-2UXJQDFZ.js",
   "integrityEntry": "integrity-LL76RTOU.js",
   "emitted": [
     {
-      "name": "app-4MRNRDYA.js",
-      "bytes": 739260,
-      "sha256": "63858dc4c57438292c10bdfca52eefc7968ea78482c1b9f3fbf3f30994082000"
+      "name": "app-ERUJD5D5.js",
+      "bytes": 740549,
+      "sha256": "0181c347cd0be626ef5864994b10dcf3c62d34d53b2620815275a00e5f301df7"
     },
     {
       "name": "recovery-2UXJQDFZ.js",
@@ -1204,7 +1204,7 @@
     }
   },
   "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
-  "htmlSha256": "0551de778d4ae4f301be5fcd4f0b9ce0f8a3436f417028d3ac9b8538821a76ee",
+  "htmlSha256": "be20c61101a813ac0cee12e111c7e5bec0e9cdce3b68670807a161d7f2852a45",
   "cssSha256": "03a5d74c34809c6cbcfbee85ae824989bdc5afdef78922bb5d2287ac437fa95a",
   "inputs": [
     "game/client/active-garden.js",
@@ -1239,6 +1239,7 @@
     "game/client/cow-welfare.js",
     "game/client/cozy-animation.js",
     "game/client/cozy-app.js",
+    "game/client/cozy-camera-gesture-input.js",
     "game/client/cozy-camera-preference.js",
     "game/client/cozy-camera-reset-undo.js",
     "game/client/cozy-camera-shortcuts.js",
