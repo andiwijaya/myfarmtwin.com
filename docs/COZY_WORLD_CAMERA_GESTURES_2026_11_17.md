@@ -42,7 +42,19 @@ The official package helper produces `myfarmtwin-gesture-hints-20261117.tar.gz`.
 
 ## Production acceptance
 
-Activation and canonical production browser verification are pending; final receipts will update this section and the companion JSON.
+Application source `97a4180417268b4afb781b7c798c08e4ae9c941d` is active on `main`. Cloudflare production deployment `c4b1753f-1963-481b-9a75-50dd8cc63809` completed successfully under native GitHub check `133880653803`, independently of the branch preview. The canonical `/play/` page loads `app-4MRNRDYA.js`.
+
+All 25 recorded production browser checks passed. The live primary-pointer classification is valid, the expected short hint renders on initial load and after refresh, and ID/EN changes update correctly. A narrow fine-pointer viewport retains desktop drag/scroll/click instructions. The existing device-specific keyboard hints are preserved.
+
+All four actual production viewport/language comparisons retain the exact pre-change toolbar heights: 259.83px at 1280×720 and 306.17px at 390×844, with the same 13.5px hint line. Action-button labels, widths and heights are unchanged. No horizontal overflow is present. The accepted preview additionally verifies touch/pointer versions through eight baseline/candidate fixture comparisons using identical production formatter/markup/CSS bytes.
+
+Language and viewport changes leave camera geometry unchanged. Ctrl/Cmd Undo and Redo restore exact before/reset camera poses while collapsed, the editing guard retains pending Redo, and Ctrl+Shift+Z still works after refresh. The keyboard dispatcher remains byte-identical to the previous release and all 54 existing camera regressions pass.
+
+Farm exports remain byte-identical to the original in-memory comparator. Current warning/error logs are empty. Canonical `/play/integrity/` passes SHA-256, byte counts and MIME for 30 resources, including 22 GLBs. Temporary viewport overrides are cleared before restoring the original whole-farm pose through its untouched overview history pair; toolbar and locale choices are restored. Owned test tabs close and only the original canonical tab remains.
+
+All interactive testing uses the internal browser without download, upload, clipboard, import or gameplay tests. Touch input is simulated in a read-only fixture; physical phone pinch/drag and live switching of the primary device are not tested. Actual phone-width layout evidence uses viewport emulation with a fine pointer.
+
+Production captures are `qa-artifacts/cozy-gesture-hints-20261117/production-desktop-gesture.jpg` and `production-phone-viewport.jpg`; `fixture-phone-touch.jpg` shows the explicitly simulated touch wording. Browser, integrity and deployment JSON receipts are in the same directory and incorporated in the companion release JSON. The subsequent evidence-only documentation commit does not alter the deployed runtime.
 
 ## Checklist
 
@@ -53,4 +65,4 @@ Activation and canonical production browser verification are pending; final rece
 - [x] Obtain specific authorization for official preview staging.
 - [x] Verify hint text and toolbar dimensions in the internal browser.
 - [x] Reproduce tested bytes, remove fixtures and verify the official package.
-- [ ] Activate production and verify the canonical page without file-transfer tests.
+- [x] Activate production and verify the canonical page without file-transfer tests.
