@@ -51,7 +51,17 @@ The official package helper produced `myfarmtwin-camera-alt-redo-20261117.tar.gz
 
 ## Production acceptance
 
-Activation and canonical production browser verification are pending. This section and the companion JSON will be updated from the actual deployment and internal-browser receipts.
+Application source `a70576dd0f05e2fd39f756d87eee39a0fc8a16b7` is active on `main`. Cloudflare production deployment `43410e6a-2212-43c4-99a9-535df1d5709d` completed successfully under native GitHub check `133842333753`, independently of the branch preview. The canonical `/play/` page loads `app-KR6MZTXW.js` and advertises both Redo shortcuts.
+
+All 34 recorded canonical production browser checks passed. Ctrl+Z, Ctrl+Y and Ctrl+Shift+Z restore exact garden before/reset poses with the toolbar collapsed. Unavailable Redo and Ctrl+Shift+Y remain ignored. Focused selects, textarea editing and modal-button focus preserve camera history. Native text Undo changes the synthetic text, and Ctrl+Shift+Z restores it while camera Redo remains pending. After closing the dialog, the shortcut resumes normally. Pending camera Redo also survives refresh.
+
+Production area navigation preserves the cow area's own reset and pre-reset poses while the garden retains its independent reset pair. Interior Ctrl+Z/Ctrl+Shift+Z restore exact poses and retain the room context; the corresponding exterior remains exact. The alternate shortcut works at the measured 390×844 phone viewport. Both that layout and the measured 1280×720 desktop retain fitting labels, targets of at least 44px, no button overlap or horizontal overflow, and the toolbar below the canvas.
+
+The initial text-Undo oracle expected the whole synthetic string to disappear. Chromium undid one typed character instead, so the final check verifies that native Undo changes the text and native Redo restores the exact full string. The corrected controlled repeat passed without a source change. No backup was imported and no raw farm save is included in evidence files.
+
+Canonical `/play/integrity/` passes SHA-256, byte counts and MIME for all 30 resources, including 22 GLBs. Current warning/error logs are empty. The full farm export remains byte-identical to the original in-memory comparator. The original whole-farm camera, toolbar choice and locale are restored after clearing the temporary viewport override. Only the original canonical game tab remains open.
+
+Actual production captures are `qa-artifacts/cozy-redo-alt-shortcut-20261117/production-desktop-alt-redo.jpg` and `production-phone-alt-redo.jpg`. Final machine-readable receipts are `production-browser.json`, `production-integrity.json` and `production-deployment.json`, also incorporated into the companion JSON. Phone evidence uses viewport emulation. The evidence-only documentation commit after activation does not change the deployed runtime.
 
 ## Checklist
 
@@ -61,5 +71,5 @@ Activation and canonical production browser verification are pending. This secti
 - [x] Pass typecheck, 51 camera tests, build and four delivery checks.
 - [x] Complete internal-browser preview acceptance and integrity checks.
 - [x] Reproduce the tested bytes and verify the official package.
-- [ ] Activate production and confirm Cloudflare success.
-- [ ] Verify the canonical page in the internal browser and record final receipts.
+- [x] Activate production and confirm Cloudflare success.
+- [x] Verify the canonical page in the internal browser and record final receipts.
