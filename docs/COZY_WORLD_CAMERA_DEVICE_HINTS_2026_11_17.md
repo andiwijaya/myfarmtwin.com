@@ -42,7 +42,19 @@ The official package helper produces `myfarmtwin-device-shortcut-hints-20261117.
 
 ## Production acceptance
 
-Activation and canonical production browser verification are pending; final receipts will update this section and the companion JSON.
+Application source `21fa1c815c1fa7d29b65dca446a7001a05f4c7f7` is active on `main`. Cloudflare production deployment `691a9786-9737-4f36-b49e-9735c022566c` completed successfully under native GitHub check `133857058595`, independently of the branch preview. The canonical `/play/` page loads `app-6BFFCBNV.js`.
+
+All 25 recorded production browser checks passed. The actual browser renders Ctrl-only Indonesian hints and correct English hints after changing language, then returns to Indonesian. Both hints are shorter than the old duplicated bilingual/all-platform titles. Device-specific accessible shortcut metadata and visible labels are correct. Hints persist after refresh.
+
+All four action-button widths, heights and labels remain identical to the pre-change live baseline within 0.01 CSS pixel at 1280×720 desktop and 390×844 phone viewports. Buttons remain below the canvas without overlap or horizontal overflow. The phone actions measure 78.33px wide and 46.67px high; desktop action heights remain 44/44/44/46px. No CSS change or visible shortcut badge increases the toolbar.
+
+Ctrl+Z/Ctrl+Y and Cmd+Z/Cmd+Shift+Z restore the exact active camera before/reset poses while collapsed, the editing guard preserves pending camera Redo, and Ctrl+Shift+Z still works after refresh. Language changes leave camera geometry unchanged. The keyboard dispatcher remains byte-identical to the previous release; all 54 camera regression checks also pass.
+
+Full farm exports remain byte-identical to the original in-memory comparator. Current warning/error logs are empty. Canonical `/play/integrity/` passes SHA-256, byte counts and MIME for 30 resources, including 22 GLBs. Temporary viewport overrides are reset before restoring the original whole-farm pose through its untouched overview history pair; original toolbar and locale choices are restored. Only the original canonical tab remains open.
+
+The accepted preview's 12 explicit platform/language fixtures cover both device families using formatter bytes identical to production. Physical Mac/Safari testing is not claimed. Phone evidence uses viewport emulation. No download, upload, clipboard, import or gameplay test was used. Raw player saves are never written to evidence files.
+
+Actual production captures are `qa-artifacts/cozy-shortcut-hints-20261117/production-desktop-hints.jpg` and `production-phone-hints.jpg`. Final browser, integrity and deployment JSON receipts are in the same directory and incorporated in the companion release JSON. The subsequent evidence-only documentation commit does not change the deployed runtime.
 
 ## Checklist
 
@@ -53,4 +65,4 @@ Activation and canonical production browser verification are pending; final rece
 - [x] Obtain authorization to expose the official preview.
 - [x] Verify actual page hints plus both platform families in the internal browser.
 - [x] Reproduce tested bytes, remove fixtures and verify the official package.
-- [ ] Deploy production and verify the canonical page.
+- [x] Deploy production and verify the canonical page.
