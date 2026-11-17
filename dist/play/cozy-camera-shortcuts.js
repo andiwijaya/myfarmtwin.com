@@ -10,6 +10,11 @@ export function cameraResetShortcutHints(platformInfo,language){
  const undo=mac?'Cmd+Z':'Ctrl+Z',redo=mac?'Cmd+Shift+Z':'Ctrl+Y / Ctrl+Shift+Z';
  return{undo:{title:(language==='en'?"Undo this area's camera reset":"Undo reset kamera area ini")+' · '+undo,shortcuts:mac?'Meta+Z':'Control+Z'},redo:{title:(language==='en'?"Redo this area's camera reset":"Redo reset kamera area ini")+' · '+redo,shortcuts:mac?'Meta+Shift+Z':'Control+Y Control+Shift+Z'}};
 }
+/** @param {boolean} touchInput @param {'id'|'en'} language */
+export function cameraGestureHint(touchInput,language){
+ if(touchInput)return language==='en'?'Drag: orbit · Pinch: zoom · Tap objects':'Seret: putar · Cubit: zoom · Ketuk objek';
+ return language==='en'?'Drag: orbit · Scroll: zoom · Click objects':'Drag: putar · Scroll: zoom · Klik objek';
+}
 /** @typedef {Pick<KeyboardEvent,'key'|'ctrlKey'|'altKey'|'metaKey'|'shiftKey'|'repeat'|'isComposing'|'defaultPrevented'|'preventDefault'>} CameraShortcutEvent */
 /** Dispatch through the same active-area commands as the toolbar. Unhandled
  * shortcuts retain their native behavior, especially while editing text.
