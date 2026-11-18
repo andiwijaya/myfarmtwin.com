@@ -132,8 +132,12 @@ let gestureMode = readGestureMode();
 let gestureModeSaved = true;
 /** @type {'status'|'outgoing'|'confirmation'} */let gestureResetHelpPhase = 'status';
 /** @type {Animation|null} */let gestureResetAnimation = null;
+/** @type {number|null} */let gestureResetSecondsFrame = null;
+let gestureResetHovered = false;
 
 function cancelGestureResetAnimation() {
+ if (gestureResetSecondsFrame !== null) window.cancelAnimationFrame(gestureResetSecondsFrame);
+ gestureResetSecondsFrame = null;
  gestureResetAnimation?.cancel();
  gestureResetAnimation = null;
 }
@@ -146,6 +150,7 @@ function hideGestureResetCountdown() {
 function clearGestureResetConfirmation() {
  cancelGestureResetAnimation();
  hideGestureResetCountdown();
+ gestureResetHovered = false;
  gestureResetHelpPhase = 'status';
 }
 
@@ -195,13 +200,29 @@ function finishGestureResetConfirmation() {
 /** @param {Animation} countdown */
 function updateGestureResetSeconds(countdown) {
  if (gestureResetAnimation !== countdown) return;
+ if (gestureResetSecondsFrame !== null) window.cancelAnimationFrame(gestureResetSecondsFrame);
+ gestureResetSecondsFrame = null;
  const elapsed = Number(countdown.currentTime ?? 0);
  const remaining = Math.max(1, Math.ceil((gestureResetConfirmationDuration - elapsed) / 1000));
  const label = String(remaining);
  if (gestureResetSeconds.textContent !== label) gestureResetSeconds.textContent = label;
- if (remaining > 1) {
-  window.requestAnimationFrame(() => updateGestureResetSeconds(countdown));
+ if (remaining > 1 && (countdown.playState === 'running' || countdown.pending)) {
+  gestureResetSecondsFrame = window.requestAnimationFrame(() => {
+   gestureResetSecondsFrame = null;
+   updateGestureResetSeconds(countdown);
+  });
  }
+}
+
+/** @param {PointerEvent & {sourceCapabilities?: {firesTouchEvents?: boolean}|null}} event */
+function updateGestureResetHover(event) {
+ if (event.pointerType !== 'mouse' || event.sourceCapabilities?.firesTouchEvents) return;
+ gestureResetHovered = event.type === 'pointerenter';
+ const countdown = gestureResetAnimation;
+ if (!countdown || !(countdown.effect instanceof KeyframeEffect) || countdown.effect.target !== gestureResetProgress) return;
+ if (gestureResetHovered && countdown.playState === 'running') countdown.pause();
+ if (!gestureResetHovered && countdown.playState === 'paused') countdown.play();
+ updateGestureResetSeconds(countdown);
 }
 
 function holdGestureResetConfirmation() {
@@ -213,6 +234,7 @@ function holdGestureResetConfirmation() {
   {duration:gestureResetConfirmationDuration,easing:'linear'},
   finishGestureResetConfirmation,
  );
+ if (gestureResetHovered) countdown.pause();
  updateGestureResetSeconds(countdown);
 }
 
@@ -224,6 +246,10 @@ function showGestureResetConfirmation() {
  updateCameraGestureHint();
  fadeGestureResetHelp(0, 1, holdGestureResetConfirmation);
 }
+
+gestureResetFeedback.addEventListener('pointerenter', updateGestureResetHover);
+gestureResetFeedback.addEventListener('pointerleave', updateGestureResetHover);
+gestureResetFeedback.addEventListener('pointercancel', updateGestureResetHover);
 
 function updateCameraGestureHint() {
  const hint = el('gesture-hint');
