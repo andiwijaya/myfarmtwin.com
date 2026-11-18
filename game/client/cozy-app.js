@@ -385,8 +385,7 @@ window.addEventListener('storage', event => {
  updateCameraGestureHint();
  renderGestureMode();
 });
-gestureResetButton.addEventListener('click', () => {
- if (gestureResetButton.disabled) return;
+function prepareGestureResetFadeOut() {
  let currentOpacity = Number(getComputedStyle(gestureResetFeedback).opacity);
  if (gestureResetHelpPhase === 'completion') {
   // Let the shared fade take over at the opacity of the checkmark and its text.
@@ -398,9 +397,19 @@ gestureResetButton.addEventListener('click', () => {
  }
  cancelGestureResetAnimation();
  hideGestureResetToggle();
- gestureResetHovered = false;
  gestureResetFeedback.removeAttribute('data-resumed');
  gestureResetHelpPhase = 'outgoing';
+ return currentOpacity;
+}
+
+gestureResetButton.addEventListener('click', () => {
+ if (gestureResetButton.disabled) return;
+ const entering = gestureResetFeedback.dataset.confirmation === 'entering';
+ const confirmationPending = entering || gestureResetHelpPhase === 'outgoing';
+ // A reset during either fade can use the same transition into a fresh countdown.
+ const outgoingOpacity = confirmationPending ? null : prepareGestureResetFadeOut();
+ gestureResetHovered = false;
+ if (entering) gestureResetToggle.setAttribute('aria-pressed','false');
  if (!cameraGestureInput.reset()) {
   clearGestureResetConfirmation();
   updateCameraGestureHint();
@@ -408,7 +417,7 @@ gestureResetButton.addEventListener('click', () => {
   return;
  }
  renderGestureMode();
- fadeGestureResetHelp(currentOpacity, 0, showGestureResetConfirmation);
+ if (outgoingOpacity !== null) fadeGestureResetHelp(outgoingOpacity, 0, showGestureResetConfirmation);
 });
 async function confirmPlacement(){if(!placement)return;const {item,mode}=placement,result=await act(()=>mode==='move'?session.move(item.id,item):session.build(item.kind,item),L('Tata letak farm tersimpan.','Farm layout saved.'));if(result?.ok){cancelPlacement();go(result.id||item.id);}}
 function translate(){document.documentElement.lang=language;const strings=/** @type {Record<string,[string,string]>} */({'toolbar-title':['Kontrol','Controls'],'toolbar-day-label':['HARI','DAY'],'toolbar-coins-label':['KOIN','COINS'],'toolbar-expand-label':['Buka','Show'],'toolbar-collapse-label':['Tutup','Hide'],'edition':['FARM TROPIS INDONESIA','AN INDONESIAN TROPICAL FARM'],'view-subtitle':['Tumbuh dengan caramu sendiri.','Grow in your own way.'],'day-label':['HARI','DAY'],'coin-label':['KOIN','COINS'],'level-label':['LEVEL','LEVEL'],'beds-label':['BED AKTIF','ACTIVE BEDS'],'nav-overview':['Farm','Farm'],'nav-garden':['Kebun','Garden'],'nav-coop':['Ayam','Hens'],'nav-goat':['Kambing','Goats'],'nav-cow':['Sapi','Cows'],'nav-fish':['Ikan','Fish'],'nav-market':['Market','Market'],'nav-build':['Tata lahan','Arrange'],'camera-reset-label':['Reset kamera','Reset camera'],'camera-undo-label':['Undo reset','Undo reset'],'camera-redo-label':['Redo reset','Redo reset'],'clock-label':['WAKTU FARM','FARM TIME'],'advance':['+6 jam','+6 hours'],'advance-day':['+24 jam','+24 hours'],'build-title':['Tata farm sesukamu','Make this farm your own'],'build-help':['Pilih bangunan, atur posisi, lalu konfirmasi. Memindahkan fasilitas milikmu gratis.','Choose a building, set its position, then confirm. Moving your existing facilities is free.'],'placement-label':['ATUR POSISI','SET POSITION'],'placement-help':['Ketuk tanah atau ubah koordinat. Belum ada perubahan sampai dikonfirmasi.','Tap the ground or edit coordinates. Changes apply only after confirmation.'],'placement-cancel':['Batal','Cancel'],'placement-confirm':['Simpan posisi','Confirm position'],'data-title':['Progres & data','Progress & data'],'data-help':['Cadangan mencakup farm, tata letak, dan arsip progres lama. Simpan salinan teks di tempat aman.','Your backup includes farm progress, layout, and legacy archives. Keep a copy of the text somewhere safe.'],'save-text-label':['Salinan farm','Farm backup'],'export-data':['Tampilkan cadangan','Show backup'],'import-data':['Impor dari teks','Import from text'],'recover-data':['Pulihkan cadangan sebelumnya','Recover previous backup'],'legacy-data':['Tampilkan arsip farm lama','Show legacy farm archive']});for(const [id,pair]of Object.entries(strings))el(id).textContent=L(...pair);updateCameraShortcutHints();updateCameraGestureHint();translateGestureSettings();render();}
