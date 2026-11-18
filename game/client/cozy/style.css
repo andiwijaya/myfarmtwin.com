@@ -299,6 +299,9 @@
 .gesture-settings p {font-size:11px;line-height:1.5;margin:0;}
 .gesture-settings-heading p {color:#304b36;font-weight:600;text-align:end;}
 #gesture-active-source {display:block;color:#536751;font-weight:400;}
+.gesture-reset-help-slot {display:grid;}
+.gesture-reset-help-slot > span {grid-area:1 / 1;min-width:0;}
+.gesture-reset-help-slot > [aria-hidden="true"] {visibility:hidden;}
 .gesture-settings-actions {display:flex;flex-wrap:wrap;gap:8px;}
 .gesture-settings-actions select,.gesture-settings-actions button {font-size:12px;min-height:44px;}
 .gesture-settings-actions select {

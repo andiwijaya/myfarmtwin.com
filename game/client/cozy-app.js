@@ -109,6 +109,8 @@ const gestureStorage = browserStorage();
 const gestureModeSelect = /** @type {HTMLSelectElement} */(el('gesture-hint-mode'));
 const gestureResetButton = /** @type {HTMLButtonElement} */(el('gesture-input-reset'));
 const gestureResetHelp = el('gesture-reset-help');
+const gestureResetHelpSpace = el('gesture-reset-help-space');
+const gestureResetConfirmationSpace = el('gesture-reset-confirmation-space');
 const gestureInputNotice = el('gesture-input-notice');
 const activeGestureStatus = el('gesture-active-input');
 const activeGestureType = el('gesture-active-type');
@@ -125,10 +127,28 @@ function readGestureMode() {
 let gestureMode = readGestureMode();
 let gestureModeSaved = true;
 let gestureResetConfirmationTimer = 0;
+/** @type {Animation|null} */let gestureResetConfirmationFade = null;
 
 function clearGestureResetConfirmation() {
  window.clearTimeout(gestureResetConfirmationTimer);
  gestureResetConfirmationTimer = 0;
+ gestureResetConfirmationFade?.cancel();
+ gestureResetConfirmationFade = null;
+}
+
+function fadeGestureResetConfirmation() {
+ gestureResetConfirmationTimer = 0;
+ if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  updateCameraGestureHint();
+  return;
+ }
+ const fade = gestureResetHelp.animate([{opacity:1},{opacity:0}], {duration:200,easing:'ease-out',fill:'forwards'});
+ gestureResetConfirmationFade = fade;
+ fade.onfinish = () => {
+  if (gestureResetConfirmationFade !== fade) return;
+  clearGestureResetConfirmation();
+  updateCameraGestureHint();
+ };
 }
 
 function updateCameraGestureHint() {
@@ -154,10 +174,11 @@ function updateCameraGestureHint() {
    ? L('Ikuti input terakhir atau input utama perangkat.', 'Follow the last input or the device’s primary input.')
    : L('Belum ada riwayat input.', 'No input history yet.');
  }
- if (gestureResetConfirmationTimer) {
-  resetHelp = L('Petunjuk kembali mengikuti input utama perangkat.', 'Camera hints now follow the device’s primary input.');
- }
- if (gestureResetHelp.textContent !== resetHelp) gestureResetHelp.textContent = resetHelp;
+ const confirmation = L('Petunjuk kembali mengikuti input utama perangkat.', 'Camera hints now follow the device’s primary input.');
+ if (gestureResetHelpSpace.textContent !== resetHelp) gestureResetHelpSpace.textContent = resetHelp;
+ if (gestureResetConfirmationSpace.textContent !== confirmation) gestureResetConfirmationSpace.textContent = confirmation;
+ const shownHelp = gestureResetConfirmationTimer || gestureResetConfirmationFade ? confirmation : resetHelp;
+ if (gestureResetHelp.textContent !== shownHelp) gestureResetHelp.textContent = shownHelp;
 }
 const cameraGestureInput = watchCameraGestureInput(window, cameraTouchInput, updateCameraGestureHint, gestureStorage);
 
@@ -197,10 +218,7 @@ gestureResetButton.addEventListener('click', () => {
   gestureInputNotice.textContent = L('Petunjuk direset untuk sesi ini. Browser tidak dapat menghapus input tersimpan.', 'Hints reset for this session. The browser could not clear the saved input.');
   return;
  }
- gestureResetConfirmationTimer = window.setTimeout(() => {
-  gestureResetConfirmationTimer = 0;
-  updateCameraGestureHint();
- }, 3000);
+ gestureResetConfirmationTimer = window.setTimeout(fadeGestureResetConfirmation, 3000);
  updateCameraGestureHint();
  renderGestureMode();
 });

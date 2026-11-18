@@ -12,14 +12,14 @@
   ],
   "saveVersion": 2,
   "three": "0.187.0",
-  "entry": "app-57QZBNNM.js",
+  "entry": "app-KQFM47OI.js",
   "recoveryEntry": "recovery-2UXJQDFZ.js",
   "integrityEntry": "integrity-LL76RTOU.js",
   "emitted": [
     {
-      "name": "app-57QZBNNM.js",
-      "bytes": 743582,
-      "sha256": "0041979a2929f3a9b336cee873767c7bfb3d5494b014492aefa156481092c4d4"
+      "name": "app-KQFM47OI.js",
+      "bytes": 743992,
+      "sha256": "c3e0bfbaccdc2b53924681b4bae98fa1701b1ddb3c667b3d25fe1f4e0d98a609"
     },
     {
       "name": "recovery-2UXJQDFZ.js",
@@ -1204,8 +1204,8 @@
     }
   },
   "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
-  "htmlSha256": "0a4e26a60b225e3cb24f42209d0c2de53fbaf93463d69757c8cd05c5c482b76a",
-  "cssSha256": "4f277712d95ca5ffb16db59a8be16f7a718ba92ac5322cf9989a0b31d2442feb",
+  "htmlSha256": "a5f14a0b243bdeb2c42c63914fc508c8cc28b8dc8a09275bf39f8dd1fff907b4",
+  "cssSha256": "d4c55034aa7ded503887f6a2b23a93906702adefb599ce720dbba0107d16e0e0",
   "inputs": [
     "game/client/active-garden.js",
     "game/client/chicken-commands.js",
