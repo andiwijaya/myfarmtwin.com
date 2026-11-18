@@ -362,16 +362,34 @@
  font-weight:600;
  line-height:12px;
 }
-.gesture-reset-pause-notes > span {grid-area:1 / 1;visibility:hidden;}
+.gesture-reset-pause-notes > span {
+ grid-area:1 / 1;
+ visibility:hidden;
+ opacity:0;
+ transition:opacity 160ms ease-out,visibility 0s linear 160ms;
+}
+.gesture-reset-feedback:not([data-confirmation]) .gesture-reset-pause-notes > span {transition:none;}
 .gesture-reset-paused-note {display:none;}
-.gesture-reset-feedback[data-hover-paused] .gesture-reset-hover-note {visibility:visible;}
+.gesture-reset-feedback[data-hover-paused] .gesture-reset-hover-note,
+.gesture-reset-region:has(.gesture-reset-toggle[aria-pressed="true"]:not([hidden])) .gesture-reset-paused-note {
+ visibility:visible;
+ opacity:1;
+ transition-delay:0s;
+}
 .gesture-settings + #data-help {margin-block-start:0;}
 @media (max-width:760px),(any-pointer:coarse) {
  .gesture-reset-paused-note {display:block;}
- .gesture-reset-region:has(.gesture-reset-toggle[aria-pressed="true"]:not([hidden])) .gesture-reset-paused-note {visibility:visible;}
 }
 @media (max-width:760px) {
  .gesture-reset-hover-note {display:none;}
+}
+/* Keep one caption legible when the pause method changes on a hybrid device. */
+@media (min-width:761px) and (any-pointer:coarse) {
+ .gesture-reset-feedback[data-hover-paused] .gesture-reset-paused-note,
+ .gesture-reset-region:has(.gesture-reset-toggle[aria-pressed="true"]:not([hidden])) .gesture-reset-hover-note {transition:none;}
+}
+@media (prefers-reduced-motion:reduce) {
+ .gesture-reset-pause-notes > span {transition:none;}
 }
 .gesture-settings-actions {display:flex;flex-wrap:wrap;gap:8px;}
 .gesture-settings-actions select,.gesture-settings-actions button {font-size:12px;min-height:44px;}
