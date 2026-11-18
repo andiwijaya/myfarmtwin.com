@@ -381,20 +381,26 @@ function translateGestureSettings() {
  gestureResetCompletedNote.textContent = L('Selesai','Done');
  renderGestureMode();
 }
-gestureModeSelect.addEventListener('change', () => {
- gestureMode = parseGestureMode(gestureModeSelect.value);
- gestureModeSaved = gestureStorage !== null;
- try { gestureStorage?.setItem(gestureModeKey, gestureMode); }
- catch { gestureModeSaved = false; }
+
+/** @param {ReturnType<typeof parseGestureMode>} mode */
+function applyGestureMode(mode) {
+ if (mode !== gestureMode) clearGestureResetConfirmation();
+ gestureMode = mode;
  updateCameraGestureHint();
  renderGestureMode();
+}
+
+gestureModeSelect.addEventListener('change', () => {
+ const mode = parseGestureMode(gestureModeSelect.value);
+ gestureModeSaved = gestureStorage !== null;
+ try { gestureStorage?.setItem(gestureModeKey, mode); }
+ catch { gestureModeSaved = false; }
+ applyGestureMode(mode);
 });
 window.addEventListener('storage', event => {
  if (!gestureStorage || event.storageArea !== gestureStorage || (event.key !== gestureModeKey && event.key !== null)) return;
- gestureMode = readGestureMode();
  gestureModeSaved = true;
- updateCameraGestureHint();
- renderGestureMode();
+ applyGestureMode(readGestureMode());
 });
 function prepareGestureResetFadeOut() {
  let currentOpacity = Number(getComputedStyle(gestureResetFeedback).opacity);
