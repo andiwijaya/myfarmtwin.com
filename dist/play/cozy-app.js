@@ -205,6 +205,7 @@ function updateGestureResetSeconds(countdown) {
 }
 
 function holdGestureResetConfirmation() {
+ gestureResetFeedback.dataset.confirmation = 'visible';
  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
  const countdown = animateGestureReset(
   gestureResetProgress,
@@ -217,11 +218,11 @@ function holdGestureResetConfirmation() {
 
 function showGestureResetConfirmation() {
  gestureResetHelpPhase = 'confirmation';
+ gestureResetFeedback.dataset.confirmation = 'entering';
  gestureResetProgress.style.removeProperty('transform');
  gestureResetSeconds.textContent = String(gestureResetConfirmationDuration / 1000);
- gestureResetFeedback.setAttribute('data-confirmation','');
- fadeGestureResetHelp(0, 1, holdGestureResetConfirmation);
  updateCameraGestureHint();
+ fadeGestureResetHelp(0, 1, holdGestureResetConfirmation);
 }
 
 function updateCameraGestureHint() {
