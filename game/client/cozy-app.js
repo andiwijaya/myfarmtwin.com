@@ -113,6 +113,7 @@ const gestureResetFeedback = el('gesture-reset-feedback');
 const gestureResetToggle = el('gesture-reset-countdown-toggle');
 const gestureResetPausedNote = el('gesture-reset-paused-note');
 const gestureResetHoverNote = el('gesture-reset-hover-note');
+const gestureResetResumedNote = el('gesture-reset-resumed-note');
 const gestureResetHelp = el('gesture-reset-help');
 const gestureResetHelpSpace = el('gesture-reset-help-space');
 const gestureResetConfirmationSpace = el('gesture-reset-confirmation-space');
@@ -157,6 +158,7 @@ function hideGestureResetToggle() {
 function hideGestureResetCountdown() {
  hideGestureResetToggle();
  gestureResetFeedback.removeAttribute('data-confirmation');
+ gestureResetFeedback.removeAttribute('data-resumed');
  gestureResetProgress.style.removeProperty('transform');
 }
 
@@ -232,8 +234,14 @@ function syncGestureResetCountdownPause() {
  if (!countdown || !(countdown.effect instanceof KeyframeEffect) || countdown.effect.target !== gestureResetProgress) return;
  const manuallyPaused = gestureResetToggle.getAttribute('aria-pressed') === 'true';
  const paused = gestureResetHovered || manuallyPaused;
- if (paused && countdown.playState === 'running') countdown.pause();
- if (!paused && countdown.playState === 'paused') countdown.play();
+ if (paused && countdown.playState === 'running') {
+  countdown.pause();
+  gestureResetFeedback.removeAttribute('data-resumed');
+ }
+ if (!paused && countdown.playState === 'paused') {
+  countdown.play();
+  gestureResetFeedback.setAttribute('data-resumed','');
+ }
  gestureResetFeedback.toggleAttribute('data-hover-paused', gestureResetHovered && !manuallyPaused && countdown.playState === 'paused');
  updateGestureResetSeconds(countdown);
 }
@@ -326,6 +334,7 @@ function translateGestureSettings() {
  gestureResetToggle.setAttribute('aria-label',L('Jeda hitung mundur konfirmasi','Pause confirmation countdown'));
  gestureResetPausedNote.textContent = L('Dijeda · Ketuk untuk lanjut','Paused · Tap to resume');
  gestureResetHoverNote.textContent = L('Dijeda · Geser kursor keluar untuk lanjut','Paused · Move the cursor away to resume');
+ gestureResetResumedNote.textContent = L('Dilanjutkan','Resumed');
  renderGestureMode();
 }
 gestureModeSelect.addEventListener('change', () => {
@@ -352,6 +361,7 @@ gestureResetButton.addEventListener('click', () => {
  }
  cancelGestureResetAnimation();
  hideGestureResetToggle();
+ gestureResetFeedback.removeAttribute('data-resumed');
  gestureResetHelpPhase = 'outgoing';
  if (!cameraGestureInput.reset()) {
   clearGestureResetConfirmation();

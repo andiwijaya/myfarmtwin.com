@@ -378,6 +378,19 @@
  border-inline:2px solid currentColor;
  vertical-align:-1px;
 }
+.gesture-reset-pause-notes > .gesture-reset-resumed-note {transition:none;}
+.gesture-reset-pause-notes > .gesture-reset-resumed-note::before {
+ border-block:4px solid transparent;
+ border-inline:0;
+ border-inline-start:7px solid currentColor;
+}
+.gesture-reset-feedback[data-resumed] .gesture-reset-resumed-note {
+ animation:gesture-reset-resume-note 800ms ease-out 160ms;
+}
+@keyframes gesture-reset-resume-note {
+ 0%,80% {visibility:visible;opacity:1;}
+ 100% {visibility:hidden;opacity:0;}
+}
 .gesture-reset-feedback:not([data-confirmation]) .gesture-reset-pause-notes > span {transition:none;}
 .gesture-reset-paused-note {display:none;}
 .gesture-reset-feedback[data-hover-paused] .gesture-reset-hover-note,
@@ -400,6 +413,10 @@
 }
 @media (prefers-reduced-motion:reduce) {
  .gesture-reset-pause-notes > span {transition:none;}
+ .gesture-reset-feedback[data-resumed] .gesture-reset-resumed-note {
+  animation-delay:0s;
+  animation-timing-function:steps(1,end);
+ }
 }
 .gesture-settings-actions {display:flex;flex-wrap:wrap;gap:8px;}
 .gesture-settings-actions select,.gesture-settings-actions button {font-size:12px;min-height:44px;}
