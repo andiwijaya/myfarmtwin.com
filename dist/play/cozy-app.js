@@ -139,12 +139,12 @@ let gestureMode = readGestureMode();
 let gestureModeSaved = true;
 /** @type {'status'|'outgoing'|'confirmation'|'completion'} */let gestureResetHelpPhase = 'status';
 /** @type {Animation|null} */let gestureResetAnimation = null;
-/** @type {number|null} */let gestureResetSecondsFrame = null;
+/** @type {number|null} */let gestureResetFrame = null;
 let gestureResetHovered = false;
 
 function cancelGestureResetAnimation() {
- if (gestureResetSecondsFrame !== null) window.cancelAnimationFrame(gestureResetSecondsFrame);
- gestureResetSecondsFrame = null;
+ if (gestureResetFrame !== null) window.cancelAnimationFrame(gestureResetFrame);
+ gestureResetFrame = null;
  gestureResetAnimation?.cancel();
  gestureResetAnimation = null;
  gestureResetFeedback.removeAttribute('data-hover-paused');
@@ -207,6 +207,12 @@ function fadeGestureResetHelp(fromOpacity, toOpacity, onFinish) {
 }
 
 function showGestureResetCompletion() {
+ gestureResetFrame = null;
+ // Let an in-progress reset press resolve before announcing completion.
+ if (gestureResetButton.matches(':active')) {
+  gestureResetFrame = window.requestAnimationFrame(showGestureResetCompletion);
+  return;
+ }
  hideGestureResetCountdown();
  gestureResetHelpPhase = 'completion';
  gestureResetHelp.textContent = '';
@@ -216,21 +222,24 @@ function showGestureResetCompletion() {
 function finishGestureResetConfirmation() {
  hideGestureResetToggle();
  gestureResetProgress.style.transform = 'scaleX(0)';
- fadeGestureResetHelp(1, 0, showGestureResetCompletion);
+ fadeGestureResetHelp(1, 0, () => {
+  gestureResetFeedback.dataset.confirmation = 'finished';
+  gestureResetFrame = window.requestAnimationFrame(showGestureResetCompletion);
+ });
 }
 
 /** @param {Animation} countdown */
 function updateGestureResetSeconds(countdown, track = true) {
  if (gestureResetAnimation !== countdown) return;
- if (gestureResetSecondsFrame !== null) window.cancelAnimationFrame(gestureResetSecondsFrame);
- gestureResetSecondsFrame = null;
+ if (gestureResetFrame !== null) window.cancelAnimationFrame(gestureResetFrame);
+ gestureResetFrame = null;
  const elapsed = Number(countdown.currentTime ?? 0);
  const remaining = Math.max(1, Math.ceil((gestureResetConfirmationDuration - elapsed) / 1000));
  const label = String(remaining);
  if (gestureResetSeconds.textContent !== label) gestureResetSeconds.textContent = label;
  if (track && remaining > 1 && (countdown.playState === 'running' || countdown.pending)) {
-  gestureResetSecondsFrame = window.requestAnimationFrame(() => {
-   gestureResetSecondsFrame = null;
+  gestureResetFrame = window.requestAnimationFrame(() => {
+   gestureResetFrame = null;
    updateGestureResetSeconds(countdown);
   });
  }

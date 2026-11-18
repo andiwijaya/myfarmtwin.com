@@ -318,7 +318,7 @@
 .gesture-reset-toggle:hover {background:transparent;}
 .gesture-reset-toggle:active {transform:none;}
 .gesture-reset-feedback {display:block;}
-.gesture-reset-feedback[data-confirmation="entering"] {opacity:0;}
+.gesture-reset-feedback:is([data-confirmation="entering"],[data-confirmation="finished"]) {opacity:0;}
 .gesture-reset-help-slot {display:grid;}
 .gesture-reset-help-slot > span {grid-area:1 / 1;min-width:0;}
 .gesture-reset-help-slot > [aria-hidden="true"] {visibility:hidden;}
