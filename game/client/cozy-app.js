@@ -360,8 +360,9 @@ function updateCameraGestureHint() {
  const shownHelp = gestureResetHelpPhase === 'confirmation' ? confirmation : resetHelp;
  if (gestureResetHelp.textContent !== shownHelp) gestureResetHelp.textContent = shownHelp;
 }
-const cameraGestureInput = watchCameraGestureInput(window, cameraTouchInput, (input, previous, reason) => {
- if (dataDialog.open && gestureMode === 'auto' && input !== previous && reason !== 'reset') {
+const cameraGestureInput = watchCameraGestureInput(window, cameraTouchInput, (_input, _previous, reason) => {
+ // The watcher reports changes to either the active input or its source.
+ if (dataDialog.open && gestureMode === 'auto' && reason !== 'reset') {
   clearGestureResetConfirmation();
  }
  updateCameraGestureHint();
