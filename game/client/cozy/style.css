@@ -385,10 +385,11 @@
  border-inline-start:7px solid currentColor;
 }
 .gesture-reset-feedback[data-resumed] .gesture-reset-resumed-note {
- animation:gesture-reset-resume-note 800ms ease-out 160ms;
+ animation:gesture-reset-resume-note 960ms ease-out 160ms;
 }
 @keyframes gesture-reset-resume-note {
- 0%,80% {visibility:visible;opacity:1;}
+ 0% {visibility:visible;opacity:0;}
+ 16.667%,83.333% {visibility:visible;opacity:1;}
  100% {visibility:hidden;opacity:0;}
 }
 .gesture-reset-feedback:not([data-confirmation]) .gesture-reset-pause-notes > span {transition:none;}
@@ -414,8 +415,11 @@
 @media (prefers-reduced-motion:reduce) {
  .gesture-reset-pause-notes > span {transition:none;}
  .gesture-reset-feedback[data-resumed] .gesture-reset-resumed-note {
-  animation-delay:0s;
-  animation-timing-function:steps(1,end);
+  animation:gesture-reset-resume-note-reduced 800ms step-end;
+ }
+ @keyframes gesture-reset-resume-note-reduced {
+  0% {visibility:visible;opacity:1;}
+  100% {visibility:hidden;opacity:0;}
  }
 }
 .gesture-settings-actions {display:flex;flex-wrap:wrap;gap:8px;}

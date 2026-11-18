@@ -1204,8 +1204,8 @@
     }
   },
   "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
-  "htmlSha256": "239d970761587508791b627538d858fe55fb2a9f4ba1f9d983cfd1c3b257d5de",
-  "cssSha256": "b517290b4d3879c8956e2a4b71774f5b32cafcc94ccfb5bf0227562bd435918f",
+  "htmlSha256": "4cee62eb805f69fb88068e3acf32d48f2fc3e841d64887aea4ff7c615e4e2318",
+  "cssSha256": "f6beb41d96c86ff6362478bc8ce62f8f4c7870b655f5a46029c84c38fdbdfdb6",
   "inputs": [
     "game/client/active-garden.js",
     "game/client/chicken-commands.js",
