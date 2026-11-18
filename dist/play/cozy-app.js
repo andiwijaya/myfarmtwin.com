@@ -123,6 +123,7 @@ const gestureResetConfirmationSpace = el('gesture-reset-confirmation-space');
 const gestureResetProgress = el('gesture-reset-confirmation-progress');
 const gestureResetSeconds = el('gesture-reset-confirmation-seconds');
 const gestureResetConfirmationDuration = 3000;
+const gestureResetSuspensionGap = 1000;
 const gestureInputNotice = el('gesture-input-notice');
 const activeGestureStatus = el('gesture-active-input');
 const activeGestureType = el('gesture-active-type');
@@ -141,6 +142,8 @@ let gestureModeSaved = true;
 /** @type {'status'|'outgoing'|'confirmation'|'completion'} */let gestureResetHelpPhase = 'status';
 /** @type {Animation|null} */let gestureResetAnimation = null;
 /** @type {number|null} */let gestureResetFrame = null;
+/** @type {number|null} */let gestureResetWatchFrame = null;
+let lastGestureResetFrameAt = 0;
 let gestureResetHovered = false;
 
 function cancelGestureResetAnimation() {
@@ -170,7 +173,13 @@ function hideGestureResetCountdown() {
  }
 }
 
+function stopWatchingGestureResetFeedback() {
+ if (gestureResetWatchFrame !== null) window.cancelAnimationFrame(gestureResetWatchFrame);
+ gestureResetWatchFrame = null;
+}
+
 function clearGestureResetConfirmation() {
+ stopWatchingGestureResetFeedback();
  cancelGestureResetAnimation();
  hideGestureResetCountdown();
  gestureResetHovered = false;
@@ -179,6 +188,24 @@ function clearGestureResetConfirmation() {
 
 function canShowGestureResetFeedback() {
  return dataDialog.open && !document.hidden && document.hasFocus();
+}
+
+function gestureResetFramesInterrupted(now = Date.now()) {
+ // A device can suspend rendering without a lifecycle event. Use wall time so sleep still counts.
+ return gestureResetWatchFrame !== null && now - lastGestureResetFrameAt >= gestureResetSuspensionGap;
+}
+
+function canContinueGestureResetFeedback(now = Date.now()) {
+ if (canShowGestureResetFeedback() && !gestureResetFramesInterrupted(now)) return true;
+ refreshGestureResetStatus();
+ return false;
+}
+
+function watchGestureResetFeedback() {
+ const now = Date.now();
+ if (!canContinueGestureResetFeedback(now)) return;
+ lastGestureResetFrameAt = now;
+ gestureResetWatchFrame = window.requestAnimationFrame(watchGestureResetFeedback);
 }
 
 /**
@@ -191,9 +218,9 @@ function animateGestureReset(element, keyframes, options, onFinish) {
  const animation = element.animate(keyframes, {...options,fill:'both'});
  gestureResetAnimation = animation;
  animation.onfinish = () => {
-  if (gestureResetAnimation !== animation) return;
+  if (gestureResetAnimation !== animation || !canContinueGestureResetFeedback()) return;
   cancelGestureResetAnimation();
-  if (canShowGestureResetFeedback()) onFinish?.();
+  onFinish?.();
  };
 }
 
@@ -213,7 +240,7 @@ function fadeGestureResetHelp(fromOpacity, toOpacity, onFinish) {
 
 function showGestureResetCompletion() {
  gestureResetFrame = null;
- if (!canShowGestureResetFeedback()) return;
+ if (!canContinueGestureResetFeedback()) return;
  // Let an in-progress reset press resolve before announcing completion.
  if (gestureResetButton.matches(':active')) {
   gestureResetFrame = window.requestAnimationFrame(showGestureResetCompletion);
@@ -318,12 +345,12 @@ gestureResetRegion.addEventListener('pointerenter', updateGestureResetHover);
 gestureResetRegion.addEventListener('pointerleave', updateGestureResetHover);
 gestureResetRegion.addEventListener('pointercancel', updateGestureResetHover);
 gestureResetCompletedNote.addEventListener('animationend', () => {
- if (!canShowGestureResetFeedback() || gestureResetHelpPhase !== 'completion') return;
+ if (gestureResetHelpPhase !== 'completion' || !canContinueGestureResetFeedback()) return;
  if (gestureResetCompletedNote.getAnimations().some(animation => animation.pending || animation.playState === 'running')) return;
  gestureResetFeedback.removeAttribute('data-completed');
  gestureResetHelpPhase = 'status';
  updateCameraGestureHint();
- fadeGestureResetHelp(0, 1);
+ fadeGestureResetHelp(0, 1, stopWatchingGestureResetFeedback);
 });
 gestureResetToggle.addEventListener('click', () => {
  if (gestureResetToggle.hidden) return;
@@ -431,6 +458,7 @@ function prepareGestureResetFadeOut() {
 
 gestureResetButton.addEventListener('click', () => {
  if (!canShowGestureResetFeedback() || gestureResetButton.disabled) return;
+ if (gestureResetFramesInterrupted()) refreshGestureResetStatus();
  const entering = gestureResetFeedback.dataset.confirmation === 'entering';
  const confirmationPending = entering || gestureResetHelpPhase === 'outgoing';
  // A reset during either fade can use the same transition into a fresh countdown.
@@ -444,6 +472,7 @@ gestureResetButton.addEventListener('click', () => {
   return;
  }
  renderGestureMode();
+ if (gestureResetWatchFrame === null) watchGestureResetFeedback();
  if (outgoingOpacity !== null) fadeGestureResetHelp(outgoingOpacity, 0, showGestureResetConfirmation);
 });
 async function confirmPlacement(){if(!placement)return;const {item,mode}=placement,result=await act(()=>mode==='move'?session.move(item.id,item):session.build(item.kind,item),L('Tata letak farm tersimpan.','Farm layout saved.'));if(result?.ok){cancelPlacement();go(result.id||item.id);}}
@@ -479,6 +508,8 @@ function refreshGestureResetStatus() {
  updateCameraGestureHint();
 }
 document.addEventListener('visibilitychange', refreshGestureResetStatus);
+document.addEventListener('freeze', refreshGestureResetStatus);
+document.addEventListener('resume', refreshGestureResetStatus);
 window.addEventListener('blur', refreshGestureResetStatus);
 window.addEventListener('focus', refreshGestureResetStatus);
 el('export-data').addEventListener('click',()=>{/** @type {HTMLTextAreaElement} */(el('save-text')).value=session.exportBundle();el('data-status').textContent=L('Cadangan siap. Salin teks secara manual untuk menyimpannya.','Backup ready. Copy this text manually to keep it.');});
