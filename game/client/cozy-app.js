@@ -124,6 +124,12 @@ function readGestureMode() {
 }
 let gestureMode = readGestureMode();
 let gestureModeSaved = true;
+let gestureResetConfirmationTimer = 0;
+
+function clearGestureResetConfirmation() {
+ window.clearTimeout(gestureResetConfirmationTimer);
+ gestureResetConfirmationTimer = 0;
+}
 
 function updateCameraGestureHint() {
  const hint = el('gesture-hint');
@@ -147,6 +153,9 @@ function updateCameraGestureHint() {
   resetHelp = hasLastInput
    ? L('Ikuti input terakhir atau input utama perangkat.', 'Follow the last input or the device’s primary input.')
    : L('Belum ada riwayat input.', 'No input history yet.');
+ }
+ if (gestureResetConfirmationTimer) {
+  resetHelp = L('Petunjuk kembali mengikuti input utama perangkat.', 'Camera hints now follow the device’s primary input.');
  }
  if (gestureResetHelp.textContent !== resetHelp) gestureResetHelp.textContent = resetHelp;
 }
@@ -183,12 +192,17 @@ window.addEventListener('storage', event => {
 });
 gestureResetButton.addEventListener('click', () => {
  if (gestureResetButton.disabled) return;
+ clearGestureResetConfirmation();
  if (!cameraGestureInput.reset()) {
   gestureInputNotice.textContent = L('Petunjuk direset untuk sesi ini. Browser tidak dapat menghapus input tersimpan.', 'Hints reset for this session. The browser could not clear the saved input.');
   return;
  }
+ gestureResetConfirmationTimer = window.setTimeout(() => {
+  gestureResetConfirmationTimer = 0;
+  updateCameraGestureHint();
+ }, 3000);
+ updateCameraGestureHint();
  renderGestureMode();
- gestureResetHelp.textContent = L('Petunjuk kembali mengikuti input utama perangkat.', 'Camera hints now follow the device’s primary input.');
 });
 async function confirmPlacement(){if(!placement)return;const {item,mode}=placement,result=await act(()=>mode==='move'?session.move(item.id,item):session.build(item.kind,item),L('Tata letak farm tersimpan.','Farm layout saved.'));if(result?.ok){cancelPlacement();go(result.id||item.id);}}
 function translate(){document.documentElement.lang=language;const strings=/** @type {Record<string,[string,string]>} */({'toolbar-title':['Kontrol','Controls'],'toolbar-day-label':['HARI','DAY'],'toolbar-coins-label':['KOIN','COINS'],'toolbar-expand-label':['Buka','Show'],'toolbar-collapse-label':['Tutup','Hide'],'edition':['FARM TROPIS INDONESIA','AN INDONESIAN TROPICAL FARM'],'view-subtitle':['Tumbuh dengan caramu sendiri.','Grow in your own way.'],'day-label':['HARI','DAY'],'coin-label':['KOIN','COINS'],'level-label':['LEVEL','LEVEL'],'beds-label':['BED AKTIF','ACTIVE BEDS'],'nav-overview':['Farm','Farm'],'nav-garden':['Kebun','Garden'],'nav-coop':['Ayam','Hens'],'nav-goat':['Kambing','Goats'],'nav-cow':['Sapi','Cows'],'nav-fish':['Ikan','Fish'],'nav-market':['Market','Market'],'nav-build':['Tata lahan','Arrange'],'camera-reset-label':['Reset kamera','Reset camera'],'camera-undo-label':['Undo reset','Undo reset'],'camera-redo-label':['Redo reset','Redo reset'],'clock-label':['WAKTU FARM','FARM TIME'],'advance':['+6 jam','+6 hours'],'advance-day':['+24 jam','+24 hours'],'build-title':['Tata farm sesukamu','Make this farm your own'],'build-help':['Pilih bangunan, atur posisi, lalu konfirmasi. Memindahkan fasilitas milikmu gratis.','Choose a building, set its position, then confirm. Moving your existing facilities is free.'],'placement-label':['ATUR POSISI','SET POSITION'],'placement-help':['Ketuk tanah atau ubah koordinat. Belum ada perubahan sampai dikonfirmasi.','Tap the ground or edit coordinates. Changes apply only after confirmation.'],'placement-cancel':['Batal','Cancel'],'placement-confirm':['Simpan posisi','Confirm position'],'data-title':['Progres & data','Progress & data'],'data-help':['Cadangan mencakup farm, tata letak, dan arsip progres lama. Simpan salinan teks di tempat aman.','Your backup includes farm progress, layout, and legacy archives. Keep a copy of the text somewhere safe.'],'save-text-label':['Salinan farm','Farm backup'],'export-data':['Tampilkan cadangan','Show backup'],'import-data':['Impor dari teks','Import from text'],'recover-data':['Pulihkan cadangan sebelumnya','Recover previous backup'],'legacy-data':['Tampilkan arsip farm lama','Show legacy farm archive']});for(const [id,pair]of Object.entries(strings))el(id).textContent=L(...pair);updateCameraShortcutHints();updateCameraGestureHint();translateGestureSettings();render();}
@@ -205,10 +219,12 @@ el('pause').addEventListener('click',()=>{running=!running;render();});el('advan
 el('data-open').addEventListener('click',()=>{
  running=false;
  render();
+ clearGestureResetConfirmation();
  updateCameraGestureHint();
  translateGestureSettings();
  dialog('data-dialog').showModal();
 });
+dialog('data-dialog').addEventListener('close',clearGestureResetConfirmation);
 el('export-data').addEventListener('click',()=>{/** @type {HTMLTextAreaElement} */(el('save-text')).value=session.exportBundle();el('data-status').textContent=L('Cadangan siap. Salin teks secara manual untuk menyimpannya.','Backup ready. Copy this text manually to keep it.');});
 el('legacy-data').addEventListener('click',()=>{/** @type {HTMLTextAreaElement} */(el('save-text')).value=session.exportLegacy();el('data-status').textContent=session.state.provenance.native?L('Arsip sebelum migrasi. Perkembangan farm baru tetap ada di cadangan lengkap.','Archive from before migration. New farm progress is in the full backup.'):L('Farm ini dimulai di versi baru; tidak mempunyai arsip lama.','This farm started in the new version and has no legacy archive.');});
 el('save-text').addEventListener('input',()=>{importConfirmed=false;el('import-data').textContent=L('Impor dari teks','Import from text');});
@@ -217,7 +233,14 @@ el('recover-data').addEventListener('click',async()=>{if(!recoverConfirmed){reco
 el('retry').addEventListener('click',()=>location.reload());
 window.addEventListener('storage',event=>{if([COZY_SAVE_KEY,SAVE_KEY,GLB_LAYOUT_KEY].includes(event.key||'')&&event.newValue!==event.oldValue){running=false;session.readOnly=true;session.status='saveConflict';toast(explain('saveConflict'));render();}});
 const timer=window.setInterval(async()=>{if(disposed||!running||session.readOnly||busy||clockBusy||document.hidden)return;clockBusy=true;try{const result=await withSaveLock(()=>session.advance(1));if(!result.ok){running=false;toast(explain(result.error));}render();}finally{clockBusy=false;}},2000);
-window.addEventListener('pagehide',()=>{disposed=true;cameraGestureInput.dispose();window.clearInterval(timer);window.clearTimeout(toastTimer);world?.dispose();},{once:true});
+window.addEventListener('pagehide',()=>{
+ disposed=true;
+ cameraGestureInput.dispose();
+ clearGestureResetConfirmation();
+ window.clearInterval(timer);
+ window.clearTimeout(toastTimer);
+ world?.dispose();
+},{once:true});
 translate();
 try{world=new CozyWorld(el('world'),{onCameraUndoChange:(/** @type {boolean} */available)=>el('camera-undo').toggleAttribute('disabled',!available),onCameraRedoChange:(/** @type {boolean} */available)=>el('camera-redo').toggleAttribute('disabled',!available),onSelect:(/** @type {string} */id)=>select(id),onCameraView:(/** @type {string} */id)=>reflectCameraView(id),onPlacement:(/** @type {{x:number,z:number}} */point)=>{if(placement){input('place-x').value=String(point.x);input('place-z').value=String(point.z);updatePlacement();}},onProgress:(/** @type {number} */ready,/** @type {number} */total)=>{const p=/** @type {HTMLProgressElement} */(el('load-progress'));p.max=total;p.value=ready;el('loading-detail').textContent=L('Menyiapkan kehidupan farm · ','Preparing farm life · ')+ready+'/'+total;}});world.renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();running=false;el('loading').hidden=false;el('loading-title').textContent=L('Tampilan perlu dimuat ulang','The view needs reloading');el('loading-detail').textContent=L('Progres tersimpan. Kamu tetap bisa menampilkan cadangan.','Your progress is saved. Backup export is still available.');el('retry').hidden=false;});await world.load();world.sync(session.state);if(selected!=='overview'){world.select(selected);world.focus(selected,false);}const restoredView=world.restoreCameraPreference();if(restoredView)reflectCameraView(restoredView);el('loading').hidden=true;el('world').setAttribute('aria-busy','false');document.body.dataset.cozyReady='true';el('camera-reset').removeAttribute('disabled');}
 catch(error){el('loading-title').textContent=L('Farm belum bisa ditampilkan','The farm could not be displayed');el('loading-detail').textContent=L('Periksa koneksi dan dukungan WebGL 2, lalu coba lagi. Kontrol dan cadangan tetap tersedia.','Check your connection and WebGL 2 support, then retry. Farm controls and backups remain available.');el('retry').hidden=false;document.body.dataset.cozyReady='error';console.error('Farm view failed',error);}
