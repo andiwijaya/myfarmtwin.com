@@ -397,8 +397,12 @@
 .gesture-reset-feedback[data-resumed] .gesture-reset-resumed-note {
  animation:gesture-reset-note 960ms ease-out 160ms;
 }
-.gesture-reset-feedback[data-completed] .gesture-reset-completed-note {
+.gesture-reset-feedback[data-completed="visible"] .gesture-reset-completed-note {
  animation:gesture-reset-note 960ms ease-out;
+}
+.gesture-reset-feedback[data-completed="outgoing"] .gesture-reset-completed-note {
+ visibility:visible;
+ opacity:1;
 }
 @keyframes gesture-reset-note {
  0% {visibility:visible;opacity:0;}
@@ -428,7 +432,7 @@
 @media (prefers-reduced-motion:reduce) {
  .gesture-reset-pause-notes > span {transition:none;}
  .gesture-reset-feedback[data-resumed] .gesture-reset-resumed-note,
- .gesture-reset-feedback[data-completed] .gesture-reset-completed-note {
+ .gesture-reset-feedback[data-completed="visible"] .gesture-reset-completed-note {
   animation:gesture-reset-note-reduced 800ms step-end;
  }
  @keyframes gesture-reset-note-reduced {

@@ -205,7 +205,7 @@ function showGestureResetCompletion() {
  hideGestureResetCountdown();
  gestureResetHelpPhase = 'completion';
  gestureResetHelp.textContent = '';
- gestureResetFeedback.setAttribute('data-completed','');
+ gestureResetFeedback.dataset.completed = 'visible';
 }
 
 function finishGestureResetConfirmation() {
@@ -269,6 +269,7 @@ function holdGestureResetConfirmation() {
 
 function showGestureResetConfirmation() {
  gestureResetHelpPhase = 'confirmation';
+ gestureResetFeedback.removeAttribute('data-completed');
  gestureResetFeedback.dataset.confirmation = 'entering';
  gestureResetProgress.style.removeProperty('transform');
  gestureResetSeconds.textContent = String(gestureResetConfirmationDuration / 1000);
@@ -365,7 +366,12 @@ window.addEventListener('storage', event => {
 });
 gestureResetButton.addEventListener('click', () => {
  if (gestureResetButton.disabled) return;
- const currentOpacity = Number(getComputedStyle(gestureResetFeedback).opacity);
+ let currentOpacity = Number(getComputedStyle(gestureResetFeedback).opacity);
+ if (gestureResetHelpPhase === 'completion') {
+  // Let the shared fade take over at the opacity of the checkmark and its text.
+  currentOpacity *= Number(getComputedStyle(gestureResetCompletedNote).opacity);
+  gestureResetFeedback.dataset.completed = 'outgoing';
+ }
  if (gestureResetFeedback.hasAttribute('data-confirmation')) {
   // Keep the outgoing line at its current width if a new reset interrupts it.
   gestureResetProgress.style.transform = getComputedStyle(gestureResetProgress).transform;
@@ -373,7 +379,6 @@ gestureResetButton.addEventListener('click', () => {
  cancelGestureResetAnimation();
  hideGestureResetToggle();
  gestureResetFeedback.removeAttribute('data-resumed');
- gestureResetFeedback.removeAttribute('data-completed');
  gestureResetHelpPhase = 'outgoing';
  if (!cameraGestureInput.reset()) {
   clearGestureResetConfirmation();
