@@ -107,6 +107,7 @@ const cameraTouchInput=matchMedia('(pointer: coarse)');
 const gestureModeKey = 'myfarmtwin.ui.camera-gesture-mode.v1';
 const gestureStorage = browserStorage();
 const gestureModeSelect = /** @type {HTMLSelectElement} */(el('gesture-hint-mode'));
+const activeGestureStatus = el('gesture-active-input');
 /** @param {unknown} value @returns {'auto'|'touch'|'mouse'} */
 function parseGestureMode(value) {
  return value === 'touch' || value === 'mouse' ? value : 'auto';
@@ -127,6 +128,13 @@ function updateCameraGestureHint() {
  hint.dataset.gestureInput = touch ? 'touch' : 'pointer';
  hint.dataset.gestureSource = automatic ? (cameraGestureInput.hasInput() ? 'last' : 'primary') : 'manual';
  hint.dataset.gestureMode = gestureMode;
+
+ activeGestureStatus.hidden = !automatic;
+ if (automatic) {
+  const inputName = touch ? L('Sentuh', 'Touch') : 'Mouse';
+  const status = L('Input aktif · ', 'Active input · ') + inputName;
+  if (activeGestureStatus.textContent !== status) activeGestureStatus.textContent = status;
+ }
 }
 const cameraGestureInput = watchCameraGestureInput(window, cameraTouchInput, updateCameraGestureHint, gestureStorage);
 

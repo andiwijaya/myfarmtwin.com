@@ -288,8 +288,16 @@
  background:#eef2e6;
  border-radius:9px;
 }
+.gesture-settings-heading {
+ display:flex;
+ flex-wrap:wrap;
+ align-items:baseline;
+ justify-content:space-between;
+ gap:4px 12px;
+}
 .gesture-settings h3 {font-size:13px;margin:0;}
 .gesture-settings p {font-size:11px;line-height:1.5;margin:0;}
+.gesture-settings-heading p {color:#304b36;font-weight:600;}
 .gesture-settings-actions {display:flex;flex-wrap:wrap;gap:8px;}
 .gesture-settings-actions select,.gesture-settings-actions button {font-size:12px;min-height:44px;}
 .gesture-settings-actions select {
