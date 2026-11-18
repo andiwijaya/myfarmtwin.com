@@ -57,7 +57,7 @@
     </select>
     <button type="button" id="gesture-input-reset" aria-describedby="gesture-input-help" disabled>Reset input terakhir</button>
    </div>
-   <p id="gesture-input-help" role="status">Ikuti input terakhir atau input utama perangkat.</p>
+   <p id="gesture-input-help" role="status"><span id="gesture-reset-help">Belum ada riwayat input.</span> <span id="gesture-input-notice"></span></p>
   </section>
   <p id="data-help">Cadangan mencakup farm, tata letak, dan arsip progres lama. Simpan salinan teks di tempat aman.</p><label for="save-text" id="save-text-label">Salinan farm</label><textarea id="save-text" spellcheck="false" rows="9"></textarea><div class="data-actions"><button id="export-data">Tampilkan cadangan</button><button id="import-data" class="primary">Impor dari teks</button><button id="recover-data">Pulihkan cadangan sebelumnya</button><button id="legacy-data">Tampilkan arsip farm lama</button></div><p id="data-status" role="status"></p><a class="recovery-link" href="/play/recovery/">Buka pemulihan tanpa 3D / Open recovery without 3D ↗</a>
  </dialog>

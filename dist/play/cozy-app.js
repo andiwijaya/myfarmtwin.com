@@ -108,6 +108,8 @@ const gestureModeKey = 'myfarmtwin.ui.camera-gesture-mode.v1';
 const gestureStorage = browserStorage();
 const gestureModeSelect = /** @type {HTMLSelectElement} */(el('gesture-hint-mode'));
 const gestureResetButton = /** @type {HTMLButtonElement} */(el('gesture-input-reset'));
+const gestureResetHelp = el('gesture-reset-help');
+const gestureInputNotice = el('gesture-input-notice');
 const activeGestureStatus = el('gesture-active-input');
 const activeGestureType = el('gesture-active-type');
 const activeGestureSource = el('gesture-active-source');
@@ -135,22 +137,25 @@ function updateCameraGestureHint() {
 
  gestureResetButton.disabled = !automatic || !hasLastInput;
  activeGestureStatus.hidden = !automatic;
+ let resetHelp = L('Mode manual. Pilih Otomatis untuk mereset.', 'Manual mode. Choose Automatic to reset.');
  if (automatic) {
   const inputName = touch ? L('Sentuh', 'Touch') : 'Mouse';
   const status = L('Input aktif · ', 'Active input · ') + inputName;
   const source = hasLastInput ? L('Input terakhir', 'Last input') : L('Input utama perangkat', 'Primary device input');
   if (activeGestureType.textContent !== status) activeGestureType.textContent = status;
   if (activeGestureSource.textContent !== source) activeGestureSource.textContent = source;
+  resetHelp = hasLastInput
+   ? L('Ikuti input terakhir atau input utama perangkat.', 'Follow the last input or the device’s primary input.')
+   : L('Belum ada riwayat input.', 'No input history yet.');
  }
+ if (gestureResetHelp.textContent !== resetHelp) gestureResetHelp.textContent = resetHelp;
 }
 const cameraGestureInput = watchCameraGestureInput(window, cameraTouchInput, updateCameraGestureHint, gestureStorage);
 
 function renderGestureMode() {
  gestureModeSelect.value = gestureMode;
- const help = gestureMode === 'auto'
-  ? L('Ikuti input terakhir atau input utama perangkat.', 'Follow the last input or the device’s primary input.')
-  : L('Pilih Otomatis untuk mereset riwayat input.', 'Choose Automatic to reset input history.');
- el('gesture-input-help').textContent = gestureModeSaved ? help : L('Pilihan berlaku untuk sesi ini. Browser tidak dapat menyimpannya.', 'The choice applies to this session. The browser could not save it.');
+ const notice = gestureModeSaved ? '' : L('Pilihan berlaku untuk sesi ini. Browser tidak dapat menyimpannya.', 'The choice applies to this session. The browser could not save it.');
+ if (gestureInputNotice.textContent !== notice) gestureInputNotice.textContent = notice;
 }
 function translateGestureSettings() {
  el('gesture-settings-title').textContent = L('Petunjuk kamera', 'Camera hints');
@@ -179,7 +184,7 @@ window.addEventListener('storage', event => {
 gestureResetButton.addEventListener('click', () => {
  if (gestureResetButton.disabled) return;
  if (!cameraGestureInput.reset()) {
-  el('gesture-input-help').textContent = L('Petunjuk direset untuk sesi ini. Browser tidak dapat menghapus input tersimpan.', 'Hints reset for this session. The browser could not clear the saved input.');
+  gestureInputNotice.textContent = L('Petunjuk direset untuk sesi ini. Browser tidak dapat menghapus input tersimpan.', 'Hints reset for this session. The browser could not clear the saved input.');
   return;
  }
  renderGestureMode();
