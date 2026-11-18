@@ -136,19 +136,29 @@ function clearGestureResetConfirmation() {
  gestureResetConfirmationFade = null;
 }
 
-function fadeGestureResetConfirmation() {
- gestureResetConfirmationTimer = 0;
+/** @param {number} fromOpacity @param {number} toOpacity @param {() => void} onFinish */
+function fadeGestureResetConfirmation(fromOpacity, toOpacity, onFinish) {
  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  updateCameraGestureHint();
+  onFinish();
   return;
  }
- const fade = gestureResetHelp.animate([{opacity:1},{opacity:0}], {duration:200,easing:'ease-out',fill:'forwards'});
+ const fade = gestureResetHelp.animate(
+  [{opacity:fromOpacity},{opacity:toOpacity}],
+  {duration:200,easing:'ease-out',fill:'both'},
+ );
  gestureResetConfirmationFade = fade;
  fade.onfinish = () => {
   if (gestureResetConfirmationFade !== fade) return;
   clearGestureResetConfirmation();
-  updateCameraGestureHint();
+  onFinish();
  };
+}
+
+function holdGestureResetConfirmation() {
+ gestureResetConfirmationTimer = window.setTimeout(() => {
+  gestureResetConfirmationTimer = 0;
+  fadeGestureResetConfirmation(1, 0, updateCameraGestureHint);
+ }, 3000);
 }
 
 function updateCameraGestureHint() {
@@ -218,7 +228,7 @@ gestureResetButton.addEventListener('click', () => {
   gestureInputNotice.textContent = L('Petunjuk direset untuk sesi ini. Browser tidak dapat menghapus input tersimpan.', 'Hints reset for this session. The browser could not clear the saved input.');
   return;
  }
- gestureResetConfirmationTimer = window.setTimeout(fadeGestureResetConfirmation, 3000);
+ fadeGestureResetConfirmation(0, 1, holdGestureResetConfirmation);
  updateCameraGestureHint();
  renderGestureMode();
 });
