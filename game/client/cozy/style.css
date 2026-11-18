@@ -368,6 +368,16 @@
  opacity:0;
  transition:opacity 160ms ease-out,visibility 0s linear 160ms;
 }
+.gesture-reset-pause-notes > span::before {
+ content:"";
+ display:inline-block;
+ box-sizing:border-box;
+ inline-size:7px;
+ block-size:8px;
+ margin-inline-end:5px;
+ border-inline:2px solid currentColor;
+ vertical-align:-1px;
+}
 .gesture-reset-feedback:not([data-confirmation]) .gesture-reset-pause-notes > span {transition:none;}
 .gesture-reset-paused-note {display:none;}
 .gesture-reset-feedback[data-hover-paused] .gesture-reset-hover-note,
