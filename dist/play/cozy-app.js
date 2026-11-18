@@ -108,9 +108,12 @@ const gestureModeKey = 'myfarmtwin.ui.camera-gesture-mode.v1';
 const gestureStorage = browserStorage();
 const gestureModeSelect = /** @type {HTMLSelectElement} */(el('gesture-hint-mode'));
 const gestureResetButton = /** @type {HTMLButtonElement} */(el('gesture-input-reset'));
+const gestureResetFeedback = el('gesture-reset-feedback');
 const gestureResetHelp = el('gesture-reset-help');
 const gestureResetHelpSpace = el('gesture-reset-help-space');
 const gestureResetConfirmationSpace = el('gesture-reset-confirmation-space');
+const gestureResetProgress = el('gesture-reset-confirmation-progress');
+const gestureResetConfirmationDuration = 3000;
 const gestureInputNotice = el('gesture-input-notice');
 const activeGestureStatus = el('gesture-active-input');
 const activeGestureType = el('gesture-active-type');
@@ -128,14 +131,32 @@ let gestureMode = readGestureMode();
 let gestureModeSaved = true;
 /** @type {'status'|'outgoing'|'confirmation'} */let gestureResetHelpPhase = 'status';
 let gestureResetConfirmationTimer = 0;
-/** @type {Animation|null} */let gestureResetHelpFade = null;
+/** @type {Animation|null} */let gestureResetAnimation = null;
 
 function clearGestureResetConfirmation() {
  window.clearTimeout(gestureResetConfirmationTimer);
  gestureResetConfirmationTimer = 0;
- gestureResetHelpFade?.cancel();
- gestureResetHelpFade = null;
+ gestureResetAnimation?.cancel();
+ gestureResetAnimation = null;
+ gestureResetFeedback.removeAttribute('data-confirmation');
  gestureResetHelpPhase = 'status';
+}
+
+/**
+ * @param {HTMLElement} element
+ * @param {Keyframe[]} keyframes
+ * @param {KeyframeAnimationOptions} options
+ * @param {() => void} [onFinish]
+ */
+function animateGestureReset(element, keyframes, options, onFinish) {
+ const animation = element.animate(keyframes, {...options,fill:'both'});
+ gestureResetAnimation = animation;
+ animation.onfinish = () => {
+  if (gestureResetAnimation !== animation) return;
+  gestureResetAnimation = null;
+  animation.cancel();
+  onFinish?.();
+ };
 }
 
 /** @param {number} fromOpacity @param {number} toOpacity @param {() => void} [onFinish] */
@@ -144,17 +165,12 @@ function fadeGestureResetHelp(fromOpacity, toOpacity, onFinish) {
   onFinish?.();
   return;
  }
- const fade = gestureResetHelp.animate(
+ animateGestureReset(
+  gestureResetFeedback,
   [{opacity:fromOpacity},{opacity:toOpacity}],
-  {duration:200,easing:'ease-out',fill:'both'},
+  {duration:200,easing:'ease-out'},
+  onFinish,
  );
- gestureResetHelpFade = fade;
- fade.onfinish = () => {
-  if (gestureResetHelpFade !== fade) return;
-  gestureResetHelpFade = null;
-  fade.cancel();
-  onFinish?.();
- };
 }
 
 function restoreGestureResetStatus() {
@@ -163,15 +179,28 @@ function restoreGestureResetStatus() {
  updateCameraGestureHint();
 }
 
+function finishGestureResetConfirmation() {
+ gestureResetConfirmationTimer = 0;
+ gestureResetFeedback.removeAttribute('data-confirmation');
+ fadeGestureResetHelp(1, 0, restoreGestureResetStatus);
+}
+
 function holdGestureResetConfirmation() {
- gestureResetConfirmationTimer = window.setTimeout(() => {
-  gestureResetConfirmationTimer = 0;
-  fadeGestureResetHelp(1, 0, restoreGestureResetStatus);
- }, 3000);
+ if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  gestureResetConfirmationTimer = window.setTimeout(finishGestureResetConfirmation, gestureResetConfirmationDuration);
+  return;
+ }
+ animateGestureReset(
+  gestureResetProgress,
+  [{transform:'scaleX(1)'},{transform:'scaleX(0)'}],
+  {duration:gestureResetConfirmationDuration,easing:'linear'},
+  finishGestureResetConfirmation,
+ );
 }
 
 function showGestureResetConfirmation() {
  gestureResetHelpPhase = 'confirmation';
+ gestureResetFeedback.setAttribute('data-confirmation','');
  fadeGestureResetHelp(0, 1, holdGestureResetConfirmation);
  updateCameraGestureHint();
 }
@@ -240,7 +269,7 @@ window.addEventListener('storage', event => {
 });
 gestureResetButton.addEventListener('click', () => {
  if (gestureResetButton.disabled) return;
- const currentOpacity = Number(getComputedStyle(gestureResetHelp).opacity);
+ const currentOpacity = Number(getComputedStyle(gestureResetFeedback).opacity);
  clearGestureResetConfirmation();
  gestureResetHelpPhase = 'outgoing';
  if (!cameraGestureInput.reset()) {
