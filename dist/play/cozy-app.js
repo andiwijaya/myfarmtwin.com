@@ -114,6 +114,7 @@ const gestureResetToggle = el('gesture-reset-countdown-toggle');
 const gestureResetPausedNote = el('gesture-reset-paused-note');
 const gestureResetHoverNote = el('gesture-reset-hover-note');
 const gestureResetResumedNote = el('gesture-reset-resumed-note');
+const gestureResetCountdownNotes = [gestureResetPausedNote, gestureResetHoverNote, gestureResetResumedNote];
 const gestureResetCompletedNote = el('gesture-reset-completed-note');
 const gestureResetHelp = el('gesture-reset-help');
 const gestureResetHelpSpace = el('gesture-reset-help-space');
@@ -162,6 +163,10 @@ function hideGestureResetCountdown() {
  gestureResetFeedback.removeAttribute('data-resumed');
  gestureResetFeedback.removeAttribute('data-completed');
  gestureResetProgress.style.removeProperty('transform');
+ for (const note of gestureResetCountdownNotes) {
+  note.style.removeProperty('opacity');
+  note.style.removeProperty('visibility');
+ }
 }
 
 function clearGestureResetConfirmation() {
@@ -215,7 +220,7 @@ function finishGestureResetConfirmation() {
 }
 
 /** @param {Animation} countdown */
-function updateGestureResetSeconds(countdown) {
+function updateGestureResetSeconds(countdown, track = true) {
  if (gestureResetAnimation !== countdown) return;
  if (gestureResetSecondsFrame !== null) window.cancelAnimationFrame(gestureResetSecondsFrame);
  gestureResetSecondsFrame = null;
@@ -223,7 +228,7 @@ function updateGestureResetSeconds(countdown) {
  const remaining = Math.max(1, Math.ceil((gestureResetConfirmationDuration - elapsed) / 1000));
  const label = String(remaining);
  if (gestureResetSeconds.textContent !== label) gestureResetSeconds.textContent = label;
- if (remaining > 1 && (countdown.playState === 'running' || countdown.pending)) {
+ if (track && remaining > 1 && (countdown.playState === 'running' || countdown.pending)) {
   gestureResetSecondsFrame = window.requestAnimationFrame(() => {
    gestureResetSecondsFrame = null;
    updateGestureResetSeconds(countdown);
@@ -231,9 +236,26 @@ function updateGestureResetSeconds(countdown) {
  }
 }
 
-function syncGestureResetCountdownPause() {
+function activeGestureResetCountdown() {
  const countdown = gestureResetAnimation;
- if (!countdown || !(countdown.effect instanceof KeyframeEffect) || countdown.effect.target !== gestureResetProgress) return;
+ return countdown?.effect instanceof KeyframeEffect && countdown.effect.target === gestureResetProgress ? countdown : null;
+}
+
+function freezeGestureResetCountdown() {
+ const countdown = activeGestureResetCountdown();
+ if (countdown) updateGestureResetSeconds(countdown, false);
+ gestureResetProgress.style.transform = getComputedStyle(gestureResetProgress).transform;
+ for (const note of gestureResetCountdownNotes) {
+  const {opacity,visibility} = getComputedStyle(note);
+  note.style.opacity = opacity;
+  note.style.visibility = visibility;
+ }
+ gestureResetFeedback.dataset.confirmation = 'outgoing';
+}
+
+function syncGestureResetCountdownPause() {
+ const countdown = activeGestureResetCountdown();
+ if (!countdown) return;
  const manuallyPaused = gestureResetToggle.getAttribute('aria-pressed') === 'true';
  const paused = gestureResetHovered || manuallyPaused;
  if (paused && countdown.playState === 'running') {
@@ -268,10 +290,9 @@ function holdGestureResetConfirmation() {
 }
 
 function showGestureResetConfirmation() {
+ hideGestureResetCountdown();
  gestureResetHelpPhase = 'confirmation';
- gestureResetFeedback.removeAttribute('data-completed');
  gestureResetFeedback.dataset.confirmation = 'entering';
- gestureResetProgress.style.removeProperty('transform');
  gestureResetSeconds.textContent = String(gestureResetConfirmationDuration / 1000);
  updateCameraGestureHint();
  gestureResetToggle.hidden = false;
@@ -373,11 +394,11 @@ gestureResetButton.addEventListener('click', () => {
   gestureResetFeedback.dataset.completed = 'outgoing';
  }
  if (gestureResetFeedback.hasAttribute('data-confirmation')) {
-  // Keep the outgoing line at its current width if a new reset interrupts it.
-  gestureResetProgress.style.transform = getComputedStyle(gestureResetProgress).transform;
+  freezeGestureResetCountdown();
  }
  cancelGestureResetAnimation();
  hideGestureResetToggle();
+ gestureResetHovered = false;
  gestureResetFeedback.removeAttribute('data-resumed');
  gestureResetHelpPhase = 'outgoing';
  if (!cameraGestureInput.reset()) {

@@ -409,7 +409,7 @@
  16.667%,83.333% {visibility:visible;opacity:1;}
  100% {visibility:hidden;opacity:0;}
 }
-.gesture-reset-feedback:not([data-confirmation]) .gesture-reset-pause-notes > span {transition:none;}
+.gesture-reset-feedback:not([data-confirmation="visible"]) .gesture-reset-pause-notes > span {transition:none;}
 .gesture-reset-paused-note {display:none;}
 .gesture-reset-feedback[data-hover-paused] .gesture-reset-hover-note,
 .gesture-reset-region:has(.gesture-reset-toggle[aria-pressed="true"]:not([hidden])) .gesture-reset-paused-note {
