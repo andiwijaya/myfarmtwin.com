@@ -304,6 +304,19 @@
  text-align:end;
 }
 #gesture-active-source {display:block;color:#536751;font-weight:400;}
+.gesture-reset-region {position:relative;}
+.gesture-reset-toggle {
+ position:absolute;
+ inset:0;
+ width:100%;
+ min-height:0;
+ padding:0;
+ border:0;
+ background:transparent;
+ transition:none;
+}
+.gesture-reset-toggle:hover {background:transparent;}
+.gesture-reset-toggle:active {transform:none;}
 .gesture-reset-feedback {display:block;}
 .gesture-reset-feedback[data-confirmation="entering"] {opacity:0;}
 .gesture-reset-help-slot {display:grid;}

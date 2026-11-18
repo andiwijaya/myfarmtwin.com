@@ -108,7 +108,9 @@ const gestureModeKey = 'myfarmtwin.ui.camera-gesture-mode.v1';
 const gestureStorage = browserStorage();
 const gestureModeSelect = /** @type {HTMLSelectElement} */(el('gesture-hint-mode'));
 const gestureResetButton = /** @type {HTMLButtonElement} */(el('gesture-input-reset'));
+const gestureResetRegion = el('gesture-reset-region');
 const gestureResetFeedback = el('gesture-reset-feedback');
+const gestureResetToggle = el('gesture-reset-countdown-toggle');
 const gestureResetHelp = el('gesture-reset-help');
 const gestureResetHelpSpace = el('gesture-reset-help-space');
 const gestureResetConfirmationSpace = el('gesture-reset-confirmation-space');
@@ -142,7 +144,15 @@ function cancelGestureResetAnimation() {
  gestureResetAnimation = null;
 }
 
+function hideGestureResetToggle() {
+ const focused = document.activeElement === gestureResetToggle;
+ gestureResetToggle.hidden = true;
+ gestureResetToggle.setAttribute('aria-pressed','false');
+ if (focused) gestureModeSelect.focus({preventScroll:true});
+}
+
 function hideGestureResetCountdown() {
+ hideGestureResetToggle();
  gestureResetFeedback.removeAttribute('data-confirmation');
  gestureResetProgress.style.removeProperty('transform');
 }
@@ -168,7 +178,6 @@ function animateGestureReset(element, keyframes, options, onFinish) {
   cancelGestureResetAnimation();
   onFinish?.();
  };
- return animation;
 }
 
 /** @param {number} fromOpacity @param {number} toOpacity @param {() => void} [onFinish] */
@@ -193,6 +202,7 @@ function restoreGestureResetStatus() {
 }
 
 function finishGestureResetConfirmation() {
+ hideGestureResetToggle();
  gestureResetProgress.style.transform = 'scaleX(0)';
  fadeGestureResetHelp(1, 0, restoreGestureResetStatus);
 }
@@ -214,28 +224,32 @@ function updateGestureResetSeconds(countdown) {
  }
 }
 
+function syncGestureResetCountdownPause() {
+ const countdown = gestureResetAnimation;
+ if (!countdown || !(countdown.effect instanceof KeyframeEffect) || countdown.effect.target !== gestureResetProgress) return;
+ const paused = gestureResetHovered || gestureResetToggle.getAttribute('aria-pressed') === 'true';
+ if (paused && countdown.playState === 'running') countdown.pause();
+ if (!paused && countdown.playState === 'paused') countdown.play();
+ updateGestureResetSeconds(countdown);
+}
+
 /** @param {PointerEvent & {sourceCapabilities?: {firesTouchEvents?: boolean}|null}} event */
 function updateGestureResetHover(event) {
  if (event.pointerType !== 'mouse' || event.sourceCapabilities?.firesTouchEvents) return;
  gestureResetHovered = event.type === 'pointerenter';
- const countdown = gestureResetAnimation;
- if (!countdown || !(countdown.effect instanceof KeyframeEffect) || countdown.effect.target !== gestureResetProgress) return;
- if (gestureResetHovered && countdown.playState === 'running') countdown.pause();
- if (!gestureResetHovered && countdown.playState === 'paused') countdown.play();
- updateGestureResetSeconds(countdown);
+ syncGestureResetCountdownPause();
 }
 
 function holdGestureResetConfirmation() {
  gestureResetFeedback.dataset.confirmation = 'visible';
  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
- const countdown = animateGestureReset(
+ animateGestureReset(
   gestureResetProgress,
   [{transform:'scaleX(1)'},{transform:reduceMotion ? 'scaleX(1)' : 'scaleX(0)'}],
   {duration:gestureResetConfirmationDuration,easing:'linear'},
   finishGestureResetConfirmation,
  );
- if (gestureResetHovered) countdown.pause();
- updateGestureResetSeconds(countdown);
+ syncGestureResetCountdownPause();
 }
 
 function showGestureResetConfirmation() {
@@ -244,12 +258,20 @@ function showGestureResetConfirmation() {
  gestureResetProgress.style.removeProperty('transform');
  gestureResetSeconds.textContent = String(gestureResetConfirmationDuration / 1000);
  updateCameraGestureHint();
+ gestureResetToggle.hidden = false;
  fadeGestureResetHelp(0, 1, holdGestureResetConfirmation);
 }
 
-gestureResetFeedback.addEventListener('pointerenter', updateGestureResetHover);
-gestureResetFeedback.addEventListener('pointerleave', updateGestureResetHover);
-gestureResetFeedback.addEventListener('pointercancel', updateGestureResetHover);
+gestureResetRegion.addEventListener('pointerenter', updateGestureResetHover);
+gestureResetRegion.addEventListener('pointerleave', updateGestureResetHover);
+gestureResetRegion.addEventListener('pointercancel', updateGestureResetHover);
+gestureResetToggle.addEventListener('click', () => {
+ if (gestureResetToggle.hidden) return;
+ const paused = gestureResetToggle.getAttribute('aria-pressed') === 'true';
+ gestureResetToggle.setAttribute('aria-pressed',String(!paused));
+ gestureResetHovered = false;
+ syncGestureResetCountdownPause();
+});
 
 function updateCameraGestureHint() {
  const hint = el('gesture-hint');
@@ -296,6 +318,7 @@ function translateGestureSettings() {
  el('gesture-mode-touch').textContent = L('Sentuh', 'Touch');
  el('gesture-mode-mouse').textContent = L('Mouse', 'Mouse');
  gestureResetButton.textContent = L('Reset input terakhir', 'Reset last input');
+ gestureResetToggle.setAttribute('aria-label',L('Jeda hitung mundur konfirmasi','Pause confirmation countdown'));
  renderGestureMode();
 }
 gestureModeSelect.addEventListener('change', () => {
@@ -321,6 +344,7 @@ gestureResetButton.addEventListener('click', () => {
   gestureResetProgress.style.transform = getComputedStyle(gestureResetProgress).transform;
  }
  cancelGestureResetAnimation();
+ hideGestureResetToggle();
  gestureResetHelpPhase = 'outgoing';
  if (!cameraGestureInput.reset()) {
   clearGestureResetConfirmation();
