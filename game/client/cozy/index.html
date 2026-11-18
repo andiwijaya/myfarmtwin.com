@@ -46,7 +46,7 @@
   <section class="gesture-settings" aria-labelledby="gesture-settings-title">
    <div class="gesture-settings-heading">
     <h3 id="gesture-settings-title">Petunjuk kamera</h3>
-    <p id="gesture-active-input" role="status" hidden></p>
+    <p id="gesture-active-input" role="status" hidden><span id="gesture-active-type"></span> <span id="gesture-active-source"></span></p>
    </div>
    <div class="gesture-settings-actions">
     <label id="gesture-mode-label" class="sr" for="gesture-hint-mode">Mode petunjuk kamera</label>
@@ -61,7 +61,6 @@
   </section>
   <p id="data-help">Cadangan mencakup farm, tata letak, dan arsip progres lama. Simpan salinan teks di tempat aman.</p><label for="save-text" id="save-text-label">Salinan farm</label><textarea id="save-text" spellcheck="false" rows="9"></textarea><div class="data-actions"><button id="export-data">Tampilkan cadangan</button><button id="import-data" class="primary">Impor dari teks</button><button id="recover-data">Pulihkan cadangan sebelumnya</button><button id="legacy-data">Tampilkan arsip farm lama</button></div><p id="data-status" role="status"></p><a class="recovery-link" href="/play/recovery/">Buka pemulihan tanpa 3D / Open recovery without 3D ↗</a>
  </dialog>
- <p id="gesture-reset-status" class="sr" role="status"></p>
  <script type="application/json" id="cozy-meta">{"version":2,"phase":"P3-P7","areas":["garden","chicken","goat","cow","fish","market"],"save":"cozy-v2-atomic"}</script>
 </body>
 </html>

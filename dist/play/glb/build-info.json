@@ -12,14 +12,14 @@
   ],
   "saveVersion": 2,
   "three": "0.187.0",
-  "entry": "app-Z5CCDB6Z.js",
+  "entry": "app-VOYIMRIT.js",
   "recoveryEntry": "recovery-2UXJQDFZ.js",
   "integrityEntry": "integrity-LL76RTOU.js",
   "emitted": [
     {
-      "name": "app-Z5CCDB6Z.js",
-      "bytes": 743240,
-      "sha256": "10f29d5c1886c68e11fdb620b88e28cb68b47e6d868698f4eb875d8020cb8f21"
+      "name": "app-VOYIMRIT.js",
+      "bytes": 743218,
+      "sha256": "7bc45c7751381e9c969eb63532548134311363897166d2cacd4f4e49b71f5637"
     },
     {
       "name": "recovery-2UXJQDFZ.js",
@@ -1204,8 +1204,8 @@
     }
   },
   "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
-  "htmlSha256": "df8db81cf22fd4d689ff9aa24b0bba609c4296e6c78ea26ef6e356878c66e6b4",
-  "cssSha256": "166d9e9031c2a81dc136790d776f53ead54c14595c9bcb31a98b51db3b003d35",
+  "htmlSha256": "f6276131cd8553bd2dc6540fb01538f294c087003e775d793b161145a3c3214f",
+  "cssSha256": "4f277712d95ca5ffb16db59a8be16f7a718ba92ac5322cf9989a0b31d2442feb",
   "inputs": [
     "game/client/active-garden.js",
     "game/client/chicken-commands.js",
