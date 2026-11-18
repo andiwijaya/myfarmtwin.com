@@ -114,6 +114,7 @@ const gestureResetToggle = el('gesture-reset-countdown-toggle');
 const gestureResetPausedNote = el('gesture-reset-paused-note');
 const gestureResetHoverNote = el('gesture-reset-hover-note');
 const gestureResetResumedNote = el('gesture-reset-resumed-note');
+const gestureResetCompletedNote = el('gesture-reset-completed-note');
 const gestureResetHelp = el('gesture-reset-help');
 const gestureResetHelpSpace = el('gesture-reset-help-space');
 const gestureResetConfirmationSpace = el('gesture-reset-confirmation-space');
@@ -159,6 +160,7 @@ function hideGestureResetCountdown() {
  hideGestureResetToggle();
  gestureResetFeedback.removeAttribute('data-confirmation');
  gestureResetFeedback.removeAttribute('data-resumed');
+ gestureResetFeedback.removeAttribute('data-completed');
  gestureResetProgress.style.removeProperty('transform');
 }
 
@@ -199,17 +201,18 @@ function fadeGestureResetHelp(fromOpacity, toOpacity, onFinish) {
  );
 }
 
-function restoreGestureResetStatus() {
+function showGestureResetCompletion() {
  hideGestureResetCountdown();
  gestureResetHelpPhase = 'status';
- fadeGestureResetHelp(0, 1);
  updateCameraGestureHint();
+ gestureResetFeedback.setAttribute('data-completed','');
+ fadeGestureResetHelp(0, 1);
 }
 
 function finishGestureResetConfirmation() {
  hideGestureResetToggle();
  gestureResetProgress.style.transform = 'scaleX(0)';
- fadeGestureResetHelp(1, 0, restoreGestureResetStatus);
+ fadeGestureResetHelp(1, 0, showGestureResetCompletion);
 }
 
 /** @param {Animation} countdown */
@@ -278,6 +281,10 @@ function showGestureResetConfirmation() {
 gestureResetRegion.addEventListener('pointerenter', updateGestureResetHover);
 gestureResetRegion.addEventListener('pointerleave', updateGestureResetHover);
 gestureResetRegion.addEventListener('pointercancel', updateGestureResetHover);
+gestureResetCompletedNote.addEventListener('animationend', () => {
+ if (gestureResetCompletedNote.getAnimations().some(animation => animation.pending || animation.playState === 'running')) return;
+ gestureResetFeedback.removeAttribute('data-completed');
+});
 gestureResetToggle.addEventListener('click', () => {
  if (gestureResetToggle.hidden) return;
  const paused = gestureResetToggle.getAttribute('aria-pressed') === 'true';
@@ -335,6 +342,7 @@ function translateGestureSettings() {
  gestureResetPausedNote.textContent = L('Dijeda · Ketuk untuk lanjut','Paused · Tap to resume');
  gestureResetHoverNote.textContent = L('Dijeda · Geser kursor keluar untuk lanjut','Paused · Move the cursor away to resume');
  gestureResetResumedNote.textContent = L('Dilanjutkan','Resumed');
+ gestureResetCompletedNote.textContent = L('Selesai','Done');
  renderGestureMode();
 }
 gestureModeSelect.addEventListener('change', () => {
@@ -362,6 +370,7 @@ gestureResetButton.addEventListener('click', () => {
  cancelGestureResetAnimation();
  hideGestureResetToggle();
  gestureResetFeedback.removeAttribute('data-resumed');
+ gestureResetFeedback.removeAttribute('data-completed');
  gestureResetHelpPhase = 'outgoing';
  if (!cameraGestureInput.reset()) {
   clearGestureResetConfirmation();
