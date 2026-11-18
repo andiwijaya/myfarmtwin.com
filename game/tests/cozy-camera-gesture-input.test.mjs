@@ -5,7 +5,7 @@ import {cameraGestureHint} from '../client/cozy-camera-shortcuts.js';
 
 class Media extends EventTarget{constructor(matches=false){super();this.matches=matches;}set(matches){this.matches=matches;this.dispatchEvent(new Event('change'));}}
 const emit=(target,type,properties={})=>{const event=Object.assign(new Event(type,{cancelable:true}),properties);target.dispatchEvent(event);assert.equal(event.defaultPrevented,false);return event;};
-const setup=(coarse=false)=>{const target=new EventTarget(),media=new Media(coarse),changes=[];const input=watchCameraGestureInput(target,media,value=>changes.push(value));return{target,media,changes,input};};
+const setup=(coarse=false,storage=null)=>{const target=new EventTarget(),media=new Media(coarse),changes=[];const input=watchCameraGestureInput(target,media,value=>changes.push(value),storage);return{target,media,changes,input};};
 
 test('primary input is a fallback until the last explicit interaction wins, including a same-mode first event',()=>{
  const {target,media,changes,input}=setup();assert.equal(input.getInput(),'pointer');assert.equal(input.hasInput(),false);
@@ -49,4 +49,78 @@ test('disposing input observation detaches listeners and freezes the last mode',
  const target=new TrackedTarget(),media=new TrackedTarget(),changes=[];media.matches=false;const input=watchCameraGestureInput(target,media,value=>changes.push(value));assert.equal(target.listeners.size,5);assert.equal(media.listeners.size,1);
  emit(target,'pointerdown',{pointerType:'touch'});input.dispose();input.dispose();assert.equal(target.listeners.size,0);assert.equal(media.listeners.size,0);
  emit(target,'pointerdown',{pointerType:'mouse'});media.matches=true;media.dispatchEvent(new Event('change'));assert.equal(input.getInput(),'touch');assert.deepEqual(changes,['touch']);
+});
+
+const preferenceKey = 'myfarmtwin.ui.camera-gesture-input.v1';
+function memoryStorage(initial = {}) {
+ const values = new Map(Object.entries(initial));
+ const writes = [];
+ return {
+  values, writes,
+  getItem: key => values.get(key) ?? null,
+  setItem(key, value) { values.set(key, value); writes.push([key, value]); },
+ };
+}
+
+test('restores touch and pointer in fresh observers without writing on startup or fallback changes', () => {
+ const storage = memoryStorage({'myfarmtwin.cozy.save.v2':'original farm'});
+ const original = setup(false, storage);
+ original.media.set(true);
+ assert.deepEqual(storage.writes, []);
+ emit(original.target, 'pointerdown', {pointerType:'touch'});
+ original.input.dispose();
+ const reloaded = setup(false, storage);
+ assert.equal(reloaded.input.getInput(), 'touch');
+ assert.equal(reloaded.input.hasInput(), true);
+ reloaded.media.set(true);
+ reloaded.media.set(false);
+ assert.equal(reloaded.input.getInput(), 'touch');
+ emit(reloaded.target, 'wheel', {deltaY:8});
+ emit(reloaded.target, 'pointermove', {pointerType:'mouse', movementX:2});
+ reloaded.input.dispose();
+ const reopened = setup(true, storage);
+ assert.equal(reopened.input.getInput(), 'pointer');
+ assert.deepEqual(storage.writes, [[preferenceKey,'touch'], [preferenceKey,'pointer']]);
+ assert.equal(storage.getItem('myfarmtwin.cozy.save.v2'), 'original farm');
+ reopened.input.dispose();
+});
+
+test('ignores invalid preferences and does not save compatibility or idle events', () => {
+ const storage = memoryStorage({[preferenceKey]:'unknown'});
+ const browser = setup(true, storage);
+ assert.equal(browser.input.getInput(), 'touch');
+ assert.equal(browser.input.hasInput(), false);
+ emit(browser.target, 'pointermove', {pointerType:'mouse', movementX:0});
+ emit(browser.target, 'pointerdown', {pointerType:'mouse', sourceCapabilities:{firesTouchEvents:true}});
+ assert.deepEqual(storage.writes, []);
+ emit(browser.target, 'pointerdown', {pointerType:'touch'});
+ assert.deepEqual(storage.writes, [[preferenceKey,'touch']]);
+ browser.input.dispose();
+});
+
+test('storage read or write failures leave the in-memory hint usable without repeated writes', () => {
+ let attempts = 0;
+ const storage = {
+  getItem() { throw new Error('blocked'); },
+  setItem() { attempts++; throw new Error('quota'); },
+ };
+ const browser = setup(false, storage);
+ emit(browser.target, 'pointerdown', {pointerType:'touch'});
+ assert.equal(browser.input.getInput(), 'touch');
+ for (let i = 0; i < 10; i++) emit(browser.target, 'wheel', {deltaY:8});
+ assert.equal(browser.input.getInput(), 'pointer');
+ assert.equal(attempts, 2);
+ browser.input.dispose();
+});
+
+test('a dormant tab does not replace newer storage until it observes fresh input', () => {
+ const storage = memoryStorage({[preferenceKey]:'touch'});
+ const browser = setup(false, storage);
+ storage.values.set(preferenceKey,'pointer');
+ emit(browser.target, 'storage', {key:preferenceKey, storageArea:storage, newValue:'touch'});
+ assert.equal(browser.input.getInput(), 'touch');
+ assert.deepEqual(storage.writes, []);
+ emit(browser.target, 'pointerdown', {pointerType:'touch'});
+ assert.deepEqual(storage.writes, [[preferenceKey,'touch']]);
+ browser.input.dispose();
 });
