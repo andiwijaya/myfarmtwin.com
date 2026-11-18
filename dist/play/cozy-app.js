@@ -126,38 +126,47 @@ function readGestureMode() {
 }
 let gestureMode = readGestureMode();
 let gestureModeSaved = true;
+let gestureResetConfirmationVisible = false;
 let gestureResetConfirmationTimer = 0;
-/** @type {Animation|null} */let gestureResetConfirmationFade = null;
+/** @type {Animation|null} */let gestureResetHelpFade = null;
 
 function clearGestureResetConfirmation() {
  window.clearTimeout(gestureResetConfirmationTimer);
  gestureResetConfirmationTimer = 0;
- gestureResetConfirmationFade?.cancel();
- gestureResetConfirmationFade = null;
+ gestureResetHelpFade?.cancel();
+ gestureResetHelpFade = null;
+ gestureResetConfirmationVisible = false;
 }
 
-/** @param {number} fromOpacity @param {number} toOpacity @param {() => void} onFinish */
-function fadeGestureResetConfirmation(fromOpacity, toOpacity, onFinish) {
+/** @param {number} fromOpacity @param {number} toOpacity @param {() => void} [onFinish] */
+function fadeGestureResetHelp(fromOpacity, toOpacity, onFinish) {
  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  onFinish();
+  onFinish?.();
   return;
  }
  const fade = gestureResetHelp.animate(
   [{opacity:fromOpacity},{opacity:toOpacity}],
   {duration:200,easing:'ease-out',fill:'both'},
  );
- gestureResetConfirmationFade = fade;
+ gestureResetHelpFade = fade;
  fade.onfinish = () => {
-  if (gestureResetConfirmationFade !== fade) return;
-  clearGestureResetConfirmation();
-  onFinish();
+  if (gestureResetHelpFade !== fade) return;
+  gestureResetHelpFade = null;
+  fade.cancel();
+  onFinish?.();
  };
+}
+
+function restoreGestureResetStatus() {
+ gestureResetConfirmationVisible = false;
+ fadeGestureResetHelp(0, 1);
+ updateCameraGestureHint();
 }
 
 function holdGestureResetConfirmation() {
  gestureResetConfirmationTimer = window.setTimeout(() => {
   gestureResetConfirmationTimer = 0;
-  fadeGestureResetConfirmation(1, 0, updateCameraGestureHint);
+  fadeGestureResetHelp(1, 0, restoreGestureResetStatus);
  }, 3000);
 }
 
@@ -187,7 +196,7 @@ function updateCameraGestureHint() {
  const confirmation = L('Petunjuk kembali mengikuti input utama perangkat.', 'Camera hints now follow the device’s primary input.');
  if (gestureResetHelpSpace.textContent !== resetHelp) gestureResetHelpSpace.textContent = resetHelp;
  if (gestureResetConfirmationSpace.textContent !== confirmation) gestureResetConfirmationSpace.textContent = confirmation;
- const shownHelp = gestureResetConfirmationTimer || gestureResetConfirmationFade ? confirmation : resetHelp;
+ const shownHelp = gestureResetConfirmationVisible ? confirmation : resetHelp;
  if (gestureResetHelp.textContent !== shownHelp) gestureResetHelp.textContent = shownHelp;
 }
 const cameraGestureInput = watchCameraGestureInput(window, cameraTouchInput, updateCameraGestureHint, gestureStorage);
@@ -228,7 +237,8 @@ gestureResetButton.addEventListener('click', () => {
   gestureInputNotice.textContent = L('Petunjuk direset untuk sesi ini. Browser tidak dapat menghapus input tersimpan.', 'Hints reset for this session. The browser could not clear the saved input.');
   return;
  }
- fadeGestureResetConfirmation(0, 1, holdGestureResetConfirmation);
+ gestureResetConfirmationVisible = true;
+ fadeGestureResetHelp(0, 1, holdGestureResetConfirmation);
  updateCameraGestureHint();
  renderGestureMode();
 });
