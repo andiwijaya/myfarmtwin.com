@@ -189,7 +189,7 @@ function animateGestureReset(element, keyframes, options, onFinish) {
  animation.onfinish = () => {
   if (gestureResetAnimation !== animation) return;
   cancelGestureResetAnimation();
-  if (dataDialog.open) onFinish?.();
+  if (dataDialog.open && !document.hidden) onFinish?.();
  };
 }
 
@@ -209,7 +209,7 @@ function fadeGestureResetHelp(fromOpacity, toOpacity, onFinish) {
 
 function showGestureResetCompletion() {
  gestureResetFrame = null;
- if (!dataDialog.open) return;
+ if (!dataDialog.open || document.hidden) return;
  // Let an in-progress reset press resolve before announcing completion.
  if (gestureResetButton.matches(':active')) {
   gestureResetFrame = window.requestAnimationFrame(showGestureResetCompletion);
@@ -314,7 +314,7 @@ gestureResetRegion.addEventListener('pointerenter', updateGestureResetHover);
 gestureResetRegion.addEventListener('pointerleave', updateGestureResetHover);
 gestureResetRegion.addEventListener('pointercancel', updateGestureResetHover);
 gestureResetCompletedNote.addEventListener('animationend', () => {
- if (!dataDialog.open || gestureResetHelpPhase !== 'completion') return;
+ if (!dataDialog.open || document.hidden || gestureResetHelpPhase !== 'completion') return;
  if (gestureResetCompletedNote.getAnimations().some(animation => animation.pending || animation.playState === 'running')) return;
  gestureResetFeedback.removeAttribute('data-completed');
  gestureResetHelpPhase = 'status';
@@ -426,7 +426,7 @@ function prepareGestureResetFadeOut() {
 }
 
 gestureResetButton.addEventListener('click', () => {
- if (!dataDialog.open || gestureResetButton.disabled) return;
+ if (!dataDialog.open || document.hidden || gestureResetButton.disabled) return;
  const entering = gestureResetFeedback.dataset.confirmation === 'entering';
  const confirmationPending = entering || gestureResetHelpPhase === 'outgoing';
  // A reset during either fade can use the same transition into a fresh countdown.
@@ -468,6 +468,11 @@ dataDialog.addEventListener('beforetoggle', event => {
 dataDialog.addEventListener('close', () => {
  // The native close event can arrive after the dialog has reopened.
  if (!dataDialog.open) clearGestureResetConfirmation();
+});
+document.addEventListener('visibilitychange', () => {
+ if (disposed || !dataDialog.open) return;
+ clearGestureResetConfirmation();
+ updateCameraGestureHint();
 });
 el('export-data').addEventListener('click',()=>{/** @type {HTMLTextAreaElement} */(el('save-text')).value=session.exportBundle();el('data-status').textContent=L('Cadangan siap. Salin teks secara manual untuk menyimpannya.','Backup ready. Copy this text manually to keep it.');});
 el('legacy-data').addEventListener('click',()=>{/** @type {HTMLTextAreaElement} */(el('save-text')).value=session.exportLegacy();el('data-status').textContent=session.state.provenance.native?L('Arsip sebelum migrasi. Perkembangan farm baru tetap ada di cadangan lengkap.','Archive from before migration. New farm progress is in the full backup.'):L('Farm ini dimulai di versi baru; tidak mempunyai arsip lama.','This farm started in the new version and has no legacy archive.');});
