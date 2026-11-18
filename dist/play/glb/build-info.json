@@ -12,14 +12,14 @@
   ],
   "saveVersion": 2,
   "three": "0.187.0",
-  "entry": "app-EGHH5GT4.js",
+  "entry": "app-YMNOAZ3H.js",
   "recoveryEntry": "recovery-2UXJQDFZ.js",
   "integrityEntry": "integrity-LL76RTOU.js",
   "emitted": [
     {
-      "name": "app-EGHH5GT4.js",
-      "bytes": 747136,
-      "sha256": "aa45a6cb5acac1f703204304ebfb1dcb8949ba9a3948be942442333207bf9f73"
+      "name": "app-YMNOAZ3H.js",
+      "bytes": 747212,
+      "sha256": "db30f679f85cfd9b90e6739484ce4211bdb0af499f23ea8d5ca712010b5903f2"
     },
     {
       "name": "recovery-2UXJQDFZ.js",
@@ -1204,7 +1204,7 @@
     }
   },
   "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
-  "htmlSha256": "845ee49646eb6291d452d1b60c8233df507e9a0db92e0ce768c0581587cf7558",
+  "htmlSha256": "b77c00ed802e81a274a1471c25f6a3375607ce04f1eafa1fe2b6677a5154a6c4",
   "cssSha256": "e3b078f2f0cbcb4c1692e0e0f7a02f5750a2600bde43d3e8f598476d6716293c",
   "inputs": [
     "game/client/active-garden.js",

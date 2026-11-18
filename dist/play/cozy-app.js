@@ -136,7 +136,7 @@ function readGestureMode() {
 }
 let gestureMode = readGestureMode();
 let gestureModeSaved = true;
-/** @type {'status'|'outgoing'|'confirmation'} */let gestureResetHelpPhase = 'status';
+/** @type {'status'|'outgoing'|'confirmation'|'completion'} */let gestureResetHelpPhase = 'status';
 /** @type {Animation|null} */let gestureResetAnimation = null;
 /** @type {number|null} */let gestureResetSecondsFrame = null;
 let gestureResetHovered = false;
@@ -203,10 +203,9 @@ function fadeGestureResetHelp(fromOpacity, toOpacity, onFinish) {
 
 function showGestureResetCompletion() {
  hideGestureResetCountdown();
- gestureResetHelpPhase = 'status';
- updateCameraGestureHint();
+ gestureResetHelpPhase = 'completion';
+ gestureResetHelp.textContent = '';
  gestureResetFeedback.setAttribute('data-completed','');
- fadeGestureResetHelp(0, 1);
 }
 
 function finishGestureResetConfirmation() {
@@ -282,8 +281,12 @@ gestureResetRegion.addEventListener('pointerenter', updateGestureResetHover);
 gestureResetRegion.addEventListener('pointerleave', updateGestureResetHover);
 gestureResetRegion.addEventListener('pointercancel', updateGestureResetHover);
 gestureResetCompletedNote.addEventListener('animationend', () => {
+ if (gestureResetHelpPhase !== 'completion') return;
  if (gestureResetCompletedNote.getAnimations().some(animation => animation.pending || animation.playState === 'running')) return;
  gestureResetFeedback.removeAttribute('data-completed');
+ gestureResetHelpPhase = 'status';
+ updateCameraGestureHint();
+ fadeGestureResetHelp(0, 1);
 });
 gestureResetToggle.addEventListener('click', () => {
  if (gestureResetToggle.hidden) return;
@@ -319,8 +322,8 @@ function updateCameraGestureHint() {
  const confirmation = L('Petunjuk kembali mengikuti input utama perangkat.', 'Camera hints now follow the device’s primary input.');
  if (gestureResetHelpSpace.textContent !== resetHelp) gestureResetHelpSpace.textContent = resetHelp;
  if (gestureResetConfirmationSpace.textContent !== confirmation) gestureResetConfirmationSpace.textContent = confirmation;
- // Keep the displayed text in place until its fade-out finishes.
- if (gestureResetHelpPhase === 'outgoing') return;
+ // Preserve the outgoing text and let the completion cue finish before showing status again.
+ if (gestureResetHelpPhase === 'outgoing' || gestureResetHelpPhase === 'completion') return;
  const shownHelp = gestureResetHelpPhase === 'confirmation' ? confirmation : resetHelp;
  if (gestureResetHelp.textContent !== shownHelp) gestureResetHelp.textContent = shownHelp;
 }
