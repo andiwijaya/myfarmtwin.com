@@ -113,6 +113,7 @@ const gestureResetHelp = el('gesture-reset-help');
 const gestureResetHelpSpace = el('gesture-reset-help-space');
 const gestureResetConfirmationSpace = el('gesture-reset-confirmation-space');
 const gestureResetProgress = el('gesture-reset-confirmation-progress');
+const gestureResetSeconds = el('gesture-reset-confirmation-seconds');
 const gestureResetConfirmationDuration = 3000;
 const gestureInputNotice = el('gesture-input-notice');
 const activeGestureStatus = el('gesture-active-input');
@@ -130,12 +131,9 @@ function readGestureMode() {
 let gestureMode = readGestureMode();
 let gestureModeSaved = true;
 /** @type {'status'|'outgoing'|'confirmation'} */let gestureResetHelpPhase = 'status';
-let gestureResetConfirmationTimer = 0;
 /** @type {Animation|null} */let gestureResetAnimation = null;
 
 function clearGestureResetConfirmation() {
- window.clearTimeout(gestureResetConfirmationTimer);
- gestureResetConfirmationTimer = 0;
  gestureResetAnimation?.cancel();
  gestureResetAnimation = null;
  gestureResetFeedback.removeAttribute('data-confirmation');
@@ -157,6 +155,7 @@ function animateGestureReset(element, keyframes, options, onFinish) {
   animation.cancel();
   onFinish?.();
  };
+ return animation;
 }
 
 /** @param {number} fromOpacity @param {number} toOpacity @param {() => void} [onFinish] */
@@ -180,26 +179,36 @@ function restoreGestureResetStatus() {
 }
 
 function finishGestureResetConfirmation() {
- gestureResetConfirmationTimer = 0;
  gestureResetFeedback.removeAttribute('data-confirmation');
  fadeGestureResetHelp(1, 0, restoreGestureResetStatus);
 }
 
-function holdGestureResetConfirmation() {
- if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  gestureResetConfirmationTimer = window.setTimeout(finishGestureResetConfirmation, gestureResetConfirmationDuration);
-  return;
+/** @param {Animation} countdown */
+function updateGestureResetSeconds(countdown) {
+ if (gestureResetAnimation !== countdown) return;
+ const elapsed = Number(countdown.currentTime ?? 0);
+ const remaining = Math.max(1, Math.ceil((gestureResetConfirmationDuration - elapsed) / 1000));
+ const label = String(remaining);
+ if (gestureResetSeconds.textContent !== label) gestureResetSeconds.textContent = label;
+ if (remaining > 1) {
+  window.requestAnimationFrame(() => updateGestureResetSeconds(countdown));
  }
- animateGestureReset(
+}
+
+function holdGestureResetConfirmation() {
+ const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const countdown = animateGestureReset(
   gestureResetProgress,
-  [{transform:'scaleX(1)'},{transform:'scaleX(0)'}],
+  [{transform:'scaleX(1)'},{transform:reduceMotion ? 'scaleX(1)' : 'scaleX(0)'}],
   {duration:gestureResetConfirmationDuration,easing:'linear'},
   finishGestureResetConfirmation,
  );
+ updateGestureResetSeconds(countdown);
 }
 
 function showGestureResetConfirmation() {
  gestureResetHelpPhase = 'confirmation';
+ gestureResetSeconds.textContent = String(gestureResetConfirmationDuration / 1000);
  gestureResetFeedback.setAttribute('data-confirmation','');
  fadeGestureResetHelp(0, 1, holdGestureResetConfirmation);
  updateCameraGestureHint();
