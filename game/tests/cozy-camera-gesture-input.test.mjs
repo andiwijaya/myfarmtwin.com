@@ -142,6 +142,28 @@ test('reset reports a primary-source change even when the hint text stays the sa
  browser.input.dispose();
 });
 
+test('input changes report their previous type and distinguish a local reset from an external one', () => {
+ const storage = memoryStorage({[preferenceKey]:'touch'});
+ const target = new EventTarget();
+ const changes = [];
+ const input = watchCameraGestureInput(target, new Media(), (next, previous, reason) => {
+  changes.push({next, previous, reason});
+ }, storage);
+
+ assert.equal(input.reset(), true);
+ emit(target, 'pointerdown', {pointerType:'mouse'});
+ emit(target, 'pointerdown', {pointerType:'touch'});
+ storage.removeItem(preferenceKey);
+ emit(target, 'storage', {key:preferenceKey, storageArea:storage, newValue:null});
+ assert.deepEqual(changes, [
+  {next:'pointer', previous:'touch', reason:'reset'},
+  {next:'pointer', previous:'pointer', reason:undefined},
+  {next:'touch', previous:'pointer', reason:undefined},
+  {next:'pointer', previous:'touch', reason:undefined},
+ ]);
+ input.dispose();
+});
+
 test('a reset in another tab clears the local hint without overwriting newer input', () => {
  const storage = memoryStorage({[preferenceKey]:'touch'});
  const browser = setup(false,storage);

@@ -8,7 +8,7 @@ const moved=value=>typeof value==='number'&&Number.isFinite(value)&&value!==0;
  * Use the primary pointer only while there is no known input preference.
  * @param {EventTarget} target Pass the window to receive cross-tab storage events.
  * @param {EventTarget & {readonly matches:boolean}} coarsePointer
- * @param {(input:CameraGestureInput)=>void} onChange
+ * @param {(input:CameraGestureInput,previous:CameraGestureInput,reason?:'reset')=>void} onChange
  * @param {Pick<Storage,'getItem'|'setItem'|'removeItem'>|null} [storage]
  */
 export function watchCameraGestureInput(target,coarsePointer,onChange,storage=null){
@@ -33,20 +33,22 @@ export function watchCameraGestureInput(target,coarsePointer,onChange,storage=nu
   cachedPreference = next;
   try { storage.setItem(preferenceKey, next); } catch { /* Keep the hint usable in memory. */ }
  }
- function usePrimaryInput() {
+ /** @param {'reset'} [reason] */
+ function usePrimaryInput(reason) {
+  const previous = input;
   const next = primaryInput();
-  const changed = observed || input !== next;
+  const changed = observed || previous !== next;
   observed = false;
   input = next;
   positions.clear();
-  if (changed) onChange(input);
+  if (changed) onChange(input,previous,reason);
  }
  function reset() {
   if (disposed) return false;
   let cleared = true;
   try { storage?.removeItem(preferenceKey); } catch { cleared = false; }
   cachedPreference = null;
-  usePrimaryInput();
+  usePrimaryInput('reset');
   return cleared;
  }
  /** @param {Event} raw */
@@ -60,13 +62,14 @@ export function watchCameraGestureInput(target,coarsePointer,onChange,storage=nu
  /** @param {CameraGestureInput} next @param {boolean} explicit */
  function choose(next,explicit){
   if(disposed)return;
-  const changed=input!==next||explicit&&!observed;
+  const previous=input;
+  const changed=previous!==next||explicit&&!observed;
   input=next;
   if (explicit) {
    observed = true;
    savePreference(next);
   }
-  if(changed)onChange(input);
+  if(changed)onChange(input,previous);
  }
  /** @param {Event} raw */
  function observe(raw){
