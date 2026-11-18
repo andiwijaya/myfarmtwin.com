@@ -355,18 +355,23 @@
  text-align:center;
 }
 .gesture-reset-feedback[data-confirmation] .gesture-reset-countdown {visibility:visible;}
+.gesture-reset-pause-notes {
+ display:grid;
+ color:#425c3b;
+ font-size:10px;
+ font-weight:600;
+ line-height:12px;
+}
+.gesture-reset-pause-notes > span {grid-area:1 / 1;visibility:hidden;}
 .gesture-reset-paused-note {display:none;}
+.gesture-reset-feedback[data-hover-paused] .gesture-reset-hover-note {visibility:visible;}
+.gesture-settings + #data-help {margin-block-start:0;}
 @media (max-width:760px),(any-pointer:coarse) {
- .gesture-reset-paused-note {
-  display:block;
-  visibility:hidden;
-  color:#425c3b;
-  font-size:10px;
-  font-weight:600;
-  line-height:12px;
- }
+ .gesture-reset-paused-note {display:block;}
  .gesture-reset-region:has(.gesture-reset-toggle[aria-pressed="true"]:not([hidden])) .gesture-reset-paused-note {visibility:visible;}
- .gesture-settings + #data-help {margin-block-start:0;}
+}
+@media (max-width:760px) {
+ .gesture-reset-hover-note {display:none;}
 }
 .gesture-settings-actions {display:flex;flex-wrap:wrap;gap:8px;}
 .gesture-settings-actions select,.gesture-settings-actions button {font-size:12px;min-height:44px;}

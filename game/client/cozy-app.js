@@ -112,6 +112,7 @@ const gestureResetRegion = el('gesture-reset-region');
 const gestureResetFeedback = el('gesture-reset-feedback');
 const gestureResetToggle = el('gesture-reset-countdown-toggle');
 const gestureResetPausedNote = el('gesture-reset-paused-note');
+const gestureResetHoverNote = el('gesture-reset-hover-note');
 const gestureResetHelp = el('gesture-reset-help');
 const gestureResetHelpSpace = el('gesture-reset-help-space');
 const gestureResetConfirmationSpace = el('gesture-reset-confirmation-space');
@@ -143,6 +144,7 @@ function cancelGestureResetAnimation() {
  gestureResetSecondsFrame = null;
  gestureResetAnimation?.cancel();
  gestureResetAnimation = null;
+ gestureResetFeedback.removeAttribute('data-hover-paused');
 }
 
 function hideGestureResetToggle() {
@@ -228,9 +230,11 @@ function updateGestureResetSeconds(countdown) {
 function syncGestureResetCountdownPause() {
  const countdown = gestureResetAnimation;
  if (!countdown || !(countdown.effect instanceof KeyframeEffect) || countdown.effect.target !== gestureResetProgress) return;
- const paused = gestureResetHovered || gestureResetToggle.getAttribute('aria-pressed') === 'true';
+ const manuallyPaused = gestureResetToggle.getAttribute('aria-pressed') === 'true';
+ const paused = gestureResetHovered || manuallyPaused;
  if (paused && countdown.playState === 'running') countdown.pause();
  if (!paused && countdown.playState === 'paused') countdown.play();
+ gestureResetFeedback.toggleAttribute('data-hover-paused', gestureResetHovered && !manuallyPaused && countdown.playState === 'paused');
  updateGestureResetSeconds(countdown);
 }
 
@@ -321,6 +325,7 @@ function translateGestureSettings() {
  gestureResetButton.textContent = L('Reset input terakhir', 'Reset last input');
  gestureResetToggle.setAttribute('aria-label',L('Jeda hitung mundur konfirmasi','Pause confirmation countdown'));
  gestureResetPausedNote.textContent = L('Dijeda · Ketuk untuk lanjut','Paused · Tap to resume');
+ gestureResetHoverNote.textContent = L('Dijeda · Geser kursor keluar untuk lanjut','Paused · Move the cursor away to resume');
  renderGestureMode();
 }
 gestureModeSelect.addEventListener('change', () => {
