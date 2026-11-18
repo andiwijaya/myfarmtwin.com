@@ -282,15 +282,22 @@
 }
 
 .gesture-settings {
- display:flex;
- flex-wrap:wrap;
- align-items:center;
- justify-content:space-between;
- gap:8px 16px;
+ display:grid;
+ gap:8px;
  padding:12px 14px;
  background:#eef2e6;
  border-radius:9px;
 }
 .gesture-settings h3 {font-size:13px;margin:0;}
-.gesture-settings p {font-size:11px;line-height:1.5;margin:3px 0 0;}
-.gesture-settings button {font-size:12px;min-height:44px;}
+.gesture-settings p {font-size:11px;line-height:1.5;margin:0;}
+.gesture-settings-actions {display:flex;flex-wrap:wrap;gap:8px;}
+.gesture-settings-actions select,.gesture-settings-actions button {font-size:12px;min-height:44px;}
+.gesture-settings-actions select {
+ flex:1 1 92px;
+ max-width:100%;
+ padding:7px 10px;
+ color:#304b36;
+ background:#fbfcf7;
+ border:1px solid #cdd7c6;
+ border-radius:9px;
+}

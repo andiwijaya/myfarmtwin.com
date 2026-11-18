@@ -104,16 +104,66 @@ function updateCameraShortcutHints(){
  }
 }
 const cameraTouchInput=matchMedia('(pointer: coarse)');
-function updateCameraGestureHint(){
- const hint=el('gesture-hint'),input=cameraGestureInput.getInput();hint.textContent=cameraGestureHint(input==='touch',language);hint.dataset.gestureInput=input;hint.dataset.gestureSource=cameraGestureInput.hasInput()?'last':'primary';
+const gestureModeKey = 'myfarmtwin.ui.camera-gesture-mode.v1';
+const gestureStorage = browserStorage();
+const gestureModeSelect = /** @type {HTMLSelectElement} */(el('gesture-hint-mode'));
+/** @param {unknown} value @returns {'auto'|'touch'|'mouse'} */
+function parseGestureMode(value) {
+ return value === 'touch' || value === 'mouse' ? value : 'auto';
 }
-const cameraGestureInput=watchCameraGestureInput(window,cameraTouchInput,updateCameraGestureHint,browserStorage());
+/** @returns {'auto'|'touch'|'mouse'} */
+function readGestureMode() {
+ try { return parseGestureMode(gestureStorage?.getItem(gestureModeKey)); }
+ catch { return 'auto'; }
+}
+let gestureMode = readGestureMode();
+let gestureModeSaved = true;
+
+function updateCameraGestureHint() {
+ const hint = el('gesture-hint');
+ const automatic = gestureMode === 'auto';
+ const touch = automatic ? cameraGestureInput.getInput() === 'touch' : gestureMode === 'touch';
+ hint.textContent = cameraGestureHint(touch, language);
+ hint.dataset.gestureInput = touch ? 'touch' : 'pointer';
+ hint.dataset.gestureSource = automatic ? (cameraGestureInput.hasInput() ? 'last' : 'primary') : 'manual';
+ hint.dataset.gestureMode = gestureMode;
+}
+const cameraGestureInput = watchCameraGestureInput(window, cameraTouchInput, updateCameraGestureHint, gestureStorage);
+
+function renderGestureMode() {
+ gestureModeSelect.value = gestureMode;
+ /** @type {HTMLButtonElement} */(el('gesture-input-reset')).disabled = gestureMode !== 'auto';
+ const help = gestureMode === 'auto'
+  ? L('Ikuti input terakhir atau input utama perangkat.', 'Follow the last input or the device’s primary input.')
+  : L('Pilih Otomatis untuk mereset riwayat input.', 'Choose Automatic to reset input history.');
+ el('gesture-input-help').textContent = gestureModeSaved ? help : L('Pilihan berlaku untuk sesi ini. Browser tidak dapat menyimpannya.', 'The choice applies to this session. The browser could not save it.');
+}
 function translateGestureSettings() {
  el('gesture-settings-title').textContent = L('Petunjuk kamera', 'Camera hints');
+ el('gesture-mode-label').textContent = L('Mode petunjuk kamera', 'Camera hint mode');
+ el('gesture-mode-auto').textContent = L('Otomatis', 'Automatic');
+ el('gesture-mode-touch').textContent = L('Sentuh', 'Touch');
+ el('gesture-mode-mouse').textContent = L('Mouse', 'Mouse');
  el('gesture-input-reset').textContent = L('Reset input terakhir', 'Reset last input');
- el('gesture-input-help').textContent = L('Gunakan input utama perangkat.', 'Use the device’s primary input.');
+ renderGestureMode();
 }
+gestureModeSelect.addEventListener('change', () => {
+ gestureMode = parseGestureMode(gestureModeSelect.value);
+ gestureModeSaved = gestureStorage !== null;
+ try { gestureStorage?.setItem(gestureModeKey, gestureMode); }
+ catch { gestureModeSaved = false; }
+ updateCameraGestureHint();
+ renderGestureMode();
+});
+window.addEventListener('storage', event => {
+ if (!gestureStorage || event.storageArea !== gestureStorage || (event.key !== gestureModeKey && event.key !== null)) return;
+ gestureMode = readGestureMode();
+ gestureModeSaved = true;
+ updateCameraGestureHint();
+ renderGestureMode();
+});
 el('gesture-input-reset').addEventListener('click', () => {
+ if (gestureMode !== 'auto') return;
  if (!cameraGestureInput.reset()) {
   el('gesture-input-help').textContent = L('Petunjuk direset untuk sesi ini. Browser tidak dapat menghapus input tersimpan.', 'Hints reset for this session. The browser could not clear the saved input.');
   return;

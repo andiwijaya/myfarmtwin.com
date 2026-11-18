@@ -4,7 +4,7 @@
  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
  <title>Farm Tropis — MyFarmTwin</title><meta name="description" content="Bangun farm tropis Indonesia milikmu. Berkebun, pelihara ayam, kambing, sapi dan ikan, penuhi pesanan, lalu tata lahan sesukamu.">
  <meta name="robots" content="noindex,follow"><link rel="canonical" href="https://myfarmtwin.com/play/">
- <link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/play/cozy/style.css?v=5c4afde1df38784b"><script type="module" src="/play/cozy/app-6IT4BBUU.js"></script>
+ <link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/play/cozy/style.css?v=48f32c13a5d0e561"><script type="module" src="/play/cozy/app-PZBWR4BL.js"></script>
 </head>
 <body>
  <a class="skip" href="#care">Lewati ke kontrol / Skip to controls</a>
@@ -44,8 +44,17 @@
  <dialog id="data-dialog">
   <form method="dialog" class="dialog-heading"><div><p class="eyebrow">MYFARMTWIN</p><h2 id="data-title">Progres & data</h2></div><button aria-label="Tutup / Close">×</button></form>
   <section class="gesture-settings" aria-labelledby="gesture-settings-title">
-   <div><h3 id="gesture-settings-title">Petunjuk kamera</h3><p id="gesture-input-help" role="status">Gunakan input utama perangkat.</p></div>
-   <button type="button" id="gesture-input-reset" aria-describedby="gesture-input-help">Reset input terakhir</button>
+   <h3 id="gesture-settings-title">Petunjuk kamera</h3>
+   <div class="gesture-settings-actions">
+    <label id="gesture-mode-label" class="sr" for="gesture-hint-mode">Mode petunjuk kamera</label>
+    <select id="gesture-hint-mode" aria-describedby="gesture-input-help">
+     <option id="gesture-mode-auto" value="auto">Otomatis</option>
+     <option id="gesture-mode-touch" value="touch">Sentuh</option>
+     <option id="gesture-mode-mouse" value="mouse">Mouse</option>
+    </select>
+    <button type="button" id="gesture-input-reset" aria-describedby="gesture-input-help">Reset input terakhir</button>
+   </div>
+   <p id="gesture-input-help" role="status">Ikuti input terakhir atau input utama perangkat.</p>
   </section>
   <p id="data-help">Cadangan mencakup farm, tata letak, dan arsip progres lama. Simpan salinan teks di tempat aman.</p><label for="save-text" id="save-text-label">Salinan farm</label><textarea id="save-text" spellcheck="false" rows="9"></textarea><div class="data-actions"><button id="export-data">Tampilkan cadangan</button><button id="import-data" class="primary">Impor dari teks</button><button id="recover-data">Pulihkan cadangan sebelumnya</button><button id="legacy-data">Tampilkan arsip farm lama</button></div><p id="data-status" role="status"></p><a class="recovery-link" href="/play/recovery/">Buka pemulihan tanpa 3D / Open recovery without 3D ↗</a>
  </dialog>
