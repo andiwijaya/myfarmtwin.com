@@ -111,6 +111,7 @@ const gestureResetButton = /** @type {HTMLButtonElement} */(el('gesture-input-re
 const gestureResetRegion = el('gesture-reset-region');
 const gestureResetFeedback = el('gesture-reset-feedback');
 const gestureResetToggle = el('gesture-reset-countdown-toggle');
+const gestureResetPausedNote = el('gesture-reset-paused-note');
 const gestureResetHelp = el('gesture-reset-help');
 const gestureResetHelpSpace = el('gesture-reset-help-space');
 const gestureResetConfirmationSpace = el('gesture-reset-confirmation-space');
@@ -319,6 +320,7 @@ function translateGestureSettings() {
  el('gesture-mode-mouse').textContent = L('Mouse', 'Mouse');
  gestureResetButton.textContent = L('Reset input terakhir', 'Reset last input');
  gestureResetToggle.setAttribute('aria-label',L('Jeda hitung mundur konfirmasi','Pause confirmation countdown'));
+ gestureResetPausedNote.textContent = L('Dijeda · Ketuk untuk lanjut','Paused · Tap to resume');
  renderGestureMode();
 }
 gestureModeSelect.addEventListener('change', () => {

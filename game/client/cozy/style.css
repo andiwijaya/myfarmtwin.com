@@ -355,6 +355,19 @@
  text-align:center;
 }
 .gesture-reset-feedback[data-confirmation] .gesture-reset-countdown {visibility:visible;}
+.gesture-reset-paused-note {display:none;}
+@media (max-width:760px),(any-pointer:coarse) {
+ .gesture-reset-paused-note {
+  display:block;
+  visibility:hidden;
+  color:#425c3b;
+  font-size:10px;
+  font-weight:600;
+  line-height:12px;
+ }
+ .gesture-reset-region:has(.gesture-reset-toggle[aria-pressed="true"]:not([hidden])) .gesture-reset-paused-note {visibility:visible;}
+ .gesture-settings + #data-help {margin-block-start:0;}
+}
 .gesture-settings-actions {display:flex;flex-wrap:wrap;gap:8px;}
 .gesture-settings-actions select,.gesture-settings-actions button {font-size:12px;min-height:44px;}
 .gesture-settings-actions select {
