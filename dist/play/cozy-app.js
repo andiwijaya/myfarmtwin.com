@@ -133,10 +133,19 @@ let gestureModeSaved = true;
 /** @type {'status'|'outgoing'|'confirmation'} */let gestureResetHelpPhase = 'status';
 /** @type {Animation|null} */let gestureResetAnimation = null;
 
-function clearGestureResetConfirmation() {
+function cancelGestureResetAnimation() {
  gestureResetAnimation?.cancel();
  gestureResetAnimation = null;
+}
+
+function hideGestureResetCountdown() {
  gestureResetFeedback.removeAttribute('data-confirmation');
+ gestureResetProgress.style.removeProperty('transform');
+}
+
+function clearGestureResetConfirmation() {
+ cancelGestureResetAnimation();
+ hideGestureResetCountdown();
  gestureResetHelpPhase = 'status';
 }
 
@@ -151,8 +160,7 @@ function animateGestureReset(element, keyframes, options, onFinish) {
  gestureResetAnimation = animation;
  animation.onfinish = () => {
   if (gestureResetAnimation !== animation) return;
-  gestureResetAnimation = null;
-  animation.cancel();
+  cancelGestureResetAnimation();
   onFinish?.();
  };
  return animation;
@@ -173,13 +181,14 @@ function fadeGestureResetHelp(fromOpacity, toOpacity, onFinish) {
 }
 
 function restoreGestureResetStatus() {
+ hideGestureResetCountdown();
  gestureResetHelpPhase = 'status';
  fadeGestureResetHelp(0, 1);
  updateCameraGestureHint();
 }
 
 function finishGestureResetConfirmation() {
- gestureResetFeedback.removeAttribute('data-confirmation');
+ gestureResetProgress.style.transform = 'scaleX(0)';
  fadeGestureResetHelp(1, 0, restoreGestureResetStatus);
 }
 
@@ -208,6 +217,7 @@ function holdGestureResetConfirmation() {
 
 function showGestureResetConfirmation() {
  gestureResetHelpPhase = 'confirmation';
+ gestureResetProgress.style.removeProperty('transform');
  gestureResetSeconds.textContent = String(gestureResetConfirmationDuration / 1000);
  gestureResetFeedback.setAttribute('data-confirmation','');
  fadeGestureResetHelp(0, 1, holdGestureResetConfirmation);
@@ -279,10 +289,14 @@ window.addEventListener('storage', event => {
 gestureResetButton.addEventListener('click', () => {
  if (gestureResetButton.disabled) return;
  const currentOpacity = Number(getComputedStyle(gestureResetFeedback).opacity);
- clearGestureResetConfirmation();
+ if (gestureResetFeedback.hasAttribute('data-confirmation')) {
+  // Keep the outgoing line at its current width if a new reset interrupts it.
+  gestureResetProgress.style.transform = getComputedStyle(gestureResetProgress).transform;
+ }
+ cancelGestureResetAnimation();
  gestureResetHelpPhase = 'outgoing';
  if (!cameraGestureInput.reset()) {
-  gestureResetHelpPhase = 'status';
+  clearGestureResetConfirmation();
   updateCameraGestureHint();
   gestureInputNotice.textContent = L('Petunjuk direset untuk sesi ini. Browser tidak dapat menghapus input tersimpan.', 'Hints reset for this session. The browser could not clear the saved input.');
   return;

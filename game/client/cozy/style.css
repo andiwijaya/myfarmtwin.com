@@ -316,11 +316,18 @@
  block-size:10px;
  visibility:hidden;
 }
-.gesture-reset-progress {
+.gesture-reset-progress-track {
  flex:1;
  min-inline-size:0;
  block-size:2px;
  border-radius:1px;
+ background:#bfceb4;
+ overflow:hidden;
+}
+.gesture-reset-progress {
+ display:block;
+ block-size:100%;
+ border-radius:inherit;
  background:#6c8559;
  transform-origin:left center;
 }
