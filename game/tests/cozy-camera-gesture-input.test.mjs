@@ -55,10 +55,12 @@ const preferenceKey = 'myfarmtwin.ui.camera-gesture-input.v1';
 function memoryStorage(initial = {}) {
  const values = new Map(Object.entries(initial));
  const writes = [];
+ const removals = [];
  return {
-  values, writes,
+  values, writes, removals,
   getItem: key => values.get(key) ?? null,
   setItem(key, value) { values.set(key, value); writes.push([key, value]); },
+  removeItem(key) { values.delete(key); removals.push(key); },
  };
 }
 
@@ -95,6 +97,75 @@ test('ignores invalid preferences and does not save compatibility or idle events
  assert.deepEqual(storage.writes, []);
  emit(browser.target, 'pointerdown', {pointerType:'touch'});
  assert.deepEqual(storage.writes, [[preferenceKey,'touch']]);
+ browser.input.dispose();
+});
+
+test('reset clears only the input preference and lets the next gesture create a new preference', () => {
+ const otherPreferences = {
+  'myfarmtwin.cozy.save.v2':'original farm',
+  'myfarmtwin.ui.camera.v1':'camera',
+  'myfarmtwin.ui.toolbar-expanded.v1':'expanded',
+  'myfarmtwin.locale':'en',
+ };
+ const storage = memoryStorage({...otherPreferences,[preferenceKey]:'pointer'});
+ const browser = setup(true,storage);
+ assert.equal(browser.input.getInput(),'pointer');
+ assert.equal(browser.input.reset(),true);
+ assert.equal(browser.input.getInput(),'touch');
+ assert.equal(browser.input.hasInput(),false);
+ assert.deepEqual(browser.changes,['touch']);
+ assert.deepEqual(storage.removals,[preferenceKey]);
+ assert.deepEqual(Object.fromEntries(storage.values),otherPreferences);
+ const fresh = setup(false,storage);
+ assert.equal(fresh.input.getInput(),'pointer');
+ assert.equal(fresh.input.hasInput(),false);
+ assert.deepEqual(storage.writes,[]);
+ fresh.input.dispose();
+
+ browser.media.set(false);
+ assert.equal(browser.input.getInput(),'pointer');
+ assert.equal(browser.input.hasInput(),false);
+ emit(browser.target,'pointerdown',{pointerType:'touch'});
+ assert.deepEqual(storage.writes,[[preferenceKey,'touch']]);
+ browser.input.dispose();
+});
+
+test('reset reports a primary-source change even when the hint text stays the same', () => {
+ const storage = memoryStorage({[preferenceKey]:'pointer'});
+ const browser = setup(false,storage);
+ assert.equal(browser.input.reset(),true);
+ assert.equal(browser.input.hasInput(),false);
+ assert.deepEqual(browser.changes,['pointer']);
+ emit(browser.target,'pointerdown',{pointerType:'mouse'});
+ assert.equal(browser.input.hasInput(),true);
+ assert.equal(storage.getItem(preferenceKey),'pointer');
+ browser.input.dispose();
+});
+
+test('a reset in another tab clears the local hint without overwriting newer input', () => {
+ const storage = memoryStorage({[preferenceKey]:'touch'});
+ const browser = setup(false,storage);
+ storage.removeItem(preferenceKey);
+ emit(browser.target,'storage',{key:preferenceKey,storageArea:storage,newValue:null});
+ assert.equal(browser.input.getInput(),'pointer');
+ assert.equal(browser.input.hasInput(),false);
+ emit(browser.target,'pointerdown',{pointerType:'touch'});
+ emit(browser.target,'storage',{key:preferenceKey,storageArea:storage,newValue:null});
+ assert.equal(browser.input.getInput(),'touch');
+ assert.equal(browser.input.hasInput(),true);
+ assert.deepEqual(storage.writes,[[preferenceKey,'touch']]);
+ browser.input.dispose();
+});
+
+test('blocked storage still allows a session reset and reports that removal failed', () => {
+ const storage = memoryStorage({[preferenceKey]:'touch'});
+ storage.removeItem = () => { throw new Error('blocked'); };
+ const browser = setup(false,storage);
+ assert.equal(browser.input.reset(),false);
+ assert.equal(browser.input.getInput(),'pointer');
+ assert.equal(browser.input.hasInput(),false);
+ assert.equal(storage.getItem(preferenceKey),'touch');
+ assert.deepEqual(storage.writes,[]);
  browser.input.dispose();
 });
 

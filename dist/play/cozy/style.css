@@ -280,3 +280,17 @@
  .toolbar-preview strong {font-size:11px;}
  .toolbar-toggle {font-size:10px;gap:4px;}
 }
+
+.gesture-settings {
+ display:flex;
+ flex-wrap:wrap;
+ align-items:center;
+ justify-content:space-between;
+ gap:8px 16px;
+ padding:12px 14px;
+ background:#eef2e6;
+ border-radius:9px;
+}
+.gesture-settings h3 {font-size:13px;margin:0;}
+.gesture-settings p {font-size:11px;line-height:1.5;margin:3px 0 0;}
+.gesture-settings button {font-size:12px;min-height:44px;}
