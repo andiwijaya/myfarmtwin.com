@@ -107,6 +107,7 @@ const cameraTouchInput=matchMedia('(pointer: coarse)');
 const gestureModeKey = 'myfarmtwin.ui.camera-gesture-mode.v1';
 const gestureStorage = browserStorage();
 const gestureModeSelect = /** @type {HTMLSelectElement} */(el('gesture-hint-mode'));
+const gestureResetButton = /** @type {HTMLButtonElement} */(el('gesture-input-reset'));
 const activeGestureStatus = el('gesture-active-input');
 const activeGestureType = el('gesture-active-type');
 const activeGestureSource = el('gesture-active-source');
@@ -132,6 +133,7 @@ function updateCameraGestureHint() {
  hint.dataset.gestureSource = automatic ? (hasLastInput ? 'last' : 'primary') : 'manual';
  hint.dataset.gestureMode = gestureMode;
 
+ gestureResetButton.disabled = !automatic || !hasLastInput;
  activeGestureStatus.hidden = !automatic;
  if (automatic) {
   const inputName = touch ? L('Sentuh', 'Touch') : 'Mouse';
@@ -145,7 +147,6 @@ const cameraGestureInput = watchCameraGestureInput(window, cameraTouchInput, upd
 
 function renderGestureMode() {
  gestureModeSelect.value = gestureMode;
- /** @type {HTMLButtonElement} */(el('gesture-input-reset')).disabled = gestureMode !== 'auto';
  const help = gestureMode === 'auto'
   ? L('Ikuti input terakhir atau input utama perangkat.', 'Follow the last input or the device’s primary input.')
   : L('Pilih Otomatis untuk mereset riwayat input.', 'Choose Automatic to reset input history.');
@@ -157,7 +158,7 @@ function translateGestureSettings() {
  el('gesture-mode-auto').textContent = L('Otomatis', 'Automatic');
  el('gesture-mode-touch').textContent = L('Sentuh', 'Touch');
  el('gesture-mode-mouse').textContent = L('Mouse', 'Mouse');
- el('gesture-input-reset').textContent = L('Reset input terakhir', 'Reset last input');
+ gestureResetButton.textContent = L('Reset input terakhir', 'Reset last input');
  renderGestureMode();
 }
 gestureModeSelect.addEventListener('change', () => {
@@ -175,8 +176,8 @@ window.addEventListener('storage', event => {
  updateCameraGestureHint();
  renderGestureMode();
 });
-el('gesture-input-reset').addEventListener('click', () => {
- if (gestureMode !== 'auto') return;
+gestureResetButton.addEventListener('click', () => {
+ if (gestureResetButton.disabled) return;
  if (!cameraGestureInput.reset()) {
   el('gesture-input-help').textContent = L('Petunjuk direset untuk sesi ini. Browser tidak dapat menghapus input tersimpan.', 'Hints reset for this session. The browser could not clear the saved input.');
   return;
