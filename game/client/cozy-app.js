@@ -126,7 +126,7 @@ function readGestureMode() {
 }
 let gestureMode = readGestureMode();
 let gestureModeSaved = true;
-let gestureResetConfirmationVisible = false;
+/** @type {'status'|'outgoing'|'confirmation'} */let gestureResetHelpPhase = 'status';
 let gestureResetConfirmationTimer = 0;
 /** @type {Animation|null} */let gestureResetHelpFade = null;
 
@@ -135,12 +135,12 @@ function clearGestureResetConfirmation() {
  gestureResetConfirmationTimer = 0;
  gestureResetHelpFade?.cancel();
  gestureResetHelpFade = null;
- gestureResetConfirmationVisible = false;
+ gestureResetHelpPhase = 'status';
 }
 
 /** @param {number} fromOpacity @param {number} toOpacity @param {() => void} [onFinish] */
 function fadeGestureResetHelp(fromOpacity, toOpacity, onFinish) {
- if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+ if (fromOpacity === toOpacity || matchMedia('(prefers-reduced-motion: reduce)').matches) {
   onFinish?.();
   return;
  }
@@ -158,7 +158,7 @@ function fadeGestureResetHelp(fromOpacity, toOpacity, onFinish) {
 }
 
 function restoreGestureResetStatus() {
- gestureResetConfirmationVisible = false;
+ gestureResetHelpPhase = 'status';
  fadeGestureResetHelp(0, 1);
  updateCameraGestureHint();
 }
@@ -168,6 +168,12 @@ function holdGestureResetConfirmation() {
   gestureResetConfirmationTimer = 0;
   fadeGestureResetHelp(1, 0, restoreGestureResetStatus);
  }, 3000);
+}
+
+function showGestureResetConfirmation() {
+ gestureResetHelpPhase = 'confirmation';
+ fadeGestureResetHelp(0, 1, holdGestureResetConfirmation);
+ updateCameraGestureHint();
 }
 
 function updateCameraGestureHint() {
@@ -196,7 +202,9 @@ function updateCameraGestureHint() {
  const confirmation = L('Petunjuk kembali mengikuti input utama perangkat.', 'Camera hints now follow the device’s primary input.');
  if (gestureResetHelpSpace.textContent !== resetHelp) gestureResetHelpSpace.textContent = resetHelp;
  if (gestureResetConfirmationSpace.textContent !== confirmation) gestureResetConfirmationSpace.textContent = confirmation;
- const shownHelp = gestureResetConfirmationVisible ? confirmation : resetHelp;
+ // Keep the displayed text in place until its fade-out finishes.
+ if (gestureResetHelpPhase === 'outgoing') return;
+ const shownHelp = gestureResetHelpPhase === 'confirmation' ? confirmation : resetHelp;
  if (gestureResetHelp.textContent !== shownHelp) gestureResetHelp.textContent = shownHelp;
 }
 const cameraGestureInput = watchCameraGestureInput(window, cameraTouchInput, updateCameraGestureHint, gestureStorage);
@@ -232,15 +240,17 @@ window.addEventListener('storage', event => {
 });
 gestureResetButton.addEventListener('click', () => {
  if (gestureResetButton.disabled) return;
+ const currentOpacity = Number(getComputedStyle(gestureResetHelp).opacity);
  clearGestureResetConfirmation();
+ gestureResetHelpPhase = 'outgoing';
  if (!cameraGestureInput.reset()) {
+  gestureResetHelpPhase = 'status';
+  updateCameraGestureHint();
   gestureInputNotice.textContent = L('Petunjuk direset untuk sesi ini. Browser tidak dapat menghapus input tersimpan.', 'Hints reset for this session. The browser could not clear the saved input.');
   return;
  }
- gestureResetConfirmationVisible = true;
- fadeGestureResetHelp(0, 1, holdGestureResetConfirmation);
- updateCameraGestureHint();
  renderGestureMode();
+ fadeGestureResetHelp(currentOpacity, 0, showGestureResetConfirmation);
 });
 async function confirmPlacement(){if(!placement)return;const {item,mode}=placement,result=await act(()=>mode==='move'?session.move(item.id,item):session.build(item.kind,item),L('Tata letak farm tersimpan.','Farm layout saved.'));if(result?.ok){cancelPlacement();go(result.id||item.id);}}
 function translate(){document.documentElement.lang=language;const strings=/** @type {Record<string,[string,string]>} */({'toolbar-title':['Kontrol','Controls'],'toolbar-day-label':['HARI','DAY'],'toolbar-coins-label':['KOIN','COINS'],'toolbar-expand-label':['Buka','Show'],'toolbar-collapse-label':['Tutup','Hide'],'edition':['FARM TROPIS INDONESIA','AN INDONESIAN TROPICAL FARM'],'view-subtitle':['Tumbuh dengan caramu sendiri.','Grow in your own way.'],'day-label':['HARI','DAY'],'coin-label':['KOIN','COINS'],'level-label':['LEVEL','LEVEL'],'beds-label':['BED AKTIF','ACTIVE BEDS'],'nav-overview':['Farm','Farm'],'nav-garden':['Kebun','Garden'],'nav-coop':['Ayam','Hens'],'nav-goat':['Kambing','Goats'],'nav-cow':['Sapi','Cows'],'nav-fish':['Ikan','Fish'],'nav-market':['Market','Market'],'nav-build':['Tata lahan','Arrange'],'camera-reset-label':['Reset kamera','Reset camera'],'camera-undo-label':['Undo reset','Undo reset'],'camera-redo-label':['Redo reset','Redo reset'],'clock-label':['WAKTU FARM','FARM TIME'],'advance':['+6 jam','+6 hours'],'advance-day':['+24 jam','+24 hours'],'build-title':['Tata farm sesukamu','Make this farm your own'],'build-help':['Pilih bangunan, atur posisi, lalu konfirmasi. Memindahkan fasilitas milikmu gratis.','Choose a building, set its position, then confirm. Moving your existing facilities is free.'],'placement-label':['ATUR POSISI','SET POSITION'],'placement-help':['Ketuk tanah atau ubah koordinat. Belum ada perubahan sampai dikonfirmasi.','Tap the ground or edit coordinates. Changes apply only after confirmation.'],'placement-cancel':['Batal','Cancel'],'placement-confirm':['Simpan posisi','Confirm position'],'data-title':['Progres & data','Progress & data'],'data-help':['Cadangan mencakup farm, tata letak, dan arsip progres lama. Simpan salinan teks di tempat aman.','Your backup includes farm progress, layout, and legacy archives. Keep a copy of the text somewhere safe.'],'save-text-label':['Salinan farm','Farm backup'],'export-data':['Tampilkan cadangan','Show backup'],'import-data':['Impor dari teks','Import from text'],'recover-data':['Pulihkan cadangan sebelumnya','Recover previous backup'],'legacy-data':['Tampilkan arsip farm lama','Show legacy farm archive']});for(const [id,pair]of Object.entries(strings))el(id).textContent=L(...pair);updateCameraShortcutHints();updateCameraGestureHint();translateGestureSettings();render();}
