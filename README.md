@@ -66,13 +66,13 @@ Public hosting is the audited Cloudflare Pages `myfarmtwin-com` project, GitHub 
 
 The EN/ID homepage now contains one live-game card, without FarmGirl imagery, published as an approved follow-on after V1. `npm run homepage` verifies its layouts, language/keyboard behavior, save preservation, game entry and exact retained release assets. See `docs/HOMEPAGE_INCREMENT.md` for the exact production source/deployment, scope and live-test evidence.
 
-## Common Engine crop pilot
+## Common Engine runtime
 
-The QA branch pins the private Common Engine 0.3.0 package. With Node 22.12+ and package access, use `npm ci` and `npm run qa:common-engine`. Open the printed loopback URL. Use a separate `qa-session` slug for each farm or reuse a slug on the same origin to continue it.
+The ordinary `/play/` route defaults to Common Engine 0.3.0. Both runtimes read and write the existing Cozy save, including migration of older farm and layout data. Open `/play/?engine=native` to use the native runtime with the latest saved progress. Reopen `/play/` to return to Common Engine. An earlier native build can read the same save format.
 
-Plant and water lettuce from an empty bed, advance three times with +6 hours or use autoplay, then harvest and save a QA checkpoint. The preview builds into a temporary directory. Named pilot sessions use their own IndexedDB databases. The ordinary route still uses the Cozy save.
+With Node 22.12+ and package access, run `npm ci` and `npm run qa:common-engine`. The printed loopback URL serves a temporary build and uses the QA IndexedDB namespace. Use `/play/?qa-session=myfarm-crop-qa` for an independent crop pilot that starts with its own farm.
 
-`npm run test:common-engine` verifies the flow in desktop Chromium and touch emulation. Set `PLAYWRIGHT_CHROMIUM_EXECUTABLE` if using an existing Chrome installation. Set `MYFARM_QA_EVIDENCE` to save screenshots.
+`npm run test:common-engine` checks the crop flow, old saves, and native rollback in desktop Chromium and touch emulation. Set `PLAYWRIGHT_CHROMIUM_EXECUTABLE` to use an existing Chrome installation or `MYFARM_QA_EVIDENCE` to save screenshots.
 
 ## Historical tropical GLB prototype (P0–P2)
 

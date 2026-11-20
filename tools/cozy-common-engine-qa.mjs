@@ -31,5 +31,5 @@ export async function startCozyCommonEngineQa({port=0, root=process.cwd()}={}) {
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const port = Number(process.env.MYFARM_QA_PORT ?? 4189);
   const {origin} = await startCozyCommonEngineQa({port});
-  console.log('MyFarmTwin Common Engine QA ' + origin + '/play/?qa-session=myfarm-crop-qa');
+  console.log('MyFarmTwin Common Engine QA ' + origin + '/play/');
 }
