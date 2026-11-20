@@ -10,7 +10,9 @@ Players build a small house and upgrade it through ten models using coins earned
 
 Workers rotate between direct jobs at the fields, individual livestock enclosures and pond, and deliveries to the market. One worker at a time can fetch water from the wind pump. A new farm starts at 06:00. While the clock is playing, one farm hour lasts 12 real seconds. Workers head indoors from 17:00 and return to work at 06:00 farm time.
 
-During the day, a truck follows the village road to the market loading point and leaves with produce crates. Street lamps near the field, home, and enclosures operate from 18:00 until 06:00.
+During the day, a truck follows the village road to the market loading point and leaves with produce crates. Decorative trees leave space for the current road. Street lamps near fields, homes, enclosures, markets and ponds operate from 18:00 until 06:00.
+
+On desktop, the farm fills the space below the header. The farm menu and camera controls open over the map.
 
 Cozy V2 stores progress and placement atomically under `myfarmtwin.cozy.save.v2`. Supported V0–V6 and P2 progress is mapped with exact original bytes retained. Changed scientific mechanics have explicit value/ownership equivalents, including graded old lots, service credit, active cow orders and goat pasture. There is no login or offline punishment. Text export/import, validated previous-backup recovery, stale-tab protection, and a renderer-independent reader at `/play/recovery/` preserve recovery paths. A compatible rollback retains that reader; reverting to old V6 code alone cannot interpret later V2 progress.
 

@@ -9,7 +9,7 @@ import {groundHeight,groundPoint,WorkerRoutes} from './cozy-worker-routes.js';
 /** @typedef {{lane:Point[],roadside:boolean}} MarketRoute */
 /** @typedef {'waiting'|'arriving'|'loading'|'backing'|'leaving'} TruckPhase */
 
-const roadZ=35, east={x:54,z:roadZ},west={x:-54,z:roadZ};
+const roadZ=35,roadHalfWidth=1.715,east={x:54,z:roadZ},west={x:-54,z:roadZ};
 const dayEnds=17;
 /** @param {Point} a @param {Point} b */
 const distance=(a,b)=>Math.hypot(b.x-a.x,b.z-a.z);
@@ -145,11 +145,12 @@ export class FarmTraffic{
   return [strips,corners];
  }
 
- /** @param {Point} point */
- onRoad(point){
-  if(point.x>=west.x&&point.x<=east.x&&Math.abs(point.z-roadZ)<2.15)return true;
+ /** @param {Point} point @param {number} [margin] */
+ onRoad(point,margin=.435){
+  const clearance=roadHalfWidth+margin;
+  if(segmentDistance(point,west,east)<clearance)return true;
   const lane=this.route?.lane??[];
-  return lane.some((to,i)=>i>0&&segmentDistance(point,lane[i-1],to)<2.15);
+  return lane.some((to,i)=>i>0&&segmentDistance(point,lane[i-1],to)<clearance);
  }
 
  /** @param {number} tick @param {Placement[]} items */
@@ -157,7 +158,7 @@ export class FarmTraffic{
   const hour=tick%24;
   this.open=hour>=COZY_MORNING_HOUR&&hour<dayEnds;
   const key=JSON.stringify(items);
-  if(key===this.layoutKey)return;
+  if(key===this.layoutKey)return false;
   this.layoutKey=key;
   for(const mesh of this.branchMeshes){mesh.removeFromParent();mesh.dispose();}
   this.route=marketTruckRoute(items);
@@ -167,6 +168,7 @@ export class FarmTraffic{
   this.truck.visible=false;
   this.loaded=false;
   this.audit();
+  return true;
  }
 
  /** @param {Point} point */

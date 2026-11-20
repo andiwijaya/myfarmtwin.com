@@ -10,7 +10,7 @@ import {groundHeight,groundPoint,WORKER_LODGE_SITE,WorkerRoutes} from './cozy-wo
 /** @typedef {{model:Group,glow:import('three').Object3D|null,site:LampSite}} Lamp */
 
 const station={x:33.1,z:-36.5,rotation:0};
-const enclosures=new Set(['barn','coop','goatShelter']);
+const litFacilities=new Set(['barn','coop','goatShelter','market','pond']);
 const lightsOnHour=18;
 
 /** @param {Placement[]} items @param {number} houseLevel @param {(point:Waypoint)=>boolean} [overRoad] */
@@ -18,7 +18,7 @@ export function farmLampSites(items,houseLevel,overRoad=()=>false){
  const house=items.find(item=>item.kind==='house');
  const houseSite=house??WORKER_LODGE_SITE;
  const size=HOUSE_LEVELS[Math.max(0,houseLevel-1)].dimensions;
- const routes=new WorkerRoutes(items.filter(item=>item!==house),Boolean(house));
+ const routes=new WorkerRoutes(items.filter(item=>item!==house),Boolean(house),{fences:true});
  if(house)routes.block(house,size[0],size[1]);
  /** @type {LampSite[]} */const sites=[];
  /** @param {import('./cozy-worker-routes.js').Site} item @param {number[][]} choices */
@@ -34,11 +34,11 @@ export function farmLampSites(items,houseLevel,overRoad=()=>false){
  /** @param {number} width @param {number} depth */
  const corners=(width,depth)=>{
   const x=width/2+.95,z=depth/2+.98;
-  return [[x,z],[-x,z],[x,-z],[-x,-z],[x,0],[-x,0]];
+  return [[x,z],[-x,z],[x,-z],[-x,-z],[x,0],[-x,0],[0,z],[0,-z]];
  };
  add(houseSite,corners(size[0],size[1]));
  for(const item of items){
-  if(!enclosures.has(item.kind))continue;
+  if(!litFacilities.has(item.kind))continue;
   const {width,depth}=COZY_BUILD_CATALOG[item.kind];
   add(item,corners(width,depth));
  }
