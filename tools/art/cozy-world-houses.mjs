@@ -1,5 +1,5 @@
 import {HOUSE_LEVELS} from '../../game/client/cozy-houses.js';
-import {M,beam,blade,box,clamp,group,lathe,material,noise,surface,textures} from './cozy-world-common.mjs';
+import {M,beam,blade,box,clamp,group,lathe,material,noise,surface,textures,tube} from './cozy-world-common.mjs';
 import {png} from './glb-prototype-export.mjs';
 
 const pantiles=textures.push({
@@ -38,6 +38,8 @@ const A={
  glass:material('Blue gray window reflections',0x41565f,{roughness:.2,metalness:.04}),
  reveal:material('Shadow in joinery and vents',0x302b24,{roughness:1}),
  light:material('Milk glass porch lamp',0xe4cf9d,{roughness:.4}),
+ dish:material('Ivory satellite reflector',0xdddccf,{roughness:.48,metalness:.24,double:true}),
+ bracket:material('Galvanized satellite wall bracket',0x727b79,{roughness:.59,metalness:.43}),
 };
 
 // UV units follow the tile courses and the sloping distance across each roof face.
@@ -124,7 +126,21 @@ function stairs(parent,x,z,base,width){
  }
 }
 
-function masonryBlock(parent,{width,depth,x=0,z=0,base=.28,height=2.53,wall=A.ivory,roof=A.red,rise=1.15,hip=.42,upper=false,shutters=false,frontDoor=0,doubleDoor=false,sideWindows=1,frontWindows,steps=true}){
+function satelliteDish(room,x,y,z){
+ const mount=group(room,'home_satellite_dish',[x,y,z]);
+ mount.userData.homeSatellite=true;
+ box(mount,'satellite_wall_plate',A.bracket,0,0,-.024,.16,.23,.056);
+ for(const h of [-.072,.072])box(mount,'wall_anchor_bolt',M.steel,0,h,-.056,.041,.039,.022);
+ tube(mount,'dish_bracket_arm',A.bracket,[[0,-.063,-.048],[0,-.077,-.132],[0,.021,-.193]],.028,.025,9,12);
+ tube(mount,'dish_coaxial_cable',A.sash,[[.065,.02,-.034],[.111,-.14,-.053],[.11,-.27,-.028],[.106,-.58,-.022]],.009,.007,6,14);
+ const reflector=group(mount,'satellite_reflector',[0,.021,-.189]);
+ reflector.rotation.x=-Math.PI*.415;
+ lathe(reflector,'curved_satellite_reflector',A.dish,[[0,0],[.1,.007],[.22,.032],[.34,.077],[.422,.118],[.43,.122],[.427,.108],[.34,.067],[.22,.022],[.10,-.003],[0,-.006]],36);
+ beam(reflector,'feed_arm',A.bracket,[0,.114,.378],[0,.223,.014],.016,8);
+ beam(reflector,'feed_receiver',A.bracket,[0,.193,.015],[0,.25,.015],.045,12);
+}
+
+function masonryBlock(parent,{width,depth,x=0,z=0,base=.28,height=2.53,wall=A.ivory,roof=A.red,rise=1.15,hip=.42,upper=false,shutters=false,frontDoor=0,doubleDoor=false,sideWindows=1,frontWindows,steps=true,satellite=false}){
  const room=group(parent,'habitable_volume',[x,0,z]);
  const eave=base+height;
  if(base<1)box(room,'stone_foundation',wall===A.boards?A.slate:A.brick,0,base/2,0,width+.12,base,depth+.12);
@@ -168,6 +184,7 @@ function masonryBlock(parent,{width,depth,x=0,z=0,base=.28,height=2.53,wall=A.iv
   for(let i=0;i<sideWindows;i++)glazing(room,side*(width/2+.028),base+1.46,depth*((i+1)/(sideWindows+1)-.5),{angle,shutters});
  }
  for(const side of [-1,1])glazing(room,width*.26*side,base+1.47,-depth/2-.021,{angle:Math.PI,width:.91});
+ if(satellite)satelliteDish(room,-width*.36,eave-.49,-depth/2);
  return room;
 }
 
@@ -217,25 +234,25 @@ function porchLamp(root,x,y,z){
 
 const designs=[
  root=>{
-  masonryBlock(root,{width:3.76,depth:3.02,z:-.27,base:.22,height:2.44,rise:.87,hip:1,roof:M.zincDetailed,wall:A.boards,frontDoor:.71,shutters:true});
+  masonryBlock(root,{width:3.76,depth:3.02,z:-.27,base:.22,height:2.44,rise:.87,hip:1,roof:M.zincDetailed,wall:A.boards,frontDoor:.71,shutters:true,satellite:true});
   planter(root,-1.52,1.62,.61);
  },
  root=>{
-  masonryBlock(root,{width:4.68,depth:3.56,z:-.26,base:.28,height:2.55,rise:1.06,hip:1,wall:A.ochre,frontDoor:-1.04,frontWindows:[.83,1.76]});
+  masonryBlock(root,{width:4.68,depth:3.56,z:-.26,base:.28,height:2.55,rise:1.06,hip:1,wall:A.ochre,frontDoor:-1.04,frontWindows:[.83,1.76],satellite:true});
   porchLamp(root,-.4,1.83,1.56);
  },
  root=>{
-  masonryBlock(root,{width:5.63,depth:4,z:-.35,base:.28,height:2.57,rise:1.25,hip:1,roof:A.rust,frontDoor:0,steps:false,shutters:true});
+  masonryBlock(root,{width:5.63,depth:4,z:-.35,base:.28,height:2.57,rise:1.25,hip:1,roof:A.rust,frontDoor:0,steps:false,shutters:true,satellite:true});
   veranda(root,{width:4.8,start:1.65,depth:.70,base:.28,high:2.75,mat:M.zincDetailed});
   planter(root,-1.7,2.16,.68);
  },
  root=>{
-  masonryBlock(root,{width:6.5,depth:4.08,z:-.48,base:.31,height:2.65,rise:1.47,wall:A.sage,frontDoor:0,steps:false});
+  masonryBlock(root,{width:6.5,depth:4.08,z:-.48,base:.31,height:2.65,rise:1.47,wall:A.sage,frontDoor:0,steps:false,satellite:true});
   veranda(root,{width:6.4,start:1.56,depth:1.03,base:.31,high:2.87,masonry:true,railing:true});
   porchLamp(root,-.71,2.13,1.6);
  },
  root=>{
-  masonryBlock(root,{width:7.75,depth:4.76,z:-.45,base:.34,height:2.65,rise:1.43,roof:A.rust,wall:A.linen,frontDoor:-.56,steps:false,sideWindows:2});
+  masonryBlock(root,{width:7.75,depth:4.76,z:-.45,base:.34,height:2.65,rise:1.43,roof:A.rust,wall:A.linen,frontDoor:-.56,steps:false,sideWindows:2,satellite:true});
   veranda(root,{width:4.6,x:-.56,start:1.93,depth:.94,base:.34,high:3.02,masonry:true,railing:true});
   const cross=group(root,'entry_cross_gable',[-.56,0,1.9]);
   cross.rotation.y=Math.PI/2;
@@ -244,26 +261,26 @@ const designs=[
   planter(root,2.32,2.21);
  },
  root=>{
-  masonryBlock(root,{width:9.18,depth:4.8,z:-1.13,base:.32,height:2.65,rise:1.57,roof:A.dark,wall:A.white,frontDoor:-1.9,frontWindows:[-3.7,.18],sideWindows:2,steps:false});
+  masonryBlock(root,{width:9.18,depth:4.8,z:-1.13,base:.32,height:2.65,rise:1.57,roof:A.dark,wall:A.white,frontDoor:-1.9,frontWindows:[-3.7,.18],sideWindows:2,steps:false,satellite:true});
   masonryBlock(root,{x:2.57,z:2.38,width:3.62,depth:2.31,base:.32,height:2.53,rise:1.34,hip:1,wall:A.sage,roof:A.rust,frontDoor:null,frontWindows:[0]});
   veranda(root,{width:5.16,x:-1.37,start:1.27,depth:1.77,base:.32,high:2.91,mat:A.dark,masonry:true});
   planter(root,-2.99,2.74,.90);
  },
  root=>{
-  masonryBlock(root,{width:10.54,depth:5.9,z:-.59,base:.4,height:2.73,rise:2.13,hip:.49,upper:true,roof:A.rust,wall:A.linen,frontDoor:0,doubleDoor:true,steps:false,sideWindows:2,shutters:true});
+  masonryBlock(root,{width:10.54,depth:5.9,z:-.59,base:.4,height:2.73,rise:2.13,hip:.49,upper:true,roof:A.rust,wall:A.linen,frontDoor:0,doubleDoor:true,steps:false,sideWindows:2,shutters:true,satellite:true});
   veranda(root,{width:9.6,start:2.36,depth:1.19,base:.4,high:3.07,mat:A.rust,railing:true});
   for(const x of [-3.68,3.68])planter(root,x,3.09);
  },
  root=>{
   masonryBlock(root,{width:10.8,depth:6.77,z:-.58,base:.35,height:2.92,roof:null,wall:A.white,frontDoor:.86,frontWindows:[-2.4,3.1],doubleDoor:true,steps:false,sideWindows:2});
-  masonryBlock(root,{width:7.6,depth:5.10,x:-.63,z:-.83,base:3.31,height:2.62,rise:1.53,hip:.38,roof:A.stone,wall:A.sage,doubleDoor:true,frontWindows:[-2.26,2.26]});
+  masonryBlock(root,{width:7.6,depth:5.10,x:-.63,z:-.83,base:3.31,height:2.62,rise:1.53,hip:.38,roof:A.stone,wall:A.sage,doubleDoor:true,frontWindows:[-2.26,2.26],satellite:true});
   veranda(root,{width:9.1,start:2.805,depth:1.32,base:.35,high:3.14,mat:A.stone,masonry:true,railing:true});
   box(root,'upper_balcony_slab',A.tiles,-.63,3.3,2.20,7.6,.15,1.3);
   rail(root,-4.35,3.08,3.38,2.80);
   porchLamp(root,-.23,2.36,2.83);
  },
  root=>{
-  masonryBlock(root,{width:12.35,depth:5.94,z:-2.13,base:.42,height:2.72,rise:1.89,hip:.53,roof:A.dark,wall:A.ochre,frontDoor:0,doubleDoor:true,steps:false,sideWindows:2,shutters:true});
+  masonryBlock(root,{width:12.35,depth:5.94,z:-2.13,base:.42,height:2.72,rise:1.89,hip:.53,roof:A.dark,wall:A.ochre,frontDoor:0,doubleDoor:true,steps:false,sideWindows:2,shutters:true,satellite:true});
   const pavilion=group(root,'open_pendopo',[0,0,2.69]);
   box(pavilion,'pendopo_raised_floor',A.tiles,0,.21,0,7.38,.42,4.1);
   for(const x of [-3.19,3.19])for(const z of [-1.69,1.69])post(pavilion,x,z,.42,3.41);
@@ -274,7 +291,7 @@ const designs=[
  },
  root=>{
   masonryBlock(root,{width:13.46,depth:8.56,z:-.59,base:.47,height:3.18,roof:null,wall:A.white,frontDoor:0,frontWindows:[-4.67,-2.17,2.17,4.67],doubleDoor:true,steps:false,sideWindows:3});
-  masonryBlock(root,{width:9.98,depth:6.47,x:.57,z:-.94,base:3.72,height:2.64,rise:2.08,roof:A.stone,hip:.58,wall:A.linen,doubleDoor:true,frontWindows:[-3.1,-1.53,1.58,3.45],sideWindows:2});
+  masonryBlock(root,{width:9.98,depth:6.47,x:.57,z:-.94,base:3.72,height:2.64,rise:2.08,roof:A.stone,hip:.58,wall:A.linen,doubleDoor:true,frontWindows:[-3.1,-1.53,1.58,3.45],sideWindows:2,satellite:true});
   veranda(root,{width:12.8,start:3.69,depth:1.53,base:.47,high:3.62,mat:A.stone,masonry:true,railing:true});
   box(root,'full_width_balcony',A.tiles,.57,3.75,2.93,9.95,.18,1.56);
   rail(root,-4.2,5.37,3.85,3.64);

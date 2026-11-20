@@ -299,6 +299,30 @@
 
 #care-toggle,#care-close {display:none;}
 
+.food-delivery {
+ display:grid;
+ gap:8px;
+ margin:14px 0;
+ padding:12px;
+ border:1px solid #dbe3d2;
+ border-radius:10px;
+ background:#f1f4e9;
+}
+.food-delivery h3,.food-delivery p {margin:0;}
+.food-delivery .stat-row {padding-block:4px;}
+.food-options {display:grid;gap:6px;}
+.food-options button {
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:8px;
+ min-height:44px;
+ padding:8px 10px;
+ text-align:left;
+ font-size:12px;
+}
+.food-options button span {color:#54684f;white-space:nowrap;}
+
 @media (min-width:1001px), (min-width:761px) and (hover:hover) and (pointer:fine) {
  .topbar {height:52px;padding-inline:18px;}
  #care-toggle {

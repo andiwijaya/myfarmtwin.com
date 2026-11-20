@@ -12,7 +12,7 @@ Each bed, facility, animal/cohort and stored lot has a stable ID. A move changes
 
 ## State and API
 
-The strict state discriminator is `{format:'MyFarmTwinCozy',version:2}`. Its top-level fields are revision, tick, seed, rng, weather, coins, water, careCredits, seeds, plots, inventory, ledger, stats, progression, orders, land, layout, facilities, nextLot and provenance. Unknown fields and future versions are rejected. IDs, numeric bounds, collection bounds, plot/layout ownership, facility/layout references, animal uniqueness, wallet/last-ledger agreement and placement validity are checked before persistence or import.
+The strict state discriminator is `{format:'MyFarmTwinCozy',version:2}`. Its required fields are revision, tick, seed, rng, weather, coins, water, careCredits, seeds, plots, inventory, ledger, stats, progression, orders, land, layout, facilities, nextLot and provenance. The `house` and `foodOrder` fields are optional so earlier saves can open directly. Unknown fields and future versions are rejected. IDs, numeric bounds, collection bounds, plot/layout ownership, facility/layout references, animal uniqueness, wallet/last-ledger agreement and placement validity are checked before persistence or import.
 
 - `plots` retain the native plot shape and crop fractional progress, quality and planting tick. The authoritative free placement is in `layout.items`; it does not depend on old fixed grid coordinates.
 - `inventory` records `{id,type,quantity,quality,sourceId,value3000}`. Milk quantity is mL; fish quantity is grams; other goods use whole item counts. `value3000` is the lot's exact monetary amount in 1/3000 coin units. Legacy stored lots keep their native valuation, while newly created lots use the new balance. A partial order removes proportional value from the lot and keeps its remainder.
@@ -22,7 +22,9 @@ The strict state discriminator is `{format:'MyFarmTwinCozy',version:2}`. Its top
 
 `CozySession(storage,{writable})` exposes `state`, `layout`, `status`, `readOnly`, `backupAvailable`, `command(type,args)`, `advance(hours)`, `build(kind,transform)`, `move(id,transform)`, `previewPlacement(candidate)`, `exportBundle()`, `exportLegacy()`, `importBundle(text)` and `recoverBackup()`.
 
-Commands include plant/water/waterAll/harvest/harvestAll, buySeed/refill/recovery, start/build/move, feed/waterFacility/clean/buyFeed/collect/buyAnimal/sellAnimal, upgrade/toggleAuto/togglePump/toggleAerator, sell/sellAll/discard/order/refreshOrders, repayDebt and expand. Every accepted command advances one revision. A rejected command returns the exact original state. Quotes from `quoteLot` and `quoteAnimal` are revision- and price-bound. Unknown command fields, executable nested objects and forged prices are rejected.
+Commands include plant/water/waterAll/harvest/harvestAll, buySeed/refill/recovery, start/build/move, feed/waterFacility/clean/buyFeed/collect/buyAnimal/sellAnimal, upgrade/toggleAuto/togglePump/toggleAerator, sell/sellAll/discard/order/refreshOrders, orderFood/arriveFood/collectFood, repayDebt and expand. Every accepted command advances one revision. A rejected command returns the exact original state. Quotes from `quoteLot` and `quoteAnimal` are revision- and price-bound. Unknown command fields, executable nested objects and forged prices are rejected.
+
+`foodOrder` holds the ordered meal, the primary market ID, the order revision, and order and delivery times. A purchase charges the catalogue price once. Courier arrival updates the same order after it stops at the market, and pickup clears it. A pending order can resume a trip after the page reloads.
 
 ## Native V0–V6 and P2 mapping
 

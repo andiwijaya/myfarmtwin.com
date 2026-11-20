@@ -117,6 +117,9 @@ for(const asset of records){
    const template=library.children[i];
    assert.equal(json.nodes[template].name,level.model);
    assert.equal(json.nodes[template].extras.level,i+1);
+   const modelNodes=[template];
+   for(let j=0;j<modelNodes.length;j++)modelNodes.push(...(json.nodes[modelNodes[j]].children??[]));
+   assert.equal(modelNodes.filter(index=>json.nodes[index].extras?.homeSatellite).length,1,level.model+' has one mounted satellite dish');
    const home=new Box3();
    walk(template,new Matrix4(),home);
    const [width,depth,height]=level.dimensions;
@@ -135,7 +138,8 @@ for(const asset of records){
  }
  if(asset.id==='infrastructure'){
   assert.equal(json.nodes.filter(node=>node.extras?.truckWheel).length,4);
-  for(const template of ['market_truck','road_strip','road_joint','wind_solar_station','farm_street_lamp']){
+  assert.equal(json.nodes.filter(node=>node.extras?.courierWheel).length,2);
+  for(const template of ['market_truck','delivery_scooter','market_food_parcel','road_strip','road_joint','wind_solar_station','farm_street_lamp']){
    assert.ok(asset.templates.includes(template),template+' can be instantiated independently');
   }
  }

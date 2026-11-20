@@ -15,24 +15,24 @@
   "defaultRuntime": "common-engine",
   "commonEngineVersion": "0.3.0",
   "three": "0.187.0",
-  "entry": "app-7SDJQLKN.js",
-  "recoveryEntry": "recovery-HJIUOOH2.js",
+  "entry": "app-KRYC5RIT.js",
+  "recoveryEntry": "recovery-BJY4UFZT.js",
   "integrityEntry": "integrity-5U5OBVMF.js",
   "emitted": [
     {
-      "name": "app-7SDJQLKN.js",
-      "bytes": 780977,
-      "sha256": "77e7b9b39f644659a6855155cce265d0419f334ac600998abc52495cb72e8f5e"
+      "name": "app-KRYC5RIT.js",
+      "bytes": 786913,
+      "sha256": "10f16d93519d2931032399ba784887376d14b2d89819debefaf0d89e8e68f2ad"
     },
     {
-      "name": "recovery-HJIUOOH2.js",
+      "name": "recovery-BJY4UFZT.js",
       "bytes": 2550,
-      "sha256": "938240fd175359378eef8a3b0ba86dd99e67e0840e0b58e7665dc6cfe15002d9"
+      "sha256": "92f4bd30247780502523b5378f0f5b2c5c4a45f0f3628405092db7fd03ed2bfa"
     },
     {
-      "name": "chunks/chunk-O7C453TE.js",
+      "name": "chunks/chunk-FNTLXTFQ.js",
       "bytes": 5979,
-      "sha256": "5b88fa09c24c96671a4bda1e21a18d52983747249c07f33dcb0bfd61cf8617de"
+      "sha256": "c9725886fabb06b133b27de54533e71d3b4c2feda2651d41830d7713397f15e3"
     },
     {
       "name": "integrity-5U5OBVMF.js",
@@ -40,14 +40,14 @@
       "sha256": "7b17f39001bf358de2f952ac5b631beca3285d45907504c4022b25e509af571e"
     },
     {
-      "name": "chunks/cozy-common-engine-3TCYJKLB.js",
+      "name": "chunks/cozy-common-engine-Z7U2CAR4.js",
       "bytes": 9616,
-      "sha256": "19e1f7c34f7055604659f0765e5135fcb645386f96774b8e6636e7a6e6077914"
+      "sha256": "a6c7f2d271f7e7532604a27e5e0bb1befd6ddc4a019c82f6f7f6f9301e7518c2"
     },
     {
-      "name": "chunks/chunk-ZRZDYBHZ.js",
-      "bytes": 191953,
-      "sha256": "69eba22b123e55ee1388699f3106277cd7182af5f83a2142e827861050aeafc9"
+      "name": "chunks/chunk-SU3H3DJF.js",
+      "bytes": 193403,
+      "sha256": "684700a0a406a290f2840dae6fb007fe0f0c385e7bb28ee8f446229c3afc1f4d"
     }
   ],
   "assets": {
@@ -105,18 +105,18 @@
     "house": {
       "id": "house",
       "url": "/play/assets/models/world/houses.glb",
-      "sha256": "86ac310886d2c4f6768392e323582461aa1657d3f99cf9dbebd057bb8e81868c",
-      "bytes": 2245088,
-      "uniqueTriangles": 23282,
-      "meshes": 292,
-      "nodes": 814,
+      "sha256": "bcf4ea783c0d4d360ce69c17822fe229815c023aba97fc5bd97b9c1c850fb633",
+      "bytes": 2562688,
+      "uniqueTriangles": 35482,
+      "meshes": 342,
+      "nodes": 884,
       "textures": 7,
       "animations": [],
       "bounds": {
         "min": [
           -6.914,
           0,
-          -5.524787788391113
+          -5.538055546427971
         ],
         "max": [
           6.914,
@@ -142,7 +142,7 @@
         12.8
       ],
       "front": "+Z",
-      "semanticRole": "ten Indonesian farmhouse upgrade models",
+      "semanticRole": "ten Indonesian farmhouse upgrade models with rear satellite dishes",
       "roles": {
         "levels": [
           "house_1",
@@ -155,7 +155,8 @@
           "house_8",
           "house_9",
           "house_10"
-        ]
+        ],
+        "satellite": "home_satellite_dish"
       },
       "floorPivot": true,
       "authoredBy": "MyFarmTwin original repository authoring",
@@ -301,17 +302,17 @@
     "infrastructure": {
       "id": "infrastructure",
       "url": "/play/assets/models/world/infrastructure.glb",
-      "sha256": "d50341e12685e6fd981b05c2e1023afa276c80fdbca009e7a6bc49e530e32a4a",
-      "bytes": 612428,
-      "uniqueTriangles": 8768,
-      "meshes": 52,
-      "nodes": 80,
+      "sha256": "ddd174e84cc71272e8d2662c5cf596fc012b4e358825a20f0209f5050e43316e",
+      "bytes": 799104,
+      "uniqueTriangles": 15660,
+      "meshes": 75,
+      "nodes": 111,
       "textures": 5,
       "animations": [],
       "bounds": {
         "min": [
           -4.11155715829892,
-          0,
+          -1.19209286886246e-9,
           -2.4000000953674316
         ],
         "max": [
@@ -322,16 +323,21 @@
       },
       "templates": [
         "market_truck",
+        "delivery_scooter",
+        "market_food_parcel",
         "road_strip",
         "road_joint",
         "wind_solar_station",
         "farm_street_lamp"
       ],
       "normalMaps": 1,
-      "semanticRole": "village truck, service road, solar-wind station, transformer and street lamp library",
+      "semanticRole": "village truck, delivery scooter, takeaway parcel, service road and power library",
       "roles": {
         "truck": "market_truck",
         "cargo": "truck_load",
+        "courier": "delivery_scooter",
+        "payload": "courier_payload",
+        "parcel": "market_food_parcel",
         "road": "road_strip",
         "corner": "road_joint",
         "power": "wind_solar_station",
@@ -1471,9 +1477,9 @@
       "length": 2
     }
   },
-  "manifestSha256": "e0778687c340f2c6b093b8f93b65defd74d08186543d2fbd046e5e89c13bd401",
-  "htmlSha256": "9c02fe53aecb86e5342e962c33709cb31f919b6ebaa0b58cbf33da030c2d01f4",
-  "cssSha256": "ad44d96b564a0cf2d1962a0905ec3035ea791d6e6238da21f0b75de2e4002f47",
+  "manifestSha256": "5c18bff56a09063830a1ae1429d52a9cf6361bb2cfb993098b0bdd2a22b7dfab",
+  "htmlSha256": "1ca9093ec72a6d025b128ef333398a28df078fcc0f0f904a63ec2db011c009a7",
+  "cssSha256": "ca8ddc60a30a05431ac869733ec4a65c36516fed3ddad1889f51f6a61726a7cf",
   "inputs": [
     "game/client/active-garden.js",
     "game/client/chicken-commands.js",

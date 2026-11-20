@@ -16,6 +16,15 @@ const solarGlass=material('Blue photovoltaic modules',0x203c57,{roughness:.32,me
 const solarCell=material('Blue-black photovoltaic cells',0x273f57,{roughness:.35,metalness:.19});
 const bulb=material('Frosted amber street lamp lens',0xffe2ac,{roughness:.4});
 const tomatoes=material('Ripe tomatoes for market',0xb9482c,{roughness:.57});
+const scooterPaint=material('Muted green scooter enamel',0x4c6855,{roughness:.48,metalness:.18});
+const courierJacket=material('Green courier canvas jacket',0x587c50,{roughness:.95});
+const courierJeans=material('Dark indigo courier denim',0x34434c,{roughness:.96});
+const courierSkin=material('Warm brown rider complexion',0xa66d50,{roughness:.87});
+const helmetShell=material('Cream scooter helmet',0xe3e0c9,{roughness:.4,metalness:.08});
+const deliveryBag=material('Ochre insulated delivery bag',0xb87237,{roughness:.91});
+const kraft=material('Kraft takeaway packaging',0xc09861,{roughness:.9});
+const courierLens=material('Scooter headlight glass',0xece0b7,{roughness:.38});
+courierLens.emissive.set(0x9f6c36);
 
 const roadMap=textures.push({
  name:'original-packed-lane-gravel',
@@ -94,6 +103,62 @@ function truck(root){
  for(const x of [-.48,.04])sack(load,'secured_rice_sack',x,.90,-.52,1.13);
 }
 
+function foodParcel(parent,name,position){
+ const parcel=group(parent,name,position);
+ box(parcel,'kraft_takeaway_bag',kraft,0,.139,0,.34,.278,.25);
+ box(parcel,'bag_folded_top',kraft,0,.284,0,.316,.035,.163);
+ box(parcel,'paper_seal',M.cream,0,.241,.128,.082,.09,.013);
+ for(const z of [-.035,.035])tube(parcel,'twisted_paper_handle',M.timber,[[-.076,.281,z],[-.065,.358,z],[0,.374,z],[.065,.358,z],[.076,.281,z]],.007,.007,5,11);
+ return parcel;
+}
+
+function deliveryScooter(root){
+ const bike=group(root,'delivery_scooter');
+ for(const [side,z] of [['front',.66],['rear',-.65]]){
+  const wheel=group(bike,'courier_wheel_'+side,[0,.28,z]);
+  wheel.userData.courierWheel=true;
+  lathe(wheel,'scooter_rubber_tire',rubber,[[.162,-.062],[.239,-.069],[.274,-.044],[.28,.026],[.264,.054],[.222,.066],[.16,.059]],24).rotation.z=Math.PI/2;
+  lathe(wheel,'cast_alloy_scooter_rim',M.steel,[[.038,-.052],[.183,-.05],[.209,-.035],[.205,.038],[.183,.048],[.036,.051]],20).rotation.z=Math.PI/2;
+ }
+ box(bike,'low_step_through_floor',trim,0,.372,.06,.34,.113,.56);
+ round(bike,'rear_enamel_side_shell',scooterPaint,0,.62,-.45,.245,.191,.54,18);
+ round(bike,'front_fairing',scooterPaint,0,.69,.466,.218,.297,.198,18);
+ round(bike,'front_wheel_fender',scooterPaint,0,.492,.68,.103,.091,.235,14);
+ round(bike,'stitched_scooter_saddle',rubber,0,.831,-.337,.216,.067,.361,16);
+ box(bike,'tail_lamp',tailLight,0,.663,-.962,.244,.104,.05);
+ round(bike,'projector_headlight',courierLens,0,.865,.647,.136,.079,.048,16);
+ for(const x of [-.122,.122])beam(bike,'front_fork',M.steel,[x,.276,.657],[x,.844,.486],.032,9);
+ beam(bike,'scooter_handlebar',trim,[-.318,.969,.555],[.318,.969,.555],.032,10);
+ for(const s of [-1,1]){
+  beam(bike,'scooter_mirror_stalk',M.steel,[s*.239,.972,.55],[s*.323,1.142,.613],.013,6);
+  round(bike,'scooter_mirror_shell',trim,s*.335,1.156,.614,.081,.052,.028,12);
+  round(bike,'scooter_mirror_glass',windowGlass,s*.335,1.156,.591,.068,.043,.012,12);
+ }
+ beam(bike,'exhaust_muffler',trim,[.205,.266,-.458],[.205,.344,-.899],.053,11);
+ box(bike,'delivery_rack',M.steel,0,.901,-.754,.48,.05,.46);
+ box(bike,'insulated_rear_case',deliveryBag,0,1.056,-.767,.48,.308,.446);
+ box(bike,'case_zip_trim',trim,0,1.19,-.767,.493,.044,.457);
+ box(bike,'case_reflective_tape',M.cream,0,1.079,-.997,.405,.038,.018);
+ foodParcel(bike,'courier_payload',[0,1.21,-.766]).scale.setScalar(.74);
+
+ const rider=group(bike,'courier_rider');
+ round(rider,'seated_hips',courierJeans,0,.899,-.252,.207,.118,.207,16);
+ round(rider,'jacket_body',courierJacket,0,1.156,-.165,.227,.259,.154,18).rotation.x=-.25;
+ round(rider,'courier_neck',courierSkin,0,1.39,-.069,.069,.088,.072,14);
+ round(rider,'helmet_shell',helmetShell,0,1.55,-.047,.142,.142,.158,20);
+ round(rider,'smoked_helmet_visor',windowGlass,0,1.538,.067,.124,.066,.068,18);
+ for(const s of [-1,1]){
+  const knee=[s*.186,.654,.222],ankle=[s*.14,.405,.103];
+  beam(rider,'courier_thigh',courierJeans,[s*.134,.884,-.196],knee,.088,10,.070);
+  beam(rider,'courier_shin',courierJeans,knee,ankle,.066,10,.048);
+  round(rider,'courier_boot',rubber,s*.14,.398,.179,.063,.051,.122,14);
+  const elbow=[s*.288,1.07,.136],grip=[s*.282,.974,.542];
+  beam(rider,'courier_upper_sleeve',courierJacket,[s*.208,1.277,-.101],elbow,.075,10,.06);
+  beam(rider,'courier_forearm_sleeve',courierJacket,elbow,grip,.057,10,.038);
+  round(rider,'hand_on_grip',courierSkin,...grip,.049,.043,.051,12);
+ }
+}
+
 function roads(root){
  surface(root,'road_strip',road,[-1.715,0,.5,1.715,0,.5,1.715,0,-.5,-1.715,0,-.5],[0,0,1,0,1,1,0,1],[0,1,2,0,2,3]);
  const positions=[0,0,0],uv=[.5,.5],indices=[];
@@ -154,6 +219,8 @@ function lamp(root){
 export function createInfrastructure(){
  const root=group(null,'farm_transport_and_power');
  truck(root);
+ deliveryScooter(root);
+ foodParcel(root,'market_food_parcel');
  roads(root);
  energy(root);
  lamp(root);

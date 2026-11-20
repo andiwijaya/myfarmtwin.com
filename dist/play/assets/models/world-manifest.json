@@ -120,7 +120,8 @@
         "house_8",
         "house_9",
         "house_10"
-      ]
+      ],
+      "satellite": "home_satellite_dish"
     },
     "windPump": {
       "rotor": "windmill_rotor",
@@ -144,6 +145,9 @@
     "infrastructure": {
       "truck": "market_truck",
       "cargo": "truck_load",
+      "courier": "delivery_scooter",
+      "payload": "courier_payload",
+      "parcel": "market_food_parcel",
       "road": "road_strip",
       "corner": "road_joint",
       "power": "wind_solar_station",
@@ -253,7 +257,7 @@
     "source": "original geometry, PBR materials, embedded original base-color and tangent-space normal textures",
     "animation": "glTF transform animation on named articulated groups; no runtime procedural mesh replacement",
     "lod": "explicit original far assets; no device performance claim",
-    "totalBytesIncludingFarLODs": 20418664
+    "totalBytesIncludingFarLODs": 20922940
   },
   "assets": {
     "terrain": {
@@ -310,18 +314,18 @@
     "house": {
       "id": "house",
       "url": "/play/assets/models/world/houses.glb",
-      "sha256": "86ac310886d2c4f6768392e323582461aa1657d3f99cf9dbebd057bb8e81868c",
-      "bytes": 2245088,
-      "uniqueTriangles": 23282,
-      "meshes": 292,
-      "nodes": 814,
+      "sha256": "bcf4ea783c0d4d360ce69c17822fe229815c023aba97fc5bd97b9c1c850fb633",
+      "bytes": 2562688,
+      "uniqueTriangles": 35482,
+      "meshes": 342,
+      "nodes": 884,
       "textures": 7,
       "animations": [],
       "bounds": {
         "min": [
           -6.914,
           0,
-          -5.524787788391113
+          -5.538055546427971
         ],
         "max": [
           6.914,
@@ -347,7 +351,7 @@
         12.8
       ],
       "front": "+Z",
-      "semanticRole": "ten Indonesian farmhouse upgrade models",
+      "semanticRole": "ten Indonesian farmhouse upgrade models with rear satellite dishes",
       "roles": {
         "levels": [
           "house_1",
@@ -360,7 +364,8 @@
           "house_8",
           "house_9",
           "house_10"
-        ]
+        ],
+        "satellite": "home_satellite_dish"
       },
       "floorPivot": true,
       "authoredBy": "MyFarmTwin original repository authoring",
@@ -506,17 +511,17 @@
     "infrastructure": {
       "id": "infrastructure",
       "url": "/play/assets/models/world/infrastructure.glb",
-      "sha256": "d50341e12685e6fd981b05c2e1023afa276c80fdbca009e7a6bc49e530e32a4a",
-      "bytes": 612428,
-      "uniqueTriangles": 8768,
-      "meshes": 52,
-      "nodes": 80,
+      "sha256": "ddd174e84cc71272e8d2662c5cf596fc012b4e358825a20f0209f5050e43316e",
+      "bytes": 799104,
+      "uniqueTriangles": 15660,
+      "meshes": 75,
+      "nodes": 111,
       "textures": 5,
       "animations": [],
       "bounds": {
         "min": [
           -4.11155715829892,
-          0,
+          -1.19209286886246e-9,
           -2.4000000953674316
         ],
         "max": [
@@ -527,16 +532,21 @@
       },
       "templates": [
         "market_truck",
+        "delivery_scooter",
+        "market_food_parcel",
         "road_strip",
         "road_joint",
         "wind_solar_station",
         "farm_street_lamp"
       ],
       "normalMaps": 1,
-      "semanticRole": "village truck, service road, solar-wind station, transformer and street lamp library",
+      "semanticRole": "village truck, delivery scooter, takeaway parcel, service road and power library",
       "roles": {
         "truck": "market_truck",
         "cargo": "truck_load",
+        "courier": "delivery_scooter",
+        "payload": "courier_payload",
+        "parcel": "market_food_parcel",
         "road": "road_strip",
         "corner": "road_joint",
         "power": "wind_solar_station",
