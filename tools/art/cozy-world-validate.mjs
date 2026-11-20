@@ -13,7 +13,7 @@ if(process.argv.includes('--deterministic')){
  const before=await readFile(manifestPath),{buildCozyWorldAssets}=await import('./cozy-world-build.mjs');await buildCozyWorldAssets(root);const after=await readFile(manifestPath);assert.ok(before.equals(after),'deterministic second build must reproduce manifest/hashes exactly');manifest=JSON.parse(after);determinism={checked:true,manifestByteIdentical:true,assetsCompared:Object.values(manifest.assets).reduce((count,asset)=>count+(asset.lod?2:1),0)};
 }
 assert.equal(manifest.version,2);assert.equal(manifest.externalResources,false);assert.equal(manifest.units,'meters');assert.equal(manifest.up,'+Y');
-const required=['terrain','barn','cow','bed','crops','props','vegetation','path','fence','coop','chicken','goatShelter','goat','goatKid','pond','fish','market','house','windPump','workerMan','workerWoman'];for(const id of required)assert.ok(manifest.assets[id],id);
+const required=['terrain','barn','cow','bed','crops','props','vegetation','path','fence','coop','chicken','goatShelter','goat','goatKid','pond','fish','market','house','windPump','workerMan','workerWoman','infrastructure'];for(const id of required)assert.ok(manifest.assets[id],id);
 const records=Object.values(manifest.assets).flatMap(a=>[a,...(a.lod?[a.lod.far]:[])]),results=[];
 const widths={SCALAR:1,VEC2:2,VEC3:3,VEC4:4,MAT4:16},types={5126:[4,'readFloatLE'],5125:[4,'readUInt32LE'],5123:[2,'readUInt16LE'],5121:[1,'readUInt8']};
 const strings=value=>typeof value==='string'?[value]:Array.isArray(value)?value.flatMap(strings):value&&typeof value==='object'?Object.values(value).flatMap(strings):[];
@@ -130,8 +130,14 @@ for(const asset of records){
   }
  }
  if(['workerMan','workerWoman'].includes(asset.id)){
-  assert.deepEqual(asset.animations,['walk','carry','idle','fill','pour']);
+  assert.deepEqual(asset.animations,['walk','carry','idle','fill','pour','tend']);
   assert.ok(bounds.min.y>=-.001&&bounds.min.y<.01&&bounds.max.y>1.65,'standing worker scale and floor contact');
+ }
+ if(asset.id==='infrastructure'){
+  assert.equal(json.nodes.filter(node=>node.extras?.truckWheel).length,4);
+  for(const template of ['market_truck','road_strip','road_joint','wind_solar_station','farm_street_lamp']){
+   assert.ok(asset.templates.includes(template),template+' can be instantiated independently');
+  }
  }
  if(asset.lod)assert.ok(asset.lod.far.uniqueTriangles<asset.uniqueTriangles*.5,'purposeful far LOD reduces triangles by over half');
  results.push({id:asset.id,sha256:asset.sha256,bytes:bytes.length,nodes:json.nodes.length,meshes:json.meshes.length,images:json.images?.length??0,normalMaps:json.materials.filter(m=>m.normalTexture).length,animations:asset.animations,bounds:asset.bounds,passed:true});

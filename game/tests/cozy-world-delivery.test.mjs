@@ -19,13 +19,13 @@ test('delivered full-world entry and recovery share an exact receipt without a l
 
 test('every shipped world GLB including far LODs matches its authored manifest and source bytes',async()=>{
  const manifest=JSON.parse(await readFile('game/client/assets/models/world-manifest.json','utf8'));
- for(const name of ['terrain','bed','crops','barn','cow','coop','chicken','goatShelter','goat','goatKid','pond','fish','market','house','windPump','workerMan','workerWoman','props','vegetation','path','fence'])assert.ok(manifest.assets[name],name);
+ for(const name of ['terrain','bed','crops','barn','cow','coop','chicken','goatShelter','goat','goatKid','pond','fish','market','house','windPump','workerMan','workerWoman','infrastructure','props','vegetation','path','fence'])assert.ok(manifest.assets[name],name);
  let files=0;for(const asset of Object.values(manifest.assets))for(const entry of [asset,asset.lod?.far].filter(Boolean)){
   assert.ok(/^\/play\/assets\/models\/(?:world|prototype)\/[\w-]+\.glb$/.test(entry.url));
   const bytes=await readFile('dist'+entry.url),source=await readFile('game/client'+entry.url.slice('/play'.length));
   assert.deepEqual(bytes,source,entry.url);assert.equal(sha(bytes),entry.sha256,entry.url);assert.equal(bytes.length,entry.bytes,entry.url);
   assert.equal(bytes.readUInt32LE(0),0x46546c67);assert.equal(bytes.readUInt32LE(4),2);assert.equal(bytes.readUInt32LE(8),bytes.length);files++;
- }assert.equal(files,26);
+ }assert.equal(files,27);
 });
 
 test('the shared terrain including the paddy fields and mountain ridges is in the delivery receipt',async()=>{

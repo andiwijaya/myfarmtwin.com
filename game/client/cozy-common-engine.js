@@ -1,5 +1,5 @@
 import {createIndexedDbCheckpointStore, openTransactionalSession} from '@andiwijaya/common-engine';
-import {createCozyState, dispatchCozy, placementIssue, validateCozyState} from './cozy-domain.js';
+import {COZY_REALTIME_HOUR_MS, createCozyState, dispatchCozy, placementIssue, validateCozyState} from './cozy-domain.js';
 
 /** @typedef {ReturnType<typeof createCozyState>} FarmState */
 /** @typedef {{type:string,args:Record<string,any>}} FarmAction */
@@ -8,7 +8,6 @@ import {createCozyState, dispatchCozy, placementIssue, validateCozyState} from '
 /** @typedef {import('@andiwijaya/common-engine').CheckpointStore<FarmCheckpoint>} FarmStore */
 /** @typedef {import('./cozy-storage.js').CozySession} CozySession */
 
-const HOUR_MS = 2000;
 const MAX_MANUAL_HOURS = 168;
 const QA_DATABASE_PREFIX = 'myfarmtwin.qa.common-engine.cozy.v2-';
 
@@ -95,8 +94,8 @@ export async function openCozyCommonEngine(checkpoints, {native} = {}) {
   const open = () => openTransactionalSession({
     initialState: native?.state ?? createCozyState(),
     isState: isFarmState,
-    stepMs: HOUR_MS,
-    maxFrameMs: HOUR_MS,
+    stepMs: COZY_REALTIME_HOUR_MS,
+    maxFrameMs: COZY_REALTIME_HOUR_MS,
     maxManualSteps: MAX_MANUAL_HOURS,
     initialSpeed: 1,
     stepsPerFrame: {1:1},

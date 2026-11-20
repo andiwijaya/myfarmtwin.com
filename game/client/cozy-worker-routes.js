@@ -40,11 +40,12 @@ function cellPoint(cell){return {x:cell%columns+bounds.minX,z:Math.floor(cell/co
 function waypoint(point){return {...point,y:groundHeight(point.x,point.z)};}
 
 export class WorkerRoutes{
- /** @param {Placement[]} layout @param {boolean} hasHouse */
- constructor(layout,hasHouse){
+ /** @param {Placement[]} layout @param {boolean} hasHouse @param {{clearance?:number,fences?:boolean}} [options] */
+ constructor(layout,hasHouse,{clearance=.27,fences=false}={}){
   this.blocked=new Uint8Array(columns*rows);
+  this.clearance=clearance;
   for(const item of layout){
-   if(['fence','path','grass'].includes(item.kind))continue;
+   if(item.kind==='path'||item.kind==='grass'||item.kind==='fence'&&!fences)continue;
    const measure=COZY_BUILD_CATALOG[item.kind];
    if(measure)this.block(item,measure.width,measure.depth);
   }
@@ -55,7 +56,7 @@ export class WorkerRoutes{
  /** @param {Site} site @param {number} width @param {number} depth */
  block(site,width,depth){
   const {x,z,rotation}=site,c=Math.cos(rotation),s=Math.sin(rotation);
-  const halfWidth=width/2+.27,halfDepth=depth/2+.27;
+  const halfWidth=width/2+this.clearance,halfDepth=depth/2+this.clearance;
   const rx=Math.abs(c)*halfWidth+Math.abs(s)*halfDepth,rz=Math.abs(s)*halfWidth+Math.abs(c)*halfDepth;
   for(let px=Math.ceil(Math.max(bounds.minX,x-rx));px<=Math.min(bounds.maxX,x+rx);px++){
    for(let pz=Math.ceil(Math.max(bounds.minZ,z-rz));pz<=Math.min(bounds.maxZ,z+rz);pz++){

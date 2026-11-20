@@ -2,13 +2,15 @@
 
 ## Current tropical GLB world — Cozy V2
 
-The full upgrade is implemented at `/play/`; the former `/play/glb/` preview uses the same entry, authoritative economy, and local save. The original GLB library includes the farm, its continuous rice fields and hills, ten Indonesian house models, two articulated farm workers, and a wind pump. The world manifest references 21 logical assets and five far LODs, with 26 validated GLBs.
+The full upgrade is implemented at `/play/`; the former `/play/glb/` preview uses the same entry, authoritative economy, and local save. The original GLB library includes the farm, its continuous rice fields and hills, ten Indonesian house models, two articulated farm workers, a wind pump, a market truck, and a hybrid wind-solar station. The world manifest references 22 logical assets and five far LODs, with 27 validated GLBs.
 
 The new cozy/business loop has faster crops, readable feed/water/cleanliness needs, finite production and stock, graded sales, orders, capacity upgrades and automatic care. Players can build multiple facilities, move/rotate their stocked buildings for free, buy additional beds, lay paths/fences, and expand owned land. The original 24 beds remain immediately usable. Clicking an area approaches it smoothly; continuous orbit, zoom, pan and barn interiors follow its current placement.
 
 Players build a small house and upgrade it through ten models using coins earned from sales. Each plot reserves space for the largest model and has at least 10 m of clearance from chicken, goat and cow housing.
 
-Workers fetch water and carry it to the fields, enclosures, and fish pond, or bring produce to the market. They head indoors from 17:00 and return to work at 06:00 farm time.
+Workers rotate between direct jobs at the fields, individual livestock enclosures and pond, and deliveries to the market. One worker at a time can fetch water from the wind pump. A new farm starts at 06:00. While the clock is playing, one farm hour lasts 12 real seconds. Workers head indoors from 17:00 and return to work at 06:00 farm time.
+
+During the day, a truck follows the village road to the market loading point and leaves with produce crates. Street lamps near the field, home, and enclosures operate from 18:00 until 06:00.
 
 Cozy V2 stores progress and placement atomically under `myfarmtwin.cozy.save.v2`. Supported V0–V6 and P2 progress is mapped with exact original bytes retained. Changed scientific mechanics have explicit value/ownership equivalents, including graded old lots, service credit, active cow orders and goat pasture. There is no login or offline punishment. Text export/import, validated previous-backup recovery, stale-tab protection, and a renderer-independent reader at `/play/recovery/` preserve recovery paths. A compatible rollback retains that reader; reverting to old V6 code alone cannot interpret later V2 progress.
 

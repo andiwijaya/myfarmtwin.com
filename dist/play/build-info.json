@@ -15,24 +15,24 @@
   "defaultRuntime": "common-engine",
   "commonEngineVersion": "0.3.0",
   "three": "0.187.0",
-  "entry": "app-W2RHVE7B.js",
-  "recoveryEntry": "recovery-FKE6GN2K.js",
+  "entry": "app-KBLS3SND.js",
+  "recoveryEntry": "recovery-HJIUOOH2.js",
   "integrityEntry": "integrity-5U5OBVMF.js",
   "emitted": [
     {
-      "name": "app-W2RHVE7B.js",
-      "bytes": 768994,
-      "sha256": "8d2977dd43f0102f01e79544b6798bfa3435be2b37188c21c420d322c2ab48cc"
+      "name": "app-KBLS3SND.js",
+      "bytes": 779444,
+      "sha256": "bfe983fc3f38c95bda4a901a1fca663bbee9df6977ffd0885ba2f6ae5bf89826"
     },
     {
-      "name": "recovery-FKE6GN2K.js",
+      "name": "recovery-HJIUOOH2.js",
       "bytes": 2550,
-      "sha256": "c22b37fa6a4c163bf4b7635c5f6aa6bfd1577509fd3e1e1ff2cefaa7728e04af"
+      "sha256": "938240fd175359378eef8a3b0ba86dd99e67e0840e0b58e7665dc6cfe15002d9"
     },
     {
-      "name": "chunks/chunk-G3ZVWMMR.js",
-      "bytes": 5730,
-      "sha256": "df31b5039cd1f9d9d1c75b5396b20dd5c77e74c1f4512dfba6fa20672dc17922"
+      "name": "chunks/chunk-O7C453TE.js",
+      "bytes": 5979,
+      "sha256": "5b88fa09c24c96671a4bda1e21a18d52983747249c07f33dcb0bfd61cf8617de"
     },
     {
       "name": "integrity-5U5OBVMF.js",
@@ -40,14 +40,14 @@
       "sha256": "7b17f39001bf358de2f952ac5b631beca3285d45907504c4022b25e509af571e"
     },
     {
-      "name": "chunks/cozy-common-engine-TS5BOH66.js",
-      "bytes": 9615,
-      "sha256": "2cfbdd40c24305b8020ae8da3ba76c9fe63608d5cc5023ab21b08d3e7e0244c8"
+      "name": "chunks/cozy-common-engine-3TCYJKLB.js",
+      "bytes": 9616,
+      "sha256": "19e1f7c34f7055604659f0765e5135fcb645386f96774b8e6636e7a6e6077914"
     },
     {
-      "name": "chunks/chunk-VIXDKJXV.js",
-      "bytes": 191922,
-      "sha256": "f25df00d29742bedcab932bb9af299805fe4014b513fed7ad28898827d85f0cc"
+      "name": "chunks/chunk-ZRZDYBHZ.js",
+      "bytes": 191953,
+      "sha256": "69eba22b123e55ee1388699f3106277cd7182af5f83a2142e827861050aeafc9"
     }
   ],
   "assets": {
@@ -209,8 +209,8 @@
     "workerMan": {
       "id": "workerMan",
       "url": "/play/assets/models/world/worker-man.glb",
-      "sha256": "34a06d4db76b56c6abc9b93c8577560ea63af741cb37e3f9cde09149e3a65f68",
-      "bytes": 913700,
+      "sha256": "92e5720d72b6b019693555612eb5b785807fb1b87e7b03e33c7ca9afd24b1e85",
+      "bytes": 918896,
       "uniqueTriangles": 5430,
       "meshes": 28,
       "nodes": 47,
@@ -220,7 +220,8 @@
         "carry",
         "idle",
         "fill",
-        "pour"
+        "pour",
+        "tend"
       ],
       "bounds": {
         "min": [
@@ -254,8 +255,8 @@
     "workerWoman": {
       "id": "workerWoman",
       "url": "/play/assets/models/world/worker-woman.glb",
-      "sha256": "1407366d337b3fe550b37165715c4962aa9c31eb503a1af591a10d9a461e09de",
-      "bytes": 915164,
+      "sha256": "d944ab8493c7b43c3885f9d5f9a43dd9128fea96438f18c23b6f079ecba68496",
+      "bytes": 920356,
       "uniqueTriangles": 5474,
       "meshes": 29,
       "nodes": 48,
@@ -265,7 +266,8 @@
         "carry",
         "idle",
         "fill",
-        "pour"
+        "pour",
+        "tend"
       ],
       "bounds": {
         "min": [
@@ -291,6 +293,54 @@
         "contents": "bucket_water",
         "stream": "bucket_pour",
         "basket": "market_basket"
+      },
+      "floorPivot": true,
+      "authoredBy": "MyFarmTwin original repository authoring",
+      "externalResources": false
+    },
+    "infrastructure": {
+      "id": "infrastructure",
+      "url": "/play/assets/models/world/infrastructure.glb",
+      "sha256": "d50341e12685e6fd981b05c2e1023afa276c80fdbca009e7a6bc49e530e32a4a",
+      "bytes": 612428,
+      "uniqueTriangles": 8768,
+      "meshes": 52,
+      "nodes": 80,
+      "textures": 5,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -4.11155715829892,
+          0,
+          -2.4000000953674316
+        ],
+        "max": [
+          3.765,
+          8.55,
+          3.799999952316284
+        ]
+      },
+      "templates": [
+        "market_truck",
+        "road_strip",
+        "road_joint",
+        "wind_solar_station",
+        "farm_street_lamp"
+      ],
+      "normalMaps": 1,
+      "semanticRole": "village truck, service road, solar-wind station, transformer and street lamp library",
+      "roles": {
+        "truck": "market_truck",
+        "cargo": "truck_load",
+        "road": "road_strip",
+        "corner": "road_joint",
+        "power": "wind_solar_station",
+        "rotor": "energy_turbine_rotor",
+        "transformer": "distribution_transformer",
+        "solar": "solar_panel_array",
+        "lamp": "farm_street_lamp",
+        "bulb": "lamp_bulb",
+        "glow": "lamp_ground_glow"
       },
       "floorPivot": true,
       "authoredBy": "MyFarmTwin original repository authoring",
@@ -1421,8 +1471,8 @@
       "length": 2
     }
   },
-  "manifestSha256": "6ed1f3cdfa140add960c8be3fa626866f010b6387feca41fe73a1c04c4dc9b48",
-  "htmlSha256": "05eeb38177d4bd734ae69ab205ce372b73fc5c098a6f59fbee7c7b15cd7f8cc3",
+  "manifestSha256": "e0778687c340f2c6b093b8f93b65defd74d08186543d2fbd046e5e89c13bd401",
+  "htmlSha256": "23820df2598eee4d4d40759b3aff31976a6fbfb88f3e22b919449337ef521993",
   "cssSha256": "1d335cbc0bdec44ed4ff13684b36944ffee30a5c0d7929e832e4b1d7329bbcc9",
   "inputs": [
     "game/client/active-garden.js",
@@ -1464,6 +1514,8 @@
     "game/client/cozy-common-engine.js",
     "game/client/cozy-domain.js",
     "game/client/cozy-farm-activity.js",
+    "game/client/cozy-farm-power.js",
+    "game/client/cozy-farm-traffic.js",
     "game/client/cozy-houses.js",
     "game/client/cozy-integrity.js",
     "game/client/cozy-legacy-recovery.js",
@@ -1471,6 +1523,7 @@
     "game/client/cozy-recovery.js",
     "game/client/cozy-sky.js",
     "game/client/cozy-storage.js",
+    "game/client/cozy-worker-jobs.js",
     "game/client/cozy-worker-routes.js",
     "game/client/cozy-world.js",
     "game/client/engine.js",

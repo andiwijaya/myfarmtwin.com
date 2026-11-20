@@ -22,6 +22,8 @@ export {COZY_BUILD_CATALOG,COZY_FACILITY_KINDS,COZY_LAND_BOUNDS,placementIssue};
 /** @typedef {{state:CozyState,ok:boolean,error:string,events:any[],id?:string}} DispatchResult */
 
 export const COZY_VERSION=2;
+export const COZY_MORNING_HOUR=6;
+export const COZY_REALTIME_HOUR_MS=12_000;
 /** @type {Readonly<Record<string,{hours:number,seedPrice:number,yield:number,price:number,stages:number}>>} */
 export const COZY_CROPS=Object.freeze({lettuce:{hours:18,seedPrice:4,yield:3,price:8,stages:4},tomato:{hours:30,seedPrice:8,yield:5,price:10,stages:4},corn:{hours:42,seedPrice:10,yield:4,price:14,stages:5}});
 /** @type {Readonly<Record<string,{price:number,scale:number,unit:string}>>} */
@@ -116,7 +118,7 @@ function defaultOrders(){return [{id:'cozy.vegetables',needs:{lettuce:3},bonus:1
 export function createCozyState(){
  const n=createState();
  /** @type {CozyState} */
- const s={format:'MyFarmTwinCozy',version:COZY_VERSION,revision:0,tick:6,seed:n.seed,rng:n.rng,weather:'sunny',coins:n.coins,water:n.water,careCredits:n.careCredits,seeds:clone(n.seeds),plots:clone(n.plots),inventory:[],ledger:[],stats:{planted:0,watered:0,harvested:0,sold:0,orders:0,income:0,expense:0},progression:{xp:0,level:1,achievements:[],completedOrders:[],startedKinds:[],credit3000:0,debtCoins:0},orders:defaultOrders(),land:{level:0},layout:{items:[],nextId:1},facilities:[],nextLot:1,provenance:{native:null,layout:null}};
+ const s={format:'MyFarmTwinCozy',version:COZY_VERSION,revision:0,tick:COZY_MORNING_HOUR,seed:n.seed,rng:n.rng,weather:'sunny',coins:n.coins,water:n.water,careCredits:n.careCredits,seeds:clone(n.seeds),plots:clone(n.plots),inventory:[],ledger:[],stats:{planted:0,watered:0,harvested:0,sold:0,orders:0,income:0,expense:0},progression:{xp:0,level:1,achievements:[],completedOrders:[],startedKinds:[],credit3000:0,debtCoins:0},orders:defaultOrders(),land:{level:0},layout:{items:[],nextId:1},facilities:[],nextLot:1,provenance:{native:null,layout:null}};
  for(let i=0;i<24;i++)s.layout.items.push({id:'bed.'+i,kind:'bed',x:-15+(i%6)*2,z:-7.5+Math.floor(i/6)*2.4,rotation:0});
  s.layout.items.push({id:'market',kind:'market',x:-4,z:14,rotation:0});s.facilities.push(makeFacility('market','market'));return s;
 }
@@ -125,7 +127,7 @@ function sumSupply(v){return Object.values(v||{}).reduce((n,v)=>n+(typeof v==='n
 /** Lossless source bytes travel with the new economy; every live holding is also mapped below. */
 /** @param {string|null} nativeRaw @param {string|null} [layoutRaw] @returns {CozyState} */
 export function migrateLegacy(nativeRaw,layoutRaw=null){
- const native=nativeRaw===null?createState():activateGarden(deserialize(nativeRaw)),s=createCozyState();if(nativeRaw===null)native.tick=6;s.provenance={native:nativeRaw,layout:layoutRaw};
+ const native=nativeRaw===null?createState():activateGarden(deserialize(nativeRaw)),s=createCozyState();if(nativeRaw===null)native.tick=COZY_MORNING_HOUR;s.provenance={native:nativeRaw,layout:layoutRaw};
  Object.assign(s,{revision:native.revision,tick:native.tick,seed:native.seed,rng:native.rng,weather:native.weather,coins:native.coins,water:native.water,careCredits:native.careCredits,seeds:clone(native.seeds),plots:clone(native.plots),ledger:clone(native.ledger).slice(-5000)});
  for(const k of /** @type {const} */(['planted','watered','harvested','sold','orders']))s.stats[k]=native.stats[k]||0;
  s.stats.income=native.ledger.reduce((n,e)=>n+Math.max(0,e.amount),0);s.stats.expense=native.ledger.reduce((n,e)=>n+Math.max(0,-e.amount),0);s.progression.xp=(native.stats.harvested+native.stats.sold)*2+native.stats.orders*20;s.progression.level=1+Math.floor(s.progression.xp/100);s.progression.completedOrders=clone(native.completedOrders);s.progression.achievements=['legacy.garden.mission.'+native.mission.step,...Object.entries(native.followups).filter(([,v])=>v).map(([k])=>k).map(k=>'legacy.garden.'+k)];

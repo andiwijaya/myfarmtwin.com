@@ -1,6 +1,7 @@
 import {AnimationMixer,Group,LoopOnce,LoopRepeat,MathUtils} from 'three';
 import {HOUSE_LEVELS,HOUSE_PLOT} from './cozy-houses.js';
-import {COZY_BUILD_CATALOG} from './cozy-placement.js';
+import {COZY_MORNING_HOUR} from './cozy-domain.js';
+import {WorkerJobs,workerSites} from './cozy-worker-jobs.js';
 import {WorkerRoutes,WIND_PUMP_SITE,WORKER_LODGE_SITE,groundPoint,worldPoint} from './cozy-worker-routes.js';
 
 /** @typedef {import('three').Object3D} Object3D */
@@ -8,14 +9,15 @@ import {WorkerRoutes,WIND_PUMP_SITE,WORKER_LODGE_SITE,groundPoint,worldPoint} fr
 /** @typedef {import('./cozy-worker-routes.js').Point} Point */
 /** @typedef {import('./cozy-worker-routes.js').Waypoint} Waypoint */
 /** @typedef {import('./cozy-domain.js').Placement} Placement */
-/** @typedef {'field'|'livestock'|'pond'|'market'} WorkerRole */
-/** @typedef {'wake'|'choose'|'pump_queue'|'pump_slot'|'fill'|'carry_out'|'deliver'|'market_stop'|'home_path'|'enter_home'|'sleep'} Step */
-/** @typedef {{kind:string,approach:Waypoint,facing:Point}} Destination */
-/** @typedef {{node:Group,mixer:AnimationMixer,actions:Map<string,Action>,active:string,bucket:Object3D,water:Object3D,pour:Object3D,basket:Object3D,role:WorkerRole,index:number,workCount:number,next:Step,wait:number,path:Waypoint[],speed:number,headingHome:boolean,atDoor:boolean,destination:Destination|null}} Worker */
+/** @typedef {import('./cozy-worker-jobs.js').WorkSite} WorkSite */
+/** @typedef {import('./cozy-worker-jobs.js').WorkerJob} WorkerJob */
+/** @typedef {'wake'|'choose'|'pump_approach'|'fill'|'carry_out'|'carry_to_site'|'deliver'|'tend_site'|'market_stop'|'home_path'|'enter_home'|'sleep'} Step */
+/** @typedef {{node:Group,mixer:AnimationMixer,actions:Map<string,Action>,active:string,bucket:Object3D,water:Object3D,pour:Object3D,basket:Object3D,index:number,next:Step,wait:number,path:Waypoint[],speed:number,headingHome:boolean,atDoor:boolean,job:WorkerJob|null}} Worker */
 
+const pumpApproach=groundPoint(WIND_PUMP_SITE,1.1,2.65);
 const pumpWork=groundPoint(WIND_PUMP_SITE,.78,1.22);
 const pumpFacing=worldPoint(WIND_PUMP_SITE,.69,.62);
-const HOME_START_HOUR=6,HOME_END_HOUR=17;
+const HOME_END_HOUR=17;
 
 /** @param {Object3D} root @param {string} name */
 function part(root,name){
@@ -51,31 +53,25 @@ function play(worker,name){
  if(prior)action.crossFadeFrom(prior,.14,false);
 }
 
-/** @param {import('./cozy-world.js').CozyWorld} world @param {WorkerRole} role @param {number} index @returns {Worker} */
-function makeWorker(world,role,index){
+/** @param {import('./cozy-world.js').CozyWorld} world @param {number} index @returns {Worker} */
+function makeWorker(world,index){
  const asset=index%2?'workerWoman':'workerMan',node=world.clone(asset);
  const mixer=new AnimationMixer(node),actions=new Map();
  for(const clip of world.models.get(asset).animations){
-  const action=mixer.clipAction(clip),once=clip.name==='fill'||clip.name==='pour';
+  const action=mixer.clipAction(clip),once=['fill','pour','tend'].includes(clip.name);
   action.setLoop(once?LoopOnce:LoopRepeat,once?1:Infinity);
   action.clampWhenFinished=once;
   actions.set(clip.name,action);
  }
  const worker={
-  node,mixer,actions,active:'',role,index,workCount:0,next:/** @type {Step} */('choose'),wait:0,path:[],speed:2.15,
-  headingHome:false,atDoor:false,destination:null,
+  node,mixer,actions,active:'',index,next:/** @type {Step} */('choose'),wait:0,path:[],speed:2.15,
+  headingHome:false,atDoor:false,job:null,
   bucket:part(node,'water_bucket'),water:part(node,'bucket_water'),pour:part(node,'bucket_pour'),basket:part(node,'market_basket'),
  };
  node.name='farm_worker_'+(index+1);
  node.visible=false;
  equip(worker,'none');
  return worker;
-}
-
-/** @param {Placement} item @param {number} [x] @param {number} [extra] @returns {Destination} */
-function destination(item,x=0,extra=1.35){
- const depth=COZY_BUILD_CATALOG[item.kind].depth/2;
- return {kind:item.kind==='bed'?'field':item.kind,approach:groundPoint(item,x,depth+extra),facing:worldPoint(item,x,depth*.7)};
 }
 
 /** @param {import('./cozy-worker-routes.js').Site} site @param {number} level @param {boolean} owned */
@@ -91,14 +87,12 @@ function entrance(site,level,owned){
 
 /** Renderer-only farm work. Layout and farm time come from the saved game. */
 export class FarmActivity{
- /** @param {import('./cozy-world.js').CozyWorld} world */
- constructor(world){
+ /** @param {import('./cozy-world.js').CozyWorld} world @param {()=>number} [random] */
+ constructor(world,random=Math.random){
   this.world=world;
   this.group=new Group();
   this.group.name='farm_daily_activity';
-  /** @type {WorkerRole[]} */
-  const roles=['field','livestock','pond','market'];
-  this.workers=roles.map((role,i)=>makeWorker(world,role,i));
+  this.workers=Array.from({length:4},(_,i)=>makeWorker(world,i));
   this.group.add(...this.workers.map(worker=>worker.node));
   this.windmill=world.clone('windPump');
   put(this.windmill,groundPoint(WIND_PUMP_SITE,0,0));
@@ -114,14 +108,15 @@ export class FarmActivity{
   world.scene.add(this.group);
   this.home=entrance(WORKER_LODGE_SITE,1,false);
   /** @type {Object3D|null} */this.doors=null;
-  /** @type {Placement[]} */this.items=[];
   this.routes=new WorkerRoutes([],false);
+  this.jobs=new WorkerJobs(random);
   this.layoutKey='';
   this.homeKey='';
   /** @type {boolean|null} */this.daylight=null;
-  /** @type {Worker|null} */this.pumpWorker=null;
   this.report='';
   /** @type {Record<string,number>} */this.completed={};
+  /** @type {Record<string,number>} */this.completedSites={};
+  this.waterTrips=0;
  }
 
  /** @param {number} tick @param {Placement[]} items @param {number} houseLevel */
@@ -131,8 +126,8 @@ export class FarmActivity{
   const layoutChanged=this.layoutKey!==nextLayout,homeChanged=this.homeKey!==nextHome;
   if(layoutChanged){
    this.layoutKey=nextLayout;
-   this.items=items;
    this.routes=new WorkerRoutes(items,Boolean(house));
+   this.jobs.sites=workerSites(items,this.routes);
   }
   if(homeChanged){
    this.homeKey=nextHome;
@@ -141,13 +136,18 @@ export class FarmActivity{
    const model=house?this.world.entities.get(house.id):this.lodge;
    this.doors=model?.getObjectByName('house_entry_doors')??null;
   }
-  const hour=tick%24,day=hour>=HOME_START_HOUR&&hour<HOME_END_HOUR;
+  const hour=tick%24,day=hour>=COZY_MORNING_HOUR&&hour<HOME_END_HOUR;
   const first=this.daylight===null,changed=this.daylight!==day;
   this.daylight=day;
   if(first||changed||layoutChanged||homeChanged){
-   this.pumpWorker=null;
-   for(const worker of this.workers){
-    if(first&&day)this.startDayAtWork(worker);
+   for(const worker of this.workers)worker.job=null;
+   const offset=first&&day?Math.floor(this.jobs.random()*this.workers.length):0;
+   const roster=[...this.workers.slice(offset),...this.workers.slice(0,offset)];
+   for(const worker of roster){
+    if(first&&day){
+     worker.node.visible=true;
+     this.choose(worker,true);
+    }
     else if(day&&(changed||!worker.node.visible)){
      worker.node.visible=false;
      this.hold(worker,worker.index*.86,'wake','idle');
@@ -160,65 +160,45 @@ export class FarmActivity{
   this.audit();
  }
 
- /** @param {Worker} worker */
- chooseTarget(worker){
-  const bedSites=this.items.filter(item=>item.kind==='bed').sort((a,b)=>a.z-b.z||a.x-b.x);
-  const beds=bedSites.slice(0,6);
-  const field=destination(beds[(worker.workCount+worker.index)%beds.length]);
-  if(worker.role==='market'&&worker.workCount%2===0){
-   const market=this.items.find(item=>item.kind==='market');
-   return market?destination(market,.19):field;
-  }
-  if(worker.role==='pond'){
-   const fish=this.items.find(item=>item.kind==='pond');
-   return fish?destination(fish,2.35):field;
-  }
-  if(worker.role==='livestock'){
-   const enclosures=this.items.filter(item=>['coop','goatShelter','barn'].includes(item.kind));
-   if(enclosures.length)return destination(enclosures[worker.workCount%enclosures.length],1.58);
-  }
-  // The row next to the north path leaves room for the worker to stand beside a bed.
-  const edge=beds[(worker.workCount+worker.index)%beds.length];
-  return {kind:'field',approach:groundPoint(edge,0,-2.25),facing:worldPoint(edge,0,0)};
+ /** @param {Worker} worker @param {WorkSite} site */
+ placeNearWork(worker,site){
+  const {approach,facing}=site;
+  const rotation=Math.atan2(approach.x-facing.x,approach.z-facing.z);
+  const side=this.jobs.random()<.5?-1:1;
+  const origin={...approach,rotation};
+  const start=[groundPoint(origin,side*2,4+this.jobs.random()*2),groundPoint(origin,-side*2,3),approach]
+   .find(point=>this.routes.clear(point,approach))??approach;
+  put(worker.node,start);
+  face(worker.node,approach);
  }
 
- /** @param {Worker} worker */
- startDayAtWork(worker){
-  worker.node.visible=true;
+ /** @param {Worker} worker @param {boolean} [starting] */
+ choose(worker,starting=false){
   worker.headingHome=false;
   worker.atDoor=false;
-  worker.destination=this.chooseTarget(worker);
-  if(worker.index===0){
-   put(worker.node,pumpWork);
-   this.pumpWorker=worker;
-   this.step(worker,'fill');
-  }else if(worker.role==='market'){
-   const market=worker.destination.approach;
-   put(worker.node,{...market,z:market.z+4});
-   this.choose(worker);
-  }else{
-   const from=groundPoint(WIND_PUMP_SITE,.9+worker.index*1.35,3.4);
-   put(worker.node,worker.index===2?from:worker.destination.approach);
-   if(worker.index===2){
-    equip(worker,'water');
-    this.travel(worker,worker.destination.approach,'deliver','carry');
-   }else this.choose(worker);
+  const occupied=this.workers.flatMap(other=>other!==worker&&other.node.visible&&other.job?[other.job]:[]);
+  const job=this.jobs.assign(occupied,worker.index,worker.job?.site.id);
+  worker.job=job;
+  if(!job){
+   if(starting)put(worker.node,this.home.approach);
+   equip(worker,'none');
+   this.hold(worker,.8+this.jobs.random()*.75,'choose','idle');
+   return;
   }
- }
-
- /** @param {Worker} worker */
- choose(worker){
-  worker.headingHome=false;
-  worker.atDoor=false;
-  worker.destination=this.chooseTarget(worker);
-  if(worker.destination.kind==='market'){
-   equip(worker,'produce');
-   this.travel(worker,worker.destination.approach,'market_stop','carry');
-  }else{
-   equip(worker,'empty');
-   const queue=groundPoint(WIND_PUMP_SITE,.49+worker.index*.81,2.46);
-   this.travel(worker,queue,'pump_queue','carry');
+  if(job.mode==='water'){
+   if(starting){
+    put(worker.node,pumpWork);
+    this.step(worker,'fill');
+   }else{
+    equip(worker,'empty');
+    this.travel(worker,pumpApproach,'pump_approach','carry');
+   }
+   return;
   }
+  if(starting)this.placeNearWork(worker,job.site);
+  const market=job.mode==='market';
+  equip(worker,market?'produce':'none');
+  this.travel(worker,job.site.approach,market?'market_stop':'tend_site',market?'carry':'walk',1.7+this.jobs.random()*.55);
  }
 
  /** @param {Worker} worker */
@@ -237,6 +217,7 @@ export class FarmActivity{
   const doorBusy=worker.atDoor;
   worker.headingHome=true;
   worker.atDoor=doorBusy;
+  worker.job=null;
   equip(worker,'none');
   if(doorBusy)this.follow(worker,[this.home.door],'sleep','walk',2.3);
   else this.travel(worker,this.home.approach,'enter_home','walk',3.1);
@@ -250,7 +231,7 @@ export class FarmActivity{
   worker.atDoor=false;
   worker.headingHome=true;
   worker.next='sleep';
-  worker.destination=null;
+  worker.job=null;
   equip(worker,'none');
   put(worker.node,this.home.door);
  }
@@ -259,6 +240,7 @@ export class FarmActivity{
  travel(worker,point,next,clip,speed){
   const waypoints=this.routes.route(worker.node.position,point);
   if(!waypoints.length){
+   worker.job=null;
    this.hold(worker,.8,worker.headingHome?'home_path':'choose','idle');
    return;
   }
@@ -301,13 +283,8 @@ export class FarmActivity{
    case 'choose':
     this.choose(worker);
     break;
-   case 'pump_queue':
-    if(this.pumpWorker&&this.pumpWorker!==worker){
-     this.hold(worker,.65,'pump_queue','idle');
-    }else{
-     this.pumpWorker=worker;
-     this.follow(worker,[pumpWork],'fill','carry',1.35);
-    }
+   case 'pump_approach':
+    this.follow(worker,[pumpWork],'fill','carry',1.35);
     break;
    case 'fill':
     equip(worker,'empty');
@@ -316,24 +293,26 @@ export class FarmActivity{
     break;
    case 'carry_out':
     equip(worker,'water');
-    this.follow(worker,[groundPoint(WIND_PUMP_SITE,1.10,2.65)],'pump_slot','carry',1.60);
+    this.follow(worker,[pumpApproach],'carry_to_site','carry',1.60);
     break;
-   case 'pump_slot':
-    this.pumpWorker=null;
-    if(worker.destination)this.travel(worker,worker.destination.approach,'deliver','carry');
+   case 'carry_to_site':
+    if(worker.job)this.travel(worker,worker.job.site.approach,'deliver','carry');
     break;
    case 'deliver':
-    if(worker.destination)face(worker.node,worker.destination.facing);
-    worker.workCount++;
+    if(worker.job)face(worker.node,worker.job.site.facing);
     this.hold(worker,1.75,'choose','pour');
-    if(worker.destination)this.record(worker.destination.kind);
+    this.record(worker.job);
+    break;
+   case 'tend_site':
+    if(worker.job)face(worker.node,worker.job.site.facing);
+    this.hold(worker,2.3+this.jobs.random()*2.15,'choose','tend');
+    this.record(worker.job);
     break;
    case 'market_stop':
-    if(worker.destination)face(worker.node,worker.destination.facing);
+    if(worker.job)face(worker.node,worker.job.site.facing);
     equip(worker,'none');
-    worker.workCount++;
-    this.hold(worker,2.8,'choose','idle');
-    this.record('market');
+    this.hold(worker,2.2+this.jobs.random()*1.7,'choose','idle');
+    this.record(worker.job);
     break;
    case 'home_path':
     this.headHome(worker);
@@ -413,14 +392,22 @@ export class FarmActivity{
   this.audit();
  }
 
- /** @param {string} destination */
- record(destination){
-  this.completed[destination]=(this.completed[destination]??0)+1;
+ /** @param {WorkerJob|null} job */
+ record(job){
+  if(!job)return;
+  const {kind,id}=job.site;
+  this.completed[kind]=(this.completed[kind]??0)+1;
+  this.completedSites[id]=(this.completedSites[id]??0)+1;
+  if(job.mode==='water')this.waterTrips++;
   this.world.host.dataset.workerTrips=JSON.stringify(this.completed);
+  this.world.host.dataset.workerSitesVisited=JSON.stringify(this.completedSites);
+  this.world.host.dataset.workerWaterTrips=String(this.waterTrips);
  }
 
  audit(){
-  const summary=this.workers.map(worker=>worker.node.visible?{action:worker.active,destination:worker.headingHome?'house':worker.destination?.kind??'field'}:{action:'indoors',destination:'house'});
+  const summary=this.workers.map(worker=>worker.node.visible
+   ?{action:worker.active,destination:worker.job?.site.kind??(worker.headingHome||worker.atDoor?'house':'farm'),mode:worker.job?.mode??null,site:worker.job?.site.id??null}
+   :{action:'indoors',destination:'house',mode:null,site:null});
   const encoded=JSON.stringify(summary);
   if(encoded===this.report)return;
   this.report=encoded;
