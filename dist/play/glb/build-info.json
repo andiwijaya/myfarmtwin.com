@@ -8,30 +8,31 @@
     "goat",
     "cow",
     "fish",
-    "market"
+    "market",
+    "house"
   ],
   "saveVersion": 2,
   "defaultRuntime": "common-engine",
   "commonEngineVersion": "0.3.0",
   "three": "0.187.0",
-  "entry": "app-LB7YJ4JX.js",
-  "recoveryEntry": "recovery-3PZULSVL.js",
+  "entry": "app-W2RHVE7B.js",
+  "recoveryEntry": "recovery-FKE6GN2K.js",
   "integrityEntry": "integrity-5U5OBVMF.js",
   "emitted": [
     {
-      "name": "app-LB7YJ4JX.js",
-      "bytes": 754995,
-      "sha256": "69bc4749fb25fdafcfc32cac4ee4672c275eca388d5ee87c520d4c149721302e"
+      "name": "app-W2RHVE7B.js",
+      "bytes": 768994,
+      "sha256": "8d2977dd43f0102f01e79544b6798bfa3435be2b37188c21c420d322c2ab48cc"
     },
     {
-      "name": "recovery-3PZULSVL.js",
+      "name": "recovery-FKE6GN2K.js",
       "bytes": 2550,
-      "sha256": "e0598eb078c095ae0faffb4095889cb027192b1bebba973578de34c16980925a"
+      "sha256": "c22b37fa6a4c163bf4b7635c5f6aa6bfd1577509fd3e1e1ff2cefaa7728e04af"
     },
     {
-      "name": "chunks/chunk-56DDVSFH.js",
+      "name": "chunks/chunk-G3ZVWMMR.js",
       "bytes": 5730,
-      "sha256": "7a549075c13e34ac25f4666d358af37b244a1b3bac298edff529ec7e09ff4c37"
+      "sha256": "df31b5039cd1f9d9d1c75b5396b20dd5c77e74c1f4512dfba6fa20672dc17922"
     },
     {
       "name": "integrity-5U5OBVMF.js",
@@ -39,42 +40,47 @@
       "sha256": "7b17f39001bf358de2f952ac5b631beca3285d45907504c4022b25e509af571e"
     },
     {
-      "name": "chunks/cozy-common-engine-PGLOASQV.js",
+      "name": "chunks/cozy-common-engine-TS5BOH66.js",
       "bytes": 9615,
-      "sha256": "ae150fc5039da37a421bbcc89220047b7efbfb6e1bf906282daf6b694f32a714"
+      "sha256": "2cfbdd40c24305b8020ae8da3ba76c9fe63608d5cc5023ab21b08d3e7e0244c8"
     },
     {
-      "name": "chunks/chunk-CRABKYRB.js",
-      "bytes": 189003,
-      "sha256": "bebf8e4839a71f299114dc87e1f08509c9f4e6389fe858ed70e66ff9cf90e4d7"
+      "name": "chunks/chunk-VIXDKJXV.js",
+      "bytes": 191922,
+      "sha256": "f25df00d29742bedcab932bb9af299805fe4014b513fed7ad28898827d85f0cc"
     }
   ],
   "assets": {
     "terrain": {
       "id": "terrain",
       "url": "/play/assets/models/world/terrain.glb",
-      "sha256": "59a2acf9e2f70da95a95747c141b19c0a3bdfd070c1a45af85660425f8091ca7",
-      "bytes": 890748,
-      "uniqueTriangles": 15712,
-      "meshes": 2,
-      "nodes": 3,
-      "textures": 2,
+      "sha256": "be32e4679f81520c3c7d1379ce840ef39a18e53b4d364247e932a4545cddd37e",
+      "bytes": 1886808,
+      "uniqueTriangles": 38312,
+      "meshes": 9,
+      "nodes": 11,
+      "textures": 5,
       "animations": [],
       "bounds": {
         "min": [
-          -73.17364501953125,
-          -0.8999999761581421,
-          -59.74182891845703
+          -2077.080322265625,
+          -3.04727840423584,
+          -2073.377197265625
         ],
         "max": [
-          68.35265350341797,
-          0,
-          66.87557983398438
+          2079.91943359375,
+          117.24885559082031,
+          2085.425048828125
         ]
       },
       "templates": [
         "continuous_flat_tropical_pasture",
-        "pasture_surround"
+        "pasture_surround",
+        "wooded_verges",
+        "rice_country_ground",
+        "flooded_rice_plots",
+        "planted_rice_plots",
+        "distant_mountains"
       ],
       "normalMaps": 1,
       "footprint": [
@@ -85,7 +91,206 @@
       "semanticRole": "continuous environment terrain",
       "roles": {
         "ground": "continuous_flat_tropical_pasture",
-        "surround": "pasture_surround"
+        "surround": "pasture_surround",
+        "lowlands": "rice_country_ground",
+        "floodedPaddies": "flooded_rice_plots",
+        "plantedPaddies": "planted_rice_plots",
+        "woods": "wooded_verges",
+        "mountains": "distant_mountains"
+      },
+      "floorPivot": true,
+      "authoredBy": "MyFarmTwin original repository authoring",
+      "externalResources": false
+    },
+    "house": {
+      "id": "house",
+      "url": "/play/assets/models/world/houses.glb",
+      "sha256": "86ac310886d2c4f6768392e323582461aa1657d3f99cf9dbebd057bb8e81868c",
+      "bytes": 2245088,
+      "uniqueTriangles": 23282,
+      "meshes": 292,
+      "nodes": 814,
+      "textures": 7,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -6.914,
+          0,
+          -5.524787788391113
+        ],
+        "max": [
+          6.914,
+          8.4975004196167,
+          5.926499843597412
+        ]
+      },
+      "templates": [
+        "house_1",
+        "house_2",
+        "house_3",
+        "house_4",
+        "house_5",
+        "house_6",
+        "house_7",
+        "house_8",
+        "house_9",
+        "house_10"
+      ],
+      "normalMaps": 2,
+      "footprint": [
+        15.6,
+        12.8
+      ],
+      "front": "+Z",
+      "semanticRole": "ten Indonesian farmhouse upgrade models",
+      "roles": {
+        "levels": [
+          "house_1",
+          "house_2",
+          "house_3",
+          "house_4",
+          "house_5",
+          "house_6",
+          "house_7",
+          "house_8",
+          "house_9",
+          "house_10"
+        ]
+      },
+      "floorPivot": true,
+      "authoredBy": "MyFarmTwin original repository authoring",
+      "externalResources": false
+    },
+    "windPump": {
+      "id": "windPump",
+      "url": "/play/assets/models/world/wind-pump.glb",
+      "sha256": "9e7b042b15b2783415d646e976f7e609d4fb35f7bdbc6af399e9be88b643a63f",
+      "bytes": 236976,
+      "uniqueTriangles": 2244,
+      "meshes": 12,
+      "nodes": 17,
+      "textures": 2,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -1.3170684576034546,
+          0,
+          -2.0499999427795412
+        ],
+        "max": [
+          1.3170684576034546,
+          6.080639491081238,
+          0.925000011920929
+        ]
+      },
+      "templates": [
+        "windmill_rotor",
+        "wind_vane_tail",
+        "windmill_pump_rod",
+        "windmill_water_stream",
+        "water_in_stone_basin",
+        "farm_wind_pump_hand_trowelled_lime_concrete",
+        "farm_wind_pump_Weathered_galvanized_wind_pump_steel",
+        "farm_wind_pump_Dark_green_cast_iron_water_pump",
+        "farm_wind_pump_tropical_leaf_upper"
+      ],
+      "normalMaps": 1,
+      "front": "+Z",
+      "semanticRole": "working windmill and bucket-filling point",
+      "roles": {
+        "rotor": "windmill_rotor",
+        "shaft": "windmill_pump_rod",
+        "water": "windmill_water_stream"
+      },
+      "floorPivot": true,
+      "authoredBy": "MyFarmTwin original repository authoring",
+      "externalResources": false
+    },
+    "workerMan": {
+      "id": "workerMan",
+      "url": "/play/assets/models/world/worker-man.glb",
+      "sha256": "34a06d4db76b56c6abc9b93c8577560ea63af741cb37e3f9cde09149e3a65f68",
+      "bytes": 913700,
+      "uniqueTriangles": 5430,
+      "meshes": 28,
+      "nodes": 47,
+      "textures": 6,
+      "animations": [
+        "walk",
+        "carry",
+        "idle",
+        "fill",
+        "pour"
+      ],
+      "bounds": {
+        "min": [
+          -0.25535999892711636,
+          0.0004999926090240026,
+          -0.19599183536946319
+        ],
+        "max": [
+          0.40036712847709655,
+          1.7914794778170744,
+          0.23947699308395387
+        ]
+      },
+      "templates": [
+        "worker_hips"
+      ],
+      "normalMaps": 2,
+      "front": "+Z",
+      "semanticRole": "articulated male farm worker in Indonesian field wear",
+      "roles": {
+        "head": "worker_head",
+        "bucket": "water_bucket",
+        "contents": "bucket_water",
+        "stream": "bucket_pour",
+        "basket": "market_basket"
+      },
+      "floorPivot": true,
+      "authoredBy": "MyFarmTwin original repository authoring",
+      "externalResources": false
+    },
+    "workerWoman": {
+      "id": "workerWoman",
+      "url": "/play/assets/models/world/worker-woman.glb",
+      "sha256": "1407366d337b3fe550b37165715c4962aa9c31eb503a1af591a10d9a461e09de",
+      "bytes": 915164,
+      "uniqueTriangles": 5474,
+      "meshes": 29,
+      "nodes": 48,
+      "textures": 6,
+      "animations": [
+        "walk",
+        "carry",
+        "idle",
+        "fill",
+        "pour"
+      ],
+      "bounds": {
+        "min": [
+          -0.23561999892711638,
+          0.0004999926090240026,
+          -0.19369497212149211
+        ],
+        "max": [
+          0.38062712847709657,
+          1.791762182634516,
+          0.23947699308395387
+        ]
+      },
+      "templates": [
+        "worker_hips"
+      ],
+      "normalMaps": 2,
+      "front": "+Z",
+      "semanticRole": "articulated female farm worker in Indonesian field wear",
+      "roles": {
+        "head": "worker_head",
+        "bucket": "water_bucket",
+        "contents": "bucket_water",
+        "stream": "bucket_pour",
+        "basket": "market_basket"
       },
       "floorPivot": true,
       "authoredBy": "MyFarmTwin original repository authoring",
@@ -1216,15 +1421,9 @@
       "length": 2
     }
   },
-  "panorama": {
-    "url": "/play/assets/tropical-panorama.webp?v=22fb3a98463f441e",
-    "bytes": 147058,
-    "sha256": "22fb3a98463f441e5a13d30a70ec3b476612249a64af59ae0a9c679ebdcd95bf",
-    "mime": "image/webp"
-  },
-  "manifestSha256": "c4d10545641f126c9dc835d3576ba28c600561841cce8d5f7f98c6d2dfc3b381",
-  "htmlSha256": "77e7d94d8bee74e7fab99b192542908e08bf35ba3c90a8cf9735403e7254540e",
-  "cssSha256": "bcd204c32f5c667e9e85db0440b49775ea687d232e9f80b7e03676fb7c7ee0ed",
+  "manifestSha256": "6ed1f3cdfa140add960c8be3fa626866f010b6387feca41fe73a1c04c4dc9b48",
+  "htmlSha256": "05eeb38177d4bd734ae69ab205ce372b73fc5c098a6f59fbee7c7b15cd7f8cc3",
+  "cssSha256": "1d335cbc0bdec44ed4ff13684b36944ffee30a5c0d7929e832e4b1d7329bbcc9",
   "inputs": [
     "game/client/active-garden.js",
     "game/client/chicken-commands.js",
@@ -1264,12 +1463,15 @@
     "game/client/cozy-camera-shortcuts.js",
     "game/client/cozy-common-engine.js",
     "game/client/cozy-domain.js",
+    "game/client/cozy-farm-activity.js",
+    "game/client/cozy-houses.js",
     "game/client/cozy-integrity.js",
     "game/client/cozy-legacy-recovery.js",
-    "game/client/cozy-panorama.js",
     "game/client/cozy-placement.js",
     "game/client/cozy-recovery.js",
+    "game/client/cozy-sky.js",
     "game/client/cozy-storage.js",
+    "game/client/cozy-worker-routes.js",
     "game/client/cozy-world.js",
     "game/client/engine.js",
     "game/client/features.js",

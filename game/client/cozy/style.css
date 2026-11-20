@@ -243,7 +243,7 @@
 .toolbar-content .resources {padding:7px 0;}
 .toolbar-content .resources strong {font-size:12px;}
 .toolbar-content .resources span {margin-bottom:3px;}
-.toolbar-content .destinations {grid-template-columns:repeat(7,minmax(44px,1fr));gap:2px;padding:3px;overflow-x:auto;}
+.toolbar-content .destinations {grid-template-columns:repeat(8,minmax(44px,1fr));gap:2px;padding:3px;overflow-x:auto;}
 .toolbar-content .destinations button {min-height:44px;padding:5px 2px;gap:2px;}
 .toolbar-content .destinations button span {font-size:18px;line-height:18px;}
 .toolbar-content .destinations button b {font-size:9px;}
@@ -272,6 +272,9 @@
  .toolbar-content .camera-tools {flex:1 1 100%;}
  .toolbar-content .camera-reset,.toolbar-content .camera-undo,.toolbar-content .camera-redo,.toolbar-content .floating-build {flex:1 1 0;min-width:0;flex-direction:column;gap:2px;padding:5px 3px;font-size:10px;}
  .toolbar-content .floating-build span {font-size:20px;line-height:20px;}
+}
+@media(max-width:420px) {
+ .toolbar-content .destinations {grid-template-columns:repeat(4,minmax(44px,1fr));}
 }
 @media(max-width:355px) {
  .toolbar-content .camera-reset,.toolbar-content .camera-undo,.toolbar-content .camera-redo,.toolbar-content .floating-build {font-size:9px;padding-inline:2px;}

@@ -3,13 +3,15 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {clone as cloneSkeleton} from 'three/addons/utils/SkeletonUtils.js';
 import {createAnimalAnimation} from './cozy-animation.js';
-import {FarmPanorama,splitFarmViewport} from './cozy-panorama.js';
+import {FarmSky} from './cozy-sky.js';
+import {HOUSE_KIND,HOUSE_LEVELS} from './cozy-houses.js';
+import {FarmActivity} from './cozy-farm-activity.js';
 import {CAMERA_PREFERENCE_KEY,cameraViewPreferenceKey,validateCameraPreference,readCameraPreference,writeCameraPreference,readCameraViewPreference,writeCameraViewPreference,resolveCameraPreference} from './cozy-camera-preference.js';
 import {CAMERA_RESET_UNDO_PREFIX,readCameraResetUndo,writeCameraResetUndo,sameCameraPose} from './cozy-camera-reset-undo.js';
 
 const v=(/** @type {number} */x,/** @type {number} */y,/** @type {number} */z)=>new THREE.Vector3(x,y,z);
 const clamp=THREE.MathUtils.clamp,UP=v(0,1,0);
-const DAY_GROUND='#72814b',NIGHT_GROUND='#3c4c2e';
+const worldManifestUrl=/** @type {any} */(globalThis).MYFARMTWIN_WORLD_MANIFEST_URL||'/play/assets/models/world-manifest.json';
 const BUILDING_SIZES={barn:[10,8,3.5],coop:[9,7,3.2],goatShelter:[11,9,3.8],pond:[12,10,1],market:[7,6,3.6]};
 /** @typedef {{target:THREE.Vector3,position:THREE.Vector3,fromTarget:THREE.Vector3,fromPosition:THREE.Vector3,start:number,orbit?:{offset:THREE.Vector3,angle:number,applied:number}}} CameraTransition */
 /** A single presentation scene. Every 3D farm mesh comes from a manifest GLB. */
@@ -28,13 +30,16 @@ export class CozyWorld{
   /** @type {CameraTransition|null} */this.transition=null;
   /** @type {any} */this.manifest=null;
   /** @type {number[]} */this.frameSamples=[];
-  this.viewportSize=new THREE.Vector2();
-  this.mapHeight=0;
-  this.scene=new THREE.Scene();this.scene.background=new THREE.Color(DAY_GROUND);this.scene.fog=new THREE.Fog(DAY_GROUND,145,360);
-  this.camera=new THREE.PerspectiveCamera(43,1,.08,340);this.camera.position.set(42,36,46);
-  this.panorama=new FarmPanorama(this.scene.background,host);
+  this.houseLevel=0;
+  /** @type {FarmActivity|null} */this.farmActivity=null;
+  this.camera=new THREE.PerspectiveCamera(43,1,.08,2500);this.camera.position.set(42,11.3,46);
+  this.sky=new FarmSky(this.camera);
+  this.scene=new THREE.Scene();
+  this.scene.background=this.sky.haze;
+  this.fog=new THREE.Fog(this.sky.haze,135,1280);
+  this.scene.fog=this.fog;
+  this.scene.add(this.sky.mesh);
   this.renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.toneMapping=THREE.ACESFilmicToneMapping;this.renderer.toneMappingExposure=1.06;this.renderer.shadowMap.enabled=true;this.renderer.shadowMap.type=THREE.PCFShadowMap;
-  this.renderer.info.autoReset=false;
   this.renderer.domElement.setAttribute('aria-label','Farm tropis 3D / Three-dimensional tropical farm');this.renderer.domElement.tabIndex=0;host.append(this.renderer.domElement);this.setQuality('auto');
   this.controls=new OrbitControls(this.camera,this.renderer.domElement);this.controls.target.set(0,.7,0);this.controls.enableDamping=true;this.controls.dampingFactor=.085;this.controls.minDistance=2;this.controls.maxDistance=170;this.controls.minPolarAngle=.12;this.controls.maxPolarAngle=Math.PI*.475;this.controls.screenSpacePanning=false;this.controls.zoomSpeed=.8;this.controls.rotateSpeed=.65;this.controls.addEventListener('start',()=>{this.transition=null;this.beginCameraInteraction();});this.controls.addEventListener('change',()=>this.queueCameraPreference());this.controls.addEventListener('end',()=>this.flushCameraPreference(true));
   this.hemi=new THREE.HemisphereLight('#e8f1ff','#aaa082',1.6);this.scene.add(this.hemi);this.sun=new THREE.DirectionalLight('#fff1d8',3.1);this.sun.position.set(-24,38,20);this.sun.castShadow=true;this.sun.shadow.mapSize.set(2048,2048);Object.assign(this.sun.shadow.camera,{left:-44,right:44,top:35,bottom:-35,near:1,far:130});this.sun.shadow.normalBias=.045;this.sun.shadow.bias=-.00012;this.scene.add(this.sun);
@@ -50,15 +55,22 @@ export class CozyWorld{
   document.addEventListener('visibilitychange',()=>{if(document.hidden)this.flushCameraPreference();},{signal:this.abort.signal});
   window.addEventListener('storage',event=>this.cameraPreferenceChanged(event),{signal:this.abort.signal});
   // Expanding below-scene controls changes the host size, not the chosen view.
-  let windowWidth=window.innerWidth;window.addEventListener('resize',()=>{this.resize();const widthChanged=window.innerWidth!==windowWidth;windowWidth=window.innerWidth;if(widthChanged&&this.currentView==='overview'&&this.items.size)this.focus('overview',false);},{signal:this.abort.signal});
+  let windowWidth=window.innerWidth;
+  window.addEventListener('resize',()=>{
+   this.resize();
+   const widthChanged=window.innerWidth!==windowWidth;
+   windowWidth=window.innerWidth;
+   const house=this.items.get(this.currentView)?.kind===HOUSE_KIND;
+   if(widthChanged&&this.items.size&&(this.currentView==='overview'||house))this.focus(this.currentView,false);
+  },{signal:this.abort.signal});
  }
  async load(){
-  const response=await fetch('/play/assets/models/world-manifest.json',{cache:'no-cache'});if(!response.ok)throw Error('Manifest unavailable');this.manifest=await response.json();const assets=this.manifest.assets,loader=new GLTFLoader(),names=Object.keys(assets);this.modelCount=names.length+names.filter(n=>assets[n].lod?.far).length;let ready=0;
+  const response=await fetch(worldManifestUrl,{cache:'no-cache'});if(!response.ok)throw Error('Manifest unavailable');this.manifest=await response.json();const assets=this.manifest.assets,loader=new GLTFLoader(),names=Object.keys(assets);this.modelCount=names.length+names.filter(n=>assets[n].lod?.far).length;let ready=0;
   // The terrain and core garden are decoded first; the same cache owns all
   // models. Bounded workers avoid simultaneous texture decode spikes.
   const ordered=['terrain','bed','crops','barn','cow',...names.filter(n=>!['terrain','bed','crops','barn','cow'].includes(n)),...names.filter(n=>assets[n].lod?.far).map(n=>n+':far')];let index=0;
   await Promise.all(Array.from({length:3},async()=>{while(index<ordered.length){const name=ordered[index++],entry=name.endsWith(':far')?assets[name.slice(0,-4)].lod.far:assets[name];if(!entry)continue;const model=await loader.loadAsync(entry.url+'?v='+entry.sha256.slice(0,16));if(this.disposed){this.releaseModel(model);continue;}this.models.set(name,model);this.options.onProgress(++ready,this.modelCount);}}));
-  if(this.disposed)return;this.createLandscape();this.host.dataset.modelsReady='true';this.host.dataset.models=String(this.models.size);this.host.dataset.glbOnly='true';this.host.dataset.loadMs=String(Math.round(performance.now()-this.loadStarted));this.frame=requestAnimationFrame(t=>this.animate(t));
+  if(this.disposed)return;this.createLandscape();this.farmActivity=new FarmActivity(this);this.host.dataset.modelsReady='true';this.host.dataset.models=String(this.models.size);this.host.dataset.glbOnly='true';this.host.dataset.loadMs=String(Math.round(performance.now()-this.loadStarted));this.frame=requestAnimationFrame(t=>this.animate(t));
  }
  /** @param {string} view */
  cameraItem(view){const id=view.startsWith('inside:')?view.slice(7):view;return this.items.get(id)||this.animals.get(id)?.item;}
@@ -184,22 +196,9 @@ export class CozyWorld{
  resize(){
   const rect=this.host.getBoundingClientRect();
   if(rect.width<1||rect.height<1)return;
-  this.viewportSize.set(Math.floor(rect.width),Math.floor(rect.height));
-  this.renderer.setSize(this.viewportSize.x,this.viewportSize.y,false);
-  this.updateViewports();
- }
- updateViewports(){
-  const {x:width,y:height}=this.viewportSize;
-  const {mapHeight,panoramaHeight,gap}=splitFarmViewport(height,this.panorama.visibility);
-  this.mapHeight=mapHeight;
-  const aspect=width/mapHeight;
-  if(this.camera.aspect!==aspect){
-   this.camera.aspect=aspect;
-   this.camera.updateProjectionMatrix();
-  }
-  if(this.host.dataset.panoramaHeight!==String(panoramaHeight))this.host.dataset.panoramaHeight=String(panoramaHeight);
-  if(this.host.dataset.panoramaGap!==String(gap))this.host.dataset.panoramaGap=String(gap);
-  return panoramaHeight;
+  this.camera.aspect=rect.width/rect.height;
+  this.camera.updateProjectionMatrix();
+  this.renderer.setSize(Math.floor(rect.width),Math.floor(rect.height),false);
  }
  /** @param {string} quality */
  setQuality(quality){this.quality=quality;const ratio=quality==='high'?2:quality==='balanced'?1:Math.min(window.devicePixelRatio||1,1.5);this.renderer.setPixelRatio(ratio);this.host.dataset.quality=quality;if(this.controls)this.resize();}
@@ -207,35 +206,68 @@ export class CozyWorld{
  clone(name,node){const asset=this.models.get(name);if(!asset)throw Error('Missing GLB: '+name);const source=node?asset.scene.getObjectByName(node):asset.scene;if(!source)throw Error('Missing GLB template: '+name+'/'+node);const roots=/** @type {THREE.Object3D[]} */([]),group=new THREE.Group(),far=this.models.get(name+':far'),farSource=node?far?.scene.getObjectByName(node):far?.scene;const make=(/** @type {THREE.Object3D} */root,/** @type {string} */url)=>{const object=cloneSkeleton(root);roots.push(object);object.traverse(child=>{child.userData.glbAsset=url;if(child instanceof THREE.Mesh){child.castShadow=true;child.receiveShadow=true;}});return object;};if(farSource){const lod=new THREE.LOD();lod.addLevel(make(source,this.manifest.assets[name].url),0);lod.addLevel(make(farSource,this.manifest.assets[name].lod.far.url),this.manifest.assets[name].lod.far.distance||28);group.add(lod);}else group.add(make(source,this.manifest.assets[name].url));group.userData.glbAsset=this.manifest.assets[name].url;group.userData.animationRoots=roots;return group;}
  /** @param {string} name @param {string[]} nodes */
  template(name,nodes){const source=this.models.get(name)?.scene;const node=nodes.find(n=>source?.getObjectByName(n));if(!node)throw Error('Missing template '+name+'/'+nodes.join(','));return this.clone(name,node);}
- /** Instance repeated scenery directly from loaded GLB meshes. @param {string} model @param {string} node @param {THREE.Matrix4[]} transforms */
- instanceScenery(model,node,transforms){const root=(this.models.get(model+':far')||this.models.get(model))?.scene.getObjectByName(node);if(!root||!transforms.length)return;root.updateWorldMatrix(true,true);const baseInv=root.matrixWorld.clone().invert();root.traverse((/** @type {THREE.Object3D} */child)=>{if(!(child instanceof THREE.Mesh))return;const inst=new THREE.InstancedMesh(child.geometry,child.material,transforms.length);inst.userData.glbAsset=this.models.has(model+':far')?this.manifest.assets[model].lod.far.url:this.manifest.assets[model].url;inst.castShadow=true;inst.receiveShadow=true;const local=baseInv.clone().multiply(child.matrixWorld);for(let i=0;i<transforms.length;i++)inst.setMatrixAt(i,transforms[i].clone().multiply(local));inst.computeBoundingSphere();this.landscape.add(inst);});}
+ /** Instance repeated scenery directly from loaded GLB meshes. @param {string} model @param {string} node @param {THREE.Matrix4[]} transforms @param {boolean} [shadows] */
+ instanceScenery(model,node,transforms,shadows=true){const root=(this.models.get(model+':far')||this.models.get(model))?.scene.getObjectByName(node);if(!root||!transforms.length)return;root.updateWorldMatrix(true,true);const baseInv=root.matrixWorld.clone().invert();root.traverse((/** @type {THREE.Object3D} */child)=>{if(!(child instanceof THREE.Mesh))return;const inst=new THREE.InstancedMesh(child.geometry,child.material,transforms.length);inst.userData.glbAsset=this.models.has(model+':far')?this.manifest.assets[model].lod.far.url:this.manifest.assets[model].url;inst.castShadow=shadows;inst.receiveShadow=shadows;const local=baseInv.clone().multiply(child.matrixWorld);for(let i=0;i<transforms.length;i++)inst.setMatrixAt(i,transforms[i].clone().multiply(local));inst.computeBoundingSphere();this.landscape.add(inst);});}
  createLandscape(){
-  const terrain=this.clone('terrain'),surroundName=this.manifest.assets.terrain.roles?.surround;
-  const surround=surroundName?terrain.getObjectByName(surroundName):null;
-  if(surround instanceof THREE.Mesh){
-   surround.castShadow=false;
-   // Blend with the panorama before transparent details on the farm.
-   surround.renderOrder=-1;
-  }
+  const terrain=this.clone('terrain');
+  const roles=this.manifest.assets.terrain.roles;
+  terrain.traverse(node=>{
+   if(node instanceof THREE.Mesh){
+    node.castShadow=false;
+    node.receiveShadow=node.name===roles.ground||node.name===roles.surround;
+   }
+  });
   this.landscape.add(terrain);
-  const matrix=(/** @type {number} */x,/** @type {number} */z,/** @type {number} */r,/** @type {number} */s)=>new THREE.Matrix4().compose(v(x,0,z),new THREE.Quaternion().setFromAxisAngle(UP,r),v(s,s,s));const palm=/** @type {THREE.Matrix4[]} */([]),banana=/** @type {THREE.Matrix4[]} */([]),grass=/** @type {THREE.Matrix4[]} */([]);
+  const matrix=(/** @type {number} */x,/** @type {number} */z,/** @type {number} */r,/** @type {number} */s,y=0)=>new THREE.Matrix4().compose(v(x,y,z),new THREE.Quaternion().setFromAxisAngle(UP,r),v(s,s,s));const palm=/** @type {THREE.Matrix4[]} */([]),banana=/** @type {THREE.Matrix4[]} */([]),grass=/** @type {THREE.Matrix4[]} */([]);
   for(let i=0;i<38;i++){const angle=i/38*Math.PI*2,x=Math.cos(angle)*(39.5+(i%3)*.6),z=Math.sin(angle)*(29+(i%4)*.5);(i%3? palm:banana).push(matrix(x,z,i*2.37,.8+(i%5)*.07));}
   for(let i=0;i<100;i++){const x=-42+((i*37.51)%84),z=-32+((i*29.71)%64);if(Math.abs(x)<30&&Math.abs(z)<25)continue;grass.push(matrix(x,z,i*.73,.6+(i%7)*.08));}
   this.instanceScenery('vegetation','palm',palm);this.instanceScenery('vegetation','banana',banana);this.instanceScenery('vegetation','grass',grass);
+  /** @type {[number,number,number,number,number][]} */
+  const countryPalms=terrain.getObjectByName('terrain')?.userData.countryPalms??[];
+  this.instanceScenery('vegetation','palm',countryPalms.map(([x,y,z,rotation,scale])=>matrix(x,z,rotation,scale,y)),false);
  }
  /** @param {number} level */
  syncLand(level){if(this.landLevel===level)return;this.landLevel=level;if(this.landMarkers)this.discard(this.landMarkers);this.landMarkers=new THREE.Group();const bounds=[{x:28,z:24},{x:35,z:28},{x:42,z:32}][level];for(const sx of [-1,1])for(const sz of [-1,1]){const horizontal=this.clone('fence');horizontal.position.set(sx*(bounds.x-1),0,sz*bounds.z);this.landMarkers.add(horizontal);const vertical=this.clone('fence');vertical.position.set(sx*bounds.x,0,sz*(bounds.z-1));vertical.rotation.y=Math.PI/2;this.landMarkers.add(vertical);}this.scene.add(this.landMarkers);}
  /** @param {THREE.Group} group @param {string} id @param {string} [selectId] */
  bind(group,id,selectId=id){group.traverse(child=>{child.userData.entityId=selectId;});group.userData.entityId=selectId;this.entities.set(id,group);this.scene.add(group);}
  /** @param {any} state @param {any} [layout] */
- sync(state,layout=state.layout){if(this.models.size!==this.modelCount||!this.modelCount)return;const key=state.revision+':'+JSON.stringify(layout);if(key===this.key)return;const initial=!this.key;this.key=key;this.syncLand(state.land.level);this.items=new Map(layout.items.map((/** @type {any} */p)=>[p.id,p]));
+ sync(state,layout=state.layout){
+  if(this.models.size!==this.modelCount||!this.modelCount)return;
+  const houseLevel=state.house?.level??0;
+  const key=state.revision+':'+houseLevel+':'+JSON.stringify(layout);
+  if(key===this.key)return;
+  const initial=!this.key,houseChanged=houseLevel!==this.houseLevel;
+  this.key=key;
+  this.houseLevel=houseLevel;
+  this.syncLand(state.land.level);
+  this.items=new Map(layout.items.map((/** @type {any} */p)=>[p.id,p]));
+  delete this.host.dataset.houseModel;
   const alive=new Set(layout.items.map((/** @type {any} */p)=>p.id));for(const facility of state.facilities)for(const animal of facility.animals)for(let n=0;n<animal.count;n++)alive.add(n===0?animal.id:animal.id+'.member.'+n);
   for(const [id,group]of this.entities)if(!alive.has(id)){this.removeAnimal(id);this.discard(group);this.entities.delete(id);}
-  for(const item of layout.items){let group=this.entities.get(item.id);if(!group){group=this.itemModel(item);this.bind(group,item.id);}group.position.set(item.x,0,item.z);group.rotation.y=item.rotation;group.userData.kind=item.kind;
-   
+  for(const item of layout.items){
+   let group=this.entities.get(item.id);
+   const model=item.kind===HOUSE_KIND?HOUSE_LEVELS[houseLevel-1].model:null;
+   if(group&&(group.userData.kind!==item.kind||(model&&group.userData.houseModel!==model))){
+    this.discard(group);
+    group=undefined;
+   }
+   if(!group){group=this.itemModel(item);this.bind(group,item.id);}
+   if(model)this.host.dataset.houseModel=group.userData.houseModel;
+   group.position.set(item.x,0,item.z);group.rotation.y=item.rotation;group.userData.kind=item.kind;
+
    const facility=state.facilities.find((/** @type {any} */f)=>f.id===item.id);if(facility)this.syncFacility(group,facility,item);
   }
-  this.syncCrops(state,layout);const hour=state.tick%24,night=hour<5||hour>=20;this.sun.intensity=night?.7:hour<8||hour>=17?2.2:3.15;this.hemi.intensity=night?1.1:1.65;this.sun.color.set(hour<8||hour>=17?'#ffdfad':'#fff2da');this.renderer.toneMappingExposure=night?.85:1.06;const background=/** @type {THREE.Color} */(this.scene.background);background.set(night?NIGHT_GROUND:DAY_GROUND);/** @type {THREE.Fog} */(this.scene.fog).color.copy(background);this.panorama.setNight(night);this.setInterior(this.interiorId);this.markSelection();this.audit();this.updateCameraUndoState();if(initial&&!this.cameraInteraction)this.focus('overview',false);
+  this.syncCrops(state,layout);
+  this.farmActivity?.sync(state.tick,layout.items,houseLevel);
+  const hour=state.tick%24,night=hour<5||hour>=20;
+  this.sun.intensity=night?.7:hour<8||hour>=17?2.2:3.15;
+  this.hemi.intensity=night?1.1:1.65;
+  this.sun.color.set(hour<8||hour>=17?'#ffdfad':'#fff2da');
+  this.renderer.toneMappingExposure=night?.85:1.06;
+  this.sky.setHour(hour);
+  this.fog.color.copy(this.sky.haze);
+  this.setInterior(this.interiorId);this.markSelection();this.audit();this.updateCameraUndoState();if(initial&&!this.cameraInteraction)this.focus('overview',false);
+  if(!initial&&houseChanged&&this.items.get(this.currentView)?.kind===HOUSE_KIND)this.focus(this.currentView,false);
  }
  /** Instance every crop from its GLB template; instance picking keeps bed IDs.
   * @param {any} state @param {any} layout */
@@ -261,7 +293,35 @@ export class CozyWorld{
   if(entry.active==='walk'&&model!=='fish'){x+=Math.sin(time*.7+i)*.025;z+=Math.cos(time*.7+i)*.025;}const offset=v(x,y,z).applyAxisAngle(UP,item.rotation);group.position.set(item.x+offset.x,offset.y,item.z+offset.z);group.rotation.y=item.rotation+heading;
  }
  /** @param {any} item */
- itemModel(item){const kind=item.kind;if(['bed','barn','coop','goatShelter','pond','market','path','fence'].includes(kind))return this.clone(kind);if(kind==='tree')return this.template('vegetation',['palm','palm_tree']);if(kind==='banana')return this.template('vegetation',['banana','banana_tree']);if(kind==='grass')return this.template('vegetation',['grass','grass_clump']);return this.template('props',[kind,kind==='pump'?'water_pump':'crate']);}
+ itemModel(item){
+  const kind=item.kind;
+  if(kind===HOUSE_KIND){
+   const {model}=HOUSE_LEVELS[Math.max(0,this.houseLevel-1)];
+   const home=this.template(HOUSE_KIND,[model]);
+   home.userData.houseModel=model;
+   return home;
+  }
+  if(['bed','barn','coop','goatShelter','pond','market','path','fence'].includes(kind))return this.clone(kind);
+  if(kind==='tree')return this.template('vegetation',['palm','palm_tree']);
+  if(kind==='banana')return this.template('vegetation',['banana','banana_tree']);
+  if(kind==='grass')return this.template('vegetation',['grass','grass_clump']);
+  return this.template('props',[kind,kind==='pump'?'water_pump':'crate']);
+ }
+
+ /** @param {string} kind */
+ buildingSize(kind){
+  return kind===HOUSE_KIND?HOUSE_LEVELS[Math.max(0,this.houseLevel-1)].dimensions:BUILDING_SIZES[/** @type {keyof typeof BUILDING_SIZES} */(kind)];
+ }
+
+ /** @param {import('./cozy-domain.js').Placement} item */
+ houseCamera(item){
+  const [width,depth,height]=this.buildingSize(HOUSE_KIND);
+  const aspect=Math.min(this.camera.aspect,window.innerWidth/window.innerHeight||this.camera.aspect);
+  return {
+   point:v(item.x,Math.min(3.9,height*.31),item.z),
+   offset:v(width*.70,height*.60,depth*1.72).multiplyScalar(Math.max(1,.9/aspect)),
+  };
+ }
  /** @param {string} id @param {boolean} [resetFov] */
  setInterior(id,resetFov=false){const changed=id!==this.interiorId;this.interiorId=id;for(const [key,item]of this.items){if(!['barn','coop','goatShelter','market'].includes(item.kind))continue;this.entities.get(key)?.traverse(node=>{if(node.name==='roof'||node.name.startsWith('roof_'))node.visible=key!==id;});}const item=this.items.get(id);this.fill.visible=!!item;if(item)this.fill.position.set(item.x,2,item.z);this.controls.minDistance=id?1.1:2;this.controls.maxDistance=id?14:170;this.controls.maxPolarAngle=Math.PI*(id?.49:.475);if(changed||resetFov)this.camera.fov=id?54:43;this.camera.updateProjectionMatrix();}
  /** @param {string} id */
@@ -272,7 +332,64 @@ export class CozyWorld{
  /** @param {string} id */
  removeAnimal(id){const entry=this.animals.get(id);if(entry){entry.animation.dispose();this.animals.delete(id);}}
  /** @param {string} target @param {boolean} [remember] */
- focus(target,remember=true){if(remember){this.rememberCameraView();this.beginCameraInteraction();}if(remember&&target!==this.currentView){this.history.push({id:this.currentView,preference:this.cameraSnapshot(),target:this.controls.target.clone(),position:this.camera.position.clone(),interior:this.interiorId,fov:this.camera.fov,zoom:this.camera.zoom});if(this.history.length>15)this.history.shift();}this.currentView=target;this.camera.zoom=1;this.host.dataset.cameraViewRestored='default';const inside=target.startsWith('inside:'),entityId=inside?target.slice(7):target;let item=this.items.get(entityId),point=v(0,.7,0),offset=v(42,36,46);if(this.animals.has(entityId)){const animal=this.animals.get(entityId);item=animal.item;this.setInterior(item.id,true);point=animal.group.position.clone().add(v(0,.6,0));offset=v(2.8,1.7,3.3).applyAxisAngle(UP,item.rotation);}else{this.setInterior(inside?entityId:'',true);if(target==='overview'&&this.items.size){const list=[...this.items.values()].filter(p=>!['tree','banana','grass','fence','path'].includes(p.kind)),xs=list.map(p=>p.x),zs=list.map(p=>p.z),span=Math.max(Math.max(...xs)-Math.min(...xs)+16,Math.max(...zs)-Math.min(...zs)+14);point=v((Math.max(...xs)+Math.min(...xs))/2,.7,(Math.max(...zs)+Math.min(...zs))/2);offset=v(span*.7,span*.62,span*.8).multiplyScalar(Math.max(1.2,1.1/this.camera.aspect));if(this.camera.aspect<.95){this.camera.fov=50;this.camera.updateProjectionMatrix();}}else if(target==='garden'){const beds=[...this.items.values()].filter(p=>p.kind==='bed');if(beds.length)point=beds.reduce((sum,p)=>sum.add(v(p.x,.5,p.z)),v(0,0,0)).multiplyScalar(1/beds.length);offset=v(10,13,16);}else if(item){point=v(item.x,inside?1:0.7,item.z);if(inside)offset=v(.1,1.3,2.8).applyAxisAngle(UP,item.rotation);else{const size=BUILDING_SIZES[/** @type {keyof typeof BUILDING_SIZES} */(item.kind)];offset=(size?v(size[0]*.95,size[0]*.75,size[1]*1.4):v(4,5,6)).applyAxisAngle(UP,item.rotation);}}}this.moveCamera(point,point.clone().add(offset));if(remember&&this.cameraPreferenceReady)this.restoreCameraView(target);this.host.dataset.view=target;this.updateCameraUndoState();}
+ focus(target,remember=true){
+  if(remember){
+   this.rememberCameraView();
+   this.beginCameraInteraction();
+   if(target!==this.currentView){
+    this.history.push({id:this.currentView,preference:this.cameraSnapshot(),target:this.controls.target.clone(),position:this.camera.position.clone(),interior:this.interiorId,fov:this.camera.fov,zoom:this.camera.zoom});
+    if(this.history.length>15)this.history.shift();
+   }
+  }
+  this.currentView=target;
+  this.camera.zoom=1;
+  this.host.dataset.cameraViewRestored='default';
+  const inside=target.startsWith('inside:'),entityId=inside?target.slice(7):target;
+  const animal=this.animals.get(entityId),item=this.items.get(entityId);
+  let point=v(0,.7,0),offset=v(42,10.6,46);
+  if(animal){
+   this.setInterior(animal.item.id,true);
+   point=animal.group.position.clone().add(v(0,.6,0));
+   offset=v(2.8,1.7,3.3).applyAxisAngle(UP,animal.item.rotation);
+  }else{
+   this.setInterior(inside?entityId:'',true);
+   if(target==='overview'){
+    const list=[...this.items.values()].filter(p=>!['tree','banana','grass','fence','path'].includes(p.kind));
+    if(list.length){
+     const xs=list.map(p=>p.x),zs=list.map(p=>p.z);
+     const span=Math.max(Math.max(...xs)-Math.min(...xs)+16,Math.max(...zs)-Math.min(...zs)+14);
+     point=v((Math.max(...xs)+Math.min(...xs))/2,.7,(Math.max(...zs)+Math.min(...zs))/2);
+     offset=v(span*.7,span*.18,span*.8).multiplyScalar(Math.max(1.2,1.1/this.camera.aspect));
+    }
+    if(this.camera.aspect<.95){this.camera.fov=50;this.camera.updateProjectionMatrix();}
+   }else if(target==='garden'){
+    const beds=[...this.items.values()].filter(p=>p.kind==='bed');
+    if(beds.length)point=beds.reduce((sum,p)=>sum.add(v(p.x,.5,p.z)),v(0,0,0)).multiplyScalar(1/beds.length);
+    offset=v(10,13,16);
+   }else if(item){
+    point=v(item.x,inside?1:.7,item.z);
+    if(inside)offset=v(.1,1.3,2.8);
+    else if(item.kind==='pond'){
+     // Size the initial view for portrait windows even when the controls are open.
+     const windowAspect=window.innerWidth/window.innerHeight||this.camera.aspect;
+     const framingAspect=Math.min(this.camera.aspect,windowAspect);
+     offset=v(11.4,3.25,14).multiplyScalar(Math.max(1,1.1/framingAspect));
+    }
+    else if(item.kind===HOUSE_KIND){
+     ({point,offset}=this.houseCamera(item));
+    }
+    else{
+     const size=BUILDING_SIZES[/** @type {keyof typeof BUILDING_SIZES} */(item.kind)];
+     offset=size?v(size[0]*.95,size[0]*.75,size[1]*1.4):v(4,5,6);
+    }
+    offset.applyAxisAngle(UP,item.rotation);
+   }
+  }
+  this.moveCamera(point,point.clone().add(offset));
+  if(remember&&this.cameraPreferenceReady)this.restoreCameraView(target);
+  this.host.dataset.view=target;
+  this.updateCameraUndoState();
+ }
  /** @param {THREE.Vector3} target @param {THREE.Vector3} position @param {number} [turn] */
  moveCamera(target,position,turn){
   if(matchMedia('(prefers-reduced-motion: reduce)').matches){
@@ -316,16 +433,30 @@ export class CozyWorld{
  /** @param {number} right @param {number} forward */
  pan(right,forward){this.beginCameraInteraction();if(this.transition?.orbit){this.finishCameraTransition();this.camera.lookAt(this.controls.target);}this.transition=null;const amount=Math.max(.15,this.camera.position.distanceTo(this.controls.target)*.055),side=v(1,0,0).applyQuaternion(this.camera.quaternion);side.y=0;side.normalize();const ahead=new THREE.Vector3().crossVectors(UP,side).normalize();const offset=side.multiplyScalar(right*amount).add(ahead.multiplyScalar(forward*amount));this.controls.target.add(offset);this.camera.position.add(offset);this.controls.update();this.constrainCamera();this.flushCameraPreference(true);}
  /** @param {any} item */
- preview(item){if(this.ghost){this.discard(this.ghost);this.ghost=null;}this.placing=!!item;if(!item)return;const ghost=this.itemModel(item);ghost.position.set(item.x,.04,item.z);ghost.rotation.y=item.rotation;ghost.traverse(node=>{if(node instanceof THREE.Mesh){const mats=(Array.isArray(node.material)?node.material:[node.material]).map(mat=>{const clone=mat.clone();clone.transparent=true;clone.opacity=.48;clone.depthWrite=false;this.ownedMaterials.add(clone);return clone;});node.material=Array.isArray(node.material)?mats:mats[0];node.userData.ownedMaterials=true;node.castShadow=false;}});this.ghost=ghost;this.scene.add(ghost);}
+ preview(item){
+  const beginningHouse=item?.kind===HOUSE_KIND&&!this.placing;
+  if(this.ghost){this.discard(this.ghost);this.ghost=null;}
+  this.placing=!!item;
+  if(!item)return;
+  const ghost=this.itemModel(item);
+  ghost.position.set(item.x,.04,item.z);ghost.rotation.y=item.rotation;
+  ghost.traverse(node=>{if(node instanceof THREE.Mesh){const mats=(Array.isArray(node.material)?node.material:[node.material]).map(mat=>{const clone=mat.clone();clone.transparent=true;clone.opacity=.48;clone.depthWrite=false;this.ownedMaterials.add(clone);return clone;});node.material=Array.isArray(node.material)?mats:mats[0];node.userData.ownedMaterials=true;node.castShadow=false;}});
+  this.ghost=ghost;
+  this.scene.add(ghost);
+  if(beginningHouse){
+   this.setInterior('',true);
+   const {point,offset}=this.houseCamera(item);
+   this.moveCamera(point,point.clone().add(offset.applyAxisAngle(UP,item.rotation)));
+  }
+ }
  /** @param {boolean} valid */
  previewValid(valid){this.ghost?.traverse(node=>{if(node instanceof THREE.Mesh)for(const mat of Array.isArray(node.material)?node.material:[node.material])if(mat instanceof THREE.MeshStandardMaterial){mat.emissive.set(valid?'#55a269':'#c34732');mat.emissiveIntensity=.4;}});}
  /** @param {number} x @param {number} y */
  pick(x,y){
   const rect=this.renderer.domElement.getBoundingClientRect();
-  const mapHeight=rect.height*this.mapHeight/this.viewportSize.y;
-  const localX=x-rect.left,localY=rect.top+rect.height-y;
-  if(!(rect.width>0&&mapHeight>0)||localX<0||localX>rect.width||localY<0||localY>mapHeight)return;
-  this.pointer.set(localX/rect.width*2-1,localY/mapHeight*2-1);
+  const localX=x-rect.left,localY=y-rect.top;
+  if(!(rect.width>0&&rect.height>0)||localX<0||localX>rect.width||localY<0||localY>rect.height)return;
+  this.pointer.set(localX/rect.width*2-1,1-localY/rect.height*2);
   this.raycaster.setFromCamera(this.pointer,this.camera);
   if(this.placing){
    const point=new THREE.Vector3();
@@ -340,29 +471,19 @@ export class CozyWorld{
   }
  }
  constrainCamera(){this.controls.target.x=clamp(this.controls.target.x,-42,42);this.controls.target.z=clamp(this.controls.target.z,-32,32);this.controls.target.y=clamp(this.controls.target.y,.08,4);this.camera.position.y=Math.max(.32,this.camera.position.y);
-  for(const [id,item]of this.items){const size=BUILDING_SIZES[/** @type {keyof typeof BUILDING_SIZES} */(item.kind)];if(!size||item.kind==='pond')continue;const origin=v(item.x,0,item.z),local=this.camera.position.clone().sub(origin).applyAxisAngle(UP,-item.rotation),w=size[0]/2,d=size[1]/2;if(this.interiorId===id){local.x=clamp(local.x,-w+.6,w-.6);local.z=clamp(local.z,-d+.6,d-.6);local.y=clamp(local.y,(this.manifest.assets[item.kind]?.interiorFloorY||0)+.4,size[2]-.35);const target=this.controls.target.clone().sub(origin).applyAxisAngle(UP,-item.rotation);target.x=clamp(target.x,-w+.7,w-.7);target.z=clamp(target.z,-d+.7,d-.7);this.controls.target.copy(target.applyAxisAngle(UP,item.rotation).add(origin));}else if(Math.abs(local.x)<w+.35&&Math.abs(local.z)<d+.35&&local.y<size[2]+.4){if(w-Math.abs(local.x)<d-Math.abs(local.z))local.x=(Math.sign(local.x)||1)*(w+.4);else local.z=(Math.sign(local.z)||1)*(d+.4);}this.camera.position.copy(local.applyAxisAngle(UP,item.rotation).add(origin));}
+  for(const [id,item]of this.items){const size=this.buildingSize(item.kind);if(!size||item.kind==='pond')continue;const origin=v(item.x,0,item.z),local=this.camera.position.clone().sub(origin).applyAxisAngle(UP,-item.rotation),w=size[0]/2,d=size[1]/2;if(this.interiorId===id){local.x=clamp(local.x,-w+.6,w-.6);local.z=clamp(local.z,-d+.6,d-.6);local.y=clamp(local.y,(this.manifest.assets[item.kind]?.interiorFloorY||0)+.4,size[2]-.35);const target=this.controls.target.clone().sub(origin).applyAxisAngle(UP,-item.rotation);target.x=clamp(target.x,-w+.7,w-.7);target.z=clamp(target.z,-d+.7,d-.7);this.controls.target.copy(target.applyAxisAngle(UP,item.rotation).add(origin));}else if(Math.abs(local.x)<w+.35&&Math.abs(local.z)<d+.35&&local.y<size[2]+.4){if(w-Math.abs(local.x)<d-Math.abs(local.z))local.x=(Math.sign(local.x)||1)*(w+.4);else local.z=(Math.sign(local.z)||1)*(d+.4);}this.camera.position.copy(local.applyAxisAngle(UP,item.rotation).add(origin));}
  }
- audit(){let meshes=0,invalid=0;this.scene.traverse(node=>{if(node instanceof THREE.Mesh){meshes++;if(!node.userData.glbAsset)invalid++;}});this.host.dataset.meshes=String(meshes);this.host.dataset.nonGlbMeshes=String(invalid);this.host.dataset.materialClones=String(this.ownedMaterials.size);}
- /** @param {number} now @param {boolean} reduce */
- drawView(now,reduce){
-  const {x:width,y:height}=this.viewportSize;
-  if(!width||!height)return;
-  this.panorama.update(now,Boolean(this.interiorId),reduce);
-  const panoramaHeight=this.updateViewports();
-  this.renderer.info.reset();
-  // The world clears the whole canvas, including the empty space above it.
-  this.renderer.setViewport(0,0,width,this.mapHeight);
-  this.renderer.render(this.scene,this.camera);
-  this.panorama.draw(this.renderer,this.camera,width,height-panoramaHeight,panoramaHeight);
-  this.panorama.load();
- }
+ audit(){let meshes=0,invalid=0;this.scene.traverse(node=>{if(node instanceof THREE.Mesh&&node!==this.sky.mesh){meshes++;if(!node.userData.glbAsset)invalid++;}});this.host.dataset.meshes=String(meshes);this.host.dataset.nonGlbMeshes=String(invalid);this.host.dataset.materialClones=String(this.ownedMaterials.size);}
  /** @param {number} now */
  animate(now){if(this.disposed)return;const elapsed=now-(this.lastTime||now),delta=Math.min(elapsed/1000,.05);this.lastTime=now;if(!document.hidden&&elapsed>0&&elapsed<1000){this.frameSamples.push(elapsed);if(this.frameSamples.length>180)this.frameSamples.shift();}this.advanceCameraTransition(now);this.controls.update();this.constrainCamera();const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;for(const entry of this.animals.values()){if(!reduce)for(const mixer of entry.mixers)mixer.update(delta);if(!reduce){const phase=(now/1000+entry.index*7)%45,override=entry.override&&now<entry.override.until?entry.override.clip:null,activity=override||(entry.model==='fish'?'swim':phase>34&&entry.actions.has('rest')?'rest':phase>22&&phase<28?'walk':entry.baseActivity);this.setAnimalAction(entry,activity);this.placeAnimal(entry,now/1000);}}if(!reduce){const time=now/1000;for(const batch of this.cropBatches){const transforms=batch.userData.transforms;for(let i=0;i<transforms.length;i++){this.windRotation.makeRotationZ(Math.sin(time*1.1+transforms[i].phase)*.012);this.windMatrix.copy(transforms[i].matrix).multiply(this.windRotation).multiply(batch.userData.local);batch.setMatrixAt(i,this.windMatrix);}batch.instanceMatrix.needsUpdate=true;}for(const group of this.entities.values()){const plants=group.getObjectByName('crop_instance');if(plants)plants.rotation.z=Math.sin(time*1.1+group.position.x)*.012;const aerator=group.getObjectByName('aerator_rotor');if(aerator&&group.userData.aeratorOn)aerator.rotation.x=time*2.2;const water=group.getObjectByName('water_surface');water?.traverse(node=>{if(node instanceof THREE.Mesh){for(const mat of Array.isArray(node.material)?node.material:[node.material])if(mat instanceof THREE.MeshStandardMaterial&&mat.normalMap)mat.normalMap.offset.set(Math.sin(time*.12)*.035,time*.006%1);}});}}
-  if(!document.hidden)this.drawView(now,reduce);
+  if(!document.hidden){
+   this.farmActivity?.update(Math.min(elapsed/1000,.24),reduce);
+   this.renderer.render(this.scene,this.camera);
+  }
   if(Math.floor(now/1000)!==Math.floor((now-elapsed)/1000)){this.host.dataset.triangles=String(this.renderer.info.render.triangles);this.host.dataset.drawCalls=String(this.renderer.info.render.calls);this.host.dataset.geometries=String(this.renderer.info.memory.geometries);this.host.dataset.textures=String(this.renderer.info.memory.textures);const sorted=[...this.frameSamples].sort((a,b)=>a-b);this.host.dataset.frameMedianMs=sorted.length?sorted[Math.floor(sorted.length/2)].toFixed(2):'0';this.host.dataset.frameP95Ms=sorted.length?sorted[Math.floor(sorted.length*.95)].toFixed(2):'0';this.host.dataset.animationStates=JSON.stringify([...this.animals.values()].reduce((counts,entry)=>{counts[entry.active]=(counts[entry.active]||0)+1;return counts;},/** @type {Record<string,number>} */({})));this.host.dataset.animalModels=String(this.animals.size);let lodNear=0,lodFar=0;this.scene.traverse(node=>{if(node instanceof THREE.LOD){if(node.getCurrentLevel()===0)lodNear++;else lodFar++;}});this.host.dataset.lodNear=String(lodNear);this.host.dataset.lodFar=String(lodFar);this.host.dataset.camera=JSON.stringify({x:+this.camera.position.x.toFixed(2),y:+this.camera.position.y.toFixed(2),z:+this.camera.position.z.toFixed(2)});this.host.dataset.cameraState=JSON.stringify(this.cameraSnapshot());}
   this.frame=requestAnimationFrame(t=>this.animate(t));
  }
  /** @param {any} model */
  releaseModel(model){const geometries=new Set(),materials=new Set(),textures=new Set();model.scene.traverse((/** @type {any} */node)=>{if(node.isMesh){geometries.add(node.geometry);for(const mat of Array.isArray(node.material)?node.material:[node.material]){materials.add(mat);for(const value of Object.values(mat))if(value instanceof THREE.Texture)textures.add(value);}}});for(const g of geometries)g.dispose();for(const m of materials)m.dispose();for(const t of textures){t.source?.data?.close?.();t.dispose();}}
- dispose(){if(this.disposed)return;this.flushCameraPreference();this.cameraPreferenceReady=false;window.clearTimeout(this.cameraSaveTimer);this.disposed=true;cancelAnimationFrame(this.frame);this.abort.abort();this.resizeObserver.disconnect();this.controls.dispose();this.panorama.dispose();for(const id of this.animals.keys())this.removeAnimal(id);for(const mat of this.ownedMaterials)mat.dispose();this.ownedMaterials.clear();for(const model of this.models.values())this.releaseModel(model);this.models.clear();this.entities.clear();this.items.clear();this.history=[];this.scene.traverse(node=>{if(node instanceof THREE.InstancedMesh)node.dispose();});this.cropBatches=[];this.landscape.clear();this.landMarkers?.clear();this.ghost=null;this.scene.clear();this.renderer.dispose();this.renderer.domElement.remove();}
+ dispose(){if(this.disposed)return;this.flushCameraPreference();this.cameraPreferenceReady=false;window.clearTimeout(this.cameraSaveTimer);this.disposed=true;cancelAnimationFrame(this.frame);this.abort.abort();this.resizeObserver.disconnect();this.controls.dispose();this.sky.dispose();this.farmActivity?.dispose();for(const id of this.animals.keys())this.removeAnimal(id);for(const mat of this.ownedMaterials)mat.dispose();this.ownedMaterials.clear();for(const model of this.models.values())this.releaseModel(model);this.models.clear();this.entities.clear();this.items.clear();this.history=[];this.scene.traverse(node=>{if(node instanceof THREE.InstancedMesh)node.dispose();});this.cropBatches=[];this.landscape.clear();this.landMarkers?.clear();this.ghost=null;this.scene.clear();this.renderer.dispose();this.renderer.domElement.remove();}
 }

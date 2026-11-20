@@ -5,31 +5,135 @@
   "determinism": {
     "checked": true,
     "manifestByteIdentical": true,
-    "assetsCompared": 22
+    "assetsCompared": 26
   },
-  "logicalAssets": 17,
-  "files": 22,
-  "bytes": 14488860,
+  "logicalAssets": 21,
+  "files": 26,
+  "bytes": 19795848,
   "results": [
     {
       "id": "terrain",
-      "sha256": "59a2acf9e2f70da95a95747c141b19c0a3bdfd070c1a45af85660425f8091ca7",
-      "bytes": 890748,
-      "nodes": 3,
-      "meshes": 2,
-      "images": 2,
-      "normalMaps": 2,
+      "sha256": "be32e4679f81520c3c7d1379ce840ef39a18e53b4d364247e932a4545cddd37e",
+      "bytes": 1886808,
+      "nodes": 11,
+      "meshes": 9,
+      "images": 5,
+      "normalMaps": 3,
       "animations": [],
       "bounds": {
         "min": [
-          -73.17364501953125,
-          -0.8999999761581421,
-          -59.74182891845703
+          -2077.080322265625,
+          -3.04727840423584,
+          -2073.377197265625
         ],
         "max": [
-          68.35265350341797,
+          2079.91943359375,
+          117.24885559082031,
+          2085.425048828125
+        ]
+      },
+      "passed": true
+    },
+    {
+      "id": "house",
+      "sha256": "86ac310886d2c4f6768392e323582461aa1657d3f99cf9dbebd057bb8e81868c",
+      "bytes": 2245088,
+      "nodes": 814,
+      "meshes": 292,
+      "images": 7,
+      "normalMaps": 10,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -6.914,
           0,
-          66.87557983398438
+          -5.524787788391113
+        ],
+        "max": [
+          6.914,
+          8.4975004196167,
+          5.926499843597412
+        ]
+      },
+      "passed": true
+    },
+    {
+      "id": "windPump",
+      "sha256": "9e7b042b15b2783415d646e976f7e609d4fb35f7bdbc6af399e9be88b643a63f",
+      "bytes": 236976,
+      "nodes": 17,
+      "meshes": 12,
+      "images": 2,
+      "normalMaps": 1,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -1.3170684576034546,
+          0,
+          -2.0499999427795412
+        ],
+        "max": [
+          1.3170684576034546,
+          6.080639491081238,
+          0.925000011920929
+        ]
+      },
+      "passed": true
+    },
+    {
+      "id": "workerMan",
+      "sha256": "34a06d4db76b56c6abc9b93c8577560ea63af741cb37e3f9cde09149e3a65f68",
+      "bytes": 913700,
+      "nodes": 47,
+      "meshes": 28,
+      "images": 6,
+      "normalMaps": 2,
+      "animations": [
+        "walk",
+        "carry",
+        "idle",
+        "fill",
+        "pour"
+      ],
+      "bounds": {
+        "min": [
+          -0.25535999892711636,
+          0.0004999926090240026,
+          -0.19599183536946319
+        ],
+        "max": [
+          0.40036712847709655,
+          1.7914794778170744,
+          0.23947699308395387
+        ]
+      },
+      "passed": true
+    },
+    {
+      "id": "workerWoman",
+      "sha256": "1407366d337b3fe550b37165715c4962aa9c31eb503a1af591a10d9a461e09de",
+      "bytes": 915164,
+      "nodes": 48,
+      "meshes": 29,
+      "images": 6,
+      "normalMaps": 2,
+      "animations": [
+        "walk",
+        "carry",
+        "idle",
+        "fill",
+        "pour"
+      ],
+      "bounds": {
+        "min": [
+          -0.23561999892711638,
+          0.0004999926090240026,
+          -0.19369497212149211
+        ],
+        "max": [
+          0.38062712847709657,
+          1.791762182634516,
+          0.23947699308395387
         ]
       },
       "passed": true

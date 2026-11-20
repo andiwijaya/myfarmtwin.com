@@ -1,4 +1,5 @@
 import {readFile,writeFile} from 'node:fs/promises';
+import {Box3} from 'three';
 import {writeGLB} from './glb-prototype-export.mjs';
 
 // Extend the established deterministic writer with embedded original tangent-
@@ -14,5 +15,8 @@ export async function writeWorldGLB(path,root,{textures,animations=[]}){
  json.buffers[0].byteLength=length;json.asset.generator='MyFarmTwin original cozy-world metric authoring v2, 2026-11-15';
  const raw=Buffer.from(JSON.stringify(json)),jsonChunk=Buffer.concat([raw,Buffer.alloc((4-raw.length%4)%4,32)]),bin=Buffer.concat(chunks),header=Buffer.alloc(12),jhead=Buffer.alloc(8),bhead=Buffer.alloc(8);
  header.writeUInt32LE(0x46546c67);header.writeUInt32LE(2,4);header.writeUInt32LE(28+jsonChunk.length+bin.length,8);jhead.writeUInt32LE(jsonChunk.length);jhead.writeUInt32LE(0x4e4f534a,4);bhead.writeUInt32LE(bin.length);bhead.writeUInt32LE(0x004e4942,4);
- const bytes=Buffer.concat([header,jhead,jsonChunk,bhead,bin]);await writeFile(path,bytes);return{...record,bytes:bytes.length,textures:json.textures?.length??0,normalMaps:normalTextures.length};
+ const bytes=Buffer.concat([header,jhead,jsonChunk,bhead,bin]);
+ await writeFile(path,bytes);
+ const bounds=new Box3().setFromObject(root,true);
+ return{...record,bytes:bytes.length,textures:json.textures?.length??0,normalMaps:normalTextures.length,bounds:{min:bounds.min.toArray(),max:bounds.max.toArray()}};
 }
