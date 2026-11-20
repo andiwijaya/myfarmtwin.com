@@ -10,6 +10,7 @@ import {createChicken,createGoat,createFish} from './cozy-world-animals.mjs';
 import {createWorldTerrain,createCoop,createGoatShelter,createPond,createMarket,createFarVegetation} from './cozy-world-environment.mjs';
 import {createHouses} from './cozy-world-houses.mjs';
 import {createWorker,createWindPump} from './cozy-world-farm-activity.mjs';
+import {createInfrastructure} from './cozy-world-infrastructure.mjs';
 import {HOUSE_LEVELS,HOUSE_PLOT} from '../../game/client/cozy-houses.js';
 
 const authoringRoot=resolve(fileURLToPath(new URL('../../',import.meta.url)));
@@ -23,6 +24,7 @@ const roles={
  windPump:{rotor:'windmill_rotor',shaft:'windmill_pump_rod',water:'windmill_water_stream'},
  workerMan:{head:'worker_head',bucket:'water_bucket',contents:'bucket_water',stream:'bucket_pour',basket:'market_basket'},
  workerWoman:{head:'worker_head',bucket:'water_bucket',contents:'bucket_water',stream:'bucket_pour',basket:'market_basket'},
+ infrastructure:{truck:'market_truck',cargo:'truck_load',road:'road_strip',corner:'road_joint',power:'wind_solar_station',rotor:'energy_turbine_rotor',transformer:'distribution_transformer',solar:'solar_panel_array',lamp:'farm_street_lamp',bulb:'lamp_bulb',glow:'lamp_ground_glow'},
  coop:{roof:'roof',floor:'floor',frame:'frame',walls:'walls',equipment:'equipment',nests:'nests',eggs:'nest_eggs',feed:'feed_contents',water:'water_contents',roosts:'roosts',gate:'entry_gate'},
  goatShelter:{roof:'roof',floor:'floor',frame:'frame',walls:'walls',stalls:'stalls',equipment:'equipment',feed:'feed_contents',water:'water_contents',bedding:'bedding',ramp:'entry_ramp'},
  market:{roof:'roof',floor:'floor',frame:'frame',walls:'walls',equipment:'equipment',stock:'stock_contents',shelves:'warehouse_shelves',orderCrate:'order_crate'},
@@ -38,6 +40,7 @@ const definitions=[
  ['windPump','wind-pump',()=>({root:createWindPump()}),{front:'+Z',semanticRole:'working windmill and bucket-filling point'}],
  ['workerMan','worker-man',()=>createWorker(false),{front:'+Z',semanticRole:'articulated male farm worker in Indonesian field wear'}],
  ['workerWoman','worker-woman',()=>createWorker(true),{front:'+Z',semanticRole:'articulated female farm worker in Indonesian field wear'}],
+ ['infrastructure','infrastructure',()=>({root:createInfrastructure()}),{semanticRole:'village truck, service road, solar-wind station, transformer and street lamp library'}],
  ['coop','coop',()=>({root:createCoop()}),{footprint:[9,7],interiorFloorY:0,interiorTarget:[0,.8,-.3],front:'+Z',semanticRole:'chicken building with complete interior'}],
  ['chicken','chicken',createChicken,{forward:'+X',semanticRole:'kampung hen',maxCloseInstancesSuggested:12}],
  ['goatShelter','goat-shelter',()=>({root:createGoatShelter()}),{footprint:[11,9],interiorFloorY:.34,interiorTarget:[0,1.1,-.3],front:'+Z',semanticRole:'raised ventilated goat shelter with complete interior'}],

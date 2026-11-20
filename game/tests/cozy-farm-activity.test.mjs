@@ -20,7 +20,7 @@ function mockHouse(){
 }
 
 function testWorld(){
- const moves=['walk','carry','idle','fill','pour'].map(name=>new AnimationClip(name,1.72,[]));
+ const moves=['walk','carry','idle','fill','pour','tend'].map(name=>new AnimationClip(name,1.72,[]));
  return {
   scene:new Group(),
   host:{dataset:{}},
@@ -50,6 +50,13 @@ function simulate(activity,seconds,reduced=false){
  for(let t=0;t<seconds;t+=.2)activity.update(.2,reduced);
 }
 
+function randomFrom(seed){
+ return ()=>{
+  seed=(Math.imul(seed,1664525)+1013904223)>>>0;
+  return seed/2**32;
+ };
+}
+
 test('workers route around a rotated building and reach the clear approach',()=>{
  const barn={id:'barn',kind:'barn',x:0,z:0,rotation:Math.PI/4};
  const routes=new WorkerRoutes([barn],false);
@@ -64,15 +71,38 @@ test('workers route around a rotated building and reach the clear approach',()=>
  assert.deepEqual({x:previous.x,z:previous.z},to);
 });
 
-test('daytime tasks deliver water and reach the market, then all workers pass through the house entrance',()=>{
- const world=testWorld(),activity=new FarmActivity(world),items=stockedFarm();
+test('workers take different direct routes and cover individual pens with one pump assignment at a time',()=>{
+ const world=testWorld(),activity=new FarmActivity(world,randomFrom(1978));
+ const items=[...stockedFarm(),{id:'coop.2',kind:'coop',x:21,z:-7.5,rotation:0}];
+ try{
+  activity.sync(12,items,10);
+  const initial=JSON.parse(world.host.dataset.workerJobs);
+  assert.equal(initial.filter(job=>job.mode==='water').length,1);
+  assert.ok(initial.some(job=>job.mode==='tend'&&job.destination==='field'));
+  assert.ok(initial.some(job=>job.mode==='tend'&&['coop','goatShelter','barn'].includes(job.destination)));
+  assert.equal(new Set(initial.map(job=>job.site)).size,4);
+  const directVisits=new Set(),waterWorkers=new Set();
+  for(let i=0;i<900;i++){
+   activity.update(.2,false);
+   const carrying=activity.workers.filter(worker=>worker.job?.mode==='water');
+   assert.ok(carrying.length<=1);
+   carrying.forEach(worker=>waterWorkers.add(worker.index));
+   for(const worker of activity.workers)if(worker.active==='tend'&&worker.job?.mode==='tend')directVisits.add(worker.job.site.id);
+  }
+  for(const id of ['coop','coop.2','goatShelter','barn','pond'])assert.ok(directVisits.has(id),id+' received direct work');
+  assert.ok(activity.completed.field>0&&activity.completed.market>0);
+  assert.ok(activity.waterTrips>0);
+  assert.ok(waterWorkers.size>1);
+ }finally{activity.dispose();}
+});
+
+test('workers keep the house routine after the daylight schedule',()=>{
+ const world=testWorld(),activity=new FarmActivity(world,randomFrom(33)),items=stockedFarm();
  try{
   activity.sync(12,items,10);
   assert.equal(world.host.dataset.workersAtHome,'0');
   assert.equal(activity.lodge.visible,false);
-  simulate(activity,100);
-  assert.ok(activity.completed.field>0&&activity.completed.pond>0&&activity.completed.market>0);
-  assert.ok(['coop','barn','goatShelter'].some(kind=>activity.completed[kind]>0));
+  simulate(activity,30);
   assert.notEqual(activity.rotor.rotation.z,0);
 
   activity.sync(17,items,10);

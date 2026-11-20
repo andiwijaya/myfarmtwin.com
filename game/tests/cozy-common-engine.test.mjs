@@ -3,6 +3,7 @@ import test from 'node:test';
 import {readFileSync} from 'node:fs';
 import {commonEngineDefaultDatabase, commonEngineQaDatabase, openCozyCommonEngine} from '../client/cozy-common-engine.js';
 import {CozySession, COZY_SAVE_KEY, COZY_ARCHIVE_KEY} from '../client/cozy-storage.js';
+import {COZY_MORNING_HOUR,COZY_REALTIME_HOUR_MS} from '../client/cozy-domain.js';
 import {SAVE_KEY} from '../client/storage.js';
 
 test('the Farm pilot opens only explicitly named loopback QA databases', () => {
@@ -66,6 +67,29 @@ function nativeStorage(seed = {}) {
     removeItem: key => contents.delete(key),
   };
 }
+
+test('fresh farms start in the morning and both runtimes advance one hour at the same real-time pace', async () => {
+  const native = new CozySession(nativeStorage());
+  const common = await openCozyCommonEngine(null, {native:new CozySession(nativeStorage())});
+  try {
+    assert.equal(COZY_MORNING_HOUR,6);
+    assert.equal(COZY_REALTIME_HOUR_MS,12_000);
+    for (const session of [native,common]) {
+      assert.equal(session.state.tick,6);
+      const start=1_000;
+      assert.equal(await session.frame(start),null);
+      assert.equal(await session.frame(start+2_000),null);
+      assert.equal(await session.frame(start+11_999),null);
+      assert.equal((await session.frame(start+12_000)).ok,true);
+      assert.equal(session.state.tick,7);
+      session.resetClock();
+      assert.equal(await session.frame(start+60_000),null);
+      assert.equal(session.state.tick,7);
+      assert.equal((await session.advance(6)).ok,true);
+      assert.equal(session.state.tick,13);
+    }
+  } finally { common.dispose(); }
+});
 
 test('default Common Engine and native rollback share the latest legacy-compatible save', async () => {
   const legacy = readFileSync(new URL('./fixtures/unified-world/v2-mixed.json',import.meta.url),'utf8');

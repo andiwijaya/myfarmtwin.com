@@ -612,7 +612,7 @@ for(const b of document.querySelectorAll('[data-camera]'))b.addEventListener('cl
 for(const b of document.querySelectorAll('[data-pan]'))b.addEventListener('click',()=>{const d=b.getAttribute('data-pan');world?.pan(d==='left'?-1:d==='right'?1:0,d==='up'?1:d==='down'?-1:0);});
 window.addEventListener('keydown',e=>{if(e.key==='Escape'&&placement){cancelPlacement();return;}if(!e.ctrlKey&&!e.metaKey)return;const editing=e.composedPath().some(target=>target instanceof HTMLElement&&(target.isContentEditable||target.matches('input,textarea,select,[role="textbox"],[role="combobox"],[role="spinbutton"]')));handleCameraResetShortcut(e,{blocked:editing||!!placement||!!document.querySelector('dialog[open]')||document.designMode==='on',available:action=>!!(action==='undo-reset'?world?.canUndoCameraReset():world?.canRedoCameraReset()),run:cameraHistoryAction});});
 el('build-open').addEventListener('click',openBuild);el('placement-cancel').addEventListener('click',cancelPlacement);el('placement-confirm').addEventListener('click',()=>{void confirmPlacement();});for(const id of ['place-x','place-z','place-rotation'])el(id).addEventListener('input',updatePlacement);
-el('pause').addEventListener('click',()=>{running=!running;engineSession?.resetClock();render();});el('advance').addEventListener('click',()=>{void act(()=>session.advance(6),L('Waktu maju 6 jam farm.','Advanced 6 farm hours.'));});el('advance-day').addEventListener('click',()=>{void act(()=>session.advance(24),L('Waktu maju 24 jam farm.','Advanced 24 farm hours.'));});
+el('pause').addEventListener('click',()=>{running=!running;session.resetClock();render();});el('advance').addEventListener('click',()=>{void act(()=>session.advance(6),L('Waktu maju 6 jam farm.','Advanced 6 farm hours.'));});el('advance-day').addEventListener('click',()=>{void act(()=>session.advance(24),L('Waktu maju 24 jam farm.','Advanced 24 farm hours.'));});
 el('data-open').addEventListener('click',()=>{
  running=false;
  render();
@@ -650,21 +650,18 @@ el('recover-data').addEventListener('click',async()=>{if(!recoverConfirmed){reco
 el('retry').addEventListener('click',()=>location.reload());
 if(!namedQa)window.addEventListener('storage',event=>{if(COZY_WATCH_KEYS.some(key=>key===event.key)&&event.newValue!==event.oldValue){running=false;native.readOnly=true;native.status='saveConflict';toast(explain('saveConflict'));render();}});
 const timer=window.setInterval(async()=>{
- if(disposed||!running||session.readOnly||document.hidden){engineSession?.resetClock();return;}
+ if(disposed||!running||session.readOnly||document.hidden){session.resetClock();return;}
  if(busy||clockBusy)return;
  clockBusy=true;
  try{
-  const frame=()=>engineSession?engineSession.frame(performance.now()):native.advance(1);
+  const frame=()=>session.frame(performance.now());
   const result=await (namedQa?frame():withSaveLock(frame));
   if(!result)return;
   if(!result.ok){running=false;toast(explain(result.error));}
   render();
  }finally{clockBusy=false;}
-},engineSession?150:2000);
-if(engineSession){
- const activeEngine=engineSession;
- document.addEventListener('visibilitychange',()=>activeEngine.resetClock());
-}
+},150);
+document.addEventListener('visibilitychange',()=>session.resetClock());
 if(qaBuild&&engineSession){
  const qa=engineSession;
  const checkpoint=button(L('Simpan checkpoint QA','Save QA checkpoint'),

@@ -141,6 +141,19 @@
       "stream": "bucket_pour",
       "basket": "market_basket"
     },
+    "infrastructure": {
+      "truck": "market_truck",
+      "cargo": "truck_load",
+      "road": "road_strip",
+      "corner": "road_joint",
+      "power": "wind_solar_station",
+      "rotor": "energy_turbine_rotor",
+      "transformer": "distribution_transformer",
+      "solar": "solar_panel_array",
+      "lamp": "farm_street_lamp",
+      "bulb": "lamp_bulb",
+      "glow": "lamp_ground_glow"
+    },
     "coop": {
       "roof": "roof",
       "floor": "floor",
@@ -240,7 +253,7 @@
     "source": "original geometry, PBR materials, embedded original base-color and tangent-space normal textures",
     "animation": "glTF transform animation on named articulated groups; no runtime procedural mesh replacement",
     "lod": "explicit original far assets; no device performance claim",
-    "totalBytesIncludingFarLODs": 19795848
+    "totalBytesIncludingFarLODs": 20418664
   },
   "assets": {
     "terrain": {
@@ -401,8 +414,8 @@
     "workerMan": {
       "id": "workerMan",
       "url": "/play/assets/models/world/worker-man.glb",
-      "sha256": "34a06d4db76b56c6abc9b93c8577560ea63af741cb37e3f9cde09149e3a65f68",
-      "bytes": 913700,
+      "sha256": "92e5720d72b6b019693555612eb5b785807fb1b87e7b03e33c7ca9afd24b1e85",
+      "bytes": 918896,
       "uniqueTriangles": 5430,
       "meshes": 28,
       "nodes": 47,
@@ -412,7 +425,8 @@
         "carry",
         "idle",
         "fill",
-        "pour"
+        "pour",
+        "tend"
       ],
       "bounds": {
         "min": [
@@ -446,8 +460,8 @@
     "workerWoman": {
       "id": "workerWoman",
       "url": "/play/assets/models/world/worker-woman.glb",
-      "sha256": "1407366d337b3fe550b37165715c4962aa9c31eb503a1af591a10d9a461e09de",
-      "bytes": 915164,
+      "sha256": "d944ab8493c7b43c3885f9d5f9a43dd9128fea96438f18c23b6f079ecba68496",
+      "bytes": 920356,
       "uniqueTriangles": 5474,
       "meshes": 29,
       "nodes": 48,
@@ -457,7 +471,8 @@
         "carry",
         "idle",
         "fill",
-        "pour"
+        "pour",
+        "tend"
       ],
       "bounds": {
         "min": [
@@ -483,6 +498,54 @@
         "contents": "bucket_water",
         "stream": "bucket_pour",
         "basket": "market_basket"
+      },
+      "floorPivot": true,
+      "authoredBy": "MyFarmTwin original repository authoring",
+      "externalResources": false
+    },
+    "infrastructure": {
+      "id": "infrastructure",
+      "url": "/play/assets/models/world/infrastructure.glb",
+      "sha256": "d50341e12685e6fd981b05c2e1023afa276c80fdbca009e7a6bc49e530e32a4a",
+      "bytes": 612428,
+      "uniqueTriangles": 8768,
+      "meshes": 52,
+      "nodes": 80,
+      "textures": 5,
+      "animations": [],
+      "bounds": {
+        "min": [
+          -4.11155715829892,
+          0,
+          -2.4000000953674316
+        ],
+        "max": [
+          3.765,
+          8.55,
+          3.799999952316284
+        ]
+      },
+      "templates": [
+        "market_truck",
+        "road_strip",
+        "road_joint",
+        "wind_solar_station",
+        "farm_street_lamp"
+      ],
+      "normalMaps": 1,
+      "semanticRole": "village truck, service road, solar-wind station, transformer and street lamp library",
+      "roles": {
+        "truck": "market_truck",
+        "cargo": "truck_load",
+        "road": "road_strip",
+        "corner": "road_joint",
+        "power": "wind_solar_station",
+        "rotor": "energy_turbine_rotor",
+        "transformer": "distribution_transformer",
+        "solar": "solar_panel_array",
+        "lamp": "farm_street_lamp",
+        "bulb": "lamp_bulb",
+        "glow": "lamp_ground_glow"
       },
       "floorPivot": true,
       "authoredBy": "MyFarmTwin original repository authoring",

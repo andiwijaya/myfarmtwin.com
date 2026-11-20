@@ -6,6 +6,8 @@ import {createAnimalAnimation} from './cozy-animation.js';
 import {FarmSky} from './cozy-sky.js';
 import {HOUSE_KIND,HOUSE_LEVELS} from './cozy-houses.js';
 import {FarmActivity} from './cozy-farm-activity.js';
+import {FarmTraffic} from './cozy-farm-traffic.js';
+import {FarmPower} from './cozy-farm-power.js';
 import {CAMERA_PREFERENCE_KEY,cameraViewPreferenceKey,validateCameraPreference,readCameraPreference,writeCameraPreference,readCameraViewPreference,writeCameraViewPreference,resolveCameraPreference} from './cozy-camera-preference.js';
 import {CAMERA_RESET_UNDO_PREFIX,readCameraResetUndo,writeCameraResetUndo,sameCameraPose} from './cozy-camera-reset-undo.js';
 
@@ -32,6 +34,8 @@ export class CozyWorld{
   /** @type {number[]} */this.frameSamples=[];
   this.houseLevel=0;
   /** @type {FarmActivity|null} */this.farmActivity=null;
+  /** @type {FarmTraffic|null} */this.farmTraffic=null;
+  /** @type {FarmPower|null} */this.farmPower=null;
   this.camera=new THREE.PerspectiveCamera(43,1,.08,2500);this.camera.position.set(42,11.3,46);
   this.sky=new FarmSky(this.camera);
   this.scene=new THREE.Scene();
@@ -70,7 +74,7 @@ export class CozyWorld{
   // models. Bounded workers avoid simultaneous texture decode spikes.
   const ordered=['terrain','bed','crops','barn','cow',...names.filter(n=>!['terrain','bed','crops','barn','cow'].includes(n)),...names.filter(n=>assets[n].lod?.far).map(n=>n+':far')];let index=0;
   await Promise.all(Array.from({length:3},async()=>{while(index<ordered.length){const name=ordered[index++],entry=name.endsWith(':far')?assets[name.slice(0,-4)].lod.far:assets[name];if(!entry)continue;const model=await loader.loadAsync(entry.url+'?v='+entry.sha256.slice(0,16));if(this.disposed){this.releaseModel(model);continue;}this.models.set(name,model);this.options.onProgress(++ready,this.modelCount);}}));
-  if(this.disposed)return;this.createLandscape();this.farmActivity=new FarmActivity(this);this.host.dataset.modelsReady='true';this.host.dataset.models=String(this.models.size);this.host.dataset.glbOnly='true';this.host.dataset.loadMs=String(Math.round(performance.now()-this.loadStarted));this.frame=requestAnimationFrame(t=>this.animate(t));
+  if(this.disposed)return;this.createLandscape();this.farmActivity=new FarmActivity(this);this.farmTraffic=new FarmTraffic(this);this.farmPower=new FarmPower(this);this.host.dataset.modelsReady='true';this.host.dataset.models=String(this.models.size);this.host.dataset.glbOnly='true';this.host.dataset.loadMs=String(Math.round(performance.now()-this.loadStarted));this.frame=requestAnimationFrame(t=>this.animate(t));
  }
  /** @param {string} view */
  cameraItem(view){const id=view.startsWith('inside:')?view.slice(7):view;return this.items.get(id)||this.animals.get(id)?.item;}
@@ -259,6 +263,8 @@ export class CozyWorld{
   }
   this.syncCrops(state,layout);
   this.farmActivity?.sync(state.tick,layout.items,houseLevel);
+  this.farmTraffic?.sync(state.tick,layout.items);
+  this.farmPower?.sync(state.tick,layout.items,houseLevel,point=>this.farmTraffic?.onRoad(point)??false);
   const hour=state.tick%24,night=hour<5||hour>=20;
   this.sun.intensity=night?.7:hour<8||hour>=17?2.2:3.15;
   this.hemi.intensity=night?1.1:1.65;
@@ -477,7 +483,10 @@ export class CozyWorld{
  /** @param {number} now */
  animate(now){if(this.disposed)return;const elapsed=now-(this.lastTime||now),delta=Math.min(elapsed/1000,.05);this.lastTime=now;if(!document.hidden&&elapsed>0&&elapsed<1000){this.frameSamples.push(elapsed);if(this.frameSamples.length>180)this.frameSamples.shift();}this.advanceCameraTransition(now);this.controls.update();this.constrainCamera();const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;for(const entry of this.animals.values()){if(!reduce)for(const mixer of entry.mixers)mixer.update(delta);if(!reduce){const phase=(now/1000+entry.index*7)%45,override=entry.override&&now<entry.override.until?entry.override.clip:null,activity=override||(entry.model==='fish'?'swim':phase>34&&entry.actions.has('rest')?'rest':phase>22&&phase<28?'walk':entry.baseActivity);this.setAnimalAction(entry,activity);this.placeAnimal(entry,now/1000);}}if(!reduce){const time=now/1000;for(const batch of this.cropBatches){const transforms=batch.userData.transforms;for(let i=0;i<transforms.length;i++){this.windRotation.makeRotationZ(Math.sin(time*1.1+transforms[i].phase)*.012);this.windMatrix.copy(transforms[i].matrix).multiply(this.windRotation).multiply(batch.userData.local);batch.setMatrixAt(i,this.windMatrix);}batch.instanceMatrix.needsUpdate=true;}for(const group of this.entities.values()){const plants=group.getObjectByName('crop_instance');if(plants)plants.rotation.z=Math.sin(time*1.1+group.position.x)*.012;const aerator=group.getObjectByName('aerator_rotor');if(aerator&&group.userData.aeratorOn)aerator.rotation.x=time*2.2;const water=group.getObjectByName('water_surface');water?.traverse(node=>{if(node instanceof THREE.Mesh){for(const mat of Array.isArray(node.material)?node.material:[node.material])if(mat instanceof THREE.MeshStandardMaterial&&mat.normalMap)mat.normalMap.offset.set(Math.sin(time*.12)*.035,time*.006%1);}});}}
   if(!document.hidden){
-   this.farmActivity?.update(Math.min(elapsed/1000,.24),reduce);
+   const sceneryDelta=Math.min(elapsed/1000,.24);
+   this.farmActivity?.update(sceneryDelta,reduce);
+   this.farmTraffic?.update(sceneryDelta,reduce);
+   this.farmPower?.update(sceneryDelta,reduce);
    this.renderer.render(this.scene,this.camera);
   }
   if(Math.floor(now/1000)!==Math.floor((now-elapsed)/1000)){this.host.dataset.triangles=String(this.renderer.info.render.triangles);this.host.dataset.drawCalls=String(this.renderer.info.render.calls);this.host.dataset.geometries=String(this.renderer.info.memory.geometries);this.host.dataset.textures=String(this.renderer.info.memory.textures);const sorted=[...this.frameSamples].sort((a,b)=>a-b);this.host.dataset.frameMedianMs=sorted.length?sorted[Math.floor(sorted.length/2)].toFixed(2):'0';this.host.dataset.frameP95Ms=sorted.length?sorted[Math.floor(sorted.length*.95)].toFixed(2):'0';this.host.dataset.animationStates=JSON.stringify([...this.animals.values()].reduce((counts,entry)=>{counts[entry.active]=(counts[entry.active]||0)+1;return counts;},/** @type {Record<string,number>} */({})));this.host.dataset.animalModels=String(this.animals.size);let lodNear=0,lodFar=0;this.scene.traverse(node=>{if(node instanceof THREE.LOD){if(node.getCurrentLevel()===0)lodNear++;else lodFar++;}});this.host.dataset.lodNear=String(lodNear);this.host.dataset.lodFar=String(lodFar);this.host.dataset.camera=JSON.stringify({x:+this.camera.position.x.toFixed(2),y:+this.camera.position.y.toFixed(2),z:+this.camera.position.z.toFixed(2)});this.host.dataset.cameraState=JSON.stringify(this.cameraSnapshot());}
@@ -485,5 +494,5 @@ export class CozyWorld{
  }
  /** @param {any} model */
  releaseModel(model){const geometries=new Set(),materials=new Set(),textures=new Set();model.scene.traverse((/** @type {any} */node)=>{if(node.isMesh){geometries.add(node.geometry);for(const mat of Array.isArray(node.material)?node.material:[node.material]){materials.add(mat);for(const value of Object.values(mat))if(value instanceof THREE.Texture)textures.add(value);}}});for(const g of geometries)g.dispose();for(const m of materials)m.dispose();for(const t of textures){t.source?.data?.close?.();t.dispose();}}
- dispose(){if(this.disposed)return;this.flushCameraPreference();this.cameraPreferenceReady=false;window.clearTimeout(this.cameraSaveTimer);this.disposed=true;cancelAnimationFrame(this.frame);this.abort.abort();this.resizeObserver.disconnect();this.controls.dispose();this.sky.dispose();this.farmActivity?.dispose();for(const id of this.animals.keys())this.removeAnimal(id);for(const mat of this.ownedMaterials)mat.dispose();this.ownedMaterials.clear();for(const model of this.models.values())this.releaseModel(model);this.models.clear();this.entities.clear();this.items.clear();this.history=[];this.scene.traverse(node=>{if(node instanceof THREE.InstancedMesh)node.dispose();});this.cropBatches=[];this.landscape.clear();this.landMarkers?.clear();this.ghost=null;this.scene.clear();this.renderer.dispose();this.renderer.domElement.remove();}
+ dispose(){if(this.disposed)return;this.flushCameraPreference();this.cameraPreferenceReady=false;window.clearTimeout(this.cameraSaveTimer);this.disposed=true;cancelAnimationFrame(this.frame);this.abort.abort();this.resizeObserver.disconnect();this.controls.dispose();this.sky.dispose();this.farmActivity?.dispose();this.farmTraffic?.dispose();this.farmPower?.dispose();for(const id of this.animals.keys())this.removeAnimal(id);for(const mat of this.ownedMaterials)mat.dispose();this.ownedMaterials.clear();for(const model of this.models.values())this.releaseModel(model);this.models.clear();this.entities.clear();this.items.clear();this.history=[];this.scene.traverse(node=>{if(node instanceof THREE.InstancedMesh)node.dispose();});this.cropBatches=[];this.landscape.clear();this.landMarkers?.clear();this.ghost=null;this.scene.clear();this.renderer.dispose();this.renderer.domElement.remove();}
 }

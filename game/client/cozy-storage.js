@@ -1,4 +1,4 @@
-import {createCozyState,migrateLegacy,validateCozyState,dispatchCozy,placementIssue} from './cozy-domain.js';
+import {COZY_REALTIME_HOUR_MS,createCozyState,migrateLegacy,validateCozyState,dispatchCozy,placementIssue} from './cozy-domain.js';
 import {SAVE_KEY as LEGACY_SAVE_KEY} from './storage.js';
 import {GLB_LAYOUT_KEY,GLB_TRANSACTION_KEY,validatePrototypeLayout} from './glb-prototype-state.js';
 export const COZY_SAVE_KEY='myfarmtwin.cozy.save.v2';
@@ -30,6 +30,7 @@ export class CozySession{
   /** @type {string|null} */ this.legacyRaw=null;
   /** @type {string|null} */ this.legacyLayoutRaw=null;
   /** @type {string|null} */ this.transactionRaw=null;
+  /** @type {number|null} */ this.clockAnchor=null;
   if(!storage){this.status='saveUnavailable';return;}
   try{this.raw=storage.getItem(COZY_SAVE_KEY);this.legacyRaw=storage.getItem(LEGACY_SAVE_KEY);this.legacyLayoutRaw=storage.getItem(GLB_LAYOUT_KEY);this.transactionRaw=storage.getItem(GLB_TRANSACTION_KEY);if(this.raw!==null){this.state=parse(this.raw);this.status='saveResumed';}else if(this.legacyRaw!==null){this.state=migrateLegacy(this.legacyRaw,this.legacyLayoutRaw);this.status='saveMigrationPreview';}else if(this.legacyLayoutRaw!==null){this.state=migrateLegacy(null,this.legacyLayoutRaw);this.status='saveMigrationPreview';}
    if(this.transactionRaw!==null){this.readOnly=true;this.status='saveImportPending';}
@@ -58,6 +59,15 @@ export class CozySession{
  /** @param {string} type @param {Record<string,any>} [args] @returns {Result} */
  command(type,args={}){const fresh=this._fresh();if(!fresh.ok)return fresh;const result=dispatchCozy(this.state,{...args,type,revision:this.state.revision});if(!result.ok)return result;return this._save(result.state,result);}
  /** @param {number} hours */ advance(hours){return this.command('advance',{hours});}
+ /** @param {number} now @returns {Result|null} */
+ frame(now){
+  if(this.readOnly||!Number.isFinite(now))return null;
+  if(this.clockAnchor===null||now<this.clockAnchor)this.clockAnchor=now;
+  if(now-this.clockAnchor<COZY_REALTIME_HOUR_MS)return null;
+  this.clockAnchor=now;
+  return this.advance(1);
+ }
+ resetClock(){this.clockAnchor=null;}
  /** @param {string} kind @param {{x:number,z:number,rotation:number}} transform */ build(kind,transform){return this.command('build',{kind,transform:{x:transform.x,z:transform.z,rotation:transform.rotation}});}
  /** @param {string} id @param {{x:number,z:number,rotation:number}} transform */ move(id,transform){return this.command('move',{id,transform:{x:transform.x,z:transform.z,rotation:transform.rotation}});}
  /** @param {any} candidate */ previewPlacement(candidate){return placementIssue(this.state,candidate);}
