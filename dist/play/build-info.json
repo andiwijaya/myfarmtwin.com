@@ -11,30 +11,42 @@
     "market"
   ],
   "saveVersion": 2,
+  "defaultRuntime": "common-engine",
+  "commonEngineVersion": "0.3.0",
   "three": "0.187.0",
-  "entry": "app-SQGELFPZ.js",
-  "recoveryEntry": "recovery-2UXJQDFZ.js",
+  "entry": "app-ADKYQWFS.js",
+  "recoveryEntry": "recovery-3PZULSVL.js",
   "integrityEntry": "integrity-LL76RTOU.js",
   "emitted": [
     {
-      "name": "app-SQGELFPZ.js",
-      "bytes": 748695,
-      "sha256": "013616c715d59fb13b5bd4b5a2852798663c755a77bb2f85ba35133a3ed2aa50"
+      "name": "app-ADKYQWFS.js",
+      "bytes": 750313,
+      "sha256": "a8bb1f046628138c68e1824d56f9843ad3494d9269d83c079abc773594dd9b24"
     },
     {
-      "name": "recovery-2UXJQDFZ.js",
-      "bytes": 2515,
-      "sha256": "a7de34419a67e7d638467375abc533ef8678310c7ac015ebcd26301825aec625"
+      "name": "recovery-3PZULSVL.js",
+      "bytes": 2550,
+      "sha256": "e0598eb078c095ae0faffb4095889cb027192b1bebba973578de34c16980925a"
     },
     {
-      "name": "chunks/chunk-PZDGL33N.js",
-      "bytes": 194505,
-      "sha256": "112dfbfcd56859f718ad24b848e42de41740253cca6fa48c8d96fcee8e5836f7"
+      "name": "chunks/chunk-56DDVSFH.js",
+      "bytes": 5730,
+      "sha256": "7a549075c13e34ac25f4666d358af37b244a1b3bac298edff529ec7e09ff4c37"
     },
     {
       "name": "integrity-LL76RTOU.js",
       "bytes": 1894,
       "sha256": "92a251dcc0b642c6b2d15f5bca91318905a91ddfba8d9ac7b146d2c72aa1e3e0"
+    },
+    {
+      "name": "chunks/cozy-common-engine-PGLOASQV.js",
+      "bytes": 9615,
+      "sha256": "ae150fc5039da37a421bbcc89220047b7efbfb6e1bf906282daf6b694f32a714"
+    },
+    {
+      "name": "chunks/chunk-CRABKYRB.js",
+      "bytes": 189003,
+      "sha256": "bebf8e4839a71f299114dc87e1f08509c9f4e6389fe858ed70e66ff9cf90e4d7"
     }
   ],
   "assets": {
@@ -1204,7 +1216,7 @@
     }
   },
   "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
-  "htmlSha256": "3d8a15a8d2781dbb14c18904944aa851be02a2126fa63f439a816f393c7c46d3",
+  "htmlSha256": "5ddaef58481c166a68afcc1c4fe153f5957bb98e8ce0638e49d9330a6deff8c1",
   "cssSha256": "bcd204c32f5c667e9e85db0440b49775ea687d232e9f80b7e03676fb7c7ee0ed",
   "inputs": [
     "game/client/active-garden.js",
@@ -1243,6 +1255,7 @@
     "game/client/cozy-camera-preference.js",
     "game/client/cozy-camera-reset-undo.js",
     "game/client/cozy-camera-shortcuts.js",
+    "game/client/cozy-common-engine.js",
     "game/client/cozy-domain.js",
     "game/client/cozy-integrity.js",
     "game/client/cozy-legacy-recovery.js",

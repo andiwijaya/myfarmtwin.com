@@ -50,6 +50,11 @@ export class CozySession{
    this.storage.setItem(COZY_SAVE_KEY,after);if(this.storage.getItem(COZY_SAVE_KEY)!==after)throw Error('saveUnavailable');this.raw=after;this.state=next;this.status='saveSaved';this.readOnly=false;return result;
   }catch(error){this.status=errorCode(error);return fail(this.status);}
  }
+ /** Persist a validated engine checkpoint in the same format the native runtime opens. @param {any} next @returns {Result} */
+ saveEngineState(next){
+  if(this.raw!==null&&next.revision===this.state.revision&&JSON.stringify(next)===this.raw)return this._fresh();
+  return this._save(next,{ok:true,error:'',events:[]});
+ }
  /** @param {string} type @param {Record<string,any>} [args] @returns {Result} */
  command(type,args={}){const fresh=this._fresh();if(!fresh.ok)return fresh;const result=dispatchCozy(this.state,{...args,type,revision:this.state.revision});if(!result.ok)return result;return this._save(result.state,result);}
  /** @param {number} hours */ advance(hours){return this.command('advance',{hours});}

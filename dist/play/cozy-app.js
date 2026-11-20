@@ -1,7 +1,6 @@
-import {CozySession,COZY_SAVE_KEY} from './cozy-storage.js';
+import {CozySession,COZY_WATCH_KEYS} from './cozy-storage.js';
 import {COZY_BUILD_CATALOG,COZY_CROPS,COZY_GOODS,COZY_COSTS,COZY_SUPPLIES,COZY_LAND_BOUNDS,buildPrice,quoteLot,quoteAnimal,facilityCapacity} from './cozy-domain.js';
-import {browserStorage,SAVE_KEY} from './storage.js';
-import {GLB_LAYOUT_KEY} from './glb-prototype-state.js';
+import {browserStorage} from './storage.js';
 import {withSaveLock,writeLockAvailable} from './save-lock.js';
 import {CozyWorld} from './cozy-world.js';
 import {handleCameraResetShortcut,cameraResetShortcutHints,cameraGestureHint} from './cozy-camera-shortcuts.js';
@@ -32,7 +31,41 @@ function button(label,action,name='',className=''){const b=document.createElemen
 function stat(host,label,value){const row=node('div','','stat-row');row.append(node('span',label),node('strong',value));host.append(row);}
 /** @param {string} kind */
 function name(kind){return /** @type {Record<string,string>} */({bed:L('Bed kebun','Garden bed'),barn:L('Kandang sapi','Cow barn'),coop:L('Kandang ayam','Chicken coop'),goatShelter:L('Kandang kambing','Goat shelter'),pond:L('Kolam ikan','Fish pond'),market:L('Pasar farm','Farm market'),pump:L('Pompa air','Water pump'),tree:L('Pohon kelapa','Palm tree'),banana:L('Pohon pisang','Banana plant'),grass:L('Rumput tropis','Tropical grass'),path:L('Jalan setapak','Footpath'),fence:L('Pagar kayu','Timber fence'),lettuce:L('Selada','Lettuce'),tomato:L('Tomat','Tomato'),corn:L('Jagung','Corn'),egg:L('Telur','Egg'),milk:L('Susu','Milk'),fish:L('Ikan nila','Tilapia'),cow:L('Sapi','Cow'),chicken:L('Ayam','Chicken'),goat:L('Kambing','Goat')})[kind]||kind;}
-const session=new CozySession(browserStorage(writeLockAvailable()),{writable:writeLockAvailable()});
+const url=new URL(location.href);
+const qaBuild=Boolean(/** @type {{MYFARMTWIN_COMMON_ENGINE_QA?:boolean}} */ (globalThis).MYFARMTWIN_COMMON_ENGINE_QA);
+const nativeRequested=url.searchParams.get('engine')==='native';
+const namedQa=qaBuild&&!nativeRequested&&url.searchParams.has('qa-session');
+const writable=writeLockAvailable();
+const native=new CozySession(browserStorage(writable),{writable});
+/** @type {Awaited<ReturnType<typeof import('./cozy-common-engine.js').openCozyCommonEngine>>|null} */
+let engineSession=null;
+if (namedQa) {
+  try {
+    const api=await import('./cozy-common-engine.js');
+    const database=api.commonEngineQaDatabase(url);
+    if (!database) throw new Error('Invalid loopback QA slot');
+    engineSession=await api.openCozyCommonEngineQa(indexedDB,database);
+    document.body.dataset.commonEnginePilot='0.3.0';
+  } catch (error) {
+    el('loading-title').textContent='Sesi QA tidak bisa dibuka';
+    el('loading-detail').textContent='Gunakan alamat preview lokal dan nama sesi QA yang valid.';
+    el('retry').hidden=false;
+    el('retry').addEventListener('click',()=>location.reload());
+    document.body.dataset.cozyReady='error';
+    throw error;
+  }
+} else if (!nativeRequested&&!native.readOnly) {
+  try {
+    const api=await import('./cozy-common-engine.js');
+    const database=api.commonEngineDefaultDatabase(url,qaBuild);
+    if (database) engineSession=await api.openCozyCommonEngineDefault(native,database);
+  } catch (error) {
+    console.warn('Common Engine could not open; using the native save.',error);
+  }
+}
+const session=engineSession??native;
+document.body.dataset.farmRuntime=engineSession?'common-engine':'native';
+if(engineSession)document.body.dataset.commonEngineVersion='0.3.0';
 /** @type {CozyWorld|null} */let world=null;
 let selected='overview',busy=false,clockBusy=false,running=false,disposed=false,toastTimer=0,importConfirmed=false,recoverConfirmed=false;
 /** @type {{item:any,mode:'move'|'build'}|null} */let placement=null;
@@ -43,7 +76,7 @@ function toast(message){el('toast').textContent=message;el('toast').classList.ad
 function explain(error){const pair=/** @type {Record<string,[string,string]>} */({
  quoteExpired:['Harga berubah karena progres farm berubah. Coba lagi untuk harga terbaru.','Farm progress changed. Try again with the current quote.'],spoiledProduce:['Hasil lama ini sudah tidak layak jual. Kamu dapat membuangnya.','This legacy produce cannot be sold. You can discard it.'],upgradeFirst:['Upgrade fasilitas untuk membuka perawatan otomatis.','Upgrade this facility to unlock automatic care.'],noCoins:['Koin belum cukup. Jual hasil atau penuhi pesanan terlebih dahulu.','Not enough coins. Sell produce or complete an order first.'],noSeeds:['Benih habis. Beli benih di panel kebun.','No seeds left. Buy seeds in the garden panel.'],noWater:['Air habis. Isi persediaan air bersama.','No water left. Refill your shared water supply.'],noFeed:['Stok pakan habis. Beli pakan terlebih dahulu.','No feed in storage. Buy a feed package first.'],notReady:['Belum siap dipanen atau dikumpulkan. Rawat kebutuhan dan majukan waktu.','Not ready yet. Meet the needs and advance farm time.'],orderMissing:['Pesanan sudah selesai atau tidak tersedia.','This order is completed or unavailable.'],orderStock:['Hasil untuk pesanan belum lengkap.','You do not have all the produce for this order.'],noOrderStock:['Hasil untuk pesanan belum lengkap.','You do not have all the produce for this order.'],layoutOccupied:['Posisi bertabrakan dengan fasilitas lain.','This position overlaps another facility.'],layoutOutsideFarm:['Posisi di luar lahan milikmu. Perluas lahan atau pilih posisi lain.','Outside your owned land. Expand or choose another position.'],layoutAccess:['Sisakan ruang akses di depan pintu bangunan.','Leave access space in front of the building entrance.'],layoutInvalid:['Posisi atau tata letak tidak valid.','Invalid position or layout.'],farmFull:['Batas fasilitas ini sudah tercapai.','The limit for this facility has been reached.'],animalCapacity:['Kandang sudah penuh. Tingkatkan kapasitas terlebih dahulu.','This facility is full. Upgrade its capacity first.'],capacity:['Kapasitas fasilitas sudah penuh.','This facility is full.'],starterUsed:['Kit awal sudah digunakan. Tambah fasilitas melalui Tata lahan.','The starter kit has been used. Add a facility in Arrange farm.'],feedFull:['Tempat pakan masih penuh.','The feeder is still full.'],waterFull:['Tempat air atau persediaan masih penuh.','The water container or supply is still full.'],alreadyWet:['Tanah masih cukup basah.','The soil is already moist.'],alreadyClean:['Fasilitas sudah bersih.','The facility is already clean.'],noWaterNeeded:['Belum ada tanaman yang membutuhkan air.','No growing crops need watering.'],staleQuote:['Harga berubah karena progres farm berubah. Coba lagi untuk harga terbaru.','Farm progress changed. Try again with the current quote.'],staleCommand:['Farm sudah berubah. Coba tindakan lagi.','Farm progress changed. Try the action again.'],saveConflict:['Farm berubah di tab lain. Muat ulang untuk melanjutkan dengan progres terbaru.','Your farm changed in another tab. Reload to use its latest progress.'],saveUnavailable:['Penyimpanan gagal. Perubahan belum diterapkan; data asli tetap dilindungi.','Storage failed. Changes were not applied; original data remains protected.'],saveCorrupt:['Progres tidak dapat dibaca. Tampilkan cadangan atau pulihkan salinan sebelumnya.','Progress could not be read. Export or recover the previous backup.'],saveNewer:['Progres dibuat oleh versi yang lebih baru. Simpan cadangan dan gunakan versi terbaru.','This save is from a newer version. Keep a backup and use the latest release.'],saveReadOnly:['Browser ini hanya dapat membaca progres. Ekspor cadangan tetap tersedia.','This browser can only read progress. Backup export remains available.'],saveImportInvalid:['Teks cadangan tidak valid. Farm yang ada tidak berubah.','Invalid backup text. Your current farm is unchanged.'],saveTooLarge:['Cadangan melebihi batas ukuran yang aman.','The backup exceeds the supported size.'],savePreserveFirst:['Cadangan asli belum dapat disimpan. Kosongkan ruang penyimpanan lalu coba lagi.','The original archive could not be saved. Free storage space and retry.'],backupMissing:['Belum ada cadangan sebelumnya untuk dipulihkan.','There is no previous backup to recover.'],upgradeMax:['Fasilitas sudah mencapai tingkat tertinggi.','This facility is at its highest level.'],landMax:['Seluruh perluasan lahan sudah dimiliki.','All land expansions are already owned.'],autoLocked:['Tingkatkan fasilitas untuk membuka perawatan otomatis.','Upgrade this facility to unlock automatic care.'],spoiled:['Hasil lama ini sudah tidak layak jual. Kamu dapat membuangnya.','This legacy produce cannot be sold. You can discard it.'],recoveryUnavailable:['Kit pemulihan tersedia saat benih, hasil, dan koin benar-benar habis.','The recovery kit is available when seeds, produce, and coins are exhausted.']})[error];return pair?L(...pair):L('Tindakan belum tersedia. Periksa stok, kebutuhan, dan kapasitas farm.','Action unavailable. Check supplies, needs, and farm capacity.');}
 /** @param {()=>any} operation @param {string} [message] */
-async function act(operation,message=L('Perubahan tersimpan.','Changes saved.')){if(busy||clockBusy)return;busy=true;try{const result=await withSaveLock(operation);if(result.ok){render();toast(message);}else toast(explain(result.error));return result;}catch(error){console.error('Farm action failed',error);toast(explain('saveUnavailable'));return undefined;}finally{busy=false;renderSaveStatus();}}
+async function act(operation,message=L('Perubahan tersimpan.','Changes saved.')){if(busy||clockBusy)return;busy=true;try{const result=await (namedQa?operation():withSaveLock(operation));if(result.ok){render();toast(message);}else toast(explain(result.error));return result;}catch(error){console.error('Farm action failed',error);toast(explain('saveUnavailable'));return undefined;}finally{busy=false;renderSaveStatus();}}
 /** @param {string} type @param {any} [args] @param {string} [message] */
 async function command(type,args={},message){const result=await act(()=>session.command(type,args),message);if(result?.ok&&args.facility)world?.activity(args.facility,type==='feed'?'eat':type==='waterFacility'?'drink':'idle');return result;}
 /** @param {string} kind */const facilityFor=kind=>session.state.facilities.find((/** @type {any} */f)=>f.kind===kind);
@@ -486,7 +519,7 @@ for(const b of document.querySelectorAll('[data-camera]'))b.addEventListener('cl
 for(const b of document.querySelectorAll('[data-pan]'))b.addEventListener('click',()=>{const d=b.getAttribute('data-pan');world?.pan(d==='left'?-1:d==='right'?1:0,d==='up'?1:d==='down'?-1:0);});
 window.addEventListener('keydown',e=>{if(e.key==='Escape'&&placement){cancelPlacement();return;}if(!e.ctrlKey&&!e.metaKey)return;const editing=e.composedPath().some(target=>target instanceof HTMLElement&&(target.isContentEditable||target.matches('input,textarea,select,[role="textbox"],[role="combobox"],[role="spinbutton"]')));handleCameraResetShortcut(e,{blocked:editing||!!placement||!!document.querySelector('dialog[open]')||document.designMode==='on',available:action=>!!(action==='undo-reset'?world?.canUndoCameraReset():world?.canRedoCameraReset()),run:cameraHistoryAction});});
 el('build-open').addEventListener('click',openBuild);el('placement-cancel').addEventListener('click',cancelPlacement);el('placement-confirm').addEventListener('click',()=>{void confirmPlacement();});for(const id of ['place-x','place-z','place-rotation'])el(id).addEventListener('input',updatePlacement);
-el('pause').addEventListener('click',()=>{running=!running;render();});el('advance').addEventListener('click',()=>{void act(()=>session.advance(6),L('Waktu maju 6 jam farm.','Advanced 6 farm hours.'));});el('advance-day').addEventListener('click',()=>{void act(()=>session.advance(24),L('Waktu maju 24 jam farm.','Advanced 24 farm hours.'));});
+el('pause').addEventListener('click',()=>{running=!running;engineSession?.resetClock();render();});el('advance').addEventListener('click',()=>{void act(()=>session.advance(6),L('Waktu maju 6 jam farm.','Advanced 6 farm hours.'));});el('advance-day').addEventListener('click',()=>{void act(()=>session.advance(24),L('Waktu maju 24 jam farm.','Advanced 24 farm hours.'));});
 el('data-open').addEventListener('click',()=>{
  running=false;
  render();
@@ -513,18 +546,45 @@ document.addEventListener('resume', refreshGestureResetStatus);
 window.addEventListener('blur', refreshGestureResetStatus);
 window.addEventListener('focus', refreshGestureResetStatus);
 el('export-data').addEventListener('click',()=>{/** @type {HTMLTextAreaElement} */(el('save-text')).value=session.exportBundle();el('data-status').textContent=L('Cadangan siap. Salin teks secara manual untuk menyimpannya.','Backup ready. Copy this text manually to keep it.');});
+if(!namedQa){
 el('legacy-data').addEventListener('click',()=>{/** @type {HTMLTextAreaElement} */(el('save-text')).value=session.exportLegacy();el('data-status').textContent=session.state.provenance.native?L('Arsip sebelum migrasi. Perkembangan farm baru tetap ada di cadangan lengkap.','Archive from before migration. New farm progress is in the full backup.'):L('Farm ini dimulai di versi baru; tidak mempunyai arsip lama.','This farm started in the new version and has no legacy archive.');});
 el('save-text').addEventListener('input',()=>{importConfirmed=false;el('import-data').textContent=L('Impor dari teks','Import from text');});
 el('import-data').addEventListener('click',async()=>{if(!importConfirmed){importConfirmed=true;el('import-data').textContent=L('Konfirmasi ganti farm','Confirm replace farm');el('data-status').textContent=L('Cadangan lama dipertahankan sebelum impor. Klik konfirmasi untuk mengganti farm.','Your previous backup is preserved before import. Confirm to replace this farm.');return;}const result=await act(()=>session.importBundle(/** @type {HTMLTextAreaElement} */(el('save-text')).value));el('data-status').textContent=result?.ok?L('Farm dipulihkan dari cadangan.','Farm restored from backup.'):explain(result?.error||'saveImportInvalid');importConfirmed=false;el('import-data').textContent=L('Impor dari teks','Import from text');if(result?.ok)go('overview');});
 el('recover-data').addEventListener('click',async()=>{if(!recoverConfirmed){recoverConfirmed=true;el('recover-data').textContent=L('Konfirmasi pulihkan cadangan','Confirm recover backup');el('data-status').textContent=L('Progres saat ini diarsipkan sebelum pemulihan. Klik sekali lagi untuk melanjutkan.','Current progress is archived before recovery. Click again to continue.');return;}const result=await act(()=>session.recoverBackup());el('data-status').textContent=result?.ok?L('Cadangan sebelumnya dipulihkan.','Previous backup recovered.'):explain(result?.error||'backupMissing');if(result?.ok)go('overview');recoverConfirmed=false;el('recover-data').textContent=L('Pulihkan cadangan sebelumnya','Recover previous backup');});
+}else{
+ for(const id of ['legacy-data','import-data','recover-data'])el(id).hidden=true;
+}
 el('retry').addEventListener('click',()=>location.reload());
-window.addEventListener('storage',event=>{if([COZY_SAVE_KEY,SAVE_KEY,GLB_LAYOUT_KEY].includes(event.key||'')&&event.newValue!==event.oldValue){running=false;session.readOnly=true;session.status='saveConflict';toast(explain('saveConflict'));render();}});
-const timer=window.setInterval(async()=>{if(disposed||!running||session.readOnly||busy||clockBusy||document.hidden)return;clockBusy=true;try{const result=await withSaveLock(()=>session.advance(1));if(!result.ok){running=false;toast(explain(result.error));}render();}finally{clockBusy=false;}},2000);
+if(!namedQa)window.addEventListener('storage',event=>{if(COZY_WATCH_KEYS.some(key=>key===event.key)&&event.newValue!==event.oldValue){running=false;native.readOnly=true;native.status='saveConflict';toast(explain('saveConflict'));render();}});
+const timer=window.setInterval(async()=>{
+ if(disposed||!running||session.readOnly||document.hidden){engineSession?.resetClock();return;}
+ if(busy||clockBusy)return;
+ clockBusy=true;
+ try{
+  const frame=()=>engineSession?engineSession.frame(performance.now()):native.advance(1);
+  const result=await (namedQa?frame():withSaveLock(frame));
+  if(!result)return;
+  if(!result.ok){running=false;toast(explain(result.error));}
+  render();
+ }finally{clockBusy=false;}
+},engineSession?150:2000);
+if(engineSession){
+ const activeEngine=engineSession;
+ document.addEventListener('visibilitychange',()=>activeEngine.resetClock());
+}
+if(qaBuild&&engineSession){
+ const qa=engineSession;
+ const checkpoint=button(L('Simpan checkpoint QA','Save QA checkpoint'),
+   ()=>act(()=>qa.checkpoint(),L('Checkpoint QA tersimpan.','QA checkpoint saved.')));
+ checkpoint.id='common-engine-checkpoint';
+ el('advance-day').insertAdjacentElement('afterend',checkpoint);
+}
 window.addEventListener('pagehide',()=>{
  disposed=true;
  cameraGestureInput.dispose();
  clearGestureResetConfirmation();
  window.clearInterval(timer);
+ engineSession?.dispose();
  window.clearTimeout(toastTimer);
  world?.dispose();
 },{once:true});
