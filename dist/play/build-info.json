@@ -14,14 +14,14 @@
   "defaultRuntime": "common-engine",
   "commonEngineVersion": "0.3.0",
   "three": "0.187.0",
-  "entry": "app-RBJ5VVYB.js",
+  "entry": "app-TIEGD3WQ.js",
   "recoveryEntry": "recovery-3PZULSVL.js",
   "integrityEntry": "integrity-5U5OBVMF.js",
   "emitted": [
     {
-      "name": "app-RBJ5VVYB.js",
-      "bytes": 754263,
-      "sha256": "6f635895279e77b95baf6802fa60174ddb3cd8c934174350a4b7136a9f6c735f"
+      "name": "app-TIEGD3WQ.js",
+      "bytes": 754412,
+      "sha256": "1a023fa2860b33b18a44b6dcb55cbcd787bb41686dd606b0b867db91beea93f1"
     },
     {
       "name": "recovery-3PZULSVL.js",
@@ -53,28 +53,28 @@
     "terrain": {
       "id": "terrain",
       "url": "/play/assets/models/world/terrain.glb",
-      "sha256": "a93a84ee021eea3a62f9f44617bce7d9802ec5f708a18ba5507b81d7e7afd5ec",
-      "bytes": 803172,
-      "uniqueTriangles": 11980,
+      "sha256": "59a2acf9e2f70da95a95747c141b19c0a3bdfd070c1a45af85660425f8091ca7",
+      "bytes": 890748,
+      "uniqueTriangles": 15712,
       "meshes": 2,
       "nodes": 3,
-      "textures": 3,
+      "textures": 2,
       "animations": [],
       "bounds": {
         "min": [
-          -44,
-          -0.9,
-          -34
+          -73.17364501953125,
+          -0.8999999761581421,
+          -59.74182891845703
         ],
         "max": [
-          44,
+          68.35265350341797,
           0,
-          34
+          66.87557983398438
         ]
       },
       "templates": [
         "continuous_flat_tropical_pasture",
-        "exposed_original_tropical_subsoil"
+        "pasture_surround"
       ],
       "normalMaps": 1,
       "footprint": [
@@ -84,7 +84,8 @@
       "buildableSurfaceY": 0,
       "semanticRole": "continuous environment terrain",
       "roles": {
-        "ground": "continuous_flat_tropical_pasture"
+        "ground": "continuous_flat_tropical_pasture",
+        "surround": "pasture_surround"
       },
       "floorPivot": true,
       "authoredBy": "MyFarmTwin original repository authoring",
@@ -1221,8 +1222,8 @@
     "sha256": "22fb3a98463f441e5a13d30a70ec3b476612249a64af59ae0a9c679ebdcd95bf",
     "mime": "image/webp"
   },
-  "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
-  "htmlSha256": "a0ae7413acc9a19a6f6ee51151bf72faaae668bac279eaa221db021058b5607f",
+  "manifestSha256": "c4d10545641f126c9dc835d3576ba28c600561841cce8d5f7f98c6d2dfc3b381",
+  "htmlSha256": "5426c6dad2bb2a278896801d1bd1b5a8eb54426d1e5b1df5de5e439524e6454d",
   "cssSha256": "bcd204c32f5c667e9e85db0440b49775ea687d232e9f80b7e03676fb7c7ee0ed",
   "inputs": [
     "game/client/active-garden.js",
