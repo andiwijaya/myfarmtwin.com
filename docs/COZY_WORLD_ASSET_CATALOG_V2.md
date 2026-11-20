@@ -1,6 +1,6 @@
 # Katalog aset GLB Cozy World V2
 
-Tanggal authoring dan validasi: **15 November 2026**. Manifest acuan adalah `game/client/assets/models/world-manifest.json`, versi 2. Ada **17 aset logis**, **22 berkas GLB** termasuk lima varian jarak jauh, dengan total **14.401.284 byte** sebelum kompresi HTTP. Empat belas berkas GLB baru berada di `world/`; delapan aset prototipe digunakan langsung melalui URL aslinya. Tidak ada model, foto tekstur, HDRI, atau media pihak ketiga yang diunduh.
+Authoring awal dilakukan pada **15 November 2026**. Sambungan tanah ke panorama diperbarui pada **20 November 2026**. Manifest versi 2 di `game/client/assets/models/world-manifest.json` mencatat **17 aset logis** dan **22 berkas GLB**, termasuk lima varian jarak jauh, dengan total **14.488.860 byte** sebelum kompresi HTTP. Empat belas GLB ada di `world/` dan delapan aset prototipe memakai URL aslinya.
 
 Seluruh geometri yang terlihat disediakan sebagai GLB. Siluet organik, fasilitas interior, permukaan air, tanah, jalan, dan vegetasi dibuat di tahap authoring lalu diekspor. Fungsi geometri pada `tools/art/` berjalan di Node saat pembuatan aset dan bukan pembuat mesh di renderer game.
 
@@ -10,7 +10,7 @@ Gaya visual mengikuti keputusan produk: semi-realistis yang hangat, peternakan t
 
 | Aset logis | Isi utama | Byte dekat | Segitiga unik |
 | --- | --- | ---: | ---: |
-| `terrain` | Permukaan rumput kontinu 88 × 68 m, warna vertex tidak seragam, penampang tanah asli | 803.172 | 11.980 |
+| `terrain` | Permukaan rumput 88 × 68 m dengan tepian setinggi tanah yang menyatu ke panorama sawah | 890.748 | 15.712 |
 | `coop` | Kandang ayam 9 × 7 m; ventilasi bambu/kawat, pintu terbuka, litter sekam, tiga sarang berisi telur, tenggeran/tangga, hopper pakan, drinker, perkakas | 1.807.756 | 23.992 |
 | `chicken` | Ayam kampung betina: torso berbentuk pir, hackle, bulu sayap bertumpuk, ekor kipas, jengger kecil, pial, mata, paruh, kaki bersisik dan empat jari | 871.760 | 21.206 |
 | `goatShelter` | Kandang 11 × 9 m; lantai papan bercelah yang ditopang tiang batu, ramp, sekat, trough air/pakan, rak hijauan, alas kering dan alat | 1.647.128 | 11.916 |

@@ -35,7 +35,50 @@ for(const asset of records){
  function walk(id,parent){const n=json.nodes[id],matrix=new Matrix4().compose(new Vector3(...(n.translation||[0,0,0])),new Quaternion(...(n.rotation||[0,0,0,1])),new Vector3(...(n.scale||[1,1,1]))).premultiply(parent);if(n.mesh!==undefined)for(const p of json.meshes[n.mesh].primitives){const v=values(p.attributes.POSITION);for(let i=0;i<v.length;i+=3)bounds.expandByPoint(new Vector3(...v.slice(i,i+3)).applyMatrix4(matrix));}for(const child of n.children||[])walk(child,matrix);}
  for(const id of json.scenes[json.scene||0].nodes)walk(id,new Matrix4());for(const[key,v]of [['min',bounds.min],['max',bounds.max]])for(let i=0;i<3;i++)assert.ok(Math.abs(v.getComponent(i)-asset.bounds[key][i])<.0001,'manifest bounds agree with decoded GLB');
  if(['chicken','goat','goatKid','fish','chickenFar','goatFar','goatKidFar','fishFar'].includes(asset.id)){assert.ok(bounds.min.y>=-.01,'animal floor pivot');assert.ok(asset.animations.length>=2);}
- if(asset.id==='terrain'){assert.equal(bounds.min.x,-44);assert.equal(bounds.max.x,44);assert.equal(bounds.min.z,-34);assert.equal(bounds.max.z,34);assert.equal(bounds.max.y,0);}
+ if(asset.id==='terrain'){
+  const [width,depth]=asset.footprint;
+  const floor=asset.buildableSurfaceY;
+  assert.deepEqual([width,depth,floor],[88,68,0]);
+  assert.equal(json.meshes.length,2,'terrain consists of the field and its surround');
+  const primitive=name=>json.meshes[json.nodes.find(node=>node.name===name).mesh].primitives[0];
+  const ground=primitive(asset.roles.ground),surround=primitive(asset.roles.surround);
+  const groundPosition=json.accessors[ground.attributes.POSITION];
+  assert.deepEqual(groundPosition.min,[-width/2,floor,-depth/2]);
+  assert.deepEqual(groundPosition.max,[width/2,floor,depth/2]);
+  assert.ok(bounds.min.x<-width/2&&bounds.max.x>width/2&&bounds.min.z<-depth/2&&bounds.max.z>depth/2);
+  assert.equal(bounds.max.y,floor);
+  const groundMaterial=json.materials[ground.material],surroundMaterial=json.materials[surround.material];
+  assert.equal(surroundMaterial.alphaMode,'BLEND');
+  assert.deepEqual(surroundMaterial.pbrMetallicRoughness,groundMaterial.pbrMetallicRoughness);
+  assert.deepEqual(surroundMaterial.normalTexture,groundMaterial.normalTexture);
+
+  const groundPoints=values(ground.attributes.POSITION),groundUv=values(ground.attributes.TEXCOORD_0),groundColor=values(ground.attributes.COLOR_0);
+  const edge=new Map();
+  for(let i=0;i<groundPosition.count;i++){
+   const x=groundPoints[i*3],z=groundPoints[i*3+2];
+   if(Math.abs(x)===width/2||Math.abs(z)===depth/2){
+    edge.set(x+':'+z,[...groundUv.slice(i*2,i*2+2),...groundColor.slice(i*3,i*3+3)]);
+   }
+  }
+  const surroundPoints=values(surround.attributes.POSITION),surroundUv=values(surround.attributes.TEXCOORD_0),surroundColor=values(surround.attributes.COLOR_0);
+  assert.equal(json.accessors[surround.attributes.COLOR_0].type,'VEC4');
+  let partlyVisible=0,invisible=0;
+  for(let i=0;i<surroundPoints.length/3;i++){
+   const [x,y,z]=surroundPoints.slice(i*3,i*3+3),alpha=surroundColor[i*4+3];
+   const key=x+':'+z;
+   assert.ok(Math.abs(x)>=width/2||Math.abs(z)>=depth/2,'surround stays outside the farm surface');
+   if(edge.has(key)){
+    assert.equal(y,floor);
+    assert.equal(alpha,1);
+    assert.deepEqual([...surroundUv.slice(i*2,i*2+2),...surroundColor.slice(i*4,i*4+3)],edge.get(key));
+    edge.delete(key);
+   }
+   if(alpha>0&&alpha<1)partlyVisible++;
+   if(alpha===0)invisible++;
+  }
+  assert.equal(edge.size,0,'every field edge vertex continues across the surround');
+  assert.ok(partlyVisible>0&&invisible>0,'the surround fades into the panorama');
+ }
  if(asset.lod)assert.ok(asset.lod.far.uniqueTriangles<asset.uniqueTriangles*.5,'purposeful far LOD reduces triangles by over half');
  results.push({id:asset.id,sha256:asset.sha256,bytes:bytes.length,nodes:json.nodes.length,meshes:json.meshes.length,images:json.images?.length??0,normalMaps:json.materials.filter(m=>m.normalTexture).length,animations:asset.animations,bounds:asset.bounds,passed:true});
 }

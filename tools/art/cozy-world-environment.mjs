@@ -1,13 +1,54 @@
-import {Float32BufferAttribute,Vector3} from 'three';
+import {Float32BufferAttribute,MathUtils,Vector3} from 'three';
 import {M,noise,smoothNoise,group,mesh,box,round,beam,tube,loftY,blade,surface,lathe,crate,sack,trough,gableRoof,timberFrame} from './cozy-world-common.mjs';
 
+function pastureTint(x,z){
+ const t=Math.min(1,.94+(smoothNoise(x*.08+12,z*.08+8)-.5)*.13);
+ return [t,t*.998,t*.975];
+}
+
+function createPastureSurround(root,halfWidth,halfDepth){
+ const edge=[];
+ for(let x=-halfWidth;x<halfWidth;x++)edge.push([x,-halfDepth]);
+ for(let z=-halfDepth;z<halfDepth;z++)edge.push([halfWidth,z]);
+ for(let x=halfWidth;x>-halfWidth;x--)edge.push([x,halfDepth]);
+ for(let z=halfDepth;z>-halfDepth;z--)edge.push([-halfWidth,z]);
+
+ // Each ring starts from the same edge vertices and UVs as the farm.
+ // Vary the width around the field so the fade follows the surrounding ground.
+ const rings=[0,.16,.32,.50,.68,.84,1],positions=[],uv=[],indices=[],colors=[];
+ for(const ring of rings){
+  const alpha=1-MathUtils.smoothstep(ring,.08,1);
+  const drop=Math.max(0,ring-.16)/.84;
+  const height=drop===0?0:-.9*drop**2;
+  for(const [x,z] of edge){
+   const width=26+(smoothNoise(x*.05+6,z*.05-9)-.5)*14;
+   const scale=1+ring*width/Math.hypot(x,z);
+   const gx=x*scale,gz=z*scale;
+   positions.push(gx,height,gz);
+   uv.push(gx/7,gz/7);
+   colors.push(...pastureTint(gx,gz),alpha);
+  }
+ }
+ for(let ring=0;ring<rings.length-1;ring++)for(let i=0;i<edge.length;i++){
+  const inner=ring*edge.length+i,next=ring*edge.length+(i+1)%edge.length;
+  const outer=inner+edge.length,outerNext=next+edge.length;
+  indices.push(inner,next,outer,next,outerNext,outer);
+ }
+ const material=M.field.clone();
+ material.name='Indonesian pasture fading into rice fields';
+ material.transparent=true;
+ const surround=surface(root,'pasture_surround',material,positions,uv,indices);
+ surround.geometry.setAttribute('color',new Float32BufferAttribute(colors,4));
+}
+
 export function createWorldTerrain(){
- const root=group(null,'terrain');root.userData={footprint:[88,68],floorPivot:true,buildableSurfaceY:0};
- const p=[],uv=[],idx=[],colors=[],nx=88,nz=68;
- for(let i=0;i<=nx;i++)for(let j=0;j<=nz;j++){const x=i-44,z=j-34,t=.94+(smoothNoise(x*.08+12,z*.08+8)-.5)*.13;p.push(x,0,z);uv.push(x/7,z/7);colors.push(t,t*.998,t*.975);}
+ const root=group(null,'terrain'),nx=88,nz=68;
+ root.userData={footprint:[nx,nz],floorPivot:true,buildableSurfaceY:0};
+ const p=[],uv=[],idx=[],colors=[];
+ for(let i=0;i<=nx;i++)for(let j=0;j<=nz;j++){const x=i-nx/2,z=j-nz/2;p.push(x,0,z);uv.push(x/7,z/7);colors.push(...pastureTint(x,z));}
  for(let i=0;i<nx;i++)for(let j=0;j<nz;j++){const a=i*(nz+1)+j,b=a+nz+1;idx.push(a,a+1,b,b,a+1,b+1);}
  const field=surface(root,'continuous_flat_tropical_pasture',M.field,p,uv,idx);field.geometry.setAttribute('color',new Float32BufferAttribute(colors,3));
- box(root,'exposed_original_tropical_subsoil',M.soil,0,-.46,0,88,.88,68);
+ createPastureSurround(root,nx/2,nz/2);
  return root;
 }
 

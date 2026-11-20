@@ -15,7 +15,7 @@ const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 // while hiding/filling a single role controls every trough/rack consistently.
 function aggregateRole(root,name){const nodes=[];root.traverse(o=>{if(o.name===name)nodes.push(o);});if(nodes.length<2)return;root.updateMatrixWorld(true);const parent=new Group();parent.name=name;root.add(parent);nodes.forEach((o,i)=>{parent.attach(o);o.name=name+'_component_'+i;});}
 const roles={
- terrain:{ground:'continuous_flat_tropical_pasture'},
+ terrain:{ground:'continuous_flat_tropical_pasture',surround:'pasture_surround'},
  coop:{roof:'roof',floor:'floor',frame:'frame',walls:'walls',equipment:'equipment',nests:'nests',eggs:'nest_eggs',feed:'feed_contents',water:'water_contents',roosts:'roosts',gate:'entry_gate'},
  goatShelter:{roof:'roof',floor:'floor',frame:'frame',walls:'walls',stalls:'stalls',equipment:'equipment',feed:'feed_contents',water:'water_contents',bedding:'bedding',ramp:'entry_ramp'},
  market:{roof:'roof',floor:'floor',frame:'frame',walls:'walls',equipment:'equipment',stock:'stock_contents',shelves:'warehouse_shelves',orderCrate:'order_crate'},

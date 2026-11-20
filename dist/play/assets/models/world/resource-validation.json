@@ -9,27 +9,27 @@
   },
   "logicalAssets": 17,
   "files": 22,
-  "bytes": 14401284,
+  "bytes": 14488860,
   "results": [
     {
       "id": "terrain",
-      "sha256": "a93a84ee021eea3a62f9f44617bce7d9802ec5f708a18ba5507b81d7e7afd5ec",
-      "bytes": 803172,
+      "sha256": "59a2acf9e2f70da95a95747c141b19c0a3bdfd070c1a45af85660425f8091ca7",
+      "bytes": 890748,
       "nodes": 3,
       "meshes": 2,
-      "images": 3,
-      "normalMaps": 1,
+      "images": 2,
+      "normalMaps": 2,
       "animations": [],
       "bounds": {
         "min": [
-          -44,
-          -0.9,
-          -34
+          -73.17364501953125,
+          -0.8999999761581421,
+          -59.74182891845703
         ],
         "max": [
-          44,
+          68.35265350341797,
           0,
-          34
+          66.87557983398438
         ]
       },
       "passed": true

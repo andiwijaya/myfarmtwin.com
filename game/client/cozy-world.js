@@ -27,8 +27,8 @@ export class CozyWorld{
   /** @type {CameraTransition|null} */this.transition=null;
   /** @type {any} */this.manifest=null;
   /** @type {number[]} */this.frameSamples=[];
-  this.scene=new THREE.Scene();this.scene.background=new THREE.Color('#cfdcce');this.scene.fog=new THREE.Fog('#cfdcce',88,160);
-  this.camera=new THREE.PerspectiveCamera(43,1,.08,240);this.camera.position.set(42,36,46);
+  this.scene=new THREE.Scene();this.scene.background=new THREE.Color('#cfdcce');this.scene.fog=new THREE.Fog('#b2bda1',145,360);
+  this.camera=new THREE.PerspectiveCamera(43,1,.08,340);this.camera.position.set(42,36,46);
   this.panorama=new FarmPanorama(this.scene,this.camera,this.scene.background,host);
   this.renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.toneMapping=THREE.ACESFilmicToneMapping;this.renderer.toneMappingExposure=1.06;this.renderer.shadowMap.enabled=true;this.renderer.shadowMap.type=THREE.PCFShadowMap;
   this.renderer.domElement.setAttribute('aria-label','Farm tropis 3D / Three-dimensional tropical farm');this.renderer.domElement.tabIndex=0;host.append(this.renderer.domElement);this.setQuality('auto');
@@ -186,7 +186,16 @@ export class CozyWorld{
  template(name,nodes){const source=this.models.get(name)?.scene;const node=nodes.find(n=>source?.getObjectByName(n));if(!node)throw Error('Missing template '+name+'/'+nodes.join(','));return this.clone(name,node);}
  /** Instance repeated scenery directly from loaded GLB meshes. @param {string} model @param {string} node @param {THREE.Matrix4[]} transforms */
  instanceScenery(model,node,transforms){const root=(this.models.get(model+':far')||this.models.get(model))?.scene.getObjectByName(node);if(!root||!transforms.length)return;root.updateWorldMatrix(true,true);const baseInv=root.matrixWorld.clone().invert();root.traverse((/** @type {THREE.Object3D} */child)=>{if(!(child instanceof THREE.Mesh))return;const inst=new THREE.InstancedMesh(child.geometry,child.material,transforms.length);inst.userData.glbAsset=this.models.has(model+':far')?this.manifest.assets[model].lod.far.url:this.manifest.assets[model].url;inst.castShadow=true;inst.receiveShadow=true;const local=baseInv.clone().multiply(child.matrixWorld);for(let i=0;i<transforms.length;i++)inst.setMatrixAt(i,transforms[i].clone().multiply(local));inst.computeBoundingSphere();this.landscape.add(inst);});}
- createLandscape(){this.landscape.add(this.clone('terrain'));const matrix=(/** @type {number} */x,/** @type {number} */z,/** @type {number} */r,/** @type {number} */s)=>new THREE.Matrix4().compose(v(x,0,z),new THREE.Quaternion().setFromAxisAngle(UP,r),v(s,s,s));const palm=/** @type {THREE.Matrix4[]} */([]),banana=/** @type {THREE.Matrix4[]} */([]),grass=/** @type {THREE.Matrix4[]} */([]);
+ createLandscape(){
+  const terrain=this.clone('terrain'),surroundName=this.manifest.assets.terrain.roles?.surround;
+  const surround=surroundName?terrain.getObjectByName(surroundName):null;
+  if(surround instanceof THREE.Mesh){
+   surround.castShadow=false;
+   // Blend with the panorama before transparent details on the farm.
+   surround.renderOrder=-1;
+  }
+  this.landscape.add(terrain);
+  const matrix=(/** @type {number} */x,/** @type {number} */z,/** @type {number} */r,/** @type {number} */s)=>new THREE.Matrix4().compose(v(x,0,z),new THREE.Quaternion().setFromAxisAngle(UP,r),v(s,s,s));const palm=/** @type {THREE.Matrix4[]} */([]),banana=/** @type {THREE.Matrix4[]} */([]),grass=/** @type {THREE.Matrix4[]} */([]);
   for(let i=0;i<38;i++){const angle=i/38*Math.PI*2,x=Math.cos(angle)*(39.5+(i%3)*.6),z=Math.sin(angle)*(29+(i%4)*.5);(i%3? palm:banana).push(matrix(x,z,i*2.37,.8+(i%5)*.07));}
   for(let i=0;i<100;i++){const x=-42+((i*37.51)%84),z=-32+((i*29.71)%64);if(Math.abs(x)<30&&Math.abs(z)<25)continue;grass.push(matrix(x,z,i*.73,.6+(i%7)*.08));}
   this.instanceScenery('vegetation','palm',palm);this.instanceScenery('vegetation','banana',banana);this.instanceScenery('vegetation','grass',grass);
@@ -203,7 +212,7 @@ export class CozyWorld{
    
    const facility=state.facilities.find((/** @type {any} */f)=>f.id===item.id);if(facility)this.syncFacility(group,facility,item);
   }
-  this.syncCrops(state,layout);const hour=state.tick%24,night=hour<5||hour>=20;this.sun.intensity=night?.7:hour<8||hour>=17?2.2:3.15;this.hemi.intensity=night?1.1:1.65;this.sun.color.set(hour<8||hour>=17?'#ffdfad':'#fff2da');this.renderer.toneMappingExposure=night?.85:1.06;const background=/** @type {THREE.Color} */(this.scene.background);background.set(night?'#879baa':'#d6e1ce');/** @type {THREE.Fog} */(this.scene.fog).color.copy(background);this.panorama.setNight(night);this.setInterior(this.interiorId);this.markSelection();this.audit();this.updateCameraUndoState();if(initial&&!this.cameraInteraction)this.focus('overview',false);
+  this.syncCrops(state,layout);const hour=state.tick%24,night=hour<5||hour>=20;this.sun.intensity=night?.7:hour<8||hour>=17?2.2:3.15;this.hemi.intensity=night?1.1:1.65;this.sun.color.set(hour<8||hour>=17?'#ffdfad':'#fff2da');this.renderer.toneMappingExposure=night?.85:1.06;const background=/** @type {THREE.Color} */(this.scene.background);background.set(night?'#879baa':'#d6e1ce');/** @type {THREE.Fog} */(this.scene.fog).color.set(night?'#556a67':'#b2bda1');this.panorama.setNight(night);this.setInterior(this.interiorId);this.markSelection();this.audit();this.updateCameraUndoState();if(initial&&!this.cameraInteraction)this.focus('overview',false);
  }
  /** Instance every crop from its GLB template; instance picking keeps bed IDs.
   * @param {any} state @param {any} layout */
