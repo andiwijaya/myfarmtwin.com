@@ -25,3 +25,16 @@ test('every shipped world GLB including far LODs matches its authored manifest a
   assert.equal(bytes.readUInt32LE(0),0x46546c67);assert.equal(bytes.readUInt32LE(4),2);assert.equal(bytes.readUInt32LE(8),bytes.length);files++;
  }assert.equal(files,22);
 });
+
+test('the panorama is a versioned WebP included in the browser integrity receipt',async()=>{
+ const receipt=JSON.parse(await readFile('dist/play/build-info.json','utf8'));
+ const name='assets/tropical-panorama.webp';
+ const source=await readFile('game/client/'+name),delivered=await readFile('dist/play/'+name);
+ assert.deepEqual(delivered,source);
+ assert.equal(delivered.toString('ascii',8,12),'WEBP');
+ assert.deepEqual(receipt.panorama,{
+  url:'/play/'+name+'?v='+sha(delivered).slice(0,16),bytes:delivered.length,sha256:sha(delivered),mime:'image/webp',
+ });
+ const bundle=await readFile('dist/play/cozy/'+receipt.entry,'utf8');
+ assert.ok(bundle.includes(receipt.panorama.url));
+});
