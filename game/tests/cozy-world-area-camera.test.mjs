@@ -21,6 +21,33 @@ const keyEvent=(key,patch={})=>({key,ctrlKey:true,altKey:false,metaKey:false,shi
 const macEvent=(key,patch={})=>keyEvent(key,{ctrlKey:false,metaKey:true,...patch});
 const shortcut=(world,event,blocked=false)=>handleCameraResetShortcut(event,{blocked,available:action=>action==='undo-reset'?world.canUndoCameraReset():world.canRedoCameraReset(),run:action=>!!(action==='undo-reset'?world.undoCameraReset():world.redoCameraReset())});
 
+test('camera buttons ease on a fixed-radius orbit and keep rapid input across a full turn',()=>withWorld(w=>{
+ const start=w.camera.position.clone(),target=w.controls.target.clone(),radius=start.distanceTo(target);
+ const step=Math.PI/8;
+ w.rotate(step);
+ assert.ok(w.camera.position.equals(start));
+ w.advanceCameraTransition(w.transition.start+70);
+ const halfway=w.camera.position.clone();
+ assert.ok(halfway.distanceTo(start)>0.1);
+ assert.ok(Math.abs(halfway.distanceTo(target)-radius)<1e-9);
+ for(let i=1;i<16;i++)w.rotate(step);
+ assert.ok(w.camera.position.equals(halfway));
+ w.advanceCameraTransition(w.transition.start+200);
+ assert.equal(w.transition,null);
+ assert.ok(w.camera.position.distanceTo(start)<1e-9);
+ assert.ok(w.controls.target.equals(target));
+}));
+
+test('reduced motion applies and saves the camera angle immediately',()=>withWorld((w,s)=>{
+ const start=w.camera.position.clone(),target=w.controls.target.clone();
+ const next=start.sub(target).applyAxisAngle(new Vector3(0,1,0),Math.PI/8).add(target);
+ globalThis.matchMedia=()=>({matches:true});
+ w.rotate(Math.PI/8);
+ assert.equal(w.transition,null);
+ assert.ok(w.camera.position.distanceTo(next)<1e-9);
+ assert.deepEqual(geometry(readCameraViewPreference(s,'overview').value),geometry(w.cameraSnapshot()));
+}));
+
 test('each area and interior has an independent projection without changing farm keys',()=>{
  const s=storage(),garden=pose(),barn={...pose('barn',2),position:[22,16,28],fov:50,zoom:1.2},inside={...pose('inside:market',3),position:[-4,2,16],target:[-4,1,14],fov:54,anchor:{id:'market',x:-4,z:14,rotation:0}};
  for(const p of [garden,barn,inside])assert.equal(writeCameraViewPreference(s,p),true);

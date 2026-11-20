@@ -14,14 +14,14 @@
   "defaultRuntime": "common-engine",
   "commonEngineVersion": "0.3.0",
   "three": "0.187.0",
-  "entry": "app-ADKYQWFS.js",
+  "entry": "app-RBJ5VVYB.js",
   "recoveryEntry": "recovery-3PZULSVL.js",
-  "integrityEntry": "integrity-LL76RTOU.js",
+  "integrityEntry": "integrity-5U5OBVMF.js",
   "emitted": [
     {
-      "name": "app-ADKYQWFS.js",
-      "bytes": 750313,
-      "sha256": "a8bb1f046628138c68e1824d56f9843ad3494d9269d83c079abc773594dd9b24"
+      "name": "app-RBJ5VVYB.js",
+      "bytes": 754263,
+      "sha256": "6f635895279e77b95baf6802fa60174ddb3cd8c934174350a4b7136a9f6c735f"
     },
     {
       "name": "recovery-3PZULSVL.js",
@@ -34,9 +34,9 @@
       "sha256": "7a549075c13e34ac25f4666d358af37b244a1b3bac298edff529ec7e09ff4c37"
     },
     {
-      "name": "integrity-LL76RTOU.js",
-      "bytes": 1894,
-      "sha256": "92a251dcc0b642c6b2d15f5bca91318905a91ddfba8d9ac7b146d2c72aa1e3e0"
+      "name": "integrity-5U5OBVMF.js",
+      "bytes": 1963,
+      "sha256": "7b17f39001bf358de2f952ac5b631beca3285d45907504c4022b25e509af571e"
     },
     {
       "name": "chunks/cozy-common-engine-PGLOASQV.js",
@@ -1215,8 +1215,14 @@
       "length": 2
     }
   },
+  "panorama": {
+    "url": "/play/assets/tropical-panorama.webp?v=22fb3a98463f441e",
+    "bytes": 147058,
+    "sha256": "22fb3a98463f441e5a13d30a70ec3b476612249a64af59ae0a9c679ebdcd95bf",
+    "mime": "image/webp"
+  },
   "manifestSha256": "c593ace2574bc5b617c74469de6925ddc20d6bfa6be15121d96294c35e5b682b",
-  "htmlSha256": "5ddaef58481c166a68afcc1c4fe153f5957bb98e8ce0638e49d9330a6deff8c1",
+  "htmlSha256": "a0ae7413acc9a19a6f6ee51151bf72faaae668bac279eaa221db021058b5607f",
   "cssSha256": "bcd204c32f5c667e9e85db0440b49775ea687d232e9f80b7e03676fb7c7ee0ed",
   "inputs": [
     "game/client/active-garden.js",
@@ -1259,6 +1265,7 @@
     "game/client/cozy-domain.js",
     "game/client/cozy-integrity.js",
     "game/client/cozy-legacy-recovery.js",
+    "game/client/cozy-panorama.js",
     "game/client/cozy-placement.js",
     "game/client/cozy-recovery.js",
     "game/client/cozy-storage.js",
