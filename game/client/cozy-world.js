@@ -261,7 +261,7 @@ export class CozyWorld{
  sync(state,layout=state.layout){
   if(this.models.size!==this.modelCount||!this.modelCount)return;
   const houseLevel=state.house?.level??0;
-  const key=state.revision+':'+houseLevel+':'+JSON.stringify(layout);
+  const key=state.revision+':'+houseLevel+':'+JSON.stringify(layout)+':'+JSON.stringify(state.foodOrder??null);
   if(key===this.key)return;
   const initial=!this.key,houseChanged=houseLevel!==this.houseLevel;
   this.key=key;
@@ -269,6 +269,7 @@ export class CozyWorld{
   this.syncLand(state.land.level);
   this.items=new Map(layout.items.map((/** @type {any} */p)=>[p.id,p]));
   delete this.host.dataset.houseModel;
+  delete this.host.dataset.houseSatellite;
   const alive=new Set(layout.items.map((/** @type {any} */p)=>p.id));for(const facility of state.facilities)for(const animal of facility.animals)for(let n=0;n<animal.count;n++)alive.add(n===0?animal.id:animal.id+'.member.'+n);
   for(const [id,group]of this.entities)if(!alive.has(id)){this.removeAnimal(id);this.discard(group);this.entities.delete(id);}
   for(const item of layout.items){
@@ -279,14 +280,17 @@ export class CozyWorld{
     group=undefined;
    }
    if(!group){group=this.itemModel(item);this.bind(group,item.id);}
-   if(model)this.host.dataset.houseModel=group.userData.houseModel;
+   if(model){
+    this.host.dataset.houseModel=group.userData.houseModel;
+    this.host.dataset.houseSatellite=String(group.userData.hasSatellite===true);
+   }
    group.position.set(item.x,0,item.z);group.rotation.y=item.rotation;group.userData.kind=item.kind;
 
    const facility=state.facilities.find((/** @type {any} */f)=>f.id===item.id);if(facility)this.syncFacility(group,facility,item);
   }
   this.syncCrops(state,layout);
   this.farmActivity?.sync(state.tick,layout.items,houseLevel);
-  if(this.farmTraffic?.sync(state.tick,layout.items))this.syncVergeScenery(this.farmTraffic);
+  if(this.farmTraffic?.sync(state.tick,layout.items,state.foodOrder??null))this.syncVergeScenery(this.farmTraffic);
   this.farmPower?.sync(state.tick,layout.items,houseLevel,point=>this.farmTraffic?.onRoad(point)??false);
   const hour=state.tick%24,night=hour<5||hour>=20;
   this.sun.intensity=night?.7:hour<8||hour>=17?2.2:3.15;
@@ -328,6 +332,7 @@ export class CozyWorld{
    const {model}=HOUSE_LEVELS[Math.max(0,this.houseLevel-1)];
    const home=this.template(HOUSE_KIND,[model]);
    home.userData.houseModel=model;
+   home.traverse(part=>{if(part.userData.homeSatellite)home.userData.hasSatellite=true;});
    return home;
   }
   if(['bed','barn','coop','goatShelter','pond','market','path','fence'].includes(kind))return this.clone(kind);

@@ -18,12 +18,19 @@ export {COZY_BUILD_CATALOG,COZY_FACILITY_KINDS,COZY_LAND_BOUNDS,placementIssue};
 /** @typedef {{id:string,type:string,quantity:number,quality:number,sourceId:string,value3000:number}} ProduceLot */
 /** @typedef {{id:string,needs:Record<string,number>,bonus:number,completed:boolean}} Order */
 /** @typedef {{level:number,salesCoins:number}} HouseProgress */
-/** @typedef {{format:string,version:number,revision:number,tick:number,seed:number,rng:number,weather:string,coins:number,water:number,careCredits:number,seeds:Record<string,number>,plots:import('./engine.js').Plot[],inventory:ProduceLot[],ledger:import('./engine.js').LedgerEntry[],stats:{planted:number,watered:number,harvested:number,sold:number,orders:number,income:number,expense:number},progression:{xp:number,level:number,achievements:string[],completedOrders:string[],startedKinds:string[],credit3000:number,debtCoins:number},orders:Order[],land:{level:number},layout:{items:Placement[],nextId:number},facilities:Facility[],nextLot:number,provenance:{native:string|null,layout:string|null},house?:HouseProgress}} CozyState */
+/** @typedef {{id:number,meal:string,marketId:string,orderedTick:number,deliveredTick:number|null}} FoodOrder */
+/** @typedef {{format:string,version:number,revision:number,tick:number,seed:number,rng:number,weather:string,coins:number,water:number,careCredits:number,seeds:Record<string,number>,plots:import('./engine.js').Plot[],inventory:ProduceLot[],ledger:import('./engine.js').LedgerEntry[],stats:{planted:number,watered:number,harvested:number,sold:number,orders:number,income:number,expense:number},progression:{xp:number,level:number,achievements:string[],completedOrders:string[],startedKinds:string[],credit3000:number,debtCoins:number},orders:Order[],land:{level:number},layout:{items:Placement[],nextId:number},facilities:Facility[],nextLot:number,provenance:{native:string|null,layout:string|null},house?:HouseProgress,foodOrder?:FoodOrder}} CozyState */
 /** @typedef {{state:CozyState,ok:boolean,error:string,events:any[],id?:string}} DispatchResult */
 
 export const COZY_VERSION=2;
 export const COZY_MORNING_HOUR=6;
 export const COZY_REALTIME_HOUR_MS=12_000;
+/** @type {Readonly<Record<string,{label:readonly [string,string],price:number}>>} */
+export const COZY_FOOD_MENU=Object.freeze({
+ noodles:{label:['Mi goreng','Fried noodles'],price:6},
+ friedRice:{label:['Nasi goreng','Fried rice'],price:8},
+ chickenRice:{label:['Nasi ayam','Chicken with rice'],price:10},
+});
 /** @type {Readonly<Record<string,{hours:number,seedPrice:number,yield:number,price:number,stages:number}>>} */
 export const COZY_CROPS=Object.freeze({lettuce:{hours:18,seedPrice:4,yield:3,price:8,stages:4},tomato:{hours:30,seedPrice:8,yield:5,price:10,stages:4},corn:{hours:42,seedPrice:10,yield:4,price:14,stages:5}});
 /** @type {Readonly<Record<string,{price:number,scale:number,unit:string}>>} */
@@ -202,7 +209,7 @@ function hour(s){
  s.tick++;if(s.tick%24===0){s.rng=(Math.imul(1664525,s.rng)+1013904223)>>>0;s.weather=['sunny','cloudy','rainy','hot'][(s.rng>>>16)%4];}
 }
 /** @type {Record<string,string[]>} */
-const COMMAND_FIELDS={advance:['hours'],plant:['plot','crop'],water:['plot'],waterAll:[],harvest:['plot'],harvestAll:[],buySeed:['crop','quantity'],refill:['litres'],recovery:[],start:['kind'],build:['kind','transform'],move:['id','transform'],feed:['facility'],waterFacility:['facility'],clean:['facility'],buyFeed:['facility'],collect:['facility'],buyAnimal:['facility'],sellAnimal:['facility','animal','quote'],upgrade:['facility'],upgradeHouse:['level'],toggleAuto:['facility'],togglePump:['facility'],toggleAerator:['facility'],sell:['lot','quote'],discard:['lot'],sellAll:[],order:['order'],refreshOrders:[],repayDebt:[],expand:[]};
+const COMMAND_FIELDS={advance:['hours'],plant:['plot','crop'],water:['plot'],waterAll:[],harvest:['plot'],harvestAll:[],buySeed:['crop','quantity'],refill:['litres'],recovery:[],start:['kind'],build:['kind','transform'],move:['id','transform'],feed:['facility'],waterFacility:['facility'],clean:['facility'],buyFeed:['facility'],collect:['facility'],buyAnimal:['facility'],sellAnimal:['facility','animal','quote'],upgrade:['facility'],upgradeHouse:['level'],orderFood:['meal'],arriveFood:['order'],collectFood:['order','market'],toggleAuto:['facility'],togglePump:['facility'],toggleAerator:['facility'],sell:['lot','quote'],discard:['lot'],sellAll:[],order:['order'],refreshOrders:[],repayDebt:[],expand:[]};
 /** Every rejected operation returns the exact original state, with no side effects. */
 /** @param {CozyState} input @param {Record<string,any>} command @returns {DispatchResult} */
 export function dispatchCozy(input,command){
@@ -241,6 +248,29 @@ export function dispatchCozy(input,command){
   xp(s,15);
   break;
  }
+ case 'orderFood':{
+  if(!s.house?.level)throw Error('houseNotBuilt');
+  if(s.foodOrder)throw Error('foodOrderActive');
+  const {meal}=command;
+  if(typeof meal!=='string'||!Object.hasOwn(COZY_FOOD_MENU,meal))throw Error('invalidMeal');
+  const market=s.layout.items.find(item=>item.kind==='market');
+  if(!market)throw Error('foodMarketMissing');
+  trans(s,'meal_purchase',-COZY_FOOD_MENU[meal].price);
+  s.foodOrder={id:s.revision+1,meal,marketId:market.id,orderedTick:s.tick,deliveredTick:null};
+  break;
+ }
+ case 'arriveFood':{
+  const order=s.foodOrder;
+  if(!order||order.id!==command.order||order.deliveredTick!==null)throw Error('foodOrderUnavailable');
+  order.deliveredTick=s.tick;
+  break;
+ }
+ case 'collectFood':{
+  const order=s.foodOrder;
+  if(!order||order.id!==command.order||order.deliveredTick===null||order.marketId!==command.market)throw Error('foodOrderUnavailable');
+  delete s.foodOrder;
+  break;
+ }
  case 'toggleAuto':{const f=needFacility(s,command);if(f.level<1)throw Error('upgradeFirst');f.auto=!f.auto;break;}
  case 'togglePump':{const f=s.facilities.find(f=>f.id===command.facility&&f.kind==='pump');if(!f)throw Error('facilityMissing');f.enabled=!f.enabled;break;}
  case 'toggleAerator':{const f=needFacility(s,command);if(f.kind!=='pond')throw Error('facilityMissing');f.enabled=!f.enabled;break;}
@@ -261,6 +291,7 @@ export function validateCozyState(v){
  if(plain(v)&&v.format==='MyFarmTwinCozy'&&typeof v.version==='number'&&v.version>COZY_VERSION)throw Error('saveNewer');
  const keys=['format','version','revision','tick','seed','rng','weather','coins','water','careCredits','seeds','plots','inventory','ledger','stats','progression','orders','land','layout','facilities','nextLot','provenance'];
  if(plain(v)&&Object.hasOwn(v,'house'))keys.push('house');
+ if(plain(v)&&Object.hasOwn(v,'foodOrder'))keys.push('foodOrder');
  const s=object(v,keys);if(s.format!=='MyFarmTwinCozy')throw Error('saveImportInvalid');if(s.version!==COZY_VERSION)throw Error(s.version>COZY_VERSION?'saveNewer':'saveImportInvalid');for(const k of ['revision','tick','seed','rng','coins','careCredits','nextLot'])integer(s[k]);if(s.nextLot<1)throw Error('saveImportInvalid');num(s.water);if(!['sunny','cloudy','rainy','hot'].includes(s.weather))throw Error('saveImportInvalid');object(s.seeds,CROP_IDS);for(const n of Object.values(s.seeds))integer(n);
  if(Object.hasOwn(s,'house')){
   object(s.house,['level','salesCoins']);
@@ -276,5 +307,13 @@ export function validateCozyState(v){
  list(s.facilities,26);const facilities=new Set(),animalIds=new Set();for(const f of s.facilities){object(f,['id','kind','level','feedStockG','feedG','waterStockMl','waterMl','cleanliness','auto','shade','enabled','pending','productionHours','animals','forageG','foragePlots','pendingLots']);text(f.id);if(facilities.has(f.id)||!COZY_FACILITY_KINDS.includes(f.kind)||!s.layout.items.some((/** @type {Placement} */p)=>p.id===f.id&&p.kind===f.kind))throw Error('saveImportInvalid');facilities.add(f.id);integer(f.level,0,3);for(const k of ['feedStockG','feedG','waterStockMl','waterMl'])num(f[k]);integer(f.pending);num(f.forageG);integer(f.foragePlots,0,8);if(f.forageG>9000*f.foragePlots||f.kind!=='goatShelter'&&(f.forageG!==0||f.foragePlots!==0))throw Error('saveImportInvalid');num(f.cleanliness,0,100);num(f.productionHours,0,8);for(const k of ['auto','shade','enabled'])flag(f[k]);list(f.pendingLots,200);let oldPending=0;for(const l of f.pendingLots){object(l,['quantity','quality','sourceId','value3000']);integer(l.quantity,1);num(l.quality,0,1);text(l.sourceId,160);integer(l.value3000);oldPending+=l.quantity;}if(oldPending>f.pending)throw Error('saveImportInvalid');list(f.animals,80);let count=0;for(const a of f.animals){object(a,['id','species','growth','condition','ready','count','massG','lactating']);text(a.id,160);if(animalIds.has(a.id)||ids.has(a.id)||a.species!==ANIMAL_KINDS[f.kind])throw Error('saveImportInvalid');animalIds.add(a.id);num(a.growth,0,1);num(a.condition,0,1);integer(a.ready);integer(a.count,1,100);integer(a.massG);flag(a.lactating);if(a.species!=='fish'&&a.count!==1)throw Error('saveImportInvalid');count+=a.count;}if(STOCK[f.kind]&&count>facilityCapacity(f).animals)throw Error('animalCapacity');if(STOCK[f.kind]&&!s.progression.startedKinds.includes(f.kind))throw Error('saveImportInvalid');}
  for(const p of s.layout.items)if(COZY_FACILITY_KINDS.includes(p.kind)&&!facilities.has(p.id))throw Error('saveImportInvalid');
  if(s.layout.items.some((/** @type {Placement} */p)=>p.kind===HOUSE_KIND)!==Boolean(s.house?.level))throw Error('saveImportInvalid');
+ if(Object.hasOwn(s,'foodOrder')){
+  const order=object(s.foodOrder,['id','meal','marketId','orderedTick','deliveredTick']);
+  integer(order.id,1,s.revision);
+  integer(order.orderedTick,0,s.tick);
+  if(order.deliveredTick!==null)integer(order.deliveredTick,order.orderedTick,s.tick);
+  const market=s.layout.items.find((/** @type {Placement} */p)=>p.kind==='market');
+  if(!s.house?.level||!market||market.id!==order.marketId||typeof order.meal!=='string'||!Object.hasOwn(COZY_FOOD_MENU,order.meal))throw Error('saveImportInvalid');
+ }
  object(s.provenance,['native','layout']);for(const k of ['native','layout'])if(s.provenance[k]!==null)text(s.provenance[k],2_100_000);if(s.provenance.native!==null)deserialize(s.provenance.native);if(s.provenance.layout!==null)validatePrototypeLayout(JSON.parse(s.provenance.layout));return s;
 }

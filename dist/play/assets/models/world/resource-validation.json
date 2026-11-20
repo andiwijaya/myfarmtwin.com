@@ -9,7 +9,7 @@
   },
   "logicalAssets": 22,
   "files": 27,
-  "bytes": 20418664,
+  "bytes": 20922940,
   "results": [
     {
       "id": "terrain",
@@ -36,10 +36,10 @@
     },
     {
       "id": "house",
-      "sha256": "86ac310886d2c4f6768392e323582461aa1657d3f99cf9dbebd057bb8e81868c",
-      "bytes": 2245088,
-      "nodes": 814,
-      "meshes": 292,
+      "sha256": "bcf4ea783c0d4d360ce69c17822fe229815c023aba97fc5bd97b9c1c850fb633",
+      "bytes": 2562688,
+      "nodes": 884,
+      "meshes": 342,
       "images": 7,
       "normalMaps": 10,
       "animations": [],
@@ -47,7 +47,7 @@
         "min": [
           -6.914,
           0,
-          -5.524787788391113
+          -5.538055546427971
         ],
         "max": [
           6.914,
@@ -142,17 +142,17 @@
     },
     {
       "id": "infrastructure",
-      "sha256": "d50341e12685e6fd981b05c2e1023afa276c80fdbca009e7a6bc49e530e32a4a",
-      "bytes": 612428,
-      "nodes": 80,
-      "meshes": 52,
+      "sha256": "ddd174e84cc71272e8d2662c5cf596fc012b4e358825a20f0209f5050e43316e",
+      "bytes": 799104,
+      "nodes": 111,
+      "meshes": 75,
       "images": 5,
       "normalMaps": 1,
       "animations": [],
       "bounds": {
         "min": [
           -4.11155715829892,
-          0,
+          -1.19209286886246e-9,
           -2.4000000953674316
         ],
         "max": [

@@ -77,6 +77,77 @@ test('truck follows the gravel road, loads at the market and completes its last 
  assert.equal(world.scene.children.length,0);
 });
 
+test('a courier queued behind a truck uses the same road and releases it only after leaving',()=>{
+ const world=worldFixture(),traffic=new FarmTraffic(world),items=builtFarm();
+ const order={id:5,meal:'friedRice',marketId:'market',orderedTick:12,deliveredTick:null};
+ const phases=new Set();
+ let arrivals=0,released=false,followUp=false;
+ world.options={onFoodArrival(delivery){
+  assert.deepEqual(delivery,order);
+  const bay=traffic.route.lane.at(-1);
+  assert.ok(Math.hypot(traffic.scooter.position.x-bay.x,traffic.scooter.position.z-bay.z)<.001);
+  arrivals++;
+  traffic.sync(12,items,{...order,deliveredTick:12});
+  assert.equal(traffic.parcel.visible,true);
+  return true;
+ }};
+ try{
+  traffic.sync(12,items);
+  for(let i=0;i<200&&traffic.phase!=='loading';i++)traffic.update(.2,false);
+  assert.equal(traffic.phase,'loading');
+  traffic.sync(12,items,order);
+  assert.equal(world.host.dataset.courierPhase,'queued');
+  assert.equal(world.host.dataset.roadVehicle,'truck');
+  for(let i=0;i<600;i++){
+   traffic.update(.2,false);
+   assert.ok(!traffic.scooter.visible||!traffic.truck.visible);
+   if(traffic.scooter.visible){
+    assert.ok(traffic.onRoad(traffic.scooter.position));
+    phases.add(traffic.courierPhase);
+   }
+   if(arrivals&&!followUp){
+    traffic.sync(12,items,null);
+    assert.equal(traffic.parcel.visible,false);
+    traffic.sync(12,items,{...order,id:8,meal:'noodles'});
+    followUp=true;
+   }
+   if(arrivals&&traffic.truck.visible){released=true;break;}
+  }
+  for(const phase of ['arriving','droppingOff','turning','leaving'])assert.ok(phases.has(phase),phase);
+  assert.equal(arrivals,1);
+  assert.equal(released,true);
+  assert.equal(world.host.dataset.courierPhase,'queued');
+  assert.equal(traffic.parcel.visible,false);
+ }finally{traffic.dispose();}
+});
+
+test('a pending night delivery follows a relocated market and works with reduced motion',()=>{
+ const world=worldFixture(),traffic=new FarmTraffic(world),items=builtFarm();
+ const moved=items.map(item=>item.kind==='market'?{...item,x:-9,z:17.5,rotation:0}:item);
+ const order={id:8,meal:'noodles',marketId:'market',orderedTick:21,deliveredTick:null};
+ let deliveries=0;
+ world.options={onFoodArrival(){
+  deliveries++;
+  const stop=marketTruckRoute(moved).lane.at(-1);
+  assert.ok(Math.hypot(traffic.scooter.position.x-stop.x,traffic.scooter.position.z-stop.z)<.001);
+  traffic.sync(21,moved,{...order,deliveredTick:21});
+  return true;
+ }};
+ try{
+  traffic.sync(21,items,order);
+  traffic.update(.2,false);
+  assert.equal(traffic.courierPhase,'arriving');
+  traffic.sync(21,moved,order);
+  assert.equal(traffic.scooter.visible,false);
+  for(let i=0;i<80;i++)traffic.update(.2,true);
+  assert.equal(deliveries,1);
+  assert.equal(traffic.parcel.visible,true);
+  assert.equal(traffic.scooter.visible,false);
+  assert.equal(traffic.truck.visible,false);
+  assert.equal(traffic.pickups,0);
+ }finally{traffic.dispose();}
+});
+
 test('roadside trees are filtered against the current truck route and return when it moves away',()=>{
  const world=worldFixture(),traffic=new FarmTraffic(world),items=builtFarm();
  const trees=new Map();

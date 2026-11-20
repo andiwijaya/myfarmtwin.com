@@ -4,10 +4,12 @@ import {COZY_BUILD_CATALOG} from './cozy-placement.js';
 import {groundHeight,groundPoint,WorkerRoutes} from './cozy-worker-routes.js';
 
 /** @typedef {import('./cozy-domain.js').Placement} Placement */
+/** @typedef {import('./cozy-domain.js').FoodOrder} FoodOrder */
 /** @typedef {import('./cozy-worker-routes.js').Point} Point */
 /** @typedef {import('./cozy-worker-routes.js').Waypoint} Waypoint */
 /** @typedef {{lane:Point[],roadside:boolean}} MarketRoute */
 /** @typedef {'waiting'|'arriving'|'loading'|'backing'|'leaving'} TruckPhase */
+/** @typedef {'waiting'|'arriving'|'droppingOff'|'turning'|'leaving'} CourierPhase */
 
 const roadZ=35,roadHalfWidth=1.715,east={x:54,z:roadZ},west={x:-54,z:roadZ};
 const dayEnds=17;
@@ -79,6 +81,39 @@ function segmentDistance(point,from,to){
  return distance(point,between(from,to,t));
 }
 
+/** @param {Group} vehicle @param {Point} point */
+function moveVehicle(vehicle,point){vehicle.position.set(point.x,groundHeight(point.x,point.z)+.051,point.z);}
+
+/** @param {Group} vehicle @param {number} heading @param {number} limit */
+function turnVehicle(vehicle,heading,limit){
+ const turn=Math.atan2(Math.sin(heading-vehicle.rotation.y),Math.cos(heading-vehicle.rotation.y));
+ vehicle.rotation.y+=MathUtils.clamp(turn,-limit,limit);
+ return Math.abs(turn)<=limit;
+}
+
+/** @param {Group} vehicle @param {Point[]} path @param {Object3D[]} wheels @param {number} wheelRadius
+ * @param {number} delta @param {boolean} reduced @param {number} speed @param {boolean} [reverse] */
+function travelRoad(vehicle,path,wheels,wheelRadius,delta,reduced,speed,reverse=false){
+ let budget=reduced?Infinity:delta*speed;
+ const direction=reverse?-1:1;
+ while(path.length&&budget>0){
+  const target=path[0],length=distance(vehicle.position,target);
+  if(length>.001){
+   const heading=Math.atan2((target.x-vehicle.position.x)*direction,(target.z-vehicle.position.z)*direction);
+   turnVehicle(vehicle,heading,reduced?Infinity:delta*3.2);
+   const step=Math.min(length,budget);
+   for(const wheel of wheels)if(!reduced)wheel.rotation.x+=direction*step/wheelRadius;
+   moveVehicle(vehicle,between(vehicle.position,target,step/length));
+  }
+  if(length>budget)break;
+  budget-=length;
+  path.shift();
+ }
+}
+
+/** @param {FoodOrder|null} a @param {FoodOrder|null} b */
+function sameOrder(a,b){return !!a&&!!b&&a.id===b.id&&a.meal===b.meal&&a.orderedTick===b.orderedTick&&a.marketId===b.marketId;}
+
 export class FarmTraffic{
  /** @param {import('./cozy-world.js').CozyWorld} world */
  constructor(world){
@@ -91,11 +126,27 @@ export class FarmTraffic{
   /** @type {Object3D[]} */this.wheels=[];
   this.truck.traverse(node=>{if(node.userData.truckWheel)this.wheels.push(node);});
   this.truck.visible=false;
-  this.group.add(this.truck);
+  this.scooter=world.template('infrastructure',['delivery_scooter']);
+  this.payload=this.scooter.getObjectByName('courier_payload');
+  /** @type {Object3D[]} */this.scooterWheels=[];
+  this.scooter.traverse(node=>{if(node.userData.courierWheel)this.scooterWheels.push(node);});
+  this.parcel=world.template('infrastructure',['market_food_parcel']);
+  this.scooter.visible=false;
+  this.parcel.visible=false;
+  this.group.add(this.truck,this.scooter,this.parcel);
   world.scene.add(this.group);
   /** @type {MarketRoute|null} */this.route=null;
   /** @type {TruckPhase} */this.phase='waiting';
   /** @type {Point[]} */this.path=[];
+  /** @type {CourierPhase} */this.courierPhase='waiting';
+  /** @type {Point[]} */this.courierPath=[];
+  /** @type {FoodOrder|null} */this.foodOrder=null;
+  /** @type {FoodOrder|null} */this.courierOrder=null;
+  /** @type {Placement|undefined} */this.market=undefined;
+  this.courierWait=0;
+  this.courierRetry=0;
+  this.handoffStarted=false;
+  this.lastVehicle='truck';
   this.layoutKey='';
   this.open=false;
   this.wait=3.4;
@@ -153,26 +204,38 @@ export class FarmTraffic{
   return lane.some((to,i)=>i>0&&segmentDistance(point,lane[i-1],to)<clearance);
  }
 
- /** @param {number} tick @param {Placement[]} items */
- sync(tick,items){
+ /** @param {number} tick @param {Placement[]} items @param {FoodOrder|null} [order] */
+ sync(tick,items,order=null){
   const hour=tick%24;
   this.open=hour>=COZY_MORNING_HOUR&&hour<dayEnds;
-  const key=JSON.stringify(items);
-  if(key===this.layoutKey)return false;
-  this.layoutKey=key;
-  for(const mesh of this.branchMeshes){mesh.removeFromParent();mesh.dispose();}
-  this.route=marketTruckRoute(items);
-  this.branchMeshes=this.route?this.addRoad(this.route.lane,true):[];
-  this.phase='waiting';
-  this.wait=3.4;
-  this.truck.visible=false;
-  this.loaded=false;
+  const key=JSON.stringify(items),changed=key!==this.layoutKey;
+  if(changed){
+   this.layoutKey=key;
+   this.market=items.find(item=>item.kind==='market');
+   const route=marketTruckRoute(items);
+   if(JSON.stringify(route)!==JSON.stringify(this.route)){
+    for(const mesh of this.branchMeshes){mesh.removeFromParent();mesh.dispose();}
+    this.route=route;
+    this.branchMeshes=route?this.addRoad(route.lane,true):[];
+    this.phase='waiting';
+    this.wait=3.4;
+    this.truck.visible=false;
+    this.loaded=false;
+    this.stopCourier();
+   }
+  }
+  if(this.courierOrder&&!sameOrder(this.courierOrder,order)&&['arriving','droppingOff'].includes(this.courierPhase)&&!this.handoffStarted)this.stopCourier();
+  if(!sameOrder(this.foodOrder,order))this.courierRetry=0;
+  this.foodOrder=order;
+  this.parcel.visible=!!order&&order.deliveredTick!==null&&order.marketId===this.market?.id;
+  if(this.parcel.visible&&this.market){
+   const {x,y,z}=groundPoint(this.market,2.86,1.71,.906);
+   this.parcel.position.set(x,y,z);
+   this.parcel.rotation.y=this.market.rotation;
+  }
   this.audit();
-  return true;
+  return changed;
  }
-
- /** @param {Point} point */
- moveTo(point){this.truck.position.set(point.x,groundHeight(point.x,point.z)+.051,point.z);}
 
  /** @param {TruckPhase} phase @param {Point[]} path */
  drive(phase,path){this.phase=phase;this.path=path;}
@@ -181,9 +244,26 @@ export class FarmTraffic{
  update(delta,reduced){
   const route=this.route;
   if(!route)return;
+  this.courierRetry=Math.max(0,this.courierRetry-delta);
+  if(this.phase==='waiting'&&this.open)this.wait=Math.max(0,this.wait-delta);
+  // Both directions and the market bay share one road reservation. A vehicle
+  // releases it only once it has left the lane, including after unloading.
+  if(this.scooter.visible){
+   this.updateCourier(route,delta,reduced);
+   this.audit();
+   return;
+  }
   if(this.phase==='waiting'){
-   if(this.open&&(this.wait-=delta)<=0){
-    this.moveTo(east);
+   const order=this.foodOrder;
+   const truckReady=this.open&&this.wait<=0;
+   if((!truckReady||this.lastVehicle==='truck')&&order&&order.deliveredTick===null&&order.marketId===this.market?.id&&!this.courierRetry&&this.world.options?.canDeliverFood?.()!==false){
+    this.startCourier(route,order);
+    this.audit();
+    return;
+   }
+   if(truckReady){
+    this.lastVehicle='truck';
+    moveVehicle(this.truck,east);
     this.truck.rotation.y=-Math.PI/2;
     this.truck.visible=true;
     this.loaded=false;
@@ -198,7 +278,8 @@ export class FarmTraffic{
     else this.drive('backing',route.lane.slice(0,-1).reverse());
    }
   }else{
-   this.travel(delta,reduced);
+   const backing=this.phase==='backing',mainRoad=Math.abs(this.truck.position.z-roadZ)<1.1;
+   travelRoad(this.truck,this.path,this.wheels,.37,delta,reduced,backing?2.45:mainRoad?6.3:3.8,backing);
    if(this.path.length)return;
    if(this.phase==='arriving'){
     this.phase='loading';
@@ -216,35 +297,71 @@ export class FarmTraffic{
   this.audit();
  }
 
- /** @param {number} delta @param {boolean} reduced */
- travel(delta,reduced){
-  const node=this.truck,backing=this.phase==='backing';
-  const lane=Math.abs(node.position.z-roadZ)<1.1;
-  let budget=reduced?Infinity:delta*(backing?2.45:lane?6.3:3.8);
-  while(this.path.length&&budget>0){
-   const target=this.path[0],length=distance(node.position,target);
-   if(length>.001){
-    const sign=backing?-1:1;
-    const heading=Math.atan2((target.x-node.position.x)*sign,(target.z-node.position.z)*sign);
-    const turn=Math.atan2(Math.sin(heading-node.rotation.y),Math.cos(heading-node.rotation.y));
-    node.rotation.y+=reduced?turn:MathUtils.clamp(turn,-delta*3.2,delta*3.2);
-    const step=Math.min(length,budget);
-    for(const wheel of this.wheels)if(!reduced)wheel.rotation.x+=sign*step/.37;
-    this.moveTo(between(node.position,target,step/length));
+ /** @param {MarketRoute} route @param {FoodOrder} order */
+ startCourier(route,order){
+  this.lastVehicle='courier';
+  this.courierOrder=order;
+  this.courierPath=route.lane.slice();
+  this.courierPhase='arriving';
+  moveVehicle(this.scooter,east);
+  this.scooter.rotation.y=-Math.PI/2;
+  this.scooter.visible=true;
+  if(this.payload)this.payload.visible=true;
+ }
+
+ stopCourier(){
+  this.scooter.visible=false;
+  this.courierPhase='waiting';
+  this.courierOrder=null;
+  this.handoffStarted=false;
+ }
+
+ /** @param {MarketRoute} route @param {number} delta @param {boolean} reduced */
+ updateCourier(route,delta,reduced){
+  if(this.courierPhase==='droppingOff'){
+   this.courierWait-=delta;
+   const order=this.foodOrder;
+   if(!this.handoffStarted&&this.courierWait<=1.8&&order&&order.deliveredTick===null&&sameOrder(this.courierOrder,order)){
+    this.handoffStarted=this.world.options?.onFoodArrival?.(order)===true;
+    if(this.handoffStarted&&this.payload)this.payload.visible=false;
    }
-   if(length>budget)break;
-   budget-=length;
-   this.path.shift();
+   if(this.courierWait<=0){
+    this.courierPath=route.roadside?[west]:[...route.lane.slice(0,-1).reverse(),east];
+    this.courierPhase=route.roadside?'leaving':'turning';
+   }
+   return;
+  }
+  if(this.courierPhase==='turning'){
+   const target=this.courierPath[0],point=this.scooter.position;
+   const heading=Math.atan2(target.x-point.x,target.z-point.z);
+   if(turnVehicle(this.scooter,heading,reduced?Infinity:delta*2.3))this.courierPhase='leaving';
+   return;
+  }
+  const mainRoad=Math.abs(this.scooter.position.z-roadZ)<1.1;
+  travelRoad(this.scooter,this.courierPath,this.scooterWheels,.28,delta,reduced,mainRoad?8.1:4.8);
+  if(this.courierPath.length)return;
+  if(this.courierPhase==='arriving'){
+   this.courierPhase='droppingOff';
+   this.courierWait=3.8;
+  }else{
+   if(sameOrder(this.courierOrder,this.foodOrder)&&this.foodOrder?.deliveredTick===null)this.courierRetry=7;
+   this.stopCourier();
   }
  }
 
  audit(){
-  const state=this.phase+'|'+this.loaded+'|'+this.pickups;
+  const courier=this.courierPhase==='waiting'&&this.foodOrder?.deliveredTick===null?'queued':this.courierPhase;
+  let occupant=this.truck.visible?'truck':'';
+  if(this.scooter.visible)occupant=occupant?occupant+',courier':'courier';
+  const state=`${this.phase}|${this.loaded}|${this.pickups}|${courier}|${occupant}|${this.parcel.visible}`;
   if(state===this.report)return;
   this.report=state;
   this.world.host.dataset.truckPhase=this.phase;
   this.world.host.dataset.truckLoaded=String(this.loaded);
   this.world.host.dataset.truckPickups=String(this.pickups);
+  this.world.host.dataset.courierPhase=courier;
+  this.world.host.dataset.roadVehicle=occupant||'clear';
+  this.world.host.dataset.foodParcel=String(this.parcel.visible);
  }
 
  dispose(){

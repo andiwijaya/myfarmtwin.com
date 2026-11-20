@@ -20,11 +20,11 @@ const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 function aggregateRole(root,name){const nodes=[];root.traverse(o=>{if(o.name===name)nodes.push(o);});if(nodes.length<2)return;root.updateMatrixWorld(true);const parent=new Group();parent.name=name;root.add(parent);nodes.forEach((o,i)=>{parent.attach(o);o.name=name+'_component_'+i;});}
 const roles={
  terrain:{ground:'continuous_flat_tropical_pasture',surround:'pasture_surround',lowlands:'rice_country_ground',floodedPaddies:'flooded_rice_plots',plantedPaddies:'planted_rice_plots',woods:'wooded_verges',mountains:'distant_mountains'},
- house:{levels:HOUSE_LEVELS.map(level=>level.model)},
+ house:{levels:HOUSE_LEVELS.map(level=>level.model),satellite:'home_satellite_dish'},
  windPump:{rotor:'windmill_rotor',shaft:'windmill_pump_rod',water:'windmill_water_stream'},
  workerMan:{head:'worker_head',bucket:'water_bucket',contents:'bucket_water',stream:'bucket_pour',basket:'market_basket'},
  workerWoman:{head:'worker_head',bucket:'water_bucket',contents:'bucket_water',stream:'bucket_pour',basket:'market_basket'},
- infrastructure:{truck:'market_truck',cargo:'truck_load',road:'road_strip',corner:'road_joint',power:'wind_solar_station',rotor:'energy_turbine_rotor',transformer:'distribution_transformer',solar:'solar_panel_array',lamp:'farm_street_lamp',bulb:'lamp_bulb',glow:'lamp_ground_glow'},
+ infrastructure:{truck:'market_truck',cargo:'truck_load',courier:'delivery_scooter',payload:'courier_payload',parcel:'market_food_parcel',road:'road_strip',corner:'road_joint',power:'wind_solar_station',rotor:'energy_turbine_rotor',transformer:'distribution_transformer',solar:'solar_panel_array',lamp:'farm_street_lamp',bulb:'lamp_bulb',glow:'lamp_ground_glow'},
  coop:{roof:'roof',floor:'floor',frame:'frame',walls:'walls',equipment:'equipment',nests:'nests',eggs:'nest_eggs',feed:'feed_contents',water:'water_contents',roosts:'roosts',gate:'entry_gate'},
  goatShelter:{roof:'roof',floor:'floor',frame:'frame',walls:'walls',stalls:'stalls',equipment:'equipment',feed:'feed_contents',water:'water_contents',bedding:'bedding',ramp:'entry_ramp'},
  market:{roof:'roof',floor:'floor',frame:'frame',walls:'walls',equipment:'equipment',stock:'stock_contents',shelves:'warehouse_shelves',orderCrate:'order_crate'},
@@ -36,11 +36,11 @@ const roles={
 };
 const definitions=[
  ['terrain','terrain',()=>({root:createWorldTerrain()}),{footprint:[88,68],buildableSurfaceY:0,semanticRole:'continuous environment terrain'}],
- ['house','houses',()=>({root:createHouses()}),{footprint:[HOUSE_PLOT.width,HOUSE_PLOT.depth],front:'+Z',semanticRole:'ten Indonesian farmhouse upgrade models'}],
+ ['house','houses',()=>({root:createHouses()}),{footprint:[HOUSE_PLOT.width,HOUSE_PLOT.depth],front:'+Z',semanticRole:'ten Indonesian farmhouse upgrade models with rear satellite dishes'}],
  ['windPump','wind-pump',()=>({root:createWindPump()}),{front:'+Z',semanticRole:'working windmill and bucket-filling point'}],
  ['workerMan','worker-man',()=>createWorker(false),{front:'+Z',semanticRole:'articulated male farm worker in Indonesian field wear'}],
  ['workerWoman','worker-woman',()=>createWorker(true),{front:'+Z',semanticRole:'articulated female farm worker in Indonesian field wear'}],
- ['infrastructure','infrastructure',()=>({root:createInfrastructure()}),{semanticRole:'village truck, service road, solar-wind station, transformer and street lamp library'}],
+ ['infrastructure','infrastructure',()=>({root:createInfrastructure()}),{semanticRole:'village truck, delivery scooter, takeaway parcel, service road and power library'}],
  ['coop','coop',()=>({root:createCoop()}),{footprint:[9,7],interiorFloorY:0,interiorTarget:[0,.8,-.3],front:'+Z',semanticRole:'chicken building with complete interior'}],
  ['chicken','chicken',createChicken,{forward:'+X',semanticRole:'kampung hen',maxCloseInstancesSuggested:12}],
  ['goatShelter','goat-shelter',()=>({root:createGoatShelter()}),{footprint:[11,9],interiorFloorY:.34,interiorTarget:[0,1.1,-.3],front:'+Z',semanticRole:'raised ventilated goat shelter with complete interior'}],
