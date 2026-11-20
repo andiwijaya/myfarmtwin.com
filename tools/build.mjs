@@ -29,7 +29,7 @@ export async function build(root=process.cwd(),{bundle=true}={}) {
   }
   await copy(source,target);
   // Exact retired presentation files only; editorial output is never emptied.
-  for(const name of ['world.js','camera.js','isometric.js','chicken-view.js','chicken-layout.js','goat-view.js','cow-view.js','fish-view.js','fish-scene.js','unified-world-canvas.js','preview-loader.js']){try{await unlink(join(target,name));}catch(error){if(error.code!=='ENOENT')throw error;}}
+  for(const name of ['world.js','camera.js','isometric.js','chicken-view.js','chicken-layout.js','goat-view.js','cow-view.js','fish-view.js','fish-scene.js','unified-world-canvas.js','preview-loader.js','cozy-panorama.js']){try{await unlink(join(target,name));}catch(error){if(error.code!=='ENOENT')throw error;}}
 
   let hasCozy=false;try{hasCozy=(await lstat(join(source,'cozy-app.js'))).isFile();}catch(error){if(error.code!=='ENOENT')throw error;}
   if(preview&&!hasCozy){

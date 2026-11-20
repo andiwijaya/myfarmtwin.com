@@ -54,7 +54,7 @@ export function writeCameraPreference(storage,value,expectedRaw){
 /** @param {CameraPreference} saved @param {(id:string)=>CameraItem|undefined} findItem */
 export function resolveCameraPreference(saved,findItem){
  const inside=saved.view.startsWith('inside:'),id=inside?saved.view.slice(7):saved.view,item=findItem(id);
- const allowed=inside?!!item&&item.id===id&&['barn','coop','goatShelter','market'].includes(item.kind):!!item||['overview','garden','barn','coop','goatShelter','pond','market'].includes(id);
+ const allowed=inside?!!item&&item.id===id&&['barn','coop','goatShelter','market'].includes(item.kind):!!item||['overview','garden','barn','coop','goatShelter','pond','market','house'].includes(id);
  if(!allowed)return{view:'overview',applyPose:false};
  const anchor=saved.anchor,match=item?!!anchor&&anchor.id===item.id&&Math.abs(anchor.x-item.x)<.0001&&Math.abs(anchor.z-item.z)<.0001&&Math.abs(anchor.rotation-item.rotation)<.0001:anchor===null;
  return{view:saved.view,applyPose:match};

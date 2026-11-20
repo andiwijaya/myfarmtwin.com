@@ -48,6 +48,23 @@ test('reduced motion applies and saves the camera angle immediately',()=>withWor
  assert.deepEqual(geometry(readCameraViewPreference(s,'overview').value),geometry(w.cameraSnapshot()));
 }));
 
+test('a pond view reset with the controls open still fits when they collapse on a phone',()=>withWorld(w=>{
+ window.innerWidth=390;
+ window.innerHeight=844;
+ w.camera.aspect=.95;
+ w.items.set('pond',{id:'pond',kind:'pond',x:16,z:13,rotation:0});
+ w.focus('pond',false);
+ settle(w);
+ w.camera.aspect=.59;
+ w.camera.updateProjectionMatrix();
+ w.camera.lookAt(w.controls.target);
+ w.camera.updateMatrixWorld();
+ for(const x of [10,22])for(const z of [8,18]){
+  const rim=new Vector3(x,.6,z).project(w.camera);
+  assert.ok(Math.abs(rim.x)<1&&Math.abs(rim.y)<1,'the rim stays in the frame');
+ }
+}));
+
 test('each area and interior has an independent projection without changing farm keys',()=>{
  const s=storage(),garden=pose(),barn={...pose('barn',2),position:[22,16,28],fov:50,zoom:1.2},inside={...pose('inside:market',3),position:[-4,2,16],target:[-4,1,14],fov:54,anchor:{id:'market',x:-4,z:14,rotation:0}};
  for(const p of [garden,barn,inside])assert.equal(writeCameraViewPreference(s,p),true);
