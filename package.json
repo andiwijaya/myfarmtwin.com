@@ -21,12 +21,15 @@
     "integrity": "node tools/live-integrity.mjs",
     "homepage": "node --check dist/home-promo-v3.js && node tools/homepage-e2e.mjs",
     "chicken": "node tools/unified-chicken-parity-e2e.mjs",
-    "homepage:cache": "node tools/homepage-cache-e2e.mjs"
+    "homepage:cache": "node tools/homepage-cache-e2e.mjs",
+    "qa:common-engine": "node tools/cozy-common-engine-qa.mjs",
+    "test:common-engine": "node tools/cozy-common-engine-e2e.mjs"
   },
   "engines": {
     "node": ">=22"
   },
   "devDependencies": {
+    "@andiwijaya/common-engine": "0.3.0",
     "@types/three": "0.187.0",
     "esbuild": "0.28.2",
     "gltf-validator": "2.0.0-dev.3.10",

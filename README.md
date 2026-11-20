@@ -66,6 +66,14 @@ Public hosting is the audited Cloudflare Pages `myfarmtwin-com` project, GitHub 
 
 The EN/ID homepage now contains one live-game card, without FarmGirl imagery, published as an approved follow-on after V1. `npm run homepage` verifies its layouts, language/keyboard behavior, save preservation, game entry and exact retained release assets. See `docs/HOMEPAGE_INCREMENT.md` for the exact production source/deployment, scope and live-test evidence.
 
+## Common Engine crop pilot
+
+The QA branch pins the private Common Engine 0.3.0 package. With Node 22.12+ and package access, use `npm ci` and `npm run qa:common-engine`. Open the printed loopback URL. Use a separate `qa-session` slug for each farm or reuse a slug on the same origin to continue it.
+
+Plant and water lettuce from an empty bed, advance three times with +6 hours or use autoplay, then harvest and save a QA checkpoint. The preview builds into a temporary directory. Named pilot sessions use their own IndexedDB databases. The ordinary route still uses the Cozy save.
+
+`npm run test:common-engine` verifies the flow in desktop Chromium and touch emulation. Set `PLAYWRIGHT_CHROMIUM_EXECUTABLE` if using an existing Chrome installation. Set `MYFARM_QA_EVIDENCE` to save screenshots.
+
 ## Historical tropical GLB prototype (P0–P2)
 
 The tropical GLB garden/cow prototype was released at `/play/glb/` with its own EN/ID interface, nine original model files, orbit/interior camera, native garden/cow loops and protected layout editing. Its source and evidence remain as the completed P0–P2 checkpoint. Both public game paths now use the full Cozy V2 upgrade described above.
