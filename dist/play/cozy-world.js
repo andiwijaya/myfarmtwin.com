@@ -3,12 +3,13 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {clone as cloneSkeleton} from 'three/addons/utils/SkeletonUtils.js';
 import {createAnimalAnimation} from './cozy-animation.js';
-import {FarmPanorama} from './cozy-panorama.js';
+import {FarmPanorama,splitFarmViewport} from './cozy-panorama.js';
 import {CAMERA_PREFERENCE_KEY,cameraViewPreferenceKey,validateCameraPreference,readCameraPreference,writeCameraPreference,readCameraViewPreference,writeCameraViewPreference,resolveCameraPreference} from './cozy-camera-preference.js';
 import {CAMERA_RESET_UNDO_PREFIX,readCameraResetUndo,writeCameraResetUndo,sameCameraPose} from './cozy-camera-reset-undo.js';
 
 const v=(/** @type {number} */x,/** @type {number} */y,/** @type {number} */z)=>new THREE.Vector3(x,y,z);
 const clamp=THREE.MathUtils.clamp,UP=v(0,1,0);
+const DAY_GROUND='#72814b',NIGHT_GROUND='#3c4c2e';
 const BUILDING_SIZES={barn:[10,8,3.5],coop:[9,7,3.2],goatShelter:[11,9,3.8],pond:[12,10,1],market:[7,6,3.6]};
 /** @typedef {{target:THREE.Vector3,position:THREE.Vector3,fromTarget:THREE.Vector3,fromPosition:THREE.Vector3,start:number,orbit?:{offset:THREE.Vector3,angle:number,applied:number}}} CameraTransition */
 /** A single presentation scene. Every 3D farm mesh comes from a manifest GLB. */
@@ -27,10 +28,13 @@ export class CozyWorld{
   /** @type {CameraTransition|null} */this.transition=null;
   /** @type {any} */this.manifest=null;
   /** @type {number[]} */this.frameSamples=[];
-  this.scene=new THREE.Scene();this.scene.background=new THREE.Color('#cfdcce');this.scene.fog=new THREE.Fog('#b2bda1',145,360);
+  this.viewportSize=new THREE.Vector2();
+  this.mapHeight=0;
+  this.scene=new THREE.Scene();this.scene.background=new THREE.Color(DAY_GROUND);this.scene.fog=new THREE.Fog(DAY_GROUND,145,360);
   this.camera=new THREE.PerspectiveCamera(43,1,.08,340);this.camera.position.set(42,36,46);
-  this.panorama=new FarmPanorama(this.scene,this.camera,this.scene.background,host);
+  this.panorama=new FarmPanorama(this.scene.background,host);
   this.renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});this.renderer.outputColorSpace=THREE.SRGBColorSpace;this.renderer.toneMapping=THREE.ACESFilmicToneMapping;this.renderer.toneMappingExposure=1.06;this.renderer.shadowMap.enabled=true;this.renderer.shadowMap.type=THREE.PCFShadowMap;
+  this.renderer.info.autoReset=false;
   this.renderer.domElement.setAttribute('aria-label','Farm tropis 3D / Three-dimensional tropical farm');this.renderer.domElement.tabIndex=0;host.append(this.renderer.domElement);this.setQuality('auto');
   this.controls=new OrbitControls(this.camera,this.renderer.domElement);this.controls.target.set(0,.7,0);this.controls.enableDamping=true;this.controls.dampingFactor=.085;this.controls.minDistance=2;this.controls.maxDistance=170;this.controls.minPolarAngle=.12;this.controls.maxPolarAngle=Math.PI*.475;this.controls.screenSpacePanning=false;this.controls.zoomSpeed=.8;this.controls.rotateSpeed=.65;this.controls.addEventListener('start',()=>{this.transition=null;this.beginCameraInteraction();});this.controls.addEventListener('change',()=>this.queueCameraPreference());this.controls.addEventListener('end',()=>this.flushCameraPreference(true));
   this.hemi=new THREE.HemisphereLight('#e8f1ff','#aaa082',1.6);this.scene.add(this.hemi);this.sun=new THREE.DirectionalLight('#fff1d8',3.1);this.sun.position.set(-24,38,20);this.sun.castShadow=true;this.sun.shadow.mapSize.set(2048,2048);Object.assign(this.sun.shadow.camera,{left:-44,right:44,top:35,bottom:-35,near:1,far:130});this.sun.shadow.normalBias=.045;this.sun.shadow.bias=-.00012;this.scene.add(this.sun);
@@ -177,7 +181,26 @@ export class CozyWorld{
    }
   }finally{this.cameraPreferenceSaving=false;if(keepTracking&&this.cameraPreferenceReady&&!this.disposed){this.cameraInteraction=true;this.cameraPreferenceDirty=true;this.queueCameraPreference();}}
  }
- resize(){const rect=this.host.getBoundingClientRect();if(rect.width<1||rect.height<1)return;this.camera.aspect=rect.width/rect.height;this.camera.updateProjectionMatrix();this.renderer.setSize(rect.width,rect.height,false);}
+ resize(){
+  const rect=this.host.getBoundingClientRect();
+  if(rect.width<1||rect.height<1)return;
+  this.viewportSize.set(Math.floor(rect.width),Math.floor(rect.height));
+  this.renderer.setSize(this.viewportSize.x,this.viewportSize.y,false);
+  this.updateViewports();
+ }
+ updateViewports(){
+  const {x:width,y:height}=this.viewportSize;
+  const {mapHeight,panoramaHeight,gap}=splitFarmViewport(height,this.panorama.visibility);
+  this.mapHeight=mapHeight;
+  const aspect=width/mapHeight;
+  if(this.camera.aspect!==aspect){
+   this.camera.aspect=aspect;
+   this.camera.updateProjectionMatrix();
+  }
+  if(this.host.dataset.panoramaHeight!==String(panoramaHeight))this.host.dataset.panoramaHeight=String(panoramaHeight);
+  if(this.host.dataset.panoramaGap!==String(gap))this.host.dataset.panoramaGap=String(gap);
+  return panoramaHeight;
+ }
  /** @param {string} quality */
  setQuality(quality){this.quality=quality;const ratio=quality==='high'?2:quality==='balanced'?1:Math.min(window.devicePixelRatio||1,1.5);this.renderer.setPixelRatio(ratio);this.host.dataset.quality=quality;if(this.controls)this.resize();}
  /** @param {string} name @param {string} [node] */
@@ -212,7 +235,7 @@ export class CozyWorld{
    
    const facility=state.facilities.find((/** @type {any} */f)=>f.id===item.id);if(facility)this.syncFacility(group,facility,item);
   }
-  this.syncCrops(state,layout);const hour=state.tick%24,night=hour<5||hour>=20;this.sun.intensity=night?.7:hour<8||hour>=17?2.2:3.15;this.hemi.intensity=night?1.1:1.65;this.sun.color.set(hour<8||hour>=17?'#ffdfad':'#fff2da');this.renderer.toneMappingExposure=night?.85:1.06;const background=/** @type {THREE.Color} */(this.scene.background);background.set(night?'#879baa':'#d6e1ce');/** @type {THREE.Fog} */(this.scene.fog).color.set(night?'#556a67':'#b2bda1');this.panorama.setNight(night);this.setInterior(this.interiorId);this.markSelection();this.audit();this.updateCameraUndoState();if(initial&&!this.cameraInteraction)this.focus('overview',false);
+  this.syncCrops(state,layout);const hour=state.tick%24,night=hour<5||hour>=20;this.sun.intensity=night?.7:hour<8||hour>=17?2.2:3.15;this.hemi.intensity=night?1.1:1.65;this.sun.color.set(hour<8||hour>=17?'#ffdfad':'#fff2da');this.renderer.toneMappingExposure=night?.85:1.06;const background=/** @type {THREE.Color} */(this.scene.background);background.set(night?NIGHT_GROUND:DAY_GROUND);/** @type {THREE.Fog} */(this.scene.fog).color.copy(background);this.panorama.setNight(night);this.setInterior(this.interiorId);this.markSelection();this.audit();this.updateCameraUndoState();if(initial&&!this.cameraInteraction)this.focus('overview',false);
  }
  /** Instance every crop from its GLB template; instance picking keeps bed IDs.
   * @param {any} state @param {any} layout */
@@ -297,18 +320,45 @@ export class CozyWorld{
  /** @param {boolean} valid */
  previewValid(valid){this.ghost?.traverse(node=>{if(node instanceof THREE.Mesh)for(const mat of Array.isArray(node.material)?node.material:[node.material])if(mat instanceof THREE.MeshStandardMaterial){mat.emissive.set(valid?'#55a269':'#c34732');mat.emissiveIntensity=.4;}});}
  /** @param {number} x @param {number} y */
- pick(x,y){const rect=this.renderer.domElement.getBoundingClientRect();this.pointer.set((x-rect.left)/rect.width*2-1,-(y-rect.top)/rect.height*2+1);this.raycaster.setFromCamera(this.pointer,this.camera);if(this.placing){const point=new THREE.Vector3();if(this.raycaster.ray.intersectPlane(this.groundPlane,point))this.options.onPlacement({x:Math.round(point.x*2)/2,z:Math.round(point.z*2)/2});return;}for(const hit of this.raycaster.intersectObjects([...this.entities.values(),...this.cropBatches],true)){let node=hit.object,visible=true;while(node.parent){if(!node.visible)visible=false;node=node.parent;}const entity=hit.instanceId===undefined?hit.object.userData.entityId:hit.object.userData.instanceEntities?.[hit.instanceId]||hit.object.userData.entityId;if(visible&&entity){this.options.onSelect(entity);return;}}}
+ pick(x,y){
+  const rect=this.renderer.domElement.getBoundingClientRect();
+  const mapHeight=rect.height*this.mapHeight/this.viewportSize.y;
+  const localX=x-rect.left,localY=rect.top+rect.height-y;
+  if(!(rect.width>0&&mapHeight>0)||localX<0||localX>rect.width||localY<0||localY>mapHeight)return;
+  this.pointer.set(localX/rect.width*2-1,localY/mapHeight*2-1);
+  this.raycaster.setFromCamera(this.pointer,this.camera);
+  if(this.placing){
+   const point=new THREE.Vector3();
+   if(this.raycaster.ray.intersectPlane(this.groundPlane,point))this.options.onPlacement({x:Math.round(point.x*2)/2,z:Math.round(point.z*2)/2});
+   return;
+  }
+  for(const hit of this.raycaster.intersectObjects([...this.entities.values(),...this.cropBatches],true)){
+   let node=hit.object,visible=true;
+   while(node.parent){if(!node.visible)visible=false;node=node.parent;}
+   const entity=hit.instanceId===undefined?hit.object.userData.entityId:hit.object.userData.instanceEntities?.[hit.instanceId]||hit.object.userData.entityId;
+   if(visible&&entity){this.options.onSelect(entity);return;}
+  }
+ }
  constrainCamera(){this.controls.target.x=clamp(this.controls.target.x,-42,42);this.controls.target.z=clamp(this.controls.target.z,-32,32);this.controls.target.y=clamp(this.controls.target.y,.08,4);this.camera.position.y=Math.max(.32,this.camera.position.y);
   for(const [id,item]of this.items){const size=BUILDING_SIZES[/** @type {keyof typeof BUILDING_SIZES} */(item.kind)];if(!size||item.kind==='pond')continue;const origin=v(item.x,0,item.z),local=this.camera.position.clone().sub(origin).applyAxisAngle(UP,-item.rotation),w=size[0]/2,d=size[1]/2;if(this.interiorId===id){local.x=clamp(local.x,-w+.6,w-.6);local.z=clamp(local.z,-d+.6,d-.6);local.y=clamp(local.y,(this.manifest.assets[item.kind]?.interiorFloorY||0)+.4,size[2]-.35);const target=this.controls.target.clone().sub(origin).applyAxisAngle(UP,-item.rotation);target.x=clamp(target.x,-w+.7,w-.7);target.z=clamp(target.z,-d+.7,d-.7);this.controls.target.copy(target.applyAxisAngle(UP,item.rotation).add(origin));}else if(Math.abs(local.x)<w+.35&&Math.abs(local.z)<d+.35&&local.y<size[2]+.4){if(w-Math.abs(local.x)<d-Math.abs(local.z))local.x=(Math.sign(local.x)||1)*(w+.4);else local.z=(Math.sign(local.z)||1)*(d+.4);}this.camera.position.copy(local.applyAxisAngle(UP,item.rotation).add(origin));}
  }
- audit(){let meshes=0,invalid=0;this.scene.traverse(node=>{if(node instanceof THREE.Mesh&&node!==this.panorama.surface){meshes++;if(!node.userData.glbAsset)invalid++;}});this.host.dataset.meshes=String(meshes);this.host.dataset.nonGlbMeshes=String(invalid);this.host.dataset.materialClones=String(this.ownedMaterials.size);}
+ audit(){let meshes=0,invalid=0;this.scene.traverse(node=>{if(node instanceof THREE.Mesh){meshes++;if(!node.userData.glbAsset)invalid++;}});this.host.dataset.meshes=String(meshes);this.host.dataset.nonGlbMeshes=String(invalid);this.host.dataset.materialClones=String(this.ownedMaterials.size);}
+ /** @param {number} now @param {boolean} reduce */
+ drawView(now,reduce){
+  const {x:width,y:height}=this.viewportSize;
+  if(!width||!height)return;
+  this.panorama.update(now,Boolean(this.interiorId),reduce);
+  const panoramaHeight=this.updateViewports();
+  this.renderer.info.reset();
+  // The world clears the whole canvas, including the empty space above it.
+  this.renderer.setViewport(0,0,width,this.mapHeight);
+  this.renderer.render(this.scene,this.camera);
+  this.panorama.draw(this.renderer,this.camera,width,height-panoramaHeight,panoramaHeight);
+  this.panorama.load();
+ }
  /** @param {number} now */
  animate(now){if(this.disposed)return;const elapsed=now-(this.lastTime||now),delta=Math.min(elapsed/1000,.05);this.lastTime=now;if(!document.hidden&&elapsed>0&&elapsed<1000){this.frameSamples.push(elapsed);if(this.frameSamples.length>180)this.frameSamples.shift();}this.advanceCameraTransition(now);this.controls.update();this.constrainCamera();const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;for(const entry of this.animals.values()){if(!reduce)for(const mixer of entry.mixers)mixer.update(delta);if(!reduce){const phase=(now/1000+entry.index*7)%45,override=entry.override&&now<entry.override.until?entry.override.clip:null,activity=override||(entry.model==='fish'?'swim':phase>34&&entry.actions.has('rest')?'rest':phase>22&&phase<28?'walk':entry.baseActivity);this.setAnimalAction(entry,activity);this.placeAnimal(entry,now/1000);}}if(!reduce){const time=now/1000;for(const batch of this.cropBatches){const transforms=batch.userData.transforms;for(let i=0;i<transforms.length;i++){this.windRotation.makeRotationZ(Math.sin(time*1.1+transforms[i].phase)*.012);this.windMatrix.copy(transforms[i].matrix).multiply(this.windRotation).multiply(batch.userData.local);batch.setMatrixAt(i,this.windMatrix);}batch.instanceMatrix.needsUpdate=true;}for(const group of this.entities.values()){const plants=group.getObjectByName('crop_instance');if(plants)plants.rotation.z=Math.sin(time*1.1+group.position.x)*.012;const aerator=group.getObjectByName('aerator_rotor');if(aerator&&group.userData.aeratorOn)aerator.rotation.x=time*2.2;const water=group.getObjectByName('water_surface');water?.traverse(node=>{if(node instanceof THREE.Mesh){for(const mat of Array.isArray(node.material)?node.material:[node.material])if(mat instanceof THREE.MeshStandardMaterial&&mat.normalMap)mat.normalMap.offset.set(Math.sin(time*.12)*.035,time*.006%1);}});}}
-  if(!document.hidden){
-   this.panorama.update(now,Boolean(this.interiorId),reduce);
-   this.renderer.render(this.scene,this.camera);
-   this.panorama.load();
-  }
+  if(!document.hidden)this.drawView(now,reduce);
   if(Math.floor(now/1000)!==Math.floor((now-elapsed)/1000)){this.host.dataset.triangles=String(this.renderer.info.render.triangles);this.host.dataset.drawCalls=String(this.renderer.info.render.calls);this.host.dataset.geometries=String(this.renderer.info.memory.geometries);this.host.dataset.textures=String(this.renderer.info.memory.textures);const sorted=[...this.frameSamples].sort((a,b)=>a-b);this.host.dataset.frameMedianMs=sorted.length?sorted[Math.floor(sorted.length/2)].toFixed(2):'0';this.host.dataset.frameP95Ms=sorted.length?sorted[Math.floor(sorted.length*.95)].toFixed(2):'0';this.host.dataset.animationStates=JSON.stringify([...this.animals.values()].reduce((counts,entry)=>{counts[entry.active]=(counts[entry.active]||0)+1;return counts;},/** @type {Record<string,number>} */({})));this.host.dataset.animalModels=String(this.animals.size);let lodNear=0,lodFar=0;this.scene.traverse(node=>{if(node instanceof THREE.LOD){if(node.getCurrentLevel()===0)lodNear++;else lodFar++;}});this.host.dataset.lodNear=String(lodNear);this.host.dataset.lodFar=String(lodFar);this.host.dataset.camera=JSON.stringify({x:+this.camera.position.x.toFixed(2),y:+this.camera.position.y.toFixed(2),z:+this.camera.position.z.toFixed(2)});this.host.dataset.cameraState=JSON.stringify(this.cameraSnapshot());}
   this.frame=requestAnimationFrame(t=>this.animate(t));
  }
