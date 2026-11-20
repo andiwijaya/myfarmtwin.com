@@ -72,6 +72,38 @@ if(engineSession)document.body.dataset.commonEngineVersion='0.3.0';
 let selected='overview',busy=false,clockBusy=false,running=false,disposed=false,toastTimer=0,importConfirmed=false,recoverConfirmed=false;
 /** @type {{item:any,mode:'move'|'build'}|null} */let placement=null;
 const root=el('care-content');
+const desktopFarm=matchMedia('(min-width:1001px), (min-width:761px) and (hover:hover) and (pointer:fine)');
+const farmApp=el('app'),carePanel=el('care'),careToggle=el('care-toggle');
+
+/** @param {boolean} open */
+function setCareOpen(open){
+ if(!desktopFarm.matches)return;
+ farmApp.dataset.careOpen=String(open);
+ careToggle.setAttribute('aria-expanded',String(open));
+}
+
+function closeCare(){
+ setCareOpen(false);
+ careToggle.focus({preventScroll:true});
+}
+
+careToggle.addEventListener('click',()=>{
+ if(farmApp.dataset.careOpen==='true')closeCare();
+ else{setCareOpen(true);carePanel.focus({preventScroll:true});}
+});
+el('care-close').addEventListener('click',closeCare);
+carePanel.addEventListener('keydown',event=>{
+ if(event.key==='Escape'&&desktopFarm.matches&&!placement){event.stopPropagation();closeCare();}
+});
+document.querySelector('.skip')?.addEventListener('click',event=>{
+ if(!desktopFarm.matches)return;
+ event.preventDefault();
+ setCareOpen(true);
+ carePanel.focus({preventScroll:true});
+});
+desktopFarm.addEventListener('change',()=>{
+ if(carePanel.contains(document.activeElement))setCareOpen(true);
+});
 /** @param {string} message */
 function toast(message){el('toast').textContent=message;el('toast').classList.add('visible');window.clearTimeout(toastTimer);toastTimer=window.setTimeout(()=>el('toast').classList.remove('visible'),4200);}
 /** @param {string} error */
@@ -93,7 +125,8 @@ function go(view,scroll=false){
  if(placement)cancelPlacement();
  const target=view===HOUSE_KIND?homePlacement()?.id||view:['barn','coop','goatShelter','pond','market'].includes(view)?facilityFor(view)?.id||view:view;
  selected=target;world?.select(target);world?.focus(target);renderCare(false);root.scrollTop=0;
- if(scroll&&matchMedia('(max-width:760px)').matches)el('care').scrollIntoView({behavior:'instant',block:'start'});
+ if(target!=='overview')setCareOpen(true);
+ if(scroll&&matchMedia('(max-width:760px)').matches)carePanel.scrollIntoView({behavior:'instant',block:'start'});
 }
 /** @param {string} id */function select(id){go(id,true);}
 /** Update interface without replacing an already restored camera pose. @param {string} id */
@@ -209,7 +242,21 @@ function beginBuild(kind){
  placement={item:{id,kind,x:start.x,z:start.z,rotation:start.rotation},mode:'build'};
  showPlacement();
 }
-function showPlacement(){if(!placement)return;el('placement').hidden=false;el('placement-title').textContent=(placement.mode==='move'?L('Pindahkan ','Move '):L('Bangun ','Build '))+name(placement.item.kind);input('place-x').value=String(placement.item.x);input('place-z').value=String(placement.item.z);/** @type {HTMLSelectElement} */(el('place-rotation')).value=String(placement.item.rotation);updatePlacement();el('placement').scrollIntoView({behavior:'instant',block:'nearest'});}
+function showPlacement(){
+ if(!placement)return;
+ const panel=el('placement');
+ panel.hidden=false;
+ el('placement-title').textContent=(placement.mode==='move'?L('Pindahkan ','Move '):L('Bangun ','Build '))+name(placement.item.kind);
+ input('place-x').value=String(placement.item.x);
+ input('place-z').value=String(placement.item.z);
+ /** @type {HTMLSelectElement} */(el('place-rotation')).value=String(placement.item.rotation);
+ updatePlacement();
+ if(desktopFarm.matches){
+  toolbar.open=false;
+  setCareOpen(false);
+  input('place-x').focus({preventScroll:true});
+ }else panel.scrollIntoView({behavior:'instant',block:'nearest'});
+}
 function updatePlacement(){
  if(!placement)return;
  placement.item={...placement.item,x:Number(input('place-x').value),z:Number(input('place-z').value),rotation:Number(/** @type {HTMLSelectElement} */(el('place-rotation')).value)};
@@ -603,9 +650,21 @@ gestureResetButton.addEventListener('click', () => {
 });
 async function confirmPlacement(){if(!placement)return;const {item,mode}=placement,result=await act(()=>mode==='move'?session.move(item.id,item):session.build(item.kind,item),L('Tata letak farm tersimpan.','Farm layout saved.'));if(result?.ok){cancelPlacement();go(result.id||item.id);}}
 function translate(){document.documentElement.lang=language;const strings=/** @type {Record<string,[string,string]>} */({'toolbar-title':['Kontrol','Controls'],'toolbar-day-label':['HARI','DAY'],'toolbar-coins-label':['KOIN','COINS'],'toolbar-expand-label':['Buka','Show'],'toolbar-collapse-label':['Tutup','Hide'],'edition':['FARM TROPIS INDONESIA','AN INDONESIAN TROPICAL FARM'],'view-subtitle':['Tumbuh dengan caramu sendiri.','Grow in your own way.'],'day-label':['HARI','DAY'],'coin-label':['KOIN','COINS'],'level-label':['LEVEL','LEVEL'],'beds-label':['BED AKTIF','ACTIVE BEDS'],'nav-overview':['Farm','Farm'],'nav-garden':['Kebun','Garden'],'nav-coop':['Ayam','Hens'],'nav-goat':['Kambing','Goats'],'nav-cow':['Sapi','Cows'],'nav-fish':['Ikan','Fish'],'nav-market':['Market','Market'],'nav-build':['Tata lahan','Arrange'],'camera-reset-label':['Reset kamera','Reset camera'],'camera-undo-label':['Undo reset','Undo reset'],'camera-redo-label':['Redo reset','Redo reset'],'clock-label':['WAKTU FARM','FARM TIME'],'advance':['+6 jam','+6 hours'],'advance-day':['+24 jam','+24 hours'],'build-title':['Tata farm sesukamu','Make this farm your own'],'build-help':['Pilih bangunan, atur posisi, lalu konfirmasi. Memindahkan fasilitas milikmu gratis.','Choose a building, set its position, then confirm. Moving your existing facilities is free.'],'placement-label':['ATUR POSISI','SET POSITION'],'placement-help':['Ketuk tanah atau ubah koordinat. Belum ada perubahan sampai dikonfirmasi.','Tap the ground or edit coordinates. Changes apply only after confirmation.'],'placement-cancel':['Batal','Cancel'],'placement-confirm':['Simpan posisi','Confirm position'],'data-title':['Progres & data','Progress & data'],'data-help':['Cadangan mencakup farm, tata letak, dan arsip progres lama. Simpan salinan teks di tempat aman.','Your backup includes farm progress, layout, and legacy archives. Keep a copy of the text somewhere safe.'],'save-text-label':['Salinan farm','Farm backup'],'export-data':['Tampilkan cadangan','Show backup'],'import-data':['Impor dari teks','Import from text'],'recover-data':['Pulihkan cadangan sebelumnya','Recover previous backup'],'legacy-data':['Tampilkan arsip farm lama','Show legacy farm archive']});for(const [id,pair]of Object.entries(strings))el(id).textContent=L(...pair);updateCameraShortcutHints();updateCameraGestureHint();translateGestureSettings();render();}
-el('language').addEventListener('change',()=>{language=/** @type {HTMLSelectElement} */(el('language')).value==='en'?'en':'id';try{localStorage.setItem('myfarmtwin.locale',language);}catch{/* Optional preference. */}translate();});/** @type {HTMLSelectElement} */(el('language')).value=language;
+function translateFarmMenu(){
+ careToggle.textContent=L('Menu farm','Farm menu');
+ el('care-close').setAttribute('aria-label',L('Tutup menu farm','Close farm menu'));
+}
+translateFarmMenu();
+el('language').addEventListener('change',()=>{language=/** @type {HTMLSelectElement} */(el('language')).value==='en'?'en':'id';try{localStorage.setItem('myfarmtwin.locale',language);}catch{/* Optional preference. */}translateFarmMenu();translate();});/** @type {HTMLSelectElement} */(el('language')).value=language;
 el('quality').addEventListener('change',()=>world?.setQuality(/** @type {HTMLSelectElement} */(el('quality')).value));
-for(const b of document.querySelectorAll('.destinations [data-view]'))b.addEventListener('click',()=>go(b.getAttribute('data-view')||'overview'));
+for(const b of document.querySelectorAll('.destinations [data-view]'))b.addEventListener('click',()=>{
+ const view=b.getAttribute('data-view')||'overview';
+ go(view);
+ if(desktopFarm.matches&&view!=='overview'){
+  toolbar.open=false;
+  carePanel.focus({preventScroll:true});
+ }
+});
 /** @param {import('./cozy-camera-shortcuts.js').CameraHistoryAction} action */
 function cameraHistoryAction(action){const redo=action==='redo-reset',view=redo?world?.redoCameraReset():world?.undoCameraReset();if(view){reflectCameraView(view);toast(redo?L('Reset kamera area ini diterapkan lagi.','This area’s camera reset has been reapplied.'):L('Kamera sebelum reset dipulihkan.','The camera before reset has been restored.'));return true;}toast(redo?L('Redo reset belum tersedia untuk area ini.','Redo reset is unavailable for this area.'):L('Undo reset belum tersedia untuk area ini.','Undo reset is unavailable for this area.'));return false;}
 for(const b of document.querySelectorAll('[data-camera]'))b.addEventListener('click',()=>{const action=b.getAttribute('data-camera');if(action==='in')world?.zoom(.8);else if(action==='out')world?.zoom(1.25);else if(action==='left')world?.rotate(-Math.PI/8);else if(action==='right')world?.rotate(Math.PI/8);else if(action==='pan'){const pane=el('pan-tools');pane.hidden=!pane.hidden;b.setAttribute('aria-expanded',String(!pane.hidden));}else if(action==='redo-reset'||action==='undo-reset')cameraHistoryAction(action);else if(action==='reset'){if(world){reflectCameraView(world.resetCamera());toast(L('Kamera area ini kembali ke tampilan awal.','This area’s camera is back to its initial view.'));}}else if(action==='back'){reflectCameraView(world?.back()||'overview');}else go('overview');});

@@ -15,7 +15,7 @@
 
 @media(min-width:1101px){.world-heading{max-width:350px}.world-heading h1{font-size:36px}}
 
-/* Keep the 3D viewport clear. Every persistent control lives below it. */
+/* Stacked layouts keep controls below the viewport. */
 #app {
  height:auto;
  min-height:calc(100dvh - 68px);
@@ -282,6 +282,100 @@
  .toolbar-preview {gap:10px;}
  .toolbar-preview strong {font-size:11px;}
  .toolbar-toggle {font-size:10px;gap:4px;}
+}
+
+#care-toggle,#care-close {display:none;}
+
+@media (min-width:1001px), (min-width:761px) and (hover:hover) and (pointer:fine) {
+ .topbar {height:52px;padding-inline:18px;}
+ #care-toggle {
+  display:block;
+  width:auto;
+  padding:6px 11px;
+  font-size:12px;
+  background:#edf2e5;
+  border-color:#ced9c3;
+ }
+ #care-toggle[aria-expanded="true"] {background:#dce8d0;}
+ #app {
+  --farm-panel-width:clamp(312px,27vw,350px);
+  position:relative;
+  display:block;
+  height:calc(100dvh - 52px);
+  min-height:0;
+ }
+ .world-shell {height:100%;min-height:0;overflow:hidden;}
+ .world-viewport {flex:1 1 auto;height:auto;min-height:0;border:0;}
+ .world-heading,.world-heading.compact {position:absolute;z-index:1;top:12px;left:14px;}
+ .world-heading:not(.compact) {width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);}
+ .world-heading.compact {padding:6px 11px;border-radius:8px;background:#fbfaf3ec;}
+ .world-heading.compact .eyebrow {display:none;}
+ .world-heading.compact h1 {font-size:17px;letter-spacing:0;}
+ .farm-controls {
+  position:absolute;
+  inset:auto auto 12px 14px;
+  z-index:2;
+  width:max-content;
+  padding:0;
+  background:none;
+  pointer-events:none;
+ }
+ .toolbar-disclosure,.farm-controls .placement-panel {pointer-events:auto;}
+ .toolbar-disclosure {position:relative;background:#fbfaf3f5;box-shadow:0 3px 14px #20351623;}
+ .toolbar-summary {min-height:42px;gap:16px;padding:5px 10px;}
+ .toolbar-preview {gap:12px;}
+ .toolbar-disclosure[open]>.toolbar-summary {border-bottom:0;}
+ .toolbar-content {
+  position:absolute;
+  inset:auto auto calc(100% + 7px) 0;
+  width:min(620px,calc(100vw - var(--farm-panel-width) - 44px));
+  max-height:calc(100dvh - 126px);
+  overflow:auto;
+  overscroll-behavior:contain;
+  border:1px solid #dfe5d7;
+  border-radius:11px;
+  background:#fbfaf4;
+  box-shadow:0 6px 22px #2035162b;
+ }
+ .farm-controls .placement-panel {
+  position:fixed;
+  inset:auto 14px 12px auto;
+  width:var(--farm-panel-width);
+  max-height:calc(100dvh - 76px);
+  overflow:auto;
+  box-shadow:0 6px 22px #2035162b;
+ }
+ .farm-controls #toast {
+  position:fixed;
+  inset:64px auto auto 50%;
+  transform:translateX(-50%);
+  max-width:45vw;
+  padding:7px 12px;
+  border:1px solid #dfe5d7;
+  border-radius:9px;
+  background:#fbfaf4;
+  box-shadow:0 3px 14px #20351623;
+ }
+ .farm-controls #toast:not(.visible) {padding:0;border:0;}
+ #app[data-care-open="false"] .care-panel {display:none;}
+ .care-panel {
+  position:absolute;
+  inset:12px 14px 12px auto;
+  z-index:3;
+  width:var(--farm-panel-width);
+  height:auto;
+  min-height:0;
+  padding:12px 14px;
+  overflow:hidden;
+  border:1px solid #dfe5d7;
+  border-radius:12px;
+  box-shadow:0 6px 24px #2035162b;
+ }
+ .care-panel .panel-top {gap:10px;margin-bottom:10px;}
+ .care-panel .panel-symbol {display:none;}
+ #care-close {display:block;min-height:30px;width:32px;padding:0;font-size:20px;}
+ #care-content {flex:1;min-height:0;overflow-y:auto;}
+ .care-panel .clock {margin:0;padding-top:10px;}
 }
 
 .gesture-settings {

@@ -8,8 +8,8 @@
 </head>
 <body>
  <a class="skip" href="#care">Lewati ke kontrol / Skip to controls</a>
- <header class="topbar"><a class="brand" href="/">My<span>Farm</span>Twin<i> / farm tropis</i></a><div class="top-actions"><label class="quality"><span class="sr">Kualitas / Quality</span><select id="quality"><option value="auto">Auto</option><option value="high">High</option><option value="balanced">Balanced</option></select></label><label class="language"><span class="sr">Bahasa / Language</span><select id="language"><option value="id">ID</option><option value="en">EN</option></select></label><button id="data-open" aria-label="Data farm / Farm data">☷</button></div></header>
- <main id="app">
+ <header class="topbar"><a class="brand" href="/">My<span>Farm</span>Twin<i> / farm tropis</i></a><div class="top-actions"><label class="quality"><span class="sr">Kualitas / Quality</span><select id="quality"><option value="auto">Auto</option><option value="high">High</option><option value="balanced">Balanced</option></select></label><label class="language"><span class="sr">Bahasa / Language</span><select id="language"><option value="id">ID</option><option value="en">EN</option></select></label><button id="data-open" aria-label="Data farm / Farm data">☷</button><button id="care-toggle" type="button" aria-controls="care" aria-expanded="false">Menu farm</button></div></header>
+ <main id="app" data-care-open="false">
   <section class="world-shell" aria-label="Farm">
    <div class="world-heading"><p class="eyebrow" id="edition">FARM TROPIS INDONESIA</p><h1 id="view-title">Sedikit lahan.<br>Banyak kehidupan.</h1><p id="view-subtitle">Tumbuh dengan caramu sendiri.</p></div>
    <div class="world-viewport">
@@ -46,7 +46,7 @@
     <div id="toast" role="status" aria-live="polite"></div>
    </section>
   </section>
-  <aside id="care" class="care-panel" tabindex="-1"><div class="panel-top"><p class="eyebrow" id="panel-eyebrow">CATATAN FARM</p><span class="panel-symbol">✦</span></div><div id="care-content"></div><section class="clock"><div><span class="eyebrow" id="clock-label">WAKTU FARM</span><strong id="clock-time">Hari 1</strong></div><button id="pause">▶ Jalan</button><button id="advance">+6 jam</button><button id="advance-day">+24 jam</button></section><p class="save-note" id="save-status" role="status">Membaca progres tersimpan…</p></aside>
+  <aside id="care" class="care-panel" tabindex="-1" aria-labelledby="panel-eyebrow"><div class="panel-top"><p class="eyebrow" id="panel-eyebrow">CATATAN FARM</p><span class="panel-symbol" aria-hidden="true">✦</span><button id="care-close" type="button" aria-label="Tutup menu farm">×</button></div><div id="care-content"></div><section class="clock"><div><span class="eyebrow" id="clock-label">WAKTU FARM</span><strong id="clock-time">Hari 1</strong></div><button id="pause">▶ Jalan</button><button id="advance">+6 jam</button><button id="advance-day">+24 jam</button></section><p class="save-note" id="save-status" role="status">Membaca progres tersimpan…</p></aside>
  </main>
  <dialog id="build-dialog"><form method="dialog" class="dialog-heading"><div><p class="eyebrow" id="build-eyebrow">RUANG UNTUK TUMBUH</p><h2 id="build-title">Tata farm sesukamu</h2></div><button aria-label="Tutup / Close">×</button></form><p id="build-help">Pilih bangunan, atur posisi, lalu konfirmasi. Memindahkan fasilitas milikmu gratis.</p><div id="build-catalog"></div></dialog>
 

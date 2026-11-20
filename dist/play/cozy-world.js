@@ -15,6 +15,10 @@ const v=(/** @type {number} */x,/** @type {number} */y,/** @type {number} */z)=>
 const clamp=THREE.MathUtils.clamp,UP=v(0,1,0);
 const worldManifestUrl=/** @type {any} */(globalThis).MYFARMTWIN_WORLD_MANIFEST_URL||'/play/assets/models/world-manifest.json';
 const BUILDING_SIZES={barn:[10,8,3.5],coop:[9,7,3.2],goatShelter:[11,9,3.8],pond:[12,10,1],market:[7,6,3.6]};
+/** @param {number} x @param {number} z @param {number} rotation @param {number} scale */
+function sceneryMatrix(x,z,rotation,scale,y=0){
+ return new THREE.Matrix4().compose(v(x,y,z),new THREE.Quaternion().setFromAxisAngle(UP,rotation),v(scale,scale,scale));
+}
 /** @typedef {{target:THREE.Vector3,position:THREE.Vector3,fromTarget:THREE.Vector3,fromPosition:THREE.Vector3,start:number,orbit?:{offset:THREE.Vector3,angle:number,applied:number}}} CameraTransition */
 /** A single presentation scene. Every 3D farm mesh comes from a manifest GLB. */
 export class CozyWorld{
@@ -47,7 +51,7 @@ export class CozyWorld{
   this.renderer.domElement.setAttribute('aria-label','Farm tropis 3D / Three-dimensional tropical farm');this.renderer.domElement.tabIndex=0;host.append(this.renderer.domElement);this.setQuality('auto');
   this.controls=new OrbitControls(this.camera,this.renderer.domElement);this.controls.target.set(0,.7,0);this.controls.enableDamping=true;this.controls.dampingFactor=.085;this.controls.minDistance=2;this.controls.maxDistance=170;this.controls.minPolarAngle=.12;this.controls.maxPolarAngle=Math.PI*.475;this.controls.screenSpacePanning=false;this.controls.zoomSpeed=.8;this.controls.rotateSpeed=.65;this.controls.addEventListener('start',()=>{this.transition=null;this.beginCameraInteraction();});this.controls.addEventListener('change',()=>this.queueCameraPreference());this.controls.addEventListener('end',()=>this.flushCameraPreference(true));
   this.hemi=new THREE.HemisphereLight('#e8f1ff','#aaa082',1.6);this.scene.add(this.hemi);this.sun=new THREE.DirectionalLight('#fff1d8',3.1);this.sun.position.set(-24,38,20);this.sun.castShadow=true;this.sun.shadow.mapSize.set(2048,2048);Object.assign(this.sun.shadow.camera,{left:-44,right:44,top:35,bottom:-35,near:1,far:130});this.sun.shadow.normalBias=.045;this.sun.shadow.bias=-.00012;this.scene.add(this.sun);
-  this.fill=new THREE.PointLight('#ffe6b7',12,15,2);this.scene.add(this.fill);this.landscape=new THREE.Group();this.scene.add(this.landscape);
+  this.fill=new THREE.PointLight('#ffe6b7',12,15,2);this.scene.add(this.fill);this.landscape=new THREE.Group();this.vergeScenery=new THREE.Group();this.landscape.add(this.vergeScenery);this.scene.add(this.landscape);
   this.raycaster=new THREE.Raycaster();this.pointer=new THREE.Vector2();this.groundPlane=new THREE.Plane(UP,0);this.abort=new AbortController();this.down={x:Infinity,y:Infinity};const canvas=this.renderer.domElement;
   canvas.addEventListener('pointerdown',e=>{this.down={x:e.clientX,y:e.clientY};},{signal:this.abort.signal});
   // Picking on final click prevents a touch compatibility click landing on a
@@ -211,7 +215,7 @@ export class CozyWorld{
  /** @param {string} name @param {string[]} nodes */
  template(name,nodes){const source=this.models.get(name)?.scene;const node=nodes.find(n=>source?.getObjectByName(n));if(!node)throw Error('Missing template '+name+'/'+nodes.join(','));return this.clone(name,node);}
  /** Instance repeated scenery directly from loaded GLB meshes. @param {string} model @param {string} node @param {THREE.Matrix4[]} transforms @param {boolean} [shadows] */
- instanceScenery(model,node,transforms,shadows=true){const root=(this.models.get(model+':far')||this.models.get(model))?.scene.getObjectByName(node);if(!root||!transforms.length)return;root.updateWorldMatrix(true,true);const baseInv=root.matrixWorld.clone().invert();root.traverse((/** @type {THREE.Object3D} */child)=>{if(!(child instanceof THREE.Mesh))return;const inst=new THREE.InstancedMesh(child.geometry,child.material,transforms.length);inst.userData.glbAsset=this.models.has(model+':far')?this.manifest.assets[model].lod.far.url:this.manifest.assets[model].url;inst.castShadow=shadows;inst.receiveShadow=shadows;const local=baseInv.clone().multiply(child.matrixWorld);for(let i=0;i<transforms.length;i++)inst.setMatrixAt(i,transforms[i].clone().multiply(local));inst.computeBoundingSphere();this.landscape.add(inst);});}
+ instanceScenery(model,node,transforms,shadows=true,parent=this.landscape){const root=(this.models.get(model+':far')||this.models.get(model))?.scene.getObjectByName(node);if(!root||!transforms.length)return;root.updateWorldMatrix(true,true);const baseInv=root.matrixWorld.clone().invert();root.traverse((/** @type {THREE.Object3D} */child)=>{if(!(child instanceof THREE.Mesh))return;const inst=new THREE.InstancedMesh(child.geometry,child.material,transforms.length);inst.userData.glbAsset=this.models.has(model+':far')?this.manifest.assets[model].lod.far.url:this.manifest.assets[model].url;inst.castShadow=shadows;inst.receiveShadow=shadows;const local=baseInv.clone().multiply(child.matrixWorld);for(let i=0;i<transforms.length;i++)inst.setMatrixAt(i,transforms[i].clone().multiply(local));inst.computeBoundingSphere();parent.add(inst);});}
  createLandscape(){
   const terrain=this.clone('terrain');
   const roles=this.manifest.assets.terrain.roles;
@@ -222,13 +226,32 @@ export class CozyWorld{
    }
   });
   this.landscape.add(terrain);
-  const matrix=(/** @type {number} */x,/** @type {number} */z,/** @type {number} */r,/** @type {number} */s,y=0)=>new THREE.Matrix4().compose(v(x,y,z),new THREE.Quaternion().setFromAxisAngle(UP,r),v(s,s,s));const palm=/** @type {THREE.Matrix4[]} */([]),banana=/** @type {THREE.Matrix4[]} */([]),grass=/** @type {THREE.Matrix4[]} */([]);
-  for(let i=0;i<38;i++){const angle=i/38*Math.PI*2,x=Math.cos(angle)*(39.5+(i%3)*.6),z=Math.sin(angle)*(29+(i%4)*.5);(i%3? palm:banana).push(matrix(x,z,i*2.37,.8+(i%5)*.07));}
-  for(let i=0;i<100;i++){const x=-42+((i*37.51)%84),z=-32+((i*29.71)%64);if(Math.abs(x)<30&&Math.abs(z)<25)continue;grass.push(matrix(x,z,i*.73,.6+(i%7)*.08));}
-  this.instanceScenery('vegetation','palm',palm);this.instanceScenery('vegetation','banana',banana);this.instanceScenery('vegetation','grass',grass);
   /** @type {[number,number,number,number,number][]} */
   const countryPalms=terrain.getObjectByName('terrain')?.userData.countryPalms??[];
-  this.instanceScenery('vegetation','palm',countryPalms.map(([x,y,z,rotation,scale])=>matrix(x,z,rotation,scale,y)),false);
+  this.instanceScenery('vegetation','palm',countryPalms.map(([x,y,z,rotation,scale])=>sceneryMatrix(x,z,rotation,scale,y)),false);
+ }
+ /** @param {FarmTraffic} traffic */
+ syncVergeScenery(traffic){
+  this.vergeScenery.traverse(node=>{if(node instanceof THREE.InstancedMesh)node.dispose();});
+  this.vergeScenery.clear();
+  /** @type {THREE.Matrix4[]} */const palms=[];
+  /** @type {THREE.Matrix4[]} */const bananas=[];
+  /** @type {THREE.Matrix4[]} */const grass=[];
+  let clearedTrees=0;
+  for(let i=0;i<38;i++){
+   const angle=i/38*Math.PI*2,x=Math.cos(angle)*(39.5+(i%3)*.6),z=Math.sin(angle)*(29+(i%4)*.5);
+   if(traffic.onRoad({x,z},.8)){clearedTrees++;continue;}
+   (i%3?palms:bananas).push(sceneryMatrix(x,z,i*2.37,.8+(i%5)*.07));
+  }
+  for(let i=0;i<100;i++){
+   const x=-42+((i*37.51)%84),z=-32+((i*29.71)%64);
+   if((Math.abs(x)<30&&Math.abs(z)<25)||traffic.onRoad({x,z}))continue;
+   grass.push(sceneryMatrix(x,z,i*.73,.6+(i%7)*.08));
+  }
+  this.instanceScenery('vegetation','palm',palms,true,this.vergeScenery);
+  this.instanceScenery('vegetation','banana',bananas,true,this.vergeScenery);
+  this.instanceScenery('vegetation','grass',grass,true,this.vergeScenery);
+  this.host.dataset.roadTreesCleared=String(clearedTrees);
  }
  /** @param {number} level */
  syncLand(level){if(this.landLevel===level)return;this.landLevel=level;if(this.landMarkers)this.discard(this.landMarkers);this.landMarkers=new THREE.Group();const bounds=[{x:28,z:24},{x:35,z:28},{x:42,z:32}][level];for(const sx of [-1,1])for(const sz of [-1,1]){const horizontal=this.clone('fence');horizontal.position.set(sx*(bounds.x-1),0,sz*bounds.z);this.landMarkers.add(horizontal);const vertical=this.clone('fence');vertical.position.set(sx*bounds.x,0,sz*(bounds.z-1));vertical.rotation.y=Math.PI/2;this.landMarkers.add(vertical);}this.scene.add(this.landMarkers);}
@@ -263,7 +286,7 @@ export class CozyWorld{
   }
   this.syncCrops(state,layout);
   this.farmActivity?.sync(state.tick,layout.items,houseLevel);
-  this.farmTraffic?.sync(state.tick,layout.items);
+  if(this.farmTraffic?.sync(state.tick,layout.items))this.syncVergeScenery(this.farmTraffic);
   this.farmPower?.sync(state.tick,layout.items,houseLevel,point=>this.farmTraffic?.onRoad(point)??false);
   const hour=state.tick%24,night=hour<5||hour>=20;
   this.sun.intensity=night?.7:hour<8||hour>=17?2.2:3.15;
