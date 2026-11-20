@@ -10,11 +10,21 @@ test('delivered full-world entry and recovery share an exact receipt without a l
  assert.deepEqual(receipt.areas,['garden','chicken','goat','cow','fish','market','house']);
  for(const path of ['dist/play/index.html','dist/play/glb/index.html','dist/play/cozy/index.html'])assert.equal(sha(await readFile(path)),receipt.htmlSha256,path);
  const html=await readFile('dist/play/index.html','utf8');assert.ok(html.includes('/play/cozy/'+receipt.entry));assert.ok(!html.includes('world-loader'));
+ assert.equal(sha(await readFile('dist/play/cozy/style.css')),receipt.cssSha256);
+ assert.ok(html.includes('/play/cozy/style.css?v='+receipt.cssSha256.slice(0,16)));
  assert.ok((await readFile('dist/play/recovery/index.html','utf8')).includes('/play/cozy/'+receipt.recoveryEntry));
  for(const file of receipt.emitted){const bytes=await readFile('dist/play/cozy/'+file.name);assert.equal(bytes.length,file.bytes);assert.equal(sha(bytes),file.sha256);}
  const bundle=await readFile('dist/play/cozy/'+receipt.entry,'utf8');
  assert.ok(bundle.includes('/play/assets/models/world-manifest.json?v='+receipt.manifestSha256.slice(0,16)));
  assert.ok(receipt.inputs.includes('game/client/cozy-domain.js'));assert.ok(!receipt.inputs.some(p=>/unified-world-(?:preview|sprites)/.test(p)));
+});
+
+test('the delivered game places the pause control on the map and manual advances in the menu',async()=>{
+ const html=await readFile('dist/play/index.html','utf8');
+ assert.equal([...html.matchAll(/\bid="pause"/g)].length,1);
+ assert.ok(/<div class="world-viewport">\s*<div id="world"[^>]*><\/div>\s*<button id="pause"[^>]*>/.test(html));
+ const clock=html.match(/<section class="clock">([\s\S]*?)<\/section>/)?.[1];
+ assert.match(clock??'',/<button id="advance">[^<]+<\/button>\s*<button id="advance-day">[^<]+<\/button>/);
 });
 
 test('every shipped world GLB including far LODs matches its authored manifest and source bytes',async()=>{

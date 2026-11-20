@@ -14,6 +14,7 @@
    <div class="world-heading"><p class="eyebrow" id="edition">FARM TROPIS INDONESIA</p><h1 id="view-title">Sedikit lahan.<br>Banyak kehidupan.</h1><p id="view-subtitle">Tumbuh dengan caramu sendiri.</p></div>
    <div class="world-viewport">
     <div id="world" aria-busy="true"></div>
+    <button id="pause" class="map-clock-toggle" type="button">▶ Jalan</button>
     <div id="loading" class="loading"><div class="loading-card"><span class="leaf-mark">✦</span><p class="eyebrow">MYFARMTWIN</p><h2 id="loading-title">Menyiapkan farm tropis kamu</h2><p id="loading-detail">Memuat tanah, tanaman, dan kehidupan…</p><progress id="load-progress" max="17" value="0"></progress><button id="retry" hidden>Muat ulang / Reload</button></div></div>
    </div>
    <section class="farm-controls" aria-label="Kontrol farm / Farm controls">
@@ -46,7 +47,7 @@
     <div id="toast" role="status" aria-live="polite"></div>
    </section>
   </section>
-  <aside id="care" class="care-panel" tabindex="-1" aria-labelledby="panel-eyebrow"><div class="panel-top"><p class="eyebrow" id="panel-eyebrow">CATATAN FARM</p><span class="panel-symbol" aria-hidden="true">✦</span><button id="care-close" type="button" aria-label="Tutup menu farm">×</button></div><div id="care-content"></div><section class="clock"><div><span class="eyebrow" id="clock-label">WAKTU FARM</span><strong id="clock-time">Hari 1</strong></div><button id="pause">▶ Jalan</button><button id="advance">+6 jam</button><button id="advance-day">+24 jam</button></section><p class="save-note" id="save-status" role="status">Membaca progres tersimpan…</p></aside>
+  <aside id="care" class="care-panel" tabindex="-1" aria-labelledby="panel-eyebrow"><div class="panel-top"><p class="eyebrow" id="panel-eyebrow">CATATAN FARM</p><span class="panel-symbol" aria-hidden="true">✦</span><button id="care-close" type="button" aria-label="Tutup menu farm">×</button></div><div id="care-content"></div><section class="clock"><div><span class="eyebrow" id="clock-label">WAKTU FARM</span><strong id="clock-time">Hari 1</strong></div><button id="advance">+6 jam</button><button id="advance-day">+24 jam</button></section><p class="save-note" id="save-status" role="status">Membaca progres tersimpan…</p></aside>
  </main>
  <dialog id="build-dialog"><form method="dialog" class="dialog-heading"><div><p class="eyebrow" id="build-eyebrow">RUANG UNTUK TUMBUH</p><h2 id="build-title">Tata farm sesukamu</h2></div><button aria-label="Tutup / Close">×</button></form><p id="build-help">Pilih bangunan, atur posisi, lalu konfirmasi. Memindahkan fasilitas milikmu gratis.</p><div id="build-catalog"></div></dialog>
 
