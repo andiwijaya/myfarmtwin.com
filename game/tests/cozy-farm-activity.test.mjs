@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {AnimationClip,Group} from 'three';
 import {FarmActivity} from '../client/cozy-farm-activity.js';
-import {WorkerRoutes} from '../client/cozy-worker-routes.js';
+import {marketMealStation,WorkerRoutes} from '../client/cozy-worker-routes.js';
 import {createCozyState,dispatchCozy} from '../client/cozy-domain.js';
 import {HOUSE_SITE} from '../client/cozy-houses.js';
 
@@ -20,16 +20,17 @@ function mockHouse(){
 }
 
 function testWorld(){
- const moves=['walk','carry','idle','fill','pour','tend'].map(name=>new AnimationClip(name,1.72,[]));
+ const moves=['walk','carry','idle','fill','pour','tend','pickup'].map(name=>new AnimationClip(name,1.72,[]));
  return {
   scene:new Group(),
   host:{dataset:{}},
   entities:new Map([['house',mockHouse()]]),
+  options:{},
   models:new Map([['workerMan',{animations:moves}],['workerWoman',{animations:moves}]]),
   clone(kind){
    const root=new Group();
    if(kind==='windPump')for(const part of ['windmill_rotor','windmill_pump_rod','windmill_water_stream'])named(root,part);
-   else for(const part of ['water_bucket','bucket_water','bucket_pour','market_basket'])named(root,part);
+   else for(const part of ['water_bucket','bucket_water','bucket_pour','market_basket','worker_hand_1'])named(root,part);
    return root;
   },
   template(){return mockHouse();},
@@ -138,6 +139,57 @@ test('before building a player house, workers rest at the lodge and respect redu
   assert.equal(activity.rotor.rotation.z,startAngle);
   activity.sync(41,items,0);
   simulate(activity,4,true);
+  assert.equal(world.host.dataset.workersAtHome,'4');
+ }finally{activity.dispose();}
+});
+
+test('one worker collects the meal at the market counter and delivers it through the house door',()=>{
+ const world=testWorld(),activity=new FarmActivity(world,randomFrom(19)),items=stockedFarm();
+ const market=items.find(item=>item.id==='market'),station=marketMealStation(market);
+ const events=[];
+ let order={id:11,meal:'friedRice',marketId:market.id,orderedTick:12,deliveredTick:12,pickup:'requested'};
+ world.options.onMealProgress=(type,current)=>{
+  assert.equal(current.id,order.id);
+  const worker=activity.mealRun.worker;
+  const target=type==='carryFood'?station.counter:activity.home.door;
+  assert.ok(worker.node.position.distanceTo(target)<.001);
+  events.push({type,worker:worker.index});
+  order=type==='carryFood'?{...order,pickup:'carrying'}:null;
+  activity.sync(12,items,10,order);
+ };
+ try{
+  activity.sync(12,items,10,order);
+  let carryFrames=0;
+  for(let i=0;i<450;i++){
+   activity.update(.2,false);
+   const workers=JSON.parse(world.host.dataset.workerJobs);
+   assert.ok(workers.filter(job=>job.mode==='meal').length<=1);
+   if(order?.pickup==='carrying'){
+    carryFrames++;
+    assert.equal(workers.filter(job=>job.mode==='meal').length,1);
+   }
+  }
+  assert.deepEqual(events.map(event=>event.type),['carryFood','finishFood']);
+  assert.equal(events[0].worker,events[1].worker);
+  assert.ok(carryFrames>5);
+ }finally{activity.dispose();}
+});
+
+test('a saved meal already in hand resumes directly for home after dark',()=>{
+ const world=testWorld(),activity=new FarmActivity(world,randomFrom(24)),items=stockedFarm();
+ let order={id:12,meal:'noodles',marketId:'market',orderedTick:20,deliveredTick:20,pickup:'carrying'};
+ const events=[];
+ world.options.onMealProgress=type=>{
+  events.push(type);
+  order=null;
+  activity.sync(20,items,10);
+ };
+ try{
+  activity.sync(20,items,10,order);
+  activity.update(.2,false);
+  assert.equal(world.host.dataset.workersAtHome,'3');
+  simulate(activity,80);
+  assert.deepEqual(events,['finishFood']);
   assert.equal(world.host.dataset.workersAtHome,'4');
  }finally{activity.dispose();}
 });

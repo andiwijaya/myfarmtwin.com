@@ -289,7 +289,7 @@ export class CozyWorld{
    const facility=state.facilities.find((/** @type {any} */f)=>f.id===item.id);if(facility)this.syncFacility(group,facility,item);
   }
   this.syncCrops(state,layout);
-  this.farmActivity?.sync(state.tick,layout.items,houseLevel);
+  this.farmActivity?.sync(state.tick,layout.items,houseLevel,state.foodOrder??null);
   if(this.farmTraffic?.sync(state.tick,layout.items,state.foodOrder??null))this.syncVergeScenery(this.farmTraffic);
   this.farmPower?.sync(state.tick,layout.items,houseLevel,point=>this.farmTraffic?.onRoad(point)??false);
   const hour=state.tick%24,night=hour<5||hour>=20;

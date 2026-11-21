@@ -133,7 +133,7 @@ for(const asset of records){
   }
  }
  if(['workerMan','workerWoman'].includes(asset.id)){
-  assert.deepEqual(asset.animations,['walk','carry','idle','fill','pour','tend']);
+  assert.deepEqual(asset.animations,['walk','carry','idle','fill','pour','tend','pickup']);
   assert.ok(bounds.min.y>=-.001&&bounds.min.y<.01&&bounds.max.y>1.65,'standing worker scale and floor contact');
  }
  if(asset.id==='infrastructure'){

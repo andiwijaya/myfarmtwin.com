@@ -18,7 +18,7 @@ export {COZY_BUILD_CATALOG,COZY_FACILITY_KINDS,COZY_LAND_BOUNDS,placementIssue};
 /** @typedef {{id:string,type:string,quantity:number,quality:number,sourceId:string,value3000:number}} ProduceLot */
 /** @typedef {{id:string,needs:Record<string,number>,bonus:number,completed:boolean}} Order */
 /** @typedef {{level:number,salesCoins:number}} HouseProgress */
-/** @typedef {{id:number,meal:string,marketId:string,orderedTick:number,deliveredTick:number|null}} FoodOrder */
+/** @typedef {{id:number,meal:string,marketId:string,orderedTick:number,deliveredTick:number|null,pickup?:'requested'|'carrying'}} FoodOrder */
 /** @typedef {{format:string,version:number,revision:number,tick:number,seed:number,rng:number,weather:string,coins:number,water:number,careCredits:number,seeds:Record<string,number>,plots:import('./engine.js').Plot[],inventory:ProduceLot[],ledger:import('./engine.js').LedgerEntry[],stats:{planted:number,watered:number,harvested:number,sold:number,orders:number,income:number,expense:number},progression:{xp:number,level:number,achievements:string[],completedOrders:string[],startedKinds:string[],credit3000:number,debtCoins:number},orders:Order[],land:{level:number},layout:{items:Placement[],nextId:number},facilities:Facility[],nextLot:number,provenance:{native:string|null,layout:string|null},house?:HouseProgress,foodOrder?:FoodOrder}} CozyState */
 /** @typedef {{state:CozyState,ok:boolean,error:string,events:any[],id?:string}} DispatchResult */
 
@@ -31,6 +31,8 @@ export const COZY_FOOD_MENU=Object.freeze({
  friedRice:{label:['Nasi goreng','Fried rice'],price:8},
  chickenRice:{label:['Nasi ayam','Chicken with rice'],price:10},
 });
+/** @param {FoodOrder|null|undefined} a @param {FoodOrder|null|undefined} b */
+export function sameFoodOrder(a,b){return !!a&&!!b&&a.id===b.id&&a.meal===b.meal&&a.marketId===b.marketId&&a.orderedTick===b.orderedTick;}
 /** @type {Readonly<Record<string,{hours:number,seedPrice:number,yield:number,price:number,stages:number}>>} */
 export const COZY_CROPS=Object.freeze({lettuce:{hours:18,seedPrice:4,yield:3,price:8,stages:4},tomato:{hours:30,seedPrice:8,yield:5,price:10,stages:4},corn:{hours:42,seedPrice:10,yield:4,price:14,stages:5}});
 /** @type {Readonly<Record<string,{price:number,scale:number,unit:string}>>} */
@@ -209,7 +211,7 @@ function hour(s){
  s.tick++;if(s.tick%24===0){s.rng=(Math.imul(1664525,s.rng)+1013904223)>>>0;s.weather=['sunny','cloudy','rainy','hot'][(s.rng>>>16)%4];}
 }
 /** @type {Record<string,string[]>} */
-const COMMAND_FIELDS={advance:['hours'],plant:['plot','crop'],water:['plot'],waterAll:[],harvest:['plot'],harvestAll:[],buySeed:['crop','quantity'],refill:['litres'],recovery:[],start:['kind'],build:['kind','transform'],move:['id','transform'],feed:['facility'],waterFacility:['facility'],clean:['facility'],buyFeed:['facility'],collect:['facility'],buyAnimal:['facility'],sellAnimal:['facility','animal','quote'],upgrade:['facility'],upgradeHouse:['level'],orderFood:['meal'],arriveFood:['order'],collectFood:['order','market'],toggleAuto:['facility'],togglePump:['facility'],toggleAerator:['facility'],sell:['lot','quote'],discard:['lot'],sellAll:[],order:['order'],refreshOrders:[],repayDebt:[],expand:[]};
+const COMMAND_FIELDS={advance:['hours'],plant:['plot','crop'],water:['plot'],waterAll:[],harvest:['plot'],harvestAll:[],buySeed:['crop','quantity'],refill:['litres'],recovery:[],start:['kind'],build:['kind','transform'],move:['id','transform'],feed:['facility'],waterFacility:['facility'],clean:['facility'],buyFeed:['facility'],collect:['facility'],buyAnimal:['facility'],sellAnimal:['facility','animal','quote'],upgrade:['facility'],upgradeHouse:['level'],orderFood:['meal'],arriveFood:['order'],collectFood:['order','market'],carryFood:['order'],finishFood:['order'],toggleAuto:['facility'],togglePump:['facility'],toggleAerator:['facility'],sell:['lot','quote'],discard:['lot'],sellAll:[],order:['order'],refreshOrders:[],repayDebt:[],expand:[]};
 /** Every rejected operation returns the exact original state, with no side effects. */
 /** @param {CozyState} input @param {Record<string,any>} command @returns {DispatchResult} */
 export function dispatchCozy(input,command){
@@ -267,7 +269,19 @@ export function dispatchCozy(input,command){
  }
  case 'collectFood':{
   const order=s.foodOrder;
-  if(!order||order.id!==command.order||order.deliveredTick===null||order.marketId!==command.market)throw Error('foodOrderUnavailable');
+  if(!order||order.id!==command.order||order.deliveredTick===null||order.marketId!==command.market||order.pickup)throw Error('foodOrderUnavailable');
+  order.pickup='requested';
+  break;
+ }
+ case 'carryFood':{
+  const order=s.foodOrder;
+  if(!order||order.id!==command.order||order.pickup!=='requested')throw Error('foodOrderUnavailable');
+  order.pickup='carrying';
+  break;
+ }
+ case 'finishFood':{
+  const order=s.foodOrder;
+  if(!order||order.id!==command.order||order.pickup!=='carrying')throw Error('foodOrderUnavailable');
   delete s.foodOrder;
   break;
  }
@@ -308,10 +322,13 @@ export function validateCozyState(v){
  for(const p of s.layout.items)if(COZY_FACILITY_KINDS.includes(p.kind)&&!facilities.has(p.id))throw Error('saveImportInvalid');
  if(s.layout.items.some((/** @type {Placement} */p)=>p.kind===HOUSE_KIND)!==Boolean(s.house?.level))throw Error('saveImportInvalid');
  if(Object.hasOwn(s,'foodOrder')){
-  const order=object(s.foodOrder,['id','meal','marketId','orderedTick','deliveredTick']);
+  const fields=['id','meal','marketId','orderedTick','deliveredTick'];
+  if(plain(s.foodOrder)&&Object.hasOwn(s.foodOrder,'pickup'))fields.push('pickup');
+  const order=object(s.foodOrder,fields);
   integer(order.id,1,s.revision);
   integer(order.orderedTick,0,s.tick);
   if(order.deliveredTick!==null)integer(order.deliveredTick,order.orderedTick,s.tick);
+  if(Object.hasOwn(order,'pickup')&&(order.deliveredTick===null||!['requested','carrying'].includes(order.pickup)))throw Error('saveImportInvalid');
   const market=s.layout.items.find((/** @type {Placement} */p)=>p.kind==='market');
   if(!s.house?.level||!market||market.id!==order.marketId||typeof order.meal!=='string'||!Object.hasOwn(COZY_FOOD_MENU,order.meal))throw Error('saveImportInvalid');
  }

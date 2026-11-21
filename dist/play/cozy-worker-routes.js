@@ -29,6 +29,17 @@ export function groundPoint(site,x,z,y=0){
  return {...point,y:groundHeight(point.x,point.z)+y};
 }
 
+/** Front path and counter position shared by the package and its worker. @param {Site} market */
+export function marketMealStation(market){
+ return {
+  entry:groundPoint(market,0,4.04),
+  porch:groundPoint(market,0,2.43,.025),
+  counter:groundPoint(market,3.02,2.43,.025),
+  facing:worldPoint(market,3.02,1.68),
+  parcel:groundPoint(market,2.86,1.86,.906),
+ };
+}
+
 /** @param {number} x @param {number} z */
 function index(x,z){
  if(x<bounds.minX||x>bounds.maxX||z<bounds.minZ||z>bounds.maxZ)return -1;

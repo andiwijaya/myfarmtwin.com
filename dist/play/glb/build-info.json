@@ -15,24 +15,24 @@
   "defaultRuntime": "common-engine",
   "commonEngineVersion": "0.3.0",
   "three": "0.187.0",
-  "entry": "app-KRYC5RIT.js",
-  "recoveryEntry": "recovery-BJY4UFZT.js",
+  "entry": "app-LA6OWSGL.js",
+  "recoveryEntry": "recovery-KNFFTEU5.js",
   "integrityEntry": "integrity-5U5OBVMF.js",
   "emitted": [
     {
-      "name": "app-KRYC5RIT.js",
-      "bytes": 786913,
-      "sha256": "10f16d93519d2931032399ba784887376d14b2d89819debefaf0d89e8e68f2ad"
+      "name": "app-LA6OWSGL.js",
+      "bytes": 791104,
+      "sha256": "f917d5889c6db215b4d6e751c0901eb9624d7f8720fa3190745dc5f2ae767974"
     },
     {
-      "name": "recovery-BJY4UFZT.js",
+      "name": "recovery-KNFFTEU5.js",
       "bytes": 2550,
-      "sha256": "92f4bd30247780502523b5378f0f5b2c5c4a45f0f3628405092db7fd03ed2bfa"
+      "sha256": "78b3cee108a7e781d8cdee5829cb19a817d5b1ceb325cf09aeb6e877fcfc1007"
     },
     {
-      "name": "chunks/chunk-FNTLXTFQ.js",
+      "name": "chunks/chunk-S4ZVDSVL.js",
       "bytes": 5979,
-      "sha256": "c9725886fabb06b133b27de54533e71d3b4c2feda2651d41830d7713397f15e3"
+      "sha256": "c2ed119f1aaa478d09b239ec9c85a973057bc9250f9a8a1a0bb7225ebf56b12d"
     },
     {
       "name": "integrity-5U5OBVMF.js",
@@ -40,14 +40,14 @@
       "sha256": "7b17f39001bf358de2f952ac5b631beca3285d45907504c4022b25e509af571e"
     },
     {
-      "name": "chunks/cozy-common-engine-Z7U2CAR4.js",
+      "name": "chunks/cozy-common-engine-N3ERWJLJ.js",
       "bytes": 9616,
-      "sha256": "a6c7f2d271f7e7532604a27e5e0bb1befd6ddc4a019c82f6f7f6f9301e7518c2"
+      "sha256": "e49fa3d08d0aa592da161a00567683ae9201098a9a2b8181fdc3f7fd97252776"
     },
     {
-      "name": "chunks/chunk-SU3H3DJF.js",
-      "bytes": 193403,
-      "sha256": "684700a0a406a290f2840dae6fb007fe0f0c385e7bb28ee8f446229c3afc1f4d"
+      "name": "chunks/chunk-SI5A2ZW5.js",
+      "bytes": 194084,
+      "sha256": "b852798863946e80556098ac5ceb632f4ec5eaa9337b9dfa3f26c955c055a799"
     }
   ],
   "assets": {
@@ -210,8 +210,8 @@
     "workerMan": {
       "id": "workerMan",
       "url": "/play/assets/models/world/worker-man.glb",
-      "sha256": "92e5720d72b6b019693555612eb5b785807fb1b87e7b03e33c7ca9afd24b1e85",
-      "bytes": 918896,
+      "sha256": "3ebcab7e1a399717d54b9b084ee59d2a4ab59fc75bbebe0f82999f31470ebc3c",
+      "bytes": 924092,
       "uniqueTriangles": 5430,
       "meshes": 28,
       "nodes": 47,
@@ -222,7 +222,8 @@
         "idle",
         "fill",
         "pour",
-        "tend"
+        "tend",
+        "pickup"
       ],
       "bounds": {
         "min": [
@@ -256,8 +257,8 @@
     "workerWoman": {
       "id": "workerWoman",
       "url": "/play/assets/models/world/worker-woman.glb",
-      "sha256": "d944ab8493c7b43c3885f9d5f9a43dd9128fea96438f18c23b6f079ecba68496",
-      "bytes": 920356,
+      "sha256": "721a038dcb63f6d515c4ba994bef348dc11b374cad3d61a107433a980468ccc6",
+      "bytes": 925552,
       "uniqueTriangles": 5474,
       "meshes": 29,
       "nodes": 48,
@@ -268,7 +269,8 @@
         "idle",
         "fill",
         "pour",
-        "tend"
+        "tend",
+        "pickup"
       ],
       "bounds": {
         "min": [
@@ -1477,9 +1479,9 @@
       "length": 2
     }
   },
-  "manifestSha256": "5c18bff56a09063830a1ae1429d52a9cf6361bb2cfb993098b0bdd2a22b7dfab",
-  "htmlSha256": "1ca9093ec72a6d025b128ef333398a28df078fcc0f0f904a63ec2db011c009a7",
-  "cssSha256": "ca8ddc60a30a05431ac869733ec4a65c36516fed3ddad1889f51f6a61726a7cf",
+  "manifestSha256": "342d8d17e4e4dec71dd6c964abcd04291ea136aa0c60aa4fc0e9440c8a876db9",
+  "htmlSha256": "8c35bddaac6d4664176fb5108537401aebdd7e2578d75fb4dcbccfb004da3e9b",
+  "cssSha256": "c55f96a929806733b67bd076b181ed9ce38441925dc417d1c1aa39293438916d",
   "inputs": [
     "game/client/active-garden.js",
     "game/client/chicken-commands.js",

@@ -585,3 +585,14 @@
  border:1px solid #cdd7c6;
  border-radius:9px;
 }
+
+.play-guide-link {display:inline-flex;align-items:center;min-height:40px;padding:0 7px;color:#385939;font-size:13px;font-weight:600;white-space:nowrap;text-underline-offset:4px}
+.play-guide-link:hover {color:#1e3e28}
+@media(max-width:480px){.topbar{padding-inline:10px}.top-actions{gap:5px}.play-guide-link{padding-inline:3px;font-size:12px}}
+@media(max-width:355px){
+ .topbar{padding-inline:7px}
+ .top-actions{gap:3px}
+ .top-actions .quality select{max-width:56px;padding-inline:4px}
+ .top-actions .language select{width:42px;padding-inline:5px}
+ .play-guide-link{font-size:11px}
+}
