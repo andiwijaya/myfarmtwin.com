@@ -7,7 +7,8 @@
   <meta name="description" content="Panduan MyFarmTwin dengan screenshot desktop dan HP. Belajar tanam dan panen, isi persediaan air bersama, upgrade rumah, dan pesan makanan.">
   <link rel="canonical" href="https://myfarmtwin.com/play/guide/">
   <link rel="icon" href="/favicon.svg">
-  <link rel="stylesheet" href="./guide.css">
+  <link rel="stylesheet" href="./guide.css?v=2">
+  <script type="module" src="./search.js"></script>
 </head>
 <body>
   <a class="skip" href="#panduan">Lewati ke panduan</a>
@@ -23,6 +24,15 @@
       <h1>Panduan Bermain MyFarmTwin</h1>
       <p>Dari tanam selada pertama hingga membangun rumah tropis. Ikuti langkah sesuai progres farm dan ketuk screenshot untuk melihatnya dalam ukuran penuh.</p>
     </header>
+    <div class="guide-search" id="guide-search" role="search" aria-label="Panduan MyFarmTwin" hidden>
+      <label for="guide-query">Cari di panduan</label>
+      <div class="guide-search-field">
+        <input id="guide-query" type="search" placeholder="Coba air, upgrade, atau pesanan" autocomplete="off" enterkeyhint="search" aria-controls="guide-search-results">
+        <button id="guide-search-clear" type="button" aria-label="Hapus pencarian" hidden>Hapus</button>
+      </div>
+      <p id="guide-search-status" class="guide-search-status" role="status"></p>
+      <ul id="guide-search-results" class="guide-search-results" aria-label="Hasil pencarian" hidden></ul>
+    </div>
     <div class="guide-layout">
       <nav class="guide-nav" aria-label="Daftar isi">
         <h2>Daftar isi</h2>
@@ -38,7 +48,7 @@
       </nav>
 
       <div class="chapters" id="panduan">
-        <section id="mulai" aria-labelledby="mulai-title">
+        <section id="mulai" aria-labelledby="mulai-title" data-search-terms="pemula tutorial bahasa kamera kontrol zoom jeda">
           <h2 id="mulai-title">Mulai bermain</h2>
           <ol>
             <li>Buka <a href="/">beranda MyFarmTwin</a> dan pilih <strong>Main farm 3D</strong>. Pakai pilihan <strong>ID</strong> di kanan atas untuk mengikuti nama tombol dalam panduan ini.</li>
@@ -67,7 +77,7 @@
             <li>Saat pertumbuhan mencapai 100%, pilih <strong>Panen</strong> di bed atau <strong>Panen yang siap</strong> dari Kebun. Hasil masuk ke gudang di menu <strong>Market</strong>.</li>
           </ol>
 
-          <div class="callout" id="air-bersama">
+          <div class="callout" id="air-bersama" data-guide-topic data-search-terms="sharing refill isi ulang tandon tambah habis">
             <h3>Isi persediaan air bersama saat kandang kehabisan air</h3>
             <ol>
               <li>Buka <strong>Kontrol → Buka → Kebun</strong>, lalu gulir ke <strong>Persediaan Bersama</strong>.</li>
@@ -90,15 +100,17 @@
             <li>Kumpulkan produk yang siap dengan <strong>Ambil telur</strong>, <strong>Perah susu</strong>, atau <strong>Panen ikan matang</strong>. Untuk kambing, lihat pertumbuhan dan kondisi di daftar hewan, lalu pilih <strong>Jual</strong> pada kambing yang ingin kamu lepas.</li>
             <li>Pilih <strong>Tambah hewan</strong> jika masih ada kapasitas. <strong>Lihat interior</strong> mendekatkan kamera ke dalam kandang. Jika punya lebih dari satu fasilitas sejenis, pakai pilihan <strong>Pilih fasilitas</strong> di panel atau ketuk kandang yang ingin dirawat.</li>
           </ol>
-          <h3>Upgrade kapasitas dan perawatan otomatis</h3>
-          <p>Setiap kandang atau kolam mulai di <strong>Tingkat 1</strong>. Tiga upgrade berikutnya berbiaya <strong>50</strong>, <strong>100</strong>, dan <strong>150 koin</strong>. Upgrade menambah kapasitas. Setelah mencapai <strong>Tingkat 2</strong>, tekan <strong>Otomatis: mati</strong> untuk mengaktifkan isi pakan dan air dari stokmu. Kamu tetap bisa membeli pakan, mengisi air bersama, dan membersihkan fasilitas secara manual.</p>
+          <div id="upgrade-fasilitas" data-guide-topic data-search-terms="level naik tingkat kandang kolam">
+            <h3>Upgrade kapasitas dan perawatan otomatis</h3>
+            <p>Setiap kandang atau kolam mulai di <strong>Tingkat 1</strong>. Tiga upgrade berikutnya berbiaya <strong>50</strong>, <strong>100</strong>, dan <strong>150 koin</strong>. Upgrade menambah kapasitas. Setelah mencapai <strong>Tingkat 2</strong>, tekan <strong>Otomatis: mati</strong> untuk mengaktifkan isi pakan dan air dari stokmu. Kamu tetap bisa membeli pakan, mengisi air bersama, dan membersihkan fasilitas secara manual.</p>
+          </div>
           <div class="screenshots">
             <figure class="desktop"><a href="images/03-kandang-desktop.jpg"><img src="images/03-kandang-desktop.jpg" alt="Kandang ayam 3D dan panel desktop dengan kapasitas, pakan, air, dan kebersihan" width="1366" height="768" loading="lazy" decoding="async"></a><figcaption>Desktop · Status dan tindakan perawatan ayam.</figcaption></figure>
             <figure class="phone"><a href="images/03-kandang-hp.jpg"><img src="images/03-kandang-hp.jpg" alt="Panel kandang ayam di HP dengan tombol perawatan dan status produksi" width="375" height="812" loading="lazy" decoding="async"></a><figcaption>HP · Isi pakan, isi air, dan bersihkan dari panel.</figcaption></figure>
           </div>
         </section>
 
-        <section id="market" aria-labelledby="market-title">
+        <section id="market" aria-labelledby="market-title" data-search-terms="pasar penjualan">
           <h2 id="market-title">Jual hasil di market</h2>
           <ol>
             <li>Buka <strong>Kontrol → Buka → Market</strong>. Gulir ke <strong>Hasil di Gudang</strong> untuk melihat jumlah, mutu, dan nilai jual panen atau hasil ternak.</li>
@@ -112,7 +124,7 @@
           </div>
         </section>
 
-        <section id="rumah" aria-labelledby="rumah-title">
+        <section id="rumah" aria-labelledby="rumah-title" data-search-terms="level naik tingkat">
           <h2 id="rumah-title">Bangun dan upgrade rumah</h2>
           <ol>
             <li>Jual panen atau produk ternak, lalu buka <strong>Kontrol → Buka → Rumah</strong>. Periksa angka <strong>Koin hasil penjualan</strong>. Saldo inilah yang dipakai untuk rumah.</li>
@@ -141,7 +153,7 @@
           </table>
         </section>
 
-        <section id="makanan" aria-labelledby="makanan-title">
+        <section id="makanan" aria-labelledby="makanan-title" data-search-terms="pesanan order delivery kirim antar paket">
           <h2 id="makanan-title">Pesan makanan dari rumah</h2>
           <ol>
             <li>Setelah rumah terbangun, buka panel <strong>Rumah</strong>. Di <strong>Pesan makanan online</strong>, pilih <strong>Mi goreng · 6 koin</strong>, <strong>Nasi goreng · 8 koin</strong>, atau <strong>Nasi ayam · 10 koin</strong>. Setiap rumah sudah memiliki antena satelit.</li>
@@ -155,7 +167,7 @@
           </div>
         </section>
 
-        <section id="lahan" aria-labelledby="lahan-title">
+        <section id="lahan" aria-labelledby="lahan-title" data-search-terms="siang malam listrik">
           <h2 id="lahan-title">Tata lahan dan lihat aktivitas farm</h2>
           <ol>
             <li>Buka <strong>Kontrol → Buka → Tata lahan</strong> untuk menambah fasilitas, bed, pompa, pohon, jalan setapak, atau pagar. Harga dan batas jumlah ditampilkan di katalog.</li>
@@ -165,7 +177,7 @@
           <p>Pada pagi dan siang hari, pekerja bergantian mengurus ladang, kandang, kolam, dan market. Beberapa mengambil air dari kincir pompa. Truk mengambil muatan di market. Pekerja mulai pulang sekitar pukul 17:00. Lampu di sekitar ladang, kandang, rumah, kolam, dan market menyala dari 18:00 sampai 06:00 waktu farm. Kamu bisa melihat turbin angin, panel surya, dan transformator di sisi farm.</p>
         </section>
 
-        <section id="cadangan" aria-labelledby="cadangan-title">
+        <section id="cadangan" aria-labelledby="cadangan-title" data-search-terms="backup save ekspor impor pindah ganti perangkat">
           <h2 id="cadangan-title">Simpan dan pulihkan farm</h2>
           <p>MyFarmTwin menyimpan progres secara otomatis di browser yang kamu pakai. Simpan salinan teks agar kamu bisa memindahkannya ke HP atau komputer lain.</p>
           <ol>
