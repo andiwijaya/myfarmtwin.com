@@ -8,7 +8,9 @@ The new cozy/business loop has faster crops, readable feed/water/cleanliness nee
 
 Players build a small house and upgrade it through ten models using coins earned from sales. Each plot reserves space for the largest model and has at least 10 m of clearance from chicken, goat and cow housing.
 
-Every house has a satellite dish on the rear wall. From the house menu, players can order a meal with farm coins and pick it up at the market. The scooter and truck take turns on the same market road. An outstanding meal stays in the save through delivery and pickup.
+Every house has a satellite dish on the rear wall. From the house menu, players can order a meal with farm coins. The scooter and truck take turns on the market road. Selecting pickup dispatches one worker to the market counter. The worker carries the meal through the house door, and an active trip can resume after a reload.
+
+The Indonesian [player guide](https://myfarmtwin.com/play/guide/) is linked from the homepage and the game header. It uses desktop and phone screenshots to explain crops, shared water, facility and house upgrades, sales, meal delivery, land placement, and save recovery.
 
 Workers rotate between direct jobs at the fields, individual livestock enclosures and pond, and deliveries to the market. One worker at a time can fetch water from the wind pump. A new farm starts at 06:00. While the clock is playing, one farm hour lasts 12 real seconds. Workers head indoors from 17:00 and return to work at 06:00 farm time.
 

@@ -24,7 +24,7 @@ export async function build(root=process.cwd(),{bundle=true}={}) {
         if(!body.includes("from 'three'"))throw new Error('Preview vendor import missing');
         await writeFile(to,body.replace("from 'three'","from './vendor/three/three.module.js'").replaceAll('\r\n','\n'));preview=true;
       }else if(canonicalText.has(relative(source,from))||/\.(html|css|js|svg|json)$/.test(entry.name))await writeFile(to,(await readFile(from,'utf8')).replaceAll('\r\n','\n'));
-      else if(/\.(html|css|js|svg|json|webp|png|glb)$/.test(entry.name)) await copyFile(from,to);
+      else if(/\.(html|css|js|svg|json|webp|png|jpe?g|glb)$/.test(entry.name)) await copyFile(from,to);
     }
   }
   await copy(source,target);

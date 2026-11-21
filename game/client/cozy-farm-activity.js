@@ -1,18 +1,20 @@
 import {AnimationMixer,Group,LoopOnce,LoopRepeat,MathUtils} from 'three';
 import {HOUSE_LEVELS,HOUSE_PLOT} from './cozy-houses.js';
-import {COZY_MORNING_HOUR} from './cozy-domain.js';
+import {COZY_MORNING_HOUR,sameFoodOrder} from './cozy-domain.js';
 import {WorkerJobs,workerSites} from './cozy-worker-jobs.js';
-import {WorkerRoutes,WIND_PUMP_SITE,WORKER_LODGE_SITE,groundPoint,worldPoint} from './cozy-worker-routes.js';
+import {WorkerRoutes,WIND_PUMP_SITE,WORKER_LODGE_SITE,groundPoint,marketMealStation,worldPoint} from './cozy-worker-routes.js';
 
 /** @typedef {import('three').Object3D} Object3D */
 /** @typedef {import('three').AnimationAction} Action */
 /** @typedef {import('./cozy-worker-routes.js').Point} Point */
 /** @typedef {import('./cozy-worker-routes.js').Waypoint} Waypoint */
 /** @typedef {import('./cozy-domain.js').Placement} Placement */
+/** @typedef {import('./cozy-domain.js').FoodOrder} FoodOrder */
 /** @typedef {import('./cozy-worker-jobs.js').WorkSite} WorkSite */
 /** @typedef {import('./cozy-worker-jobs.js').WorkerJob} WorkerJob */
-/** @typedef {'wake'|'choose'|'pump_approach'|'fill'|'carry_out'|'carry_to_site'|'deliver'|'tend_site'|'market_stop'|'home_path'|'enter_home'|'sleep'} Step */
-/** @typedef {{node:Group,mixer:AnimationMixer,actions:Map<string,Action>,active:string,bucket:Object3D,water:Object3D,pour:Object3D,basket:Object3D,index:number,next:Step,wait:number,path:Waypoint[],speed:number,headingHome:boolean,atDoor:boolean,job:WorkerJob|null}} Worker */
+/** @typedef {'wake'|'choose'|'pump_approach'|'fill'|'carry_out'|'carry_to_site'|'deliver'|'tend_site'|'market_stop'|'home_path'|'enter_home'|'sleep'|'meal_grasp'|'meal_lift'|'meal_enter'|'meal_finish'} Step */
+/** @typedef {{node:Group,mixer:AnimationMixer,actions:Map<string,Action>,active:string,bucket:Object3D,water:Object3D,pour:Object3D,basket:Object3D,parcel:Object3D,index:number,next:Step,wait:number,path:Waypoint[],speed:number,headingHome:boolean,atDoor:boolean,job:WorkerJob|null}} Worker */
+/** @typedef {{worker:Worker,station:ReturnType<typeof marketMealStation>}} MealRun */
 
 const pumpApproach=groundPoint(WIND_PUMP_SITE,1.1,2.65);
 const pumpWork=groundPoint(WIND_PUMP_SITE,.78,1.22);
@@ -35,11 +37,12 @@ function face(node,point){
  if(Math.hypot(x,z)>.02)node.rotation.y=Math.atan2(x,z);
 }
 
-/** @param {Worker} worker @param {'none'|'empty'|'water'|'produce'} props */
+/** @param {Worker} worker @param {'none'|'empty'|'water'|'produce'|'meal'} props */
 function equip(worker,props){
  worker.bucket.visible=props==='empty'||props==='water';
  worker.water.visible=props==='water';
  worker.basket.visible=props==='produce';
+ worker.parcel.visible=props==='meal';
  worker.pour.visible=false;
 }
 
@@ -58,15 +61,19 @@ function makeWorker(world,index){
  const asset=index%2?'workerWoman':'workerMan',node=world.clone(asset);
  const mixer=new AnimationMixer(node),actions=new Map();
  for(const clip of world.models.get(asset).animations){
-  const action=mixer.clipAction(clip),once=['fill','pour','tend'].includes(clip.name);
+  const action=mixer.clipAction(clip),once=['fill','pour','tend','pickup'].includes(clip.name);
   action.setLoop(once?LoopOnce:LoopRepeat,once?1:Infinity);
   action.clampWhenFinished=once;
   actions.set(clip.name,action);
  }
+ const parcel=world.template('infrastructure',['market_food_parcel']);
+ parcel.position.set(0,-.39,.02);
+ parcel.rotation.x=.43;
+ part(node,'worker_hand_1').add(parcel);
  const worker={
   node,mixer,actions,active:'',index,next:/** @type {Step} */('choose'),wait:0,path:[],speed:2.15,
   headingHome:false,atDoor:false,job:null,
-  bucket:part(node,'water_bucket'),water:part(node,'bucket_water'),pour:part(node,'bucket_pour'),basket:part(node,'market_basket'),
+  bucket:part(node,'water_bucket'),water:part(node,'bucket_water'),pour:part(node,'bucket_pour'),basket:part(node,'market_basket'),parcel,
  };
  node.name='farm_worker_'+(index+1);
  node.visible=false;
@@ -117,10 +124,14 @@ export class FarmActivity{
   /** @type {Record<string,number>} */this.completed={};
   /** @type {Record<string,number>} */this.completedSites={};
   this.waterTrips=0;
+  /** @type {FoodOrder|null} */this.mealOrder=null;
+  /** @type {Placement|undefined} */this.mealMarket=undefined;
+  /** @type {MealRun|null} */this.mealRun=null;
+  this.mealRetry=0;
  }
 
- /** @param {number} tick @param {Placement[]} items @param {number} houseLevel */
- sync(tick,items,houseLevel){
+ /** @param {number} tick @param {Placement[]} items @param {number} houseLevel @param {FoodOrder|null} [order] */
+ sync(tick,items,houseLevel,order=null){
   const house=items.find(item=>item.kind==='house');
   const nextLayout=JSON.stringify(items),nextHome=JSON.stringify([house,houseLevel]);
   const layoutChanged=this.layoutKey!==nextLayout,homeChanged=this.homeKey!==nextHome;
@@ -139,11 +150,18 @@ export class FarmActivity{
   const hour=tick%24,day=hour>=COZY_MORNING_HOUR&&hour<HOME_END_HOUR;
   const first=this.daylight===null,changed=this.daylight!==day;
   this.daylight=day;
+  const meal=order?.pickup?order:null;
+  const sameMeal=sameFoodOrder(this.mealOrder,meal);
+  const restartMeal=layoutChanged||homeChanged||this.mealOrder?.pickup==='carrying'&&meal?.pickup==='requested';
+  if(!sameMeal){this.releaseMeal();this.mealRetry=0;}
+  this.mealOrder=meal;
+  this.mealMarket=meal?items.find(item=>item.id===meal.marketId&&item.kind==='market'):undefined;
   if(first||changed||layoutChanged||homeChanged){
-   for(const worker of this.workers)worker.job=null;
+   for(const worker of this.workers)if(worker!==this.mealRun?.worker)worker.job=null;
    const offset=first&&day?Math.floor(this.jobs.random()*this.workers.length):0;
    const roster=[...this.workers.slice(offset),...this.workers.slice(0,offset)];
    for(const worker of roster){
+    if(worker===this.mealRun?.worker)continue;
     if(first&&day){
      worker.node.visible=true;
      this.choose(worker,true);
@@ -157,7 +175,76 @@ export class FarmActivity{
     else this.headHome(worker);
    }
   }
+  if(this.mealRun){
+   if(restartMeal)this.startMeal(this.mealRun.worker);
+   else if(meal?.pickup==='carrying'&&this.mealRun.worker.next==='meal_lift')this.carryMeal(this.mealRun);
+  }
   this.audit();
+ }
+
+ /** @param {Worker} [current] */
+ startMeal(current){
+  if(!this.mealOrder||!this.mealMarket)return;
+  const station=marketMealStation(this.mealMarket);
+  if(this.mealOrder.pickup==='carrying'){
+   const worker=current??this.workers.find(entry=>entry.job?.mode!=='water')??this.workers[0];
+   worker.node.visible=true;
+   worker.job=null;
+   worker.headingHome=false;
+   worker.atDoor=false;
+   put(worker.node,station.counter);
+   face(worker.node,station.facing);
+   this.mealRun={worker,station};
+   this.carryMeal(this.mealRun);
+   return;
+  }
+  const candidates=current?[current]:this.workers;
+  const paths=candidates.flatMap(worker=>{
+   const inside=!!current||!worker.node.visible||worker.atDoor;
+   const start=inside?this.home.approach:worker.node.position;
+   const route=this.routes.route(start,station.entry);
+   const last=route.at(-1);
+   if(!last||Math.hypot(last.x-station.entry.x,last.z-station.entry.z)>.08)return [];
+   const length=route.reduce((total,point,i)=>{
+    const previous=route[i-1]??start;
+    return total+Math.hypot(point.x-previous.x,point.z-previous.z);
+   },inside?4:0);
+   return [{worker,inside,route,cost:length+(worker.job?.mode==='water'?100:0)}];
+  }).sort((a,b)=>a.cost-b.cost);
+  const best=paths[0];
+  if(!best){this.releaseMeal();return;}
+  const {worker,inside,route}=best;
+  this.mealRun={worker,station};
+  worker.node.visible=true;
+  worker.job=null;
+  worker.headingHome=false;
+  worker.atDoor=inside;
+  equip(worker,'none');
+  const exit=inside?[this.home.steps,this.home.approach]:[];
+  if(inside){put(worker.node,this.home.door);face(worker.node,this.home.approach);}
+  this.follow(worker,[...exit,...route,station.porch,station.counter],'meal_grasp','walk',2.7);
+ }
+
+ /** @param {MealRun} run */
+ carryMeal({worker,station}){
+  equip(worker,'meal');
+  worker.atDoor=false;
+  const route=this.routes.route(station.entry,this.home.approach);
+  if(!route.length){this.hold(worker,.8,'meal_lift','idle');return;}
+  this.follow(worker,[station.porch,station.entry,...route],'meal_enter','carry',2.65);
+ }
+
+ releaseMeal(){
+  if(!this.mealRun)return;
+  const {worker}=this.mealRun;
+  this.mealRun=null;
+  this.sleep(worker);
+  if(this.daylight)this.hold(worker,.65,'wake','idle');
+ }
+
+ /** @param {Worker} worker */
+ doorBusy(worker){
+  return this.workers.some(other=>other!==worker&&other.node.visible&&other.atDoor&&Math.hypot(other.node.position.x-this.home.door.x,other.node.position.z-this.home.door.z)<1.45);
  }
 
  /** @param {Worker} worker @param {WorkSite} site */
@@ -318,11 +405,32 @@ export class FarmActivity{
     this.headHome(worker);
     break;
    case 'enter_home':
-    if(this.workers.some(other=>other!==worker&&other.node.visible&&other.atDoor&&Math.hypot(other.node.position.x-this.home.door.x,other.node.position.z-this.home.door.z)<1.45))this.hold(worker,.45,'enter_home','idle');
+    if(this.doorBusy(worker))this.hold(worker,.45,'enter_home','idle');
     else{
      worker.atDoor=true;
      this.follow(worker,[this.home.steps,this.home.door],'sleep','walk',2.45);
     }
+    break;
+   case 'meal_grasp':
+    worker.atDoor=false;
+    if(this.mealRun)face(worker.node,this.mealRun.station.facing);
+    this.hold(worker,.82,'meal_lift','pickup');
+    break;
+   case 'meal_lift':
+    if(this.mealOrder?.pickup==='carrying'&&this.mealRun){this.carryMeal(this.mealRun);break;}
+    if(this.mealOrder)this.world.options?.onMealProgress?.('carryFood',this.mealOrder);
+    if(this.mealOrder?.pickup==='requested')this.hold(worker,.35,'meal_lift','pickup');
+    break;
+   case 'meal_enter':
+    if(this.doorBusy(worker))this.hold(worker,.4,'meal_enter','idle');
+    else{
+     worker.atDoor=true;
+     this.follow(worker,[this.home.steps,this.home.door],'meal_finish','carry',2.1);
+    }
+    break;
+   case 'meal_finish':
+    if(this.mealOrder)this.world.options?.onMealProgress?.('finishFood',this.mealOrder);
+    if(this.mealRun?.worker===worker)this.hold(worker,.45,'meal_finish','idle');
     break;
    case 'sleep':
     this.sleep(worker);
@@ -359,6 +467,10 @@ export class FarmActivity{
  /** @param {number} delta @param {boolean} reducedMotion */
  update(delta,reducedMotion){
   if(this.daylight===null)return;
+  if(this.mealOrder&&!this.mealRun&&(this.mealRetry-=delta)<=0&&this.world.options?.canDeliverFood?.()!==false){
+   this.mealRetry=1;
+   this.startMeal();
+  }
   if(!reducedMotion)this.rotor.rotation.z=(this.rotor.rotation.z+delta*.86)%(Math.PI*2);
   this.rod.position.y=Math.sin(this.rotor.rotation.z)*.095;
   this.stream.visible=false;
@@ -405,9 +517,13 @@ export class FarmActivity{
  }
 
  audit(){
-  const summary=this.workers.map(worker=>worker.node.visible
-   ?{action:worker.active,destination:worker.job?.site.kind??(worker.headingHome||worker.atDoor?'house':'farm'),mode:worker.job?.mode??null,site:worker.job?.site.id??null}
-   :{action:'indoors',destination:'house',mode:null,site:null});
+  const summary=this.workers.map(worker=>{
+   if(!worker.node.visible)return {action:'indoors',destination:'house',mode:null,site:null};
+   if(worker===this.mealRun?.worker)return {action:worker.active,destination:worker.parcel.visible?'house':'market',mode:'meal',site:worker.parcel.visible?'house':this.mealOrder?.marketId};
+   return {action:worker.active,destination:worker.job?.site.kind??(worker.headingHome||worker.atDoor?'house':'farm'),mode:worker.job?.mode??null,site:worker.job?.site.id??null};
+  });
+  this.world.host.dataset.mealPickup=this.mealOrder?.pickup??'idle';
+  this.world.host.dataset.mealWorker=this.mealRun?String(this.mealRun.worker.index+1):'';
   const encoded=JSON.stringify(summary);
   if(encoded===this.report)return;
   this.report=encoded;

@@ -1,5 +1,5 @@
 import {CozySession,COZY_WATCH_KEYS} from './cozy-storage.js';
-import {COZY_BUILD_CATALOG,COZY_CROPS,COZY_GOODS,COZY_COSTS,COZY_SUPPLIES,COZY_LAND_BOUNDS,COZY_FOOD_MENU,buildPrice,quoteLot,quoteAnimal,facilityCapacity,houseSalesCoins} from './cozy-domain.js';
+import {COZY_BUILD_CATALOG,COZY_CROPS,COZY_GOODS,COZY_COSTS,COZY_SUPPLIES,COZY_LAND_BOUNDS,COZY_FOOD_MENU,buildPrice,quoteLot,quoteAnimal,facilityCapacity,houseSalesCoins,sameFoodOrder} from './cozy-domain.js';
 import {HOUSE_CLEARANCE,HOUSE_KIND,HOUSE_LEVELS,HOUSE_SITE} from './cozy-houses.js';
 import {findPlacement} from './cozy-placement.js';
 import {browserStorage} from './storage.js';
@@ -126,9 +126,17 @@ function canDeliverFood(){return !disposed&&!session.readOnly&&!dataDialog.open&
 /** @param {import('./cozy-domain.js').FoodOrder} order */
 function recordFoodArrival(order){
  const current=session.state.foodOrder;
- if(!canDeliverFood()||busy||clockBusy||current?.id!==order.id||current.meal!==order.meal||current.marketId!==order.marketId||current.orderedTick!==order.orderedTick||current.deliveredTick!==null)return false;
+ if(!canDeliverFood()||busy||clockBusy||!sameFoodOrder(current,order)||current?.deliveredTick!==null)return false;
  void command('arriveFood',{order:order.id},L('Pesanan makanan tiba di Pasar farm.','Your meal arrived at the farm market.'));
  return true;
+}
+/** @param {'carryFood'|'finishFood'} type @param {import('./cozy-domain.js').FoodOrder} order */
+function recordMealProgress(type,order){
+ const current=session.state.foodOrder;
+ const stage=type==='carryFood'?'requested':'carrying';
+ if(!canDeliverFood()||busy||clockBusy||!sameFoodOrder(current,order)||current?.pickup!==stage)return;
+ const message=type==='carryFood'?L('Pekerja membawa makanan ke rumah.','A worker is bringing the meal home.'):L('Makanan sudah tiba di rumah.','Your meal has arrived at home.');
+ void command(type,{order:order.id},message);
 }
 /** @param {string} kind */const facilityFor=kind=>session.state.facilities.find((/** @type {any} */f)=>f.kind===kind);
 const homePlacement=()=>session.state.layout.items.find(p=>p.kind===HOUSE_KIND);
@@ -228,13 +236,16 @@ function foodDeliveryPanel(atMarket){
  section.append(node('h3',atMarket?L('Pesanan makanan','Meal delivery'):L('Pesan makanan online','Order food online')));
  if(order){
   const arrived=order.deliveredTick!==null;
-  const status=arrived?L('Siap diambil di Pasar farm.','Ready for pickup at the farm market.'):L('Menunggu kurir tiba di Pasar farm.','Waiting for the courier at the farm market.');
+  let status=arrived?L('Siap diambil di Pasar farm.','Ready for pickup at the farm market.'):L('Menunggu kurir tiba di Pasar farm.','Waiting for the courier at the farm market.');
+  if(order.pickup==='requested')status=L('Pekerja menuju pasar untuk mengambil makanan.','A worker is heading to the market to pick up the meal.');
+  if(order.pickup==='carrying')status=L('Pekerja membawa makanan ke rumah.','A worker is bringing the meal home.');
   stat(section,L('Pesanan','Order'),L(...COZY_FOOD_MENU[order.meal].label));
   const tracker=node('p',status);
   tracker.setAttribute('role','status');
   section.append(tracker);
-  if(atMarket&&arrived)section.append(button(L('Ambil pesanan','Collect meal'),()=>command('collectFood',{order:order.id,market:order.marketId},L('Pesanan makanan sudah diambil.','Your meal has been collected.')),'collect-food','primary'));
-  if(!atMarket)section.append(button(L('Lihat Pasar farm','View farm market'),()=>go(order.marketId),'focus-food-market'));
+  if(atMarket&&arrived&&!order.pickup)section.append(button(L('Ambil pesanan','Collect meal'),()=>command('collectFood',{order:order.id,market:order.marketId},L('Pekerja berangkat mengambil pesanan.','A worker is going to pick up your meal.')),'collect-food','primary'));
+  if(atMarket&&order.pickup==='carrying')section.append(button(L('Lihat rumah','View home'),()=>go(HOUSE_KIND),'focus-food-home'));
+  if(!atMarket&&order.pickup!=='carrying')section.append(button(L('Lihat Pasar farm','View farm market'),()=>go(order.marketId),'focus-food-market'));
  }else if(!state.layout.items.some(item=>item.kind==='market')){
   section.append(node('p',explain('foodMarketMissing')));
  }else{
@@ -699,6 +710,7 @@ gestureResetButton.addEventListener('click', () => {
 async function confirmPlacement(){if(!placement)return;const {item,mode}=placement,result=await act(()=>mode==='move'?session.move(item.id,item):session.build(item.kind,item),L('Tata letak farm tersimpan.','Farm layout saved.'));if(result?.ok){cancelPlacement();go(result.id||item.id);}}
 function translate(){document.documentElement.lang=language;const strings=/** @type {Record<string,[string,string]>} */({'toolbar-title':['Kontrol','Controls'],'toolbar-day-label':['HARI','DAY'],'toolbar-coins-label':['KOIN','COINS'],'toolbar-expand-label':['Buka','Show'],'toolbar-collapse-label':['Tutup','Hide'],'edition':['FARM TROPIS INDONESIA','AN INDONESIAN TROPICAL FARM'],'view-subtitle':['Tumbuh dengan caramu sendiri.','Grow in your own way.'],'day-label':['HARI','DAY'],'coin-label':['KOIN','COINS'],'level-label':['LEVEL','LEVEL'],'beds-label':['BED AKTIF','ACTIVE BEDS'],'nav-overview':['Farm','Farm'],'nav-garden':['Kebun','Garden'],'nav-coop':['Ayam','Hens'],'nav-goat':['Kambing','Goats'],'nav-cow':['Sapi','Cows'],'nav-fish':['Ikan','Fish'],'nav-market':['Market','Market'],'nav-build':['Tata lahan','Arrange'],'camera-reset-label':['Reset kamera','Reset camera'],'camera-undo-label':['Undo reset','Undo reset'],'camera-redo-label':['Redo reset','Redo reset'],'clock-label':['WAKTU FARM','FARM TIME'],'advance':['+6 jam','+6 hours'],'advance-day':['+24 jam','+24 hours'],'build-title':['Tata farm sesukamu','Make this farm your own'],'build-help':['Pilih bangunan, atur posisi, lalu konfirmasi. Memindahkan fasilitas milikmu gratis.','Choose a building, set its position, then confirm. Moving your existing facilities is free.'],'placement-label':['ATUR POSISI','SET POSITION'],'placement-help':['Ketuk tanah atau ubah koordinat. Belum ada perubahan sampai dikonfirmasi.','Tap the ground or edit coordinates. Changes apply only after confirmation.'],'placement-cancel':['Batal','Cancel'],'placement-confirm':['Simpan posisi','Confirm position'],'data-title':['Progres & data','Progress & data'],'data-help':['Cadangan mencakup farm, tata letak, dan arsip progres lama. Simpan salinan teks di tempat aman.','Your backup includes farm progress, layout, and legacy archives. Keep a copy of the text somewhere safe.'],'save-text-label':['Salinan farm','Farm backup'],'export-data':['Tampilkan cadangan','Show backup'],'import-data':['Impor dari teks','Import from text'],'recover-data':['Pulihkan cadangan sebelumnya','Recover previous backup'],'legacy-data':['Tampilkan arsip farm lama','Show legacy farm archive']});for(const [id,pair]of Object.entries(strings))el(id).textContent=L(...pair);updateCameraShortcutHints();updateCameraGestureHint();translateGestureSettings();render();}
 function translateFarmMenu(){
+ el('play-guide-link').textContent=L('Panduan','Guide (ID)');
  careToggle.textContent=L('Menu farm','Farm menu');
  el('care-close').setAttribute('aria-label',L('Tutup menu farm','Close farm menu'));
 }
@@ -786,5 +798,5 @@ window.addEventListener('pagehide',()=>{
  world?.dispose();
 },{once:true});
 translate();
-try{world=new CozyWorld(el('world'),{canDeliverFood,onFoodArrival:recordFoodArrival,onCameraUndoChange:(/** @type {boolean} */available)=>el('camera-undo').toggleAttribute('disabled',!available),onCameraRedoChange:(/** @type {boolean} */available)=>el('camera-redo').toggleAttribute('disabled',!available),onSelect:(/** @type {string} */id)=>select(id),onCameraView:(/** @type {string} */id)=>reflectCameraView(id),onPlacement:(/** @type {{x:number,z:number}} */point)=>{if(placement){input('place-x').value=String(point.x);input('place-z').value=String(point.z);updatePlacement();}},onProgress:(/** @type {number} */ready,/** @type {number} */total)=>{const p=/** @type {HTMLProgressElement} */(el('load-progress'));p.max=total;p.value=ready;el('loading-detail').textContent=L('Menyiapkan kehidupan farm · ','Preparing farm life · ')+ready+'/'+total;}});world.renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();running=false;el('loading').hidden=false;el('loading-title').textContent=L('Tampilan perlu dimuat ulang','The view needs reloading');el('loading-detail').textContent=L('Progres tersimpan. Kamu tetap bisa menampilkan cadangan.','Your progress is saved. Backup export is still available.');el('retry').hidden=false;});await world.load();world.sync(session.state);if(selected!=='overview'){world.select(selected);world.focus(selected,false);}const restoredView=world.restoreCameraPreference();if(restoredView)reflectCameraView(restoredView);el('loading').hidden=true;el('world').setAttribute('aria-busy','false');document.body.dataset.cozyReady='true';el('camera-reset').removeAttribute('disabled');}
+try{world=new CozyWorld(el('world'),{canDeliverFood,onFoodArrival:recordFoodArrival,onMealProgress:recordMealProgress,onCameraUndoChange:(/** @type {boolean} */available)=>el('camera-undo').toggleAttribute('disabled',!available),onCameraRedoChange:(/** @type {boolean} */available)=>el('camera-redo').toggleAttribute('disabled',!available),onSelect:(/** @type {string} */id)=>select(id),onCameraView:(/** @type {string} */id)=>reflectCameraView(id),onPlacement:(/** @type {{x:number,z:number}} */point)=>{if(placement){input('place-x').value=String(point.x);input('place-z').value=String(point.z);updatePlacement();}},onProgress:(/** @type {number} */ready,/** @type {number} */total)=>{const p=/** @type {HTMLProgressElement} */(el('load-progress'));p.max=total;p.value=ready;el('loading-detail').textContent=L('Menyiapkan kehidupan farm · ','Preparing farm life · ')+ready+'/'+total;}});world.renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();running=false;el('loading').hidden=false;el('loading-title').textContent=L('Tampilan perlu dimuat ulang','The view needs reloading');el('loading-detail').textContent=L('Progres tersimpan. Kamu tetap bisa menampilkan cadangan.','Your progress is saved. Backup export is still available.');el('retry').hidden=false;});await world.load();world.sync(session.state);if(selected!=='overview'){world.select(selected);world.focus(selected,false);}const restoredView=world.restoreCameraPreference();if(restoredView)reflectCameraView(restoredView);el('loading').hidden=true;el('world').setAttribute('aria-busy','false');document.body.dataset.cozyReady='true';el('camera-reset').removeAttribute('disabled');}
 catch(error){el('loading-title').textContent=L('Farm belum bisa ditampilkan','The farm could not be displayed');el('loading-detail').textContent=L('Periksa koneksi dan dukungan WebGL 2, lalu coba lagi. Kontrol dan cadangan tetap tersedia.','Check your connection and WebGL 2 support, then retry. Farm controls and backups remain available.');el('retry').hidden=false;document.body.dataset.cozyReady='error';console.error('Farm view failed',error);}

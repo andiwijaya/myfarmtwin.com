@@ -22,9 +22,9 @@ The strict state discriminator is `{format:'MyFarmTwinCozy',version:2}`. Its req
 
 `CozySession(storage,{writable})` exposes `state`, `layout`, `status`, `readOnly`, `backupAvailable`, `command(type,args)`, `advance(hours)`, `build(kind,transform)`, `move(id,transform)`, `previewPlacement(candidate)`, `exportBundle()`, `exportLegacy()`, `importBundle(text)` and `recoverBackup()`.
 
-Commands include plant/water/waterAll/harvest/harvestAll, buySeed/refill/recovery, start/build/move, feed/waterFacility/clean/buyFeed/collect/buyAnimal/sellAnimal, upgrade/toggleAuto/togglePump/toggleAerator, sell/sellAll/discard/order/refreshOrders, orderFood/arriveFood/collectFood, repayDebt and expand. Every accepted command advances one revision. A rejected command returns the exact original state. Quotes from `quoteLot` and `quoteAnimal` are revision- and price-bound. Unknown command fields, executable nested objects and forged prices are rejected.
+Commands include plant/water/waterAll/harvest/harvestAll, buySeed/refill/recovery, start/build/move, feed/waterFacility/clean/buyFeed/collect/buyAnimal/sellAnimal, upgrade/toggleAuto/togglePump/toggleAerator, sell/sellAll/discard/order/refreshOrders, orderFood/arriveFood/collectFood/carryFood/finishFood, repayDebt and expand. Every accepted command advances one revision. A rejected command returns the exact original state. Quotes from `quoteLot` and `quoteAnimal` are revision- and price-bound. Unknown command fields, executable nested objects and forged prices are rejected.
 
-`foodOrder` holds the ordered meal, the primary market ID, the order revision, and order and delivery times. A purchase charges the catalogue price once. Courier arrival updates the same order after it stops at the market, and pickup clears it. A pending order can resume a trip after the page reloads.
+`foodOrder` holds the meal, the primary market ID, the order revision, and order and delivery times. A purchase charges the catalogue price once. Courier arrival records when the parcel is ready at the market. Collecting it sets the optional `pickup` field to `requested`. When the worker reaches the market counter the field becomes `carrying`, and the order clears when the worker enters the house. Reloading resumes the trip from its saved stage.
 
 ## Native V0–V6 and P2 mapping
 

@@ -1,0 +1,95 @@
+:root {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  color: #263c2d;
+  background: #f8f6ed;
+  line-height: 1.65;
+  scrollbar-gutter: stable;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+a { color: #315e3e; text-underline-offset: .2em; }
+a:focus-visible { outline: 3px solid #88610f; outline-offset: 4px; }
+.container { width: min(100% - 48px, 1200px); margin-inline: auto; }
+.skip { position: absolute; top: 12px; left: 12px; padding: 8px 16px; background: #fffdf8; transform: translateY(-160%); }
+.skip:focus { transform: none; }
+
+.site-header { border-bottom: 1px solid #dce1d0; }
+.header-content, .footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding-block: 12px;
+}
+.brand { font-size: clamp(1rem, 3.8vw, 1.35rem); font-weight: 750; letter-spacing: -.04em; text-decoration: none; }
+.brand span { color: #597640; }
+.play-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 30px;
+  padding: 8px 17px;
+  background: #264935;
+  color: #fffdf8;
+  font-weight: 650;
+  font-size: .9rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.play-link:hover { background: #375c3f; }
+.intro { max-width: 760px; padding-block: clamp(30px, 6vw, 74px) 26px; }
+h1, h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; line-height: 1.1; letter-spacing: -.035em; }
+h1 { font-size: clamp(2.1rem, 6vw, 4.5rem); margin: 0 0 18px; }
+.intro p { max-width: 64ch; margin: 0; color: #52634e; font-size: clamp(1rem, 2vw, 1.15rem); }
+.guide-layout { display: grid; grid-template-columns: 216px minmax(0, 1fr); gap: clamp(24px, 4vw, 58px); margin-bottom: 40px; }
+.guide-nav {
+  align-self: start;
+  position: sticky;
+  top: 20px;
+  padding: 17px;
+  border: 1px solid #dbe1ce;
+  border-radius: 16px;
+  background: #f0f2e4;
+}
+.guide-nav h2 { margin: 0 0 8px; font: 700 .9rem/1.4 "Segoe UI", system-ui, sans-serif; }
+.guide-nav a { display: block; padding: 6px 0; font-size: .9rem; text-decoration: none; }
+.guide-nav a:hover { text-decoration: underline; }
+.guide-nav .water-link { font-weight: 700; }
+.chapters { min-width: 0; }
+.chapters section { padding: 2px 0 34px; scroll-margin-block-start: 24px; }
+.chapters section + section { border-top: 1px solid #dce1d0; padding-top: 29px; }
+.chapters h2 { font-size: clamp(1.8rem, 4vw, 2.75rem); margin: 0 0 16px; }
+.chapters h3 { font-size: 1.08rem; line-height: 1.4; margin: 22px 0 8px; }
+.chapters p, .chapters ol { max-width: 74ch; margin-block: 0 13px; }
+.chapters ol { padding-inline-start: 24px; }
+.chapters li + li { margin-top: 9px; }
+.chapters li::marker { color: #4c703f; font-weight: 700; }
+.callout { border: 1px solid #c6d4b8; border-radius: 16px; padding: 16px 20px; background: #eaf0dc; margin: 23px 0; scroll-margin-block-start: 24px; }
+.callout h3 { margin-top: 0; }
+.callout p:last-child { margin-bottom: 0; }
+.screenshots { display: grid; grid-template-columns: minmax(0, 1fr) minmax(145px, 25%); align-items: start; gap: 14px; margin-top: 22px; }
+.screenshots figure { margin: 0; }
+.screenshots a { display: block; }
+.screenshots img { display: block; width: 100%; height: auto; border: 1px solid #d7dccd; border-radius: 10px; background: #eaeedc; }
+.screenshots figcaption { padding: 6px 2px 0; color: #4f604c; font-size: .86rem; line-height: 1.45; }
+table { width: min(100%, 560px); margin-top: 24px; border-collapse: collapse; background: #fffdf8; font-variant-numeric: tabular-nums; }
+caption { text-align: left; font-weight: 700; padding-block: 0 8px; }
+th, td { padding: 7px 11px; border-bottom: 1px solid #dce1d0; text-align: left; }
+thead { background: #eaf0dc; }
+th:last-child, td:last-child { text-align: right; }
+.footer { border-top: 1px solid #dce1d0; padding-block: 18px 24px; }
+
+@media (max-width: 800px) {
+  .guide-layout { grid-template-columns: minmax(0, 1fr); }
+  .guide-nav { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px; }
+  .guide-nav h2 { grid-column: 1 / -1; }
+}
+
+@media (max-width: 480px) {
+  .container { width: calc(100% - 32px); }
+  .screenshots { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .screenshots .phone { grid-row: 1; width: min(100%, 330px); }
+  .callout { padding: 14px; }
+}

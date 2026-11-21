@@ -257,7 +257,7 @@
     "source": "original geometry, PBR materials, embedded original base-color and tangent-space normal textures",
     "animation": "glTF transform animation on named articulated groups; no runtime procedural mesh replacement",
     "lod": "explicit original far assets; no device performance claim",
-    "totalBytesIncludingFarLODs": 20922940
+    "totalBytesIncludingFarLODs": 20933332
   },
   "assets": {
     "terrain": {
@@ -419,8 +419,8 @@
     "workerMan": {
       "id": "workerMan",
       "url": "/play/assets/models/world/worker-man.glb",
-      "sha256": "92e5720d72b6b019693555612eb5b785807fb1b87e7b03e33c7ca9afd24b1e85",
-      "bytes": 918896,
+      "sha256": "3ebcab7e1a399717d54b9b084ee59d2a4ab59fc75bbebe0f82999f31470ebc3c",
+      "bytes": 924092,
       "uniqueTriangles": 5430,
       "meshes": 28,
       "nodes": 47,
@@ -431,7 +431,8 @@
         "idle",
         "fill",
         "pour",
-        "tend"
+        "tend",
+        "pickup"
       ],
       "bounds": {
         "min": [
@@ -465,8 +466,8 @@
     "workerWoman": {
       "id": "workerWoman",
       "url": "/play/assets/models/world/worker-woman.glb",
-      "sha256": "d944ab8493c7b43c3885f9d5f9a43dd9128fea96438f18c23b6f079ecba68496",
-      "bytes": 920356,
+      "sha256": "721a038dcb63f6d515c4ba994bef348dc11b374cad3d61a107433a980468ccc6",
+      "bytes": 925552,
       "uniqueTriangles": 5474,
       "meshes": 29,
       "nodes": 48,
@@ -477,7 +478,8 @@
         "idle",
         "fill",
         "pour",
-        "tend"
+        "tend",
+        "pickup"
       ],
       "bounds": {
         "min": [

@@ -47,13 +47,24 @@ test('food orders charge the listed price once and wait for delivery before mark
  assert.deepEqual(arrived.ledger,ordered.ledger);
  reject(arrived,'arriveFood',{order:order.id},'foodOrderUnavailable');
  reject(arrived,'collectFood',{order:order.id,market:'elsewhere'},'foodOrderUnavailable');
- const collected=apply(arrived,'collectFood',{order:order.id,market:'market'});
- assert.equal(collected.foodOrder,undefined);
- assert.equal(collected.coins,ordered.coins);
- assert.ok(apply(collected,'orderFood',{meal:'noodles'}).foodOrder.id>order.id);
+ reject(arrived,'carryFood',{order:order.id},'foodOrderUnavailable');
+ const requested=apply(arrived,'collectFood',{order:order.id,market:'market'});
+ assert.equal(requested.foodOrder.pickup,'requested');
+ reject(requested,'collectFood',{order:order.id,market:'market'},'foodOrderUnavailable');
+ reject(requested,'finishFood',{order:order.id},'foodOrderUnavailable');
+ reject(requested,'orderFood',{meal:'noodles'},'foodOrderActive');
+ const carrying=apply(requested,'carryFood',{order:order.id});
+ assert.equal(carrying.foodOrder.pickup,'carrying');
+ reject(carrying,'carryFood',{order:order.id},'foodOrderUnavailable');
+ reject(carrying,'finishFood',{order:order.id+1},'foodOrderUnavailable');
+ const home=apply(carrying,'finishFood',{order:order.id});
+ assert.equal(home.foodOrder,undefined);
+ assert.equal(home.coins,ordered.coins);
+ assert.deepEqual(home.ledger,ordered.ledger);
+ assert.ok(apply(home,'orderFood',{meal:'noodles'}).foodOrder.id>order.id);
 });
 
-test('pending and delivered food orders persist across Common Engine, native and saved backups',async()=>{
+test('food orders persist at every delivery stage across Common Engine, native and saved backups',async()=>{
  const old=farmWithHome();
  assert.equal(validateCozyState(old),old);
  const saved=new Map([[COZY_SAVE_KEY,JSON.stringify(old)]]);
@@ -64,7 +75,7 @@ test('pending and delivered food orders persist across Common Engine, native and
   assert.equal((await runtime.command('orderFood',{meal:'chickenRice'})).ok,true);
   const order=runtime.state.foodOrder;
   assert.deepEqual(new CozySession(storage).state.foodOrder,order);
-  for(const invalid of [{id:order.id+1},{meal:'unlisted'},{marketId:'pond'},{deliveredTick:old.tick-1},{extra:true}]){
+  for(const invalid of [{id:order.id+1},{meal:'unlisted'},{marketId:'pond'},{deliveredTick:old.tick-1},{pickup:'requested'},{extra:true}]){
    const state={...runtime.state,foodOrder:{...order,...invalid}};
    assert.throws(()=>validateCozyState(state),/saveImportInvalid/);
   }
@@ -74,6 +85,15 @@ test('pending and delivered food orders persist across Common Engine, native and
   assert.equal(reopened.state.coins,old.coins-COZY_FOOD_MENU.chickenRice.price);
   assert.equal(JSON.parse(reopened.exportBundle()).state.foodOrder.id,order.id);
   assert.equal(reopened.command('collectFood',{order:order.id,market:'market'}).ok,true);
+  const pickupRuntime=await openCozyCommonEngine(null,{native:new CozySession(storage)});
+  try{
+   assert.equal(pickupRuntime.state.foodOrder.pickup,'requested');
+   assert.throws(()=>validateCozyState({...pickupRuntime.state,foodOrder:{...pickupRuntime.state.foodOrder,pickup:'walking'}}),/saveImportInvalid/);
+   assert.equal((await pickupRuntime.command('carryFood',{order:order.id})).ok,true);
+   const resumed=new CozySession(storage);
+   assert.equal(JSON.parse(resumed.exportBundle()).state.foodOrder.pickup,'carrying');
+   assert.equal(resumed.command('finishFood',{order:order.id}).ok,true);
+  }finally{pickupRuntime.dispose();}
   assert.equal(Object.hasOwn(new CozySession(storage).state,'foodOrder'),false);
  }finally{runtime.dispose();}
 });

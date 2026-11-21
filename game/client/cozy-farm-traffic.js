@@ -1,7 +1,7 @@
 import {Group,InstancedMesh,MathUtils,Mesh,Object3D} from 'three';
-import {COZY_MORNING_HOUR} from './cozy-domain.js';
+import {COZY_MORNING_HOUR,sameFoodOrder} from './cozy-domain.js';
 import {COZY_BUILD_CATALOG} from './cozy-placement.js';
-import {groundHeight,groundPoint,WorkerRoutes} from './cozy-worker-routes.js';
+import {groundHeight,groundPoint,marketMealStation,WorkerRoutes} from './cozy-worker-routes.js';
 
 /** @typedef {import('./cozy-domain.js').Placement} Placement */
 /** @typedef {import('./cozy-domain.js').FoodOrder} FoodOrder */
@@ -110,9 +110,6 @@ function travelRoad(vehicle,path,wheels,wheelRadius,delta,reduced,speed,reverse=
   path.shift();
  }
 }
-
-/** @param {FoodOrder|null} a @param {FoodOrder|null} b */
-function sameOrder(a,b){return !!a&&!!b&&a.id===b.id&&a.meal===b.meal&&a.orderedTick===b.orderedTick&&a.marketId===b.marketId;}
 
 export class FarmTraffic{
  /** @param {import('./cozy-world.js').CozyWorld} world */
@@ -224,12 +221,12 @@ export class FarmTraffic{
     this.stopCourier();
    }
   }
-  if(this.courierOrder&&!sameOrder(this.courierOrder,order)&&['arriving','droppingOff'].includes(this.courierPhase)&&!this.handoffStarted)this.stopCourier();
-  if(!sameOrder(this.foodOrder,order))this.courierRetry=0;
+  if(this.courierOrder&&!sameFoodOrder(this.courierOrder,order)&&['arriving','droppingOff'].includes(this.courierPhase)&&!this.handoffStarted)this.stopCourier();
+  if(!sameFoodOrder(this.foodOrder,order))this.courierRetry=0;
   this.foodOrder=order;
-  this.parcel.visible=!!order&&order.deliveredTick!==null&&order.marketId===this.market?.id;
+  this.parcel.visible=!!order&&order.deliveredTick!==null&&order.pickup!=='carrying'&&order.marketId===this.market?.id;
   if(this.parcel.visible&&this.market){
-   const {x,y,z}=groundPoint(this.market,2.86,1.71,.906);
+   const {x,y,z}=marketMealStation(this.market).parcel;
    this.parcel.position.set(x,y,z);
    this.parcel.rotation.y=this.market.rotation;
   }
@@ -321,7 +318,7 @@ export class FarmTraffic{
   if(this.courierPhase==='droppingOff'){
    this.courierWait-=delta;
    const order=this.foodOrder;
-   if(!this.handoffStarted&&this.courierWait<=1.8&&order&&order.deliveredTick===null&&sameOrder(this.courierOrder,order)){
+   if(!this.handoffStarted&&this.courierWait<=1.8&&order&&order.deliveredTick===null&&sameFoodOrder(this.courierOrder,order)){
     this.handoffStarted=this.world.options?.onFoodArrival?.(order)===true;
     if(this.handoffStarted&&this.payload)this.payload.visible=false;
    }
@@ -344,7 +341,7 @@ export class FarmTraffic{
    this.courierPhase='droppingOff';
    this.courierWait=3.8;
   }else{
-   if(sameOrder(this.courierOrder,this.foodOrder)&&this.foodOrder?.deliveredTick===null)this.courierRetry=7;
+   if(sameFoodOrder(this.courierOrder,this.foodOrder)&&this.foodOrder?.deliveredTick===null)this.courierRetry=7;
    this.stopCourier();
   }
  }
