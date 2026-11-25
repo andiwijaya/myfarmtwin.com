@@ -39,7 +39,8 @@ a:focus-visible, .guide-search input:focus-visible, .guide-search button:focus-v
   white-space: nowrap;
 }
 .play-link:hover { background: #375c3f; }
-.intro { max-width: 760px; padding-block: clamp(30px, 6vw, 74px) 26px; }
+.breadcrumbs { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 20px; font-size: .9rem; }
+.intro { max-width: 760px; padding-block: clamp(22px, 4vw, 45px) 26px; }
 h1, h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; line-height: 1.1; letter-spacing: -.035em; }
 h1 { font-size: clamp(2.1rem, 6vw, 4.5rem); margin: 0 0 18px; }
 .intro p { max-width: 64ch; margin: 0; color: #52634e; font-size: clamp(1rem, 2vw, 1.15rem); }

@@ -15,14 +15,14 @@
   "defaultRuntime": "common-engine",
   "commonEngineVersion": "0.3.0",
   "three": "0.187.0",
-  "entry": "app-LA6OWSGL.js",
+  "entry": "app-QGLZQM5E.js",
   "recoveryEntry": "recovery-KNFFTEU5.js",
   "integrityEntry": "integrity-5U5OBVMF.js",
   "emitted": [
     {
-      "name": "app-LA6OWSGL.js",
-      "bytes": 791104,
-      "sha256": "f917d5889c6db215b4d6e751c0901eb9624d7f8720fa3190745dc5f2ae767974"
+      "name": "app-QGLZQM5E.js",
+      "bytes": 791184,
+      "sha256": "2d732d8fdd68a511cae4a27208038773424010c22eab9db8fb918ba79afe4fbf"
     },
     {
       "name": "recovery-KNFFTEU5.js",
@@ -1480,7 +1480,7 @@
     }
   },
   "manifestSha256": "342d8d17e4e4dec71dd6c964abcd04291ea136aa0c60aa4fc0e9440c8a876db9",
-  "htmlSha256": "8c35bddaac6d4664176fb5108537401aebdd7e2578d75fb4dcbccfb004da3e9b",
+  "htmlSha256": "3828c097a2eaa2f1a10061c47b10ecd04c8d179b8efc9cb418a3bae44a842f58",
   "cssSha256": "c55f96a929806733b67bd076b181ed9ce38441925dc417d1c1aa39293438916d",
   "inputs": [
     "game/client/active-garden.js",

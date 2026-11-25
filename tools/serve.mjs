@@ -7,6 +7,10 @@ import {gzipSync} from 'node:zlib';
 import {parseHeaderRules,headersForPath} from './pages-headers.mjs';
 export async function startServer(port=4177,root=resolve(process.env.QA_DIST_ROOT||'dist'),options={assetCache:false}){
  let policy='';try{policy=await readFile(resolve(root,'_headers'),'utf8');}catch{/* No custom policy in a baseline fixture. */}const rules=parseHeaderRules(policy);
+ const notFound=await readFile(resolve(root,'404.html')).catch(error=>{
+  if(error.code!=='ENOENT')throw error;
+  return null;
+ });
  const server=http.createServer(async(req,res)=>{
   try{
    const pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
@@ -22,7 +26,10 @@ export async function startServer(port=4177,root=resolve(process.env.QA_DIST_ROO
    // never part of dist or Cloudflare configuration; normal local serving stays unchanged.
    if(options.assetCache){const protectedTransform=/\bno-transform\b/.test(headers['cache-control']);if(options.assetCompression&&!protectedTransform&&/\.(?:js|css)$/.test(file)&&/\bgzip\b/.test(req.headers['accept-encoding']||'')){body=gzipSync(body);headers['content-encoding']='gzip';headers.vary='Accept-Encoding';headers['content-length']=String(body.length);}headers.etag='"'+createHash('sha256').update(body).digest('hex')+'"';if(extname(file)!=='.html')headers['cache-control']='public, max-age=14400, must-revalidate'+(protectedTransform?', no-transform':'');if(req.headers['if-none-match']===headers.etag){res.writeHead(304,headers);res.end();return;}}
    res.writeHead(200,headers);res.end(body);
-  }catch{res.writeHead(404);res.end('Not found');}
+  }catch{
+   res.writeHead(404,{'content-type':notFound?'text/html; charset=utf-8':'text/plain; charset=utf-8'});
+   res.end(notFound??'Not found');
+  }
  });
  return new Promise(resolve=>server.listen(port,'127.0.0.1',()=>resolve(server)));
 }
