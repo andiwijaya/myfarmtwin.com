@@ -51,11 +51,26 @@ export function createView(host, initial, onContextLoss) {
 
   function fit() {
     const {siteWidth, siteDepth, inletHeight} = model.design;
-    const diagonal = Math.hypot(siteWidth, siteDepth) / 1000;
-    controls.target.set(siteWidth / 2000, inletHeight / 3400, siteDepth / 2000);
-    const portrait = camera.aspect < 1 ? 1 / Math.max(.62, camera.aspect) : 1;
-    const distance = Math.max(1.45, diagonal * .85) * portrait;
-    camera.position.copy(controls.target).add(point(.75, .8, 1).normalize().multiplyScalar(distance));
+    const framePoints = [...model.rack, ...model.tank, ...model.routeFeed, {x:0, y:0, z:0}, {x:siteWidth, y:0, z:siteDepth}];
+    const minimumX = Math.min(...framePoints.map(p => p.x)) / 1000;
+    const maximumX = Math.max(...framePoints.map(p => p.x)) / 1000;
+    const minimumZ = Math.min(...framePoints.map(p => p.z)) / 1000;
+    const maximumZ = Math.max(...framePoints.map(p => p.z)) / 1000;
+    const top = (inletHeight + e.channelHeight + 26) / 1000;
+    controls.target.set((minimumX + maximumX) / 2, top / 2, (minimumZ + maximumZ) / 2);
+    const back = point(.75, .85, 1).normalize();
+    const right = yAxis.clone().cross(back).normalize();
+    const up = back.clone().cross(right).normalize();
+    const vertical = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * .9;
+    const horizontal = vertical * camera.aspect;
+    let distance = 1.45;
+    for (const x of [minimumX, maximumX]) for (const y of [0, top]) for (const z of [minimumZ, maximumZ]) {
+      const corner = point(x, y, z).sub(controls.target);
+      const depth = corner.dot(back);
+      distance = Math.max(distance, depth + Math.abs(corner.dot(right)) / horizontal, depth + Math.abs(corner.dot(up)) / vertical);
+    }
+    controls.maxDistance = Math.max(22, distance * 1.6);
+    camera.position.copy(controls.target).addScaledVector(back, distance);
     controls.update();
     draw();
   }
