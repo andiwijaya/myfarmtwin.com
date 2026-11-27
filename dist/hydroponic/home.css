@@ -1,0 +1,27 @@
+.home-food{display:grid;gap:1rem;margin-bottom:2rem;min-width:0;color:#193c32}
+.home-food a{text-underline-offset:.2em}
+.home-food :focus-visible{outline:3px solid #a76c22;outline-offset:3px}
+.home-food-feature{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.82fr);overflow:hidden;border:1px solid #c6d8c6;border-radius:24px;background:#e6efdf;min-height:272px}
+.home-food-copy{display:grid;align-content:center;justify-items:start;gap:.8rem;padding:clamp(1.3rem,4.1vw,3.5rem)}
+.home-food-copy p{margin:0;max-width:43ch;font-size:clamp(.96rem,1.2vw,1.1rem);line-height:1.55;color:#3e5d50}
+.home-food-copy .home-food-eyebrow{font-weight:750;font-size:.8rem;letter-spacing:.075em;text-transform:uppercase}
+.home-food-copy h2{font:500 clamp(2.2rem,4.8vw,4.3rem)/.98 'Playfair Display',Georgia,serif;letter-spacing:-.05em;margin:0;max-width:13ch}
+.home-food-cta{background:#174b3f;color:white;border-radius:100px;display:inline-flex;align-items:center;min-height:44px;padding:.55rem 1.1rem;font-weight:720;text-decoration:none;line-height:1.2}
+.home-food-cta:hover{background:#0d3e33}
+.home-food-art{min-width:0;display:block;background:#dcebe0}
+.home-food-art img{display:block;width:100%;height:100%;max-height:374px;object-fit:cover;object-position:50% 57%}
+.home-food-heading{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.5rem;margin-bottom:.5rem}
+.home-food-heading h3{font:500 clamp(1.35rem,2.55vw,1.85rem)/1.15 'Playfair Display',Georgia,serif;margin:0}
+.home-food-heading a,.home-food-guide a{font-size:.92rem;text-decoration:underline}
+.home-food-rail{display:flex;overflow-x:auto;scroll-snap-type:x proximity;overscroll-behavior-inline:contain;list-style:none;gap:.8rem;margin:0;padding:.2rem .2rem .55rem}
+.home-food-rail li{flex:0 0 min(93%,415px);scroll-snap-align:start}
+.home-food-tile{display:grid;grid-template-columns:104px 1fr;min-height:78px;align-items:center;gap:.8rem;background:#fffdf6;border:1px solid #c8d6c6;border-radius:12px;overflow:hidden}
+.home-food-tile:hover{border-color:#658c74}
+.home-food-tile img{display:block;width:104px;height:82px;object-fit:cover}
+.home-food-tile b,.home-food-tile small{display:block;line-height:1.35;padding-right:.45rem}
+.home-food-tile b{font-size:.97rem}.home-food-tile small{color:#4b6558;font-size:.82rem;margin-top:.2rem}
+.home-food-guide{margin:0;display:flex;gap:.7rem 1.1rem;flex-wrap:wrap;align-items:baseline}
+.home-food-guide strong{font-size:.86rem}
+.home-food + .game-card{min-height:0}
+@media(max-width:780px){.home-food-feature{grid-template-columns:minmax(0,1fr) minmax(0,.68fr);min-height:230px}.home-food-art img{max-height:none}}
+@media(max-width:540px){.home-food-feature{grid-template-columns:1fr}.home-food-art img{height:160px;object-fit:cover;object-position:center 42%}.home-food-cta{min-height:44px}.home-food-copy h2{font-size:2.5rem}.home-food{margin-bottom:1.5rem}}

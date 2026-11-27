@@ -1,5 +1,13 @@
 # MyFarmTwin.com
 
+## Hydroponic Planner
+
+The household food production planner at `/hydroponic/` uses a versioned NFT design with 30 planting holes. Its geometry, pump estimates, public design page, and printable BOM come from the same model in `hydroponic/`. The editor keeps its drafts in its own browser storage namespace.
+
+Run `npm run build:hydroponic` to generate `dist/hydroponic/`, the home gallery on both language pages, and the Hydroponic sitemap entries. Commit those generated files for the existing Cloudflare Pages pipeline. `node tools/hydroponic-design.mjs validate` checks the launch design. The `calculate` command exports its resolved model. To publish another example, use `create <slug> <title> [channelCount=4] [holesPerChannel=6]`, review the generated parameters, save them in `hydroponic/designs/<slug>.json`, validate the file, and rebuild.
+
+See [the implementation and release checklist](docs/HYDROPONIC_PLANNER_V1_CHECKLIST.md).
+
 ## Current tropical GLB world — Cozy V2
 
 The full upgrade is implemented at `/play/`; the former `/play/glb/` preview uses the same entry, authoritative economy, and local save. The original GLB library includes the farm, its continuous rice fields and hills, ten Indonesian house models, two articulated farm workers, a wind pump, a market truck, and a hybrid wind-solar station. The world manifest references 22 logical assets and five far LODs, with 27 validated GLBs.
