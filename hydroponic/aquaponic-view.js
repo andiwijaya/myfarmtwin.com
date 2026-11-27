@@ -167,7 +167,10 @@ export function createAquaponicView(host, onContextLoss) {
     tube(f.waste,fittings,.018,materials.waste);
     const valve = f.waste[1];
     box(fittings,.072,.020,.035,materials.waste,valve.x,valve.y,valve.z+.034);
-    for (const route of f.flow) animatePath(route,motion,route.length > 3 ? 9 : 4,materials.drop,detailBead);
+    for (const [i,route] of f.focusFlow.entries()) {
+      const count = f.id === 'solids' && i === f.focusFlow.length-1 ? 1 : route.length > 6 ? 5 : 3;
+      animatePath(route,motion,count,materials.drop,detailBead);
+    }
     if (f.well) {
       const {well,hopper,weir} = f;
       const shell = cylinder(parts,well.r,well.top-well.bottom,materials.cutaway,f.x,(well.bottom+well.top)/2,f.z,true);
@@ -209,10 +212,12 @@ export function createAquaponicView(host, onContextLoss) {
   let disposed = false;
   let frame = 0;
   let clock = 0;
+  let waterTravel = 0;
   let last = 0;
   let focused = '';
 
   function setDrumVisibility() {
+    flowing.visible = running && !focused;
     bedHardware.visible = !focused;
     bedContents.visible = !focused;
     bedCircuits.visible = !focused;
@@ -256,7 +261,7 @@ export function createAquaponicView(host, onContextLoss) {
     setDrumVisibility();
     orbit.target.set(filter.x,filter.bottom+filter.height*.43,filter.z);
     const distance = 1.56 / Math.min(1,Math.max(.62,camera.aspect));
-    camera.position.copy(orbit.target).addScaledVector(vec(.33,.51,-1).normalize(),distance);
+    camera.position.copy(orbit.target).addScaledVector(vec(id === 'bio' ? .72 : .33,.51,-1).normalize(),distance);
     orbit.update();
     draw();
   }
@@ -295,7 +300,7 @@ export function createAquaponicView(host, onContextLoss) {
       fish.body.rotation.y = Math.atan2(-dz, dx);
       fish.mixer.update(delta);
     }
-    for (const {body, line, length, offset} of beads) body.position.copy(line.getPointAt((clock * .43 / length + offset) % 1));
+    for (const {body, line, length, offset} of beads) body.position.copy(line.getPointAt((waterTravel / length + offset) % 1));
     for (const {body,f,bubble,index} of mediaBits) {
       const phase = clock*1.6+index*2.43;
       const y = bubble ? f.diffuser.y+((clock*.51+index*.137)%1)*(f.water-f.diffuser.y-.031) : f.bottom+.33+Math.sin(phase)*.104;
@@ -320,6 +325,7 @@ export function createAquaponicView(host, onContextLoss) {
     const delta = last ? Math.min(.04, (now - last) / 1000) : 0;
     last = now;
     clock += delta;
+    if (running) waterTravel += delta*(focused ? design.flowSpeed.filter : design.flowSpeed.overview);
     update(delta);
     draw();
     schedule();
@@ -329,7 +335,6 @@ export function createAquaponicView(host, onContextLoss) {
     stocked = hasContents;
     running = hasFlow && stocked;
     filled.visible = stocked;
-    flowing.visible = running;
     setDrumVisibility();
     if (frame) cancelAnimationFrame(frame);
     frame = 0;

@@ -5,34 +5,40 @@ const solidIn = point(1.64, 0.600, 0.49);
 const solidOut = point(2.10, 0.865, 0.49);
 const bioIn = point(2.40, 0.425, 0.49);
 const bioOut = point(2.64, 0.780, 0.73);
+const solidDrain = point(1.87, .29, .49);
+const bioDrain = point(2.64, .24, .49);
+const solidInletPipe = [solidIn,point(1.87,.60,.49),point(1.87,.86,.49)];
+const solidOutletPipe = [point(2.071,.865,.49),solidOut];
+const bioInletPipe = [bioIn,point(2.61,.425,.49)];
+const bioOutletPipe = [point(2.64,.83,.642),point(2.64,.780,.642),bioOut];
 const solids = {
   id:'solids', name:'Filter padatan', title:'Drum 1 · Pengendap radial', x:1.87, z:.49, r:.23,
   bottom:.29, height:.71, water:.90, color:'#bb8e55',
-  inlet:{at:solidIn,dn:25}, outlet:{at:solidOut,dn:40}, drain:{at:point(1.87,.29,.49),dn:32},
+  inlet:{at:solidIn,dn:25}, outlet:{at:solidOut,dn:40}, drain:{at:solidDrain,dn:32},
   well:{r:.085, bottom:.56, top:.965, inletTip:.86},
   weir:{r:.185, floor:.84, crest:.90},
   hopper:{r:.214, base:.30, shoulder:.495},
-  internalInlet:[solidIn,point(1.87,.60,.49),point(1.87,.86,.49)],
-  internalOutlet:[point(2.071,.857,.49),solidOut],
-  waste:[point(1.87,.30,.49),point(1.87,.195,.49),point(1.87,.17,.81)],
+  internalInlet:solidInletPipe,
+  internalOutlet:solidOutletPipe,
+  waste:[solidDrain,point(1.87,.195,.49),point(1.87,.195,.81)],
   flow:[
-    [solidIn,point(1.87,.60,.49),point(1.87,.86,.49)],
-    ...[-1,1].map(side => [point(1.87+side*.045,.853,.49),point(1.87+side*.052,.545,.49),point(1.87+side*.153,.539,.49),point(1.87+side*.169,.89,.49),point(1.87+side*.206,.908,.49),point(1.87+side*.205,.862,.49)])
+    solidInletPipe,
+    ...[-1,1].map(side => [point(1.87+side*.045,.853,.49),point(1.87+side*.052,.545,.49),point(1.87+side*.153,.539,.49),point(1.87+side*.169,.89,.49),point(1.87+side*.206,.908,.49),point(1.87+side*.205,.865,.49)]),
+    solidOutletPipe
   ]
 };
 const bio = {
   id:'bio', name:'Biofilter', title:'Drum 2 · Biofilter media bergerak', x:2.64, z:.49, r:.24,
   bottom:.24, height:.71, water:.83, color:'#668c78',
-  inlet:{at:bioIn,dn:40}, outlet:{at:bioOut,dn:40}, drain:{at:point(2.64,.24,.49),dn:32},
+  inlet:{at:bioIn,dn:40}, outlet:{at:bioOut,dn:40}, drain:{at:bioDrain,dn:32},
   screen:{x:2.64,z:.642,r:.063,bottom:.625,top:.88,crest:.83},
   diffuser:{x:2.64,y:.315,z:.49,r:.10},
-  internalInlet:[bioIn,point(2.55,.415,.49),point(2.61,.405,.49)],
-  internalOutlet:[point(2.64,.83,.642),point(2.64,.780,.642),bioOut],
-  waste:[point(2.64,.24,.49),point(2.64,.145,.49),point(2.64,.13,.81)],
+  internalInlet:bioInletPipe,
+  internalOutlet:bioOutletPipe,
+  waste:[bioDrain,point(2.64,.145,.49),point(2.64,.145,.81)],
   flow:[
-    [bioIn,point(2.55,.415,.49),point(2.61,.405,.49),point(2.74,.451,.45),point(2.77,.60,.45),point(2.74,.743,.533),point(2.674,.818,.588),point(2.64,.835,.642)],
-    [point(2.61,.405,.49),point(2.54,.49,.54),point(2.54,.658,.525),point(2.56,.771,.576),point(2.64,.83,.642)],
-    [point(2.64,.83,.642),point(2.64,.780,.642),bioOut]
+    [...bioInletPipe,point(2.74,.451,.45),point(2.77,.60,.45),point(2.74,.743,.533),point(2.674,.818,.588),...bioOutletPipe],
+    [bioInletPipe.at(-1),point(2.54,.49,.54),point(2.54,.658,.525),point(2.56,.771,.576),bioOutletPipe[0]]
   ]
 };
 const filters = [solids, bio];
@@ -47,6 +53,22 @@ const supply = [
   [bioOut,point(2.64,.773,.81),point(1.78,.753,.81),point(1.78,.744,1.34),point(1.78,.737,1.93)],
   ...beds.map((bed,i) => [point(1.78,i === 0 ? .744 : .737,bed.z),point(1.89,i === 0 ? .741 : .735,bed.z),point(1.99,bed.water,bed.z)])
 ];
+for (const [i, filter] of filters.entries()) {
+  const incoming = supply[i].slice(-2);
+  const outgoing = supply[i+1].slice(0,2);
+  if (filter === bio) {
+    // Keep the turn toward the manifold visible in the close-up.
+    const [,elbow,next] = supply[i+1];
+    const portion = .21;
+    outgoing.push(point(elbow.x+(next.x-elbow.x)*portion,elbow.y+(next.y-elbow.y)*portion,elbow.z+(next.z-elbow.z)*portion));
+  }
+  filter.focusLeads = [incoming,outgoing];
+  filter.focusFlow = filter.flow.map((route, j) => [
+    ...(j === 0 ? incoming.slice(0,-1) : []),
+    ...route,
+    ...(route.at(-1) === filter.outlet.at ? outgoing.slice(1) : [])
+  ]);
+}
 const returns = [
   ...beds.map((bed,i) => [point(3.37,.728,bed.z),point(3.48,i === 0 ? .692 : .677,bed.z)]),
   [point(3.48,.692,1.34),point(3.48,.677,1.93),point(3.48,.648,2.18),point(1.42,.58,2.18),point(1.22,.55,1.97)],
@@ -58,6 +80,7 @@ export const aquaponic = {
   design: {id: 'akuaponik-nila', title: 'Akuaponik Nila dan Sayuran', titleEn: 'Tilapia & Greens Aquaponics', revision: 2, siteWidth: 3600, siteDepth: 2600},
   holeCount: beds.reduce((count, bed) => count + bed.pots.length, 0),
   pond, beds, filters, supply, returns,
+  flowSpeed: {overview: .43, filter: .11},
   pump: supply[0][0],
   returnPoint: returns[returns.length - 1][1],
   litres: Math.PI * pond.r ** 2 * pond.water * 1000,
@@ -75,7 +98,7 @@ export function validateFilterGeometry() {
   if (lift[lift.length-1] !== solids.inlet.at || betweenDrums[0] !== solids.outlet.at || betweenDrums[betweenDrums.length-1] !== bio.inlet.at || toBeds[0] !== bio.outlet.at) {
     throw new Error('External piping must meet every drum bulkhead.');
   }
-  if (filters.some(f => f.internalInlet[0] !== f.inlet.at || f.internalOutlet[f.internalOutlet.length-1] !== f.outlet.at || f.drain.at.y !== f.bottom)) {
+  if (filters.some(f => f.internalInlet[0] !== f.inlet.at || f.internalOutlet.at(-1) !== f.outlet.at || f.waste[0] !== f.drain.at || f.drain.at.y !== f.bottom)) {
     throw new Error('Internal pipes and drains must connect to their annotated ports.');
   }
   if (![...supply.slice(1), ...returns].every(falling) || !(solids.water > bio.water && beds.every(bed => bio.water > bed.water && bed.water > pond.water))) {
@@ -110,8 +133,8 @@ function filterSection(f) {
     <text x="184" y="${y(f.well.top)-9}" text-anchor="middle" class="filter-label">Tabung penenang</text>
     <text x="${right+12}" y="${level-13}" class="filter-label">Bibir limpah</text>` : `
     <path d="M${x(.114)} ${y(f.screen.top)} V${y(f.screen.bottom)} H${x(.224)} V${y(f.screen.top)} Z" fill="url(#${f.id}-screen)" class="filter-internal"/>
-    ${supplyPipe([[-f.r-.12,inY],[-.086,inY],[-.025,f.internalInlet[2].y]])}${supplyPipe([[.168,f.screen.crest],[.168,outY],[f.r+.12,outY]])}
-    ${traced([[-f.r-.093,inY],[-.075,inY],[-.025,.405],[.066,.461],[.068,.625],[.104,.760],[.165,f.screen.crest]])}
+    ${supplyPipe([[-f.r-.12,inY],[f.internalInlet.at(-1).x-f.x,inY]])}${supplyPipe([[.168,f.screen.crest],[.168,outY],[f.r+.12,outY]])}
+    ${traced([[-f.r-.093,inY],[f.internalInlet.at(-1).x-f.x,inY],[.066,.461],[.068,.625],[.104,.760],[.165,f.screen.crest]])}
     ${traced([[.168,f.screen.crest],[.168,outY],[f.r+.101,outY]])}
     <path d="M${x(-.13)} ${y(f.diffuser.y)} H${x(.10)} M${x(-.10)} ${y(f.diffuser.y)} V${y(.73)} M${x(.04)} ${y(f.diffuser.y)} V${y(.70)}" class="filter-air"/>
     <text x="184" y="${y(f.diffuser.y)+20}" text-anchor="middle" class="filter-label">Difuser udara</text>

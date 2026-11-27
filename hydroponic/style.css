@@ -166,6 +166,10 @@ img{max-width:100%;height:auto;display:block}
 .filter-ports>div+div{margin-top:.55rem}
 .filter-ports dt{font-size:.93rem;font-weight:750}
 .filter-ports dd{margin:.10rem 0 0;color:var(--muted);font-size:.92rem}
+#daftar-bahan-filter{scroll-margin-top:1rem}
+.filter-bom caption{text-align:left;font-weight:750;font-size:1.05em;padding-bottom:.35em}
+.filter-bom .bill-table thead th:nth-child(2){width:23%}
+.filter-bom .bill-table thead th:nth-child(3){width:13%}
 .print-sheet{display:none}
 body[data-print-preview] .print-sheet{display:block;width:min(100% - 1.4rem,850px);margin:0 auto 2.5rem;background:white;color:#172b22;border:1px solid var(--line);padding:clamp(.65rem,4vw,2rem);border-radius:12px}
 .print-sheet h1,.print-sheet h2{max-width:none;line-height:1.05}
@@ -205,7 +209,14 @@ body[data-print-preview] .print-sheet{display:block;width:min(100% - 1.4rem,850p
   .aquaponic-page .panel{border:0;padding:2mm 0;break-inside:avoid}
   .aquaponic-page .panel h2{font-size:14pt}.aquaponic-page .aquaponic-plan{height:86mm}
   .aquaponic-page .pipe-return{stroke:#333;stroke-dasharray:5 3}
-  .aquaponic-page .filter-details{break-inside:auto}
+  .aquaponic-page .filter-details,.aquaponic-page .filter-bom{break-inside:auto}
+  .aquaponic-page .filter-bom{display:block}
+  .filter-bom h2,.filter-bom caption{break-after:avoid}
+  .filter-bom .table-wrap{overflow:visible;margin-block:3mm}
+  .filter-bom .bill-table{font-size:8.5pt}
+  .filter-bom .bill-table th,.filter-bom .bill-table td{padding:1.1mm 1.4mm}
+  .filter-bom thead{display:table-header-group}
+  .filter-bom tr{break-inside:avoid}
   .filter-grid{display:block}
   .filter-card{break-inside:avoid;border:0;padding:1mm 0;margin-bottom:3mm}
   .filter-section-svg{height:52mm}

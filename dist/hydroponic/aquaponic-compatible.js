@@ -1,6 +1,6 @@
-import {aquaponic as design} from './aquaponic-design.js?v=56400faece0c';
+import {aquaponic as design} from './aquaponic-design.js?v=b5ca0d4810e0';
 
-const {pond, beds, filters, pump, supply, returns, returnPoint} = design;
+const {pond, beds, filters, pump, supply, returns, returnPoint, flowSpeed} = design;
 const widthM = design.design.siteWidth / 1000;
 const depthM = design.design.siteDepth / 1000;
 const point = (x, y, z) => ({x, y, z});
@@ -14,12 +14,14 @@ const segmentsFor = (paths, color, marker) => paths.flatMap(path => path.slice(1
 const pipes = [...segmentsFor(supply,'#237f72','#cefff1'), ...segmentsFor(returns.slice(0,-1),'#4c79a4','#c6e8ff')];
 const streams = [returns[returns.length-1], ...beds.map(bed => [point(bed.x-.67,bed.water+.013,bed.z+.10),point(bed.x+.67,bed.water+.013,bed.z+.10)])];
 const wetPipes = segmentsFor(streams,'#6bc7bd','#dbfff5');
-const filterPaths = Object.fromEntries(filters.map((f,i) => [f.id,{
+const filterPaths = Object.fromEntries(filters.map(f => [f.id,{
   internal:segmentsFor([f.internalInlet,f.internalOutlet],'#6c8e83','#cefff1'),
-  flow:segmentsFor(f.flow,'#70b7ac','#effff8'),
+  flow:f.focusFlow.map(route => {
+    const segments = segmentsFor([route],'#4b9d90','#effff8');
+    return {segments, length:segments.reduce((total, segment) => total+segment.length,0)};
+  }),
   waste:segmentsFor([f.waste],'#a67947','#fff'),
-  leadIn:segmentsFor([supply[i].slice(-2)],'#237f72','#cefff1'),
-  leadOut:segmentsFor([supply[i+1].slice(0,2)],'#237f72','#cefff1')
+  leads:segmentsFor(f.focusLeads,'#237f72','#cefff1')
 }]));
 
 export function createCompatibleView(host) {
@@ -38,6 +40,7 @@ export function createCompatibleView(host) {
   let target = point(widthM/2,.37,depthM/2);
   let stocked = true, flowing = true, visible = true, disposed = false, frame = 0;
   let time = 0, lastTime = 0, drag = null;
+  let waterTravel = 0;
 
   function axes(p) {
     const x = p.x-target.x, y = p.y-target.y, z = p.z-target.z;
@@ -199,7 +202,21 @@ export function createCompatibleView(host) {
     const lower = circle(f.x,f.bottom,f.z,f.r,-yaw,Math.PI);
     path([...upper,...lower.reverse()],'rgba(143,193,175,.16)');
     path(circle(f.x,top,f.z,f.r),null,'#557a6f',Math.max(1.4,scale*.011),true);
-    if (flowing) for (const segment of filterPaths[f.id].flow) tube(segment,true,true);
+  }
+
+  function traceWater({segments, length}) {
+    for (const segment of segments) tube(segment,true,false);
+    const count = Math.max(1,Math.ceil(length/.25));
+    for (let i=0;i<count;i++) {
+      let distance = (waterTravel+(i+.4)*length/count)%length;
+      for (const segment of segments) {
+        if (distance <= segment.length) {
+          dot(between(segment.start,segment.end,distance/segment.length),Math.max(2,scale*.021),segment.marker);
+          break;
+        }
+        distance -= segment.length;
+      }
+    }
   }
 
   function tube(segment, water = false, animate = flowing) {
@@ -208,7 +225,7 @@ export function createCompatibleView(host) {
     if (!animate || !length) return;
     const spacing=.20, count=Math.max(1,Math.ceil(length/spacing));
     for (let i=0;i<count;i++) {
-      const distance=(time*.43+i*spacing+.045)%length;
+      const distance=(waterTravel+i*spacing+.045)%length;
       dot(between(start,end,distance/length),Math.max(1.6,scale*.017),marker);
     }
   }
@@ -222,7 +239,8 @@ export function createCompatibleView(host) {
     if (focusedFilter) {
       const paths = filterPaths[focusedFilter.id];
       drum(focusedFilter,true);
-      for (const segment of [...paths.leadIn,...paths.leadOut]) tube(segment);
+      for (const segment of paths.leads) tube(segment,false,false);
+      if (flowing) for (const route of paths.flow) traceWater(route);
       return;
     }
     const objects=[
@@ -276,7 +294,7 @@ export function createCompatibleView(host) {
     focusedFilter=filter;
     closeUp=true;
     target=point(filter.x,filter.bottom+filter.height*.40,filter.z);
-    yaw=-.34;
+    yaw=filter.id === 'bio' ? -.72 : -.34;
     pitch=.36;
     zoom=1.03;
     fitScale();
@@ -316,7 +334,13 @@ export function createCompatibleView(host) {
   function animate(now) {
     frame=0;
     const seconds=lastTime ? (now-lastTime)/1000 : 0;
-    if (seconds>=1/30) {time+=Math.min(.12,seconds);lastTime=now;draw();}
+    if (seconds>=1/30) {
+      const delta = Math.min(.12,seconds);
+      time += delta;
+      if (flowing) waterTravel += delta*(focusedFilter ? flowSpeed.filter : flowSpeed.overview);
+      lastTime=now;
+      draw();
+    }
     if (!lastTime) lastTime=now;
     schedule();
   }
