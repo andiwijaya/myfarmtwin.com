@@ -147,6 +147,25 @@ img{max-width:100%;height:auto;display:block}
 .aq-route span{font-size:.88rem;color:var(--muted)}
 .aq-dimensions{grid-template-columns:repeat(2,minmax(0,1fr))}
 .aquaponic-plan{max-height:440px}
+.filter-view-options{background:#eaf2e9;border:1px solid var(--line);border-radius:9px;padding:.65rem .75rem;scroll-margin-top:.75rem}
+.filter-view-options p{margin-top:.55rem}
+.filter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.filter-card{min-width:0;border:1px solid var(--line);border-radius:10px;padding:.8rem;display:grid;gap:.6rem;align-content:start}
+.filter-section-svg{width:100%;height:auto;background:#f4f7f2;border-radius:8px}
+.filter-label{font:650 11px system-ui,sans-serif;fill:#355e54}
+.filter-badge{font:750 12px system-ui,sans-serif}
+.filter-shell,.filter-level,.filter-internal,.filter-hopper,.filter-pipe,.filter-flow,.filter-air,.filter-waste,.filter-valve{stroke-linecap:round;stroke-linejoin:round}
+.filter-shell,.filter-level,.filter-hopper,.filter-pipe,.filter-flow,.filter-air,.filter-waste,.filter-valve{fill:none}
+.filter-shell,.filter-internal{stroke:#4f7369;stroke-width:2.5}
+.filter-internal:not([fill]){fill:none}
+.filter-level{stroke:#6ab2a5;stroke-width:1.2;stroke-dasharray:4 3}
+.filter-hopper,.filter-waste,.filter-valve{stroke:#a37745;stroke-width:3}
+.filter-pipe{stroke:#91a8a0;stroke-width:8}
+.filter-flow{stroke:#138475;stroke-width:2.25}
+.filter-air{stroke:#6386a1;stroke-width:2.4;stroke-dasharray:3 4}
+.filter-ports>div+div{margin-top:.55rem}
+.filter-ports dt{font-size:.93rem;font-weight:750}
+.filter-ports dd{margin:.10rem 0 0;color:var(--muted);font-size:.92rem}
 .print-sheet{display:none}
 body[data-print-preview] .print-sheet{display:block;width:min(100% - 1.4rem,850px);margin:0 auto 2.5rem;background:white;color:#172b22;border:1px solid var(--line);padding:clamp(.65rem,4vw,2rem);border-radius:12px}
 .print-sheet h1,.print-sheet h2{max-width:none;line-height:1.05}
@@ -157,7 +176,7 @@ body[data-print-preview] .print-sheet{display:block;width:min(100% - 1.4rem,850p
 .print-sheet .dimensions{margin:.5em 0}
 
 @media(max-width:840px){.hero{min-height:0}.workspace{grid-template-columns:1fr}.editor form{grid-template-columns:1fr 1fr}.public-data{grid-template-columns:1fr}.public-data .wide{grid-column:auto}}
-@media(max-width:820px){.aq-workspace{grid-template-columns:1fr}}
+@media(max-width:820px){.aq-workspace,.filter-grid{grid-template-columns:1fr}}
 @media(max-width:590px){.shell{width:calc(100% - 1.3rem)}.bar{min-height:62px;gap:.55rem}.bar nav{gap:.55rem;font-size:.85rem}.hero{grid-template-columns:1fr;margin-top:.8rem}.hero-art{max-height:230px}.hero-copy{gap:.8rem}.hero-art img{height:230px}.workspace-head{margin-top:1.05rem}.workspace-head h1{margin-bottom:.3rem}.metrics,.dimensions{grid-template-columns:1fr 1fr}.editor form{grid-template-columns:1fr}.bill-table{font-size:.79rem}.bill-table th,.bill-table td{padding:.39rem .28rem}.print-views{grid-template-columns:1fr}.flow-diagram li{font-size:.78rem}.print-sheet h1{font-size:1.65rem}}
 @media(prefers-reduced-motion:reduce){.moving-flow{animation:none}}
 @page{size:A4 portrait;margin:11mm}
@@ -186,4 +205,8 @@ body[data-print-preview] .print-sheet{display:block;width:min(100% - 1.4rem,850p
   .aquaponic-page .panel{border:0;padding:2mm 0;break-inside:avoid}
   .aquaponic-page .panel h2{font-size:14pt}.aquaponic-page .aquaponic-plan{height:86mm}
   .aquaponic-page .pipe-return{stroke:#333;stroke-dasharray:5 3}
+  .aquaponic-page .filter-details{break-inside:auto}
+  .filter-grid{display:block}
+  .filter-card{break-inside:avoid;border:0;padding:1mm 0;margin-bottom:3mm}
+  .filter-section-svg{height:52mm}
 }

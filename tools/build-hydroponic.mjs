@@ -3,7 +3,7 @@ import {mkdir, readFile, readdir, writeFile} from 'node:fs/promises';
 import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath, pathToFileURL} from 'node:url';
 import {build} from 'esbuild';
-import {aquaponic, aquaponicPoster} from '../hydroponic/aquaponic-design.js';
+import {aquaponic, aquaponicPoster, validateFilterGeometry} from '../hydroponic/aquaponic-design.js';
 import {articles} from '../hydroponic/articles.js';
 import {calculateDesign} from '../hydroponic/engine.js';
 import {posterSvg} from '../hydroponic/drawings.js';
@@ -51,6 +51,7 @@ const homeNames = {
 };
 
 export async function buildHydroponic() {
+  validateFilterGeometry();
   const models = await readDesigns();
   if (models.some(model => model.design.id === aquaponic.design.id)) throw new Error(`Duplicate design ID: ${aquaponic.design.id}`);
   const examples = [...models, aquaponic];
@@ -78,6 +79,12 @@ export async function buildHydroponic() {
   for (const [name, contents] of bundled) files.set(`/hydroponic/${name}`, contents);
   const aquaponicAssets = ['aquaponic.js', 'aquaponic-design.js', 'aquaponic-compatible.js', 'aquaponic-view.js', 'style.css'];
   const assetVersion = digest(aquaponicAssets.map(name => files.get(`/hydroponic/${name}`)).join('\n')).slice(0,12);
+  for (const [name, dependencies] of Object.entries({'aquaponic.js':['aquaponic-design.js','aquaponic-compatible.js'], 'aquaponic-compatible.js':['aquaponic-design.js']})) {
+    const path = `/hydroponic/${name}`;
+    let source = files.get(path);
+    for (const dependency of dependencies) source = source.replace(`'./${dependency}'`, `'./${dependency}?v=${assetVersion}'`);
+    files.set(path, source);
+  }
   addPage(designUrl(aquaponic.design.id), aquaponicPage(assetVersion));
   files.set('/hydroponic/three-license.txt', lf(await readFile(join(root, 'node_modules', 'three', 'LICENSE'), 'utf8')));
 
