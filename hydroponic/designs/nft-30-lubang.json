@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "nft-30-lubang",
+  "revision": 1,
+  "title": "Hidroponik NFT 30 Lubang",
+  "siteWidth": 2400,
+  "siteDepth": 2000,
+  "rackX": 1200,
+  "rackZ": 745,
+  "rackRotation": 0,
+  "tankX": 1700,
+  "tankZ": 1460,
+  "tankRotation": 0,
+  "channelCount": 5,
+  "holesPerChannel": 6,
+  "channelLength": 1500,
+  "holeSpacing": 220,
+  "rowSpacing": 170,
+  "inletHeight": 900,
+  "slope": 2,
+  "workingLitres": 32,
+  "pump": "syncra-05"
+}

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Editor Hydroponic Planner | MyFarmTwin</title>
+  <meta name="description" content="Atur instalasi NFT dengan ukuran nyata, lihat denah dan model 3D, jalankan simulasi aliran, dan cetak desain A4.">
+  <link rel="canonical" href="https://myfarmtwin.com/hydroponic/planner/">
+  <meta name="robots" content="noindex,follow">
+  <meta property="og:title" content="Editor Hydroponic Planner | MyFarmTwin">
+  <meta property="og:description" content="Atur instalasi NFT dengan ukuran nyata, lihat denah dan model 3D, jalankan simulasi aliran, dan cetak desain A4.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://myfarmtwin.com/hydroponic/planner/">
+  <meta property="og:image" content="https://myfarmtwin.com/hydroponic/assets/nft-30-lubang-r1.svg">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/hydroponic/style.css">
+  <script type="module" src="/hydroponic/planner.js"></script>
+</head>
+<body class="planner-page">
+  <div id="site-app"><a class="skip" href="#main">Lewati ke isi</a>
+  <header class="bar shell"><a class="brand" href="/id/"><span class="brand-mark" aria-hidden="true">✦</span>MyFarmTwin</a><nav aria-label="Navigasi"><a href="/hydroponic/">Hidroponik</a><a href="/hydroponic/#panduan">Panduan</a><a href="/play/">Play Farm</a></nav></header>
+  <main id="main" class="shell">
+      <div class="workspace-head"><div><a href="/hydroponic/#contoh">Semua contoh</a><h1 id="design-title">Hydroponic Planner</h1><p id="summary" aria-live="polite"></p></div><div class="actions"><a class="button" href="/hydroponic/planner/?baru=1">Desain baru</a><button class="button" id="preview-action" type="button" aria-pressed="false" aria-controls="print-sheet" disabled>Lihat lembar A4</button><button class="button primary" id="print-action" type="button" disabled>Cetak Desain</button></div></div>
+      <noscript><p class="notice">Aktifkan JavaScript untuk menyesuaikan dan mencetak desain. <a href="/hydroponic/desain/nft-30-lubang/">Lihat denah contoh 30 lubang.</a></p></noscript>
+      <div class="workspace">
+        <section class="work-visual panel" aria-label="Pratinjau desain">
+          <div class="visual-top"><div class="view-actions" aria-label="Mode tampilan"><button class="segment" type="button" id="view-2d" aria-pressed="true" aria-controls="plan">Denah 2D</button><button class="segment" type="button" id="view-3d" aria-pressed="false" aria-controls="model-view">Model 3D</button></div><div class="move-actions"><button class="button" type="button" data-move="rack" aria-pressed="false">Geser rak</button><button class="button" type="button" data-move="tank" aria-pressed="false">Geser tandon</button></div></div>
+          <p id="placement-hint" class="notice" hidden></p><p id="stale-preview" class="notice warning" hidden>Denah menampilkan input terakhir yang lengkap.</p>
+          <div class="visual-stage"><div id="plan"></div><div id="model-view" hidden><button class="button" type="button" id="fit-model">Pas ke layar</button><div id="model-canvas"></div><p class="model-status" id="view-loading" role="status" hidden>Memuat model 3D…</p><p class="model-status" id="view-error" hidden>Model 3D belum tersedia. Denah dan cetak tetap bisa dibuka. <button class="button" type="button" id="retry-3d">Coba lagi</button></p></div></div>
+          <div class="legend" aria-label="Legenda"><span><i></i>Suplai</span><span><i class="back-key"></i>Aliran balik</span><span><i class="space-key"></i>Ruang servis</span><span><i class="hole-key"></i>Lubang tanam</span></div>
+          <div class="status-row"><dl aria-live="polite"><dt id="pump-state">Pompa mati</dt><dd id="live-flow">0 L/menit</dd></dl><button class="button primary" type="button" id="pump-toggle" aria-pressed="false">Nyalakan pompa</button></div>
+        </section>
+        <section class="editor panel" aria-labelledby="params"><h2 id="params">Ukuran dan komponen</h2>
+          <form id="design-form">
+            <details open><summary>Area dan posisi</summary><div class="field-grid"><label>Panjang area (mm)<input type="number" name="siteWidth" min="900" max="8000" step="1" inputmode="numeric" required></label><label>Lebar area (mm)<input type="number" name="siteDepth" min="900" max="8000" step="1" inputmode="numeric" required></label><label>Rak · X (mm)<input type="number" name="rackX" min="0" max="8000" step="1" inputmode="numeric" required></label><label>Rak · Y (mm)<input type="number" name="rackZ" min="0" max="8000" step="1" inputmode="numeric" required></label><label>Tandon · X (mm)<input type="number" name="tankX" min="0" max="8000" step="1" inputmode="numeric" required></label><label>Tandon · Y (mm)<input type="number" name="tankZ" min="0" max="8000" step="1" inputmode="numeric" required></label><label>Putar rak<select name="rackRotation"><option value="0">0°</option><option value="90">90°</option><option value="180">180°</option><option value="270">270°</option></select></label><label>Putar tandon<select name="tankRotation"><option value="0">0°</option><option value="90">90°</option><option value="180">180°</option><option value="270">270°</option></select></label></div></details>
+            <details open><summary>Kanal dan pompa</summary><div class="field-grid"><label>Jumlah kanal<input type="number" name="channelCount" min="2" max="8" step="1" inputmode="numeric" required></label><label>Lubang per kanal<input type="number" name="holesPerChannel" min="2" max="12" step="1" inputmode="numeric" required></label><label>Panjang kanal (mm)<input type="number" name="channelLength" min="600" max="3000" step="1" inputmode="numeric" required></label><label>Jarak lubang (mm)<input type="number" name="holeSpacing" min="150" max="350" step="1" inputmode="numeric" required></label><label>Jarak antarkanal (mm)<input type="number" name="rowSpacing" min="130" max="350" step="1" inputmode="numeric" required></label><label>Tinggi dasar masuk (mm)<input type="number" name="inletHeight" min="550" max="1550" step="1" inputmode="numeric" required></label><label>Kemiringan kanal (%)<input type="number" name="slope" min="1" max="4" step="1" inputmode="numeric" required></label><label>Larutan saat pompa menyala (L)<input type="number" name="workingLitres" min="20" max="48" step="1" inputmode="numeric" required></label><label class="wide">Model pompa<select name="pump"><option value="syncra-05">Sicce Syncra Silent 0.5 · 8 W</option><option value="syncra-10">Sicce Syncra Silent 1.0 · 16 W</option></select></label></div></details>
+          </form><p class="notice" id="design-status" role="status"></p><ul class="notice warning" id="design-issues" aria-live="polite" hidden></ul><div><button class="button" type="button" id="reset-design">Kembalikan ukuran awal</button></div>
+        </section>
+      </div>
+      <div class="detail-panels"><section class="panel"><h2>Perhitungan aliran</h2><dl id="hydro-metrics" class="metrics"></dl><p class="small">Model memakai kurva pompa, beda tinggi, dan estimasi rugi aliran. Setel katup tiap kanal dan bypass di instalasi nyata, lalu ukur debit yang keluar. <a href="/hydroponic/artikel/pilih-pompa/">Cara membaca kurva pompa</a></p></section>
+      <section class="panel"><h2>Dimensi rancangan</h2><div id="layout-dimensions"></div></section><section class="panel"><h2>Daftar komponen</h2><div class="table-wrap" id="materials"></div></section></div>
+      <script type="application/json" id="design-presets">{"nft-30-lubang":{"schemaVersion":1,"id":"nft-30-lubang","revision":1,"title":"Hidroponik NFT 30 Lubang","siteWidth":2400,"siteDepth":2000,"rackX":1200,"rackZ":745,"rackRotation":0,"tankX":1700,"tankZ":1460,"tankRotation":0,"channelCount":5,"holesPerChannel":6,"channelLength":1500,"holeSpacing":220,"rowSpacing":170,"inletHeight":900,"slope":2,"workingLitres":32,"pump":"syncra-05"}}</script>
+    </main>
+  <footer class="footer shell"><nav aria-label="Tautan MyFarmTwin"><a href="/id/">Beranda</a><a href="/hydroponic/#contoh">Contoh desain</a><a href="/hydroponic/#panduan">Artikel</a><a href="/play/">Play Farm</a></nav></footer></div>
+  <article id="print-sheet" class="print-sheet" tabindex="-1" aria-label="Pratinjau lembar cetak A4"></article>
+</body>
+</html>

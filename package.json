@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node tools/build.mjs",
+    "build:hydroponic": "node tools/build-hydroponic.mjs",
     "test": "node --test game/tests/*.test.mjs",
     "lint": "node tools/check.mjs",
     "typecheck": "tsc -p jsconfig.json",
