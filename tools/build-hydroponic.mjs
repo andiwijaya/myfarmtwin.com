@@ -44,7 +44,7 @@ async function readDesigns() {
   return [first, ...models.filter(model => model !== first)];
 }
 
-const homeHead = `  <link rel="stylesheet" href="/hydroponic/home.css">`;
+const homeHead = `  <link rel="stylesheet" href="/hydroponic/home.css">\n  <link rel="stylesheet" href="/hydroponic/share.css">\n  <script type="module" src="/hydroponic/share.js"></script>`;
 const homeNames = {
   '/index.html': ['Hydroponic Planner & 3D Farming Game', 'Design a real hydroponic rack and print your plan, or play MyFarmTwin, a free 3D farm game set in tropical Indonesia.'],
   '/id/index.html': ['Desain Hidroponik & Game Pertanian 3D', 'Rancang dan cetak desain hidroponik ukuran nyata atau mainkan game simulasi pertanian 3D MyFarmTwin berlatar Indonesia.']
@@ -68,7 +68,7 @@ export async function buildHydroponic() {
   files.set(posterUrl(aquaponic.design), `${aquaponicPoster()}\n`);
   for (const article of articles) addPage(articleUrl(article.id), articlePage(article, models[0]));
 
-  for (const name of ['analytics.js', 'aquaponic.js', 'aquaponic-design.js', 'planner.js', 'drawings.js', 'engine.js', 'style.css', 'home.css']) {
+  for (const name of ['analytics.js', 'aquaponic.js', 'aquaponic-design.js', 'planner.js', 'drawings.js', 'engine.js', 'style.css', 'home.css', 'share.js', 'share.css']) {
     files.set(`/hydroponic/${name}`, lf(await readFile(join(root, 'hydroponic', name), 'utf8')));
   }
   const bundled = await Promise.all(['view3d.js', 'aquaponic-view.js'].map(async name => {
