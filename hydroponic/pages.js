@@ -14,9 +14,10 @@ function brand(url = '/id/') {
   return `<a class="brand" href="${url}"><span class="brand-mark" aria-hidden="true">✦</span>MyFarmTwin</a>`;
 }
 
-function page({title, description, path, body, image, model, editor = false, publishedId, script, bodyClass, sharing = false}) {
+function page({title, description, path, body, image, model, editor = false, publishedId, script, bodyClass, sharing = false, assetVersion}) {
   const canonical = `${domain}${path}`;
   const entry = script ?? (editor ? 'planner' : 'analytics');
+  const version = assetVersion ? `?v=${encodeURIComponent(assetVersion)}` : '';
   const mark = publishedId ? ` data-hydro-design="${html(publishedId)}"` : '';
   const pageClass = editor ? 'planner-page' : bodyClass;
   return `<!doctype html>
@@ -34,8 +35,8 @@ function page({title, description, path, body, image, model, editor = false, pub
   <meta property="og:url" content="${canonical}">
   <meta property="og:image" content="${domain}${image ?? posterUrl(model.design)}">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="${root}style.css">
-${sharing ? `  <link rel="stylesheet" href="${root}share.css">\n  <script type="module" src="${root}share.js"></script>\n` : ''}  <script type="module" src="${root}${entry}.js"></script>
+  <link rel="stylesheet" href="${root}style.css${version}">
+${sharing ? `  <link rel="stylesheet" href="${root}share.css">\n  <script type="module" src="${root}share.js"></script>\n` : ''}  <script type="module" src="${root}${entry}.js${version}"></script>
 </head>
 <body${mark}${pageClass ? ` class="${pageClass}"` : ''}>
   <div id="site-app"><a class="skip" href="#main">Lewati ke isi</a>
@@ -90,20 +91,22 @@ export function galleryPage(models) {
   </main>`});
 }
 
-export function aquaponicPage() {
+export function aquaponicPage(assetVersion) {
   const {design: d, pond, beds, holeCount, litres, sources} = aquaponic;
   const area = `${metres(d.siteWidth)} × ${metres(d.siteDepth)}`;
   const capacity = `${number(Math.round(litres / 10) * 10)} L`;
   const picture = `<img src="${posterUrl(d)}" alt="Denah perspektif kolam nila, dua filter, dan rak dua talang" fetchpriority="high" width="877" height="446">`;
-  return page({title: `${d.title} · Simulasi Sirkulasi 3D`, description: `Contoh rancangan akuaponik ${area} dengan kolam nila dan ${holeCount} pot sayuran. Lihat ikan berenang dan ikuti aliran air dalam simulasi 3D.`, path: designUrl(d.id), model: aquaponic, publishedId: d.id, bodyClass: 'aquaponic-page', script: 'aquaponic', sharing: true,
+  return page({title: `${d.title} · Simulasi Sirkulasi 3D`, description: `Contoh rancangan akuaponik ${area} dengan kolam nila dan ${holeCount} pot sayuran. Lihat ikan berenang dan ikuti aliran air dalam simulasi 3D.`, path: designUrl(d.id), model: aquaponic, publishedId: d.id, bodyClass: 'aquaponic-page', script: 'aquaponic', sharing: true, assetVersion,
     body: `<main id="main" class="shell">
       <header class="aq-heading"><a href="${root}#contoh">Semua contoh</a><h1>${html(d.title)}</h1><p class="lead">Air dari kolam nila lewat filter padatan dan biofilter menuju pot. Dari talang, air turun kembali ke kolam oleh gravitasi.</p></header>
       <div class="aq-workspace">
         <section class="panel aq-visual" aria-labelledby="simulasi"><div class="visual-top"><h2 id="simulasi">Simulasi 3D</h2><div class="actions"><button id="aqua-start" class="button primary" type="button">Buka simulasi 3D</button><button id="aqua-print" class="button" type="button">Cetak denah</button>${shareButton(d)}</div></div>
-          <div id="aqua-toolbar" class="aq-toolbar" hidden><div class="view-actions" aria-label="Isi instalasi"><button id="aqua-empty" class="segment" type="button" aria-pressed="false">Kosong</button><button id="aqua-filled" class="segment" type="button" aria-pressed="true">Terisi</button></div><div class="view-actions"><button id="aqua-flow" class="button primary" type="button" aria-pressed="true">Jeda aliran</button><button id="aqua-focus-pond" class="button" type="button">Fokus kolam</button><button id="aqua-fit" class="button" type="button">Pas ke layar</button></div></div>
-          <div id="aqua-stage"><div id="aqua-cover">${picture}</div><div id="aqua-canvas" hidden></div><p id="aqua-loading" class="model-status" role="status" hidden>Memuat instalasi, ikan, dan tanaman…</p></div>
-          <div class="aq-status"><p id="aqua-status" role="status">Pratinjau rancangan</p><p class="small">Geser untuk memutar kamera. Pada model, dinding kolam dibuat tembus pandang.</p></div>
-          <p id="aqua-error" class="notice warning" hidden>Model 3D belum bisa dimuat. Denah dan diagram di bawah tetap tersedia.</p><p id="aqua-asset-hint" class="notice warning" hidden>Sebagian model tanaman atau ikan belum termuat. Buka ulang untuk mencoba lagi.</p>
+          <div id="aqua-toolbar" class="aq-toolbar" hidden><div class="view-actions" aria-label="Isi instalasi"><button id="aqua-empty" class="segment" type="button" aria-pressed="false">Kosong</button><button id="aqua-filled" class="segment" type="button" aria-pressed="true">Terisi</button></div><div class="view-actions"><button id="aqua-flow" class="button primary" type="button" aria-pressed="true">Jeda aliran</button><button id="aqua-focus-pond" class="button" type="button">Fokus kolam</button><button id="aqua-fit" class="button" type="button">Pas ke layar</button><button id="aqua-quality" class="button" type="button">Detail tinggi</button></div></div>
+          <div id="aqua-stage" style="position:relative;overflow:hidden;height:320px;height:clamp(280px,44vw,490px)"><div id="aqua-cover">${picture}</div><div id="aqua-canvas" style="position:absolute;inset:0;overflow:hidden" hidden></div><p id="aqua-loading" class="model-status" role="status" hidden>Memuat detail tinggi…</p></div>
+          <div class="aq-status"><p id="aqua-status" role="status">Pratinjau rancangan</p><p class="small">Seret atau gunakan tombol panah untuk memutar kamera.</p></div>
+          <p id="aqua-renderer-note" class="small" role="status"></p>
+          <p id="aqua-error" class="notice warning" role="alert" hidden>Perangkat belum bisa membuka kanvas interaktif. Denah dan diagram tetap tersedia di bawah.</p>
+          <noscript><p class="notice">Aktifkan JavaScript untuk memutar model dan menjalankan simulasi.</p></noscript>
         </section>
         <aside class="panel aq-facts" aria-labelledby="aq-route-title"><h2 id="aq-route-title">Jalur sirkulasi</h2><ol class="aq-route"><li><strong>Kolam nila</strong><span>Pompa menaikkan air dari kolam.</span></li><li><strong>Filter padatan</strong><span>Menahan kotoran dan sisa pakan.</span></li><li><strong>Biofilter</strong><span>Media menjadi tempat bakteri pengolah limbah terlarut.</span></li><li><strong>${holeCount} pot sayuran</strong><span>Dua talang menyuplai larutan ke akar melalui pot jaring dan media inert.</span></li><li><strong>Kembali ke kolam</strong><span>Air mengalir turun melalui pipa balik.</span></li></ol><div class="legend"><span><i></i>Suplai</span><span><i class="back-key"></i>Aliran balik</span></div></aside>
       </div>

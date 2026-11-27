@@ -13,10 +13,10 @@
   <meta property="og:url" content="https://myfarmtwin.com/hydroponic/desain/akuaponik-nila/">
   <meta property="og:image" content="https://myfarmtwin.com/hydroponic/assets/akuaponik-nila-r1.svg">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/hydroponic/style.css">
+  <link rel="stylesheet" href="/hydroponic/style.css?v=a2e15b3c7109">
   <link rel="stylesheet" href="/hydroponic/share.css">
   <script type="module" src="/hydroponic/share.js"></script>
-  <script type="module" src="/hydroponic/aquaponic.js"></script>
+  <script type="module" src="/hydroponic/aquaponic.js?v=a2e15b3c7109"></script>
 </head>
 <body data-hydro-design="akuaponik-nila" class="aquaponic-page">
   <div id="site-app"><a class="skip" href="#main">Lewati ke isi</a>
@@ -25,10 +25,12 @@
       <header class="aq-heading"><a href="/hydroponic/#contoh">Semua contoh</a><h1>Akuaponik Nila dan Sayuran</h1><p class="lead">Air dari kolam nila lewat filter padatan dan biofilter menuju pot. Dari talang, air turun kembali ke kolam oleh gravitasi.</p></header>
       <div class="aq-workspace">
         <section class="panel aq-visual" aria-labelledby="simulasi"><div class="visual-top"><h2 id="simulasi">Simulasi 3D</h2><div class="actions"><button id="aqua-start" class="button primary" type="button">Buka simulasi 3D</button><button id="aqua-print" class="button" type="button">Cetak denah</button><button type="button" class="design-share" aria-haspopup="dialog" aria-label="Bagikan Akuaponik Nila dan Sayuran" data-share-path="/hydroponic/desain/akuaponik-nila/" data-share-title="Akuaponik Nila dan Sayuran">Bagikan</button></div></div>
-          <div id="aqua-toolbar" class="aq-toolbar" hidden><div class="view-actions" aria-label="Isi instalasi"><button id="aqua-empty" class="segment" type="button" aria-pressed="false">Kosong</button><button id="aqua-filled" class="segment" type="button" aria-pressed="true">Terisi</button></div><div class="view-actions"><button id="aqua-flow" class="button primary" type="button" aria-pressed="true">Jeda aliran</button><button id="aqua-focus-pond" class="button" type="button">Fokus kolam</button><button id="aqua-fit" class="button" type="button">Pas ke layar</button></div></div>
-          <div id="aqua-stage"><div id="aqua-cover"><img src="/hydroponic/assets/akuaponik-nila-r1.svg" alt="Denah perspektif kolam nila, dua filter, dan rak dua talang" fetchpriority="high" width="877" height="446"></div><div id="aqua-canvas" hidden></div><p id="aqua-loading" class="model-status" role="status" hidden>Memuat instalasi, ikan, dan tanaman…</p></div>
-          <div class="aq-status"><p id="aqua-status" role="status">Pratinjau rancangan</p><p class="small">Geser untuk memutar kamera. Pada model, dinding kolam dibuat tembus pandang.</p></div>
-          <p id="aqua-error" class="notice warning" hidden>Model 3D belum bisa dimuat. Denah dan diagram di bawah tetap tersedia.</p><p id="aqua-asset-hint" class="notice warning" hidden>Sebagian model tanaman atau ikan belum termuat. Buka ulang untuk mencoba lagi.</p>
+          <div id="aqua-toolbar" class="aq-toolbar" hidden><div class="view-actions" aria-label="Isi instalasi"><button id="aqua-empty" class="segment" type="button" aria-pressed="false">Kosong</button><button id="aqua-filled" class="segment" type="button" aria-pressed="true">Terisi</button></div><div class="view-actions"><button id="aqua-flow" class="button primary" type="button" aria-pressed="true">Jeda aliran</button><button id="aqua-focus-pond" class="button" type="button">Fokus kolam</button><button id="aqua-fit" class="button" type="button">Pas ke layar</button><button id="aqua-quality" class="button" type="button">Detail tinggi</button></div></div>
+          <div id="aqua-stage" style="position:relative;overflow:hidden;height:320px;height:clamp(280px,44vw,490px)"><div id="aqua-cover"><img src="/hydroponic/assets/akuaponik-nila-r1.svg" alt="Denah perspektif kolam nila, dua filter, dan rak dua talang" fetchpriority="high" width="877" height="446"></div><div id="aqua-canvas" style="position:absolute;inset:0;overflow:hidden" hidden></div><p id="aqua-loading" class="model-status" role="status" hidden>Memuat detail tinggi…</p></div>
+          <div class="aq-status"><p id="aqua-status" role="status">Pratinjau rancangan</p><p class="small">Seret atau gunakan tombol panah untuk memutar kamera.</p></div>
+          <p id="aqua-renderer-note" class="small" role="status"></p>
+          <p id="aqua-error" class="notice warning" role="alert" hidden>Perangkat belum bisa membuka kanvas interaktif. Denah dan diagram tetap tersedia di bawah.</p>
+          <noscript><p class="notice">Aktifkan JavaScript untuk memutar model dan menjalankan simulasi.</p></noscript>
         </section>
         <aside class="panel aq-facts" aria-labelledby="aq-route-title"><h2 id="aq-route-title">Jalur sirkulasi</h2><ol class="aq-route"><li><strong>Kolam nila</strong><span>Pompa menaikkan air dari kolam.</span></li><li><strong>Filter padatan</strong><span>Menahan kotoran dan sisa pakan.</span></li><li><strong>Biofilter</strong><span>Media menjadi tempat bakteri pengolah limbah terlarut.</span></li><li><strong>12 pot sayuran</strong><span>Dua talang menyuplai larutan ke akar melalui pot jaring dan media inert.</span></li><li><strong>Kembali ke kolam</strong><span>Air mengalir turun melalui pipa balik.</span></li></ol><div class="legend"><span><i></i>Suplai</span><span><i class="back-key"></i>Aliran balik</span></div></aside>
       </div>

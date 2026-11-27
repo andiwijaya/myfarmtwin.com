@@ -64,11 +64,10 @@ export async function buildHydroponic() {
     addPage(designUrl(d.id), designPage(model));
     files.set(posterUrl(d), `${posterSvg(model)}\n`);
   }
-  addPage(designUrl(aquaponic.design.id), aquaponicPage());
   files.set(posterUrl(aquaponic.design), `${aquaponicPoster()}\n`);
   for (const article of articles) addPage(articleUrl(article.id), articlePage(article, models[0]));
 
-  for (const name of ['analytics.js', 'aquaponic.js', 'aquaponic-design.js', 'planner.js', 'drawings.js', 'engine.js', 'style.css', 'home.css', 'share.js', 'share.css']) {
+  for (const name of ['analytics.js', 'aquaponic.js', 'aquaponic-design.js', 'aquaponic-compatible.js', 'planner.js', 'drawings.js', 'engine.js', 'style.css', 'home.css', 'share.js', 'share.css']) {
     files.set(`/hydroponic/${name}`, lf(await readFile(join(root, 'hydroponic', name), 'utf8')));
   }
   const bundled = await Promise.all(['view3d.js', 'aquaponic-view.js'].map(async name => {
@@ -77,6 +76,9 @@ export async function buildHydroponic() {
     return [name, bundle.outputFiles[0].text];
   }));
   for (const [name, contents] of bundled) files.set(`/hydroponic/${name}`, contents);
+  const aquaponicAssets = ['aquaponic.js', 'aquaponic-design.js', 'aquaponic-compatible.js', 'aquaponic-view.js', 'style.css'];
+  const assetVersion = digest(aquaponicAssets.map(name => files.get(`/hydroponic/${name}`)).join('\n')).slice(0,12);
+  addPage(designUrl(aquaponic.design.id), aquaponicPage(assetVersion));
   files.set('/hydroponic/three-license.txt', lf(await readFile(join(root, 'node_modules', 'three', 'LICENSE'), 'utf8')));
 
   for (const [path, [title, description]] of Object.entries(homeNames)) {
