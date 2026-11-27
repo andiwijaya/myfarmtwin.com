@@ -28,7 +28,7 @@ export const aquaponic = {
   holeCount: beds.reduce((count, bed) => count + bed.pots.length, 0),
   pond, beds, filters, supply, returns,
   pump: supply[0][0],
-  returnPoint: returns.at(-1).at(-1),
+  returnPoint: returns[returns.length - 1][1],
   litres: Math.PI * pond.r ** 2 * pond.water * 1000,
   sources: {
     rutgers: 'https://extension.rutgers.edu/fs1351',

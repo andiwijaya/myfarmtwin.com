@@ -13,11 +13,12 @@ export function createAquaponicView(host, onContextLoss) {
   scene.background = new THREE.Color('#e9f1e9');
   const camera = new THREE.PerspectiveCamera(40, 1, .03, 45);
   const renderer = new THREE.WebGLRenderer({antialias: true});
-  renderer.setPixelRatio(Math.min(1.65, devicePixelRatio || 1));
+  renderer.domElement.style.cssText = 'display:block;width:100%;height:100%';
   renderer.domElement.setAttribute('role', 'img');
   renderer.domElement.setAttribute('aria-label', 'Simulasi 3D kolam nila dan dua talang akuaponik');
   host.append(renderer.domElement);
   const orbit = new OrbitControls(camera, renderer.domElement);
+  renderer.domElement.tabIndex = 0;
   orbit.minDistance = 1.5;
   orbit.maxDistance = 14;
   orbit.maxPolarAngle = Math.PI * .48;
@@ -163,10 +164,26 @@ export function createAquaponicView(host, onContextLoss) {
     draw();
   }
 
+  function orbitByKey(event) {
+    const offset = {ArrowLeft:[-.13,0], ArrowRight:[.13,0], ArrowUp:[0,-.11], ArrowDown:[0,.11]}[event.key];
+    if (!offset) return;
+    event.preventDefault();
+    const spherical = new THREE.Spherical().setFromVector3(camera.position.clone().sub(orbit.target));
+    spherical.theta += offset[0];
+    spherical.phi = Math.max(.12, Math.min(orbit.maxPolarAngle, spherical.phi + offset[1]));
+    camera.position.copy(orbit.target).add(vec(0,0,0).setFromSpherical(spherical));
+    orbit.update();
+    draw();
+  }
+
   function resize() {
-    if (!host.clientWidth || !host.clientHeight) return;
-    renderer.setSize(host.clientWidth, host.clientHeight, false);
-    camera.aspect = host.clientWidth / host.clientHeight;
+    const width = host.clientWidth;
+    const height = host.clientHeight;
+    if (!width || !height) return;
+    const pixelBudget = Math.sqrt(1200000 / (width * height));
+    renderer.setPixelRatio(Math.min(1.65, devicePixelRatio || 1, pixelBudget, 2048 / width, 2048 / height));
+    renderer.setSize(width, height, false);
+    camera.aspect = width / height;
     camera.updateProjectionMatrix();
     draw();
   }
@@ -229,6 +246,7 @@ export function createAquaponicView(host, onContextLoss) {
   orbit.addEventListener('change', draw);
   const contextLost = event => { event.preventDefault(); onContextLoss(); };
   renderer.domElement.addEventListener('webglcontextlost', contextLost);
+  renderer.domElement.addEventListener('keydown', orbitByKey);
   resize();
   fit();
   refresh();
@@ -288,6 +306,7 @@ export function createAquaponicView(host, onContextLoss) {
     intersection.disconnect();
     reduce.removeEventListener('change', refresh);
     renderer.domElement.removeEventListener('webglcontextlost', contextLost);
+    renderer.domElement.removeEventListener('keydown', orbitByKey);
     orbit.dispose();
     releaseObjects(scene, ...assetRoots);
     renderer.dispose();
