@@ -1,4 +1,4 @@
-import {aquaponic as design} from './aquaponic-design.js';
+import {aquaponic as design} from './aquaponic-design.js?v=56400faece0c';
 
 const {pond, beds, filters, pump, supply, returns, returnPoint} = design;
 const widthM = design.design.siteWidth / 1000;
@@ -14,6 +14,13 @@ const segmentsFor = (paths, color, marker) => paths.flatMap(path => path.slice(1
 const pipes = [...segmentsFor(supply,'#237f72','#cefff1'), ...segmentsFor(returns.slice(0,-1),'#4c79a4','#c6e8ff')];
 const streams = [returns[returns.length-1], ...beds.map(bed => [point(bed.x-.67,bed.water+.013,bed.z+.10),point(bed.x+.67,bed.water+.013,bed.z+.10)])];
 const wetPipes = segmentsFor(streams,'#6bc7bd','#dbfff5');
+const filterPaths = Object.fromEntries(filters.map((f,i) => [f.id,{
+  internal:segmentsFor([f.internalInlet,f.internalOutlet],'#6c8e83','#cefff1'),
+  flow:segmentsFor(f.flow,'#70b7ac','#effff8'),
+  waste:segmentsFor([f.waste],'#a67947','#fff'),
+  leadIn:segmentsFor([supply[i].slice(-2)],'#237f72','#cefff1'),
+  leadOut:segmentsFor([supply[i+1].slice(0,2)],'#237f72','#cefff1')
+}]));
 
 export function createCompatibleView(host) {
   const canvas = document.createElement('canvas');
@@ -27,6 +34,7 @@ export function createCompatibleView(host) {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   let width = 0, height = 0, scale = 1, ratio = 1;
   let yaw = -.63, pitch = .59, zoom = 1, closeUp = false;
+  let focusedFilter = null;
   let target = point(widthM/2,.37,depthM/2);
   let stocked = true, flowing = true, visible = true, disposed = false, frame = 0;
   let time = 0, lastTime = 0, drag = null;
@@ -147,10 +155,57 @@ export function createCompatibleView(host) {
     }
   }
 
-  function tube(segment, water = false) {
+  function drum(f, cutaway = false) {
+    const top = f.bottom+f.height;
+    for (const dx of [-.14,.14]) for (const dz of [-.13,.13]) box(f.x+dx,f.z+dz,.034,.035,0,f.bottom,'#687f73','#536b60','#659080');
+    for (const segment of filterPaths[f.id].waste) tube(segment,false,false);
+    const valve = f.waste[1];
+    box(valve.x,valve.z+.039,.064,.033,valve.y-.016,valve.y+.018,'#bb8d55','#986b3f','#986b3f');
+    if (!cutaway) {
+      container(f.x,f.z,f.r,f.bottom,top,f.color,f.color,'#e3e9d6');
+      return;
+    }
+
+    path(circle(f.x,f.bottom,f.z,f.r),'#bfd4c8','#527d6f',1.2);
+    if (stocked) path(circle(f.x,f.water,f.z,f.r-.009),'rgba(143,204,193,.36)','#82aaa2',1.2);
+    if (f.well) {
+      const {well,weir,hopper} = f;
+      const upper = circle(f.x,hopper.shoulder,f.z,hopper.r,-yaw,Math.PI);
+      const lower = circle(f.x,hopper.base,f.z,.025,-yaw,Math.PI);
+      path([...upper,...lower.reverse()],'rgba(163,118,66,.49)','#9b7e54',1);
+      container(f.x,f.z,well.r,well.bottom,well.top,'rgba(184,211,200,.30)','rgba(184,211,200,.1)',null);
+      path(circle(f.x,weir.floor,f.z,f.r-.008),null,'#73938a',2.8,true);
+      path(circle(f.x,weir.crest,f.z,weir.r),null,'#517b70',2.6,true);
+    } else {
+      const {screen,diffuser} = f;
+      container(screen.x,screen.z,screen.r,screen.bottom,screen.top,'rgba(182,205,190,.38)','rgba(180,206,193,.30)',null);
+      for (let i=0;i<12;i++) {
+        const angle = i/12*2*Math.PI;
+        const x = screen.x+Math.cos(angle)*screen.r, z = screen.z+Math.sin(angle)*screen.r;
+        path([point(x,screen.top,z),point(x,screen.bottom,z)],null,'#7b9c90',.7,false);
+      }
+      path(circle(diffuser.x,diffuser.y,diffuser.z,diffuser.r),null,'#668ca6',2.5,true);
+      if (stocked) for (let i=0;i<17;i++) {
+        const angle = time*1.44+i*2.41;
+        const bubble = i<11;
+        const y = bubble ? diffuser.y+((time*.54+i*.087)%1)*(f.water-diffuser.y-.02) : f.bottom+.33+Math.sin(angle)*.102;
+        const radius = bubble ? .079+i%3*.015 : .121;
+        const bead = point(f.x+Math.cos(angle)*radius,y,f.z+Math.sin(angle)*radius);
+        dot(bead,Math.max(1.2,scale*(bubble ? .009 : .012)),bubble ? 'rgba(231,249,255,.93)' : '#7e9f73');
+      }
+    }
+    for (const segment of filterPaths[f.id].internal) tube(segment,false,false);
+    const upper = circle(f.x,top,f.z,f.r,-yaw,Math.PI);
+    const lower = circle(f.x,f.bottom,f.z,f.r,-yaw,Math.PI);
+    path([...upper,...lower.reverse()],'rgba(143,193,175,.16)');
+    path(circle(f.x,top,f.z,f.r),null,'#557a6f',Math.max(1.4,scale*.011),true);
+    if (flowing) for (const segment of filterPaths[f.id].flow) tube(segment,true,true);
+  }
+
+  function tube(segment, water = false, animate = flowing) {
     const {start,end,color,marker,length}=segment;
     path([start,end],null,color,Math.max(1.8,scale*(water ? .02 : .035)),false);
-    if (!flowing || !length) return;
+    if (!animate || !length) return;
     const spacing=.20, count=Math.max(1,Math.ceil(length/spacing));
     for (let i=0;i<count;i++) {
       const distance=(time*.43+i*spacing+.045)%length;
@@ -164,13 +219,16 @@ export function createCompatibleView(host) {
     ctx.fillStyle='#e9f1e9';ctx.fillRect(0,0,width,height);
     ctx.lineJoin='round';ctx.lineCap='round';
     path(floorCorners,'#d2e2d4','#9ab3a4',1.4);
+    if (focusedFilter) {
+      const paths = filterPaths[focusedFilter.id];
+      drum(focusedFilter,true);
+      for (const segment of [...paths.leadIn,...paths.leadOut]) tube(segment);
+      return;
+    }
     const objects=[
       {p:point(pond.x,.27,pond.z),paint:tank},
       ...beds.map(bed=>({p:point(bed.x,.45,bed.z),paint:()=>tray(bed)})),
-      ...filters.map(f=>({p:point(f.x,.35,f.z),paint:()=>{
-        container(f.x,f.z,f.r*.69,0,f.bottom,'#506b5c','#779182','#688376');
-        container(f.x,f.z,f.r,f.bottom,f.bottom+f.height,f.color,f.color,'#e3e9d6');
-      }})),
+      ...filters.map(f=>({p:point(f.x,.35,f.z),paint:()=>drum(f)})),
       ...pipes.map(segment=>({p:between(segment.start,segment.end,.5),paint:()=>tube(segment)}))
     ];
     for (const {paint} of objects.sort((a,b)=>axes(a.p).depth-axes(b.p).depth)) paint();
@@ -178,7 +236,11 @@ export function createCompatibleView(host) {
   }
 
   function fitScale() {
-    const fitCorners=closeUp ? circle(pond.x,.33,pond.z,pond.r+.13) : [...floorCorners,...floorCorners.map(p=>point(p.x,1.09,p.z))];
+    let fitCorners = closeUp ? circle(pond.x,.33,pond.z,pond.r+.13) : [...floorCorners,...floorCorners.map(p=>point(p.x,1.09,p.z))];
+    if (focusedFilter) {
+      const f = focusedFilter;
+      fitCorners = [...circle(f.x,f.bottom-.155,f.z,f.r+.12),...circle(f.x,f.bottom+f.height+.025,f.z,f.r+.12)];
+    }
     const corners=fitCorners.map(axes);
     const maxX=Math.max(...corners.map(p=>Math.abs(p.x)));
     const maxY=Math.max(...corners.map(p=>Math.abs(p.y)));
@@ -195,14 +257,28 @@ export function createCompatibleView(host) {
   }
 
   function fit() {
+    focusedFilter=null;
     target=point(widthM/2,.43,depthM/2);closeUp=false;
     yaw=-.59;pitch=.60;zoom=1;
     fitScale();
   }
 
   function focusPond() {
+    focusedFilter=null;
     target=point(pond.x,.39,pond.z);closeUp=true;
     yaw=-.55;pitch=.69;zoom=.94;
+    fitScale();
+  }
+
+  function focusFilter(id) {
+    const filter = filters.find(f=>f.id===id);
+    if (!filter) return;
+    focusedFilter=filter;
+    closeUp=true;
+    target=point(filter.x,filter.bottom+filter.height*.40,filter.z);
+    yaw=-.34;
+    pitch=.36;
+    zoom=1.03;
     fitScale();
   }
 
@@ -259,7 +335,7 @@ export function createCompatibleView(host) {
   reduce.addEventListener?.('change',refresh);
   resize();fit();refresh();
 
-  return {fit,focusPond,fish:nFish,plants:design.holeCount,setState({hasContents,hasFlow}) {
+  return {fit,focusPond,focusFilter,fish:nFish,plants:design.holeCount,setState({hasContents,hasFlow}) {
     stocked=hasContents;flowing=hasFlow&&stocked;refresh();
   },dispose() {
     disposed=true;

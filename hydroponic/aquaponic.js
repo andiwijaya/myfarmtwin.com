@@ -16,11 +16,17 @@ const empty = get('aqua-empty');
 const filled = get('aqua-filled');
 const flow = get('aqua-flow');
 const status = get('aqua-status');
+const filterButton = get('aqua-focus-filter');
+const filterTabs = get('aqua-filter-tabs');
+const filterNote = get('aqua-filter-note');
+const filterOptions = [...filterTabs.querySelectorAll('[data-filter-focus]')];
 
 let active;
 let pending;
 let hasContents = true;
 let hasFlow = true;
+let focus = 'all';
+let lastFilter = 'solids';
 
 function trackFlow() { track('hydro_simulation_start', aquaponic.design.id, 'aquaponics'); }
 
@@ -34,6 +40,31 @@ function display() {
   flow.disabled = !hasContents;
   flow.textContent = hasFlow ? 'Jeda aliran' : 'Jalankan aliran';
   status.textContent = !hasContents ? 'Instalasi kosong' : hasFlow ? 'Terisi · air bersirkulasi' : 'Terisi · aliran dijeda';
+}
+
+function focusView(next) {
+  focus = next;
+  const isFilter = next === 'solids' || next === 'bio';
+  stage.dataset.focus = next;
+  filterTabs.hidden = !isFilter;
+  filterButton.setAttribute('aria-expanded', String(isFilter));
+  for (const option of filterOptions) option.setAttribute('aria-pressed', String(option.dataset.filterFocus === next));
+  if (isFilter) {
+    lastFilter = next;
+    filterNote.textContent = next === 'solids'
+      ? 'Inlet ke tengah · air turun lewat bawah tabung, lalu naik ke limpah tepi. Pipa cokelat adalah jalur kuras tertutup.'
+      : 'Inlet rendah · air naik ke saringan outlet. Gelembung menunjukkan aerasi dari dasar.';
+    active?.view.focusFilter(next);
+  } else if (next === 'pond') {
+    active?.view.focusPond();
+  } else {
+    active?.view.fit();
+  }
+}
+
+function selectDrum(id) {
+  focusView(id);
+  if (stage.getBoundingClientRect().bottom > window.innerHeight) filterTabs.scrollIntoView({block:'start'});
 }
 
 function makeLayer() {
@@ -64,6 +95,7 @@ function show(scene, fish, plants) {
   cover.hidden = true;
   toolbar.hidden = false;
   start.hidden = true;
+  focusView(focus);
   display();
 }
 
@@ -166,8 +198,10 @@ flow.addEventListener('click', () => {
   display();
 });
 
-get('aqua-fit').addEventListener('click', () => active?.view.fit());
-get('aqua-focus-pond').addEventListener('click', () => active?.view.focusPond());
+get('aqua-fit').addEventListener('click', () => focusView('all'));
+get('aqua-focus-pond').addEventListener('click', () => focusView('pond'));
+filterButton.addEventListener('click', () => filterTabs.hidden ? selectDrum(lastFilter) : focusView('all'));
+for (const option of filterOptions) option.addEventListener('click', () => selectDrum(option.dataset.filterFocus));
 get('aqua-print').addEventListener('click', () => {
   track('hydro_print_click', aquaponic.design.id, 'aquaponics');
   window.print();
