@@ -1,5 +1,5 @@
-import {aquaponic} from './aquaponic-design.js?v=56400faece0c';
-import {createCompatibleView} from './aquaponic-compatible.js?v=56400faece0c';
+import {aquaponic} from './aquaponic-design.js?v=b5ca0d4810e0';
+import {createCompatibleView} from './aquaponic-compatible.js?v=b5ca0d4810e0';
 import {track} from './analytics.js';
 
 const get = id => document.getElementById(id);
@@ -52,8 +52,8 @@ function focusView(next) {
   if (isFilter) {
     lastFilter = next;
     filterNote.textContent = next === 'solids'
-      ? 'Inlet ke tengah · air turun lewat bawah tabung, lalu naik ke limpah tepi. Pipa cokelat adalah jalur kuras tertutup.'
-      : 'Inlet rendah · air naik ke saringan outlet. Gelembung menunjukkan aerasi dari dasar.';
+      ? 'Ikuti titik putih dari inlet ke tabung tengah, turun ke bawah tabung, lalu naik ke talang limpah dan keluar ke Drum 2. Pipa cokelat adalah kuras tertutup.'
+      : 'Ikuti titik putih dari inlet bawah, naik lewat media ke saringan, lalu turun ke pipa outlet menuju talang tanam. Gelembung menunjukkan aerasi dari dasar.';
     active?.view.focusFilter(next);
   } else if (next === 'pond') {
     active?.view.focusPond();
