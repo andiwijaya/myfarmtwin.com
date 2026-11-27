@@ -34,11 +34,13 @@ export function createAquaponicView(host, onContextLoss) {
     shell: mat('#4e9686', {transparent: true, opacity: .16, side: THREE.DoubleSide, depthWrite: false}),
     water: mat('#83d1c7', {transparent: true, opacity: .30, side: THREE.DoubleSide, depthWrite: false, roughness: .24}),
     drop: new THREE.MeshBasicMaterial({color: '#d2fff2'}), blueDrop: new THREE.MeshBasicMaterial({color: '#b7e4ff'}),
+    trace: new THREE.MeshBasicMaterial({color:'#f1fff9',transparent:true,depthTest:false,depthWrite:false,toneMapped:false}),
     splash: new THREE.MeshBasicMaterial({color: '#c5fff3', transparent: true, opacity: .60, depthWrite: false}),
     waste: mat('#a67742'), air: mat('#668ca6'), internals: mat('#55796e'),
     cutaway: mat('#9bc7b8',{transparent:true,opacity:.19,side:THREE.DoubleSide,depthWrite:false})
   };
   const fittings = new THREE.Group();
+  const overview = new THREE.Group();
   const filled = new THREE.Group();
   const flowing = new THREE.Group();
   const bedHardware = new THREE.Group();
@@ -46,7 +48,8 @@ export function createAquaponicView(host, onContextLoss) {
   const bedCircuits = new THREE.Group();
   const bedFlow = new THREE.Group();
   scene.add(fittings, filled, flowing);
-  fittings.add(bedHardware,bedCircuits);
+  fittings.add(overview);
+  overview.add(bedHardware,bedCircuits);
   filled.add(bedContents);
   flowing.add(bedFlow);
 
@@ -81,28 +84,32 @@ export function createAquaponicView(host, onContextLoss) {
   const width = design.design.siteWidth / 1000;
   const depth = design.design.siteDepth / 1000;
   box(fittings, width, .045, depth, materials.floor, width / 2, -.024, depth / 2);
-  cylinder(fittings, pond.r, .045, materials.bottom, pond.x, .023, pond.z);
-  const wall = cylinder(fittings, pond.r, pond.height - .02, materials.shell, pond.x, pond.height / 2, pond.z, true);
+  cylinder(overview, pond.r, .045, materials.bottom, pond.x, .023, pond.z);
+  const wall = cylinder(overview, pond.r, pond.height - .02, materials.shell, pond.x, pond.height / 2, pond.z, true);
   wall.renderOrder = 4;
-  ring(fittings, pond.r + .006, .021, materials.rim, vec(pond.x, pond.height, pond.z));
-  ring(fittings, pond.r + .005, .012, materials.rim, vec(pond.x, .06, pond.z));
+  ring(overview, pond.r + .006, .021, materials.rim, vec(pond.x, pond.height, pond.z));
+  ring(overview, pond.r + .005, .012, materials.rim, vec(pond.x, .06, pond.z));
   const pool = circle(filled, pond.r - .016, materials.water, vec(pond.x, pond.water, pond.z));
   pool.renderOrder = 3;
-  box(fittings, .14, .105, .12, materials.pump, pump.x, pump.y, pump.z);
+  box(overview, .14, .105, .12, materials.pump, pump.x, pump.y, pump.z);
 
   const drumViews = filters.map(filter => {
     const {x,z,r,bottom,height} = filter;
-    for (const dx of [-.14,.14]) for (const dz of [-.13,.13]) box(fittings,.036,bottom,.036,materials.rail,x+dx,bottom/2,z+dz);
+    const hardware = new THREE.Group();
+    fittings.add(hardware);
+    for (const dx of [-.14,.14]) for (const dz of [-.13,.13]) box(hardware,.036,bottom,.036,materials.rail,x+dx,bottom/2,z+dz);
     const opaque = mat(filter.color);
-    const body = cylinder(fittings,r,height,opaque,x,bottom+height/2,z,true);
+    const body = cylinder(hardware,r,height,opaque,x,bottom+height/2,z,true);
     body.renderOrder = 4;
-    cylinder(fittings,r,.02,materials.rail,x,bottom,z);
-    const cap = cylinder(fittings,r+.012,.032,materials.trough,x,bottom+height,z);
+    cylinder(hardware,r,.02,materials.rail,x,bottom,z);
+    const cap = cylinder(hardware,r+.012,.032,materials.trough,x,bottom+height,z);
     const parts = new THREE.Group(), wet = new THREE.Group(), motion = new THREE.Group();
-    scene.add(parts,wet,motion);
+    hardware.add(parts,wet,motion);
+    // Keep the water trace visible through the cutaway and inside the pipes.
+    motion.renderOrder = 7;
     const surface = circle(wet,r-.013,materials.water,vec(x,filter.water,z));
     surface.renderOrder = 3;
-    return {filter,opaque,body,cap,parts,wet,motion};
+    return {filter,hardware,opaque,body,cap,parts,wet,motion};
   });
 
   for (const bed of beds) {
@@ -127,6 +134,7 @@ export function createAquaponicView(host, onContextLoss) {
   const beads = [];
   const beadGeometry = new THREE.SphereGeometry(.022, 10, 7);
   const detailBead = new THREE.SphereGeometry(.010,8,6);
+  const traceBead = new THREE.SphereGeometry(.014,10,7);
   function tube(path, group, radius, material) {
     const vertices = path.map(fromPoint);
     for (let i = 1; i < vertices.length; i++) {
@@ -147,7 +155,7 @@ export function createAquaponicView(host, onContextLoss) {
 
   function pipe(path, forward, count, {wet = false, bedCircuit = false} = {}) {
     const flowGroup = bedCircuit ? bedFlow : flowing;
-    const pipeGroup = wet ? flowGroup : bedCircuit ? bedCircuits : fittings;
+    const pipeGroup = wet ? flowGroup : bedCircuit ? bedCircuits : overview;
     tube(path,pipeGroup,wet ? .012 : forward ? .019 : .024,wet ? materials.water : forward ? materials.feed : materials.back);
     animatePath(path,flowGroup,count,forward ? materials.drop : materials.blueDrop);
   }
@@ -161,15 +169,16 @@ export function createAquaponicView(host, onContextLoss) {
   }
 
   const mediaBits = [];
-  for (const {filter:f,parts,wet,motion} of drumViews) {
+  for (const {filter:f,hardware,parts,wet,motion} of drumViews) {
     tube(f.internalInlet,parts,f.id === 'solids' ? .016 : .022,materials.internals);
     tube(f.internalOutlet,parts,.021,materials.internals);
-    tube(f.waste,fittings,.018,materials.waste);
+    for (const lead of f.focusLeads) tube(lead,parts,.019,materials.feed);
+    tube(f.waste,hardware,.018,materials.waste);
     const valve = f.waste[1];
-    box(fittings,.072,.020,.035,materials.waste,valve.x,valve.y,valve.z+.034);
+    box(hardware,.072,.020,.035,materials.waste,valve.x,valve.y,valve.z+.034);
     for (const [i,route] of f.focusFlow.entries()) {
       const count = f.id === 'solids' && i === f.focusFlow.length-1 ? 1 : route.length > 6 ? 5 : 3;
-      animatePath(route,motion,count,materials.drop,detailBead);
+      animatePath(route,motion,count,materials.trace,traceBead);
     }
     if (f.well) {
       const {well,hopper,weir} = f;
@@ -217,13 +226,12 @@ export function createAquaponicView(host, onContextLoss) {
   let focused = '';
 
   function setDrumVisibility() {
+    overview.visible = !focused;
+    filled.visible = stocked && !focused;
     flowing.visible = running && !focused;
-    bedHardware.visible = !focused;
-    bedContents.visible = !focused;
-    bedCircuits.visible = !focused;
-    bedFlow.visible = !focused;
-    for (const {filter,opaque,body,cap,parts,wet,motion} of drumViews) {
+    for (const {filter,hardware,opaque,body,cap,parts,wet,motion} of drumViews) {
       const visible = focused === filter.id;
+      hardware.visible = !focused || visible;
       body.material = visible ? materials.cutaway : opaque;
       cap.visible = !visible;
       parts.visible = visible;
@@ -334,7 +342,6 @@ export function createAquaponicView(host, onContextLoss) {
   function setState({hasContents, hasFlow}) {
     stocked = hasContents;
     running = hasFlow && stocked;
-    filled.visible = stocked;
     setDrumVisibility();
     if (frame) cancelAnimationFrame(frame);
     frame = 0;

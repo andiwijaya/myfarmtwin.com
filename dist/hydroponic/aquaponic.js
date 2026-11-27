@@ -1,5 +1,5 @@
-import {aquaponic} from './aquaponic-design.js?v=b5ca0d4810e0';
-import {createCompatibleView} from './aquaponic-compatible.js?v=b5ca0d4810e0';
+import {aquaponic} from './aquaponic-design.js?v=880326e55dc2';
+import {createCompatibleView} from './aquaponic-compatible.js?v=880326e55dc2';
 import {track} from './analytics.js';
 
 const get = id => document.getElementById(id);
