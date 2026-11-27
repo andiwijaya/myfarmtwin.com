@@ -2,7 +2,7 @@
 
 ## Hydroponic Planner
 
-The household food production planner at `/hydroponic/` uses a versioned NFT design with 30 planting holes. Its geometry, pump estimates, public design page, and printable BOM come from the same model in `hydroponic/`. The editor keeps its drafts in its own browser storage namespace.
+The household food production planner at `/hydroponic/` uses a versioned NFT design with 30 planting holes. Its geometry, pump estimates, public design page, and printable BOM come from the same model in `hydroponic/`. The editor keeps its drafts in its own browser storage namespace. The tilapia aquaponics example uses fixed dimensions and a separate 3D viewer for the empty and stocked system, with a toggle for recirculation.
 
 Run `npm run build:hydroponic` to generate `dist/hydroponic/`, the home gallery on both language pages, and the Hydroponic sitemap entries. Commit those generated files for the existing Cloudflare Pages pipeline. `node tools/hydroponic-design.mjs validate` checks the launch design. The `calculate` command exports its resolved model. To publish another example, use `create <slug> <title> [channelCount=4] [holesPerChannel=6]`, review the generated parameters, save them in `hydroponic/designs/<slug>.json`, validate the file, and rebuild.
 
