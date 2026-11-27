@@ -1,4 +1,5 @@
 import {articles} from './articles.js';
+import {aquaponic, aquaponicPlan} from './aquaponic-design.js';
 import {engineering, fields, pumps} from './engine.js';
 import {assemblyNotes, billTable, dimensions, escapeHtml as html, flowDiagram, metres, number, planSvg, sideSvg} from './drawings.js';
 
@@ -13,10 +14,11 @@ function brand(url = '/id/') {
   return `<a class="brand" href="${url}"><span class="brand-mark" aria-hidden="true">✦</span>MyFarmTwin</a>`;
 }
 
-function page({title, description, path, body, image, model, editor = false, publishedId}) {
+function page({title, description, path, body, image, model, editor = false, publishedId, script, bodyClass, sharing = false}) {
   const canonical = `${domain}${path}`;
-  const analytics = editor ? 'planner' : 'analytics';
+  const entry = script ?? (editor ? 'planner' : 'analytics');
   const mark = publishedId ? ` data-hydro-design="${html(publishedId)}"` : '';
+  const pageClass = editor ? 'planner-page' : bodyClass;
   return `<!doctype html>
 <html lang="id">
 <head>
@@ -33,9 +35,9 @@ function page({title, description, path, body, image, model, editor = false, pub
   <meta property="og:image" content="${domain}${image ?? posterUrl(model.design)}">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="${root}style.css">
-  <script type="module" src="${root}${analytics}.js"></script>
+${sharing ? `  <link rel="stylesheet" href="${root}share.css">\n  <script type="module" src="${root}share.js"></script>\n` : ''}  <script type="module" src="${root}${entry}.js"></script>
 </head>
-<body${mark}${editor ? ' class="planner-page"' : ''}>
+<body${mark}${pageClass ? ` class="${pageClass}"` : ''}>
   <div id="site-app"><a class="skip" href="#main">Lewati ke isi</a>
   <header class="bar shell">${brand()}<nav aria-label="Navigasi"><a href="${root}">Hidroponik</a><a href="${root}#panduan">Panduan</a><a href="/play/">Play Farm</a></nav></header>
   ${body}
@@ -49,37 +51,76 @@ function page({title, description, path, body, image, model, editor = false, pub
 function capacity(model, english = false) {
   const {siteWidth, siteDepth} = model.design;
   const size = english ? `${siteWidth / 1000} m × ${siteDepth / 1000} m` : `${metres(siteWidth)} × ${metres(siteDepth)}`;
-  return `${model.holeCount} ${english ? 'planting sites' : 'lubang tanam'} · ${size}`;
+  const label = model.kind === 'aquaponic' ? (english ? 'pots + tilapia pond' : 'pot + kolam nila') : (english ? 'planting sites' : 'lubang tanam');
+  return `${model.holeCount} ${label} · ${size}`;
 }
 
 function designAction(d, label, source = 'design_page') {
   return `<a class="button primary" href="${planner}?contoh=${d.id}" data-hydro-event="hydro_design_customize" data-hydro-id="${d.id}" data-hydro-source="${source}">${label}</a>`;
 }
 
+function designTitle(d, english = false) {
+  if (!english) return d.title;
+  return d.titleEn ?? (d.id === 'nft-30-lubang' ? '30-Site NFT Hydroponic Rack' : d.title);
+}
+
+function shareButton(d, english = false) {
+  const label = english ? 'Share' : 'Bagikan';
+  const title = html(designTitle(d, english));
+  return `<button type="button" class="design-share" aria-haspopup="dialog" aria-label="${label} ${title}" data-share-path="${designUrl(d.id)}" data-share-title="${title}">${label}</button>`;
+}
+
 function tile(model) {
   const d = model.design;
-  return `<li><a class="tile" href="${designUrl(d.id)}"><img src="${posterUrl(d)}" alt="Tampak isometrik rak dan tandon" loading="lazy" decoding="async"><div class="tile-info"><h3>${html(d.title)}</h3><p class="small">${capacity(model)}</p></div></a></li>`;
+  const alt = model.kind === 'aquaponic' ? 'Tampak isometrik kolam nila dan rak sayuran' : 'Tampak isometrik rak dan tandon';
+  return `<li class="tile"><a class="tile-main" href="${designUrl(d.id)}"><img src="${posterUrl(d)}" alt="${alt}" loading="lazy" decoding="async"><div class="tile-info"><h3>${html(d.title)}</h3><p class="small">${capacity(model)}</p></div></a>${shareButton(d)}</li>`;
 }
 
 export function galleryPage(models) {
   const first = models[0];
   const d = first.design;
-  return page({title: 'Hydroponic Planner dan Contoh Desain', description: 'Rancang instalasi hidroponik dalam ukuran nyata. Buka contoh NFT 30 lubang, sesuaikan denah, simulasikan pompa, dan cetak rancangan A4.', path: root, model: first,
+  return page({title: 'Hydroponic Planner dan Contoh Desain', description: 'Lihat rancangan NFT 30 lubang dan akuaponik nila dengan ukuran nyata. Simulasikan aliran air dalam 3D dan cetak denah.', path: root, model: first, sharing: true,
     body: `<main id="main" class="shell">
     <section class="hero">
       <div class="hero-copy"><p class="eyebrow">Produksi pangan mandiri</p><h1>Hydroponic Planner</h1><p class="lead">Sesuaikan rak dengan ruang yang kamu punya, lihat sirkulasi larutan, lalu cetak denah dan daftar komponen.</p><div class="actions">${designAction(d, 'Buka contoh 30 lubang', 'gallery')}<a class="button" href="${planner}?baru=1">Buat desain baru</a></div></div>
       <figure class="hero-art"><img src="${posterUrl(d)}" alt="Rancangan rak lima kanal dengan tandon di samping" fetchpriority="high"></figure>
     </section>
-    <section class="section" id="contoh" aria-labelledby="contoh-title"><div class="section-heading"><h2 id="contoh-title">Contoh desain hidroponik</h2></div><ul class="tile-list">${models.map(tile).join('')}</ul></section>
+    <section class="section" id="contoh" aria-labelledby="contoh-title"><div class="section-heading"><h2 id="contoh-title">Contoh hidroponik dan akuaponik</h2></div><ul class="tile-list">${models.map(tile).join('')}</ul></section>
     <section class="section" id="panduan" aria-labelledby="panduan-title"><div class="section-heading"><h2 id="panduan-title">Panduan produksi pangan mandiri</h2></div><div class="articles">${articles.map(item => `<a class="article-link" href="${articleUrl(item.id)}"><h3>${html(item.title)}</h3><p>${html(item.description)}</p></a>`).join('')}</div></section>
   </main>`});
 }
 
+export function aquaponicPage() {
+  const {design: d, pond, beds, holeCount, litres, sources} = aquaponic;
+  const area = `${metres(d.siteWidth)} × ${metres(d.siteDepth)}`;
+  const capacity = `${number(Math.round(litres / 10) * 10)} L`;
+  const picture = `<img src="${posterUrl(d)}" alt="Denah perspektif kolam nila, dua filter, dan rak dua talang" fetchpriority="high" width="877" height="446">`;
+  return page({title: `${d.title} · Simulasi Sirkulasi 3D`, description: `Contoh rancangan akuaponik ${area} dengan kolam nila dan ${holeCount} pot sayuran. Lihat ikan berenang dan ikuti aliran air dalam simulasi 3D.`, path: designUrl(d.id), model: aquaponic, publishedId: d.id, bodyClass: 'aquaponic-page', script: 'aquaponic', sharing: true,
+    body: `<main id="main" class="shell">
+      <header class="aq-heading"><a href="${root}#contoh">Semua contoh</a><h1>${html(d.title)}</h1><p class="lead">Air dari kolam nila lewat filter padatan dan biofilter menuju pot. Dari talang, air turun kembali ke kolam oleh gravitasi.</p></header>
+      <div class="aq-workspace">
+        <section class="panel aq-visual" aria-labelledby="simulasi"><div class="visual-top"><h2 id="simulasi">Simulasi 3D</h2><div class="actions"><button id="aqua-start" class="button primary" type="button">Buka simulasi 3D</button><button id="aqua-print" class="button" type="button">Cetak denah</button>${shareButton(d)}</div></div>
+          <div id="aqua-toolbar" class="aq-toolbar" hidden><div class="view-actions" aria-label="Isi instalasi"><button id="aqua-empty" class="segment" type="button" aria-pressed="false">Kosong</button><button id="aqua-filled" class="segment" type="button" aria-pressed="true">Terisi</button></div><div class="view-actions"><button id="aqua-flow" class="button primary" type="button" aria-pressed="true">Jeda aliran</button><button id="aqua-focus-pond" class="button" type="button">Fokus kolam</button><button id="aqua-fit" class="button" type="button">Pas ke layar</button></div></div>
+          <div id="aqua-stage"><div id="aqua-cover">${picture}</div><div id="aqua-canvas" hidden></div><p id="aqua-loading" class="model-status" role="status" hidden>Memuat instalasi, ikan, dan tanaman…</p></div>
+          <div class="aq-status"><p id="aqua-status" role="status">Pratinjau rancangan</p><p class="small">Geser untuk memutar kamera. Pada model, dinding kolam dibuat tembus pandang.</p></div>
+          <p id="aqua-error" class="notice warning" hidden>Model 3D belum bisa dimuat. Denah dan diagram di bawah tetap tersedia.</p><p id="aqua-asset-hint" class="notice warning" hidden>Sebagian model tanaman atau ikan belum termuat. Buka ulang untuk mencoba lagi.</p>
+        </section>
+        <aside class="panel aq-facts" aria-labelledby="aq-route-title"><h2 id="aq-route-title">Jalur sirkulasi</h2><ol class="aq-route"><li><strong>Kolam nila</strong><span>Pompa menaikkan air dari kolam.</span></li><li><strong>Filter padatan</strong><span>Menahan kotoran dan sisa pakan.</span></li><li><strong>Biofilter</strong><span>Media menjadi tempat bakteri pengolah limbah terlarut.</span></li><li><strong>${holeCount} pot sayuran</strong><span>Dua talang menyuplai larutan ke akar melalui pot jaring dan media inert.</span></li><li><strong>Kembali ke kolam</strong><span>Air mengalir turun melalui pipa balik.</span></li></ol><div class="legend"><span><i></i>Suplai</span><span><i class="back-key"></i>Aliran balik</span></div></aside>
+      </div>
+      <div class="public-data aqua-details">
+        <section class="panel"><h2>Denah dari atas</h2>${aquaponicPlan()}</section>
+        <section class="panel"><h2>Ukuran rancangan</h2><dl class="dimensions aq-dimensions"><div><dt>Area contoh</dt><dd>${area}</dd></div><div><dt>Diameter kolam</dt><dd>${number(pond.r * 2)} m</dd></div><div><dt>Muka air rancangan</dt><dd>${number(pond.water * 100)} cm</dd></div><div><dt>Volume air geometris</dt><dd>≈ ${capacity}</dd></div><div><dt>Ukuran setiap talang</dt><dd>${number(beds[0].width)} × ${number(beds[0].depth)} m</dd></div><div><dt>Pot per talang</dt><dd>${beds[0].pots.length}</dd></div></dl>
+          <p class="small">Volume dihitung dari diameter dalam dan tinggi air pada kolam silinder. Ikan di simulasi adalah ilustrasi. Kapasitas tebar, ukuran biofilter, dan debit pompa perlu ditentukan dari beban pakan, tinggi angkat, dan pengujian air.</p></section>
+        <section class="panel wide"><h2>Komponen dan pemeriksaan awal</h2><ul class="notes-list"><li>Kolam berbentuk bulat, pompa dengan saringan masuk, filter padatan yang bisa dibersihkan, dan biofilter dengan akses servis.</li><li>Dua talang dan 12 pot jaring, jalur suplai, serta pipa balik gravitasi. Sisakan ruang untuk membersihkan filter dan mengangkat tanaman.</li><li>Sediakan aerator kolam tersendiri. Sebelum memasukkan ikan, uji air bersih untuk memastikan talang mengalir dan kolam menampung air yang turun ketika pompa berhenti. Pastikan biofilter matang dan kualitas air sesuai untuk nila.</li></ul><p class="small">Rancangan konseptual untuk produksi pangan mandiri. <a href="${sources.rutgers}">Panduan akuaponik Rutgers</a> · <a href="${sources.arizona}">Dasar akuaponik University of Arizona</a></p></section>
+      </div>
+    </main>`});
+}
+
 export function designPage(model) {
   const d = model.design;
-  return page({title: `${d.title} · Denah dan BOM`, description: `${d.title}, ${d.channelCount} kanal dan area ${metres(d.siteWidth)} × ${metres(d.siteDepth)}. Lihat denah ukuran nyata, rincian pompa, dan BOM, lalu sesuaikan untuk dicetak.`, path: designUrl(d.id), model, publishedId: d.id,
+  return page({title: `${d.title} · Denah dan BOM`, description: `${d.title}, ${d.channelCount} kanal dan area ${metres(d.siteWidth)} × ${metres(d.siteDepth)}. Lihat denah ukuran nyata, rincian pompa, dan BOM, lalu sesuaikan untuk dicetak.`, path: designUrl(d.id), model, publishedId: d.id, sharing: true,
     body: `<main id="main" class="shell">
-    <section class="hero"><div class="hero-copy"><p class="eyebrow">${capacity(model)}</p><h1>${html(d.title)}</h1><p class="lead">${d.channelCount} kanal paralel dengan ${d.holesPerChannel} lubang per kanal, satu rak horizontal dan satu tandon. Buka salinannya untuk menyesuaikan letak komponen dan mencetak rancangan.</p><div class="actions">${designAction(d, 'Sesuaikan Desain')}<a class="button" href="#material">Lihat komponen</a></div><p class="small">Revisi ${d.revision} · Berdasarkan perhitungan</p></div><figure class="hero-art"><img src="${posterUrl(d)}" alt="Tampak isometrik instalasi ${model.holeCount} lubang, model dari ukuran rancangan" fetchpriority="high"></figure></section>
+    <section class="hero"><div class="hero-copy"><p class="eyebrow">${capacity(model)}</p><h1>${html(d.title)}</h1><p class="lead">${d.channelCount} kanal paralel dengan ${d.holesPerChannel} lubang per kanal, satu rak horizontal dan satu tandon. Buka salinannya untuk menyesuaikan letak komponen dan mencetak rancangan.</p><div class="actions">${designAction(d, 'Sesuaikan Desain')}<a class="button" href="#material">Lihat komponen</a>${shareButton(d)}</div><p class="small">Revisi ${d.revision} · Berdasarkan perhitungan</p></div><figure class="hero-art"><img src="${posterUrl(d)}" alt="Tampak isometrik instalasi ${model.holeCount} lubang, model dari ukuran rancangan" fetchpriority="high"></figure></section>
     <div class="public-data">
       <section class="panel"><h2>Denah berdimensi</h2>${planSvg(model)}${dimensions(model)}</section>
       <section class="panel"><h2>Tampak samping dan aliran</h2>${sideSvg(model)}${flowDiagram(model)}<p>Target model ${number(model.targetLpm)} L/menit total. Isi tandon saat pompa menyala ${d.workingLitres} L dan estimasi setelah pompa mati ${number(model.stoppedLitres)} L.</p><p class="small">Estimasi listrik pompa ${number(model.energyKwh30d)} kWh selama 30 hari pada 24 jam operasi per hari. Uji debit per kanal dan kapasitas tandon dengan air bersih sebelum menanam.</p></section>
@@ -145,7 +186,7 @@ export function homepageFragment(models, english) {
   };
   return `    <section class="home-food" aria-labelledby="home-food-title">
       <div class="home-food-feature"><div class="home-food-copy"><p class="home-food-eyebrow">${t.label}</p><h2 id="home-food-title">Hydroponic Planner</h2><p>${t.body}</p><a class="home-food-cta" href="${root}"${english ? ' hreflang="id"' : ''}>${t.cta}</a></div><div class="home-food-art"><img src="${posterUrl(d)}" width="620" height="410" alt="${t.art}" decoding="async"></div></div>
-      <div><div class="home-food-heading"><h3>${t.examples}</h3><a href="${root}#contoh">${t.all}</a></div><ul class="home-food-rail" aria-label="${t.examples}">${models.map(model => `<li><a class="home-food-tile" href="${designUrl(model.design.id)}?from=home"${english ? ' hreflang="id"' : ''}><img src="${posterUrl(model.design)}" width="104" height="82" alt="" loading="lazy"><span><b>${html(english && model.design.id === 'nft-30-lubang' ? '30-Site NFT Hydroponic Rack' : model.design.title)}</b><small>${capacity(model, english)}</small></span></a></li>`).join('')}</ul></div>
+      <div><div class="home-food-heading"><h3>${t.examples}</h3><a href="${root}#contoh">${t.all}</a></div><ul class="home-food-rail" aria-label="${t.examples}">${models.map(model => `<li><a class="home-food-tile" href="${designUrl(model.design.id)}?from=home"${english ? ' hreflang="id"' : ''}><img src="${posterUrl(model.design)}" width="104" height="82" alt="" loading="lazy"><span><b>${html(designTitle(model.design, english))}</b><small>${capacity(model, english)}</small></span></a>${shareButton(model.design, english)}</li>`).join('')}</ul></div>
       <p class="home-food-guide"><strong>${t.guides}</strong><a href="${articleUrl('ukur-area')}"${english ? ' hreflang="id"' : ''}>${t.measure}</a><a href="${articleUrl('pilih-pompa')}"${english ? ' hreflang="id"' : ''}>${t.pump}</a></p>
     </section>`;
 }

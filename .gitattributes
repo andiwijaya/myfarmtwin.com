@@ -57,6 +57,7 @@ dist/play/cozy/chunks/** -text whitespace=cr-at-eol,-space-before-tab,-blank-at-
 # Hydroponic release receipts hash the complete generated site and its entry HTML.
 dist/hydroponic/** text eol=lf
 dist/hydroponic/view3d.js whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof,-space-before-tab
+dist/hydroponic/aquaponic-view.js whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof,-space-before-tab
 dist/index.html text eol=lf
 dist/id/index.html text eol=lf
 dist/sitemap.xml text eol=lf

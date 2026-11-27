@@ -5,25 +5,37 @@
       "id": "nft-30-lubang",
       "revision": 1,
       "holes": 30
+    },
+    {
+      "id": "akuaponik-nila",
+      "revision": 1,
+      "holes": 12
     }
   ],
   "sha256": {
-    "/hydroponic/index.html": "f21c986584f2ea7cdc8e217508093e78851a3b200d3ebf1e81139634ff21efee",
+    "/hydroponic/index.html": "16ef66f55800f7fb613ba7846d5efec7d1b343b1eb744b1b27838dc7eacf8a49",
     "/hydroponic/planner/index.html": "663e85da67cbdfe58b21eab9222c7527a822b8c1c763ababcd48485a427eaf71",
-    "/hydroponic/desain/nft-30-lubang/index.html": "2e5459ce79770dd9f4850eada8ad087bf95d48c5c7cc4704678da6218b3b34f4",
+    "/hydroponic/desain/nft-30-lubang/index.html": "9ae2fbacf9b6b3a6dfb740e4f5688c10bbe610c06289898c2fd409a3c1888115",
     "/hydroponic/assets/nft-30-lubang-r1.svg": "bf70a6527394bc72deb65efd33540b5822a2e394074e5cae41fbc6ae3341c1ab",
+    "/hydroponic/desain/akuaponik-nila/index.html": "713f3fce51bd1fb0d79710b8c49642be06fa128bb6273af4f64f024c3a85ca00",
+    "/hydroponic/assets/akuaponik-nila-r1.svg": "1390d2ef337da6f1eb762b3f142645439b157ca15b827454fcd35bf8b7f378ed",
     "/hydroponic/artikel/ukur-area/index.html": "9627e917de4d3cd4ec934bf7f024261c7dcf29abaea38413c6d33805c23e9d09",
     "/hydroponic/artikel/pilih-pompa/index.html": "bd889b42ff57ed04b69170725cc81d56f87566fafb806f69c3ead3f9f8efa3a0",
     "/hydroponic/analytics.js": "eafb1750ea495affc6ec2e127ea436d8a83ab82eaeb3eaf31e439bdfd0d59254",
+    "/hydroponic/aquaponic.js": "92ebc6f91c8c3aafbe531e2f22e87b8d097d6f4dbce84826da29317e84a8c4da",
+    "/hydroponic/aquaponic-design.js": "da80c7e22dc0fe259362fa81467f06e2ddeecee39d0a498574ec0a353bb4c6c8",
     "/hydroponic/planner.js": "f437cca4c5c0ccb39ab16be3b88f9709a770f45591e342ed05c3326fe502a54e",
     "/hydroponic/drawings.js": "10b9497bdc50163188b257a56ceff300b34a18701e8372b79dd1ac159398bd40",
     "/hydroponic/engine.js": "9b7cdd3b5adf45dc133949783a5517fed906816b7996a516e503b5514a18bd7b",
-    "/hydroponic/style.css": "0d39adefd578a3da19da353c418b350b67a03d445a4263f2c533b6a43f03d018",
-    "/hydroponic/home.css": "7292458aba80e9956486a3aadfba7f81bed71f3b9ebb96c4f68cf920d39bf432",
+    "/hydroponic/style.css": "4de83e61355f3c1b7b5545515575c3c521cb1168b05e0dc7a13fde503321c57f",
+    "/hydroponic/home.css": "139b4cf1b859cca4dc6edf001863058cfa2141c23f780377a807ec112dd440e8",
+    "/hydroponic/share.js": "f0938f57a5f79b42ff3033d9ceb0b7ea847606ba362d9c489bfbc98993ca7544",
+    "/hydroponic/share.css": "501430fdb3732680ce7b3eecc2c791bbac087ab727627059adb68acf1aaddcff",
     "/hydroponic/view3d.js": "317e84003d7c68e8043a949f6b612421c48cbba0b70c40a4df0d310089753ef5",
+    "/hydroponic/aquaponic-view.js": "b28766d6812eb11ed7461c096cf931989d7515918b3cab9592d9c9b8d271b4b3",
     "/hydroponic/three-license.txt": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc",
-    "/index.html": "7dfa78f91d27851617508f66a347bf8f5e8672293754270e191d83eb2773f659",
-    "/id/index.html": "89412447f0781104c9d4360eae7501b7e3d0eb8a9c3b9ee19b60cf099076d599",
-    "/sitemap.xml": "5d489b609e528c1d6921ecf66b87eebc11820d3820f061c71e56bcc61fb0eb84"
+    "/index.html": "5a4708a5e2454aeae159bfcf089c1cb03ce2402a85ca68bd2ea4213d1ada8910",
+    "/id/index.html": "8e9a96e897fb3b8a87de09d51d9d9807ded38d26b6d43173f50b778e41393170",
+    "/sitemap.xml": "0673bbdcfe8b9e0dd6acd765eff76cad54323b331609fae1167221cd571a02fc"
   }
 }
