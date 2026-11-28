@@ -29,14 +29,23 @@
     "/hydroponic/engine.js": "9b7cdd3b5adf45dc133949783a5517fed906816b7996a516e503b5514a18bd7b",
     "/hydroponic/style.css": "70a1f71dbe9dd984fb1c86c4cb3c30727035b561a03a41dc8aeba71d70dc1aac",
     "/hydroponic/home.css": "139b4cf1b859cca4dc6edf001863058cfa2141c23f780377a807ec112dd440e8",
-    "/hydroponic/share.js": "f0938f57a5f79b42ff3033d9ceb0b7ea847606ba362d9c489bfbc98993ca7544",
+    "/hydroponic/share.js": "988e151d6243a625e91ad9ec308e1fd7d9cae8f1a6e89d80e08da7381399653d",
     "/hydroponic/share.css": "501430fdb3732680ce7b3eecc2c791bbac087ab727627059adb68acf1aaddcff",
     "/hydroponic/view3d.js": "317e84003d7c68e8043a949f6b612421c48cbba0b70c40a4df0d310089753ef5",
     "/hydroponic/aquaponic-view.js": "d70e3b86d5b2c132588d34b31bc2165c0dc1ebd65732062690b13fd837a03ed6",
     "/hydroponic/desain/akuaponik-nila/index.html": "4d9d97b303610c34f685a37a5dcb97498393c777c1cecbe2ac26ee7f341b7def",
     "/hydroponic/three-license.txt": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc",
-    "/index.html": "ed3a9c1459407a135b39724cf0f3320ac877ae356a5129adfc3b4d0086e6f4dd",
-    "/id/index.html": "b0ca4483af577a07ceadd47c53c6fee12eae2d5864c68330a3ecd665bc43bb7d",
-    "/sitemap.xml": "0673bbdcfe8b9e0dd6acd765eff76cad54323b331609fae1167221cd571a02fc"
+    "/tanam-di-tanah/singkong.js": "c1d64526ae974ff4ac9750f93dd37a19a0366fe238608c9398c2df215af97270",
+    "/tanam-di-tanah/singkong-article.js": "27e698010a152e0186e9c91aeb6156d99323d612ee162f577b221ef37a480da2",
+    "/tanam-di-tanah/singkong-model.js": "3488237e13dc0255ea5af4a42e5e8133244c0d593656dae9eae8c4986ca995af",
+    "/tanam-di-tanah/singkong-markup.js": "f74996ee8c948a29d918ac8f74b5963b27d6887a0e3ba3cd4437df4f03427b94",
+    "/tanam-di-tanah/singkong.css": "5e9b1665c2a206c252218be85dc839f6274c37a92b111124357762181ee15ea8",
+    "/tanam-di-tanah/singkong-view.js": "0ee3caf8d3993bba62c2fb8f59befe1410bc9162ab80c3b4624db2a7539ec5f0",
+    "/tanam-di-tanah/assets/kebun-singkong-r1.jpg": "24f356e855caf6a2e10ecf499725745f1aa6e7988f66d86291e9a502aa5fc421",
+    "/tanam-di-tanah/desain/singkong/index.html": "2daf056d4b9164b942d0b50e814b3d2c5ac1b399dfd18113475d98f8b7bf885a",
+    "/tanam-di-tanah/artikel/panen-singkong-harian/index.html": "ec624a431464435364ff629a4fbd6fcbec39cc8bc25dd7fbf5106cc33956023c",
+    "/index.html": "3da1f0d4b4fad8a48576ac3e7ec7c097797aa6b44fbf596aad9d58a11492bbdb",
+    "/id/index.html": "3b92776a90368eb45b29060a28c61473a3eeb2f74365db480350b3451ccb54c9",
+    "/sitemap.xml": "1c14dfa3043c3052afc6090cb047ec17d1fdb844428eefccc180dd8a21c90e4e"
   }
 }

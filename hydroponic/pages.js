@@ -15,7 +15,7 @@ function brand(url = '/id/') {
   return `<a class="brand" href="${url}"><span class="brand-mark" aria-hidden="true">✦</span>MyFarmTwin</a>`;
 }
 
-function page({title, description, path, body, image, model, editor = false, publishedId, script, bodyClass, sharing = false, assetVersion}) {
+export function page({title, description, path, body, image, model, editor = false, publishedId, script, bodyClass, sharing = false, assetVersion, entryPath, cssPath, navigation, footerNavigation, structuredData}) {
   const canonical = `${domain}${path}`;
   const entry = script ?? (editor ? 'planner' : 'analytics');
   const version = assetVersion ? `?v=${encodeURIComponent(assetVersion)}` : '';
@@ -37,13 +37,13 @@ function page({title, description, path, body, image, model, editor = false, pub
   <meta property="og:image" content="${domain}${image ?? posterUrl(model.design)}">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="${root}style.css${version}">
-${sharing ? `  <link rel="stylesheet" href="${root}share.css">\n  <script type="module" src="${root}share.js"></script>\n` : ''}  <script type="module" src="${root}${entry}.js${version}"></script>
+${cssPath ? `  <link rel="stylesheet" href="${cssPath}${version}">\n` : ''}${structuredData ? `  <script type="application/ld+json">${JSON.stringify(structuredData).replaceAll('<','\\u003c')}</script>\n` : ''}${sharing ? `  <link rel="stylesheet" href="${root}share.css">\n  <script type="module" src="${root}share.js${entryPath ? version : ''}"></script>\n` : ''}  <script type="module" src="${entryPath ?? `${root}${entry}.js`}${version}"></script>
 </head>
 <body${mark}${pageClass ? ` class="${pageClass}"` : ''}>
   <div id="site-app"><a class="skip" href="#main">Lewati ke isi</a>
-  <header class="bar shell">${brand()}<nav aria-label="Navigasi"><a href="${root}">Hidroponik</a><a href="${root}#panduan">Panduan</a><a href="/play/">Play Farm</a></nav></header>
+  <header class="bar shell">${brand()}<nav aria-label="Navigasi">${navigation ?? `<a href="${root}">Hidroponik</a><a href="${root}#panduan">Panduan</a><a href="/play/">Play Farm</a>`}</nav></header>
   ${body}
-  <footer class="footer shell"><nav aria-label="Tautan MyFarmTwin"><a href="/id/">Beranda</a><a href="${root}#contoh">Contoh desain</a><a href="${root}#panduan">Artikel</a><a href="/play/">Play Farm</a></nav></footer></div>
+  <footer class="footer shell"><nav aria-label="Tautan MyFarmTwin"><a href="/id/">Beranda</a>${footerNavigation ?? `<a href="${root}#contoh">Contoh desain</a><a href="${root}#panduan">Artikel</a><a href="/play/">Play Farm</a>`}</nav></footer></div>
   ${editor ? '<article id="print-sheet" class="print-sheet" tabindex="-1" aria-label="Pratinjau lembar cetak A4"></article>' : ''}
 </body>
 </html>
@@ -184,16 +184,16 @@ export function plannerPage(models) {
     </main>`});
 }
 
-export function homepageFragment(models, english) {
+export function homepageFragment(models, english, ground) {
   const d = models[0].design;
   const t = english ? {
-    label: 'Home food production', body: 'Plan a real-size hydroponic rack, simulate water flow, and print the design and materials list.', art: 'Model of a hydroponic rack and reservoir', cta: 'Explore Hydroponics', examples: 'Design examples', all: 'All designs', guides: 'Growing guides', measure: 'Measuring your space (ID)', pump: 'Choosing a pump (ID)'
+    label: 'Home food production', body: 'Plan a real-size hydroponic rack, simulate water flow, and print the design and materials list.', art: 'Model of a hydroponic rack and reservoir', cta: 'Explore Hydroponics', examples: 'Design examples', all: 'Hydroponics gallery', guides: 'Growing guides', measure: 'Measuring your space (ID)', pump: 'Choosing a pump (ID)'
   } : {
-    label: 'Produksi pangan mandiri', body: 'Atur rak hidroponik dalam ukuran nyata, simulasikan aliran air, lalu cetak desain dan daftar komponennya.', art: 'Model rak hidroponik dengan tandon di samping', cta: 'Buka Hidroponik', examples: 'Contoh desain', all: 'Semua desain', guides: 'Panduan hidroponik', measure: 'Mengukur area tanam', pump: 'Memilih pompa'
+    label: 'Produksi pangan mandiri', body: 'Atur rak hidroponik dalam ukuran nyata, simulasikan aliran air, lalu cetak desain dan daftar komponennya.', art: 'Model rak hidroponik dengan tandon di samping', cta: 'Buka Hidroponik', examples: 'Contoh desain', all: 'Galeri hidroponik', guides: 'Panduan budidaya', measure: 'Mengukur area tanam', pump: 'Memilih pompa'
   };
   return `    <section class="home-food" aria-labelledby="home-food-title">
       <div class="home-food-feature"><div class="home-food-copy"><p class="home-food-eyebrow">${t.label}</p><h2 id="home-food-title">Hydroponic Planner</h2><p>${t.body}</p><a class="home-food-cta" href="${root}"${english ? ' hreflang="id"' : ''}>${t.cta}</a></div><div class="home-food-art"><img src="${posterUrl(d)}" width="620" height="410" alt="${t.art}" decoding="async"></div></div>
-      <div><div class="home-food-heading"><h3>${t.examples}</h3><a href="${root}#contoh">${t.all}</a></div><ul class="home-food-rail" aria-label="${t.examples}">${models.map(model => `<li><a class="home-food-tile" href="${designUrl(model.design.id)}?from=home"${english ? ' hreflang="id"' : ''}><img src="${posterUrl(model.design)}" width="104" height="82" alt="" loading="lazy"><span><b>${html(designTitle(model.design, english))}</b><small>${capacity(model, english)}</small></span></a>${shareButton(model.design, english)}</li>`).join('')}</ul></div>
-      <p class="home-food-guide"><strong>${t.guides}</strong><a href="${articleUrl('ukur-area')}"${english ? ' hreflang="id"' : ''}>${t.measure}</a><a href="${articleUrl('pilih-pompa')}"${english ? ' hreflang="id"' : ''}>${t.pump}</a></p>
+      <div><div class="home-food-heading"><h3>${t.examples}</h3><a href="${root}#contoh">${t.all}</a></div><ul class="home-food-rail" aria-label="${t.examples}">${models.map(model => `<li><a class="home-food-tile" href="${designUrl(model.design.id)}?from=home"${english ? ' hreflang="id"' : ''}><img src="${posterUrl(model.design)}" width="104" height="82" alt="" loading="lazy"><span><b>${html(designTitle(model.design, english))}</b><small>${capacity(model, english)}</small></span></a>${shareButton(model.design, english)}</li>`).join('')}${ground.tile}</ul></div>
+      <p class="home-food-guide"><strong>${t.guides}</strong><a href="${articleUrl('ukur-area')}"${english ? ' hreflang="id"' : ''}>${t.measure}</a><a href="${articleUrl('pilih-pompa')}"${english ? ' hreflang="id"' : ''}>${t.pump}</a>${ground.guide}</p>
     </section>`;
 }

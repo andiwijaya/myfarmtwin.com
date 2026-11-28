@@ -8,6 +8,8 @@ import {articles} from '../hydroponic/articles.js';
 import {calculateDesign} from '../hydroponic/engine.js';
 import {posterSvg} from '../hydroponic/drawings.js';
 import {aquaponicPage, articlePage, articleUrl, designPage, designUrl, galleryPage, homepageFragment, plannerPage, posterUrl} from '../hydroponic/pages.js';
+import {cassavaDesignPage, cassavaGuidePage, cassavaHome} from '../tanam-di-tanah/pages.js';
+import {coverPath, guidePath, plotPath} from '../tanam-di-tanah/singkong-model.js';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const mainDesign = 'nft-30-lubang';
@@ -44,10 +46,10 @@ async function readDesigns() {
   return [first, ...models.filter(model => model !== first)];
 }
 
-const homeHead = `  <link rel="stylesheet" href="/hydroponic/home.css">\n  <link rel="stylesheet" href="/hydroponic/share.css">\n  <script type="module" src="/hydroponic/share.js"></script>`;
+const homeHead = version => `  <link rel="stylesheet" href="/hydroponic/home.css">\n  <link rel="stylesheet" href="/hydroponic/share.css">\n  <script type="module" src="/hydroponic/share.js?v=${version}"></script>`;
 const homeNames = {
-  '/index.html': ['Hydroponic Planner & 3D Farming Game', 'Design a real hydroponic rack and print your plan, or play MyFarmTwin, a free 3D farm game set in tropical Indonesia.'],
-  '/id/index.html': ['Desain Hidroponik & Game Pertanian 3D', 'Rancang dan cetak desain hidroponik ukuran nyata atau mainkan game simulasi pertanian 3D MyFarmTwin berlatar Indonesia.']
+  '/index.html': ['Home Food Production & 3D Farming Game', 'Plan hydroponics, aquaponics or a cassava garden, print real-size plans, and play MyFarmTwin, a 3D farm game set in tropical Indonesia.'],
+  '/id/index.html': ['Produksi Pangan Mandiri & Game Pertanian 3D', 'Rancang dan cetak denah hidroponik, akuaponik, atau kebun singkong. Coba simulasi produksi pangan mandiri dan game pertanian 3D MyFarmTwin.']
 };
 
 export async function buildHydroponic() {
@@ -88,10 +90,31 @@ export async function buildHydroponic() {
   addPage(designUrl(aquaponic.design.id), aquaponicPage(assetVersion));
   files.set('/hydroponic/three-license.txt', lf(await readFile(join(root, 'node_modules', 'three', 'LICENSE'), 'utf8')));
 
+  const ground = '/tanam-di-tanah/';
+  const groundModules = ['singkong.js','singkong-article.js','singkong-model.js','singkong-markup.js','singkong.css'];
+  for (const name of groundModules) {
+    files.set(ground+name,lf(await readFile(join(root,'tanam-di-tanah',name),'utf8')));
+  }
+  const groundBundle = await build({absWorkingDir:root,entryPoints:['tanam-di-tanah/singkong-view.js'],bundle:true,minify:true,
+    write:false,format:'esm',target:'es2022',legalComments:'none',logLevel:'silent'});
+  const groundView = groundBundle.outputFiles[0].text.replace(/[ \t]+$/gm,'').replace(/^ +(?=\t)/gm,'');
+  files.set(ground+'singkong-view.js',groundView);
+  files.set(coverPath,await readFile(join(root,'.'+coverPath)));
+  const groundVersion = digest([...groundModules.map(name=>files.get(ground+name)),files.get(ground+'singkong-view.js'),
+    files.get('/hydroponic/share.js'),files.get('/hydroponic/style.css')].join('\n')).slice(0,12);
+  for (const name of ['singkong.js','singkong-markup.js']) {
+    const path = ground+name;
+    files.set(path,files.get(path).replace(/(\.\/singkong-(?:model|markup)\.js)'/g,`$1?v=${groundVersion}'`));
+  }
+  addPage(plotPath,cassavaDesignPage(groundVersion));
+  addPage(guidePath,cassavaGuidePage(groundVersion));
+
+  const shareVersion = digest(files.get('/hydroponic/share.js')).slice(0,12);
   for (const [path, [title, description]] of Object.entries(homeNames)) {
     const current = lf(await readFile(join(dist, `.${path}`), 'utf8'));
-    const withHead = upsertBlock(current, 'hydro-assets', homeHead, '</head>');
-    const withSection = upsertBlock(withHead, 'hydro-gallery', homepageFragment(examples, path === '/index.html'), '<main id="main" class="home-main">', false);
+    const english = path === '/index.html';
+    const withHead = upsertBlock(current, 'hydro-assets', homeHead(shareVersion), '</head>');
+    const withSection = upsertBlock(withHead, 'hydro-gallery', homepageFragment(examples,english,cassavaHome(english)), '<main id="main" class="home-main">', false);
     const updated = withSection.replace(/<title>[^<]*<\/title>/, `<title>MyFarmTwin — ${title.replaceAll('&', '&amp;')}</title>`)
       .replace(/(<meta name="description" content=")[^"]*/, `$1${description}`)
       .replace(/(<meta property="og:title" content=")[^"]*/, `$1MyFarmTwin — ${title.replaceAll('&', '&amp;')}`)
@@ -101,7 +124,7 @@ export async function buildHydroponic() {
   }
 
   const sitemap = lf(await readFile(join(dist, 'sitemap.xml'), 'utf8'));
-  const publicPaths = ['/hydroponic/', ...examples.map(model => designUrl(model.design.id)), ...articles.map(article => articleUrl(article.id))];
+  const publicPaths = ['/hydroponic/', ...examples.map(model => designUrl(model.design.id)), ...articles.map(article => articleUrl(article.id)), plotPath,guidePath];
   files.set('/sitemap.xml', upsertBlock(sitemap, 'hydro-pages', publicPaths.map(path => `  <url><loc>https://myfarmtwin.com${path}</loc></url>`).join('\n'), '</urlset>'));
 
   files.set('/hydroponic/build-info.json', `${JSON.stringify({schema: 1, designs: examples.map(model => ({id: model.design.id, revision: model.design.revision, holes: model.holeCount})),
