@@ -1,5 +1,5 @@
-import {aquaponic} from './aquaponic-design.js?v=880326e55dc2';
-import {createCompatibleView} from './aquaponic-compatible.js?v=880326e55dc2';
+import {aquaponic} from './aquaponic-design.js?v=1184d80e0480';
+import {createCompatibleView} from './aquaponic-compatible.js?v=1184d80e0480';
 import {track} from './analytics.js';
 
 const get = id => document.getElementById(id);
@@ -119,6 +119,7 @@ function clearPending(scene) {
   if (pending !== scene) return false;
   clearTimeout(scene.timer);
   pending = null;
+  start.disabled = false;
   quality.disabled = false;
   loading.hidden = true;
   return true;
@@ -127,7 +128,11 @@ function clearPending(scene) {
 function loseDetail(scene) {
   if (clearPending(scene)) {
     discard(scene);
-    rendererNote.textContent = 'Detail tinggi belum bisa dimuat. Mode ringan tetap aktif.';
+    if (active) {
+      rendererNote.textContent = 'Detail tinggi belum bisa dimuat. Mode ringan tetap aktif.';
+    } else if (lightView('Detail tinggi belum bisa dimuat. Mode ringan aktif.')) {
+      scene.onReady?.();
+    }
   } else if (active === scene && !lightView('Tampilan beralih ke mode ringan setelah WebGL terputus.')) {
     discard(active);
     active = null;
@@ -138,23 +143,15 @@ function loseDetail(scene) {
   }
 }
 
-start.addEventListener('click', () => {
-  if (active || !lightView('Mode ringan aktif.')) return;
-  trackFlow();
-  if (stage.getBoundingClientRect().bottom > window.innerHeight) get('simulasi').scrollIntoView({block:'start'});
-  filled.focus({preventScroll: true});
-});
-
-quality.addEventListener('click', async () => {
-  if (pending || !active) return;
-  if (active.mode === 'webgl') {
-    lightView('Mode ringan aktif.');
-    return;
-  }
-  const scene = {mode:'webgl'};
+async function detailView(onReady) {
+  if (pending) return;
+  const scene = {mode:'webgl', onReady};
   pending = scene;
+  start.disabled = true;
   quality.disabled = true;
   loading.hidden = false;
+  error.hidden = true;
+  canvas.hidden = false;
   rendererNote.textContent = '';
   scene.timer = setTimeout(() => loseDetail(scene), 8500);
   try {
@@ -171,9 +168,27 @@ quality.addEventListener('click', async () => {
     clearPending(scene);
     show(scene, assets.fish, assets.plants);
     rendererNote.textContent = 'Detail tinggi aktif.';
-    quality.focus({preventScroll:true});
+    onReady?.();
   } catch {
     loseDetail(scene);
+  }
+}
+
+start.addEventListener('click', () => {
+  if (active) return;
+  detailView(() => {
+    trackFlow();
+    if (stage.getBoundingClientRect().bottom > window.innerHeight) get('simulasi').scrollIntoView({block:'start'});
+    filled.focus({preventScroll:true});
+  });
+});
+
+quality.addEventListener('click', () => {
+  if (!active) return;
+  if (active.mode === 'webgl') {
+    lightView('Mode ringan aktif.');
+  } else {
+    detailView(() => quality.focus({preventScroll:true}));
   }
 });
 
@@ -206,3 +221,5 @@ get('aqua-print').addEventListener('click', () => {
   track('hydro_print_click', aquaponic.design.id, 'aquaponics');
   window.print();
 });
+
+detailView();
