@@ -1,4 +1,4 @@
-import {aquaponic as design} from './aquaponic-design.js?v=880326e55dc2';
+import {aquaponic as design} from './aquaponic-design.js?v=1184d80e0480';
 
 const {pond, beds, filters, pump, supply, returns, returnPoint, flowSpeed} = design;
 const widthM = design.design.siteWidth / 1000;
