@@ -1,0 +1,64 @@
+.cassava-main{display:grid;gap:1.25rem;margin-block:clamp(1.3rem,4vw,3.3rem) 3rem}
+.cassava-hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);align-items:center;gap:clamp(1.1rem,3.4vw,3rem)}
+.cassava-hero>div,.cassava-article header{display:grid;gap:.65rem;justify-items:start}
+.cassava-hero h1{font-size:clamp(2.25rem,5.55vw,4.75rem);line-height:1.02;max-width:14ch}
+.cassava-main figure,.cassava-article figure{margin:0;min-width:0}
+.cassava-main figure img,.cassava-article figure img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:14px}
+.cassava-main figcaption,.cassava-article figcaption{font-size:.78rem;color:var(--muted);margin-top:.3rem}
+.cassava-actions .design-share,.cassava-article .design-share{font-size:.9rem;min-height:42px;padding-inline:.9rem}
+.cassava-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.7rem;margin:0}
+.cassava-metrics>div{background:#e7ede1;border:1px solid #cbdacb;padding:.8rem;border-radius:10px;min-width:0}
+.cassava-metrics dt{font-size:.82rem;color:var(--muted);font-weight:650}
+.cassava-metrics dd{margin:.15rem 0 0}
+.cassava-metrics strong{display:block;font-size:clamp(1rem,2.2vw,1.5rem);line-height:1.25}
+.cassava-metrics small{display:block;color:var(--muted);line-height:1.35;margin-top:.16rem}
+.cassava-workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(285px,.48fr);gap:1rem;align-items:start}
+.cassava-simulation,.cassava-schedule,.cassava-settings,.cassava-settings form{display:grid;gap:.8rem}
+.cassava-settings .field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}
+.cassava-settings .field-grid label{display:grid;gap:.28rem;min-width:0;font-size:.87rem;font-weight:650}
+.cassava-settings .field-grid input,.cassava-settings select{display:block;width:100%;min-width:0;font:inherit;padding:.47rem .48rem;border:1px solid #aabfae;border-radius:7px;color:#1d3d32;background:#fffef9}
+.cassava-settings summary{cursor:pointer;font-weight:650}
+.cassava-month-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.3rem;margin:.35rem 0 .15rem}
+.cassava-month-options label{display:flex;align-items:center;gap:.25rem;font-size:.85rem}
+.cassava-workspace h2,.cassava-schedule h2{font-size:clamp(1.35rem,3vw,1.95rem)}
+#ukuran-lahan,#simulasi,#kalender{scroll-margin-top:1rem}
+#cassava-map-wrap{min-width:0}
+#cassava-map{overflow-x:auto;padding:.1rem}
+.cassava-map{display:grid;grid-template-columns:repeat(var(--cassava-cols),minmax(56px,1fr));gap:clamp(.22rem,1vw,.63rem);padding:clamp(.28rem,1vw,.8rem);background:#e8e0d0;border:1px solid #d1c2a9;border-radius:12px}
+.cassava-plot{display:grid;align-content:center;justify-items:start;text-align:left;padding:clamp(.23rem,1vw,.65rem);min-width:0;min-height:64px;gap:.2rem;line-height:1.2;border:1px solid #98ab8a;border-radius:6px;background:#e4e9df;color:#294539;font:inherit;overflow-wrap:anywhere}
+button.cassava-plot{cursor:pointer}
+.cassava-plot b{font-size:clamp(.7rem,1.3vw,.91rem)}
+.cassava-plot small{font-size:clamp(.59rem,1vw,.75rem)}
+.cassava-plot[data-phase="stek"]{background:#efe0b5;border-color:#b59c66}
+.cassava-plot[data-phase="tumbuh"]{background:#dce9d0;border-color:#8faa7b}
+.cassava-plot[data-phase="panen"]{background:#23634d;color:#fff;border-color:#1f5744}
+.cassava-plot[data-phase="cadangan"]{border-style:dashed;background:#eeeae0}
+.cassava-plot[aria-pressed="true"]{outline:2px solid #96601d;outline-offset:1px}
+.cassava-run-status{background:#e7ede0;border:1px solid #c5d6c5;border-radius:8px;padding:.58rem .7rem;min-height:2.4rem;font-size:.92rem;color:#294e3f}
+#cassava-stage{position:relative;display:grid;gap:.42rem}
+#cassava-canvas{width:100%;height:clamp(245px,42vw,460px);position:relative;overflow:hidden;border-radius:10px;border:1px solid var(--line);background:#e8eee0}
+#cassava-canvas canvas{display:block;width:100%;height:100%;touch-action:none}
+.cassava-table tbody th small{display:block;color:var(--muted);font-weight:450}
+.cassava-article{gap:1.25rem}
+.cassava-article section{display:grid;gap:.62rem}
+.cassava-article h1{font-size:clamp(2.15rem,6vw,4rem);max-width:21ch}
+.cassava-print{display:none}
+@media(max-width:840px){.cassava-workspace{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.cassava-hero{grid-template-columns:minmax(0,1fr)}.cassava-hero figure img{max-height:225px}.cassava-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.cassava-plot{min-height:53px}}
+@media print{
+  body.cassava-page{background:white;color:#172820;font:9.5pt/1.35 system-ui,sans-serif}
+  .cassava-page .bar,.cassava-page .footer,.cassava-main>:not(.cassava-print){display:none!important}
+  .cassava-main{display:block;width:100%;margin:0}
+  .cassava-print{display:block}
+  .cassava-print h1{font-size:23pt;max-width:none}
+  .cassava-print h2{font-size:15pt;break-after:avoid;margin-top:4mm}
+  .cassava-print>p,.cassava-print>div,.cassava-print>dl{margin-block:2.5mm}
+  .cassava-print .cassava-map{grid-template-columns:repeat(var(--cassava-cols),minmax(0,1fr));break-inside:avoid;gap:1.4mm;background:#fff}
+  .cassava-print .cassava-plot{color:#172820;background:#fff;min-height:0;padding:1mm;font-size:8pt}
+  .cassava-print .cassava-plot b,.cassava-print .cassava-plot small{font-size:7pt}
+  .cassava-print .table-wrap{overflow:visible}
+  .cassava-print .bill-table{font-size:8pt}
+  .cassava-print .bill-table th,.cassava-print .bill-table td{padding:1.2mm}
+  .cassava-print thead{display:table-header-group}
+  .cassava-print tr{break-inside:avoid}
+}
